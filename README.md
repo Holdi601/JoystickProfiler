@@ -3,7 +3,7 @@
 
 Joystick Profiler Utility
 
-This utility is there in the current state to help, to quickly make the basic joystick Mappings for DCS world.
+This utility is there in the current state to help, to quickly make the basic joystick Mappings for DCS world (Digital Combat Simulator).
 It works by making relations between various inputs from various planes and bind them to the same place on the joystick.
 
 You first create Relations. Within a single relation each airframe can only be once bound/active. Multiple different DCS key elements can conclude one relation. 
