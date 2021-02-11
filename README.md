@@ -21,6 +21,6 @@ Shortcomings:
 -As it uses specific Joystick IDs as DCS does it, its not directly possible to make one X52 profile and then share it out as every x52 has their own specific user id, and maybe at some point i can catch the name of the loaded profile and check in the local DCS folder if a stick with a similar name but different ID exists. 
 
 If people show interest, I might update it and improve on the given shortcomings and improve the cleaness of the code and maybe extend to other games like Star citizenm, but as I said for me it does the job right now. 
-Use the program only at your own risk as you might overwrite some existing binds. 
+Use the program only at your own risk as you might overwrite some existing binds. Make some backup of your existing binds before you use the software, if you get disappointed, that you can roll back.
 
 Anyways Good Success and Have a nice day.
