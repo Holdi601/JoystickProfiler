@@ -30,30 +30,39 @@ namespace JoyPro
                     if (kvp.Value.added.Count > 0)
                     {
                         swr.Write("\t\t\t[\"added\"] = {\n");
-                        swr.Write("\t\t\t\t[1] = {\n");
-                        swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.added[0].key + "\",\n");
-                        if (kvp.Value.added[0].filter != null)
-                        {
-                            swr.Write("\t\t\t\t\t[\"filter\"] = {\n");
-                            swr.Write("\t\t\t\t\t\t[\"curvature\"] = {\n");
-                            swr.Write("\t\t\t\t\t\t\t[1] = " + kvp.Value.added[0].filter.curviture[0].ToString(new CultureInfo("en-US")) + ",\n");
-                            swr.Write("\t\t\t\t\t\t},\n");
-                            swr.Write("\t\t\t\t\t\t[\"deadzone\"] = " + kvp.Value.added[0].filter.deadzone.ToString(new CultureInfo("en-US")) + ",\n");
-                            swr.Write("\t\t\t\t\t\t[\"invert\"] = " + kvp.Value.added[0].filter.inverted.ToString().ToLower() + ",\n");
-                            swr.Write("\t\t\t\t\t\t[\"saturationX\"] = " + kvp.Value.added[0].filter.saturationX.ToString(new CultureInfo("en-US")) + ",\n");
-                            swr.Write("\t\t\t\t\t\t[\"saturationY\"] = " + kvp.Value.added[0].filter.saturationY.ToString(new CultureInfo("en-US")) + ",\n");
-                            swr.Write("\t\t\t\t\t\t[\"slider\"] = " + kvp.Value.added[0].filter.slider.ToString().ToLower() + ",\n");
-                            swr.Write("\t\t\t\t\t},\n");
+                        for (int y = 0; y < kvp.Value.added.Count; ++y)
+                        {                        
+                            swr.Write("\t\t\t\t["+(y+1).ToString()+"] = {\n");
+                            swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.added[y].key + "\",\n");
+                            if (kvp.Value.added[y].filter != null)
+                            {
+                                swr.Write("\t\t\t\t\t[\"filter\"] = {\n");
+                                swr.Write("\t\t\t\t\t\t[\"curvature\"] = {\n");
+                                for (int z = 0; z < kvp.Value.added[y].filter.curviture.Count; ++z)
+                                {
+                                    swr.Write("\t\t\t\t\t\t\t[" + (z + 1).ToString() + "] = " + kvp.Value.added[y].filter.curviture[z].ToString(new CultureInfo("en-US")) + ",\n");
+                                }
+                                swr.Write("\t\t\t\t\t\t},\n");
+                                swr.Write("\t\t\t\t\t\t[\"deadzone\"] = " + kvp.Value.added[y].filter.deadzone.ToString(new CultureInfo("en-US")) + ",\n");
+                                swr.Write("\t\t\t\t\t\t[\"invert\"] = " + kvp.Value.added[y].filter.inverted.ToString().ToLower() + ",\n");
+                                swr.Write("\t\t\t\t\t\t[\"saturationX\"] = " + kvp.Value.added[y].filter.saturationX.ToString(new CultureInfo("en-US")) + ",\n");
+                                swr.Write("\t\t\t\t\t\t[\"saturationY\"] = " + kvp.Value.added[y].filter.saturationY.ToString(new CultureInfo("en-US")) + ",\n");
+                                swr.Write("\t\t\t\t\t\t[\"slider\"] = " + kvp.Value.added[y].filter.slider.ToString().ToLower() + ",\n");
+                                swr.Write("\t\t\t\t\t},\n");
+                            }
+                            swr.Write("\t\t\t\t},\n");
                         }
-                        swr.Write("\t\t\t\t},\n");
                         swr.Write("\t\t\t},\n");
                     }
-                    if(kvp.Value.removed.Count>0)
+                    if (kvp.Value.removed.Count > 0)
                     {
                         swr.Write("\t\t\t[\"removed\"] = {\n");
-                        swr.Write("\t\t\t\t[1] = {\n");
-                        swr.Write("\t\t\t\t\t[\"key\"] = \""+kvp.Value.removed[0].key+"\",\n");
-                        swr.Write("\t\t\t\t},\n");
+                        for (int w = 0; w < kvp.Value.removed.Count; ++w)
+                        {
+                            swr.Write("\t\t\t\t["+(w+1).ToString()+"] = {\n");
+                            swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.removed[w].key + "\",\n");
+                            swr.Write("\t\t\t\t},\n");
+                        }
                         swr.Write("\t\t\t},\n");
                     }
                     swr.Write("\t\t},\n");
@@ -70,17 +79,32 @@ namespace JoyPro
                     if (kvp.Value.added.Count > 0)
                     {
                         swr.Write("\t\t\t[\"added\"] = {\n");
-                        swr.Write("\t\t\t\t[1] = {\n");
-                        swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.added[0].key + "\",\n");
-                        swr.Write("\t\t\t\t},\n");
+                        for (int z = 0; z < kvp.Value.added.Count; ++z)
+                        {
+                            swr.Write("\t\t\t\t["+(z+1).ToString()+"] = {\n");
+                            swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.added[z].key + "\",\n");
+                            if (kvp.Value.added[z].reformers.Count > 0)
+                            {
+                                swr.Write("\t\t\t\t\t[\"reformers\"] = {\n");
+                                for(int a=0; a<kvp.Value.added[z].reformers.Count; ++a)
+                                {
+                                    swr.Write("\t\t\t\t\t\t["+(a+1).ToString()+"] = \"" + kvp.Value.added[z].reformers[a]+"\",\n");
+                                }
+                                swr.Write("\t\t\t\t\t},\n");
+                            }                         
+                            swr.Write("\t\t\t\t},\n");
+                        }
                         swr.Write("\t\t\t},\n");
                     }
-                    else if (kvp.Value.removed.Count > 0)
+                    if (kvp.Value.removed.Count > 0)
                     {
                         swr.Write("\t\t\t[\"removed\"] = {\n");
-                        swr.Write("\t\t\t\t[1] = {\n");
-                        swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.removed[0].key + "\",\n");
-                        swr.Write("\t\t\t\t},\n");
+                        for (int z = 0; z < kvp.Value.removed.Count; ++z)
+                        {
+                            swr.Write("\t\t\t\t["+(z+1).ToString()+"] = {\n");
+                            swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.removed[z].key + "\",\n");
+                            swr.Write("\t\t\t\t},\n");
+                        }
                         swr.Write("\t\t\t},\n");
                     }
                     swr.Write("\t\t},\n");
@@ -204,7 +228,6 @@ namespace JoyPro
                                             dab.reformers.Add((string)kvpReformers.Value);
                                     }
                                 }
-
                             }
                         }
                     }

@@ -13,6 +13,7 @@ namespace JoyPro
         public string Joystick;
         public JoystickAxis JAxis;
         public string JButton;
+        //Don't remove otherwise loading templates don't work
         public string Reformer;
         public bool? Inverted;
         public bool? Slider;
@@ -20,6 +21,7 @@ namespace JoyPro
         public List<double> Curviture;
         public double SaturationX;
         public double SaturationY;
+        List<string> AllReformers;
 
         public string[] PovHeads = new string[]
         {
@@ -54,6 +56,7 @@ namespace JoyPro
             Rl = r;
             Deadzone = 0;
             Reformer = "";
+            AllReformers = new List<string>();
         }
 
         public bool? SetButton(string btn)
@@ -107,6 +110,14 @@ namespace JoyPro
             DCSButtonBind dbb = new DCSButtonBind();
             dbb.key = JButton;
             if (JButton.Length < 1||Joystick.Length<1) return null;
+            if (dbb.reformers == null) dbb.reformers = new List<string>();
+            for (int i=0; i<AllReformers.Count; ++i)
+            {
+                if (AllReformers[i].Length > 0)
+                {
+                    dbb.reformers.Add(AllReformers[i]);
+                }
+            }
             if (Reformer.Length > 0)
             {
                 dbb.reformers = new List<string>();
