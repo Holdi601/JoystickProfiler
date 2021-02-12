@@ -24,3 +24,9 @@ If people show interest, I might update it and improve on the given shortcomings
 Use the program only at your own risk as you might overwrite some existing binds. Make some backup of your existing binds before you use the software, if you get disappointed, that you can roll back.
 
 Anyways Good Success and Have a nice day.
+
+
+Tutorials
+
+How to create and edit Binds:
+https://youtu.be/XxzfEFHpWxI
