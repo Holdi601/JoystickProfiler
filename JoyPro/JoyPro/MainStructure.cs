@@ -94,6 +94,9 @@ namespace JoyPro
         {
             foreach (KeyValuePair<string, Bind> kvp in AllBinds)
             {
+                if(kvp.Value.Joystick.Length>0&&
+                    ((kvp.Value.Rl.ISAXIS&&kvp.Value.JAxis!= JoystickAxis.NONE)||
+                    (!kvp.Value.Rl.ISAXIS&&kvp.Value.JButton.Length>0)))
                 OverwriteExportWith(bindToExportFormat(kvp.Value), oride);
             }
         }
