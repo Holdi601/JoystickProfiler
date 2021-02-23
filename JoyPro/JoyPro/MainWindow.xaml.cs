@@ -59,6 +59,7 @@ namespace JoyPro
             MEBWEAOEBtn.Click += new RoutedEventHandler(LoadExistingExportOverwrite);
             CEBAEBtn.Click += new RoutedEventHandler(CleanAndExport);
             FirstStart();
+            MainStructure.InitJoystickListener();
         }
         void LoadExistingExportKeepExisting(object sender, EventArgs e)
         {
@@ -610,7 +611,6 @@ namespace JoyPro
                 editBtns[i].IsEnabled = false;
             }
         }
-
         private void InstanceSelectionChanged(object sender, EventArgs e)
         {
             MainStructure.LoadLocalBinds((string)DropDownInstanceSelection.SelectedItem);

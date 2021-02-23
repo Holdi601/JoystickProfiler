@@ -7,7 +7,7 @@ using System.IO;
 using System.Globalization;
 using System.Xml;
 using System.Xml.Serialization;
-
+using SlimDX.DirectInput;
 
 namespace JoyPro
 {
@@ -31,11 +31,14 @@ namespace JoyPro
         static Dictionary<string, DCSExportPlane> LocalBinds = new Dictionary<string, DCSExportPlane>();
         static Dictionary<string, DCSExportPlane> ToExport = new Dictionary<string, DCSExportPlane>();
         public static string selectedInstancePath = "";
+        static JoystickReader joyReader;
+        
         public static void PushCleanToExportForBinds()
         {
             ToExport.Clear();
             string[] planes = GetPlanesFromCustomBinds();
             string[] sticks = GetJoysticksFromCustomBinds();
+
             for (int i = 0; i < planes.Length; ++i)
             {
                 DCSExportPlane planeCurrent = new DCSExportPlane();
@@ -137,7 +140,6 @@ namespace JoyPro
             }
             return result;
         }
-
         public static void OverwriteExportWith(Dictionary<string, DCSExportPlane> attr, bool overwrite = true)
         {
             foreach (KeyValuePair<string, DCSExportPlane> kvp in attr)
@@ -213,7 +215,6 @@ namespace JoyPro
                 }
             }
         }
-
         static string[] GetJoysticksFromCustomBinds()
         {
             List<string> SticksToBind = new List<string>();
@@ -375,7 +376,6 @@ namespace JoyPro
             }
             return result;
         }
-
         public static LuaDataType DefineFirstDataTypeInString(string cont)
         {
             if (cont.Length < 1) return LuaDataType.Error;
@@ -471,7 +471,6 @@ namespace JoyPro
             }
             Console.WriteLine("Locals loaded lol");
         }
-
         public static void AddRelation(Relation r)
         {
             if (!AllRelations.ContainsKey(r.NAME))
@@ -784,6 +783,10 @@ namespace JoyPro
                 }
             }
             DCSJoysticks = Joysticks.ToArray();
+        }
+        public static void InitJoystickListener()
+        {
+            joyReader = new JoystickReader();
         }
     }
 }

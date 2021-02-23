@@ -58,6 +58,7 @@
     <ApplicationIcon>app.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SlimDX, Version=4.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -86,6 +87,7 @@
     <Compile Include="DCSLuaDiffsAxisElement.cs" />
     <Compile Include="DCSLuaDiffsButtonElement.cs" />
     <Compile Include="DCSLuaInput.cs" />
+    <Compile Include="JoystickReader.cs" />
     <Compile Include="Pr0file.cs" />
     <Compile Include="RelationWindow.xaml.cs">
       <DependentUpon>RelationWindow.xaml</DependentUpon>
