@@ -49,6 +49,7 @@ namespace JoyPro
         DirectInput directInput;
         List<SlimDX.DirectInput.Joystick> gamepads;
         Dictionary<Joystick, JoyAxisState> state;
+        Dictionary<Joystick, JoystickState> lastState;
         bool detectionEventActiveButton;
         bool detectionEventActiveAxis;
         bool quit;
@@ -68,6 +69,7 @@ namespace JoyPro
             contrl = new SlimDX.XInput.Controller(SlimDX.XInput.UserIndex.Any);
             gamepads = new List<Joystick>();
             state = new Dictionary<Joystick, JoyAxisState>();
+            lastState = new Dictionary<Joystick, JoystickState>();
             if (axis)
             {
                 detectionEventActiveButton = false;
@@ -219,17 +221,23 @@ namespace JoyPro
         {
             JoyAxisState last = state[pad];
             bool[] curBtns = js.GetButtons();
-            for(int i=0; i<curBtns.Length; ++i)
+            bool[] lastBtns; 
+            if(warmupTime<0)
             {
-                if (last.btns[i] && !curBtns[i])
+                lastBtns = lastState[pad].GetButtons();
+                for (int i = 0; i < curBtns.Length; ++i)
                 {
-                    JoystickResults args = new JoystickResults();
-                    args.Device = ToDeviceString(pad);
-                    args.AxisButton = (i + 1).ToString();
-                    ResultFound(args);
-                    return;
+                    if (curBtns[i] != lastBtns[i])
+                    {
+                        JoystickResults args = new JoystickResults();
+                        args.Device = ToDeviceString(pad);
+                        args.AxisButton = "JOY_BTN" + (i + 1).ToString();
+                        ResultFound(args);
+                        return;
+                    }
                 }
             }
+            
             int[] povs = js.GetPointOfViewControllers();
             for(int i=0; i<povs.Length; ++i)
             {
@@ -302,6 +310,8 @@ namespace JoyPro
                 {
                     CheckIfButtonGotPressed(gamepad, currentState);
                 }
+                if (lastState.ContainsKey(gamepad)) lastState[gamepad] = currentState;
+                else lastState.Add(gamepad, currentState);
             }
         }
 
