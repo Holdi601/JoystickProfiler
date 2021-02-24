@@ -31,7 +31,6 @@ namespace JoyPro
         static Dictionary<string, DCSExportPlane> LocalBinds = new Dictionary<string, DCSExportPlane>();
         static Dictionary<string, DCSExportPlane> ToExport = new Dictionary<string, DCSExportPlane>();
         public static string selectedInstancePath = "";
-        public static JoystickReader joyReader;
 
         public static void PushCleanToExportForBinds()
         {
@@ -784,9 +783,6 @@ namespace JoyPro
             }
             DCSJoysticks = Joysticks.ToArray();
         }
-        public static void InitJoystickListener()
-        {
-            joyReader = new JoystickReader();
-        }
+
     }
 }

@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace JoyPro
 {
-    public class JoystickEventArgs : EventArgs
+    public class JoystickResults
     {
         public string AxisButton { get; set; }
         public string Device { get; set; }
@@ -49,31 +49,39 @@ namespace JoyPro
         DirectInput directInput;
         List<SlimDX.DirectInput.Joystick> gamepads;
         Dictionary<Joystick, JoyAxisState> state;
-        public bool detectionEventActiveButton;
-        public bool detectionEventActiveAxis;
+        bool detectionEventActiveButton;
+        bool detectionEventActiveAxis;
         bool quit;
-        public event EventHandler<JoystickEventArgs> AxisSet;
-        public event EventHandler<JoystickEventArgs> ButtonSet;
-        const int timeToSet = 10000;
+        const int timeToSet = 5000;
         const int axisThreshold = 2000;
+        int warmupTime;
         int timeLeftToSet = timeToSet;
-        public JoystickReader()
+        public JoystickResults result;
+        int pollWaitTime;
+
+        public JoystickReader(bool axis)
         {
+            pollWaitTime = 10;
+            warmupTime = 100;
             directInputList = new List<DeviceInstance>();
             directInput = new DirectInput();
             contrl = new SlimDX.XInput.Controller(SlimDX.XInput.UserIndex.Any);
             gamepads = new List<Joystick>();
             state = new Dictionary<Joystick, JoyAxisState>();
-            detectionEventActiveButton = false;
-            detectionEventActiveAxis = false;
+            if (axis)
+            {
+                detectionEventActiveButton = false;
+                detectionEventActiveAxis = true;
+            }
+            else
+            {
+                detectionEventActiveButton = true;
+                detectionEventActiveAxis = false;
+            }
             quit = false;
+            result = null;
             initJoystick();
-            Thread t = new Thread(startPolling);
-            t.Start();
-        }
-        public void Quit()
-        {
-            quit = true;
+            startPolling();
         }
 
         JoyAxisState StateToJoyAxisState(JoystickState js)
@@ -95,14 +103,14 @@ namespace JoyPro
         void FillInJoyAxisStateDefaults(JoyAxisState jas, JoystickState js)
         {
             JoyAxisState filler = StateToJoyAxisState(js);
-            if (jas.x < 1) jas.x = filler.x;
-            if (jas.y < 1) jas.y = filler.y;
-            if (jas.z < 1) jas.z = filler.z;
-            if (jas.xr < 1) jas.xr = filler.xr;
-            if (jas.yr < 1) jas.yr = filler.yr;
-            if (jas.zr < 1) jas.zr = filler.zr;
-            if (jas.s1r < 1) jas.s1r = filler.s1r;
-            if (jas.s2r < 1) jas.s2r = filler.s2r;
+            if (jas.x < 11 || warmupTime>0) jas.x = filler.x;
+            if (jas.y < 11 || warmupTime > 0) jas.y = filler.y;
+            if (jas.z < 11 || warmupTime > 0) jas.z = filler.z;
+            if (jas.xr < 11 || warmupTime > 0) jas.xr = filler.xr;
+            if (jas.yr < 11 || warmupTime > 0) jas.yr = filler.yr;
+            if (jas.zr < 11 || warmupTime > 0) jas.zr = filler.zr;
+            if (jas.s1r < 11 || warmupTime > 0) jas.s1r = filler.s1r;
+            if (jas.s2r < 11 || warmupTime > 0) jas.s2r = filler.s2r;
             for(int i=0; i<jas.btns.Length; ++i)
             {
                 if (!jas.btns[i]) jas.btns[i] = filler.btns[i];
@@ -122,20 +130,17 @@ namespace JoyPro
         {
             while (!quit)
             {
-                Thread.Sleep(10);
-                tick();
+                Thread.Sleep(pollWaitTime);
                 if (timeLeftToSet > -1&&(detectionEventActiveAxis||detectionEventActiveButton))
                 {
-                    timeLeftToSet = timeLeftToSet - 10;
+                    timeLeftToSet = timeLeftToSet - pollWaitTime;
+                    warmupTime = warmupTime - pollWaitTime;
                     tick();
                 }else if(timeLeftToSet<0 && (detectionEventActiveAxis || detectionEventActiveButton))
                 {
-                    if (detectionEventActiveAxis) AxisSet.Invoke(this, null);
-                    if (detectionEventActiveButton) ButtonSet.Invoke(this, null);
+                    quit = true;
                     detectionEventActiveButton = false;
                     detectionEventActiveAxis = false;
-                    timeLeftToSet = timeToSet;
-                    state.Clear();
                 }
             }
         }
@@ -158,48 +163,56 @@ namespace JoyPro
             if (zrDiff < 0) zrDiff *= -1;
             if (s1rDiff < 0) s1rDiff *= -1;
             if (s2rDiff < 0) s2rDiff *= -1;
-            JoystickEventArgs args = new JoystickEventArgs();
+            JoystickResults args = new JoystickResults();
             args.Device = ToDeviceString(pad);
             args.AxisButton = "JOY_";
-            if (xDiff > axisThreshold)
+            if (xDiff > axisThreshold&&last.x>10&&current.x>10)
             {
+                Console.WriteLine(last.x.ToString() + " " + current.x.ToString());
                 args.AxisButton += "X";
-                OnAxisSet(args);
+                if(warmupTime<0)ResultFound(args);
             }
-            else if (yDiff > axisThreshold)
+            else if (yDiff > axisThreshold && last.y > 10 && current.y > 10)
             {
+                Console.WriteLine(last.y.ToString() + " " + current.y.ToString());
                 args.AxisButton += "Y";
-                OnAxisSet(args);
+                if (warmupTime < 0) ResultFound(args);
             }
-            else if (zDiff > axisThreshold)
+            else if (zDiff > axisThreshold && last.z > 10 && current.z > 10)
             {
+                Console.WriteLine(last.z.ToString() + " " + current.z.ToString());
                 args.AxisButton += "Z";
-                OnAxisSet(args);
+                if (warmupTime < 0) ResultFound(args);
             }
-            else if (xrDiff > axisThreshold)
+            else if (xrDiff > axisThreshold && last.xr > 10 && current.xr > 10)
             {
+                Console.WriteLine(last.xr.ToString() + " " + current.xr.ToString());
                 args.AxisButton += "RX";
-                OnAxisSet(args);
+                if (warmupTime < 0) ResultFound(args);
             }
-            else if (yrDiff > axisThreshold)
+            else if (yrDiff > axisThreshold && last.yr > 10 && current.yr > 10)
             {
+                Console.WriteLine(last.yr.ToString() + " " + current.yr.ToString());
                 args.AxisButton += "RY";
-                OnAxisSet(args);
+                if (warmupTime < 0) ResultFound(args);
             }
-            else if (zrDiff > axisThreshold)
+            else if (zrDiff > axisThreshold && last.zr > 10 && current.zr > 10)
             {
+                Console.WriteLine(last.zr.ToString() + " " + current.zr.ToString());
                 args.AxisButton += "RZ";
-                OnAxisSet(args);
+                if (warmupTime < 0) ResultFound(args);
             }
-            else if (s1rDiff > axisThreshold)
+            else if (s1rDiff > axisThreshold && last.s1r > 10 && current.s1r > 10)
             {
+                Console.WriteLine(last.s1r.ToString() + " " + current.s1r.ToString());
                 args.AxisButton += "SLIDER1";
-                OnAxisSet(args);
+                if (warmupTime < 0) ResultFound(args);
             }
-            else if (s2rDiff > axisThreshold)
+            else if (s2rDiff > axisThreshold && last.s2r > 10 && current.s2r > 10)
             {
+                Console.WriteLine(last.s2r.ToString() + " " + current.s2r.ToString());
                 args.AxisButton += "SLIDER2";
-                OnAxisSet(args);
+                if (warmupTime < 0) ResultFound(args);
             }
         }
         void CheckIfButtonGotPressed(Joystick pad, JoystickState js)
@@ -210,10 +223,10 @@ namespace JoyPro
             {
                 if (last.btns[i] && !curBtns[i])
                 {
-                    JoystickEventArgs args = new JoystickEventArgs();
+                    JoystickResults args = new JoystickResults();
                     args.Device = ToDeviceString(pad);
                     args.AxisButton = (i + 1).ToString();
-                    OnButtonSet(args);
+                    ResultFound(args);
                     return;
                 }
             }
@@ -250,10 +263,10 @@ namespace JoyPro
                             dir += "UL";
                             break;
                     }
-                    JoystickEventArgs args = new JoystickEventArgs();
+                    JoystickResults args = new JoystickResults();
                     args.Device = ToDeviceString(pad);
                     args.AxisButton = dir;
-                    OnButtonSet(args);
+                    ResultFound(args);
                     return;
                 }
             }
@@ -261,10 +274,11 @@ namespace JoyPro
         }
         string ToDeviceString(Joystick pad)
         {
-            return pad.Information.InstanceName + " {" + pad.Information.ProductGuid + "}";
+            return pad.Information.InstanceName + " {" + pad.Information.ProductGuid.ToString().ToUpper() + "}";
         }
         void tick()
         {
+            Console.WriteLine("Tick");
             foreach (var gamepad in gamepads)
             {
                 if (gamepad.Acquire().IsFailure)
@@ -291,22 +305,10 @@ namespace JoyPro
             }
         }
 
-        void OnAxisSet(JoystickEventArgs e)
+        void ResultFound(JoystickResults e)
         {
-            AxisSet.Invoke(this, e);
-            detectionEventActiveButton = false;
-            detectionEventActiveAxis = false;
-            timeLeftToSet = timeToSet;
-            state.Clear();
-        }
-
-        void OnButtonSet(JoystickEventArgs e)
-        {
-            ButtonSet.Invoke(this, e);
-            detectionEventActiveButton = false;
-            detectionEventActiveAxis = false;
-            timeLeftToSet = timeToSet;
-            state.Clear();
+            quit = true;
+            result = e;
         }
     }
 }

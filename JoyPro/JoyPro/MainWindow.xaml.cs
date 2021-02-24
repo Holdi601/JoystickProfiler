@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,7 @@ namespace JoyPro
         Button[] setBtns;
         Label[] stickLabels;
         int buttonSetting;
+        JoystickReader joyReader;
         public MainWindow()
         {
             InitializeComponent();
@@ -62,7 +64,7 @@ namespace JoyPro
             MEBWEAOEBtn.Click += new RoutedEventHandler(LoadExistingExportOverwrite);
             CEBAEBtn.Click += new RoutedEventHandler(CleanAndExport);
             FirstStart();
-            MainStructure.InitJoystickListener();
+            joyReader = null;
             buttonSetting = -1;
         }
         void LoadExistingExportKeepExisting(object sender, EventArgs e)
@@ -214,26 +216,39 @@ namespace JoyPro
             int indx = Convert.ToInt32(b.Name.Replace("assignBtn", ""));
             Relation r = CURRENTDISPLAYEDRELATION[indx];
             buttonSetting = indx;
+            b.Content = "SETTING";
+            b.Background = Brushes.Green;
+            BackgroundWorker bw = new BackgroundWorker();
             if (r.ISAXIS)
             {
-                MainStructure.joyReader.AxisSet += new EventHandler<JoystickEventArgs>(AxisSet);
+                bw.DoWork += new DoWorkEventHandler(listenAxis);
+                bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(AxisSet);
             }
             else
             {
-                MainStructure.joyReader.ButtonSet += new EventHandler<JoystickEventArgs>(ButtonSet);
+                bw.DoWork += new DoWorkEventHandler(listenButton);
+                bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(ButtonSet);
             }
-            b.Content = "SETTING";
-            b.Background = Brushes.Green;
+            bw.RunWorkerAsync();
         }
-        void AxisSet(object sender, JoystickEventArgs e)
+
+        void listenButton(object sender, EventArgs e)
+        {
+            joyReader = new JoystickReader(false);
+        }
+        void listenAxis(object sender, EventArgs e)
+        {
+            joyReader = new JoystickReader(true);
+        }
+        void AxisSet(object sender, EventArgs e)
         {
             ActivateInputs();
             int indx = buttonSetting;
             buttonSetting = -1;
-            editBtns[indx].Background = Brushes.White;
+            setBtns[indx].Background = Brushes.White;
             if (e == null)
             {
-                editBtns[indx].Content = "None";
+                setBtns[indx].Content = "None";
                 stickLabels[indx].Content = "None";
                 return;
             }
@@ -243,20 +258,22 @@ namespace JoyPro
                 cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
                 MainStructure.AddBind(cr.Rl.NAME, cr);
             }
-            cr.Joystick = e.Device;
-            cr.JAxis = e.AxisButton;
-            editBtns[indx].Content = e.AxisButton;
-            stickLabels[indx].Content = e.Device;
+            cr.Joystick = joyReader.result.Device;
+            cr.JAxis = joyReader.result.AxisButton;
+            setBtns[indx].Content = joyReader.result.AxisButton;
+            stickLabels[indx].Content = joyReader.result.Device;
+            joyReader = null;
+            Console.WriteLine(setBtns[indx].Content);
         }
-        void ButtonSet(object sender, JoystickEventArgs e)
+        void ButtonSet(object sender, EventArgs e)
         {
             ActivateInputs();
             int indx = buttonSetting;
             buttonSetting = -1;
-            editBtns[indx].Background = Brushes.White;
-            if (e == null)
+            setBtns[indx].Background = Brushes.White;
+            if (joyReader.result == null)
             {
-                editBtns[indx].Content = "None";
+                setBtns[indx].Content = "None";
                 stickLabels[indx].Content = "None";
                 return;
             }
@@ -266,10 +283,12 @@ namespace JoyPro
                 cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
                 MainStructure.AddBind(cr.Rl.NAME, cr);
             }
-            cr.Joystick = e.Device;
-            cr.JButton = e.AxisButton;
-            editBtns[indx].Content = e.AxisButton;
-            stickLabels[indx].Content = e.Device;
+            cr.Joystick = joyReader.result.Device;
+            cr.JButton = joyReader.result.AxisButton;
+            setBtns[indx].Content = joyReader.result.AxisButton;
+            Console.WriteLine(setBtns[indx].Content);
+            stickLabels[indx].Content = joyReader.result.Device;
+            joyReader = null;
         }
         void RefreshRelationsToShow()
         {
@@ -316,11 +335,12 @@ namespace JoyPro
                 joystickPick.Name = "joyLbl" + i.ToString();
                 joystickPick.Content = "None";
                 stickLabels[i] = joystickPick;
+                joystickPick.Foreground = Brushes.White;
                 if (currentBind != null)
                 {
                     joystickPick.Content = currentBind.Joystick;
                 }
-                joystickPick.Width = 100;
+                joystickPick.Width = 500;
                 joystickPick.HorizontalAlignment = HorizontalAlignment.Center;
                 joystickPick.VerticalAlignment = VerticalAlignment.Center;
                 Grid.SetColumn(joystickPick, 3);
@@ -617,7 +637,6 @@ namespace JoyPro
         }
         void ProgramClosing(object sender, EventArgs e)
         {
-            MainStructure.joyReader.Quit();
             App.Current.Shutdown();
         }
         void WindowClosing(object sender, EventArgs e)
