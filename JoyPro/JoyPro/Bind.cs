@@ -11,7 +11,7 @@ namespace JoyPro
     {
         public Relation Rl;
         public string Joystick;
-        public JoystickAxis JAxis;
+        public string JAxis;
         public string JButton;
         //Don't remove otherwise loading templates don't work
         public string Reformer;
@@ -41,11 +41,27 @@ namespace JoyPro
             ,"POV2_UL"
             ,"POV2_DR"
             ,"POV2_UR"
+            ,"POV3_D"
+            ,"POV3_U"
+            ,"POV3_L"
+            ,"POV3_R"
+            ,"POV3_DL"
+            ,"POV3_UL"
+            ,"POV3_DR"
+            ,"POV3_UR"
+            ,"POV4_D"
+            ,"POV4_U"
+            ,"POV4_L"
+            ,"POV4_R"
+            ,"POV4_DL"
+            ,"POV4_UL"
+            ,"POV4_DR"
+            ,"POV4_UR"
         };
         public Bind(Relation r)
         {
             Joystick = "";
-            JAxis = JoystickAxis.NONE;
+            JAxis = "";
             JButton = "";
             Inverted = false;
             Slider = false;
@@ -61,7 +77,7 @@ namespace JoyPro
 
         public bool? SetButton(string btn)
         {
-            if (JAxis != JoystickAxis.NONE) return null;
+            if (JAxis.Length<1) return null;
             bool isPov = false;
             string PreFixButton = "JOY_BTN";
             btn = btn.Replace(PreFixButton, "");
@@ -93,7 +109,7 @@ namespace JoyPro
         public DCSAxisBind toDCSAxisBind()
         {
             DCSAxisBind result = new DCSAxisBind();
-            if (JAxis == JoystickAxis.NONE || Joystick.Length < 1) return null;
+            if (JAxis.Length <1 || Joystick.Length < 1) return null;
             result.key = JAxis.ToString();
             DCSAxisFilter daf = new DCSAxisFilter();
             result.filter = daf;

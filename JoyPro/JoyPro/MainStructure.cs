@@ -31,8 +31,8 @@ namespace JoyPro
         static Dictionary<string, DCSExportPlane> LocalBinds = new Dictionary<string, DCSExportPlane>();
         static Dictionary<string, DCSExportPlane> ToExport = new Dictionary<string, DCSExportPlane>();
         public static string selectedInstancePath = "";
-        static JoystickReader joyReader;
-        
+        public static JoystickReader joyReader;
+
         public static void PushCleanToExportForBinds()
         {
             ToExport.Clear();
@@ -98,7 +98,7 @@ namespace JoyPro
             foreach (KeyValuePair<string, Bind> kvp in AllBinds)
             {
                 if(kvp.Value.Joystick.Length>0&&
-                    ((kvp.Value.Rl.ISAXIS&&kvp.Value.JAxis!= JoystickAxis.NONE)||
+                    ((kvp.Value.Rl.ISAXIS&&kvp.Value.JAxis.Length>0)||
                     (!kvp.Value.Rl.ISAXIS&&kvp.Value.JButton.Length>0)))
                 OverwriteExportWith(bindToExportFormat(kvp.Value), oride);
             }

@@ -29,6 +29,9 @@ namespace JoyPro
         List<Relation> CURRENTDISPLAYEDRELATION;
         Button[] editBtns;
         Button[] dltBtns;
+        Button[] setBtns;
+        Label[] stickLabels;
+        int buttonSetting;
         public MainWindow()
         {
             InitializeComponent();
@@ -60,6 +63,7 @@ namespace JoyPro
             CEBAEBtn.Click += new RoutedEventHandler(CleanAndExport);
             FirstStart();
             MainStructure.InitJoystickListener();
+            buttonSetting = -1;
         }
         void LoadExistingExportKeepExisting(object sender, EventArgs e)
         {
@@ -195,11 +199,77 @@ namespace JoyPro
             grid.RowDefinitions.Add(new RowDefinition());
             editBtns = new Button[CURRENTDISPLAYEDRELATION.Count];
             dltBtns = new Button[CURRENTDISPLAYEDRELATION.Count];
+            setBtns = new Button[CURRENTDISPLAYEDRELATION.Count];
+            stickLabels = new Label[CURRENTDISPLAYEDRELATION.Count];
             return grid;
         }
         public void ShowMessageBox(string msg)
         {
             MessageBox.Show(msg);
+        }
+        void SetBtnOrAxisEvent(object sender, EventArgs e)
+        {
+            DisableInputs();
+            Button b = (Button)sender;
+            int indx = Convert.ToInt32(b.Name.Replace("assignBtn", ""));
+            Relation r = CURRENTDISPLAYEDRELATION[indx];
+            buttonSetting = indx;
+            if (r.ISAXIS)
+            {
+                MainStructure.joyReader.AxisSet += new EventHandler<JoystickEventArgs>(AxisSet);
+            }
+            else
+            {
+                MainStructure.joyReader.ButtonSet += new EventHandler<JoystickEventArgs>(ButtonSet);
+            }
+            b.Content = "SETTING";
+            b.Background = Brushes.Green;
+        }
+        void AxisSet(object sender, JoystickEventArgs e)
+        {
+            ActivateInputs();
+            int indx = buttonSetting;
+            buttonSetting = -1;
+            editBtns[indx].Background = Brushes.White;
+            if (e == null)
+            {
+                editBtns[indx].Content = "None";
+                stickLabels[indx].Content = "None";
+                return;
+            }
+            Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            if (cr == null)
+            {
+                cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
+                MainStructure.AddBind(cr.Rl.NAME, cr);
+            }
+            cr.Joystick = e.Device;
+            cr.JAxis = e.AxisButton;
+            editBtns[indx].Content = e.AxisButton;
+            stickLabels[indx].Content = e.Device;
+        }
+        void ButtonSet(object sender, JoystickEventArgs e)
+        {
+            ActivateInputs();
+            int indx = buttonSetting;
+            buttonSetting = -1;
+            editBtns[indx].Background = Brushes.White;
+            if (e == null)
+            {
+                editBtns[indx].Content = "None";
+                stickLabels[indx].Content = "None";
+                return;
+            }
+            Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            if (cr == null)
+            {
+                cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
+                MainStructure.AddBind(cr.Rl.NAME, cr);
+            }
+            cr.Joystick = e.Device;
+            cr.JButton = e.AxisButton;
+            editBtns[indx].Content = e.AxisButton;
+            stickLabels[indx].Content = e.Device;
         }
         void RefreshRelationsToShow()
         {
@@ -240,41 +310,37 @@ namespace JoyPro
                 Grid.SetRow(deleteBtn, i);
                 grid.Children.Add(deleteBtn);
 
-                Bind currentBind = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[i].NAME);               
+                Bind currentBind = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[i].NAME);
 
-                ComboBox cb = new ComboBox();
-                cb.Name = "cbRelation" + i.ToString();
-                for (int j = 0; j < MainStructure.DCSJoysticks.Length; j++)
-                    cb.Items.Add(MainStructure.DCSJoysticks[j]);
+                Label joystickPick = new Label();
+                joystickPick.Name = "joyLbl" + i.ToString();
+                joystickPick.Content = "None";
+                stickLabels[i] = joystickPick;
                 if (currentBind != null)
                 {
-                    cb.SelectedItem = currentBind.Joystick;
+                    joystickPick.Content = currentBind.Joystick;
                 }
-                cb.SelectionChanged += new SelectionChangedEventHandler(StickSelectionChanged);
-                cb.HorizontalAlignment = HorizontalAlignment.Center;
-                cb.VerticalAlignment = VerticalAlignment.Center;
-                cb.Width = 100;
-                Grid.SetColumn(cb, 3);
-                Grid.SetRow(cb, i);
-                grid.Children.Add(cb);
+                joystickPick.Width = 100;
+                joystickPick.HorizontalAlignment = HorizontalAlignment.Center;
+                joystickPick.VerticalAlignment = VerticalAlignment.Center;
+                Grid.SetColumn(joystickPick, 3);
+                Grid.SetRow(joystickPick, i);
+                grid.Children.Add(joystickPick);
+
+                Button joybtnin = new Button();
+                joybtnin.Name = "assignBtn" + i.ToString();
+                joybtnin.Content = "None";
+                joybtnin.HorizontalAlignment = HorizontalAlignment.Center;
+                joybtnin.VerticalAlignment = VerticalAlignment.Center;
+                joybtnin.Width = 100;
+                joybtnin.Click += new RoutedEventHandler(SetBtnOrAxisEvent);
+                setBtns[i] = joybtnin;
+                Grid.SetColumn(joybtnin, 4);
+                Grid.SetRow(joybtnin, i);
+                grid.Children.Add(joybtnin);
 
                 if (CURRENTDISPLAYEDRELATION[i].ISAXIS)
                 {
-                    ComboBox cbax = new ComboBox();
-                    cbax.Name = "cbAx" + i.ToString();                    
-                    cbax.HorizontalAlignment = HorizontalAlignment.Center;
-                    cbax.VerticalAlignment = VerticalAlignment.Center;
-                    cbax.Width = 100;
-                    List<string> axis= Enum.GetValues(typeof(JoystickAxis))
-                        .Cast<JoystickAxis>()
-                        .Select(v => v.ToString())
-                        .ToList();
-                    foreach (string s in axis)
-                        cbax.Items.Add(s);
-                    
-                    Grid.SetColumn(cbax, 4);
-                    Grid.SetRow(cbax, i);
-                    grid.Children.Add(cbax);
 
                     CheckBox cbx = new CheckBox();
                     cbx.Name = "cbxrel" + i.ToString();
@@ -330,7 +396,7 @@ namespace JoyPro
 
                     if (currentBind != null)
                     {
-                        cbax.SelectedItem = currentBind.JAxis.ToString();
+                        joybtnin.Content=currentBind.JAxis.ToString();
                         cbx.IsChecked = currentBind.Inverted;
                         cbxs.IsChecked = currentBind.Slider;
                         txrl.Text = currentBind.Deadzone.ToString();
@@ -351,7 +417,6 @@ namespace JoyPro
                     txrl.TextChanged += new TextChangedEventHandler(DeadzoneSelectionChanged);
                     cbxs.Click += new RoutedEventHandler(SliderAxisSelection);
                     cbx.Click += new RoutedEventHandler(InvertAxisSelection);
-                    cbax.SelectionChanged += new SelectionChangedEventHandler(AxisSelectionChanged);
 
                     txrlcv.QueryCursor += new QueryCursorEventHandler(CleanText);
                     txrlsy.QueryCursor += new QueryCursorEventHandler(CleanText);
@@ -363,24 +428,10 @@ namespace JoyPro
                 }
                 else
                 {
-                    TextBox txrl = new TextBox();
-                    txrl.Name = "txrl" + i.ToString();  
-                    txrl.Width = 100;
-                    txrl.Height = 24;
-                    Grid.SetColumn(txrl, 4);
-                    Grid.SetRow(txrl, i);
-                    grid.Children.Add(txrl);
-
                     if (currentBind != null)
                     {
-                        txrl.Text = currentBind.JButton;
+                        joybtnin.Content = currentBind.JButton;
                     }
-                    else
-                    {
-                        txrl.Text = "Button (Int o Pov)";
-                    }
-                    txrl.TextChanged += new TextChangedEventHandler(ButtonSelectionChanged);
-                    txrl.QueryCursor += new QueryCursorEventHandler(CleanText);
                 }
             }
             sv.Content = grid;
@@ -461,7 +512,7 @@ namespace JoyPro
                 cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
                 MainStructure.AddBind(cr.Rl.NAME, cr);
             }
-            Enum.TryParse((string)cx.SelectedItem, out cr.JAxis);
+            //Enum.TryParse((string)cx.SelectedItem, out cr.JAxis);
         }
         void ButtonSelectionChanged(object sender, EventArgs e)
         {
@@ -566,6 +617,7 @@ namespace JoyPro
         }
         void ProgramClosing(object sender, EventArgs e)
         {
+            MainStructure.joyReader.Quit();
             App.Current.Shutdown();
         }
         void WindowClosing(object sender, EventArgs e)
@@ -597,6 +649,7 @@ namespace JoyPro
             {
                 dltBtns[i].IsEnabled = true;
                 editBtns[i].IsEnabled = true;
+                setBtns[i].IsEnabled = true;
             }
         }
         void DisableInputs()
@@ -609,6 +662,7 @@ namespace JoyPro
             {
                 dltBtns[i].IsEnabled = false;
                 editBtns[i].IsEnabled = false;
+                setBtns[i].IsEnabled = false;
             }
         }
         private void InstanceSelectionChanged(object sender, EventArgs e)
