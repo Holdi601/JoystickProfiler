@@ -282,7 +282,7 @@ namespace JoyPro
         }
         string ToDeviceString(Joystick pad)
         {
-            return pad.Information.InstanceName + " {" + pad.Information.ProductGuid.ToString().ToUpper() + "}";
+            return pad.Information.InstanceName + " {" + pad.Information.InstanceGuid.ToString().ToUpper() + "}";
         }
         void tick()
         {
