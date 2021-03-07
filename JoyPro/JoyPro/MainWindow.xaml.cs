@@ -525,7 +525,11 @@ namespace JoyPro
             Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (cr == null)
             {
-                MessageBox.Show("Please set first the button or the axis.");
+                if (cx.Text.Length > 0)
+                {
+                    MessageBox.Show("Please set first the button or the axis.");
+                }
+                
                 return;
             }
             if (cx.Text.Length < 1) return;
@@ -542,7 +546,8 @@ namespace JoyPro
             Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (cr == null)
             {
-                MessageBox.Show("Please set first the button or the axis.");
+                if (cx.Text.Length > 0)
+                    MessageBox.Show("Please set first the button or the axis.");
                 return;
             }
             if (cx.Text.Length < 1) return;
@@ -559,7 +564,8 @@ namespace JoyPro
             Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (cr == null)
             {
-                MessageBox.Show("Please set first the button or the axis.");
+                if (cx.Text.Length > 0)
+                    MessageBox.Show("Please set first the button or the axis.");
                 return;
             }
             if (cx.Text.Length < 1) return;
@@ -581,7 +587,8 @@ namespace JoyPro
             Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (cr == null)
             {
-                MessageBox.Show("Please set first the button or the axis.");
+                if (cx.Text.Length > 0)
+                    MessageBox.Show("Please set first the button or the axis.");
                 return;
             }
             if (cx.Text.Length < 1) return;
