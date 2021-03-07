@@ -529,6 +529,10 @@ namespace JoyPro
                 {
                     MessageBox.Show("Please set first the button or the axis.");
                 }
+                else
+                {
+                    MainStructure.ResyncRelations();
+                }
                 
                 return;
             }
@@ -548,6 +552,8 @@ namespace JoyPro
             {
                 if (cx.Text.Length > 0)
                     MessageBox.Show("Please set first the button or the axis.");
+                else
+                    MainStructure.ResyncRelations();
                 return;
             }
             if (cx.Text.Length < 1) return;
@@ -566,6 +572,8 @@ namespace JoyPro
             {
                 if (cx.Text.Length > 0)
                     MessageBox.Show("Please set first the button or the axis.");
+                else
+                    MainStructure.ResyncRelations();
                 return;
             }
             if (cx.Text.Length < 1) return;
@@ -589,6 +597,8 @@ namespace JoyPro
             {
                 if (cx.Text.Length > 0)
                     MessageBox.Show("Please set first the button or the axis.");
+                else
+                    MainStructure.ResyncRelations();
                 return;
             }
             if (cx.Text.Length < 1) return;
