@@ -258,6 +258,13 @@ namespace JoyPro
                 cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
                 MainStructure.AddBind(cr.Rl.NAME, cr);
             }
+            if (joyReader.result == null)
+            {
+                //Delete Bind
+                MainStructure.DeleteBind(cr.Rl.NAME);
+                MainStructure.ResyncRelations();
+                return;
+            }
             cr.Joystick = joyReader.result.Device;
             cr.JAxis = joyReader.result.AxisButton;
             setBtns[indx].Content = joyReader.result.AxisButton;
@@ -320,11 +327,11 @@ namespace JoyPro
                 Button deleteBtn = new Button();
                 dltBtns[i] = deleteBtn;
                 deleteBtn.Name = "deleteBtn" + i.ToString();
-                deleteBtn.Content = "Delete";
+                deleteBtn.Content = "Delete Relation";
                 deleteBtn.Click += new RoutedEventHandler(DeleteRelationButton);
                 deleteBtn.HorizontalAlignment = HorizontalAlignment.Center;
                 deleteBtn.VerticalAlignment = VerticalAlignment.Center;
-                deleteBtn.Width = 50;
+                deleteBtn.Width = 100;
                 Grid.SetColumn(deleteBtn, 2);
                 Grid.SetRow(deleteBtn, i);
                 grid.Children.Add(deleteBtn);
@@ -510,50 +517,7 @@ namespace JoyPro
             }
             cr.Slider = cx.IsChecked;
         }
-        void StickSelectionChanged(object sender, EventArgs e)
-        {
-            ComboBox cx = (ComboBox)sender;
-            int indx = Convert.ToInt32(cx.Name.Replace("cbRelation", ""));
-            Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
-            if (cr == null)
-            {
-                cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
-                MainStructure.AddBind(cr.Rl.NAME, cr);
-            }
-            cr.Joystick = (string)cx.SelectedItem;
-        }
-        void AxisSelectionChanged(object sender, EventArgs e)
-        {
-            ComboBox cx = (ComboBox)sender;
-            int indx = Convert.ToInt32(cx.Name.Replace("cbAx", ""));
-            Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
-            if (cr == null)
-            {
-                cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
-                MainStructure.AddBind(cr.Rl.NAME, cr);
-            }
-            //Enum.TryParse((string)cx.SelectedItem, out cr.JAxis);
-        }
-        void ButtonSelectionChanged(object sender, EventArgs e)
-        {
-            TextBox cx = (TextBox)sender;
-            int indx = Convert.ToInt32(cx.Name.Replace("txrl", ""));
-            Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
-            if (cr == null)
-            {
-                cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
-                MainStructure.AddBind(cr.Rl.NAME, cr);
-            }
-            bool? succ = cr.SetButton(cx.Text);
-            if(succ==false)
-            {
-                MessageBox.Show("Given was not a Number or not a correct Pov input. (Correct Pov inputs are like: POV1_D or POV2_UL)");
-            }
-            else if(succ==null)
-            {
-                MessageBox.Show("Something interally went wrong");
-            }
-        }
+        
         void SaturationXSelectionChanged(object sender, EventArgs e)
         {
             TextBox cx = (TextBox)sender;
@@ -561,8 +525,8 @@ namespace JoyPro
             Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (cr == null)
             {
-                cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
-                MainStructure.AddBind(cr.Rl.NAME, cr);
+                MessageBox.Show("Please set first the button or the axis.");
+                return;
             }
             if (cx.Text.Length < 1) return;
             bool? succ = double.TryParse(cx.Text, out cr.SaturationX);
@@ -578,8 +542,8 @@ namespace JoyPro
             Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (cr == null)
             {
-                cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
-                MainStructure.AddBind(cr.Rl.NAME, cr);
+                MessageBox.Show("Please set first the button or the axis.");
+                return;
             }
             if (cx.Text.Length < 1) return;
             bool? succ = double.TryParse(cx.Text, out cr.SaturationY);
@@ -595,8 +559,8 @@ namespace JoyPro
             Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (cr == null)
             {
-                cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
-                MainStructure.AddBind(cr.Rl.NAME, cr);
+                MessageBox.Show("Please set first the button or the axis.");
+                return;
             }
             if (cx.Text.Length < 1) return;
             double curv = double.NaN;
@@ -617,8 +581,8 @@ namespace JoyPro
             Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (cr == null)
             {
-                cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
-                MainStructure.AddBind(cr.Rl.NAME, cr);
+                MessageBox.Show("Please set first the button or the axis.");
+                return;
             }
             if (cx.Text.Length < 1) return;
             bool? succ = double.TryParse(cx.Text, out cr.Deadzone);

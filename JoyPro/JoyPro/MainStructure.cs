@@ -515,6 +515,10 @@ namespace JoyPro
         {
             if (!AllBinds.ContainsKey(name)) AllBinds.Add(name, b);
         }
+        public static void DeleteBind(string name)
+        {
+            if (AllBinds.ContainsKey(name)) AllBinds.Remove(name);
+        }
         public static void InsertRelations(string[] files)
         {
             foreach (string s in files)

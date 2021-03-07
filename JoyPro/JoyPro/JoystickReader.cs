@@ -59,6 +59,7 @@ namespace JoyPro
         int timeLeftToSet = timeToSet;
         public JoystickResults result;
         int pollWaitTime;
+        Keyboard kb;
 
         public JoystickReader(bool axis)
         {
@@ -123,6 +124,9 @@ namespace JoyPro
             directInputList.Clear();
             directInputList.AddRange(directInput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly));
             gamepads.Clear();
+            DirectInput dikb = new DirectInput();
+            kb = new Keyboard(directInput);
+            kb.Acquire();
             foreach (var device in directInputList)
             {
                 gamepads.Add(new SlimDX.DirectInput.Joystick(directInput, device.InstanceGuid));
@@ -133,17 +137,19 @@ namespace JoyPro
             while (!quit)
             {
                 Thread.Sleep(pollWaitTime);
+                KeyboardState ks = kb.GetCurrentState();
                 if (timeLeftToSet > -1&&(detectionEventActiveAxis||detectionEventActiveButton))
                 {
                     timeLeftToSet = timeLeftToSet - pollWaitTime;
                     warmupTime = warmupTime - pollWaitTime;
                     tick();
-                }else if(timeLeftToSet<0 && (detectionEventActiveAxis || detectionEventActiveButton))
+                }if((timeLeftToSet<0 && (detectionEventActiveAxis || detectionEventActiveButton))||(ks.IsPressed(Key.Escape))||(ks.IsPressed(Key.Delete)) ||(ks.IsPressed(Key.Backspace)))
                 {
                     quit = true;
                     detectionEventActiveButton = false;
                     detectionEventActiveAxis = false;
                 }
+               
             }
         }
         void CheckIfAxisPassedThreshhold(Joystick pad, JoyAxisState current)
@@ -286,7 +292,6 @@ namespace JoyPro
         }
         void tick()
         {
-            Console.WriteLine("Tick");
             foreach (var gamepad in gamepads)
             {
                 if (gamepad.Acquire().IsFailure)
