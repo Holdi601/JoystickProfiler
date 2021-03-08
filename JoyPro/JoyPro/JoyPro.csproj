@@ -87,12 +87,19 @@
     <Compile Include="DCSLuaDiffsAxisElement.cs" />
     <Compile Include="DCSLuaDiffsButtonElement.cs" />
     <Compile Include="DCSLuaInput.cs" />
+    <Compile Include="ExchangeStick.xaml.cs">
+      <DependentUpon>ExchangeStick.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JoystickReader.cs" />
     <Compile Include="Pr0file.cs" />
     <Compile Include="RelationWindow.xaml.cs">
       <DependentUpon>RelationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SearchQueryResults.cs" />
+    <Page Include="ExchangeStick.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

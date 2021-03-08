@@ -231,7 +231,6 @@ namespace JoyPro
             }
             bw.RunWorkerAsync();
         }
-
         void listenButton(object sender, EventArgs e)
         {
             joyReader = new JoystickReader(false);
@@ -517,7 +516,6 @@ namespace JoyPro
             }
             cr.Slider = cx.IsChecked;
         }
-        
         void SaturationXSelectionChanged(object sender, EventArgs e)
         {
             TextBox cx = (TextBox)sender;

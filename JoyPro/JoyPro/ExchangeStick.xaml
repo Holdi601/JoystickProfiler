@@ -1,0 +1,30 @@
+﻿<Window x:Class="JoyPro.ExchangeStick"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JoyPro"
+        mc:Ignorable="d"
+        Title="ExchangeStick" Height="249.021" Width="800">
+    <Grid Background="#FF191919" RenderTransformOrigin="0.494,0.35">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Label Content="The following Joystick has not be found in your connected Devices: " Foreground="White" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,-2,0,2" Height="30" Width="386" />
+        <Label Content="If you want to replace its binding with a different stick, do so by selecting it in the dropdown below and press ok. If you don't want to replace it, press cancel." Grid.ColumnSpan="2" Foreground="White" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0" Height="30" Width="772" />
+        <Label Content="If you don't want to replace it, press cancel." Grid.ColumnSpan="2" Foreground="White" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0" Height="30" Width="772" />
+        <Label Content="SAMPLESTICK" Name="JsToReplace" Grid.ColumnSpan="1" Foreground="White" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Width="396" />
+        <Button FontWeight="Bold" Name="CancelJoyExchange" Content="Cancel" Height="30" Width="377"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,9,0,11" Grid.Row="4" Grid.Column="0" />
+        <Button FontWeight="Bold" Name="OKJoyExchange" Content="OK" Height="30" Width="377"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,9,0,11" Grid.Row="4" Grid.Column="1" />
+        <ComboBox Name="DropDownSticks" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,20,0,20" Grid.Row="3"  Grid.Column="0" Grid.ColumnSpan="2" Width="772" Height="38" ></ComboBox>
+    </Grid>
+
+</Window>

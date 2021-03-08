@@ -96,10 +96,10 @@ namespace JoyPro
         {
             foreach (KeyValuePair<string, Bind> kvp in AllBinds)
             {
-                if(kvp.Value.Joystick.Length>0&&
-                    ((kvp.Value.Rl.ISAXIS&&kvp.Value.JAxis.Length>0)||
-                    (!kvp.Value.Rl.ISAXIS&&kvp.Value.JButton.Length>0)))
-                OverwriteExportWith(bindToExportFormat(kvp.Value), oride);
+                if (kvp.Value.Joystick.Length > 0 &&
+                    ((kvp.Value.Rl.ISAXIS && kvp.Value.JAxis.Length > 0) ||
+                    (!kvp.Value.Rl.ISAXIS && kvp.Value.JButton.Length > 0)))
+                    OverwriteExportWith(bindToExportFormat(kvp.Value), oride);
             }
         }
         public static Dictionary<string, DCSExportPlane> bindToExportFormat(Bind b)
@@ -509,6 +509,7 @@ namespace JoyPro
             AllRelations = pr.Relations;
             AllBinds = pr.Binds;
             AddLoadedJoysticks();
+            CheckConnectedSticksToBinds();
             ResyncRelations();
         }
         public static void AddBind(string name, Bind b)
@@ -564,9 +565,42 @@ namespace JoyPro
             foreach (KeyValuePair<string, Bind> kvp in AllBinds)
             {
                 if (kvp.Value.Joystick != null && kvp.Value.Joystick.Length > 0 && !sticks.Contains<string>(kvp.Value.Joystick))
+                {
                     sticks.Add(kvp.Value.Joystick);
+                }
             }
             DCSJoysticks = sticks.ToArray();
+
+        }
+        static void CheckConnectedSticksToBinds()
+        {
+            //Check if joystick is connected and ask for more context
+            List<string> connectedSticks = JoystickReader.GetConnectedJoysticks();
+            List<string> misMatches = new List<string>();
+            List<Bind> toRemove = new List<Bind>();
+            foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (kvp.Value.Joystick != null && kvp.Value.Joystick.Length > 0)
+                    if (!connectedSticks.Contains(kvp.Value.Joystick)&& !misMatches.Contains(kvp.Value.Joystick))
+                        misMatches.Add(kvp.Value.Joystick);
+            }
+            foreach (Bind b in toRemove) if(AllBinds.ContainsKey(b.Rl.NAME)) AllBinds.Remove(b.Rl.NAME);
+            foreach(string mis in misMatches)
+            {
+                ExchangeStick es = new ExchangeStick(mis);
+                es.Show();
+            }
+        }
+        public static void ExchangeSticksInBind(string old, string newstr)
+        {
+            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (kvp.Value.Joystick != null && kvp.Value.Joystick.Length > 0 && kvp.Value.Joystick == old&&newstr.Length>0)
+                {
+                    kvp.Value.Joystick = newstr;
+                }
+            }
+            ResyncRelations();
         }
         public static void SaveRelationsTo(string filePath)
         {
@@ -771,7 +805,7 @@ namespace JoyPro
                         for (int k = 0; k < inputs.Length; ++k)
                         {
                             string[] planes = Directory.GetFiles(inputs[k]);
-                            for(int z=0; z<planes.Length; ++z)
+                            for (int z = 0; z < planes.Length; ++z)
                             {
                                 string[] parts = planes[z].Split('\\');
                                 string toCompare = parts[parts.Length - 1];
@@ -780,7 +814,7 @@ namespace JoyPro
                                     string toAdd = toCompare.Replace(".diff.lua", "");
                                     if (!Joysticks.Contains(toAdd) && toAdd != "Keyboard" && toAdd != "Mouse" && toAdd != "TrackIR") Joysticks.Add(toAdd);
                                 }
-                            }                          
+                            }
                         }
                     }
                 }

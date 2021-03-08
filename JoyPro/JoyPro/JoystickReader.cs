@@ -61,6 +61,20 @@ namespace JoyPro
         int pollWaitTime;
         Keyboard kb;
 
+        public static List<string> GetConnectedJoysticks()
+        {
+            List<string> result = new List<string>();
+            DirectInput di = new DirectInput();
+            List<DeviceInstance> dil = new List<DeviceInstance>();
+            dil.Clear();
+            dil.AddRange(di.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly));
+            List<SlimDX.DirectInput.Joystick> pds = new List<Joystick>();
+            foreach (var device in dil)
+            {
+                result.Add(ToDeviceString(new Joystick(di, device.InstanceGuid)));
+            }
+            return result;
+        }
         public JoystickReader(bool axis)
         {
             pollWaitTime = 10;
@@ -286,7 +300,7 @@ namespace JoyPro
             }
 
         }
-        string ToDeviceString(Joystick pad)
+        static string ToDeviceString(Joystick pad)
         {
             return pad.Information.InstanceName + " {" + pad.Information.InstanceGuid.ToString().ToUpper() + "}";
         }
