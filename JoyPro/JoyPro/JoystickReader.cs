@@ -249,7 +249,7 @@ namespace JoyPro
             {
                 if (povs[i] > -1)
                 {
-                    string dir = "POV"+(i+1).ToString()+"_";
+                    string dir = "JOY_BTN_POV"+(i+1).ToString()+"_";
                     switch (povs[i])
                     {
                         case 0:
