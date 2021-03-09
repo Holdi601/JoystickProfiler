@@ -55,3 +55,6 @@ What features might come?
 -AutoBackup on Startup
 -Autoupdater
 But lets see. Depends on time and motivation. 
+
+
+Discord for more direct question answer or concerns: https://discord.gg/YxHRxdFM 
