@@ -28,3 +28,27 @@ Tutorials
 
 How to create and edit Binds:
 https://youtu.be/XxzfEFHpWxI
+
+FAQ:
+I have mods installed, but they do not show up in relations?
+and
+DCS got updated Keybinds but it is not showing them?
+
+If DCS hits an update with updated binds, I will try to keep it up to date and push a new build. If its not up to date please feel free to contact me. I will update it asap. However if you care for installed mods or want to do the process yourself do the following:
+All the existing Keybinds that exist are saved inf \DB\DCS inside the axis.csv and the btn.csv
+These are generated from the python script that you find inside \Tools folder called DCSKeyAxisExtractor.py make sure to edit the file to fit your output path and DCS Saved Games InputLayoutsTxt path. 
+The InputLayoutsTxt path exist, if you go into DCS go into the input option of each of your aircraft and click on "Make HTML". 
+Once you have done it and adjusted your paths inside the python script, run the python script and replace the axis.csv and btn.csv in the \DB\DCS path and you are good to go.
+At some point, I will probably make a video Tutorial about this as well. 
+
+
+I have a bug?!
+Contact me, I will try to fix it asap. 
+
+What features might come?
+-I was thinking of maybe adding the 10 array custom curve that DCS allows ingame, adding this to the tool.
+-Adding maybe reformer keys
+-Maybe other games come like star citizen, as that game is in its joystick mapping a mess inside the game. But if so, thats far out. 
+-AutoBackup on Startup
+-Autoupdater
+But lets see. Depends on time and motivation. 
