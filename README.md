@@ -43,9 +43,12 @@ At some point, I will probably make a video Tutorial about this as well.
 
 
 I have a bug?!
+
 Contact me, I will try to fix it asap. 
 
+
 What features might come?
+
 -I was thinking of maybe adding the 10 array custom curve that DCS allows ingame, adding this to the tool.
 -Adding maybe reformer keys
 -Maybe other games come like star citizen, as that game is in its joystick mapping a mess inside the game. But if so, thats far out. 
