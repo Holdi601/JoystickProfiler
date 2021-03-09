@@ -758,7 +758,8 @@ namespace JoyPro
         }
         static string[] GetDCSUserFolders()
         {
-            SaveGamesPath = System.IO.Path.Combine(System.Environment.GetEnvironmentVariable("USERPROFILE"), "saved games");
+            KnownFolder sg = KnownFolder.SavedGames;
+            SaveGamesPath = KnownFolders.GetPath(sg);
             string[] dirs = Directory.GetDirectories(SaveGamesPath);
             List<string> candidates = new List<string>();
             for (int i = 0; i < dirs.Length; ++i)
