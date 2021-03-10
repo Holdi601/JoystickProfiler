@@ -68,6 +68,8 @@ namespace JoyPro
             FirstStart();
             joyReader = null;
             buttonSetting = -1;
+            Application.Current.Exit += new ExitEventHandler(AppExit);
+
             //MainStructure.LoadLocalBinds("C:\\Users\\reinh\\Saved Games\\DCS");
         }
         void LoadExistingExportKeepExisting(object sender, EventArgs e)
@@ -92,6 +94,15 @@ namespace JoyPro
             string filePath;
             saveFileDialog1.ShowDialog();
             filePath = saveFileDialog1.FileName;
+            string[] pathParts = filePath.Split('\\');
+            if (pathParts.Length > 0)
+            {
+                MainStructure.lastOpenedLocation = pathParts[0];
+                for (int i = 1; i < pathParts.Length - 1; ++i)
+                {
+                    MainStructure.lastOpenedLocation = MainStructure.lastOpenedLocation + "\\" + pathParts[i];
+                }
+            }
             MainStructure.SaveProfileTo(filePath);
         }
         void SaveReleationsEvent(object sender, EventArgs e)
@@ -104,6 +115,15 @@ namespace JoyPro
             string filePath;
             saveFileDialog1.ShowDialog();
             filePath = saveFileDialog1.FileName;
+            string[] pathParts = filePath.Split('\\');
+            if (pathParts.Length > 0)
+            {
+                MainStructure.lastOpenedLocation = pathParts[0];
+                for (int i = 1; i < pathParts.Length - 1; ++i)
+                {
+                    MainStructure.lastOpenedLocation = MainStructure.lastOpenedLocation + "\\" + pathParts[i];
+                }
+            }
             MainStructure.SaveRelationsTo(filePath);
 
         }
@@ -122,11 +142,27 @@ namespace JoyPro
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = false;
             ofd.Filter = "Relation Files (*.rl)|*.rl|All filed (*.*)|*.*";
-            ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (MainStructure.lastOpenedLocation.Length < 1 || !Directory.Exists(MainStructure.lastOpenedLocation))
+            {
+                ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            }
+            else
+            {
+                ofd.InitialDirectory = MainStructure.lastOpenedLocation;
+            }
             string fileToOpen;
             if (ofd.ShowDialog()==true)
             {
                 fileToOpen = ofd.FileName;
+                string[] pathParts = fileToOpen.Split('\\');
+                if (pathParts.Length > 0)
+                {
+                    MainStructure.lastOpenedLocation = pathParts[0];
+                    for (int i = 1; i < pathParts.Length - 1; ++i)
+                    {
+                        MainStructure.lastOpenedLocation = MainStructure.lastOpenedLocation + "\\" + pathParts[i];
+                    }
+                }
                 MainStructure.LoadRelations(fileToOpen);
             }
         }
@@ -135,11 +171,28 @@ namespace JoyPro
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = true;
             ofd.Filter = "Relation Files (*.rl)|*.rl|All filed (*.*)|*.*";
-            ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (MainStructure.lastOpenedLocation.Length < 1 || !Directory.Exists(MainStructure.lastOpenedLocation))
+            {
+                ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            }
+            else
+            {
+                ofd.InitialDirectory = MainStructure.lastOpenedLocation;
+            }
             string[] filesToInclude;
             if (ofd.ShowDialog() == true)
             {
                 filesToInclude = ofd.FileNames;
+                string lastFile = filesToInclude[filesToInclude.Length - 1];
+                string[] pathParts = lastFile.Split('\\');
+                if (pathParts.Length > 0)
+                {
+                    MainStructure.lastOpenedLocation = pathParts[0];
+                    for (int i = 1; i < pathParts.Length - 1; ++i)
+                    {
+                        MainStructure.lastOpenedLocation = MainStructure.lastOpenedLocation + "\\" + pathParts[i];
+                    }
+                }
                 MainStructure.InsertRelations(filesToInclude);
             }
         }
@@ -149,12 +202,29 @@ namespace JoyPro
             ofd.Multiselect = false;
             ofd.Filter = "Pr0file Files (*.pr0file)|*.pr0file|All filed (*.*)|*.*";
             ofd.Title = "Load Pr0file";
-            ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (MainStructure.lastOpenedLocation.Length < 1 || !Directory.Exists(MainStructure.lastOpenedLocation))
+            {
+                ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            }
+            else
+            {
+                ofd.InitialDirectory = MainStructure.lastOpenedLocation;
+            }
+            
             string fileToOpen;
             if (ofd.ShowDialog() == true)
             {
                 Console.WriteLine(ofd.FileName);
                 fileToOpen = ofd.FileName;
+                string[] pathParts = fileToOpen.Split('\\');
+                if (pathParts.Length > 0)
+                {
+                    MainStructure.lastOpenedLocation = pathParts[0];
+                    for(int i=1; i<pathParts.Length-1; ++i)
+                    {
+                        MainStructure.lastOpenedLocation = MainStructure.lastOpenedLocation + "\\" + pathParts[i];
+                    }
+                }
                 MainStructure.LoadProfile(fileToOpen);
             }
         }
@@ -643,6 +713,7 @@ namespace JoyPro
         {
             for (int i = 0; i < ALLBUTTONS.Count; ++i)
                 ALLBUTTONS[i].IsEnabled = false;
+            MainStructure.LoadMetaLast();
         }
         void ActivateInputs()
         {
@@ -675,6 +746,10 @@ namespace JoyPro
         {
             MainStructure.LoadLocalBinds((string)DropDownInstanceSelection.SelectedItem);
             MainStructure.selectedInstancePath = (string)DropDownInstanceSelection.SelectedItem;
+        }
+        void AppExit(object sender, EventArgs e)
+        {
+            MainStructure.SaveMetaLast();
         }
     }
 }

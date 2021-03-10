@@ -54,7 +54,7 @@ namespace JoyPro
         bool detectionEventActiveAxis;
         bool quit;
         const int timeToSet = 5000;
-        const int axisThreshold = 2000;
+        const int axisThreshold = 10000;
         int warmupTime;
         int timeLeftToSet = timeToSet;
         public JoystickResults result;
@@ -78,7 +78,7 @@ namespace JoyPro
         public JoystickReader(bool axis)
         {
             pollWaitTime = 10;
-            warmupTime = 100;
+            warmupTime = 300;
             directInputList = new List<DeviceInstance>();
             directInput = new DirectInput();
             contrl = new SlimDX.XInput.Controller(SlimDX.XInput.UserIndex.Any);

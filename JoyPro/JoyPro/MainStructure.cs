@@ -31,7 +31,29 @@ namespace JoyPro
         static Dictionary<string, DCSExportPlane> LocalBinds = new Dictionary<string, DCSExportPlane>();
         static Dictionary<string, DCSExportPlane> ToExport = new Dictionary<string, DCSExportPlane>();
         public static string selectedInstancePath = "";
+        public static string lastOpenedLocation = "";
 
+        public static void LoadMetaLast()
+        {
+            string pth = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\JoyPro\\meta.info";
+            if (File.Exists(pth))
+            {
+                StreamReader sr = new StreamReader(pth);
+                lastOpenedLocation = sr.ReadLine();
+                sr.Close();
+            }
+        }
+        public static void SaveMetaLast()
+        {
+            string pth = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\JoyPro";
+            if (!Directory.Exists(pth))
+            {
+                Directory.CreateDirectory(pth);
+            }
+            StreamWriter sw = new StreamWriter(pth + "\\meta.info");
+            sw.WriteLine(lastOpenedLocation);
+            sw.Close();
+        }
         public static void PushCleanToExportForBinds()
         {
             ToExport.Clear();
