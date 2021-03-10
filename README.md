@@ -57,4 +57,4 @@ What features might come?
 But lets see. Depends on time and motivation. 
 
 
-Discord for more direct question answer or concerns: https://discord.gg/YxHRxdFM 
+Discord for more direct question answer or concerns: https://discord.gg/yK4gQA9xgk
