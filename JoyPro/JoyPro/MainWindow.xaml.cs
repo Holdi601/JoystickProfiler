@@ -36,6 +36,8 @@ namespace JoyPro
         JoystickReader joyReader;
         public MainWindow()
         {
+            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
+            Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
             CURRENTDISPLAYEDRELATION = new List<Relation>();
             MessageBox.Show("Please Backup your existing binds. C:\\Users\\USERNAME\\Saved Games\\DCS Please make a backup of these folders somewhere outside your savegames.");
@@ -66,8 +68,7 @@ namespace JoyPro
             FirstStart();
             joyReader = null;
             buttonSetting = -1;
-
-            MainStructure.LoadLocalBinds("C:\\Users\\reinh\\Saved Games\\DCS");
+            //MainStructure.LoadLocalBinds("C:\\Users\\reinh\\Saved Games\\DCS");
         }
         void LoadExistingExportKeepExisting(object sender, EventArgs e)
         {
