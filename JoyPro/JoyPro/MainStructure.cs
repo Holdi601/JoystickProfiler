@@ -57,8 +57,10 @@ namespace JoyPro
         {
             foreach (KeyValuePair<string, DCSExportPlane> kvp in ToExport)
             {
-                string adjustedPath = selectedInstancePath + "\\Config\\Input\\" + kvp.Key + "\\joystick\\";
+                string modPath = selectedInstancePath + "\\Config\\Input\\" + kvp.Key;
+                string adjustedPath = modPath + "\\joystick\\";
                 if (!Directory.Exists(adjustedPath)) Directory.CreateDirectory(adjustedPath);
+                kvp.Value.WriteModifiers(modPath);
                 foreach (KeyValuePair<string, DCSLuaInput> kvJoy in kvp.Value.joystickConfig)
                 {
                     string finalPath = adjustedPath + kvJoy.Key + ".diff.lua";
@@ -149,6 +151,13 @@ namespace JoyPro
                 }
                 else
                 {
+                    foreach(KeyValuePair<string, Modifier> kMod in kvp.Value.modifiers)
+                    {
+                        if (!ToExport[kvp.Key].modifiers.ContainsKey(kMod.Key))
+                        {
+                            //Work for modifiers needed
+                        }
+                    }
                     foreach (KeyValuePair<string, DCSLuaInput> kvpIn in kvp.Value.joystickConfig)
                     {
                         if (!ToExport[kvp.Key].joystickConfig.ContainsKey(kvpIn.Key))
@@ -446,6 +455,14 @@ namespace JoyPro
                     DCSExportPlane current = new DCSExportPlane();
                     current.plane = currentPlane;
                     LocalBinds.Add(currentPlane, current);
+                    //Here load local modifiers lua
+                    if(File.Exists(allSubs[i].FullName+ "\\modifiers.lua"))
+                    {
+                        StreamReader srmod = new StreamReader(allSubs[i].FullName + "\\modifiers.lua");
+                        string modContentRaw = srmod.ReadToEnd();
+                        srmod.Close();
+                        current.AnalyzeRawModLua(modContentRaw);
+                    }
                     if (Directory.Exists(allSubs[i].FullName + "\\joystick"))
                     {
                         DirectoryInfo dirPlaneJoy = new DirectoryInfo(allSubs[i].FullName + "\\joystick");
@@ -498,6 +515,10 @@ namespace JoyPro
             AllBinds.Clear();
             AllRelations.Clear();
             AllRelations = ReadFromBinaryFile<Dictionary<string, Relation>>(filePath);
+            foreach(KeyValuePair<string, Relation> kvp in AllRelations)
+            {
+                kvp.Value.CheckNamesAgainstDB();
+            }
             ResyncRelations();
         }
         public static void LoadProfile(string filePath)
@@ -508,6 +529,10 @@ namespace JoyPro
             AllRelations.Clear();
             AllRelations = pr.Relations;
             AllBinds = pr.Binds;
+            foreach (KeyValuePair<string, Relation> kvp in AllRelations)
+            {
+                kvp.Value.CheckNamesAgainstDB();
+            }
             AddLoadedJoysticks();
             CheckConnectedSticksToBinds();
             ResyncRelations();

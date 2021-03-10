@@ -66,6 +66,8 @@ namespace JoyPro
             FirstStart();
             joyReader = null;
             buttonSetting = -1;
+
+            MainStructure.LoadLocalBinds("C:\\Users\\reinh\\Saved Games\\DCS");
         }
         void LoadExistingExportKeepExisting(object sender, EventArgs e)
         {
@@ -256,6 +258,11 @@ namespace JoyPro
             {
                 cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
                 MainStructure.AddBind(cr.Rl.NAME, cr);
+            }
+            if (joyReader == null)
+            {
+                MessageBox.Show("Something went wrong. Joyreader is null try again.");
+                return;
             }
             if (joyReader.result == null)
             {

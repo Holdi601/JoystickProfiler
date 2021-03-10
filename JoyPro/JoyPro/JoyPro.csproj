@@ -92,6 +92,7 @@
     </Compile>
     <Compile Include="JoystickReader.cs" />
     <Compile Include="KnownFolders.cs" />
+    <Compile Include="Modifier.cs" />
     <Compile Include="Pr0file.cs" />
     <Compile Include="RelationWindow.xaml.cs">
       <DependentUpon>RelationWindow.xaml</DependentUpon>

@@ -131,6 +131,7 @@ namespace JoyPro
             }
             return result;
         }
+        
         public void AnalyzeRawLuaInput(string content)
         {
             if (!content.Contains('{')) return;

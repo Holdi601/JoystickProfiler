@@ -19,6 +19,54 @@ namespace JoyPro
             Init();
         }
 
+        public void CheckAgainstDB()
+        {
+            DCSInput[] dbItems = MainStructure.GetAllInputsWithId(ID);
+            List<DCSInput> toRemove = new List<DCSInput>();
+            List<DCSInput> toKeep = new List<DCSInput>();
+            for(int i=0; i<AllInputs.Length; ++i)
+            {
+                DCSInput di = InputsContainPlane(dbItems, AllInputs[i].Plane);
+                if (di!=null)
+                {
+                    if (di.Title==AllInputs[i].Title)
+                    {
+                        toKeep.Add(AllInputs[i]);
+                    }
+                    else
+                    {
+                        toKeep.Add(di);
+                    }
+                }
+                else
+                {
+                    toRemove.Add(AllInputs[i]);
+                }
+            }
+            for(int i=0; i<dbItems.Length; ++i)
+            {
+                DCSInput di = InputsContainPlane(AllInputs, dbItems[i].Plane);
+                if (di == null)
+                {
+                    toKeep.Add(dbItems[i]);
+                    AIRCRAFT.Add(dbItems[i].Plane, true);
+                }
+            }
+            for(int i=0; i<toRemove.Count; ++i)
+            {
+                AIRCRAFT.Remove(toRemove[i].Plane);
+            }
+            AllInputs = toKeep.ToArray();
+        }
+
+        DCSInput InputsContainPlane(DCSInput[] inputs, string plane)
+        {
+            for(int i=0; i<inputs.Length; ++i)
+            {
+                if (inputs[i].Plane == plane) return inputs[i];
+            }
+            return null;
+        }
         void Init()
         {
             AIRCRAFT = new Dictionary<string, bool>();

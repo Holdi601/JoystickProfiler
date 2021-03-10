@@ -29,6 +29,14 @@ namespace JoyPro
             return results;
         }
 
+        public void CheckNamesAgainstDB()
+        {
+            foreach (RelationItem r in NODES)
+            {
+                r.CheckAgainstDB();
+            }
+        }
+
         int GetPlaneRelationState(string plane)
         {
             int counter = 0;
