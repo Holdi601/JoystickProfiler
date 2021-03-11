@@ -61,15 +61,25 @@ Contact me, I will try to fix it asap.
 # What features might come?
 
 -Maybe other games come like star citizen, as that game is in its joystick mapping a mess inside the game. But if so, thats far out. 
+
 -AutoBackup on Startup
+
 -Autoupdater
+
 -Profile Validation:
+
 --ID Validation
+
 --Modifier Validation
+
 --No double joystick use validation
+
 -Profile from local Binds from
+
 --ID
+
 --JoyBinds
+
 
 But lets see. Depends on time and motivation. 
 
