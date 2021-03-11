@@ -22,7 +22,7 @@ namespace JoyPro
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
     /// 
-    
+
     public partial class MainWindow : Window
     {
         List<Button> ALLBUTTONS;
@@ -31,8 +31,10 @@ namespace JoyPro
         Button[] editBtns;
         Button[] dltBtns;
         Button[] setBtns;
+        Dictionary<int, Button[]> modBtns;
         Label[] stickLabels;
         int buttonSetting;
+        string modToEdit;
         JoystickReader joyReader;
         public MainWindow()
         {
@@ -70,7 +72,6 @@ namespace JoyPro
             buttonSetting = -1;
             Application.Current.Exit += new ExitEventHandler(AppExit);
 
-            //MainStructure.LoadLocalBinds("C:\\Users\\reinh\\Saved Games\\DCS");
         }
         void LoadExistingExportKeepExisting(object sender, EventArgs e)
         {
@@ -136,7 +137,7 @@ namespace JoyPro
             if (result == MessageBoxResult.Yes) return true;
             else if (result == MessageBoxResult.No) return false;
             else return null;
-        }        
+        }
         void LoadRelationsEvent(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -151,7 +152,7 @@ namespace JoyPro
                 ofd.InitialDirectory = MainStructure.lastOpenedLocation;
             }
             string fileToOpen;
-            if (ofd.ShowDialog()==true)
+            if (ofd.ShowDialog() == true)
             {
                 fileToOpen = ofd.FileName;
                 string[] pathParts = fileToOpen.Split('\\');
@@ -210,7 +211,7 @@ namespace JoyPro
             {
                 ofd.InitialDirectory = MainStructure.lastOpenedLocation;
             }
-            
+
             string fileToOpen;
             if (ofd.ShowDialog() == true)
             {
@@ -220,7 +221,7 @@ namespace JoyPro
                 if (pathParts.Length > 0)
                 {
                     MainStructure.lastOpenedLocation = pathParts[0];
-                    for(int i=1; i<pathParts.Length-1; ++i)
+                    for (int i = 1; i < pathParts.Length - 1; ++i)
                     {
                         MainStructure.lastOpenedLocation = MainStructure.lastOpenedLocation + "\\" + pathParts[i];
                     }
@@ -275,6 +276,11 @@ namespace JoyPro
             editBtns = new Button[CURRENTDISPLAYEDRELATION.Count];
             dltBtns = new Button[CURRENTDISPLAYEDRELATION.Count];
             setBtns = new Button[CURRENTDISPLAYEDRELATION.Count];
+            modBtns = new Dictionary<int, Button[]>();
+            for (int i = 0; i < 5; ++i)
+            {
+                modBtns.Add(i + 1, new Button[CURRENTDISPLAYEDRELATION.Count]);
+            }
             stickLabels = new Label[CURRENTDISPLAYEDRELATION.Count];
             return grid;
         }
@@ -303,6 +309,63 @@ namespace JoyPro
                 bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(ButtonSet);
             }
             bw.RunWorkerAsync();
+        }
+        void listenModBtn(object sender, EventArgs e)
+        {
+            Button b = (Button)sender;
+            string[] modAndRelNumber = b.Name.Split('_');
+            if (modAndRelNumber.Length < 2) return;
+            int indx = Convert.ToInt32(modAndRelNumber[1]);
+            int modBtn = Convert.ToInt32(modAndRelNumber[0].Replace("modBtn", ""));
+            Relation r = CURRENTDISPLAYEDRELATION[indx];
+            if (MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME) == null)
+            {
+                MessageBox.Show("Please do the main Bind first before adding modifiers.");
+                return;
+            }
+            DisableInputs();
+            buttonSetting = indx;
+            modToEdit = (string)b.Content;
+            BackgroundWorker bw = new BackgroundWorker();
+            bw.DoWork += new DoWorkEventHandler(listenMod);
+            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(modSet);
+            bw.RunWorkerAsync();
+        }
+        void modSet(object sender, EventArgs e)
+        {
+            ActivateInputs();
+            int indx = buttonSetting;
+            buttonSetting = -1;
+            Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            if (joyReader == null || cr == null)
+            {
+                MessageBox.Show("Something went wrong when setting a modifier. Either listener was not started correctly or the main button was not assigend beforehand.");
+                return;
+            }
+            if (modToEdit != "None" && modToEdit.Length > 0)
+            {
+                cr.deleteReformer(modToEdit);
+                modToEdit = "";
+            }
+            if (joyReader.result == null)
+            {
+                MainStructure.ResyncRelations();
+                return;
+            }
+            string device;
+            if (joyReader.result.Device == "Keyboard")
+                device = "Keyboard";
+            else
+                device = "m"+joyReader.result.Device.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
+            string nameToShow = device + joyReader.result.AxisButton;
+            string moddedDevice = cr.JoystickGuidToModifierGuid(joyReader.result.Device);
+            string toAdd = nameToShow + "§" + moddedDevice + "§" + joyReader.result.AxisButton;
+            if (!cr.AllReformers.Contains(toAdd)) cr.AllReformers.Add(toAdd);
+            MainStructure.ResyncRelations();
+        }
+        void listenMod(object sender, EventArgs e)
+        {
+            joyReader = new JoystickReader(false, true);
         }
         void listenButton(object sender, EventArgs e)
         {
@@ -377,7 +440,7 @@ namespace JoyPro
         void RefreshRelationsToShow()
         {
             Grid grid = BaseSetupRelationGrid();
-            for (int i=0; i<CURRENTDISPLAYEDRELATION.Count; i++)
+            for (int i = 0; i < CURRENTDISPLAYEDRELATION.Count; i++)
             {
                 Label lblName = new Label();
                 lblName.Name = "lblname" + i.ToString();
@@ -451,23 +514,23 @@ namespace JoyPro
                     cbx.Content = "Inverted";
                     cbx.Foreground = Brushes.White;
                     cbx.HorizontalAlignment = HorizontalAlignment.Center;
-                    cbx.VerticalAlignment = VerticalAlignment.Center;                    
+                    cbx.VerticalAlignment = VerticalAlignment.Center;
                     Grid.SetColumn(cbx, 5);
                     Grid.SetRow(cbx, i);
-                    grid.Children.Add(cbx);                    
+                    grid.Children.Add(cbx);
 
                     CheckBox cbxs = new CheckBox();
                     cbxs.Name = "cbxsrel" + i.ToString();
                     cbxs.Content = "Slider";
                     cbxs.Foreground = Brushes.White;
                     cbxs.HorizontalAlignment = HorizontalAlignment.Center;
-                    cbxs.VerticalAlignment = VerticalAlignment.Center;                    
+                    cbxs.VerticalAlignment = VerticalAlignment.Center;
                     Grid.SetColumn(cbxs, 6);
                     Grid.SetRow(cbxs, i);
                     grid.Children.Add(cbxs);
 
                     TextBox txrl = new TextBox();
-                    txrl.Name = "txrldz" + i.ToString();                    
+                    txrl.Name = "txrldz" + i.ToString();
                     txrl.Width = 100;
                     txrl.Height = 24;
                     Grid.SetColumn(txrl, 7);
@@ -475,7 +538,7 @@ namespace JoyPro
                     grid.Children.Add(txrl);
 
                     TextBox txrlsx = new TextBox();
-                    txrlsx.Name = "txrlsatx" + i.ToString();                   
+                    txrlsx.Name = "txrlsatx" + i.ToString();
                     txrlsx.Width = 100;
                     txrlsx.Height = 24;
                     Grid.SetColumn(txrlsx, 8);
@@ -483,7 +546,7 @@ namespace JoyPro
                     grid.Children.Add(txrlsx);
 
                     TextBox txrlsy = new TextBox();
-                    txrlsy.Name = "txrlsaty" + i.ToString();                    
+                    txrlsy.Name = "txrlsaty" + i.ToString();
                     txrlsy.Width = 100;
                     txrlsy.Height = 24;
                     Grid.SetColumn(txrlsy, 9);
@@ -491,7 +554,7 @@ namespace JoyPro
                     grid.Children.Add(txrlsy);
 
                     TextBox txrlcv = new TextBox();
-                    txrlcv.Name = "txrlsacv" + i.ToString();                   
+                    txrlcv.Name = "txrlsacv" + i.ToString();
                     txrlcv.Width = 100;
                     txrlcv.Height = 24;
                     Grid.SetColumn(txrlcv, 10);
@@ -500,7 +563,7 @@ namespace JoyPro
 
                     if (currentBind != null)
                     {
-                        joybtnin.Content=currentBind.JAxis.ToString();
+                        joybtnin.Content = currentBind.JAxis.ToString();
                         cbx.IsChecked = currentBind.Inverted;
                         cbxs.IsChecked = currentBind.Slider;
                         txrl.Text = currentBind.Deadzone.ToString();
@@ -532,29 +595,82 @@ namespace JoyPro
                 }
                 else
                 {
+                    Button modBtn1 = new Button();
+                    modBtn1.Name = "modBtn1_" + i.ToString();
+                    modBtn1.Content = "None";
+                    modBtn1.HorizontalAlignment = HorizontalAlignment.Center;
+                    modBtn1.VerticalAlignment = VerticalAlignment.Center;
+                    modBtn1.Width = 100;
+                    modBtn1.Click += new RoutedEventHandler(listenModBtn);
+                    modBtns[1][i] = modBtn1;
+                    Grid.SetColumn(modBtn1, 7);
+                    Grid.SetRow(modBtn1, i);
+                    grid.Children.Add(modBtn1);
+
+                    Button modBtn2 = new Button();
+                    modBtn2.Name = "modBtn2_" + i.ToString();
+                    modBtn2.Content = "None";
+                    modBtn2.HorizontalAlignment = HorizontalAlignment.Center;
+                    modBtn2.VerticalAlignment = VerticalAlignment.Center;
+                    modBtn2.Width = 100;
+                    modBtn2.Click += new RoutedEventHandler(listenModBtn);
+                    modBtns[2][i] = modBtn2;
+                    Grid.SetColumn(modBtn2, 8);
+                    Grid.SetRow(modBtn2, i);
+                    grid.Children.Add(modBtn2);
+
+                    Button modBtn3 = new Button();
+                    modBtn3.Name = "modBtn3_" + i.ToString();
+                    modBtn3.Content = "None";
+                    modBtn3.HorizontalAlignment = HorizontalAlignment.Center;
+                    modBtn3.VerticalAlignment = VerticalAlignment.Center;
+                    modBtn3.Width = 100;
+                    modBtn3.Click += new RoutedEventHandler(listenModBtn);
+                    modBtns[3][i] = modBtn3;
+                    Grid.SetColumn(modBtn3, 9);
+                    Grid.SetRow(modBtn3, i);
+                    grid.Children.Add(modBtn3);
+
+                    Button modBtn4 = new Button();
+                    modBtn4.Name = "modBtn4_" + i.ToString();
+                    modBtn4.Content = "None";
+                    modBtn4.HorizontalAlignment = HorizontalAlignment.Center;
+                    modBtn4.VerticalAlignment = VerticalAlignment.Center;
+                    modBtn4.Width = 100;
+                    modBtn4.Click += new RoutedEventHandler(listenModBtn);
+                    modBtns[4][i] = modBtn4;
+                    Grid.SetColumn(modBtn4, 10);
+                    Grid.SetRow(modBtn4, i);
+                    grid.Children.Add(modBtn4);
+
+                    //Check against mod buttons needed
                     if (currentBind != null)
                     {
                         joybtnin.Content = currentBind.JButton;
+                        modBtn1.Content = currentBind.ModToDosplayString(1);
+                        modBtn2.Content = currentBind.ModToDosplayString(2);
+                        modBtn3.Content = currentBind.ModToDosplayString(3);
+                        modBtn4.Content = currentBind.ModToDosplayString(4);
                     }
                 }
             }
             sv.Content = grid;
         }
-        public void CleanText (object sender, EventArgs e)
+        public void CleanText(object sender, EventArgs e)
         {
             TextBox cx = (TextBox)sender;
-            if(cx.Text== "Deadzone (Dec)" ||
-                cx.Text== "SatX (Dec)" ||
-                cx.Text== "SatY (Dec)" ||
-                cx.Text== "Curviture (Dec)"||
-                cx.Text== "Button (Int o Pov)")
+            if (cx.Text == "Deadzone (Dec)" ||
+                cx.Text == "SatX (Dec)" ||
+                cx.Text == "SatY (Dec)" ||
+                cx.Text == "Curviture (Dec)" ||
+                cx.Text == "Button (Int o Pov)")
             {
                 cx.Text = "";
             }
         }
         public void SetRelationsToView(List<Relation> li)
         {
-            CURRENTDISPLAYEDRELATION = li;            
+            CURRENTDISPLAYEDRELATION = li;
             RefreshRelationsToShow();
         }
         private void Event_GameSelectionChanged(object sender, EventArgs e)
@@ -567,7 +683,7 @@ namespace JoyPro
                     ActivateInputs();
                     MainStructure.LoadCleanLuas();
                     break;
-                default:break;
+                default: break;
             }
         }
         void InvertAxisSelection(object sender, EventArgs e)
@@ -609,7 +725,7 @@ namespace JoyPro
                 {
                     MainStructure.ResyncRelations();
                 }
-                
+
                 return;
             }
             if (cx.Text.Length < 1) return;
@@ -658,7 +774,8 @@ namespace JoyPro
             if (succ == false)
             {
                 MessageBox.Show("Given Curviture is not a valid double");
-            }else if (succ == true)
+            }
+            else if (succ == true)
             {
                 if (cr.Curviture.Count > 0) cr.Curviture[0] = curv;
                 else cr.Curviture.Add(curv);
@@ -679,7 +796,7 @@ namespace JoyPro
             }
             if (cx.Text.Length < 1) return;
             bool? succ = double.TryParse(cx.Text, out cr.Deadzone);
-            if(succ == false)
+            if (succ == false)
             {
                 MessageBox.Show("Given Deadzone not a valid double");
             }
@@ -688,7 +805,7 @@ namespace JoyPro
         {
             MainStructure.InitDCSData();
             DropDownInstanceSelection.Items.Clear();
-            if(MainStructure.SelectedGame== Game.DCS)
+            if (MainStructure.SelectedGame == Game.DCS)
                 foreach (string inst in MainStructure.DCSInstances)
                     DropDownInstanceSelection.Items.Add(inst);
         }
@@ -717,16 +834,27 @@ namespace JoyPro
         }
         void ActivateInputs()
         {
-            
+
             DropDownGameSelection.IsEnabled = true;
             for (int i = 0; i < ALLBUTTONS.Count; ++i)
                 ALLBUTTONS[i].IsEnabled = true;
-            if(dltBtns!=null)
-            for (int i = 0; i < dltBtns.Length; ++i)
+            if (dltBtns != null)
+                for (int i = 0; i < dltBtns.Length; ++i)
+                {
+                    dltBtns[i].IsEnabled = true;
+                    editBtns[i].IsEnabled = true;
+                    setBtns[i].IsEnabled = true;
+                }
+            if(modBtns!=null)
+            foreach (KeyValuePair<int, Button[]> kvp in modBtns)
             {
-                dltBtns[i].IsEnabled = true;
-                editBtns[i].IsEnabled = true;
-                setBtns[i].IsEnabled = true;
+                for (int i = 0; i < kvp.Value.Length; ++i)
+                {
+                    if (kvp.Value[i] != null)
+                    {
+                        kvp.Value[i].IsEnabled = true;
+                    }
+                }
             }
         }
         void DisableInputs()
@@ -734,12 +862,22 @@ namespace JoyPro
             DropDownGameSelection.IsEnabled = false;
             for (int i = 0; i < ALLBUTTONS.Count; ++i)
                 ALLBUTTONS[i].IsEnabled = false;
-            if(dltBtns!=null)
-            for (int i = 0; i < dltBtns.Length; ++i)
+            if (dltBtns != null)
+                for (int i = 0; i < dltBtns.Length; ++i)
+                {
+                    dltBtns[i].IsEnabled = false;
+                    editBtns[i].IsEnabled = false;
+                    setBtns[i].IsEnabled = false;
+                }
+            foreach (KeyValuePair<int, Button[]> kvp in modBtns)
             {
-                dltBtns[i].IsEnabled = false;
-                editBtns[i].IsEnabled = false;
-                setBtns[i].IsEnabled = false;
+                for (int i = 0; i < kvp.Value.Length; ++i)
+                {
+                    if (kvp.Value[i] != null)
+                    {
+                        kvp.Value[i].IsEnabled = false;
+                    }
+                }
             }
         }
         private void InstanceSelectionChanged(object sender, EventArgs e)

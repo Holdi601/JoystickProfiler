@@ -14,14 +14,14 @@ namespace JoyPro
         public string JAxis;
         public string JButton;
         //Don't remove otherwise loading templates don't work
-        public string Reformer;
+        public string Reformer_depr;
         public bool? Inverted;
         public bool? Slider;
         public double Deadzone;
         public List<double> Curviture;
         public double SaturationX;
         public double SaturationY;
-        List<string> AllReformers;
+        public List<string> AllReformers;
 
         public string[] PovHeads = new string[]
         {
@@ -71,7 +71,7 @@ namespace JoyPro
             SaturationY = 1.0;
             Rl = r;
             Deadzone = 0;
-            Reformer = "";
+            Reformer_depr = "";
             AllReformers = new List<string>();
         }
 
@@ -131,15 +131,86 @@ namespace JoyPro
             {
                 if (AllReformers[i].Length > 0)
                 {
-                    dbb.reformers.Add(AllReformers[i]);
+                    string[] parts = AllReformers[i].Split('§');
+                    if (parts.Length == 3)
+                    {
+                        dbb.reformers.Add(parts[0]);
+                        Modifier m = new Modifier();
+                        m.name = parts[0];
+                        m.device = parts[1];
+                        m.sw = false;
+                        m.key = parts[2];
+                        dbb.modifiers.Add(m);
+                    }
+                    
                 }
             }
-            if (Reformer.Length > 0)
-            {
-                dbb.reformers = new List<string>();
-                dbb.reformers.Add(Reformer);
-            }
             return dbb;
+        }
+        public void replaceDeviceInReformers(string oldDevice, string newDevice)
+        {
+            string shortenOld = "m"+oldDevice.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
+            string shortenNew = "m"+newDevice.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
+            oldDevice = JoystickGuidToModifierGuid(oldDevice);
+            newDevice = JoystickGuidToModifierGuid(newDevice);
+            for (int i=0; i<AllReformers.Count; ++i)
+            {
+                if (AllReformers[i].Contains("§"+oldDevice))
+                {
+                    AllReformers[i] = AllReformers[i].Replace("§" + oldDevice, "§" + newDevice);
+                    AllReformers[i] = AllReformers[i].Replace(shortenOld, shortenNew);
+                }
+            }
+        }
+
+        public string JoystickGuidToModifierGuid(string id)
+        {
+            if (id == "Keyboard") return "Keyboard";
+            string[] parts = id.Split('{');
+            string nonIdPart = parts[0];
+            if (parts.Length > 1)
+            {
+                string idToMod = parts[1].Split('}')[0];
+                string[] idParts = idToMod.Split('-');
+                string finishedID = "";
+                if (idParts.Length > 0)
+                    finishedID = idParts[0].ToUpper();
+                for(int i=1; i<idParts.Length; ++i)
+                {
+                    if (i == 2)
+                    {
+                        finishedID = finishedID + "-" + idParts[i].ToLower();
+                    }
+                    else
+                    {
+                        finishedID = finishedID + "-" + idParts[i].ToUpper();
+                    }
+                }
+                string result = nonIdPart + "{" + finishedID + "}";
+                return result;
+            }
+            return "";
+        }
+        public void deleteReformer(string displayName)
+        {
+            for(int i=AllReformers.Count-1; i>=0; i--)
+            {
+                string[] parts = AllReformers[i].Split('§');
+                if ((parts.Length >= 3 && parts[0] == displayName)||parts.Length<3)
+                {
+                    AllReformers.RemoveAt(i);
+                }
+            }
+        }
+        public string ModToDosplayString(int mod)
+        {
+            string result = "None";
+            if (mod - 1 < AllReformers.Count && mod - 1 >= 0)
+            {
+                string[] parts = AllReformers[mod - 1].Split('§');
+                result = parts[0];
+            }
+            return result;
         }
     }
 }

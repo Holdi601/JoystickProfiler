@@ -156,7 +156,13 @@ namespace JoyPro
                         result[kvpPS.Key].joystickConfig[b.Joystick].keyDiffs[ri.ID].Keyname = ri.ID;
                         result[kvpPS.Key].joystickConfig[b.Joystick].keyDiffs[ri.ID].Title = ri.GetInputDescription(kvpPS.Key);
                         DCSButtonBind dab = b.toDCSButtonBind();
+                        //work on the modifiers
                         if (dab == null) continue;
+                        for(int i=0; i<dab.modifiers.Count; ++i)
+                        {
+                            if (!result[kvpPS.Key].modifiers.ContainsKey(dab.modifiers[i].name))
+                                result[kvpPS.Key].modifiers.Add(dab.modifiers[i].name, dab.modifiers[i]);
+                        }
                         result[kvpPS.Key].joystickConfig[b.Joystick].keyDiffs[ri.ID].added.Add(dab);
                     }
                 }
@@ -177,7 +183,11 @@ namespace JoyPro
                     {
                         if (!ToExport[kvp.Key].modifiers.ContainsKey(kMod.Key))
                         {
+                            ToExport[kvp.Key].modifiers.Add(kMod.Key, kMod.Value);
                             //Work for modifiers needed
+                        }else if (overwrite)
+                        {
+                            ToExport[kvp.Key].modifiers[kMod.Key] = kMod.Value;
                         }
                     }
                     foreach (KeyValuePair<string, DCSLuaInput> kvpIn in kvp.Value.joystickConfig)
@@ -646,6 +656,7 @@ namespace JoyPro
                 {
                     kvp.Value.Joystick = newstr;
                 }
+                kvp.Value.replaceDeviceInReformers(old, newstr);
             }
             ResyncRelations();
         }

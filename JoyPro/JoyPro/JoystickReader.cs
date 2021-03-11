@@ -50,9 +50,11 @@ namespace JoyPro
         List<SlimDX.DirectInput.Joystick> gamepads;
         Dictionary<Joystick, JoyAxisState> state;
         Dictionary<Joystick, JoystickState> lastState;
+        KeyboardState lastKbState = null;
         bool detectionEventActiveButton;
         bool detectionEventActiveAxis;
         bool quit;
+        bool keybValues;
         const int timeToSet = 5000;
         const int axisThreshold = 10000;
         int warmupTime;
@@ -75,8 +77,9 @@ namespace JoyPro
             }
             return result;
         }
-        public JoystickReader(bool axis)
+        public JoystickReader(bool axis, bool includeKeyboard=false)
         {
+            if (includeKeyboard) axis = false;
             pollWaitTime = 10;
             warmupTime = 300;
             directInputList = new List<DeviceInstance>();
@@ -95,6 +98,7 @@ namespace JoyPro
                 detectionEventActiveButton = true;
                 detectionEventActiveAxis = false;
             }
+            keybValues = includeKeyboard;
             quit = false;
             result = null;
             initJoystick();
@@ -237,6 +241,22 @@ namespace JoyPro
                 if (warmupTime < 0) ResultFound(args);
             }
         }
+        void CheckIfKeyboardGotPressed(KeyboardState ks)
+        {
+            if (warmupTime < 0)
+            {
+                var allPressed = ks.PressedKeys;
+                foreach(var keyPressed  in allPressed)
+                {
+                    JoystickResults r = new JoystickResults();
+                    r.Device = "Keyboard";
+                    r.AxisButton = keyPressed.ToString();
+                    ResultFound(r);
+                    return;
+                }
+            }
+            lastKbState = ks;
+        }
         void CheckIfButtonGotPressed(Joystick pad, JoystickState js)
         {
             JoyAxisState last = state[pad];
@@ -302,6 +322,8 @@ namespace JoyPro
         }
         static string ToDeviceString(Joystick pad)
         {
+            string rawId = pad.Information.InstanceGuid.ToString();
+            Console.WriteLine(rawId);
             return pad.Information.InstanceName + " {" + pad.Information.InstanceGuid.ToString().ToUpper() + "}";
         }
         void tick()
@@ -328,6 +350,10 @@ namespace JoyPro
                 if (detectionEventActiveButton)
                 {
                     CheckIfButtonGotPressed(gamepad, currentState);
+                    if (keybValues)
+                    {
+                        CheckIfKeyboardGotPressed(kb.GetCurrentState());
+                    }                    
                 }
                 if (lastState.ContainsKey(gamepad)) lastState[gamepad] = currentState;
                 else lastState.Add(gamepad, currentState);
