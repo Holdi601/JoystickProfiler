@@ -24,6 +24,13 @@ Anyways Good Success and Have a nice day.
 
 Windows X64 Builds: https://github.com/Holdi601/JoystickProfiler/tree/master/Builds 
 
+Requirements:
+https://www.microsoft.com/en-us/download/confirmation.aspx?id=5555 - Microsoft Visual C++ 2010 Redistributable Package (x86)
+https://dotnet.microsoft.com/download/dotnet-framework .NET 4.5 or higher (newest always best)
+
+For updating yourself the Key Database
+https://www.python.org/downloads/windows/ python3
+
 Tutorials
 
 How to create and edit Binds:
@@ -49,11 +56,17 @@ Contact me, I will try to fix it asap.
 
 What features might come?
 
--I was thinking of maybe adding the 10 array custom curve that DCS allows ingame, adding this to the tool.
--Adding maybe reformer keys
 -Maybe other games come like star citizen, as that game is in its joystick mapping a mess inside the game. But if so, thats far out. 
 -AutoBackup on Startup
 -Autoupdater
+-Profile Validation:
+--ID Validation
+--Modifier Validation
+--No double joystick use validation
+-Profile from local Binds from
+--ID
+--JoyBinds
+
 But lets see. Depends on time and motivation. 
 
 
