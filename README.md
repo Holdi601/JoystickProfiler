@@ -22,7 +22,9 @@ Use the program only at your own risk as you might overwrite some existing binds
 
 Anyways Good Success and Have a nice day.
 
-# Windows X64 Builds: https://github.com/Holdi601/JoystickProfiler/tree/master/Builds 
+# Windows X64 Builds: 
+
+https://github.com/Holdi601/JoystickProfiler/tree/master/Builds 
 
 
 # Requirements:
