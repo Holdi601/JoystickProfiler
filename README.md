@@ -33,6 +33,9 @@ https://www.microsoft.com/en-US/Download/confirmation.aspx?id=14632 Redist x64
 
 https://dotnet.microsoft.com/download/dotnet-framework .NET 4.5 or higher (newest always best)
 
+DirectX11
+Windows 10
+
 
 For updating yourself the Key Database
 https://www.python.org/downloads/windows/ python3
@@ -53,6 +56,11 @@ These are generated from the python script that you find inside \Tools folder ca
 The InputLayoutsTxt path exist, if you go into DCS go into the input option of each of your aircraft and click on "Make HTML". 
 Once you have done it and adjusted your paths inside the python script, run the python script and replace the axis.csv and btn.csv in the \DB\DCS path and you are good to go.
 At some point, I will probably make a video Tutorial about this as well. 
+
+
+My Tool crashes when assigning a button
+
+Make sure you have the needed Requirements installed.
 
 
 I have a bug?!
