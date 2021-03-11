@@ -1,7 +1,7 @@
 # JoystickProfiler
 ***WARNING USING AT YOUR OWN RISK***
 
-Joystick Profiler Utility
+# Joystick Profiler Utility
 
 This utility is there in the current state to help, to quickly make the basic joystick Mappings for DCS world (Digital Combat Simulator).
 It works by making relations between various inputs from various planes and bind them to the same place on the joystick.
@@ -22,10 +22,10 @@ Use the program only at your own risk as you might overwrite some existing binds
 
 Anyways Good Success and Have a nice day.
 
-Windows X64 Builds: https://github.com/Holdi601/JoystickProfiler/tree/master/Builds 
+# Windows X64 Builds: https://github.com/Holdi601/JoystickProfiler/tree/master/Builds 
 
 
-Requirements:
+# Requirements:
 https://www.microsoft.com/en-us/download/confirmation.aspx?id=5555 - Microsoft Visual C++ 2010 Redistributable Package (x86)
 https://www.microsoft.com/en-US/Download/confirmation.aspx?id=14632 Redist x64
 
@@ -35,12 +35,12 @@ https://dotnet.microsoft.com/download/dotnet-framework .NET 4.5 or higher (newes
 For updating yourself the Key Database
 https://www.python.org/downloads/windows/ python3
 
-Tutorials
+# Tutorials
 
 How to create and edit Binds:
 https://youtu.be/XxzfEFHpWxI
 
-FAQ:
+# FAQ:
 I have mods installed, but they do not show up in relations?
 and
 DCS got updated Keybinds but it is not showing them?
@@ -58,7 +58,7 @@ I have a bug?!
 Contact me, I will try to fix it asap. 
 
 
-What features might come?
+# What features might come?
 
 -Maybe other games come like star citizen, as that game is in its joystick mapping a mess inside the game. But if so, thats far out. 
 -AutoBackup on Startup
