@@ -24,9 +24,13 @@ Anyways Good Success and Have a nice day.
 
 Windows X64 Builds: https://github.com/Holdi601/JoystickProfiler/tree/master/Builds 
 
+
 Requirements:
 https://www.microsoft.com/en-us/download/confirmation.aspx?id=5555 - Microsoft Visual C++ 2010 Redistributable Package (x86)
+https://www.microsoft.com/en-US/Download/confirmation.aspx?id=14632 Redist x64
+
 https://dotnet.microsoft.com/download/dotnet-framework .NET 4.5 or higher (newest always best)
+
 
 For updating yourself the Key Database
 https://www.python.org/downloads/windows/ python3
