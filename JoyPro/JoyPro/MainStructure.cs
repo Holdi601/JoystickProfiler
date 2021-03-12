@@ -70,40 +70,13 @@ namespace JoyPro
             }
         }
 
-        public static void FillUpExportWithClean()
-        {
-            string[] planes = GetPlanesFromCustomBinds();
-            string[] sticks = GetJoysticksFromCustomBinds();
-            for(int i=0; i<planes.Length; ++i)
-            {
-                if (!ToExport.ContainsKey(planes[i]))
-                {
-                    ToExport.Add(planes[i], new DCSExportPlane());
-                    ToExport[planes[i]].plane = planes[i];
-                }
-                for(int j=0; j<sticks.Length; ++j)
-                {
-                    if (!ToExport[planes[i]].joystickConfig.ContainsKey(sticks[j]))
-                    {
-                        if (EmptyOutputs.ContainsKey(planes[i]))
-                        {
-                            ToExport[planes[i]].joystickConfig.Add(sticks[j], EmptyOutputs[planes[i]].Copy());
-                            ToExport[planes[i]].joystickConfig[sticks[j]].JoystickName = sticks[j];
-                            ToExport[planes[i]].joystickConfig[sticks[j]].plane = planes[i];
-                        }
-                    }
-                }
-
-            }
-        }
         public static void WriteProfileCleanNotOverwriteLocal()
         {
             if (!Directory.Exists(selectedInstancePath)) return;
             ToExport.Clear();
             LoadLocalBinds(selectedInstancePath);
-            OverwriteExportWith(LocalBinds, true, false);
-            //FillUpExportWithClean();
-            PushAllBindsToExport(false);
+            OverwriteExportWith(LocalBinds, true, false, false);
+            PushAllBindsToExport(false,true, false);
             writeFiles();
             mainW.ShowMessageBox("It appears to have successfully exported");
         }
@@ -112,27 +85,36 @@ namespace JoyPro
             if (!Directory.Exists(selectedInstancePath)) return;
             ToExport.Clear();
             LoadLocalBinds(selectedInstancePath);
-            OverwriteExportWith(LocalBinds, true, false);
-            PushAllBindsToExport(true);
+            OverwriteExportWith(LocalBinds, true, false, false);
+            PushAllBindsToExport(true, true, false);
+            writeFiles();
+            mainW.ShowMessageBox("It appears to have successfully exported");
+        }
+        public static void WriteProfileCleanAndLoadedOverwrittenAndAdd()
+        {
+            if (!Directory.Exists(selectedInstancePath)) return;
+            ToExport.Clear();
+            LoadLocalBinds(selectedInstancePath);
+            OverwriteExportWith(LocalBinds, true, false, false);
+            PushAllBindsToExport(true, true, true);
             writeFiles();
             mainW.ShowMessageBox("It appears to have successfully exported");
         }
         public static void WriteProfileClean()
         {
             if (!Directory.Exists(selectedInstancePath)) return;
-            FillUpExportWithClean();
-            PushAllBindsToExport(true);
+            PushAllBindsToExport(true, true, false);
             writeFiles();
             mainW.ShowMessageBox("It appears to have successfully exported");
         }
-        public static void PushAllBindsToExport(bool oride, bool fillBeforeEmpty=true)
+        public static void PushAllBindsToExport(bool oride, bool fillBeforeEmpty=true, bool overwriteAdd=false)
         {
             foreach (KeyValuePair<string, Bind> kvp in AllBinds)
             {
                 if (kvp.Value.Joystick.Length > 0 &&
                     ((kvp.Value.Rl.ISAXIS && kvp.Value.JAxis.Length > 0) ||
                     (!kvp.Value.Rl.ISAXIS && kvp.Value.JButton.Length > 0)))
-                    OverwriteExportWith(bindToExportFormat(kvp.Value), oride, fillBeforeEmpty);
+                    OverwriteExportWith(bindToExportFormat(kvp.Value), oride, fillBeforeEmpty, overwriteAdd);
             }
         }
         public static Dictionary<string, DCSExportPlane> bindToExportFormat(Bind b)
@@ -165,7 +147,6 @@ namespace JoyPro
                         result[kvpPS.Key].joystickConfig[b.Joystick].keyDiffs[ri.ID].Keyname = ri.ID;
                         result[kvpPS.Key].joystickConfig[b.Joystick].keyDiffs[ri.ID].Title = ri.GetInputDescription(kvpPS.Key);
                         DCSButtonBind dab = b.toDCSButtonBind();
-                        //work on the modifiers
                         if (dab == null) continue;
                         for(int i=0; i<dab.modifiers.Count; ++i)
                         {
@@ -178,10 +159,11 @@ namespace JoyPro
             }
             return result;
         }
-        public static void OverwriteExportWith(Dictionary<string, DCSExportPlane> attr, bool overwrite = true, bool fillBeforeEmpty = true)
+        public static void OverwriteExportWith(Dictionary<string, DCSExportPlane> attr, bool overwrite = true, bool fillBeforeEmpty = true, bool overwriteAdd=false)
         {
             string[] planes = GetPlanesFromCustomBinds();
             string[] sticks = GetJoysticksFromCustomBinds();
+            List<string> defaultToOverwrite = new List<string>();
             foreach (KeyValuePair<string, DCSExportPlane> kvp in attr)
             {
                 if ((!ToExport.ContainsKey(kvp.Key)&&!fillBeforeEmpty)||(!ToExport.ContainsKey(kvp.Key)&&fillBeforeEmpty&&!EmptyOutputs.ContainsKey(kvp.Key)))
@@ -194,13 +176,15 @@ namespace JoyPro
                     {
                         ToExport.Add(kvp.Key, new DCSExportPlane());
                         ToExport[kvp.Key].plane = kvp.Key;
-                        for(int i=0; i<sticks.Length; ++i)
+                        foreach(KeyValuePair<string, DCSLuaInput> kvpDef in kvp.Value.joystickConfig)
                         {
-                            if (!ToExport[kvp.Key].joystickConfig.ContainsKey(sticks[i])&&EmptyOutputs.ContainsKey(kvp.Key))
+                            if (!ToExport[kvp.Key].joystickConfig.ContainsKey(kvpDef.Key) && EmptyOutputs.ContainsKey(kvp.Key))
                             {
-                                ToExport[kvp.Key].joystickConfig.Add(sticks[i], EmptyOutputs[kvp.Key]);
-                                ToExport[kvp.Key].joystickConfig[sticks[i]].JoystickName = sticks[i];
-                                ToExport[kvp.Key].joystickConfig[sticks[i]].plane = kvp.Key;
+                                ToExport[kvp.Key].joystickConfig.Add(kvpDef.Key, EmptyOutputs[kvp.Key]);
+                                ToExport[kvp.Key].joystickConfig[kvpDef.Key].JoystickName = kvpDef.Key;
+                                ToExport[kvp.Key].joystickConfig[kvpDef.Key].plane = kvp.Key;
+                                string toCheck = kvpDef.Key + "§" + kvp.Key;
+                                if (!defaultToOverwrite.Contains(toCheck)) defaultToOverwrite.Add(toCheck);
                             }
                         }
                     }
@@ -221,6 +205,8 @@ namespace JoyPro
                             ToExport[kvp.Key].joystickConfig.Add(kvpIn.Key, EmptyOutputs[kvp.Key]);
                             ToExport[kvp.Key].joystickConfig[kvpIn.Key].JoystickName = kvpIn.Key;
                             ToExport[kvp.Key].joystickConfig[kvpIn.Key].plane = kvp.Key;
+                            string toCheck = kvpIn.Key + "§" + kvp.Key;
+                            if (!defaultToOverwrite.Contains(toCheck)) defaultToOverwrite.Add(toCheck);
                         }
                         if (!ToExport[kvp.Key].joystickConfig.ContainsKey(kvpIn.Key))
                         {
@@ -228,21 +214,25 @@ namespace JoyPro
                         }
                         else
                         {
+                            string current = kvpIn.Key + "§" + kvp.Key;
                             foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvpDiffsAxisElement in kvpIn.Value.axisDiffs)
                             {
                                 if (!ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs.ContainsKey(kvpDiffsAxisElement.Key))
                                 {
                                     ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs.Add(kvpDiffsAxisElement.Key, kvpDiffsAxisElement.Value);
                                 }
-                                else if (overwrite)
+                                else if (overwrite||defaultToOverwrite.Contains(current))
                                 {
                                     DCSLuaDiffsAxisElement old = ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key];
                                     ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key] = kvpDiffsAxisElement.Value;
-                                    for (int i = 0; i < old.added.Count; ++i)
+                                    if (overwriteAdd)
                                     {
-                                        if (!kvpDiffsAxisElement.Value.doesAddedContainKey(old.added[i].key) && !kvpDiffsAxisElement.Value.doesRemovedContainKey(old.added[i].key))
+                                        for (int i = 0; i < old.added.Count; ++i)
                                         {
-                                            ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key].added.Add(old.added[i]);
+                                            if (!kvpDiffsAxisElement.Value.doesAddedContainKey(old.added[i].key) && !kvpDiffsAxisElement.Value.doesRemovedContainKey(old.added[i].key))
+                                            {
+                                                ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key].added.Add(old.added[i]);
+                                            }
                                         }
                                     }
                                     for (int i = 0; i < old.removed.Count; ++i)
@@ -260,15 +250,18 @@ namespace JoyPro
                                 {
                                     ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs.Add(kvpDiffsButtonsElement.Key, kvpDiffsButtonsElement.Value);
                                 }
-                                else if (overwrite)
+                                else if (overwrite || defaultToOverwrite.Contains(current))
                                 {
                                     DCSLuaDiffsButtonElement old = ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key];
                                     ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key] = kvpDiffsButtonsElement.Value;
-                                    for (int i = 0; i < old.added.Count; ++i)
+                                    if (overwriteAdd)
                                     {
-                                        if (!kvpDiffsButtonsElement.Value.doesAddedContainKey(old.added[i].key) && !kvpDiffsButtonsElement.Value.doesRemovedContainKey(old.added[i].key))
+                                        for (int i = 0; i < old.added.Count; ++i)
                                         {
-                                            ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key].added.Add(old.added[i]);
+                                            if (!kvpDiffsButtonsElement.Value.doesAddedContainKey(old.added[i].key) && !kvpDiffsButtonsElement.Value.doesRemovedContainKey(old.added[i].key))
+                                            {
+                                                ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key].added.Add(old.added[i]);
+                                            }
                                         }
                                     }
                                     for (int i = 0; i < old.removed.Count; ++i)

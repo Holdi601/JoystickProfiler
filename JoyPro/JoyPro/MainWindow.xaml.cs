@@ -38,8 +38,8 @@ namespace JoyPro
         JoystickReader joyReader;
         public MainWindow()
         {
-            //AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
-            //Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
+            Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
             CURRENTDISPLAYEDRELATION = new List<Relation>();
             MessageBox.Show("Please Backup your existing binds. C:\\Users\\USERNAME\\Saved Games\\DCS Please make a backup of these folders somewhere outside your savegames.");
@@ -53,6 +53,7 @@ namespace JoyPro
             ALLBUTTONS.Add(MEBWEAOEBtn);
             ALLBUTTONS.Add(SaveProfileBtn);
             ALLBUTTONS.Add(LoadProfileBtn);
+            ALLBUTTONS.Add(MEBWEAABBtn);
             ALLWINDOWS = new List<Window>();
             MainStructure.mainW = this;
             DropDownGameSelection.SelectionChanged += new SelectionChangedEventHandler(Event_GameSelectionChanged);
@@ -67,6 +68,7 @@ namespace JoyPro
             MEBWEAKEBtn.Click += new RoutedEventHandler(LoadExistingExportKeepExisting);
             MEBWEAOEBtn.Click += new RoutedEventHandler(LoadExistingExportOverwrite);
             CEBAEBtn.Click += new RoutedEventHandler(CleanAndExport);
+            MEBWEAABBtn.Click += new RoutedEventHandler(LoadExistingExportAndAdd);
             FirstStart();
             joyReader = null;
             buttonSetting = -1;
@@ -80,6 +82,10 @@ namespace JoyPro
         void LoadExistingExportOverwrite(object sender, EventArgs e)
         {
             MainStructure.WriteProfileCleanAndLoadedOverwritten();
+        }
+        void LoadExistingExportAndAdd(object sender, EventArgs e)
+        {
+            MainStructure.WriteProfileCleanAndLoadedOverwrittenAndAdd();
         }
         void CleanAndExport(object sender, EventArgs e)
         {
