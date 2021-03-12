@@ -93,7 +93,9 @@ namespace JoyPro
         public static void WriteProfileCleanNotOverwriteLocal()
         {
             if (!Directory.Exists(selectedInstancePath)) return;
-            PushCleanToExportForBinds();
+            //PushCleanToExportForBinds();
+            ToExport.Clear();
+            LoadLocalBinds(selectedInstancePath);
             OverwriteExportWith(LocalBinds, true);
             PushAllBindsToExport(false);
             writeFiles();
@@ -102,7 +104,9 @@ namespace JoyPro
         public static void WriteProfileCleanAndLoadedOverwritten()
         {
             if (!Directory.Exists(selectedInstancePath)) return;
-            PushCleanToExportForBinds();
+            //PushCleanToExportForBinds();
+            ToExport.Clear();
+            LoadLocalBinds(selectedInstancePath);
             OverwriteExportWith(LocalBinds, true);
             PushAllBindsToExport(true);
             writeFiles();

@@ -116,6 +116,7 @@ namespace JoyPro
             daf.curviture = Curviture;
             daf.deadzone = Deadzone;
             daf.inverted = Inverted ?? false;
+            daf.slider = Slider ?? false;
             daf.saturationX = SaturationX;
             daf.saturationY = SaturationY;
             return result;

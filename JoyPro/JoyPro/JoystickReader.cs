@@ -6,8 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 
+
 namespace JoyPro
 {
+    
     public class JoystickResults
     {
         public string AxisButton { get; set; }

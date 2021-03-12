@@ -38,8 +38,8 @@ namespace JoyPro
         JoystickReader joyReader;
         public MainWindow()
         {
-            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
-            Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
+            //AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
+            //Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
             CURRENTDISPLAYEDRELATION = new List<Relation>();
             MessageBox.Show("Please Backup your existing binds. C:\\Users\\USERNAME\\Saved Games\\DCS Please make a backup of these folders somewhere outside your savegames.");
@@ -728,11 +728,15 @@ namespace JoyPro
 
                 return;
             }
-            if (cx.Text.Length < 1) return;
-            bool? succ = double.TryParse(cx.Text, out cr.SaturationX);
-            if (succ == false)
+            if (cx.Text.Length < 1||cx.Text.Replace(" ","")==".") return;
+            string cleaned = cx.Text.Replace(',', '.');
+            try
             {
-                MessageBox.Show("Given SaturationY not a valid double");
+                cr.SaturationX = Convert.ToDouble(cleaned, System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch
+            {
+                MessageBox.Show("Given SaturationX not a valid double");
             }
         }
         void SaturationYSelectionChanged(object sender, EventArgs e)
@@ -748,9 +752,13 @@ namespace JoyPro
                     MainStructure.ResyncRelations();
                 return;
             }
-            if (cx.Text.Length < 1) return;
-            bool? succ = double.TryParse(cx.Text, out cr.SaturationY);
-            if (succ == false)
+            if (cx.Text.Length < 1 || cx.Text.Replace(" ", "") == ".") return;
+            string cleaned = cx.Text.Replace(',', '.');
+            try
+            {
+                cr.SaturationY = Convert.ToDouble(cleaned, System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch
             {
                 MessageBox.Show("Given SaturationY not a valid double");
             }
@@ -768,14 +776,20 @@ namespace JoyPro
                     MainStructure.ResyncRelations();
                 return;
             }
-            if (cx.Text.Length < 1) return;
+            if (cx.Text.Length < 1 || cx.Text.Replace(" ", "") == ".") return;
             double curv = double.NaN;
-            bool? succ = double.TryParse(cx.Text, out curv);
-            if (succ == false)
+            string cleaned = cx.Text.Replace(',', '.');
+            bool succ = false;
+            try
             {
-                MessageBox.Show("Given Curviture is not a valid double");
+                curv = Convert.ToDouble(cleaned, System.Globalization.CultureInfo.InvariantCulture);
+                succ = true;
             }
-            else if (succ == true)
+            catch
+            {
+                MessageBox.Show("Given Curviture not a valid double");
+            }
+            if (succ == true)
             {
                 if (cr.Curviture.Count > 0) cr.Curviture[0] = curv;
                 else cr.Curviture.Add(curv);
@@ -794,9 +808,13 @@ namespace JoyPro
                     MainStructure.ResyncRelations();
                 return;
             }
-            if (cx.Text.Length < 1) return;
-            bool? succ = double.TryParse(cx.Text, out cr.Deadzone);
-            if (succ == false)
+            if (cx.Text.Length < 1 || cx.Text.Replace(" ", "") == ".") return;
+            string cleaned = cx.Text.Replace(',', '.');
+            try
+            {
+                cr.Deadzone = Convert.ToDouble(cleaned, System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch
             {
                 MessageBox.Show("Given Deadzone not a valid double");
             }
@@ -882,7 +900,7 @@ namespace JoyPro
         }
         private void InstanceSelectionChanged(object sender, EventArgs e)
         {
-            MainStructure.LoadLocalBinds((string)DropDownInstanceSelection.SelectedItem);
+            //MainStructure.LoadLocalBinds((string)DropDownInstanceSelection.SelectedItem);
             MainStructure.selectedInstancePath = (string)DropDownInstanceSelection.SelectedItem;
         }
         void AppExit(object sender, EventArgs e)
