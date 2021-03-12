@@ -32,6 +32,7 @@ namespace JoyPro
         static Dictionary<string, DCSExportPlane> ToExport = new Dictionary<string, DCSExportPlane>();
         public static string selectedInstancePath = "";
         public static string lastOpenedLocation = "";
+        static List<string> defaultToOverwrite = new List<string>();
 
         public static void LoadMetaLast()
         {
@@ -86,6 +87,7 @@ namespace JoyPro
         {
             if (!Directory.Exists(selectedInstancePath)) return;
             ToExport.Clear();
+            defaultToOverwrite = new List<string>();
             LoadLocalBinds(selectedInstancePath);
             OverwriteExportWith(LocalBinds, true, false, false);
             PushAllBindsToExport(false, fillBeforeEmpty, false);
@@ -96,6 +98,7 @@ namespace JoyPro
         {
             if (!Directory.Exists(selectedInstancePath)) return;
             ToExport.Clear();
+            defaultToOverwrite = new List<string>();
             LoadLocalBinds(selectedInstancePath);
             OverwriteExportWith(LocalBinds, true, false, false);
             PushAllBindsToExport(true, fillBeforeEmpty, false);
@@ -111,6 +114,7 @@ namespace JoyPro
         {
             if (!Directory.Exists(selectedInstancePath)) return;
             ToExport.Clear();
+            defaultToOverwrite = new List<string>();
             LoadLocalBinds(selectedInstancePath);
             OverwriteExportWith(LocalBinds, true, false, false);
             PushAllBindsToExport(true, fillBeforeEmpty, true);
@@ -178,9 +182,7 @@ namespace JoyPro
         }
         public static void OverwriteExportWith(Dictionary<string, DCSExportPlane> attr, bool overwrite = true, bool fillBeforeEmpty = true, bool overwriteAdd=false)
         {
-            string[] planes = GetPlanesFromCustomBinds();
-            string[] sticks = GetJoysticksFromCustomBinds();
-            List<string> defaultToOverwrite = new List<string>();
+            Console.WriteLine("ow started");
             foreach (KeyValuePair<string, DCSExportPlane> kvp in attr)
             {
                 if ((!ToExport.ContainsKey(kvp.Key)&&!fillBeforeEmpty)||(!ToExport.ContainsKey(kvp.Key)&&fillBeforeEmpty&&!EmptyOutputs.ContainsKey(kvp.Key)))
@@ -197,7 +199,7 @@ namespace JoyPro
                         {
                             if (!ToExport[kvp.Key].joystickConfig.ContainsKey(kvpDef.Key) && EmptyOutputs.ContainsKey(kvp.Key))
                             {
-                                ToExport[kvp.Key].joystickConfig.Add(kvpDef.Key, EmptyOutputs[kvp.Key]);
+                                ToExport[kvp.Key].joystickConfig.Add(kvpDef.Key, EmptyOutputs[kvp.Key].Copy());
                                 ToExport[kvp.Key].joystickConfig[kvpDef.Key].JoystickName = kvpDef.Key;
                                 ToExport[kvp.Key].joystickConfig[kvpDef.Key].plane = kvp.Key;
                                 string toCheck = kvpDef.Key + "§" + kvp.Key;
@@ -219,7 +221,7 @@ namespace JoyPro
                     {
                         if (!ToExport[kvp.Key].joystickConfig.ContainsKey(kvpIn.Key) && fillBeforeEmpty&&EmptyOutputs.ContainsKey(kvp.Key))
                         {
-                            ToExport[kvp.Key].joystickConfig.Add(kvpIn.Key, EmptyOutputs[kvp.Key]);
+                            ToExport[kvp.Key].joystickConfig.Add(kvpIn.Key, EmptyOutputs[kvp.Key].Copy());
                             ToExport[kvp.Key].joystickConfig[kvpIn.Key].JoystickName = kvpIn.Key;
                             ToExport[kvp.Key].joystickConfig[kvpIn.Key].plane = kvp.Key;
                             string toCheck = kvpIn.Key + "§" + kvp.Key;
