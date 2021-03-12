@@ -122,6 +122,49 @@ namespace JoyPro
             return result;
         }
 
+        public static Bind GetBindFromAxisElement(DCSAxisBind dab,string id, string joystick, string plane)
+        {
+            Relation r = new Relation();
+            Bind b = new Bind(r);
+            string shorten = MainStructure.ShortenDeviceName(joystick);
+            string relationName = shorten + dab.key;
+            r.ISAXIS = true;
+            r.NAME = relationName;
+            b.JAxis = dab.key;
+            b.Joystick = joystick;
+            if (dab.filter != null)
+            {
+                b.Inverted = dab.filter.inverted;
+                b.Curviture = dab.filter.curviture;
+                b.Deadzone = dab.filter.deadzone;
+                b.Slider = dab.filter.slider;
+                b.SaturationX = dab.filter.saturationX;
+                b.SaturationY = dab.filter.saturationY;
+            }
+            r.AddNode(id, plane);
+            return b;
+        }
+
+        public static Bind GetBindFromButtonElement(DCSButtonBind dab, string id, string joystick, string plane)
+        {
+            Relation r = new Relation();
+            Bind b = new Bind(r);
+            r.ISAXIS = false;
+            string shorten = MainStructure.ShortenDeviceName(joystick);
+            string relationName = shorten + dab.key;
+            foreach(Modifier m in dab.modifiers)
+            {
+                relationName = m.name + relationName;
+                string reform = m.name + "§" + m.device + "§" + m.key;
+                if (!b.AllReformers.Contains(reform)) b.AllReformers.Add(reform);
+            }
+            r.NAME = relationName;
+            b.JButton = dab.key;
+            b.Joystick = joystick;
+            r.AddNode(id, plane);
+            return b;
+        }
+
         public DCSButtonBind toDCSButtonBind()
         {
             DCSButtonBind dbb = new DCSButtonBind();

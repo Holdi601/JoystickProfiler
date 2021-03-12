@@ -69,34 +69,51 @@ namespace JoyPro
                 }
             }
         }
-
-        public static void WriteProfileCleanNotOverwriteLocal()
+        public static void BindsFromLocal()
+        {
+            LoadLocalBinds(selectedInstancePath);
+            Dictionary<string, Bind> result = new Dictionary<string, Bind>();
+            Dictionary<string, JoystickResults> modifiers = new Dictionary<string, JoystickResults>();
+            foreach(KeyValuePair<string, DCSExportPlane> kvp in LocalBinds)
+            {
+                foreach(KeyValuePair<string, DCSLuaInput> kvpLua in kvp.Value.joystickConfig)
+                {
+                    
+                }
+            }
+        }
+        public static void WriteProfileCleanNotOverwriteLocal(bool fillBeforeEmpty)
         {
             if (!Directory.Exists(selectedInstancePath)) return;
             ToExport.Clear();
             LoadLocalBinds(selectedInstancePath);
             OverwriteExportWith(LocalBinds, true, false, false);
-            PushAllBindsToExport(false,true, false);
+            PushAllBindsToExport(false, fillBeforeEmpty, false);
             writeFiles();
             mainW.ShowMessageBox("It appears to have successfully exported");
         }
-        public static void WriteProfileCleanAndLoadedOverwritten()
+        public static void WriteProfileCleanAndLoadedOverwritten(bool fillBeforeEmpty)
         {
             if (!Directory.Exists(selectedInstancePath)) return;
             ToExport.Clear();
             LoadLocalBinds(selectedInstancePath);
             OverwriteExportWith(LocalBinds, true, false, false);
-            PushAllBindsToExport(true, true, false);
+            PushAllBindsToExport(true, fillBeforeEmpty, false);
             writeFiles();
             mainW.ShowMessageBox("It appears to have successfully exported");
         }
-        public static void WriteProfileCleanAndLoadedOverwrittenAndAdd()
+        public static string ShortenDeviceName(string device)
+        {
+            if (!device.Contains("{")) return null;
+            return device.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
+        }
+        public static void WriteProfileCleanAndLoadedOverwrittenAndAdd(bool fillBeforeEmpty)
         {
             if (!Directory.Exists(selectedInstancePath)) return;
             ToExport.Clear();
             LoadLocalBinds(selectedInstancePath);
             OverwriteExportWith(LocalBinds, true, false, false);
-            PushAllBindsToExport(true, true, true);
+            PushAllBindsToExport(true, fillBeforeEmpty, true);
             writeFiles();
             mainW.ShowMessageBox("It appears to have successfully exported");
         }

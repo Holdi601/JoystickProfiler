@@ -43,5 +43,6 @@
         <Label Content="Instance:" Foreground="White" Grid.Column="0" Grid.Row="3"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Margin="72,12,72,15" Width="56"/>
         <ComboBox Name="DropDownInstanceSelection" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,12,0,10" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="6" Width="720" Height="31" ></ComboBox>
         <ScrollViewer Name="sv" ScrollViewer.HorizontalScrollBarVisibility="Auto"  Width="auto" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="8"/>
+        <CheckBox Name="CBKeepDefault" Content="Keep Defaults" Grid.Row="4" Grid.Column="7" IsChecked="False" Width="100" Height="20" Foreground="White" HorizontalAlignment="Left" Margin="10,20,10,10"></CheckBox>
     </Grid>
 </Window>

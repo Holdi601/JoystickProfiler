@@ -47,7 +47,7 @@ namespace JoyPro
             }
             return counter;
         }
-        public bool AddNode(string id)
+        public bool AddNode(string id, string plane="")
         {
             if(NodesContainId(id)) return false;
             if (NODES.Count < 1)
@@ -62,7 +62,10 @@ namespace JoyPro
                 bool candidateAxis = axisID == "a";
                 if (ISAXIS != candidateAxis) return false;
             }
-            NODES.Add(new RelationItem(id));
+            if (plane.Length < 1)
+                NODES.Add(new RelationItem(id));
+            else
+                NODES.Add(new RelationItem(id, plane));
             
             Console.WriteLine("Relation Item Added");
             return true;

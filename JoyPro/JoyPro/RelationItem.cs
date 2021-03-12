@@ -19,6 +19,12 @@ namespace JoyPro
             Init();
         }
 
+        public RelationItem(string id, string plane)
+        {
+            ID = id;
+            Init(plane);
+        }
+
         public void CheckAgainstDB()
         {
             DCSInput[] dbItems = MainStructure.GetAllInputsWithId(ID);
@@ -74,6 +80,18 @@ namespace JoyPro
             for (int i = 0; i < AllInputs.Length; ++i)
                 if (!AIRCRAFT.ContainsKey(AllInputs[i].Plane))
                     AIRCRAFT.Add(AllInputs[i].Plane, true);
+        }
+
+        void Init(string plane)
+        {
+            AIRCRAFT = new Dictionary<string, bool>();
+            AllInputs = MainStructure.GetAllInputsWithId(ID);
+            for (int i = 0; i < AllInputs.Length; ++i)
+                if (!AIRCRAFT.ContainsKey(AllInputs[i].Plane))
+                    if (AllInputs[i].Plane == plane)
+                        AIRCRAFT.Add(AllInputs[i].Plane, true);
+                    else
+                        AIRCRAFT.Add(AllInputs[i].Plane, false);
         }
 
         public PlaneState GetStateAircraft(string plane)

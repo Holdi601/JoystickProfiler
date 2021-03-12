@@ -77,15 +77,39 @@ namespace JoyPro
         }
         void LoadExistingExportKeepExisting(object sender, EventArgs e)
         {
-            MainStructure.WriteProfileCleanNotOverwriteLocal();
+            bool? overwrite = CBKeepDefault.IsChecked;
+            bool param;
+            if (overwrite == null)
+                param = true;
+            else if (overwrite == true)
+                param = false;
+            else
+                param = true;
+            MainStructure.WriteProfileCleanNotOverwriteLocal(param);
         }
         void LoadExistingExportOverwrite(object sender, EventArgs e)
         {
-            MainStructure.WriteProfileCleanAndLoadedOverwritten();
+            bool? overwrite = CBKeepDefault.IsChecked;
+            bool param;
+            if (overwrite == null)
+                param = true;
+            else if (overwrite == true)
+                param = false;
+            else
+                param = true;
+            MainStructure.WriteProfileCleanAndLoadedOverwritten(param);
         }
         void LoadExistingExportAndAdd(object sender, EventArgs e)
         {
-            MainStructure.WriteProfileCleanAndLoadedOverwrittenAndAdd();
+            bool? overwrite = CBKeepDefault.IsChecked;
+            bool param;
+            if (overwrite == null)
+                param = true;
+            else if (overwrite == true)
+                param = false;
+            else
+                param = true;
+            MainStructure.WriteProfileCleanAndLoadedOverwrittenAndAdd(param);
         }
         void CleanAndExport(object sender, EventArgs e)
         {
