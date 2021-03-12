@@ -253,51 +253,54 @@ namespace JoyPro
             }            
         }
 
-        public void RemoveKey(string key)
+        public void RemoveKey(string key, bool onlyIfDefault=false)
         {
-            List<string> toRemove = new List<string>();
-            foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in axisDiffs)
+            if (!onlyIfDefault)
             {
-                for (int i = kvp.Value.added.Count-1; i >=0; i--)
+                List<string> toRemove = new List<string>();
+                foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in axisDiffs)
                 {
-                    if (kvp.Value.added[i].key == key)
+                    for (int i = kvp.Value.added.Count - 1; i >= 0; i--)
                     {
-                        if (kvp.Value.removed.Count == 0 && kvp.Value.added.Count == 1)
+                        if (kvp.Value.added[i].key == key)
                         {
-                            if (!toRemove.Contains(kvp.Key)) toRemove.Add(kvp.Key);
-                        }
-                        else
-                        {
-                            kvp.Value.added.RemoveAt(i);
+                            if (kvp.Value.removed.Count == 0 && kvp.Value.added.Count == 1)
+                            {
+                                if (!toRemove.Contains(kvp.Key)) toRemove.Add(kvp.Key);
+                            }
+                            else
+                            {
+                                kvp.Value.added.RemoveAt(i);
+                            }
                         }
                     }
                 }
-            }
-            for(int i=0; i<toRemove.Count; ++i)
-            {
-                axisDiffs.Remove(toRemove[i]);
-            }
-            toRemove.Clear();
-            foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvp in keyDiffs)
-            {
-                for (int i = kvp.Value.added.Count - 1; i >= 0; i--)
+                for (int i = 0; i < toRemove.Count; ++i)
                 {
-                    if (kvp.Value.added[i].key == key)
+                    axisDiffs.Remove(toRemove[i]);
+                }
+                toRemove.Clear();
+                foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvp in keyDiffs)
+                {
+                    for (int i = kvp.Value.added.Count - 1; i >= 0; i--)
                     {
-                        if (kvp.Value.removed.Count == 0 && kvp.Value.added.Count == 1)
+                        if (kvp.Value.added[i].key == key)
                         {
-                            if (!toRemove.Contains(kvp.Key)) toRemove.Add(kvp.Key);
-                        }
-                        else
-                        {
-                            kvp.Value.added.RemoveAt(i);
+                            if (kvp.Value.removed.Count == 0 && kvp.Value.added.Count == 1)
+                            {
+                                if (!toRemove.Contains(kvp.Key)) toRemove.Add(kvp.Key);
+                            }
+                            else
+                            {
+                                kvp.Value.added.RemoveAt(i);
+                            }
                         }
                     }
                 }
-            }
-            for (int i = 0; i < toRemove.Count; ++i)
-            {
-                axisDiffs.Remove(toRemove[i]);
+                for (int i = 0; i < toRemove.Count; ++i)
+                {
+                    axisDiffs.Remove(toRemove[i]);
+                }
             }
             DCSLuaInput defs = getDefaultBinds();
             foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in defs.axisDiffs)

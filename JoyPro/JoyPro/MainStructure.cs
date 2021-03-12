@@ -238,6 +238,10 @@ namespace JoyPro
                             {
                                 if (!ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs.ContainsKey(kvpDiffsAxisElement.Key))
                                 {
+                                    for(int z=0; z< kvpDiffsAxisElement.Value.added.Count; ++z)
+                                    {
+                                        kvpIn.Value.RemoveKey(kvpDiffsAxisElement.Value.added[z].key, true);
+                                    }                            
                                     ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs.Add(kvpDiffsAxisElement.Key, kvpDiffsAxisElement.Value);
                                 }
                                 else if (overwrite||defaultToOverwrite.Contains(current))
@@ -253,7 +257,7 @@ namespace JoyPro
                                                 ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key].added.Add(old.added[i]);
                                             }
                                         }
-                                    }
+                                    }                                  
                                     for (int i = 0; i < old.removed.Count; ++i)
                                     {
                                         if (!kvpDiffsAxisElement.Value.doesAddedContainKey(old.removed[i].key) && !kvpDiffsAxisElement.Value.doesRemovedContainKey(old.removed[i].key))
@@ -267,6 +271,10 @@ namespace JoyPro
                             {
                                 if (!ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs.ContainsKey(kvpDiffsButtonsElement.Key))
                                 {
+                                    for (int z = 0; z < kvpDiffsButtonsElement.Value.added.Count; ++z)
+                                    {
+                                        kvpIn.Value.RemoveKey(kvpDiffsButtonsElement.Value.added[z].key, true);
+                                    }
                                     ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs.Add(kvpDiffsButtonsElement.Key, kvpDiffsButtonsElement.Value);
                                 }
                                 else if (overwrite || defaultToOverwrite.Contains(current))
