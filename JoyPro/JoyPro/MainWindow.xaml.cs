@@ -893,6 +893,7 @@ namespace JoyPro
                     editBtns[i].IsEnabled = false;
                     setBtns[i].IsEnabled = false;
                 }
+            if(modBtns!=null)
             foreach (KeyValuePair<int, Button[]> kvp in modBtns)
             {
                 for (int i = 0; i < kvp.Value.Length; ++i)

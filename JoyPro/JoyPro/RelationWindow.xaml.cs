@@ -57,7 +57,7 @@ namespace JoyPro
 
         void FinishRelation(object sender, EventArgs e)
         {
-            if (Current.NAME.Length < 1)
+            if (Current.NAME==null || Current.NAME.Length < 1)
             {
                 MessageBox.Show("No Relation name set.");
                 return;
