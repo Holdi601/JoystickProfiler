@@ -27,7 +27,7 @@ namespace JoyPro
         public static string[] Planes;
         static Dictionary<string, Relation> AllRelations = new Dictionary<string, Relation>();
         static Dictionary<string, Bind> AllBinds = new Dictionary<string, Bind>();
-        static Dictionary<string, DCSLuaInput> EmptyOutputs = new Dictionary<string, DCSLuaInput>();
+        public static Dictionary<string, DCSLuaInput> EmptyOutputs = new Dictionary<string, DCSLuaInput>();
         static Dictionary<string, DCSExportPlane> LocalBinds = new Dictionary<string, DCSExportPlane>();
         static Dictionary<string, DCSExportPlane> ToExport = new Dictionary<string, DCSExportPlane>();
         public static string selectedInstancePath = "";

@@ -252,6 +252,197 @@ namespace JoyPro
                 }
             }            
         }
+
+        public void RemoveKey(string key)
+        {
+            List<string> toRemove = new List<string>();
+            foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in axisDiffs)
+            {
+                for (int i = kvp.Value.added.Count-1; i >=0; i--)
+                {
+                    if (kvp.Value.added[i].key == key)
+                    {
+                        if (kvp.Value.removed.Count == 0 && kvp.Value.added.Count == 1)
+                        {
+                            if (!toRemove.Contains(kvp.Key)) toRemove.Add(kvp.Key);
+                        }
+                        else
+                        {
+                            kvp.Value.added.RemoveAt(i);
+                        }
+                    }
+                }
+            }
+            for(int i=0; i<toRemove.Count; ++i)
+            {
+                axisDiffs.Remove(toRemove[i]);
+            }
+            toRemove.Clear();
+            foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvp in keyDiffs)
+            {
+                for (int i = kvp.Value.added.Count - 1; i >= 0; i--)
+                {
+                    if (kvp.Value.added[i].key == key)
+                    {
+                        if (kvp.Value.removed.Count == 0 && kvp.Value.added.Count == 1)
+                        {
+                            if (!toRemove.Contains(kvp.Key)) toRemove.Add(kvp.Key);
+                        }
+                        else
+                        {
+                            kvp.Value.added.RemoveAt(i);
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < toRemove.Count; ++i)
+            {
+                axisDiffs.Remove(toRemove[i]);
+            }
+            DCSLuaInput defs = getDefaultBinds();
+            foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in defs.axisDiffs)
+            {
+                foreach (DCSAxisBind kvpa in kvp.Value.removed)
+                {
+                    if (kvpa.key == key)
+                    {
+                        if (!axisDiffs.ContainsKey(kvp.Key))
+                        {
+                            axisDiffs.Add(kvp.Key, new DCSLuaDiffsAxisElement());
+                            axisDiffs[kvp.Key].Keyname = kvp.Key;
+                        }
+                        DCSLuaDiffsAxisElement element = axisDiffs[kvp.Key];
+                        bool found = false;
+                        for(int i=0; i<element.removed.Count; ++i)
+                        {
+                            if (element.removed[i].key == key)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found)
+                        {
+                            DCSAxisBind dab = new DCSAxisBind();
+                            dab.key = key;
+                            element.removed.Add(dab);
+                        }
+                    }
+                }
+            }
+            foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvp in defs.keyDiffs)
+            {
+                foreach (DCSButtonBind kvpa in kvp.Value.removed)
+                {
+                    if (kvpa.key == key)
+                    {
+                        if (!keyDiffs.ContainsKey(kvp.Key))
+                        {
+                            keyDiffs.Add(kvp.Key, new DCSLuaDiffsButtonElement());
+                            keyDiffs[kvp.Key].Keyname = kvp.Key;
+                        }
+                        DCSLuaDiffsButtonElement element = keyDiffs[kvp.Key];
+                        bool found = false;
+                        for (int i = 0; i < element.removed.Count; ++i)
+                        {
+                            if (element.removed[i].key == key)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found)
+                        {
+                            DCSButtonBind dab = new DCSButtonBind();
+                            dab.key = key;
+                            element.removed.Add(dab);
+                        }
+                    }
+                }
+            }
+        }
+
+        public bool? ButtonAlreadySet(string key, Dictionary<string, Modifier> modifiers)
+        {
+            foreach(KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in axisDiffs)
+            {
+                for(int i=0; i<kvp.Value.added.Count; ++i)
+                {
+                    if (kvp.Value.added[i].key == key) return true;
+                }
+            }
+            foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvp in keyDiffs)
+            {
+                for (int i = 0; i < kvp.Value.added.Count; ++i)
+                {
+                    if (kvp.Value.added[i].key == key) return true;
+                }
+            }
+            if(modifiers!=null)
+                foreach(KeyValuePair<string, Modifier> kvp in modifiers)
+                {
+                    if (JoystickName == kvp.Value.device && key == kvp.Value.key) return null;
+                }
+
+            DCSLuaInput defs = getDefaultBinds();
+            foreach(KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in defs.axisDiffs)
+            {
+                foreach(DCSAxisBind kvpa in kvp.Value.removed)
+                {
+                    if (!axisDiffs.ContainsKey(kvp.Key))
+                    {
+                        return true;
+                    }else
+                    {
+                        bool found = false;
+                        foreach(DCSAxisBind dab in axisDiffs[kvp.Key].removed)
+                        {
+                            if (dab.key == key)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) return true;
+                    }
+                }
+            }
+            foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvp in defs.keyDiffs)
+            {
+                foreach (DCSButtonBind kvpa in kvp.Value.removed)
+                {
+                    if (!keyDiffs.ContainsKey(kvp.Key))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        bool found = false;
+                        foreach (DCSButtonBind dab in keyDiffs[kvp.Key].removed)
+                        {
+                            if (dab.key == key)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        DCSLuaInput getDefaultBinds()
+        {
+            DCSLuaInput result = null;
+            if (MainStructure.EmptyOutputs.ContainsKey(plane))
+            {
+                return MainStructure.EmptyOutputs[plane].Copy();
+            }
+            return result;
+        }
+
         public DCSLuaInput()
         {
             JoystickName = "";
