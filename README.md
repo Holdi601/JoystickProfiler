@@ -84,12 +84,6 @@ Contact me, I will try to fix it asap.
 
 --No double joystick use validation
 
--Profile from local Binds from
-
---ID
-
---JoyBinds
-
 
 But lets see. Depends on time and motivation. 
 
