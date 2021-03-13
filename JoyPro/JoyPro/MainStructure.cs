@@ -70,18 +70,140 @@ namespace JoyPro
                 }
             }
         }
-        public static void BindsFromLocal()
+        public static void BindsFromLocal(bool loadDefaults, bool inv = false, bool slid = false, bool curv = false, bool dz = false, bool sx = false, bool sy = false)
         {
             LoadLocalBinds(selectedInstancePath);
             Dictionary<string, Bind> result = new Dictionary<string, Bind>();
             Dictionary<string, JoystickResults> modifiers = new Dictionary<string, JoystickResults>();
+            Dictionary<string, Dictionary<string, List<string>>> checkedIds = new Dictionary<string, Dictionary<string, List<string>>>();
             foreach(KeyValuePair<string, DCSExportPlane> kvp in LocalBinds)
             {
+                string plane = kvp.Key;
+                if (!checkedIds.ContainsKey(plane)) checkedIds.Add(plane, new Dictionary<string, List<string>>());
                 foreach(KeyValuePair<string, DCSLuaInput> kvpLua in kvp.Value.joystickConfig)
                 {
+                    string joystick = kvpLua.Key;
+                    if (!checkedIds[plane].ContainsKey(joystick))
+                        checkedIds[plane].Add(joystick, new List<string>());
+                    foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvpaxe in kvpLua.Value.axisDiffs)
+                    {
+                        string k = kvpaxe.Key;
+                        if (!checkedIds[plane][joystick].Contains(k))
+                            checkedIds[plane][joystick].Add(k);
+                        for (int i=0; i<kvpaxe.Value.added.Count; ++i)
+                        {
+                            Bind b = Bind.GetBindFromAxisElement(kvpaxe.Value.added[i], kvpaxe.Key, joystick, plane, inv, slid, curv, dz, sx, sy);
+                            if (!result.ContainsKey(b.Rl.NAME))
+                            {
+                                result.Add(b.Rl.NAME, b);
+                            }
+                            else
+                            {
+                                result[b.Rl.NAME].Rl.AddNode(kvpaxe.Key, plane);
+                            }
+                        }
+                    }
+                    foreach(KeyValuePair<string, DCSLuaDiffsButtonElement> kvpbe in kvpLua.Value.keyDiffs)
+                    {
+                        string k = kvpbe.Key;
+                        if (!checkedIds[plane][joystick].Contains(k))
+                            checkedIds[plane][joystick].Add(k);
+                        for (int i=0; i<kvpbe.Value.added.Count; ++i)
+                        {
+                            Bind b = Bind.GetBindFromButtonElement(kvpbe.Value.added[i], kvpbe.Key, joystick, plane);
+                            if (!result.ContainsKey(b.Rl.NAME))
+                            {
+                                result.Add(b.Rl.NAME, b);
+                            }
+                            else
+                            {
+                                result[b.Rl.NAME].Rl.AddNode(kvpbe.Key, plane);
+                            }
+                        }
+                    }
+                }
+            }
+            if (loadDefaults)
+            {
+                foreach(KeyValuePair<string, DCSLuaInput> kvp in EmptyOutputs)
+                {
+                    string planeToCheck = kvp.Key;
+                    foreach(KeyValuePair<string, DCSLuaDiffsAxisElement> kvpax in kvp.Value.axisDiffs)
+                    {
+                        string idToCheck = kvpax.Key;
+                        bool found = false;
+                        if (checkedIds.ContainsKey(planeToCheck))
+                        {
+                            foreach(KeyValuePair<string, List<string>> kiwi in checkedIds[planeToCheck])
+                            {
+                                string joystick = kiwi.Key;
+                                found = kiwi.Value.Contains(idToCheck);
+                                if (!found)
+                                {
+                                    if (kvpax.Value.removed.Count > 0)
+                                    {
+                                        Bind b = Bind.GetBindFromAxisElement(kvpax.Value.removed[0], idToCheck, joystick, planeToCheck, inv, slid, curv, dz, sx, sy);
+                                        if (!result.ContainsKey(b.Rl.NAME))
+                                        {
+                                            result.Add(b.Rl.NAME, b);
+                                        }
+                                        else
+                                        {
+                                            result[b.Rl.NAME].Rl.AddNode(idToCheck, planeToCheck);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    foreach(KeyValuePair<string, DCSLuaDiffsButtonElement> kvpbn in kvp.Value.keyDiffs)
+                    {
+                        string idToCheck = kvpbn.Key;
+                        bool found = false;
+                        if (checkedIds.ContainsKey(planeToCheck))
+                        {
+                            foreach (KeyValuePair<string, List<string>> kiwi in checkedIds[planeToCheck])
+                            {
+                                string joystick = kiwi.Key;
+                                found = kiwi.Value.Contains(idToCheck);
+                                if (!found)
+                                {
+                                    if (kvpbn.Value.removed.Count > 0)
+                                    {
+                                        Bind b = Bind.GetBindFromButtonElement(kvpbn.Value.removed[0], idToCheck, joystick, planeToCheck);
+                                        if (!result.ContainsKey(b.Rl.NAME))
+                                        {
+                                            result.Add(b.Rl.NAME, b);
+                                        }
+                                        else
+                                        {
+                                            result[b.Rl.NAME].Rl.AddNode(idToCheck, planeToCheck);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                     
                 }
             }
+            MergeImport(result);
+        }
+
+        static void MergeImport(Dictionary<string, Bind> res)
+        {
+            foreach(KeyValuePair<string, Bind> kvp in res)
+            {
+                string name = kvp.Key;
+                while (AllRelations.ContainsKey(name))
+                {
+                    name = name + "i";
+                }
+                kvp.Value.Rl.NAME = name;
+                AllRelations.Add(name, kvp.Value.Rl);
+                AllBinds.Add(name, kvp.Value);
+            }
+            ResyncRelations();
         }
         public static void WriteProfileCleanNotOverwriteLocal(bool fillBeforeEmpty)
         {

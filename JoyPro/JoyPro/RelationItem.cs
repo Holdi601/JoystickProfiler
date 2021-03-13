@@ -114,8 +114,7 @@ namespace JoyPro
         public bool SetAircraftActivity(string plane, bool activity)
         {
             if (!AIRCRAFT.ContainsKey(plane)) return false;
-            if (AIRCRAFT[plane] != activity)
-                AIRCRAFT[plane] = activity;  
+            AIRCRAFT[plane] = activity;
             return true;
         }
 

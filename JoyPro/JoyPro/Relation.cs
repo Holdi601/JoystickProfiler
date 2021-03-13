@@ -65,8 +65,28 @@ namespace JoyPro
             if (plane.Length < 1)
                 NODES.Add(new RelationItem(id));
             else
-                NODES.Add(new RelationItem(id, plane));
-            
+            {
+                bool found = false;
+                int oof = -1;
+                for(int i=0; i<NODES.Count; ++i)
+                {
+                    PlaneState ps = NODES[i].GetStateAircraft(plane);
+                    if(NODES[i].ID==id&&(ps== PlaneState.ACTIVE||ps== PlaneState.DISABLED))
+                    {
+                        found = true;
+                        oof = i;
+                        break;
+                    }
+                }
+                if (found)
+                {
+                    NODES[oof].SetAircraftActivity(plane, true);
+                }
+                else
+                {
+                    NODES.Add(new RelationItem(id, plane));
+                }
+            }
             Console.WriteLine("Relation Item Added");
             return true;
         }

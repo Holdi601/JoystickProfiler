@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -122,25 +123,44 @@ namespace JoyPro
             return result;
         }
 
-        public static Bind GetBindFromAxisElement(DCSAxisBind dab,string id, string joystick, string plane)
+        
+        public static Bind GetBindFromAxisElement(DCSAxisBind dab,string id, string joystick, string plane, bool inv=false, bool slid=false, bool curv=false, bool dz=false, bool sx=false, bool sy=false)
         {
             Relation r = new Relation();
             Bind b = new Bind(r);
             string shorten = MainStructure.ShortenDeviceName(joystick);
             string relationName = shorten + dab.key;
             r.ISAXIS = true;
-            r.NAME = relationName;
             b.JAxis = dab.key;
             b.Joystick = joystick;
             if (dab.filter != null)
             {
                 b.Inverted = dab.filter.inverted;
                 b.Curviture = dab.filter.curviture;
+                if (b.Curviture == null) b.Curviture = new List<double>();
+                if (b.Curviture.Count < 1) b.Curviture.Add(0.0);
                 b.Deadzone = dab.filter.deadzone;
                 b.Slider = dab.filter.slider;
                 b.SaturationX = dab.filter.saturationX;
                 b.SaturationY = dab.filter.saturationY;
             }
+            else
+            {
+                b.Inverted = false;
+                b.Slider = false;
+                b.Curviture = new List<double>();
+                b.Curviture.Add(0.0);
+                b.SaturationX = 1.0;
+                b.SaturationY = 1.0;
+                b.Deadzone = 0;
+            }
+            if (inv) relationName = relationName + "i" + b.Inverted.ToString();
+            if (slid) relationName = relationName + "s" + b.Slider.ToString();
+            if (curv && b.Curviture.Count > 0) relationName = relationName + "c" + b.Curviture[0].ToString(new CultureInfo("en-US")).Substring(0, 4);
+            if (dz) relationName = relationName + "d" + b.Deadzone.ToString(new CultureInfo("en-US")).Substring(0, 4);
+            if (sx) relationName = relationName + "x" + b.SaturationX.ToString(new CultureInfo("en-US")).Substring(0, 4);
+            if (sy) relationName = relationName + "y" + b.SaturationY.ToString(new CultureInfo("en-US")).Substring(0, 4);
+            r.NAME = relationName;
             r.AddNode(id, plane);
             return b;
         }
@@ -152,6 +172,7 @@ namespace JoyPro
             r.ISAXIS = false;
             string shorten = MainStructure.ShortenDeviceName(joystick);
             string relationName = shorten + dab.key;
+            if(dab.modifiers!=null)
             foreach(Modifier m in dab.modifiers)
             {
                 relationName = m.name + relationName;

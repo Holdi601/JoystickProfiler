@@ -54,6 +54,7 @@ namespace JoyPro
             ALLBUTTONS.Add(SaveProfileBtn);
             ALLBUTTONS.Add(LoadProfileBtn);
             ALLBUTTONS.Add(MEBWEAABBtn);
+            ALLBUTTONS.Add(ImportProfileBtn);
             ALLWINDOWS = new List<Window>();
             MainStructure.mainW = this;
             DropDownGameSelection.SelectionChanged += new SelectionChangedEventHandler(Event_GameSelectionChanged);
@@ -69,11 +70,50 @@ namespace JoyPro
             MEBWEAOEBtn.Click += new RoutedEventHandler(LoadExistingExportOverwrite);
             CEBAEBtn.Click += new RoutedEventHandler(CleanAndExport);
             MEBWEAABBtn.Click += new RoutedEventHandler(LoadExistingExportAndAdd);
+            ImportProfileBtn.Click += new RoutedEventHandler(ImportProf);
             FirstStart();
             joyReader = null;
             buttonSetting = -1;
             Application.Current.Exit += new ExitEventHandler(AppExit);
 
+        }
+        void ImportProf(object sender, EventArgs e)
+        {
+            if (MainStructure.selectedInstancePath == null || MainStructure.selectedInstancePath.Length < 1)
+            {
+                MessageBox.Show("Not Instance selected");
+                return;
+            }
+            bool inv, slid, curv, dz, sx, sy, importDefault;
+            if (CBinv.IsChecked == true)
+                inv = true;
+            else
+                inv = false;
+            if (CBslid.IsChecked == true)
+                slid = true;
+            else
+                slid = false;
+            if (CBcurv.IsChecked == true)
+                curv = true;
+            else
+                curv = false;
+            if (CBdz.IsChecked == true)
+                dz = true;
+            else
+                dz = false;
+            if (CBsx.IsChecked == true)
+                sx = true;
+            else
+                sx = false;
+            if (CBsy.IsChecked == true)
+                sy = true;
+            else
+                sy = false;
+            if (CBimportDefault.IsChecked == true)
+                importDefault = true;
+            else
+                importDefault = false;
+            MainStructure.BindsFromLocal(importDefault, inv, slid, curv, dz, sx, sy);
         }
         void LoadExistingExportKeepExisting(object sender, EventArgs e)
         {
