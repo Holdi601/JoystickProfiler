@@ -28,11 +28,13 @@ namespace JoyPro
             dep.plane = plane;
             foreach(KeyValuePair<string, DCSLuaInput> kvp in joystickConfig)
             {
-                dep.joystickConfig.Add(kvp.Key, kvp.Value.Copy());
+                if(!dep.joystickConfig.ContainsKey(kvp.Key))
+                    dep.joystickConfig.Add(kvp.Key, kvp.Value.Copy());
             }
             foreach(KeyValuePair<string, Modifier> kvp in modifiers)
             {
-                dep.modifiers.Add(kvp.Key, kvp.Value.Copy());
+                if(!dep.modifiers.ContainsKey(kvp.Key))
+                    dep.modifiers.Add(kvp.Key, kvp.Value.Copy());
             }
             return dep;
         }

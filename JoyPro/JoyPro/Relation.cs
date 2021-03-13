@@ -13,6 +13,7 @@ namespace JoyPro
         public string NAME;
         List<RelationItem> NODES;
         public bool ISAXIS;
+        public Bind bind=null;
         
         public Relation()
         {

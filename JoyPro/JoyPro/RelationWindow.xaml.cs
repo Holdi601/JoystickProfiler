@@ -34,6 +34,13 @@ namespace JoyPro
             CancelRelationBtn.Click += new RoutedEventHandler(CloseThis);
             FinishRelationBtn.Click += new RoutedEventHandler(FinishRelation);
             DGAdded.CanUserAddRows = false;
+            if (MainStructure.relationWindowLast != null)
+            {
+                if (MainStructure.relationWindowLast.Top != -1) this.Top = MainStructure.relationWindowLast.Top;
+                if (MainStructure.relationWindowLast.Left != -1) this.Left = MainStructure.relationWindowLast.Left;
+                if (MainStructure.relationWindowLast.Width != -1) this.Width = MainStructure.relationWindowLast.Width;
+                if (MainStructure.relationWindowLast.Height != -1) this.Height = MainStructure.relationWindowLast.Height;
+            }
 
             if (Current == null)
             {
@@ -47,9 +54,18 @@ namespace JoyPro
             }
                 
         }
+        void setLastSizeAndPosition()
+        {
+            if (MainStructure.relationWindowLast == null) MainStructure.relationWindowLast = new WindowPos();
+            MainStructure.relationWindowLast.Height = this.Height;
+            MainStructure.relationWindowLast.Left = this.Left;
+            MainStructure.relationWindowLast.Top = this.Top;
+            MainStructure.relationWindowLast.Width = this.Width;
+        }
 
         public void Refresh()
         {
+            setLastSizeAndPosition();
             editMode = true;
             RefreshDGSelected();
             RelationNameTF.Text = Current.NAME;
@@ -91,7 +107,7 @@ namespace JoyPro
                 MainStructure.ResyncRelations();
                 Console.WriteLine("Finished Editing Relation " + Current.NAME);
             }
-
+            setLastSizeAndPosition();
             Close();
         }
 
@@ -108,6 +124,7 @@ namespace JoyPro
 
         void CloseThis(object sender, EventArgs e)
         {
+            setLastSizeAndPosition();
             Close();
         }
 

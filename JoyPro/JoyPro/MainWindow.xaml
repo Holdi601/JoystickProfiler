@@ -28,25 +28,35 @@
         <ComboBox Height="30" Width="180" Name="DropDownGameSelection" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,18,10,12" Grid.Row="0" Grid.Column="0" >
             <ComboBoxItem Name="DropDownGameSelectionElementDCS" >Digital Combat Simulator</ComboBoxItem>
         </ComboBox>
-        <Button FontWeight="Bold" Name="LoadRelationsBtn" Content="Load Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="1" />
-        <Button FontWeight="Bold" Name="SaveRelationsBtn" Content="Save Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="1" />
-        <Button FontWeight="Bold" Name="LoadProfileBtn" Content="Load Profile" Height="30" Width="180"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="1" />
-        <Button FontWeight="Bold" Name="SaveProfileBtn" Content="Save Profile" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" />
-        <Button FontWeight="Bold" Name="AddRelationsBtn" Content="Add Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="3" />
-        <Button FontWeight="Bold" Name="IncludeRelationsBtn" Content="Include Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="18,19,12,11" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" />
-        <Button FontWeight="Bold" Name="ImportProfileBtn" Content="Import Profile" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="1" />
+
+        <ComboBox Height="30" Width="180" Name="SortSelectionDropDown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,18,10,12" Grid.Row="1" Grid.Column="0" >
+            <ComboBoxItem Name="DDERelation" >Relation</ComboBoxItem>
+            <ComboBoxItem Name="DDEStick" >Joystick</ComboBoxItem>
+        </ComboBox>
+
+        <Button FontWeight="Bold" Name="LoadRelationsBtn" Content="Load Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="2" />
+        <Button FontWeight="Bold" Name="SaveRelationsBtn" Content="Save Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" />
+        <Button FontWeight="Bold" Name="LoadProfileBtn" Content="Load Profile" Height="30" Width="180"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="2" />
+        <Button FontWeight="Bold" Name="SaveProfileBtn" Content="Save Profile" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="1" />
+        <Button FontWeight="Bold" Name="AddRelationsBtn" Content="Add Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="1" />
+        <Button FontWeight="Bold" Name="IncludeRelationsBtn" Content="Include Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="18,19,12,11" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="1" />
+        <Button FontWeight="Bold" Name="ImportProfileBtn" Content="Import Profile" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1" />
 
         <Button FontWeight="Bold" Name="CEBAEBtn" Content="Clean Existing Binds and Export" Height="30" Width="190"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,18,2,12" Grid.Row="4" Grid.Column="0" />
-        <Button FontWeight="Bold" Name="MEBWEAOEBtn" Content="Merge /w Export 'n Overwrite Existing" Height="30" Width="227"  Background="#FFC9C9C9" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,18,5,12" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" />
-        <Button FontWeight="Bold" Name="MEBWEAKEBtn" Content="Merge /w Export 'n Keep Existing" Height="30" Width="231"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,18,0,12" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" />
-        <Button FontWeight="Bold" Name="MEBWEAABBtn" Content="Merge /w Export 'n Keep Exis. + Add" Height="30" Width="231"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,18,0,12" Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="2" />
+        <Button FontWeight="Bold" Name="MEBWEAOEBtn" Content="Merge and Keep Existing Binds" Height="30" Width="227"  Background="#FFC9C9C9" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,18,5,12" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" />
+        <Button FontWeight="Bold" Name="MEBWEAKEBtn" Content="Merge and Overwrite Existing Binds" Height="30" Width="231"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,18,0,12" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" />
+        <Button FontWeight="Bold" Name="MEBWEAABBtn" Content="Merge, Keep Existing and Add to" Height="30" Width="231"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,18,0,12" Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="2" />
 
         <Label Content="Instance:" Foreground="White" Grid.Column="0" Grid.Row="3"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Margin="72,12,72,15" Width="56"/>
         <ComboBox Name="DropDownInstanceSelection" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,12,0,10" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="6" Width="720" Height="31" ></ComboBox>
         <ScrollViewer Name="sv" ScrollViewer.HorizontalScrollBarVisibility="Auto"  Width="auto" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="8"/>
         <CheckBox Name="CBKeepDefault" Content="Keep Defaults" Grid.Row="4" Grid.Column="7" IsChecked="False" Width="100" Height="20" Foreground="White" HorizontalAlignment="Left" Margin="10,20,10,10"></CheckBox>
 
+        <Label Content=": Sort by" Foreground="White" Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Margin="5,12,0,15" Width="56"/>
         
+        
+
+
 
     </Grid>
 </Window>

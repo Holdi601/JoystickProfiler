@@ -33,6 +33,8 @@ namespace JoyPro
         public static string selectedInstancePath = "";
         public static string lastOpenedLocation = "";
         static List<string> defaultToOverwrite = new List<string>();
+        public static WindowPos relationWindowLast = null;
+        public static WindowPos importWindowLast = null;
 
         public static void LoadMetaLast()
         {
@@ -876,6 +878,7 @@ namespace JoyPro
                 albi.Add(kvp.Value);
             }
             AllBinds.Clear();
+            List<Relation> relWithBinds = new List<Relation>();
             for (int i = 0; i < li.Count; i++)
             {
                 if (!AllRelations.ContainsKey(li[i].NAME)) AllRelations.Add(li[i].NAME, li[i]);
@@ -884,9 +887,34 @@ namespace JoyPro
                     if (albi[j].Rl == li[i])
                     {
                         AllBinds.Add(li[i].NAME, albi[j]);
+                        li[i].bind = albi[j];
+                        if (!relWithBinds.Contains(li[i]))
+                            relWithBinds.Add(li[i]);
                     }
                 }
             }
+            List<Relation> RelWOBinds = new List<Relation>();
+            for(int i=0; i < li.Count; ++i)
+            {
+                if (!RelWOBinds.Contains(li[i]) && !relWithBinds.Contains(li[i]))
+                    RelWOBinds.Add(li[i]);
+            }
+            switch (mainW.selectedSort)
+            {
+                case "Relation":
+                    li = li.OrderBy(o => o.NAME).ToList();
+                    break;
+                case "Joystick":
+                    relWithBinds = relWithBinds.OrderBy(o => AllBinds[o.NAME].Joystick).ToList();
+                    RelWOBinds = RelWOBinds.OrderBy(o => o.NAME).ToList();
+                    for (int i = 0; i < RelWOBinds.Count; ++i)
+                    {
+                        relWithBinds.Add(RelWOBinds[i]);
+                    }
+                    li = relWithBinds;
+                    break;
+            }
+            
             mainW.SetRelationsToView(li);
         }
         public static bool DoesRelationAlreadyExist(string name)

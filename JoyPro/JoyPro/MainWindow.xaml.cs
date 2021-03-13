@@ -36,10 +36,12 @@ namespace JoyPro
         int buttonSetting;
         string modToEdit;
         JoystickReader joyReader;
+        public string selectedSort;
+
         public MainWindow()
         {
-            //AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
-            //Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
+            Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
             CURRENTDISPLAYEDRELATION = new List<Relation>();
             MessageBox.Show("Please Backup your existing binds. C:\\Users\\USERNAME\\Saved Games\\DCS Please make a backup of these folders somewhere outside your savegames.");
@@ -75,7 +77,16 @@ namespace JoyPro
             joyReader = null;
             buttonSetting = -1;
             Application.Current.Exit += new ExitEventHandler(AppExit);
+            selectedSort = "Relation";
+            SortSelectionDropDown.SelectionChanged += new SelectionChangedEventHandler(SortChanged);
 
+
+        }
+        void SortChanged(object sender, EventArgs e)
+        {
+            selectedSort = ((ComboBoxItem)SortSelectionDropDown.SelectedItem).Content.ToString();
+            Console.WriteLine(selectedSort);
+            MainStructure.ResyncRelations();
         }
         void ImportProf(object sender, EventArgs e)
         {
@@ -136,7 +147,14 @@ namespace JoyPro
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Filter = "Pr0file Files (*.pr0file)|*.pr0file|All filed (*.*)|*.*";
             saveFileDialog1.Title = "Load Pr0file";
-            saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (Directory.Exists(MainStructure.lastOpenedLocation))
+            {
+                saveFileDialog1.InitialDirectory = MainStructure.lastOpenedLocation;
+            }
+            else
+            {
+                saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            }
             string filePath;
             saveFileDialog1.ShowDialog();
             filePath = saveFileDialog1.FileName;
@@ -157,7 +175,14 @@ namespace JoyPro
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Filter = "Relation Files (*.rl)|*.rl";
             saveFileDialog1.Title = "Save Relations";
-            saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (Directory.Exists(MainStructure.lastOpenedLocation))
+            {
+                saveFileDialog1.InitialDirectory = MainStructure.lastOpenedLocation;
+            }
+            else
+            {
+                saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            }
             string filePath;
             saveFileDialog1.ShowDialog();
             filePath = saveFileDialog1.FileName;
@@ -878,6 +903,7 @@ namespace JoyPro
         }
         void WindowClosing(object sender, EventArgs e)
         {
+            Window s = (Window)sender;
             ALLWINDOWS.Remove((Window)sender);
             ActivateInputs();
         }
