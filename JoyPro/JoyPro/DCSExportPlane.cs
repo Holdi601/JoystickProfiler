@@ -22,6 +22,21 @@ namespace JoyPro
             initDefaultModifiers();
         }
 
+        public DCSExportPlane Copy()
+        {
+            DCSExportPlane dep = new DCSExportPlane();
+            dep.plane = plane;
+            foreach(KeyValuePair<string, DCSLuaInput> kvp in joystickConfig)
+            {
+                dep.joystickConfig.Add(kvp.Key, kvp.Value.Copy());
+            }
+            foreach(KeyValuePair<string, Modifier> kvp in modifiers)
+            {
+                dep.modifiers.Add(kvp.Key, kvp.Value.Copy());
+            }
+            return dep;
+        }
+
         public void AnalyzeRawModLua(string content)
         {
             Dictionary<object, object> dct = MainStructure.CreateAttributeDictFromLua(content);
@@ -64,6 +79,16 @@ namespace JoyPro
             }
             swr.Write(endFile);
             swr.Close();
+        }
+
+        public bool ContainsModifier(string device, string key)
+        {
+            foreach(KeyValuePair<string, Modifier> kvp in modifiers)
+            {
+                if (device == kvp.Value.device && key == kvp.Value.key)
+                    return true;
+            }
+            return false;
         }
 
         void initDefaultModifiers()

@@ -70,7 +70,7 @@ namespace JoyPro
                 }
             }
         }
-        public static void BindsFromLocal(bool loadDefaults, bool inv = false, bool slid = false, bool curv = false, bool dz = false, bool sx = false, bool sy = false)
+        public static void BindsFromLocal(List<string> sticks, bool loadDefaults, bool inv = false, bool slid = false, bool curv = false, bool dz = false, bool sx = false, bool sy = false)
         {
             LoadLocalBinds(selectedInstancePath);
             Dictionary<string, Bind> result = new Dictionary<string, Bind>();
@@ -83,6 +83,7 @@ namespace JoyPro
                 foreach(KeyValuePair<string, DCSLuaInput> kvpLua in kvp.Value.joystickConfig)
                 {
                     string joystick = kvpLua.Key;
+                    if (!sticks.Contains(joystick)) continue;
                     if (!checkedIds[plane].ContainsKey(joystick))
                         checkedIds[plane].Add(joystick, new List<string>());
                     foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvpaxe in kvpLua.Value.axisDiffs)
@@ -309,7 +310,7 @@ namespace JoyPro
             {
                 if ((!ToExport.ContainsKey(kvp.Key)&&!fillBeforeEmpty)||(!ToExport.ContainsKey(kvp.Key)&&fillBeforeEmpty&&!EmptyOutputs.ContainsKey(kvp.Key)))
                 {
-                    ToExport.Add(kvp.Key, kvp.Value);
+                    ToExport.Add(kvp.Key, kvp.Value.Copy());
                 }
                 else
                 {
@@ -360,23 +361,23 @@ namespace JoyPro
                             {
                                 if (!ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs.ContainsKey(kvpDiffsAxisElement.Key))
                                 {
-                                    for(int z=0; z< kvpDiffsAxisElement.Value.added.Count; ++z)
-                                    {
-                                        kvpIn.Value.RemoveKey(kvpDiffsAxisElement.Value.added[z].key, true);
-                                    }                            
-                                    ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs.Add(kvpDiffsAxisElement.Key, kvpDiffsAxisElement.Value);
+                                    //for(int z=0; z< kvpDiffsAxisElement.Value.added.Count; ++z)
+                                    //{
+                                    //    kvpIn.Value.RemoveKey(kvpDiffsAxisElement.Value.added[z].key, true);
+                                    //}                            
+                                    ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs.Add(kvpDiffsAxisElement.Key, kvpDiffsAxisElement.Value.Copy());
                                 }
                                 else if (overwrite||defaultToOverwrite.Contains(current))
                                 {
-                                    DCSLuaDiffsAxisElement old = ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key];
-                                    ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key] = kvpDiffsAxisElement.Value;
+                                    DCSLuaDiffsAxisElement old = ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key].Copy();
+                                    ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key] = kvpDiffsAxisElement.Value.Copy();
                                     if (overwriteAdd)
                                     {
                                         for (int i = 0; i < old.added.Count; ++i)
                                         {
                                             if (!kvpDiffsAxisElement.Value.doesAddedContainKey(old.added[i].key) && !kvpDiffsAxisElement.Value.doesRemovedContainKey(old.added[i].key))
                                             {
-                                                ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key].added.Add(old.added[i]);
+                                                ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key].added.Add(old.added[i].Copy());
                                             }
                                         }
                                     }                                  
@@ -384,32 +385,33 @@ namespace JoyPro
                                     {
                                         if (!kvpDiffsAxisElement.Value.doesAddedContainKey(old.removed[i].key) && !kvpDiffsAxisElement.Value.doesRemovedContainKey(old.removed[i].key))
                                         {
-                                            ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key].removed.Add(old.removed[i]);
+                                            ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key].removed.Add(old.removed[i].Copy());
                                         }
                                     }
                                 }
                             }
+                            
                             foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvpDiffsButtonsElement in kvpIn.Value.keyDiffs)
                             {
                                 if (!ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs.ContainsKey(kvpDiffsButtonsElement.Key))
                                 {
-                                    for (int z = 0; z < kvpDiffsButtonsElement.Value.added.Count; ++z)
-                                    {
-                                        kvpIn.Value.RemoveKey(kvpDiffsButtonsElement.Value.added[z].key, true);
-                                    }
-                                    ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs.Add(kvpDiffsButtonsElement.Key, kvpDiffsButtonsElement.Value);
+                                    //for (int z = 0; z < kvpDiffsButtonsElement.Value.added.Count; ++z)
+                                    //{
+                                    //    kvpIn.Value.RemoveKey(kvpDiffsButtonsElement.Value.added[z].key, true);
+                                    //}
+                                    ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs.Add(kvpDiffsButtonsElement.Key, kvpDiffsButtonsElement.Value.Copy());
                                 }
                                 else if (overwrite || defaultToOverwrite.Contains(current))
                                 {
-                                    DCSLuaDiffsButtonElement old = ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key];
-                                    ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key] = kvpDiffsButtonsElement.Value;
+                                    DCSLuaDiffsButtonElement old = ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key].Copy();
+                                    ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key] = kvpDiffsButtonsElement.Value.Copy();
                                     if (overwriteAdd)
                                     {
                                         for (int i = 0; i < old.added.Count; ++i)
                                         {
                                             if (!kvpDiffsButtonsElement.Value.doesAddedContainKey(old.added[i].key) && !kvpDiffsButtonsElement.Value.doesRemovedContainKey(old.added[i].key))
                                             {
-                                                ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key].added.Add(old.added[i]);
+                                                ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key].added.Add(old.added[i].Copy());
                                             }
                                         }
                                     }
@@ -417,7 +419,7 @@ namespace JoyPro
                                     {
                                         if (!kvpDiffsButtonsElement.Value.doesAddedContainKey(old.removed[i].key) && !kvpDiffsButtonsElement.Value.doesRemovedContainKey(old.removed[i].key))
                                         {
-                                            ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key].added.Add(old.removed[i]);
+                                            ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key].added.Add(old.removed[i].Copy());
                                         }
                                     }
                                 }
@@ -683,7 +685,7 @@ namespace JoyPro
                                 StreamReader sr = new StreamReader(allFiles[j].FullName);
                                 string fileContent = sr.ReadToEnd();
                                 sr.Close();
-                                luaInput.AnalyzeRawLuaInput(fileContent);
+                                luaInput.AnalyzeRawLuaInput(fileContent, current);
                             }
                         }
                     }

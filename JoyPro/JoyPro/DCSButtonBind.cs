@@ -30,6 +30,15 @@ namespace JoyPro
             return result;
         }
 
+        public bool ContainsMod(string device, string key)
+        {
+            for(int i=0; i<modifiers.Count; ++i)
+            {
+                if (modifiers[i].device == device && modifiers[i].key == key)
+                    return true;
+            }
+            return false;
+        }
 
     }
 }

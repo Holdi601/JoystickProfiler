@@ -1,0 +1,40 @@
+﻿<Window x:Class="JoyPro.ImportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JoyPro"
+        mc:Ignorable="d"
+        Title="Import Window" Height="450" Width="600">
+    <Grid Background="#FF191919">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="18" />
+            <RowDefinition Height="18"/>
+            <RowDefinition Height="18"/>
+            <RowDefinition Height="18"/>
+            <RowDefinition Height="18"/>
+            <RowDefinition Height="18"/>
+            <RowDefinition/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="211" />
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Import Settings:" Foreground="White" Grid.Column="0" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Margin="0,0,0,0" Width="180" Grid.RowSpan="1"/>
+        <CheckBox Name="CBimportDefault" Content="Import Default" Grid.Row="0" Grid.Column="1" IsChecked="False" Width="120" Foreground="White" HorizontalAlignment="Left" Margin="5,2,0,0"/>
+        <Label Content="Split By:" Foreground="White" Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Margin="0,0,0,0" Width="180"/>
+        <CheckBox Name="CBinv" Content="Inverted" Grid.Row="1" Grid.Column="1" IsChecked="False" Width="120" Foreground="White" HorizontalAlignment="Left" Margin="5,2,0,0"/>
+        <CheckBox Name="CBslid" Content="Slider" Grid.Row="2" Grid.Column="0" IsChecked="False" Width="120" Foreground="White" HorizontalAlignment="Left" Margin="80,2,0,0"/>
+        <CheckBox Name="CBcurv" Content="Curviture" Grid.Row="2" Grid.Column="1" IsChecked="False" Width="120" Foreground="White" HorizontalAlignment="Left" Margin="5,2,0,0"/>
+        <CheckBox Name="CBdz" Content="Deadzone" Grid.Row="3" Grid.Column="0" IsChecked="False" Width="120" Foreground="White" HorizontalAlignment="Left" Margin="80,2,0,0"/>
+        <CheckBox Name="CBsaty" Content="Saturation Y" Grid.Row="4" Grid.Column="1" IsChecked="False" Width="120" Foreground="White" HorizontalAlignment="Left" Margin="5,2,0,0"/>
+        <CheckBox Name="CBsatx" Content="Saturation X" Grid.Row="4" Grid.Column="0" IsChecked="False" Width="120" Foreground="White" HorizontalAlignment="Left" Margin="80,2,0,0"/>
+        <Label Content="Joysticks to Import:" Foreground="White" Grid.Column="0" Grid.Row="5"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Margin="0,0,0,0" Width="180"/>
+        <ScrollViewer Name="sv" ScrollViewer.HorizontalScrollBarVisibility="Auto"  Width="auto" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+        <Button FontWeight="Bold" Name="CancelBtn" Content="Cancel" Height="30" Width="192"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,18,0,12" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" />
+        <Button FontWeight="Bold" Name="ImportBtn" Content="Import" Height="30" Width="231"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,18,0,12" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" />
+
+    </Grid>
+</Window>

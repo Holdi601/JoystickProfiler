@@ -38,8 +38,8 @@ namespace JoyPro
         JoystickReader joyReader;
         public MainWindow()
         {
-            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
-            Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
+            //AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
+            //Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
             CURRENTDISPLAYEDRELATION = new List<Relation>();
             MessageBox.Show("Please Backup your existing binds. C:\\Users\\USERNAME\\Saved Games\\DCS Please make a backup of these folders somewhere outside your savegames.");
@@ -84,36 +84,11 @@ namespace JoyPro
                 MessageBox.Show("Not Instance selected");
                 return;
             }
-            bool inv, slid, curv, dz, sx, sy, importDefault;
-            if (CBinv.IsChecked == true)
-                inv = true;
-            else
-                inv = false;
-            if (CBslid.IsChecked == true)
-                slid = true;
-            else
-                slid = false;
-            if (CBcurv.IsChecked == true)
-                curv = true;
-            else
-                curv = false;
-            if (CBdz.IsChecked == true)
-                dz = true;
-            else
-                dz = false;
-            if (CBsx.IsChecked == true)
-                sx = true;
-            else
-                sx = false;
-            if (CBsy.IsChecked == true)
-                sy = true;
-            else
-                sy = false;
-            if (CBimportDefault.IsChecked == true)
-                importDefault = true;
-            else
-                importDefault = false;
-            MainStructure.BindsFromLocal(importDefault, inv, slid, curv, dz, sx, sy);
+            ImportWindow iw = new ImportWindow();
+            DisableInputs();
+            iw.Show();
+            iw.Closing += new CancelEventHandler(ActivateInputs);
+
         }
         void LoadExistingExportKeepExisting(object sender, EventArgs e)
         {
@@ -919,6 +894,11 @@ namespace JoyPro
             for (int i = 0; i < ALLBUTTONS.Count; ++i)
                 ALLBUTTONS[i].IsEnabled = false;
             MainStructure.LoadMetaLast();
+        }
+
+        void ActivateInputs(object sender, EventArgs e)
+        {
+            ActivateInputs();
         }
         void ActivateInputs()
         {

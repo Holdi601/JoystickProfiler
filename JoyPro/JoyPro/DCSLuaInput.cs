@@ -132,7 +132,7 @@ namespace JoyPro
             return result;
         }
         
-        public void AnalyzeRawLuaInput(string content)
+        public void AnalyzeRawLuaInput(string content, DCSExportPlane refMod = null)
         {
             if (!content.Contains('{')) return;
             string cleaned = MainStructure.GetContentBetweenSymbols(content, "{", "}");
@@ -227,6 +227,14 @@ namespace JoyPro
                                     {
                                         if (!dab.reformers.Contains((string)kvpReformers.Value))
                                             dab.reformers.Add((string)kvpReformers.Value);
+                                        if (refMod != null)
+                                        {
+                                            if (refMod.modifiers.ContainsKey((string)kvpReformers.Value))
+                                            {
+                                                Modifier m = refMod.modifiers[(string)kvpReformers.Value];
+                                                dab.modifiers.Add(m);
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -365,7 +373,7 @@ namespace JoyPro
             }
         }
 
-        public bool? ButtonAlreadySet(string key, Dictionary<string, Modifier> modifiers)
+        public bool? ButtonAlreadySet(string key, Dictionary<string, Modifier> modifiers=null)
         {
             foreach(KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in axisDiffs)
             {

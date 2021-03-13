@@ -173,12 +173,23 @@ namespace JoyPro
             string shorten = MainStructure.ShortenDeviceName(joystick);
             string relationName = shorten + dab.key;
             if(dab.modifiers!=null)
-            foreach(Modifier m in dab.modifiers)
-            {
-                relationName = m.name + relationName;
-                string reform = m.name + "§" + m.device + "§" + m.key;
-                if (!b.AllReformers.Contains(reform)) b.AllReformers.Add(reform);
-            }
+                foreach(Modifier m in dab.modifiers)
+                {
+                    //same code as mainwindow
+                    string reform = m.name + "§" + m.device + "§" + m.key;
+
+                    string device;
+                    if (m.device == "Keyboard")
+                        device = "Keyboard";
+                    else
+                        device = "m" + m.device.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
+                    string nameToShow = device + m.key;
+                    string moddedDevice = b.JoystickGuidToModifierGuid(m.device);
+                    string toAdd = nameToShow + "§" + moddedDevice + "§" + m.key;
+                    if (!b.AllReformers.Contains(toAdd)) b.AllReformers.Add(toAdd);
+                    relationName = nameToShow + relationName;
+
+                }
             r.NAME = relationName;
             b.JButton = dab.key;
             b.Joystick = joystick;

@@ -93,6 +93,9 @@
     <Compile Include="ExchangeStick.xaml.cs">
       <DependentUpon>ExchangeStick.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ImportWindow.xaml.cs">
+      <DependentUpon>ImportWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JoystickReader.cs" />
     <Compile Include="KnownFolders.cs" />
     <Compile Include="Modifier.cs" />
@@ -102,6 +105,10 @@
     </Compile>
     <Compile Include="SearchQueryResults.cs" />
     <Page Include="ExchangeStick.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ImportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

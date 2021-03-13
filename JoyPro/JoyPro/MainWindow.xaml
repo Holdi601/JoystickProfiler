@@ -30,11 +30,11 @@
         </ComboBox>
         <Button FontWeight="Bold" Name="LoadRelationsBtn" Content="Load Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="1" />
         <Button FontWeight="Bold" Name="SaveRelationsBtn" Content="Save Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="1" />
-        <Button FontWeight="Bold" Name="LoadProfileBtn" Content="Load Profile" Height="30" Width="180"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="0" />
-        <Button FontWeight="Bold" Name="SaveProfileBtn" Content="Save Profile" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" />
+        <Button FontWeight="Bold" Name="LoadProfileBtn" Content="Load Profile" Height="30" Width="180"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="1" />
+        <Button FontWeight="Bold" Name="SaveProfileBtn" Content="Save Profile" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" />
         <Button FontWeight="Bold" Name="AddRelationsBtn" Content="Add Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="3" />
         <Button FontWeight="Bold" Name="IncludeRelationsBtn" Content="Include Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="18,19,12,11" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" />
-        <Button FontWeight="Bold" Name="ImportProfileBtn" Content="Import Profile" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" />
+        <Button FontWeight="Bold" Name="ImportProfileBtn" Content="Import Profile" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="1" />
 
         <Button FontWeight="Bold" Name="CEBAEBtn" Content="Clean Existing Binds and Export" Height="30" Width="190"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,18,2,12" Grid.Row="4" Grid.Column="0" />
         <Button FontWeight="Bold" Name="MEBWEAOEBtn" Content="Merge /w Export 'n Overwrite Existing" Height="30" Width="227"  Background="#FFC9C9C9" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,18,5,12" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" />
@@ -46,14 +46,7 @@
         <ScrollViewer Name="sv" ScrollViewer.HorizontalScrollBarVisibility="Auto"  Width="auto" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="8"/>
         <CheckBox Name="CBKeepDefault" Content="Keep Defaults" Grid.Row="4" Grid.Column="7" IsChecked="False" Width="100" Height="20" Foreground="White" HorizontalAlignment="Left" Margin="10,20,10,10"></CheckBox>
 
-        <CheckBox Name="CBinv" Content="Split: Inverted" Grid.Row="0" Grid.Column="5" IsChecked="False" Width="120" Height="20" Foreground="White" HorizontalAlignment="Left" Margin="10,20,10,10"></CheckBox>
-        <CheckBox Name="CBslid" Content="Split: Slider" Grid.Row="0" Grid.Column="6" IsChecked="False" Width="120" Height="20" Foreground="White" HorizontalAlignment="Left" Margin="10,20,10,10"></CheckBox>
-        <CheckBox Name="CBcurv" Content="Split: Curviture" Grid.Row="1" Grid.Column="3" IsChecked="False" Width="120" Height="20" Foreground="White" HorizontalAlignment="Left" Margin="10,20,10,10"></CheckBox>
-        <CheckBox Name="CBdz" Content="Split: Deadzone" Grid.Row="1" Grid.Column="4" IsChecked="False" Width="120" Height="20" Foreground="White" HorizontalAlignment="Left" Margin="10,20,10,10"></CheckBox>
-        <CheckBox Name="CBsx" Content="Split: Saturation X" Grid.Row="1" Grid.Column="5" IsChecked="False" Width="120" Height="20" Foreground="White" HorizontalAlignment="Left" Margin="10,20,10,10"></CheckBox>
-        <CheckBox Name="CBsy" Content="Split: Saturation Y" Grid.Row="1" Grid.Column="6" IsChecked="False" Width="120" Height="20" Foreground="White" HorizontalAlignment="Left" Margin="10,20,10,10"></CheckBox>
-
-        <CheckBox Name="CBimportDefault" Content="Import Default" Grid.Row="1" Grid.Column="7" IsChecked="False" Width="120" Height="20" Foreground="White" HorizontalAlignment="Left" Margin="10,20,10,10"></CheckBox>
+        
 
     </Grid>
 </Window>

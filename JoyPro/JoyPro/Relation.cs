@@ -49,7 +49,7 @@ namespace JoyPro
         }
         public bool AddNode(string id, string plane="")
         {
-            if(NodesContainId(id)) return false;
+            if(NodesContainId(id)&&plane.Length<1) return false;
             if (NODES.Count < 1)
             {
                 string axisID = id.Substring(0, 1);
