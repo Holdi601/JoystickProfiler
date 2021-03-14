@@ -37,7 +37,6 @@ namespace JoyPro
         string modToEdit;
         JoystickReader joyReader;
         public string selectedSort;
-
         public MainWindow()
         {
             AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
@@ -79,8 +78,7 @@ namespace JoyPro
             Application.Current.Exit += new ExitEventHandler(AppExit);
             selectedSort = "Relation";
             SortSelectionDropDown.SelectionChanged += new SelectionChangedEventHandler(SortChanged);
-
-
+           
         }
         void SortChanged(object sender, EventArgs e)
         {
@@ -725,6 +723,7 @@ namespace JoyPro
                 }
             }
             sv.Content = grid;
+            
         }
         public void CleanText(object sender, EventArgs e)
         {
@@ -915,11 +914,19 @@ namespace JoyPro
             rw.Show();
             rw.Closed += new EventHandler(WindowClosing);
         }
+
         void FirstStart()
         {
             for (int i = 0; i < ALLBUTTONS.Count; ++i)
                 ALLBUTTONS[i].IsEnabled = false;
             MainStructure.LoadMetaLast();
+            if (MainStructure.mainWLast != null)
+            {
+                this.Top = MainStructure.mainWLast.Top;
+                this.Left = MainStructure.mainWLast.Left;
+                this.Width = MainStructure.mainWLast.Width;
+                this.Height = MainStructure.mainWLast.Height;
+            }
         }
 
         void ActivateInputs(object sender, EventArgs e)

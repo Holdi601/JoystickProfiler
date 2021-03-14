@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Xml;
 using System.Xml.Serialization;
 using SlimDX.DirectInput;
+using System.Windows;
 
 namespace JoyPro
 {
@@ -35,20 +36,45 @@ namespace JoyPro
         static List<string> defaultToOverwrite = new List<string>();
         public static WindowPos relationWindowLast = null;
         public static WindowPos importWindowLast = null;
+        public static WindowPos mainWLast = null;
 
         public static void LoadMetaLast()
         {
-            string pth = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\JoyPro\\meta.info";
-            if (File.Exists(pth))
+            string pth = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\JoyPro";;
+            if (File.Exists(pth+ "\\meta.info"))
             {
-                StreamReader sr = new StreamReader(pth);
+                System.IO.StreamReader sr = new System.IO.StreamReader(pth + "\\meta.info");
                 lastOpenedLocation = sr.ReadLine();
                 sr.Close();
             }
+            if (File.Exists(pth + "\\relWindow.last"))
+            {
+                relationWindowLast = readWindowPos(pth + "\\relWindow.last");
+            }
+            if (File.Exists(pth + "\\importWindowLast.last"))
+            {
+                relationWindowLast = readWindowPos(pth + "\\importWindowLast.last");
+            }
+            if (File.Exists(pth + "\\mainWLast.last"))
+            {
+                relationWindowLast = readWindowPos(pth + "\\mainWLast.last");
+            }
+
+        }
+
+        public static WindowPos GetWindowPosFrom(Window w)
+        {
+            WindowPos wp = new WindowPos();
+            wp.Height = w.Height;
+            wp.Width = w.Width;
+            wp.Top = w.Top;
+            wp.Left = w.Left;
+            return wp;
         }
         public static void SaveMetaLast()
         {
-            string pth = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\JoyPro";
+            mainWLast = GetWindowPosFrom(mainW);
+            string pth = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\JoyPro";
             if (!Directory.Exists(pth))
             {
                 Directory.CreateDirectory(pth);
@@ -56,6 +82,28 @@ namespace JoyPro
             StreamWriter sw = new StreamWriter(pth + "\\meta.info");
             sw.WriteLine(lastOpenedLocation);
             sw.Close();
+            if (relationWindowLast != null)
+                writeWindowPos(pth + "\\relWindow.last", relationWindowLast);
+            if (importWindowLast != null)
+                writeWindowPos(pth + "\\importWindowLast.last", importWindowLast);
+            if (mainWLast != null)
+                writeWindowPos(pth + "\\mainWLast.last", mainWLast);
+        }
+        static void writeWindowPos(string pth, WindowPos w)
+        {
+            StreamWriter sw = new StreamWriter(pth);
+            sw.WriteLine(w.ToString());
+            sw.Close();
+        }
+
+        static WindowPos readWindowPos(string pth)
+        {
+            string content = "";
+            StreamReader sr = new StreamReader(pth);
+            content= sr.ReadLine();
+            sr.Close();
+            return WindowPos.ToWindowPos(content);
+
         }
         static void writeFiles()
         {
@@ -914,7 +962,7 @@ namespace JoyPro
                     li = relWithBinds;
                     break;
             }
-            
+            SaveMetaLast();
             mainW.SetRelationsToView(li);
         }
         public static bool DoesRelationAlreadyExist(string name)

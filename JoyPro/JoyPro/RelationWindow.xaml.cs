@@ -34,6 +34,7 @@ namespace JoyPro
             CancelRelationBtn.Click += new RoutedEventHandler(CloseThis);
             FinishRelationBtn.Click += new RoutedEventHandler(FinishRelation);
             DGAdded.CanUserAddRows = false;
+            this.Closing += new System.ComponentModel.CancelEventHandler(OnClosing);
             if (MainStructure.relationWindowLast != null)
             {
                 if (MainStructure.relationWindowLast.Top != -1) this.Top = MainStructure.relationWindowLast.Top;
@@ -128,6 +129,10 @@ namespace JoyPro
             Close();
         }
 
+        void OnClosing(object sender, EventArgs e)
+        {
+            setLastSizeAndPosition();
+        }
         void DeleteButtonEvent (object sender, EventArgs e)
         {
             List<DataRowView> selected = DGAdded.SelectedItems.Cast<DataRowView>().ToList();

@@ -31,15 +31,24 @@ namespace JoyPro
             CancelBtn.Click += new RoutedEventHandler(CancelImport);
             ImportBtn.Click += new RoutedEventHandler(Import);
             ListSticks();
+            if (MainStructure.importWindowLast != null)
+            {
+                this.Top = MainStructure.importWindowLast.Top;
+                this.Left = MainStructure.importWindowLast.Left;
+                this.Width = MainStructure.importWindowLast.Width;
+                this.Height = MainStructure.importWindowLast.Height;
+            }
         }
 
         void CancelImport(object sender, EventArgs e)
         {
+            MainStructure.importWindowLast = MainStructure.GetWindowPosFrom(this);
             Close();
         }
 
         void Import(object sender, EventArgs e)
         {
+            MainStructure.importWindowLast = MainStructure.GetWindowPosFrom(this);
             bool inv, slid, curv, dz, sx, sy, importDefault;
             if (CBinv.IsChecked == true)
                 inv = true;
