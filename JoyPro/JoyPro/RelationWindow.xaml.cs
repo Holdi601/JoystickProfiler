@@ -54,7 +54,14 @@ namespace JoyPro
                 RefreshDGSelected();
                 RelationNameTF.Text = Current.NAME;
             }
-                
+            svcCont.CanContentScroll = true;
+            svcCont.GotMouseCapture += new MouseEventHandler(whatIsIt);
+            svHead.GotMouseCapture += new MouseEventHandler(whatIsIt);
+        }
+
+        void whatIsIt(object sender, EventArgs e)
+        {
+            Console.WriteLine(((ScrollViewer)sender).Name);
         }
         void setLastSizeAndPosition()
         {
@@ -63,6 +70,11 @@ namespace JoyPro
             MainStructure.relationWindowLast.Left = this.Left;
             MainStructure.relationWindowLast.Top = this.Top;
             MainStructure.relationWindowLast.Width = this.Width;
+        }
+
+        private void DataGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            svcCont.ScrollToVerticalOffset(svcCont.VerticalOffset - e.Delta / 3);
         }
 
         void scrollChanged(object sender, EventArgs e)

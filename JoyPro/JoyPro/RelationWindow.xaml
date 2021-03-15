@@ -35,16 +35,17 @@
         <Button FontWeight="Bold" Name="RemoveItemBtn" Content="Remove Item" Height="32" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,22" Grid.Row="2" Grid.Column="4" />
 
         <DataGrid Name="DGSource" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" IsReadOnly="True" />
-        <ScrollViewer Name="svHead"  ScrollViewer.HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"  Width="auto" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6" >
-            <DataGrid Name="DGHead"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled" >
+        <ScrollViewer Name="svcCont"  ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"  Width="auto" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="6" Background="Transparent" ScrollViewer.CanContentScroll="True" >
+            <DataGrid Name="DGAdded" CellEditEnding="DGAdded_CellEditEnding" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled" Margin="0,-25,0,0" PreviewMouseWheel="DataGrid_PreviewMouseWheel">
 
             </DataGrid>
         </ScrollViewer>
-        <ScrollViewer Name="svcCont"  ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"  Width="auto" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="6" >
-            <DataGrid Name="DGAdded" CellEditEnding="DGAdded_CellEditEnding" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Margin="0,-25,0,0">
+        <ScrollViewer Name="svHead"  ScrollViewer.HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"  Width="auto" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6"  MaxHeight="25">
+            <DataGrid Name="DGHead"  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" MaxHeight="25">
 
             </DataGrid>
         </ScrollViewer>
+        
 
     </Grid>
 
