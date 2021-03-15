@@ -37,6 +37,8 @@ namespace JoyPro
         string modToEdit;
         JoystickReader joyReader;
         public string selectedSort;
+        List<ColumnDefinition> colDefs = null;
+        List<ColumnDefinition> colHds = null;
         public MainWindow()
         {
             AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
@@ -75,10 +77,28 @@ namespace JoyPro
             FirstStart();
             joyReader = null;
             buttonSetting = -1;
-            Application.Current.Exit += new ExitEventHandler(AppExit);
+            Application.Current.Exit += new ExitEventHandler(SaveMeta);
+            this.SizeChanged += new SizeChangedEventHandler(SaveMeta);
             selectedSort = "Relation";
             SortSelectionDropDown.SelectionChanged += new SelectionChangedEventHandler(SortChanged);
-           
+            this.SizeChanged += new SizeChangedEventHandler(sizeChanged);
+            sv.ScrollChanged += new ScrollChangedEventHandler(sizeChanged);
+            this.ContentRendered += new EventHandler(setWindowPosSize);
+            
+        }
+
+        void sizeChanged(object sender, EventArgs e)
+        {
+            if(colDefs!=null&&colHds!=null)
+            {
+                double runningWidth = 0;
+                for (int i = 0; i < colDefs.Count; ++i)
+                {
+                    colHds[i].MinWidth = colDefs[i].ActualWidth;
+                    runningWidth += colDefs[i].ActualWidth;
+                }
+                svHeader.ScrollToHorizontalOffset(sv.HorizontalOffset);
+            }
         }
         void SortChanged(object sender, EventArgs e)
         {
@@ -144,7 +164,7 @@ namespace JoyPro
             if (CURRENTDISPLAYEDRELATION.Count < 1) return;
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Filter = "Pr0file Files (*.pr0file)|*.pr0file|All filed (*.*)|*.*";
-            saveFileDialog1.Title = "Load Pr0file";
+            saveFileDialog1.Title = "Save Pr0file";
             if (Directory.Exists(MainStructure.lastOpenedLocation))
             {
                 saveFileDialog1.InitialDirectory = MainStructure.lastOpenedLocation;
@@ -211,6 +231,7 @@ namespace JoyPro
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = false;
             ofd.Filter = "Relation Files (*.rl)|*.rl|All filed (*.*)|*.*";
+            ofd.Title = "Load Relations";
             if (MainStructure.lastOpenedLocation.Length < 1 || !Directory.Exists(MainStructure.lastOpenedLocation))
             {
                 ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -240,6 +261,7 @@ namespace JoyPro
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = true;
             ofd.Filter = "Relation Files (*.rl)|*.rl|All filed (*.*)|*.*";
+            ofd.Title = "Include Relations";
             if (MainStructure.lastOpenedLocation.Length < 1 || !Directory.Exists(MainStructure.lastOpenedLocation))
             {
                 ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -323,17 +345,13 @@ namespace JoyPro
         {
             var converter = new GridLengthConverter();
             Grid grid = new Grid();
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
+            colDefs = new List<ColumnDefinition>();
+            for (int i = 0; i < 11; ++i)
+            {
+                ColumnDefinition c = new ColumnDefinition();
+                grid.ColumnDefinitions.Add(c);
+                colDefs.Add(c);
+            }
             for (int i = 0; i < CURRENTDISPLAYEDRELATION.Count; i++)
             {
                 RowDefinition r = new RowDefinition();
@@ -741,6 +759,90 @@ namespace JoyPro
         {
             CURRENTDISPLAYEDRELATION = li;
             RefreshRelationsToShow();
+            SetHeadersForScrollView();
+        }
+        void SetHeadersForScrollView()
+        {
+            var converter = new GridLengthConverter();
+            Grid grid = new Grid();
+            colHds = new List<ColumnDefinition>();
+            for(int i=0; i < 11; ++i)
+            {
+                ColumnDefinition c = new ColumnDefinition();
+                grid.ColumnDefinitions.Add(c);
+                colHds.Add(c);
+                c.MinWidth = colDefs[i].ActualWidth;
+            }
+
+
+            Label relPick = new Label();
+            relPick.Name = "joyHdrLblRlName";
+            relPick.Content = "Relation Name";
+            relPick.Foreground = Brushes.White;
+            relPick.HorizontalAlignment = HorizontalAlignment.Center;
+            relPick.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(relPick, 0);
+            grid.Children.Add(relPick);
+
+            Label joystickPick = new Label();
+            joystickPick.Name = "joyHdrLbldeviceName";
+            joystickPick.Content = "Device Name";
+            joystickPick.Foreground = Brushes.White;
+            joystickPick.HorizontalAlignment = HorizontalAlignment.Center;
+            joystickPick.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(joystickPick, 3);
+            grid.Children.Add(joystickPick);
+
+            Label joystickBtn = new Label();
+            joystickBtn.Name = "joyHdrLblaxisname";
+            joystickBtn.Content = "Axis/Btn Name";
+            joystickBtn.Foreground = Brushes.White;
+            joystickBtn.HorizontalAlignment = HorizontalAlignment.Center;
+            joystickBtn.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(joystickBtn, 4);
+            grid.Children.Add(joystickBtn);
+
+            Label joystickAxisS = new Label();
+            joystickAxisS.Content = "Axis Setting";
+            joystickAxisS.Foreground = Brushes.White;
+            joystickAxisS.HorizontalAlignment = HorizontalAlignment.Center;
+            joystickAxisS.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(joystickAxisS, 5);
+            grid.Children.Add(joystickAxisS);
+
+            Label dzlbl = new Label();
+            dzlbl.Content = "Mod1/Deadzone";
+            dzlbl.Foreground = Brushes.White;
+            dzlbl.HorizontalAlignment = HorizontalAlignment.Center;
+            dzlbl.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(dzlbl, 7);
+            grid.Children.Add(dzlbl);
+
+            Label sxlbl = new Label();
+            sxlbl.Content = "Mod2/Sat X";
+            sxlbl.Foreground = Brushes.White;
+            sxlbl.HorizontalAlignment = HorizontalAlignment.Center;
+            sxlbl.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(sxlbl, 8);
+            grid.Children.Add(sxlbl);
+
+            Label sylbl = new Label();
+            sylbl.Content = "Mod3/Sat Y";
+            sylbl.Foreground = Brushes.White;
+            sylbl.HorizontalAlignment = HorizontalAlignment.Center;
+            sylbl.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(sylbl, 9);
+            grid.Children.Add(sylbl);
+
+            Label curvlbl = new Label();
+            curvlbl.Content = "Mod4/Curv";
+            curvlbl.Foreground = Brushes.White;
+            curvlbl.HorizontalAlignment = HorizontalAlignment.Center;
+            curvlbl.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(curvlbl, 10);
+            grid.Children.Add(curvlbl);
+
+            svHeader.Content = grid;
         }
         private void Event_GameSelectionChanged(object sender, EventArgs e)
         {
@@ -920,15 +1022,22 @@ namespace JoyPro
             for (int i = 0; i < ALLBUTTONS.Count; ++i)
                 ALLBUTTONS[i].IsEnabled = false;
             MainStructure.LoadMetaLast();
+            
+        }
+
+        void setWindowPosSize(object sender, EventArgs e)
+        {
+            Console.WriteLine("Should set");
+            MainStructure.LoadMetaLast();
             if (MainStructure.mainWLast != null)
             {
                 this.Top = MainStructure.mainWLast.Top;
                 this.Left = MainStructure.mainWLast.Left;
                 this.Width = MainStructure.mainWLast.Width;
                 this.Height = MainStructure.mainWLast.Height;
+                Console.WriteLine("Done set");
             }
         }
-
         void ActivateInputs(object sender, EventArgs e)
         {
             ActivateInputs();
@@ -987,7 +1096,7 @@ namespace JoyPro
             //MainStructure.LoadLocalBinds((string)DropDownInstanceSelection.SelectedItem);
             MainStructure.selectedInstancePath = (string)DropDownInstanceSelection.SelectedItem;
         }
-        void AppExit(object sender, EventArgs e)
+        void SaveMeta(object sender, EventArgs e)
         {
             MainStructure.SaveMetaLast();
         }

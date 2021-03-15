@@ -23,7 +23,7 @@ namespace JoyPro
             if (axisDiffs.Count > 0)
             {
                 swr.Write("\t[\"axisDiffs\"] = {\n");
-                foreach(KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in axisDiffs)
+                foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in axisDiffs)
                 {
                     swr.Write("\t\t[\"" + kvp.Key + "\"] = {\n");
                     swr.Write("\t\t\t[\"name\"] = \"" + kvp.Value.Title + "\",\n");
@@ -31,8 +31,8 @@ namespace JoyPro
                     {
                         swr.Write("\t\t\t[\"added\"] = {\n");
                         for (int y = 0; y < kvp.Value.added.Count; ++y)
-                        {                        
-                            swr.Write("\t\t\t\t["+(y+1).ToString()+"] = {\n");
+                        {
+                            swr.Write("\t\t\t\t[" + (y + 1).ToString() + "] = {\n");
                             swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.added[y].key + "\",\n");
                             if (kvp.Value.added[y].filter != null)
                             {
@@ -59,7 +59,7 @@ namespace JoyPro
                         swr.Write("\t\t\t[\"removed\"] = {\n");
                         for (int w = 0; w < kvp.Value.removed.Count; ++w)
                         {
-                            swr.Write("\t\t\t\t["+(w+1).ToString()+"] = {\n");
+                            swr.Write("\t\t\t\t[" + (w + 1).ToString() + "] = {\n");
                             swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.removed[w].key + "\",\n");
                             swr.Write("\t\t\t\t},\n");
                         }
@@ -69,10 +69,10 @@ namespace JoyPro
                 }
                 swr.Write("\t},\n");
             }
-            if(keyDiffs.Count > 0)
+            if (keyDiffs.Count > 0)
             {
                 swr.Write("\t[\"keyDiffs\"] = {\n");
-                foreach(KeyValuePair<string, DCSLuaDiffsButtonElement> kvp in keyDiffs)
+                foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvp in keyDiffs)
                 {
                     swr.Write("\t\t[\"" + kvp.Key + "\"] = {\n");
                     swr.Write("\t\t\t[\"name\"] = \"" + kvp.Value.Title + "\",\n");
@@ -81,17 +81,17 @@ namespace JoyPro
                         swr.Write("\t\t\t[\"added\"] = {\n");
                         for (int z = 0; z < kvp.Value.added.Count; ++z)
                         {
-                            swr.Write("\t\t\t\t["+(z+1).ToString()+"] = {\n");
+                            swr.Write("\t\t\t\t[" + (z + 1).ToString() + "] = {\n");
                             swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.added[z].key + "\",\n");
                             if (kvp.Value.added[z].reformers.Count > 0)
                             {
                                 swr.Write("\t\t\t\t\t[\"reformers\"] = {\n");
-                                for(int a=0; a<kvp.Value.added[z].reformers.Count; ++a)
+                                for (int a = 0; a < kvp.Value.added[z].reformers.Count; ++a)
                                 {
-                                    swr.Write("\t\t\t\t\t\t["+(a+1).ToString()+"] = \"" + kvp.Value.added[z].reformers[a]+"\",\n");
+                                    swr.Write("\t\t\t\t\t\t[" + (a + 1).ToString() + "] = \"" + kvp.Value.added[z].reformers[a] + "\",\n");
                                 }
                                 swr.Write("\t\t\t\t\t},\n");
-                            }                         
+                            }
                             swr.Write("\t\t\t\t},\n");
                         }
                         swr.Write("\t\t\t},\n");
@@ -101,7 +101,7 @@ namespace JoyPro
                         swr.Write("\t\t\t[\"removed\"] = {\n");
                         for (int z = 0; z < kvp.Value.removed.Count; ++z)
                         {
-                            swr.Write("\t\t\t\t["+(z+1).ToString()+"] = {\n");
+                            swr.Write("\t\t\t\t[" + (z + 1).ToString() + "] = {\n");
                             swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.removed[z].key + "\",\n");
                             swr.Write("\t\t\t\t},\n");
                         }
@@ -121,25 +121,25 @@ namespace JoyPro
             DCSLuaInput result = new DCSLuaInput();
             result.JoystickName = JoystickName;
             result.plane = plane;
-            foreach(KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in axisDiffs)
+            foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in axisDiffs)
             {
                 result.axisDiffs.Add(kvp.Key, kvp.Value.Copy());
             }
-            foreach(KeyValuePair<string, DCSLuaDiffsButtonElement> kvp in keyDiffs)
+            foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvp in keyDiffs)
             {
                 result.keyDiffs.Add(kvp.Key, kvp.Value.Copy());
             }
             return result;
         }
-        
-        public void AnalyzeRawLuaInput(string content, DCSExportPlane refMod = null)
+
+        public void AnalyzeRawLuaInput(string content,DCSExportPlane refMod = null)
         {
             if (!content.Contains('{')) return;
             string cleaned = MainStructure.GetContentBetweenSymbols(content, "{", "}");
             Dictionary<object, object> dct = MainStructure.CreateAttributeDictFromLua(content);
             if (dct.ContainsKey("axisDiffs"))
             {
-                foreach(KeyValuePair<object, object> kvp in (Dictionary<object,object>)dct["axisDiffs"])
+                foreach (KeyValuePair<object, object> kvp in (Dictionary<object, object>)dct["axisDiffs"])
                 {
                     DCSLuaDiffsAxisElement current = new DCSLuaDiffsAxisElement();
                     current.Keyname = (string)kvp.Key;
@@ -150,7 +150,7 @@ namespace JoyPro
                     if (((Dictionary<object, object>)kvp.Value).ContainsKey("added"))
                     {
                         Dictionary<object, object> dictAdded = (Dictionary<object, object>)((Dictionary<object, object>)kvp.Value)["added"];
-                        foreach(KeyValuePair<object, object> kvpAdded in dictAdded)
+                        foreach (KeyValuePair<object, object> kvpAdded in dictAdded)
                         {
                             if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("key"))
                             {
@@ -160,12 +160,43 @@ namespace JoyPro
                                 {
                                     DCSAxisFilter daf = new DCSAxisFilter();
                                     dab.filter = daf;
-                                    daf.deadzone=(double)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["deadzone"];
+                                    daf.deadzone = (double)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["deadzone"];
                                     daf.inverted = (bool)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["invert"];
                                     daf.slider = (bool)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["slider"];
                                     daf.saturationX = (double)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["saturationX"];
                                     daf.saturationY = (double)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["saturationY"];
-                                    foreach(KeyValuePair<object,object> kvpCurve in (Dictionary<object, object>)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["curvature"])
+                                    foreach (KeyValuePair<object, object> kvpCurve in (Dictionary<object, object>)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["curvature"])
+                                    {
+                                        daf.curviture.Add((double)kvpCurve.Value);
+                                    }
+                                }
+                                if (!current.doesAddedContainKey(dab.key))
+                                {
+                                    current.added.Add(dab);
+                                    current.removeItemFromRemoved(dab.key);
+                                }
+                            }
+                        }
+                    }
+                    if (((Dictionary<object, object>)kvp.Value).ContainsKey("changed"))
+                    {
+                        Dictionary<object, object> dictAdded = (Dictionary<object, object>)((Dictionary<object, object>)kvp.Value)["changed"];
+                        foreach (KeyValuePair<object, object> kvpAdded in dictAdded)
+                        {
+                            if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("key"))
+                            {
+                                DCSAxisBind dab = new DCSAxisBind();
+                                dab.key = (string)((Dictionary<object, object>)kvpAdded.Value)["key"];
+                                if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("filter"))
+                                {
+                                    DCSAxisFilter daf = new DCSAxisFilter();
+                                    dab.filter = daf;
+                                    daf.deadzone = (double)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["deadzone"];
+                                    daf.inverted = (bool)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["invert"];
+                                    daf.slider = (bool)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["slider"];
+                                    daf.saturationX = (double)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["saturationX"];
+                                    daf.saturationY = (double)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["saturationY"];
+                                    foreach (KeyValuePair<object, object> kvpCurve in (Dictionary<object, object>)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["curvature"])
                                     {
                                         daf.curviture.Add((double)kvpCurve.Value);
                                     }
@@ -182,7 +213,7 @@ namespace JoyPro
                     {
                         Dictionary<object, object> dictRemoved = (Dictionary<object, object>)((Dictionary<object, object>)kvp.Value)["removed"];
                         foreach (KeyValuePair<object, object> kvpRemoved in dictRemoved)
-                        {                           
+                        {
                             if (((Dictionary<object, object>)kvpRemoved.Value).ContainsKey("key"))
                             {
                                 DCSAxisBind dab = new DCSAxisBind();
@@ -215,7 +246,7 @@ namespace JoyPro
                             if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("key"))
                             {
                                 DCSButtonBind dab = new DCSButtonBind();
-                                dab.key = (string)((Dictionary<object, object>)kvpAdded.Value)["key"];                                
+                                dab.key = (string)((Dictionary<object, object>)kvpAdded.Value)["key"];
                                 if (!current.doesAddedContainKey(dab.key))
                                 {
                                     current.added.Add(dab);
@@ -223,7 +254,7 @@ namespace JoyPro
                                 }
                                 if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("reformers"))
                                 {
-                                    foreach(KeyValuePair<object, object> kvpReformers in (Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["reformers"])
+                                    foreach (KeyValuePair<object, object> kvpReformers in (Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["reformers"])
                                     {
                                         if (!dab.reformers.Contains((string)kvpReformers.Value))
                                             dab.reformers.Add((string)kvpReformers.Value);
@@ -258,190 +289,98 @@ namespace JoyPro
                         }
                     }
                 }
-            }            
+            }
         }
 
-        public void RemoveKey(string key, bool onlyIfDefault=false)
+        public void FillUpWithDefaults()
         {
-            if (!onlyIfDefault)
+            DCSLuaInput def = getDefaultBinds();
+            if (def == null) return;
+            foreach(KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in def.axisDiffs)
             {
-                List<string> toRemove = new List<string>();
-                foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in axisDiffs)
+                if(!axisDiffs.ContainsKey(kvp.Key)) //Then add
                 {
-                    for (int i = kvp.Value.added.Count - 1; i >= 0; i--)
+                    if (kvp.Value.removed.Count > 0&&CheckIfAxisIsSet(kvp.Value.removed[0].key)==null)
                     {
-                        if (kvp.Value.added[i].key == key)
-                        {
-                            if (kvp.Value.removed.Count == 0 && kvp.Value.added.Count == 1)
-                            {
-                                if (!toRemove.Contains(kvp.Key)) toRemove.Add(kvp.Key);
-                            }
-                            else
-                            {
-                                kvp.Value.added.RemoveAt(i);
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < toRemove.Count; ++i)
-                {
-                    axisDiffs.Remove(toRemove[i]);
-                }
-                toRemove.Clear();
-                foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvp in keyDiffs)
-                {
-                    for (int i = kvp.Value.added.Count - 1; i >= 0; i--)
-                    {
-                        if (kvp.Value.added[i].key == key)
-                        {
-                            if (kvp.Value.removed.Count == 0 && kvp.Value.added.Count == 1)
-                            {
-                                if (!toRemove.Contains(kvp.Key)) toRemove.Add(kvp.Key);
-                            }
-                            else
-                            {
-                                kvp.Value.added.RemoveAt(i);
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < toRemove.Count; ++i)
-                {
-                    axisDiffs.Remove(toRemove[i]);
-                }
-            }
-            DCSLuaInput defs = getDefaultBinds();
-            foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in defs.axisDiffs)
-            {
-                foreach (DCSAxisBind kvpa in kvp.Value.removed)
-                {
-                    if (kvpa.key == key)
-                    {
-                        if (!axisDiffs.ContainsKey(kvp.Key))
-                        {
-                            axisDiffs.Add(kvp.Key, new DCSLuaDiffsAxisElement());
-                            axisDiffs[kvp.Key].Keyname = kvp.Key;
-                        }
-                        DCSLuaDiffsAxisElement element = axisDiffs[kvp.Key];
-                        bool found = false;
-                        for(int i=0; i<element.removed.Count; ++i)
-                        {
-                            if (element.removed[i].key == key)
-                            {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found)
-                        {
-                            DCSAxisBind dab = new DCSAxisBind();
-                            dab.key = key;
-                            element.removed.Add(dab);
-                        }
+                        DCSLuaDiffsAxisElement d = new DCSLuaDiffsAxisElement();
+                        d.Keyname = kvp.Key;
+                        d.Title = kvp.Value.Title;
+                        DCSAxisBind dab = new DCSAxisBind();
+                        dab.key = kvp.Value.removed[0].key;
+                        d.added.Add(dab);
+                        axisDiffs.Add(kvp.Key, d);
                     }
                 }
             }
-            foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvp in defs.keyDiffs)
+            foreach(KeyValuePair<string, DCSLuaDiffsButtonElement> kvp in def.keyDiffs)
             {
-                foreach (DCSButtonBind kvpa in kvp.Value.removed)
+                if (!keyDiffs.ContainsKey(kvp.Key))
                 {
-                    if (kvpa.key == key)
+                    if (kvp.Value.removed.Count > 0 && CheckIfButtonIsSet(kvp.Value.removed[0].key) == null)
                     {
-                        if (!keyDiffs.ContainsKey(kvp.Key))
-                        {
-                            keyDiffs.Add(kvp.Key, new DCSLuaDiffsButtonElement());
-                            keyDiffs[kvp.Key].Keyname = kvp.Key;
-                        }
-                        DCSLuaDiffsButtonElement element = keyDiffs[kvp.Key];
-                        bool found = false;
-                        for (int i = 0; i < element.removed.Count; ++i)
-                        {
-                            if (element.removed[i].key == key)
-                            {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found)
-                        {
-                            DCSButtonBind dab = new DCSButtonBind();
-                            dab.key = key;
-                            element.removed.Add(dab);
-                        }
+                        DCSLuaDiffsButtonElement d = new DCSLuaDiffsButtonElement();
+                        d.Keyname = kvp.Key;
+                        d.Title = kvp.Value.Title;
+                        DCSButtonBind dab = new DCSButtonBind();
+                        dab.key= kvp.Value.removed[0].key;
+                        d.added.Add(dab);
+                        keyDiffs.Add(kvp.Key, d);
                     }
                 }
             }
         }
 
-        public bool? ButtonAlreadySet(string key, Dictionary<string, Modifier> modifiers=null)
+        string CheckIfButtonIsSet(string btn, string[] refs = null)
         {
-            foreach(KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in axisDiffs)
-            {
-                for(int i=0; i<kvp.Value.added.Count; ++i)
-                {
-                    if (kvp.Value.added[i].key == key) return true;
-                }
-            }
             foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvp in keyDiffs)
             {
-                for (int i = 0; i < kvp.Value.added.Count; ++i)
+                for (int i = kvp.Value.added.Count - 1; i >= 0; --i)
                 {
-                    if (kvp.Value.added[i].key == key) return true;
-                }
-            }
-            if(modifiers!=null)
-                foreach(KeyValuePair<string, Modifier> kvp in modifiers)
-                {
-                    if (JoystickName == kvp.Value.device && key == kvp.Value.key) return null;
-                }
+                    if (kvp.Value.added[i].key == btn)
+                    {
+                        bool mods = true;
+                        if (refs != null)
+                        {
+                            if (refs.Length == kvp.Value.added[i].reformers.Count)
+                            {
+                                for (int j = refs.Length - 1; j >= 0; j--)
+                                {
+                                    if (!kvp.Value.added[i].reformers.Contains(refs[j]))
+                                    {
+                                        mods = false;
+                                        break;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                mods = false;
+                            }
+                        }
 
-            DCSLuaInput defs = getDefaultBinds();
-            foreach(KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in defs.axisDiffs)
-            {
-                foreach(DCSAxisBind kvpa in kvp.Value.removed)
-                {
-                    if (!axisDiffs.ContainsKey(kvp.Key))
-                    {
-                        return true;
-                    }else
-                    {
-                        bool found = false;
-                        foreach(DCSAxisBind dab in axisDiffs[kvp.Key].removed)
+                        if (mods)
                         {
-                            if (dab.key == key)
-                            {
-                                found = true;
-                                break;
-                            }
+                            return kvp.Key;
                         }
-                        if (!found) return true;
                     }
                 }
             }
-            foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvp in defs.keyDiffs)
+            return null;
+        }
+
+        string CheckIfAxisIsSet(string axis)
+        {
+            foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in axisDiffs)
             {
-                foreach (DCSButtonBind kvpa in kvp.Value.removed)
+                for (int i = kvp.Value.added.Count - 1; i >= 0; --i)
                 {
-                    if (!keyDiffs.ContainsKey(kvp.Key))
+                    if (kvp.Value.added[i].key == axis)
                     {
-                        return true;
-                    }
-                    else
-                    {
-                        bool found = false;
-                        foreach (DCSButtonBind dab in keyDiffs[kvp.Key].removed)
-                        {
-                            if (dab.key == key)
-                            {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) return true;
+                        return kvp.Key;
                     }
                 }
             }
-            return false;
+            return null;
         }
 
         DCSLuaInput getDefaultBinds()

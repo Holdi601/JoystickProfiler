@@ -718,6 +718,62 @@ local diff = {
 	},
 }
 return diff
+####################A-4E-C
+local diff = {
+	["axisDiffs"] = {
+		["a2001cdnil"] = {
+			["name"] = "Pitch",
+			["removed"] = {
+				[1] = {
+					["key"] = "JOY_Y",
+				},
+			},
+		},
+		["a2002cdnil"] = {
+			["name"] = "Roll",
+			["removed"] = {
+				[1] = {
+					["key"] = "JOY_X",
+				},
+			},
+		},
+		["a3112cd32"] = {
+			["name"] = "Throttle Axis",
+			["removed"] = {
+				[1] = {
+					["key"] = "JOY_Z",
+				},
+			},
+		},
+		["a3123cd35"] = {
+			["name"] = "Rudder Axis",
+			["removed"] = {
+				[1] = {
+					["key"] = "JOY_RZ",
+				},
+			},
+		},
+	},
+	["keyDiffs"] = {
+		["d10006pnilu10007cdnilvdnilvpnilvunil"] = {
+			["name"] = "Weapon Fire",
+			["removed"] = {
+				[1] = {
+					["key"] = "JOY_BTN1",
+				},
+			},
+		},
+		["d10008pnilu10009cdnilvdnilvpnilvunil"] = {
+			["name"] = "Weapon Release",
+			["removed"] = {
+				[1] = {
+					["key"] = "JOY_BTN2",
+				},
+			},
+		},
+	},
+}
+return diff
 ####################AJS37
 local diff = {
 	["axisDiffs"] = {
@@ -4388,38 +4444,6 @@ local diff = {
 		},
 	},
 	["keyDiffs"] = {
-		["d100pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "STT/TWS Toggle",
-			["removed"] = {
-				[1] = {
-					["key"] = "JOY_BTN2",
-				},
-			},
-		},
-		["d564pnilu563cdnilvdnilvpnilvunil"] = {
-			["name"] = "Nosewheel Steering/IFF Interrogate",
-			["removed"] = {
-				[1] = {
-					["key"] = "JOY_BTN3",
-				},
-			},
-		},
-		["d74pnilu75cdnilvdnilvpnilvunil"] = {
-			["name"] = "Wheel Brakes",
-			["removed"] = {
-				[1] = {
-					["key"] = "JOY_BTN4",
-				},
-			},
-		},
-		["d84pnilu85cdnilvdnilvpnilvunil"] = {
-			["name"] = "Weapons FIRE/Bombs Release",
-			["removed"] = {
-				[1] = {
-					["key"] = "JOY_BTN1",
-				},
-			},
-		},
 		["dnilp210u214cdnilvdnilvpnilvunil"] = {
 			["name"] = "View Up Right slow",
 			["removed"] = {

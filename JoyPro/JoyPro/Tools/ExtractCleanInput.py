@@ -1,8 +1,9 @@
 import os
+import sys
 
-inputpath = "C:\\Users\\reinh\\Saved Games\\DCS\\Config\\Input"
-outputpath = os.path.abspath(os.getcwd())
-file = open(outputpath+'\\clean.cf', mode='w')
+inputpath = "F:\\Dropbox\\DCS\\DCS.openbeta\\Config\\Input"
+outputpath="F:\\Dropbox\\Programmierung\\c#"
+file = open(outputpath+'\\clean.cf', 'w')
 joystickname = "LEFT VPC Throttle MT-50 CM {43DBF080-895E-11ea-8002-444553540000}"
 
 subfolders = [f.path for f in os.scandir(inputpath) if f.is_dir()]

@@ -42,6 +42,7 @@ namespace JoyPro
                 if (MainStructure.relationWindowLast.Width != -1) this.Width = MainStructure.relationWindowLast.Width;
                 if (MainStructure.relationWindowLast.Height != -1) this.Height = MainStructure.relationWindowLast.Height;
             }
+            svcCont.ScrollChanged += new ScrollChangedEventHandler(scrollChanged);
 
             if (Current == null)
             {
@@ -62,6 +63,11 @@ namespace JoyPro
             MainStructure.relationWindowLast.Left = this.Left;
             MainStructure.relationWindowLast.Top = this.Top;
             MainStructure.relationWindowLast.Width = this.Width;
+        }
+
+        void scrollChanged(object sender, EventArgs e)
+        {
+            svHead.ScrollToHorizontalOffset(svcCont.HorizontalOffset);
         }
 
         public void Refresh()
@@ -187,8 +193,6 @@ namespace JoyPro
 
         void RefreshDGSelected()
         {
-            Console.WriteLine("Got Here");
-            //It seems to crash sometime in Microsofts libs, I have no clue why as it doesn't give me a reason other than a nullptr, So thats my best way to cope with it....
             try
             {
                 if (InWorkTable != null)
@@ -217,6 +221,7 @@ namespace JoyPro
                     dt.Rows.Add(row);
                 }
                 DGAdded.ItemsSource = dt.DefaultView;
+                DGHead.ItemsSource = dt.DefaultView;
             }
             catch(Exception e)
             {

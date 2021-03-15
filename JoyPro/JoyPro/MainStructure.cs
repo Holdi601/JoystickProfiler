@@ -122,7 +122,7 @@ namespace JoyPro
         }
         public static void BindsFromLocal(List<string> sticks, bool loadDefaults, bool inv = false, bool slid = false, bool curv = false, bool dz = false, bool sx = false, bool sy = false)
         {
-            LoadLocalBinds(selectedInstancePath);
+            LoadLocalBinds(selectedInstancePath, true);
             Dictionary<string, Bind> result = new Dictionary<string, Bind>();
             Dictionary<string, JoystickResults> modifiers = new Dictionary<string, JoystickResults>();
             Dictionary<string, Dictionary<string, List<string>>> checkedIds = new Dictionary<string, Dictionary<string, List<string>>>();
@@ -261,7 +261,7 @@ namespace JoyPro
             if (!Directory.Exists(selectedInstancePath)) return;
             ToExport.Clear();
             defaultToOverwrite = new List<string>();
-            LoadLocalBinds(selectedInstancePath);
+            LoadLocalBinds(selectedInstancePath, true);
             OverwriteExportWith(LocalBinds, true, false, false);
             PushAllBindsToExport(false, fillBeforeEmpty, false);
             writeFiles();
@@ -272,7 +272,7 @@ namespace JoyPro
             if (!Directory.Exists(selectedInstancePath)) return;
             ToExport.Clear();
             defaultToOverwrite = new List<string>();
-            LoadLocalBinds(selectedInstancePath);
+            LoadLocalBinds(selectedInstancePath, true);
             OverwriteExportWith(LocalBinds, true, false, false);
             PushAllBindsToExport(true, fillBeforeEmpty, false);
             writeFiles();
@@ -288,7 +288,7 @@ namespace JoyPro
             if (!Directory.Exists(selectedInstancePath)) return;
             ToExport.Clear();
             defaultToOverwrite = new List<string>();
-            LoadLocalBinds(selectedInstancePath);
+            LoadLocalBinds(selectedInstancePath, true);
             OverwriteExportWith(LocalBinds, true, false, false);
             PushAllBindsToExport(true, fillBeforeEmpty, true);
             writeFiles();
@@ -697,7 +697,7 @@ namespace JoyPro
             sr.Close();
             Console.WriteLine("Clean Data loaded");
         }
-        public static void LoadLocalBinds(string localPath)
+        public static void LoadLocalBinds(string localPath, bool fillWithDefaults=false)
         {
             LocalBinds.Clear();
             string pathToSearch = localPath + "\\Config\\Input";
@@ -740,8 +740,20 @@ namespace JoyPro
                         }
                     }
                 }
+                if (fillWithDefaults)
+                {
+                    foreach (KeyValuePair<string, DCSExportPlane> kvp in LocalBinds)
+                    {
+                        foreach(KeyValuePair<string, DCSLuaInput> kiwi in kvp.Value.joystickConfig)
+                        {
+                            kiwi.Value.FillUpWithDefaults();
+                        }
+                    }
+                }
             }
             Console.WriteLine("Locals loaded lol");
+            //fill up with defaults
+
         }
         public static void AddRelation(Relation r)
         {
