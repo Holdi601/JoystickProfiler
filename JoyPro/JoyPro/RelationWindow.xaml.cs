@@ -35,12 +35,12 @@ namespace JoyPro
             FinishRelationBtn.Click += new RoutedEventHandler(FinishRelation);
             DGAdded.CanUserAddRows = false;
             this.Closing += new System.ComponentModel.CancelEventHandler(OnClosing);
-            if (MainStructure.relationWindowLast != null)
+            if (MainStructure.msave.relationWindowLast != null)
             {
-                if (MainStructure.relationWindowLast.Top != -1) this.Top = MainStructure.relationWindowLast.Top;
-                if (MainStructure.relationWindowLast.Left != -1) this.Left = MainStructure.relationWindowLast.Left;
-                if (MainStructure.relationWindowLast.Width != -1) this.Width = MainStructure.relationWindowLast.Width;
-                if (MainStructure.relationWindowLast.Height != -1) this.Height = MainStructure.relationWindowLast.Height;
+                if (MainStructure.msave.relationWindowLast.Top != -1) this.Top = MainStructure.msave.relationWindowLast.Top;
+                if (MainStructure.msave.relationWindowLast.Left != -1) this.Left = MainStructure.msave.relationWindowLast.Left;
+                if (MainStructure.msave.relationWindowLast.Width != -1) this.Width = MainStructure.msave.relationWindowLast.Width;
+                if (MainStructure.msave.relationWindowLast.Height != -1) this.Height = MainStructure.msave.relationWindowLast.Height;
             }
             svcCont.ScrollChanged += new ScrollChangedEventHandler(scrollChanged);
 
@@ -65,11 +65,11 @@ namespace JoyPro
         }
         void setLastSizeAndPosition()
         {
-            if (MainStructure.relationWindowLast == null) MainStructure.relationWindowLast = new WindowPos();
-            MainStructure.relationWindowLast.Height = this.Height;
-            MainStructure.relationWindowLast.Left = this.Left;
-            MainStructure.relationWindowLast.Top = this.Top;
-            MainStructure.relationWindowLast.Width = this.Width;
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            MainStructure.msave.relationWindowLast.Height = this.Height;
+            MainStructure.msave.relationWindowLast.Left = this.Left;
+            MainStructure.msave.relationWindowLast.Top = this.Top;
+            MainStructure.msave.relationWindowLast.Width = this.Width;
         }
 
         private void DataGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)

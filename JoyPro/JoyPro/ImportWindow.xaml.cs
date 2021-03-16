@@ -31,24 +31,35 @@ namespace JoyPro
             CancelBtn.Click += new RoutedEventHandler(CancelImport);
             ImportBtn.Click += new RoutedEventHandler(Import);
             ListSticks();
-            if (MainStructure.importWindowLast != null)
+            if (MainStructure.msave != null&&MainStructure.msave.importWindowLast.Height>0 && MainStructure.msave.importWindowLast.Width > 0)
             {
-                this.Top = MainStructure.importWindowLast.Top;
-                this.Left = MainStructure.importWindowLast.Left;
-                this.Width = MainStructure.importWindowLast.Width;
-                this.Height = MainStructure.importWindowLast.Height;
+                this.Top = MainStructure.msave.importWindowLast.Top;
+                this.Left = MainStructure.msave.importWindowLast.Left;
+                this.Width = MainStructure.msave.importWindowLast.Width;
+                this.Height = MainStructure.msave.importWindowLast.Height;
             }
+            this.Closing += new System.ComponentModel.CancelEventHandler(chnged);
+            this.SizeChanged += new SizeChangedEventHandler(chnged);
+        
+        }
+
+        void chnged (object sender, EventArgs e)
+        {
+            MainStructure.msave.importWindowLast = MainStructure.GetWindowPosFrom(this);
+            MainStructure.SaveMetaLast();
         }
 
         void CancelImport(object sender, EventArgs e)
         {
-            MainStructure.importWindowLast = MainStructure.GetWindowPosFrom(this);
+            MainStructure.msave.importWindowLast = MainStructure.GetWindowPosFrom(this);
+            MainStructure.SaveMetaLast();
             Close();
         }
 
         void Import(object sender, EventArgs e)
         {
-            MainStructure.importWindowLast = MainStructure.GetWindowPosFrom(this);
+            MainStructure.msave.importWindowLast = MainStructure.GetWindowPosFrom(this);
+            MainStructure.SaveMetaLast();
             bool inv, slid, curv, dz, sx, sy, importDefault;
             if (CBinv.IsChecked == true)
                 inv = true;
@@ -125,6 +136,8 @@ namespace JoyPro
 
         void JoystickSetChanged(object sender, EventArgs e)
         {
+            MainStructure.msave.importWindowLast = MainStructure.GetWindowPosFrom(this);
+            MainStructure.SaveMetaLast();
             CheckBox cx = (CheckBox)sender;
             int indx = Convert.ToInt32(cx.Name.Replace("cbxjy", ""));
             if (indx < 0 || indx >= availableJoysticks.Length) return;

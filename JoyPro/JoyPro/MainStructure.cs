@@ -31,35 +31,40 @@ namespace JoyPro
         public static Dictionary<string, DCSLuaInput> EmptyOutputs = new Dictionary<string, DCSLuaInput>();
         static Dictionary<string, DCSExportPlane> LocalBinds = new Dictionary<string, DCSExportPlane>();
         static Dictionary<string, DCSExportPlane> ToExport = new Dictionary<string, DCSExportPlane>();
-        public static string selectedInstancePath = "";
-        public static string lastOpenedLocation = "";
         static List<string> defaultToOverwrite = new List<string>();
-        public static WindowPos relationWindowLast = null;
-        public static WindowPos importWindowLast = null;
-        public static WindowPos mainWLast = null;
+        public static MetaSave msave = null;
+        public static string selectedInstancePath = "";
+
 
         public static void LoadMetaLast()
         {
-            string pth = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\JoyPro";;
+            string pth = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\JoyPro";
             if (File.Exists(pth+ "\\meta.info"))
             {
-                System.IO.StreamReader sr = new System.IO.StreamReader(pth + "\\meta.info");
-                lastOpenedLocation = sr.ReadLine();
-                sr.Close();
+                try
+                {
+                    msave = ReadFromBinaryFile<MetaSave>(pth + "\\meta.info");
+                }
+                catch
+                {
+                    File.Delete(pth + "\\meta.info");
+                    msave = new MetaSave();
+                }
             }
-            if (File.Exists(pth + "\\relWindow.last"))
+            else
             {
-                relationWindowLast = readWindowPos(pth + "\\relWindow.last");
+                msave = new MetaSave();
             }
-            if (File.Exists(pth + "\\importWindowLast.last"))
+            
+        }
+        
+        public static void AfterLoad()
+        {
+            string pth = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\JoyPro";
+            if (File.Exists(pth + "\\last.pr0file"))
             {
-                relationWindowLast = readWindowPos(pth + "\\importWindowLast.last");
+                LoadProfile(pth + "\\last.pr0file");
             }
-            if (File.Exists(pth + "\\mainWLast.last"))
-            {
-                relationWindowLast = readWindowPos(pth + "\\mainWLast.last");
-            }
-
         }
 
         public static WindowPos GetWindowPosFrom(Window w)
@@ -73,38 +78,15 @@ namespace JoyPro
         }
         public static void SaveMetaLast()
         {
-            mainWLast = GetWindowPosFrom(mainW);
             string pth = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\JoyPro";
             if (!Directory.Exists(pth))
             {
                 Directory.CreateDirectory(pth);
             }
-            StreamWriter sw = new StreamWriter(pth + "\\meta.info");
-            sw.WriteLine(lastOpenedLocation);
-            sw.Close();
-            if (relationWindowLast != null)
-                writeWindowPos(pth + "\\relWindow.last", relationWindowLast);
-            if (importWindowLast != null)
-                writeWindowPos(pth + "\\importWindowLast.last", importWindowLast);
-            if (mainWLast != null)
-                writeWindowPos(pth + "\\mainWLast.last", mainWLast);
-        }
-        static void writeWindowPos(string pth, WindowPos w)
-        {
-            StreamWriter sw = new StreamWriter(pth);
-            sw.WriteLine(w.ToString());
-            sw.Close();
+            WriteToBinaryFile<MetaSave>(pth + "\\meta.info", msave);
+            SaveProfileTo(pth + "\\last.pr0file");
         }
 
-        static WindowPos readWindowPos(string pth)
-        {
-            string content = "";
-            StreamReader sr = new StreamReader(pth);
-            content= sr.ReadLine();
-            sr.Close();
-            return WindowPos.ToWindowPos(content);
-
-        }
         static void writeFiles()
         {
             foreach (KeyValuePair<string, DCSExportPlane> kvp in ToExport)
@@ -355,7 +337,6 @@ namespace JoyPro
         }
         public static void OverwriteExportWith(Dictionary<string, DCSExportPlane> attr, bool overwrite = true, bool fillBeforeEmpty = true, bool overwriteAdd=false)
         {
-            Console.WriteLine("ow started");
             foreach (KeyValuePair<string, DCSExportPlane> kvp in attr)
             {
                 if ((!ToExport.ContainsKey(kvp.Key)&&!fillBeforeEmpty)||(!ToExport.ContainsKey(kvp.Key)&&fillBeforeEmpty&&!EmptyOutputs.ContainsKey(kvp.Key)))
@@ -410,11 +391,7 @@ namespace JoyPro
                             foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvpDiffsAxisElement in kvpIn.Value.axisDiffs)
                             {
                                 if (!ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs.ContainsKey(kvpDiffsAxisElement.Key))
-                                {
-                                    //for(int z=0; z< kvpDiffsAxisElement.Value.added.Count; ++z)
-                                    //{
-                                    //    kvpIn.Value.RemoveKey(kvpDiffsAxisElement.Value.added[z].key, true);
-                                    //}                            
+                                {                        
                                     ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs.Add(kvpDiffsAxisElement.Key, kvpDiffsAxisElement.Value.Copy());
                                 }
                                 else if (overwrite||defaultToOverwrite.Contains(current))
@@ -445,10 +422,6 @@ namespace JoyPro
                             {
                                 if (!ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs.ContainsKey(kvpDiffsButtonsElement.Key))
                                 {
-                                    //for (int z = 0; z < kvpDiffsButtonsElement.Value.added.Count; ++z)
-                                    //{
-                                    //    kvpIn.Value.RemoveKey(kvpDiffsButtonsElement.Value.added[z].key, true);
-                                    //}
                                     ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs.Add(kvpDiffsButtonsElement.Key, kvpDiffsButtonsElement.Value.Copy());
                                 }
                                 else if (overwrite || defaultToOverwrite.Contains(current))
@@ -780,8 +753,7 @@ namespace JoyPro
         public static void LoadRelations(string filePath)
         {
             if (filePath == null || filePath.Length < 1) return;
-            AllBinds.Clear();
-            AllRelations.Clear();
+            NewFile();
             AllRelations = ReadFromBinaryFile<Dictionary<string, Relation>>(filePath);
             foreach(KeyValuePair<string, Relation> kvp in AllRelations)
             {
@@ -789,12 +761,17 @@ namespace JoyPro
             }
             ResyncRelations();
         }
+        public static void NewFile()
+        {
+            AllBinds.Clear();
+            AllRelations.Clear();
+            ResyncRelations();
+        }
         public static void LoadProfile(string filePath)
         {
             if (filePath == null || filePath.Length < 1) return;
             Pr0file pr = ReadFromBinaryFile<Pr0file>(filePath);
-            AllBinds.Clear();
-            AllRelations.Clear();
+            NewFile();
             AllRelations = pr.Relations;
             AllBinds = pr.Binds;
             foreach (KeyValuePair<string, Relation> kvp in AllRelations)

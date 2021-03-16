@@ -39,10 +39,11 @@ namespace JoyPro
         public string selectedSort;
         List<ColumnDefinition> colDefs = null;
         List<ColumnDefinition> colHds = null;
+        bool started = false;
         public MainWindow()
         {
-            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
-            Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
+            //AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
+            //Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
             CURRENTDISPLAYEDRELATION = new List<Relation>();
             MessageBox.Show("Please Backup your existing binds. C:\\Users\\USERNAME\\Saved Games\\DCS Please make a backup of these folders somewhere outside your savegames.");
@@ -58,6 +59,9 @@ namespace JoyPro
             ALLBUTTONS.Add(LoadProfileBtn);
             ALLBUTTONS.Add(MEBWEAABBtn);
             ALLBUTTONS.Add(ImportProfileBtn);
+            ALLBUTTONS.Add(NewFileBtn);
+            ALLBUTTONS.Add(ModManagerBtn);
+            ALLBUTTONS.Add(ValidateBtn);
             ALLWINDOWS = new List<Window>();
             MainStructure.mainW = this;
             DropDownGameSelection.SelectionChanged += new SelectionChangedEventHandler(Event_GameSelectionChanged);
@@ -74,19 +78,42 @@ namespace JoyPro
             CEBAEBtn.Click += new RoutedEventHandler(CleanAndExport);
             MEBWEAABBtn.Click += new RoutedEventHandler(LoadExistingExportAndAdd);
             ImportProfileBtn.Click += new RoutedEventHandler(ImportProf);
+            NewFileBtn.Click += new RoutedEventHandler(NewFileEvent);
             FirstStart();
             joyReader = null;
             buttonSetting = -1;
             Application.Current.Exit += new ExitEventHandler(SaveMeta);
-            this.SizeChanged += new SizeChangedEventHandler(SaveMeta);
+            //this.SizeChanged += new SizeChangedEventHandler(SaveMeta);
             selectedSort = "Relation";
             SortSelectionDropDown.SelectionChanged += new SelectionChangedEventHandler(SortChanged);
             this.SizeChanged += new SizeChangedEventHandler(sizeChanged);
             sv.ScrollChanged += new ScrollChangedEventHandler(sizeChanged);
             this.ContentRendered += new EventHandler(setWindowPosSize);
+            this.Loaded += new RoutedEventHandler(AfterLoading);
             
         }
 
+        void NewFileEvent(object sender, EventArgs e)
+        {
+            MainStructure.NewFile();
+        }
+        void AfterLoading(object sender, EventArgs e)
+        {
+            setWindowPosSize(sender, e);
+            if (MainStructure.msave != null)
+            {
+                if (MainStructure.msave.lastGameSelected.Length > 0)
+                {
+                    if (MainStructure.msave.lastGameSelected == "Digital Combat Simulator")
+                    {
+                        DropDownGameSelection.SelectedIndex = 0;
+                    }
+                }
+                MainStructure.AfterLoad();
+            }
+            this.SizeChanged += new SizeChangedEventHandler(SaveMeta);
+            this.LocationChanged += new EventHandler(SaveMeta);
+        }
         void sizeChanged(object sender, EventArgs e)
         {
             if(colDefs!=null&&colHds!=null)
@@ -99,12 +126,14 @@ namespace JoyPro
                 }
                 svHeader.ScrollToHorizontalOffset(sv.HorizontalOffset);
             }
+            //savepos();
         }
         void SortChanged(object sender, EventArgs e)
         {
             selectedSort = ((ComboBoxItem)SortSelectionDropDown.SelectedItem).Content.ToString();
             Console.WriteLine(selectedSort);
             MainStructure.ResyncRelations();
+            savepos();
         }
         void ImportProf(object sender, EventArgs e)
         {
@@ -117,6 +146,7 @@ namespace JoyPro
             DisableInputs();
             iw.Show();
             iw.Closing += new CancelEventHandler(ActivateInputs);
+            savepos();
 
         }
         void LoadExistingExportKeepExisting(object sender, EventArgs e)
@@ -142,6 +172,7 @@ namespace JoyPro
             else
                 param = true;
             MainStructure.WriteProfileCleanAndLoadedOverwritten(param);
+            savepos();
         }
         void LoadExistingExportAndAdd(object sender, EventArgs e)
         {
@@ -154,10 +185,12 @@ namespace JoyPro
             else
                 param = true;
             MainStructure.WriteProfileCleanAndLoadedOverwrittenAndAdd(param);
+            savepos();
         }
         void CleanAndExport(object sender, EventArgs e)
         {
             MainStructure.WriteProfileClean();
+            savepos();
         }
         void SaveProfileEvent(object sender, EventArgs e)
         {
@@ -165,9 +198,9 @@ namespace JoyPro
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Filter = "Pr0file Files (*.pr0file)|*.pr0file|All filed (*.*)|*.*";
             saveFileDialog1.Title = "Save Pr0file";
-            if (Directory.Exists(MainStructure.lastOpenedLocation))
+            if (Directory.Exists(MainStructure.msave.lastOpenedLocation))
             {
-                saveFileDialog1.InitialDirectory = MainStructure.lastOpenedLocation;
+                saveFileDialog1.InitialDirectory = MainStructure.msave.lastOpenedLocation;
             }
             else
             {
@@ -179,13 +212,14 @@ namespace JoyPro
             string[] pathParts = filePath.Split('\\');
             if (pathParts.Length > 0)
             {
-                MainStructure.lastOpenedLocation = pathParts[0];
+                MainStructure.msave.lastOpenedLocation = pathParts[0];
                 for (int i = 1; i < pathParts.Length - 1; ++i)
                 {
-                    MainStructure.lastOpenedLocation = MainStructure.lastOpenedLocation + "\\" + pathParts[i];
+                    MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
                 }
             }
             MainStructure.SaveProfileTo(filePath);
+            savepos();
         }
         void SaveReleationsEvent(object sender, EventArgs e)
         {
@@ -193,9 +227,9 @@ namespace JoyPro
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Filter = "Relation Files (*.rl)|*.rl";
             saveFileDialog1.Title = "Save Relations";
-            if (Directory.Exists(MainStructure.lastOpenedLocation))
+            if (Directory.Exists(MainStructure.msave.lastOpenedLocation))
             {
-                saveFileDialog1.InitialDirectory = MainStructure.lastOpenedLocation;
+                saveFileDialog1.InitialDirectory = MainStructure.msave.lastOpenedLocation;
             }
             else
             {
@@ -207,13 +241,14 @@ namespace JoyPro
             string[] pathParts = filePath.Split('\\');
             if (pathParts.Length > 0)
             {
-                MainStructure.lastOpenedLocation = pathParts[0];
+                MainStructure.msave.lastOpenedLocation = pathParts[0];
                 for (int i = 1; i < pathParts.Length - 1; ++i)
                 {
-                    MainStructure.lastOpenedLocation = MainStructure.lastOpenedLocation + "\\" + pathParts[i];
+                    MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
                 }
             }
             MainStructure.SaveRelationsTo(filePath);
+            savepos();
 
         }
         public bool? RelationAlreadyExists(string relName)
@@ -232,13 +267,14 @@ namespace JoyPro
             ofd.Multiselect = false;
             ofd.Filter = "Relation Files (*.rl)|*.rl|All filed (*.*)|*.*";
             ofd.Title = "Load Relations";
-            if (MainStructure.lastOpenedLocation.Length < 1 || !Directory.Exists(MainStructure.lastOpenedLocation))
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            if (MainStructure.msave.lastOpenedLocation.Length < 1 || !Directory.Exists(MainStructure.msave.lastOpenedLocation))
             {
                 ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             }
             else
             {
-                ofd.InitialDirectory = MainStructure.lastOpenedLocation;
+                ofd.InitialDirectory = MainStructure.msave.lastOpenedLocation;
             }
             string fileToOpen;
             if (ofd.ShowDialog() == true)
@@ -247,13 +283,14 @@ namespace JoyPro
                 string[] pathParts = fileToOpen.Split('\\');
                 if (pathParts.Length > 0)
                 {
-                    MainStructure.lastOpenedLocation = pathParts[0];
+                    MainStructure.msave.lastOpenedLocation = pathParts[0];
                     for (int i = 1; i < pathParts.Length - 1; ++i)
                     {
-                        MainStructure.lastOpenedLocation = MainStructure.lastOpenedLocation + "\\" + pathParts[i];
+                        MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
                     }
                 }
                 MainStructure.LoadRelations(fileToOpen);
+                savepos();
             }
         }
         void IncludeRelationsEvent(object sender, EventArgs e)
@@ -262,13 +299,13 @@ namespace JoyPro
             ofd.Multiselect = true;
             ofd.Filter = "Relation Files (*.rl)|*.rl|All filed (*.*)|*.*";
             ofd.Title = "Include Relations";
-            if (MainStructure.lastOpenedLocation.Length < 1 || !Directory.Exists(MainStructure.lastOpenedLocation))
+            if (MainStructure.msave.lastOpenedLocation.Length < 1 || !Directory.Exists(MainStructure.msave.lastOpenedLocation))
             {
                 ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             }
             else
             {
-                ofd.InitialDirectory = MainStructure.lastOpenedLocation;
+                ofd.InitialDirectory = MainStructure.msave.lastOpenedLocation;
             }
             string[] filesToInclude;
             if (ofd.ShowDialog() == true)
@@ -278,13 +315,14 @@ namespace JoyPro
                 string[] pathParts = lastFile.Split('\\');
                 if (pathParts.Length > 0)
                 {
-                    MainStructure.lastOpenedLocation = pathParts[0];
+                    MainStructure.msave.lastOpenedLocation = pathParts[0];
                     for (int i = 1; i < pathParts.Length - 1; ++i)
                     {
-                        MainStructure.lastOpenedLocation = MainStructure.lastOpenedLocation + "\\" + pathParts[i];
+                        MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
                     }
                 }
                 MainStructure.InsertRelations(filesToInclude);
+                savepos();
             }
         }
         void LoadProfileEvent(object sendder, EventArgs e)
@@ -293,13 +331,13 @@ namespace JoyPro
             ofd.Multiselect = false;
             ofd.Filter = "Pr0file Files (*.pr0file)|*.pr0file|All filed (*.*)|*.*";
             ofd.Title = "Load Pr0file";
-            if (MainStructure.lastOpenedLocation.Length < 1 || !Directory.Exists(MainStructure.lastOpenedLocation))
+            if (MainStructure.msave.lastOpenedLocation.Length < 1 || !Directory.Exists(MainStructure.msave.lastOpenedLocation))
             {
                 ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             }
             else
             {
-                ofd.InitialDirectory = MainStructure.lastOpenedLocation;
+                ofd.InitialDirectory = MainStructure.msave.lastOpenedLocation;
             }
 
             string fileToOpen;
@@ -310,13 +348,14 @@ namespace JoyPro
                 string[] pathParts = fileToOpen.Split('\\');
                 if (pathParts.Length > 0)
                 {
-                    MainStructure.lastOpenedLocation = pathParts[0];
+                    MainStructure.msave.lastOpenedLocation = pathParts[0];
                     for (int i = 1; i < pathParts.Length - 1; ++i)
                     {
-                        MainStructure.lastOpenedLocation = MainStructure.lastOpenedLocation + "\\" + pathParts[i];
+                        MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
                     }
                 }
                 MainStructure.LoadProfile(fileToOpen);
+                savepos();
             }
         }
         void DeleteRelationButton(object sender, EventArgs e)
@@ -325,6 +364,7 @@ namespace JoyPro
             int indx = Convert.ToInt32(b.Name.Replace("deleteBtn", ""));
             Relation r = CURRENTDISPLAYEDRELATION[indx];
             MainStructure.RemoveRelation(r);
+            savepos();
         }
         void EditRelationButton(object sender, EventArgs e)
         {
@@ -340,6 +380,7 @@ namespace JoyPro
             rw.Closed += new EventHandler(WindowClosing);
             rw.Refresh();
             DisableInputs();
+            savepos();
         }
         Grid BaseSetupRelationGrid()
         {
@@ -497,6 +538,7 @@ namespace JoyPro
             stickLabels[indx].Content = joyReader.result.Device;
             joyReader = null;
             Console.WriteLine(setBtns[indx].Content);
+            savepos();
         }
         void ButtonSet(object sender, EventArgs e)
         {
@@ -522,6 +564,7 @@ namespace JoyPro
             Console.WriteLine(setBtns[indx].Content);
             stickLabels[indx].Content = joyReader.result.Device;
             joyReader = null;
+            savepos();
         }
         void RefreshRelationsToShow()
         {
@@ -760,6 +803,7 @@ namespace JoyPro
             CURRENTDISPLAYEDRELATION = li;
             RefreshRelationsToShow();
             SetHeadersForScrollView();
+            //savepos();
         }
         void SetHeadersForScrollView()
         {
@@ -853,6 +897,14 @@ namespace JoyPro
                     InitDCS();
                     ActivateInputs();
                     MainStructure.LoadCleanLuas();
+                    MainStructure.msave.lastGameSelected = "Digital Combat Simulator";
+                    if (MainStructure.msave.lastInstanceSelected.Length > 0)
+                    {
+                        if (DropDownInstanceSelection.Items.Contains(MainStructure.msave.lastInstanceSelected))
+                        {
+                            DropDownInstanceSelection.SelectedItem = MainStructure.msave.lastInstanceSelected;
+                        }
+                    }
                     break;
                 default: break;
             }
@@ -933,6 +985,7 @@ namespace JoyPro
             {
                 MessageBox.Show("Given SaturationY not a valid double");
             }
+            savepos();
         }
         void CurvitureSelectionChanged(object sender, EventArgs e)
         {
@@ -965,6 +1018,7 @@ namespace JoyPro
                 if (cr.Curviture.Count > 0) cr.Curviture[0] = curv;
                 else cr.Curviture.Add(curv);
             }
+            savepos();
         }
         void DeadzoneSelectionChanged(object sender, EventArgs e)
         {
@@ -989,6 +1043,7 @@ namespace JoyPro
             {
                 MessageBox.Show("Given Deadzone not a valid double");
             }
+            savepos();
         }
         void InitDCS()
         {
@@ -1029,12 +1084,12 @@ namespace JoyPro
         {
             Console.WriteLine("Should set");
             MainStructure.LoadMetaLast();
-            if (MainStructure.mainWLast != null)
+            if (MainStructure.msave != null&&MainStructure.msave.mainWLast.Width>0)
             {
-                this.Top = MainStructure.mainWLast.Top;
-                this.Left = MainStructure.mainWLast.Left;
-                this.Width = MainStructure.mainWLast.Width;
-                this.Height = MainStructure.mainWLast.Height;
+                this.Top = MainStructure.msave.mainWLast.Top;
+                this.Left = MainStructure.msave.mainWLast.Left;
+                this.Width = MainStructure.msave.mainWLast.Width;
+                this.Height = MainStructure.msave.mainWLast.Height;
                 Console.WriteLine("Done set");
             }
         }
@@ -1095,9 +1150,21 @@ namespace JoyPro
         {
             //MainStructure.LoadLocalBinds((string)DropDownInstanceSelection.SelectedItem);
             MainStructure.selectedInstancePath = (string)DropDownInstanceSelection.SelectedItem;
+            if (MainStructure.msave != null)
+            {
+                MainStructure.msave.lastInstanceSelected= (string)DropDownInstanceSelection.SelectedItem;
+            }
         }
         void SaveMeta(object sender, EventArgs e)
         {
+            savepos();
+        }
+
+        void savepos()
+        {
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            Console.WriteLine(MainStructure.GetWindowPosFrom(this).ToString());
+            MainStructure.msave.mainWLast = MainStructure.GetWindowPosFrom(this);
             MainStructure.SaveMetaLast();
         }
     }
