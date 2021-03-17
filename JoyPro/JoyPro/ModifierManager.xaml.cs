@@ -134,7 +134,16 @@ namespace JoyPro
         {
             TextBox tb = (TextBox)sender;
             int indx = Convert.ToInt32(tb.Name.Replace("txname", ""));
-
+            if (tb.Text.Length > 3)
+            {
+                MainStructure.ChangeReformerName(CURRENTDISPLAYEDMODS[indx].name, tb.Text);
+            }
+            else
+            {
+                MessageBox.Show("The name must be longer than 3 characters.");
+                tb.Text = CURRENTDISPLAYEDMODS[indx].name;
+            }
+            UpdateView();
         }
 
         void ActivateButtons()

@@ -38,11 +38,41 @@ namespace JoyPro
         public static string selectedInstancePath = "";
         static Dictionary<string, Modifier> AllModifiers = new Dictionary<string, Modifier>();
 
+        public static List<string> GetAllModsAsString()
+        {
+            List<string> result = new List<string>();
+            foreach(KeyValuePair<string, Modifier> kvp in AllModifiers)
+            {
+                result.Add(kvp.Key);
+            }
+            result = result.OrderBy(o => o).ToList();
+            return result;
+        }
         public static Modifier GetModifierWithKeyCombo(string device, string key)
         {
             foreach (KeyValuePair<string, Modifier> kvp in AllModifiers)
                 if (kvp.Value.device == device && kvp.Value.key == key) return kvp.Value;
             return null;
+        }
+
+        public static void ChangeReformerName(string oldName, string newName)
+        {
+            if (AllModifiers.ContainsKey(oldName))
+            {
+                Modifier m = AllModifiers[oldName];
+                string oldRefKey = m.toReformerString();
+                AllModifiers.Remove(oldName);
+                m.name = newName;
+                foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+                {
+                    if (kvp.Value.AllReformers.Contains(oldRefKey))
+                    {
+                        kvp.Value.AllReformers.Remove(oldRefKey);
+                        kvp.Value.AllReformers.Add(m.toReformerString());
+                    }
+                }
+                AllModifiers.Add(m.name, m);
+            }
         }
 
         public static void RemoveReformer(string name)
@@ -864,6 +894,11 @@ namespace JoyPro
                     }
                 }
             }
+        }
+        public static Modifier ModifierByName(string name)
+        {
+            if (AllModifiers.ContainsKey(name)) return AllModifiers[name];
+            return null;
         }
 
         public static Modifier ReformerToMod(string reformer)

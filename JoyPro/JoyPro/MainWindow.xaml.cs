@@ -451,63 +451,7 @@ namespace JoyPro
             }
             bw.RunWorkerAsync();
         }
-        void listenModBtn(object sender, EventArgs e)
-        {
-            Button b = (Button)sender;
-            string[] modAndRelNumber = b.Name.Split('_');
-            if (modAndRelNumber.Length < 2) return;
-            int indx = Convert.ToInt32(modAndRelNumber[1]);
-            int modBtn = Convert.ToInt32(modAndRelNumber[0].Replace("modBtn", ""));
-            Relation r = CURRENTDISPLAYEDRELATION[indx];
-            if (MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME) == null)
-            {
-                MessageBox.Show("Please do the main Bind first before adding modifiers.");
-                return;
-            }
-            DisableInputs();
-            buttonSetting = indx;
-            modToEdit = (string)b.Content;
-            BackgroundWorker bw = new BackgroundWorker();
-            bw.DoWork += new DoWorkEventHandler(listenMod);
-            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(modSet);
-            bw.RunWorkerAsync();
-        }
-        void modSet(object sender, EventArgs e)
-        {
-            ActivateInputs();
-            int indx = buttonSetting;
-            buttonSetting = -1;
-            Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
-            if (joyReader == null || cr == null)
-            {
-                MessageBox.Show("Something went wrong when setting a modifier. Either listener was not started correctly or the main button was not assigend beforehand.");
-                return;
-            }
-            if (modToEdit != "None" && modToEdit.Length > 0)
-            {
-                cr.deleteReformer(modToEdit);
-                modToEdit = "";
-            }
-            if (joyReader.result == null)
-            {
-                MainStructure.ResyncRelations();
-                return;
-            }
-            string device;
-            if (joyReader.result.Device == "Keyboard")
-                device = "Keyboard";
-            else
-                device = "m"+joyReader.result.Device.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
-            string nameToShow = device + joyReader.result.AxisButton;
-            string moddedDevice = Bind.JoystickGuidToModifierGuid(joyReader.result.Device);
-            string toAdd = nameToShow + "§" + moddedDevice + "§" + joyReader.result.AxisButton;
-            if (!cr.AllReformers.Contains(toAdd)) cr.AllReformers.Add(toAdd);
-            MainStructure.ResyncRelations();
-        }
-        void listenMod(object sender, EventArgs e)
-        {
-            joyReader = new JoystickReader(false, true);
-        }
+        
         void listenButton(object sender, EventArgs e)
         {
             joyReader = new JoystickReader(false);
@@ -580,8 +524,31 @@ namespace JoyPro
             joyReader = null;
             savepos();
         }
+        void modSelectionChanged(object sender, EventArgs e)
+        {
+            ComboBox cx = (ComboBox)sender;
+            int indx = Convert.ToInt32(cx.Name.Split('x')[1]);
+            Bind currentBind = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            if (currentBind == null)
+            {
+                MessageBox.Show("Please bind the main key first and then the modifiers");
+                return;
+            }
+            Modifier m = MainStructure.ModifierByName((string)cx.SelectedItem);
+            if (m == null)
+            {
+                MessageBox.Show("Something went wrong when trying to assing modifier please report with accurate repro steps or simply retry");
+                return;
+            }
+            if (!currentBind.AllReformers.Contains(m.toReformerString()))
+            {
+                currentBind.AllReformers.Add(m.toReformerString());
+            }
+
+        }
         void RefreshRelationsToShow()
         {
+            List<string> allMods = MainStructure.GetAllModsAsString();
             Grid grid = BaseSetupRelationGrid();
             for (int i = 0; i < CURRENTDISPLAYEDRELATION.Count; i++)
             {
@@ -674,7 +641,7 @@ namespace JoyPro
 
                     TextBox txrl = new TextBox();
                     txrl.Name = "txrldz" + i.ToString();
-                    txrl.Width = 100;
+                    txrl.Width = 150;
                     txrl.Height = 24;
                     Grid.SetColumn(txrl, 7);
                     Grid.SetRow(txrl, i);
@@ -682,7 +649,7 @@ namespace JoyPro
 
                     TextBox txrlsx = new TextBox();
                     txrlsx.Name = "txrlsatx" + i.ToString();
-                    txrlsx.Width = 100;
+                    txrlsx.Width = 150;
                     txrlsx.Height = 24;
                     Grid.SetColumn(txrlsx, 8);
                     Grid.SetRow(txrlsx, i);
@@ -690,7 +657,7 @@ namespace JoyPro
 
                     TextBox txrlsy = new TextBox();
                     txrlsy.Name = "txrlsaty" + i.ToString();
-                    txrlsy.Width = 100;
+                    txrlsy.Width = 150;
                     txrlsy.Height = 24;
                     Grid.SetColumn(txrlsy, 9);
                     Grid.SetRow(txrlsy, i);
@@ -698,7 +665,7 @@ namespace JoyPro
 
                     TextBox txrlcv = new TextBox();
                     txrlcv.Name = "txrlsacv" + i.ToString();
-                    txrlcv.Width = 100;
+                    txrlcv.Width = 150;
                     txrlcv.Height = 24;
                     Grid.SetColumn(txrlcv, 10);
                     Grid.SetRow(txrlcv, i);
@@ -738,63 +705,73 @@ namespace JoyPro
                 }
                 else
                 {
-                    Button modBtn1 = new Button();
-                    modBtn1.Name = "modBtn1_" + i.ToString();
-                    modBtn1.Content = "None";
-                    modBtn1.HorizontalAlignment = HorizontalAlignment.Center;
-                    modBtn1.VerticalAlignment = VerticalAlignment.Center;
-                    modBtn1.Width = 100;
-                    modBtn1.Click += new RoutedEventHandler(listenModBtn);
-                    modBtns[1][i] = modBtn1;
-                    Grid.SetColumn(modBtn1, 7);
-                    Grid.SetRow(modBtn1, i);
-                    grid.Children.Add(modBtn1);
+                    ComboBox modCbx1 = new ComboBox();
+                    modCbx1.Name = "mod1cbx" + i.ToString();
+                    modCbx1.HorizontalAlignment = HorizontalAlignment.Center;
+                    modCbx1.VerticalAlignment = VerticalAlignment.Center;
+                    modCbx1.Width = 150;
+                    modCbx1.ItemsSource = allMods;
+                    Grid.SetColumn(modCbx1, 7);
+                    Grid.SetRow(modCbx1, i);
+                    grid.Children.Add(modCbx1);
 
-                    Button modBtn2 = new Button();
-                    modBtn2.Name = "modBtn2_" + i.ToString();
-                    modBtn2.Content = "None";
-                    modBtn2.HorizontalAlignment = HorizontalAlignment.Center;
-                    modBtn2.VerticalAlignment = VerticalAlignment.Center;
-                    modBtn2.Width = 100;
-                    modBtn2.Click += new RoutedEventHandler(listenModBtn);
-                    modBtns[2][i] = modBtn2;
-                    Grid.SetColumn(modBtn2, 8);
-                    Grid.SetRow(modBtn2, i);
-                    grid.Children.Add(modBtn2);
+                    ComboBox modCbx2 = new ComboBox();
+                    modCbx2.Name = "mod2cbx" + i.ToString();
+                    modCbx2.HorizontalAlignment = HorizontalAlignment.Center;
+                    modCbx2.VerticalAlignment = VerticalAlignment.Center;
+                    modCbx2.Width = 150;
+                    modCbx2.ItemsSource = allMods;
+                    Grid.SetColumn(modCbx2, 8);
+                    Grid.SetRow(modCbx2, i);
+                    grid.Children.Add(modCbx2);
 
-                    Button modBtn3 = new Button();
-                    modBtn3.Name = "modBtn3_" + i.ToString();
-                    modBtn3.Content = "None";
-                    modBtn3.HorizontalAlignment = HorizontalAlignment.Center;
-                    modBtn3.VerticalAlignment = VerticalAlignment.Center;
-                    modBtn3.Width = 100;
-                    modBtn3.Click += new RoutedEventHandler(listenModBtn);
-                    modBtns[3][i] = modBtn3;
-                    Grid.SetColumn(modBtn3, 9);
-                    Grid.SetRow(modBtn3, i);
-                    grid.Children.Add(modBtn3);
+                    ComboBox modCbx3 = new ComboBox();
+                    modCbx3.Name = "mod3cbx" + i.ToString();
+                    modCbx3.HorizontalAlignment = HorizontalAlignment.Center;
+                    modCbx3.VerticalAlignment = VerticalAlignment.Center;
+                    modCbx3.Width = 150;
+                    modCbx3.ItemsSource = allMods;
+                    Grid.SetColumn(modCbx3, 9);
+                    Grid.SetRow(modCbx3, i);
+                    grid.Children.Add(modCbx3);
 
-                    Button modBtn4 = new Button();
-                    modBtn4.Name = "modBtn4_" + i.ToString();
-                    modBtn4.Content = "None";
-                    modBtn4.HorizontalAlignment = HorizontalAlignment.Center;
-                    modBtn4.VerticalAlignment = VerticalAlignment.Center;
-                    modBtn4.Width = 100;
-                    modBtn4.Click += new RoutedEventHandler(listenModBtn);
-                    modBtns[4][i] = modBtn4;
-                    Grid.SetColumn(modBtn4, 10);
-                    Grid.SetRow(modBtn4, i);
-                    grid.Children.Add(modBtn4);
+                    ComboBox modCbx4 = new ComboBox();
+                    modCbx4.Name = "mod4cbx" + i.ToString();
+                    modCbx4.HorizontalAlignment = HorizontalAlignment.Center;
+                    modCbx4.VerticalAlignment = VerticalAlignment.Center;
+                    modCbx4.Width = 150;
+                    modCbx4.ItemsSource = allMods;
+                    Grid.SetColumn(modCbx4, 10);
+                    Grid.SetRow(modCbx4, i);
+                    grid.Children.Add(modCbx4);
+
+
 
                     //Check against mod buttons needed
                     if (currentBind != null)
                     {
                         joybtnin.Content = currentBind.JButton;
-                        modBtn1.Content = currentBind.ModToDosplayString(1);
-                        modBtn2.Content = currentBind.ModToDosplayString(2);
-                        modBtn3.Content = currentBind.ModToDosplayString(3);
-                        modBtn4.Content = currentBind.ModToDosplayString(4);
+                        if (currentBind.AllReformers.Count > 0)
+                        {
+                            modCbx1.SelectedItem = currentBind.AllReformers[0].Split('§')[0];
+                            if (currentBind.AllReformers.Count > 1)
+                            {
+                                modCbx2.SelectedItem = currentBind.AllReformers[1].Split('§')[0];
+                                if (currentBind.AllReformers.Count > 2)
+                                {
+                                    modCbx3.SelectedItem = currentBind.AllReformers[2].Split('§')[0];
+                                    if (currentBind.AllReformers.Count > 3)
+                                    {
+                                        modCbx4.SelectedItem = currentBind.AllReformers[3].Split('§')[0];
+                                    }
+                                }
+                            }
+                        }
                     }
+                    modCbx1.SelectionChanged += new SelectionChangedEventHandler(modSelectionChanged);
+                    modCbx2.SelectionChanged += new SelectionChangedEventHandler(modSelectionChanged);
+                    modCbx3.SelectionChanged += new SelectionChangedEventHandler(modSelectionChanged);
+                    modCbx4.SelectionChanged += new SelectionChangedEventHandler(modSelectionChanged);
                 }
             }
             sv.Content = grid;
