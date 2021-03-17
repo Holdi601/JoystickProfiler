@@ -1,0 +1,310 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace JoyPro
+{
+    /// <summary>
+    /// Interaktionslogik für ModifierManager.xaml
+    /// </summary>
+    public partial class ModifierManager : Window
+    {
+        List<ColumnDefinition> colDefs=null;
+        List<ColumnDefinition> colHds = null;
+        List<Modifier> CURRENTDISPLAYEDMODS;
+        Button[] dltBtns;
+        Button addBtn;
+        JoystickReader jr;
+        public ModifierManager()
+        {
+            
+            InitializeComponent();
+            UpdateView();
+            if (MainStructure.msave.ModifierW != null)
+            {
+                if (MainStructure.msave.ModifierW.Top != -1) this.Top = MainStructure.msave.ModifierW.Top;
+                if (MainStructure.msave.ModifierW.Left != -1) this.Left = MainStructure.msave.ModifierW.Left;
+                if (MainStructure.msave.ModifierW.Width != -1) this.Width = MainStructure.msave.ModifierW.Width;
+                if (MainStructure.msave.ModifierW.Height != -1) this.Height = MainStructure.msave.ModifierW.Height;
+            }
+
+            svC.ScrollChanged += new ScrollChangedEventHandler(syncScrolls);
+            this.SizeChanged += new SizeChangedEventHandler(sizeChanged);
+            this.LocationChanged += new EventHandler(SaveMeta);
+            OkBtn.Click += new RoutedEventHandler(CloseThis);
+        }
+
+
+
+        void CloseThis(object sender, EventArgs e)
+        {
+            savepos();
+            Close();
+        }
+
+        void SaveMeta(object sender, EventArgs e)
+        {
+            savepos();
+        }
+
+        void savepos()
+        {
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            WindowPos wpos = MainStructure.GetWindowPosFrom(this);
+            if(wpos!=null)
+                MainStructure.msave.ModifierW = wpos;
+            MainStructure.SaveMetaLast();
+        }
+
+        void UpdateView()
+        {
+            CURRENTDISPLAYEDMODS = MainStructure.GetAllModifiers();
+            SetModsToView();
+            sizeChanged(null, null);
+        }
+
+        Grid BaseSetupModifiersGrid()
+        {
+            var converter = new GridLengthConverter();
+            Grid grid = new Grid();
+            colDefs = new List<ColumnDefinition>();
+            for (int i = 0; i < 4; ++i)
+            {
+                ColumnDefinition c = new ColumnDefinition();
+                grid.ColumnDefinitions.Add(c);
+                colDefs.Add(c);
+            }
+            for (int i = 0; i < CURRENTDISPLAYEDMODS.Count; i++)
+            {
+                RowDefinition r = new RowDefinition();
+                r.Height = (GridLength)converter.ConvertFromString("30");
+                grid.RowDefinitions.Add(r);
+            }
+            grid.RowDefinitions.Add(new RowDefinition());
+            dltBtns = new Button[CURRENTDISPLAYEDMODS.Count];
+            return grid;
+        }
+
+        void syncScrolls(object sender, EventArgs e)
+        {
+            svHead.ScrollToHorizontalOffset(svC.HorizontalOffset);
+        }
+
+        void sizeChanged(object sender, EventArgs e)
+        {
+            if (colDefs != null && colHds != null)
+            {
+                for (int i = 0; i < colDefs.Count; ++i)
+                {
+                    colHds[i].MinWidth = colDefs[i].ActualWidth;
+                }
+                svHead.ScrollToHorizontalOffset(svC.HorizontalOffset);
+            }
+            savepos();
+        }
+
+        public void SetModsToView()
+        {
+            RefreshRelationsToShow();
+            SetHeadersForScrollView();
+            savepos();
+        }
+
+        void DeleteModBtn(object sender, EventArgs e)
+        {
+            Button pressed = (Button)sender;
+            int indx = Convert.ToInt32(pressed.Name.Replace("deleteBtn", ""));
+            MainStructure.RemoveReformer(CURRENTDISPLAYEDMODS[indx].name);
+            savepos();
+            UpdateView();
+        }
+
+        void ChangedName(object sender, EventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            int indx = Convert.ToInt32(tb.Name.Replace("txname", ""));
+
+        }
+
+        void ActivateButtons()
+        {
+            if (addBtn != null) addBtn.IsEnabled = true;
+            if (dltBtns != null)
+                for (int i = 0; i < dltBtns.Length; ++i)
+                {
+                    dltBtns[i].IsEnabled = true;
+                }
+        }
+        void DisableButtons()
+        {
+            if (addBtn != null) addBtn.IsEnabled = false;
+            if (dltBtns!=null)
+                for(int i=0; i<dltBtns.Length; ++i)
+                {
+                    dltBtns[i].IsEnabled = false;
+                }
+        }
+
+        void AddNewMod(object sender, EventArgs e)
+        {
+            DisableButtons();
+            if (addBtn != null)
+                addBtn.Content = "Click now";
+            BackgroundWorker bw = new BackgroundWorker();
+            bw.DoWork += new DoWorkEventHandler(listenMod);
+            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(modSet);
+            bw.RunWorkerAsync();
+        }
+
+        void listenMod(object sender, EventArgs e)
+        {
+            jr = new JoystickReader(false, true);
+        }
+
+        void modSet(object sender, EventArgs e)
+        {
+            ActivateButtons();
+            if (jr == null )
+            {
+                MessageBox.Show("Something went wrong when setting a modifier. Either listener was not started correctly or the main button was not assigend beforehand.");
+                return;
+            }
+            if (jr.result == null)
+            {
+                UpdateView();
+                return;
+            }
+            string device;
+            if (jr.result.Device == "Keyboard")
+                device = "Keyboard";
+            else
+                device = "m" + jr.result.Device.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
+            string nameToShow = device + jr.result.AxisButton;
+            string moddedDevice = Bind.JoystickGuidToModifierGuid(jr.result.Device);
+            string toAdd = nameToShow + "§" + moddedDevice + "§" + jr.result.AxisButton;
+            ModExists existsAlready = MainStructure.DoesReformerExistInMods(toAdd);
+            if (existsAlready == ModExists.NOT_EXISTENT)
+            {
+                MainStructure.AddReformerToMods(toAdd);
+            }
+
+            UpdateView();
+        }
+
+        void RefreshRelationsToShow()
+        {
+            Grid grid = BaseSetupModifiersGrid();
+            for (int i = 0; i < CURRENTDISPLAYEDMODS.Count; i++)
+            {
+                TextBox txname = new TextBox();
+                txname.Name = "txname" + i.ToString();
+                txname.Width = 200;
+                txname.Height = 24;
+                txname.Text = CURRENTDISPLAYEDMODS[i].name;
+                Grid.SetColumn(txname, 0);
+                Grid.SetRow(txname, i);
+                txname.LostFocus += new RoutedEventHandler(ChangedName);
+                grid.Children.Add(txname);
+
+                Button deleteBtn = new Button();
+                dltBtns[i] = deleteBtn;
+                deleteBtn.Name = "deleteBtn" + i.ToString();
+                deleteBtn.Content = "Delete Modifier";
+                deleteBtn.Click += new RoutedEventHandler(DeleteModBtn);
+                deleteBtn.HorizontalAlignment = HorizontalAlignment.Center;
+                deleteBtn.VerticalAlignment = VerticalAlignment.Center;
+                deleteBtn.Width = 100;
+                Grid.SetColumn(deleteBtn, 1);
+                Grid.SetRow(deleteBtn, i);
+                grid.Children.Add(deleteBtn);
+
+                Label joystickPick = new Label();
+                joystickPick.Name = "joyLbl" + i.ToString();
+                joystickPick.Foreground = Brushes.White;
+                joystickPick.Content = CURRENTDISPLAYEDMODS[i].device;
+                joystickPick.Width = 500;
+                joystickPick.HorizontalAlignment = HorizontalAlignment.Center;
+                joystickPick.VerticalAlignment = VerticalAlignment.Center;
+                Grid.SetColumn(joystickPick, 2);
+                Grid.SetRow(joystickPick, i);
+                grid.Children.Add(joystickPick);
+
+                Label buttonName = new Label();
+                buttonName.Name = "btnLbl" + i.ToString();
+                buttonName.Foreground = Brushes.White;
+                buttonName.Content = CURRENTDISPLAYEDMODS[i].key;
+                buttonName.Width = 100;
+                buttonName.HorizontalAlignment = HorizontalAlignment.Center;
+                buttonName.VerticalAlignment = VerticalAlignment.Center;
+                Grid.SetColumn(buttonName, 3);
+                Grid.SetRow(buttonName, i);
+                grid.Children.Add(buttonName);
+            }
+            svC.Content = grid;
+        }
+
+        void SetHeadersForScrollView()
+        {
+            var converter = new GridLengthConverter();
+            Grid grid = new Grid();
+            colHds = new List<ColumnDefinition>();
+            for (int i = 0; i < 4; ++i)
+            {
+                ColumnDefinition c = new ColumnDefinition();
+                grid.ColumnDefinitions.Add(c);
+                colHds.Add(c);
+                c.MinWidth = colDefs[i].ActualWidth;
+            }
+            Label relPick = new Label();
+            relPick.Name = "joyHdrLblRlName";
+            relPick.Content = "Mod Name";
+            relPick.Foreground = Brushes.White;
+            relPick.HorizontalAlignment = HorizontalAlignment.Center;
+            relPick.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(relPick, 0);
+            grid.Children.Add(relPick);
+
+            addBtn = new Button();
+            addBtn.Name = "addBtn";
+            addBtn.Content = "Add Modifier";
+            addBtn.HorizontalAlignment = HorizontalAlignment.Center;
+            addBtn.VerticalAlignment = VerticalAlignment.Center;
+            addBtn.Width = 100;
+            addBtn.Click += new RoutedEventHandler(AddNewMod);
+            Grid.SetColumn(addBtn, 1);
+            grid.Children.Add(addBtn);
+
+            Label joystickPick = new Label();
+            joystickPick.Name = "joyHdrLbldeviceName";
+            joystickPick.Content = "Device Name";
+            joystickPick.Foreground = Brushes.White;
+            joystickPick.HorizontalAlignment = HorizontalAlignment.Center;
+            joystickPick.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(joystickPick, 2);
+            grid.Children.Add(joystickPick);
+
+            Label joystickBtn = new Label();
+            joystickBtn.Name = "joyHdrLblaxisname";
+            joystickBtn.Content = "Button Name";
+            joystickBtn.Foreground = Brushes.White;
+            joystickBtn.HorizontalAlignment = HorizontalAlignment.Center;
+            joystickBtn.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(joystickBtn, 3);
+            grid.Children.Add(joystickBtn);
+
+            svHead.Content = grid;
+        }
+
+    }
+}

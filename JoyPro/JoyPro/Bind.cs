@@ -14,12 +14,11 @@ namespace JoyPro
         public string Joystick;
         public string JAxis;
         public string JButton;
-        //Don't remove otherwise loading templates don't work
         public string Reformer_depr;
         public bool? Inverted;
         public bool? Slider;
         public double Deadzone;
-        public List<double> Curviture;
+        public List<double> Curvature;
         public double SaturationX;
         public double SaturationY;
         public List<string> AllReformers;
@@ -66,8 +65,8 @@ namespace JoyPro
             JButton = "";
             Inverted = false;
             Slider = false;
-            Curviture = new List<double>();
-            Curviture.Add(0.0);
+            Curvature = new List<double>();
+            Curvature.Add(0.0);
             SaturationX = 1.0;
             SaturationY = 1.0;
             Rl = r;
@@ -114,7 +113,7 @@ namespace JoyPro
             result.key = JAxis.ToString();
             DCSAxisFilter daf = new DCSAxisFilter();
             result.filter = daf;
-            daf.curviture = Curviture;
+            daf.curvature = Curvature;
             daf.deadzone = Deadzone;
             daf.inverted = Inverted ?? false;
             daf.slider = Slider ?? false;
@@ -136,9 +135,9 @@ namespace JoyPro
             if (dab.filter != null)
             {
                 b.Inverted = dab.filter.inverted;
-                b.Curviture = dab.filter.curviture;
-                if (b.Curviture == null) b.Curviture = new List<double>();
-                if (b.Curviture.Count < 1) b.Curviture.Add(0.0);
+                b.Curvature = dab.filter.curvature;
+                if (b.Curvature == null) b.Curvature = new List<double>();
+                if (b.Curvature.Count < 1) b.Curvature.Add(0.0);
                 b.Deadzone = dab.filter.deadzone;
                 b.Slider = dab.filter.slider;
                 b.SaturationX = dab.filter.saturationX;
@@ -148,18 +147,42 @@ namespace JoyPro
             {
                 b.Inverted = false;
                 b.Slider = false;
-                b.Curviture = new List<double>();
-                b.Curviture.Add(0.0);
+                b.Curvature = new List<double>();
+                b.Curvature.Add(0.0);
                 b.SaturationX = 1.0;
                 b.SaturationY = 1.0;
                 b.Deadzone = 0;
             }
             if (inv) relationName = relationName + "i" + b.Inverted.ToString();
             if (slid) relationName = relationName + "s" + b.Slider.ToString();
-            if (curv && b.Curviture.Count > 0) relationName = relationName + "c" + b.Curviture[0].ToString(new CultureInfo("en-US")).Substring(0, 4);
-            if (dz) relationName = relationName + "d" + b.Deadzone.ToString(new CultureInfo("en-US")).Substring(0, 4);
-            if (sx) relationName = relationName + "x" + b.SaturationX.ToString(new CultureInfo("en-US")).Substring(0, 4);
-            if (sy) relationName = relationName + "y" + b.SaturationY.ToString(new CultureInfo("en-US")).Substring(0, 4);
+            if (curv && b.Curvature.Count > 0)
+            {
+                if (b.Curvature[0].ToString(new CultureInfo("en-US")).Length > 3)
+                    relationName = relationName + "c" + b.Curvature[0].ToString(new CultureInfo("en-US")).Substring(0, 4);
+                else
+                    relationName = relationName + "c" + b.Curvature[0].ToString(new CultureInfo("en-US"));
+            }
+            if (dz)
+            {
+                if (b.Deadzone.ToString(new CultureInfo("en-US")).Length > 3)
+                    relationName = relationName + "d" + b.Deadzone.ToString(new CultureInfo("en-US")).Substring(0, 4);
+                else
+                    relationName = relationName + "d" + b.Deadzone.ToString(new CultureInfo("en-US"));
+            }
+            if (sx)
+            {
+                if(b.SaturationX.ToString(new CultureInfo("en-US")).Length>3)
+                    relationName = relationName + "x" + b.SaturationX.ToString(new CultureInfo("en-US")).Substring(0, 4);
+                else
+                    relationName = relationName + "x" + b.SaturationX.ToString(new CultureInfo("en-US"));
+            }
+            if (sy)
+            {
+                if(b.SaturationY.ToString(new CultureInfo("en-US")).Length>3)
+                    relationName = relationName + "y" + b.SaturationY.ToString(new CultureInfo("en-US")).Substring(0, 4);
+                else
+                    relationName = relationName + "y" + b.SaturationY.ToString(new CultureInfo("en-US"));
+            }
             r.NAME = relationName;
             r.AddNode(id, plane);
             return b;
@@ -184,9 +207,35 @@ namespace JoyPro
                     else
                         device = "m" + m.device.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
                     string nameToShow = device + m.key;
-                    string moddedDevice = b.JoystickGuidToModifierGuid(m.device);
+                    string moddedDevice = Bind.JoystickGuidToModifierGuid(m.device);
                     string toAdd = nameToShow + "§" + moddedDevice + "§" + m.key;
-                    if (!b.AllReformers.Contains(toAdd)) b.AllReformers.Add(toAdd);
+                    if (!b.AllReformers.Contains(toAdd))
+                    {
+                        
+                        ModExists alreadyExists = MainStructure.DoesReformerExistInMods(toAdd);
+                        if (alreadyExists == ModExists.NOT_EXISTENT)
+                        {
+                            MainStructure.AddReformerToMods(toAdd);
+                            b.AllReformers.Add(toAdd);
+                        }
+                        else if (alreadyExists == ModExists.BINDNAME_EXISTS||alreadyExists== ModExists.ALL_EXISTS)
+                        {
+                            toAdd = MainStructure.GetReformerStringFromMod(m.name);
+                            if (!b.AllReformers.Contains(toAdd)) b.AllReformers.Add(toAdd);
+                        }else if (alreadyExists == ModExists.KEYBIND_EXISTS)
+                        {
+                            Modifier mnew = MainStructure.GetModifierWithKeyCombo(m.device, m.key);
+                            if (mnew != null)
+                            {
+                                toAdd = mnew.toReformerString();
+                                if (!b.AllReformers.Contains(toAdd)) b.AllReformers.Add(toAdd);
+                            }
+                        }
+                        else if (alreadyExists == ModExists.ERROR)
+                        {
+                           
+                        }
+                    }
                     relationName = nameToShow + relationName;
 
                 }
@@ -218,7 +267,6 @@ namespace JoyPro
                         m.key = parts[2];
                         dbb.modifiers.Add(m);
                     }
-                    
                 }
             }
             return dbb;
@@ -239,7 +287,7 @@ namespace JoyPro
             }
         }
 
-        public string JoystickGuidToModifierGuid(string id)
+        public static string JoystickGuidToModifierGuid(string id)
         {
             if (id == "Keyboard") return "Keyboard";
             string[] parts = id.Split('{');

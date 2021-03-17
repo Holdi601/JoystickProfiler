@@ -39,7 +39,7 @@ namespace JoyPro
         public string selectedSort;
         List<ColumnDefinition> colDefs = null;
         List<ColumnDefinition> colHds = null;
-        bool started = false;
+
         public MainWindow()
         {
             //AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
@@ -79,6 +79,8 @@ namespace JoyPro
             MEBWEAABBtn.Click += new RoutedEventHandler(LoadExistingExportAndAdd);
             ImportProfileBtn.Click += new RoutedEventHandler(ImportProf);
             NewFileBtn.Click += new RoutedEventHandler(NewFileEvent);
+            ModManagerBtn.Click += new RoutedEventHandler(OpenModifierManager);
+            ValidateBtn.Click += new RoutedEventHandler(DoValidate);
             FirstStart();
             joyReader = null;
             buttonSetting = -1;
@@ -91,6 +93,20 @@ namespace JoyPro
             this.ContentRendered += new EventHandler(setWindowPosSize);
             this.Loaded += new RoutedEventHandler(AfterLoading);
             
+        }
+
+        void DoValidate(object sender, EventArgs e)
+        {
+
+        }
+
+        void OpenModifierManager(object sender, EventArgs e)
+        {
+            DisableInputs();
+            ModifierManager rw = new ModifierManager();
+            ALLWINDOWS.Add(rw);
+            rw.Show();
+            rw.Closed += new EventHandler(WindowClosing);
         }
 
         void NewFileEvent(object sender, EventArgs e)
@@ -118,11 +134,9 @@ namespace JoyPro
         {
             if(colDefs!=null&&colHds!=null)
             {
-                double runningWidth = 0;
                 for (int i = 0; i < colDefs.Count; ++i)
                 {
                     colHds[i].MinWidth = colDefs[i].ActualWidth;
-                    runningWidth += colDefs[i].ActualWidth;
                 }
                 svHeader.ScrollToHorizontalOffset(sv.HorizontalOffset);
             }
@@ -485,7 +499,7 @@ namespace JoyPro
             else
                 device = "m"+joyReader.result.Device.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
             string nameToShow = device + joyReader.result.AxisButton;
-            string moddedDevice = cr.JoystickGuidToModifierGuid(joyReader.result.Device);
+            string moddedDevice = Bind.JoystickGuidToModifierGuid(joyReader.result.Device);
             string toAdd = nameToShow + "§" + moddedDevice + "§" + joyReader.result.AxisButton;
             if (!cr.AllReformers.Contains(toAdd)) cr.AllReformers.Add(toAdd);
             MainStructure.ResyncRelations();
@@ -698,14 +712,14 @@ namespace JoyPro
                         txrl.Text = currentBind.Deadzone.ToString();
                         txrlsx.Text = currentBind.SaturationX.ToString();
                         txrlsy.Text = currentBind.SaturationY.ToString();
-                        txrlcv.Text = currentBind.Curviture[0].ToString();
+                        txrlcv.Text = currentBind.Curvature[0].ToString();
                     }
                     else
                     {
                         txrl.Text = "Deadzone (Dec)";
                         txrlsx.Text = "SatX (Dec)";
                         txrlsy.Text = "SatY (Dec)";
-                        txrlcv.Text = "Curviture (Dec)";
+                        txrlcv.Text = "Curvature (Dec)";
                     }
                     txrlcv.TextChanged += new TextChangedEventHandler(CurvitureSelectionChanged);
                     txrlsy.TextChanged += new TextChangedEventHandler(SaturationYSelectionChanged);
@@ -792,7 +806,7 @@ namespace JoyPro
             if (cx.Text == "Deadzone (Dec)" ||
                 cx.Text == "SatX (Dec)" ||
                 cx.Text == "SatY (Dec)" ||
-                cx.Text == "Curviture (Dec)" ||
+                cx.Text == "Curvature (Dec)" ||
                 cx.Text == "Button (Int o Pov)")
             {
                 cx.Text = "";
@@ -1015,8 +1029,8 @@ namespace JoyPro
             }
             if (succ == true)
             {
-                if (cr.Curviture.Count > 0) cr.Curviture[0] = curv;
-                else cr.Curviture.Add(curv);
+                if (cr.Curvature.Count > 0) cr.Curvature[0] = curv;
+                else cr.Curvature.Add(curv);
             }
             savepos();
         }
@@ -1062,6 +1076,7 @@ namespace JoyPro
             Window s = (Window)sender;
             ALLWINDOWS.Remove((Window)sender);
             ActivateInputs();
+            MainStructure.ResyncRelations();
         }
         void Event_AddRelation(object sender, EventArgs e)
         {
@@ -1163,7 +1178,6 @@ namespace JoyPro
         void savepos()
         {
             if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
-            Console.WriteLine(MainStructure.GetWindowPosFrom(this).ToString());
             MainStructure.msave.mainWLast = MainStructure.GetWindowPosFrom(this);
             MainStructure.SaveMetaLast();
         }

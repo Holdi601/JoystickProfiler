@@ -15,6 +15,8 @@ namespace JoyPro
     public enum Game { DCS, StarCitizen }
     public enum JoystickAxis { JOY_X, JOY_Y, JOY_Z, JOY_RX, JOY_RY, JOY_RZ, JOY_SLIDER1, JOY_SLIDER2, NONE }
     public enum LuaDataType { String, Number, Dict, Bool, Error };
+
+    public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
     public static class MainStructure
     {
         public static MainWindow mainW;
@@ -34,8 +36,38 @@ namespace JoyPro
         static List<string> defaultToOverwrite = new List<string>();
         public static MetaSave msave = null;
         public static string selectedInstancePath = "";
+        static Dictionary<string, Modifier> AllModifiers = new Dictionary<string, Modifier>();
 
+        public static Modifier GetModifierWithKeyCombo(string device, string key)
+        {
+            foreach (KeyValuePair<string, Modifier> kvp in AllModifiers)
+                if (kvp.Value.device == device && kvp.Value.key == key) return kvp.Value;
+            return null;
+        }
 
+        public static void RemoveReformer(string name)
+        {
+            if (AllModifiers.ContainsKey(name))
+            {
+                Modifier m = AllModifiers[name];
+                AllModifiers.Remove(name);
+                foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+                {
+                    if (kvp.Value.AllReformers.Contains(m.toReformerString()))
+                        kvp.Value.AllReformers.Remove(m.toReformerString());
+                }
+            }
+        }
+
+        public static bool ModifiersContainKeyCombo(string device, string key)
+        {
+            bool found = false;
+            foreach(KeyValuePair<string, Modifier> kvp in AllModifiers)
+            {
+                if (kvp.Value.device == device && kvp.Value.key==key) return true;
+            }
+            return found;
+        }
         public static void LoadMetaLast()
         {
             string pth = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\JoyPro";
@@ -55,7 +87,6 @@ namespace JoyPro
             {
                 msave = new MetaSave();
             }
-            
         }
         
         public static void AfterLoad()
@@ -69,6 +100,11 @@ namespace JoyPro
 
         public static WindowPos GetWindowPosFrom(Window w)
         {
+            if (double.IsNaN(w.Height) ||
+                double.IsNaN(w.Width) ||
+                double.IsNaN(w.Top) ||
+                double.IsNaN(w.Left))
+                return null;
             WindowPos wp = new WindowPos();
             wp.Height = w.Height;
             wp.Width = w.Width;
@@ -102,9 +138,48 @@ namespace JoyPro
                 }
             }
         }
+        public static ModExists DoesReformerExistInMods(string reformer)
+        {
+            Modifier m = ReformerToMod(reformer);
+            if (m == null) return ModExists.ERROR;
+            if (!AllModifiers.ContainsKey(m.name))
+            {
+                if(ModifiersContainKeyCombo(m.device, m.key))
+                {
+                    return ModExists.KEYBIND_EXISTS;
+                }
+                else
+                {
+                    return ModExists.NOT_EXISTENT;
+                }
+            }
+            else
+            {
+                if (AllModifiers[m.name].device == m.device &&
+                    AllModifiers[m.name].key == m.key)
+                {
+                    return ModExists.ALL_EXISTS;
+                }
+                else
+                {
+                    return ModExists.BINDNAME_EXISTS;
+                }
+            }
+        }
+
+        public static string GetReformerStringFromMod(string name)
+        {
+            if (AllModifiers.ContainsKey(name)) return AllModifiers[name].toReformerString();
+            return null;
+        }
+        public static void AddReformerToMods(string reformer)
+        {
+            Modifier m = ReformerToMod(reformer);
+            AllModifiers.Add(m.name, m);
+        }
         public static void BindsFromLocal(List<string> sticks, bool loadDefaults, bool inv = false, bool slid = false, bool curv = false, bool dz = false, bool sx = false, bool sy = false)
         {
-            LoadLocalBinds(selectedInstancePath, true);
+            LoadLocalBinds(selectedInstancePath, loadDefaults);
             Dictionary<string, Bind> result = new Dictionary<string, Bind>();
             Dictionary<string, JoystickResults> modifiers = new Dictionary<string, JoystickResults>();
             Dictionary<string, Dictionary<string, List<string>>> checkedIds = new Dictionary<string, Dictionary<string, List<string>>>();
@@ -741,6 +816,7 @@ namespace JoyPro
             AllRelations.Remove(r.NAME);
             ResyncRelations();
         }
+
         public static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
         {
             if (filePath == null || filePath.Length < 1) return;
@@ -765,7 +841,47 @@ namespace JoyPro
         {
             AllBinds.Clear();
             AllRelations.Clear();
+            AllModifiers.Clear();
             ResyncRelations();
+        }
+
+        public static void ResyncBindsToMods()
+        {
+            AllModifiers.Clear();
+            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                for(int i=0; i<kvp.Value.AllReformers.Count; ++i)
+                {
+                    Modifier m = ReformerToMod(kvp.Value.AllReformers[i]);
+                    if (!AllModifiers.ContainsKey(m.name))
+                    {
+                        AllModifiers.Add(m.name, m);
+                    }
+                    else
+                    {
+                        string counterCase = AllModifiers[m.name].toReformerString();
+                        kvp.Value.AllReformers[i] = counterCase;
+                    }
+                }
+            }
+        }
+
+        public static Modifier ReformerToMod(string reformer)
+        {
+            string[] parts = reformer.Split('§');
+            if (parts.Length == 3)
+            {
+                Modifier m = new Modifier();
+                m.name = parts[0];
+                m.device = parts[1];
+                m.sw = false;
+                m.key = parts[2];
+                return m;
+            }
+            else
+            {
+                return null;
+            }
         }
         public static void LoadProfile(string filePath)
         {
@@ -774,6 +890,7 @@ namespace JoyPro
             NewFile();
             AllRelations = pr.Relations;
             AllBinds = pr.Binds;
+            ResyncBindsToMods();
             foreach (KeyValuePair<string, Relation> kvp in AllRelations)
             {
                 kvp.Value.CheckNamesAgainstDB();
@@ -953,6 +1070,17 @@ namespace JoyPro
             }
             SaveMetaLast();
             mainW.SetRelationsToView(li);
+        }
+
+        public static List<Modifier> GetAllModifiers()
+        {
+            List<Modifier> res = new List<Modifier>();
+            foreach(KeyValuePair<string, Modifier> kvp in AllModifiers)
+            {
+                res.Add(kvp.Value);
+            }
+            res = res.OrderBy(o => o.name).ToList();
+            return res;
         }
         public static bool DoesRelationAlreadyExist(string name)
         {

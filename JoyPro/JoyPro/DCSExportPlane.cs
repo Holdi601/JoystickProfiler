@@ -56,7 +56,14 @@ namespace JoyPro
                 {
                     m.sw = (bool)innerDict["switch"];
                 }
-                if(!modifiers.ContainsKey(modName)) modifiers.Add(modName, m);
+                if (!modifiers.ContainsKey(modName))
+                {
+                    modifiers.Add(modName, m);
+                }
+                else
+                {
+
+                }
             }
         }
         public void WriteModifiers(string path)

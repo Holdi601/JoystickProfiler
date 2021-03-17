@@ -100,6 +100,9 @@
     <Compile Include="KnownFolders.cs" />
     <Compile Include="MetaSave.cs" />
     <Compile Include="Modifier.cs" />
+    <Compile Include="ModifierManager.xaml.cs">
+      <DependentUpon>ModifierManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pr0file.cs" />
     <Compile Include="RelationWindow.xaml.cs">
       <DependentUpon>RelationWindow.xaml</DependentUpon>
@@ -129,6 +132,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ModifierManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RelationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

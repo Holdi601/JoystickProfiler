@@ -38,9 +38,9 @@ namespace JoyPro
                             {
                                 swr.Write("\t\t\t\t\t[\"filter\"] = {\n");
                                 swr.Write("\t\t\t\t\t\t[\"curvature\"] = {\n");
-                                for (int z = 0; z < kvp.Value.added[y].filter.curviture.Count; ++z)
+                                for (int z = 0; z < kvp.Value.added[y].filter.curvature.Count; ++z)
                                 {
-                                    swr.Write("\t\t\t\t\t\t\t[" + (z + 1).ToString() + "] = " + kvp.Value.added[y].filter.curviture[z].ToString(new CultureInfo("en-US")) + ",\n");
+                                    swr.Write("\t\t\t\t\t\t\t[" + (z + 1).ToString() + "] = " + kvp.Value.added[y].filter.curvature[z].ToString(new CultureInfo("en-US")) + ",\n");
                                 }
                                 swr.Write("\t\t\t\t\t\t},\n");
                                 swr.Write("\t\t\t\t\t\t[\"deadzone\"] = " + kvp.Value.added[y].filter.deadzone.ToString(new CultureInfo("en-US")) + ",\n");
@@ -167,7 +167,7 @@ namespace JoyPro
                                     daf.saturationY = (double)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["saturationY"];
                                     foreach (KeyValuePair<object, object> kvpCurve in (Dictionary<object, object>)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["curvature"])
                                     {
-                                        daf.curviture.Add((double)kvpCurve.Value);
+                                        daf.curvature.Add((double)kvpCurve.Value);
                                     }
                                 }
                                 if (!current.doesAddedContainKey(dab.key))
@@ -198,7 +198,7 @@ namespace JoyPro
                                     daf.saturationY = (double)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["saturationY"];
                                     foreach (KeyValuePair<object, object> kvpCurve in (Dictionary<object, object>)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["curvature"])
                                     {
-                                        daf.curviture.Add((double)kvpCurve.Value);
+                                        daf.curvature.Add((double)kvpCurve.Value);
                                     }
                                 }
                                 if (!current.doesAddedContainKey(dab.key))

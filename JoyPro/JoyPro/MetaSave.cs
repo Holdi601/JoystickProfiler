@@ -13,6 +13,8 @@ namespace JoyPro
         public WindowPos relationWindowLast = null;
         public WindowPos importWindowLast = null;
         public WindowPos mainWLast = null;
+        public WindowPos exchangeW = null;
+        public WindowPos ModifierW = null;
         public string lastGameSelected = "";
         public string lastInstanceSelected ="";
         public MetaSave()
@@ -23,6 +25,8 @@ namespace JoyPro
             relationWindowLast = new WindowPos();
             importWindowLast = new WindowPos();
             mainWLast = new WindowPos();
+            exchangeW = new WindowPos();
+            ModifierW = new WindowPos();
         }
     }
 }

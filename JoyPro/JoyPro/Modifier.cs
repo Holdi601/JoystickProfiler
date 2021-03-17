@@ -30,5 +30,10 @@ namespace JoyPro
             m.sw = sw;
             return m;
         }
+
+        public string toReformerString()
+        {
+            return name + "§" + device + "§" + key;
+        }
     }
 }

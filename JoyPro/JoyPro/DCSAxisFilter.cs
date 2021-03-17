@@ -8,7 +8,7 @@ namespace JoyPro
 {
     public class DCSAxisFilter
     {
-        public List<double> curviture;
+        public List<double> curvature;
         public double deadzone;
         public bool inverted;
         public double saturationX;
@@ -17,7 +17,7 @@ namespace JoyPro
 
         public DCSAxisFilter()
         {
-            curviture = new List<double>();
+            curvature = new List<double>();
             deadzone = 0.0;
             inverted = false;
             saturationX = 1.0;
@@ -33,9 +33,9 @@ namespace JoyPro
             result.slider = slider;
             result.saturationX = saturationX;
             result.saturationY = saturationY;
-            for(int i=0; i<curviture.Count; ++i)
+            for(int i=0; i< curvature.Count; ++i)
             {
-                result.curviture.Add(curviture[i]);
+                result.curvature.Add(curvature[i]);
             }
             return result;
         }
