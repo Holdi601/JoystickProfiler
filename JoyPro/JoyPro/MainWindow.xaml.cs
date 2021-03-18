@@ -138,7 +138,9 @@ namespace JoyPro
 
         void DoValidate(object sender, EventArgs e)
         {
-
+            Validation validate = new Validation();
+            ValidationErrors win = new ValidationErrors(validate);
+            win.Show();
         }
 
         void OpenModifierManager(object sender, EventArgs e)
@@ -446,11 +448,7 @@ namespace JoyPro
             editBtns = new Button[CURRENTDISPLAYEDRELATION.Count];
             dltBtns = new Button[CURRENTDISPLAYEDRELATION.Count];
             setBtns = new Button[CURRENTDISPLAYEDRELATION.Count];
-            modBtns = new Dictionary<int, Button[]>();
-            for (int i = 0; i < 5; ++i)
-            {
-                modBtns.Add(i + 1, new Button[CURRENTDISPLAYEDRELATION.Count]);
-            }
+            
             stickLabels = new Label[CURRENTDISPLAYEDRELATION.Count];
             return grid;
         }

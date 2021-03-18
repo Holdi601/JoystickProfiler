@@ -225,6 +225,9 @@ namespace JoyPro
                 }else if(sender is StickSettings)
                 {
                     msave.SettingsW = p;
+                }else if(sender is ValidationErrors)
+                {
+                    msave.ValidW = p;
                 }
             }
 

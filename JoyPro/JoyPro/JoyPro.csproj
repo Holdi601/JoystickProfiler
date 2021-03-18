@@ -115,6 +115,9 @@
       <DependentUpon>StickToExchange.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation.cs" />
+    <Compile Include="ValidationErrors.xaml.cs">
+      <DependentUpon>ValidationErrors.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowPos.cs" />
     <Page Include="ExchangeStick.xaml">
       <SubType>Designer</SubType>
@@ -152,6 +155,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="StickToExchange.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ValidationErrors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

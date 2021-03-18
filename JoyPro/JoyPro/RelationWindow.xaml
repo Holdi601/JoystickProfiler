@@ -41,7 +41,7 @@
             </DataGrid>
         </ScrollViewer>
         <ScrollViewer Name="svHead"  ScrollViewer.HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"  Width="auto" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6"  MaxHeight="25">
-            <DataGrid Name="DGHead"  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" MaxHeight="25">
+            <DataGrid Name="DGHead"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled" MaxHeight="25" >
 
             </DataGrid>
         </ScrollViewer>

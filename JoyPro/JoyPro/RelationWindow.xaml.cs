@@ -56,6 +56,7 @@ namespace JoyPro
                 RelationNameTF.Text = Current.NAME;
             }
             svcCont.CanContentScroll = true;
+            scrollChanged(null, null);
         }
 
         void setLastSizeAndPosition()
@@ -75,6 +76,11 @@ namespace JoyPro
         void scrollChanged(object sender, EventArgs e)
         {
             svHead.ScrollToHorizontalOffset(svcCont.HorizontalOffset);
+
+            for(int i=0; i<DGAdded.Columns.Count; ++i)
+            {
+                DGHead.Columns[i].MinWidth = DGAdded.Columns[i].ActualWidth;
+            }
         }
 
         public void Refresh()

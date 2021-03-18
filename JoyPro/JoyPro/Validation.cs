@@ -29,7 +29,7 @@ namespace JoyPro
 
         void CheckRelationErrors()
         {
-            List<string> AllKeys = new List<string>();
+            Dictionary<string, List<string>> AllKeys = new Dictionary<string, List<string>>();
             List<Relation> AllRel = MainStructure.GetAllRelations();
             for(int i=0; i<AllRel.Count; ++i)
             {
@@ -40,22 +40,31 @@ namespace JoyPro
                     for(int k=0; k<Aircraft.Count; k++)
                     {
                         string toAdd = AllRelIt[j].ID + "__" + Aircraft[k];
-                        if (AllKeys.Contains(toAdd))
+                        if (!AllKeys.ContainsKey(toAdd))
                         {
-                            RelationErrors.Add("ERROR, Relation key duplicate: Relation: " + AllRel[i].NAME + " with id: " + AllRelIt[j].ID + " on Aircraft: " + Aircraft[k]);
+                            AllKeys.Add(toAdd, new List<string>());
                         }
-                        else
-                        {
-                            AllKeys.Add(toAdd);
-                        }
+                        AllKeys[toAdd].Add(AllRel[i].NAME);
                     }
+                }
+            }
+            foreach(KeyValuePair<string, List<string>> kvp in AllKeys)
+            {
+                if (kvp.Value.Count > 1)
+                {
+                    string res = "Relation Item key found in multiple Relation: "+ kvp.Key+ " The Relations it was found in: "+kvp.Value[0];
+                    for(int i=1; i<kvp.Value.Count; ++i)
+                    {
+                        res = res + ", " + kvp.Value[i];
+                    }
+                    RelationErrors.Add(res);
                 }
             }
         }
 
         void CheckButtonErrors()
         {
-            List<string> allKeys = new List<string>();
+            Dictionary<string, List<string>> AllKeys = new Dictionary<string, List<string>>();
             List<Bind> binds = MainStructure.GetAllBinds();
 
             for(int i=0; i<binds.Count; ++i)
@@ -79,15 +88,24 @@ namespace JoyPro
                                 toAdd = toAdd + "__" + binds[i].AllReformers[m];
                             }
                         }
-                        if (allKeys.Contains(toAdd))
+                        if (!AllKeys.ContainsKey(toAdd))
                         {
-                            BindErrors.Add("ERROR, Joysting bind duplicate: Relation: " + binds[j].Rl.NAME + " with Joystick: " + binds[j] +"on Aircraft: "+Aircraft[k]+ " raw duplicate error - " + toAdd);
+                            AllKeys.Add(toAdd, new List<string>());
                         }
-                        else
-                        {
-                            allKeys.Add(toAdd);
-                        }
+                        AllKeys[toAdd].Add(binds[i].Rl.NAME);
                     }
+                }
+            }
+            foreach(KeyValuePair<string, List<string>>kvp in AllKeys)
+            {
+                if (kvp.Value.Count > 1)
+                {
+                    string res = "Button Item key found in multiple Relation: " + kvp.Key + " The Relations it was found in: " + kvp.Value[0];
+                    for (int i = 1; i < kvp.Value.Count; ++i)
+                    {
+                        res = res + ", " + kvp.Value[i];
+                    }
+                    BindErrors.Add(res);
                 }
             }
         }
