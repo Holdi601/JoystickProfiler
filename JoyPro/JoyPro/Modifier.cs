@@ -9,7 +9,41 @@ namespace JoyPro
     public class Modifier
     {
         public string name;
-        public string device;
+        string devicem;
+        public string device
+        {
+            get
+            {
+                return devicem;
+            }
+            set
+            {
+                if (value.Contains("{"))
+                {
+                    string[] parts = value.Split('{');
+                    string nonId = parts[0] + "{";
+                    string[] uidParts = parts[1].Replace("}", "").Split('-');
+                    string final = nonId + uidParts[0].ToUpper();
+                    for(int i=1; i<uidParts.Length; ++i)
+                    {
+                        if (i == 2)
+                        {
+                            final = final + "-" + uidParts[i].ToLower();
+                        }
+                        else
+                        {
+                            final = final + "-" + uidParts[i].ToUpper();
+                        }
+                    }
+                    final = final + "}";
+                    devicem = final;
+                }
+                else
+                {
+                    devicem = value;
+                }
+            }
+        }
         public string key;
         public bool sw;
 

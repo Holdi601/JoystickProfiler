@@ -40,8 +40,8 @@ namespace JoyPro
             }
 
             svC.ScrollChanged += new ScrollChangedEventHandler(syncScrolls);
-            this.SizeChanged += new SizeChangedEventHandler(sizeChanged);
-            this.LocationChanged += new EventHandler(SaveMeta);
+            this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
+            this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
             OkBtn.Click += new RoutedEventHandler(CloseThis);
         }
 
@@ -49,22 +49,7 @@ namespace JoyPro
 
         void CloseThis(object sender, EventArgs e)
         {
-            savepos();
             Close();
-        }
-
-        void SaveMeta(object sender, EventArgs e)
-        {
-            savepos();
-        }
-
-        void savepos()
-        {
-            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
-            WindowPos wpos = MainStructure.GetWindowPosFrom(this);
-            if(wpos!=null)
-                MainStructure.msave.ModifierW = wpos;
-            MainStructure.SaveMetaLast();
         }
 
         void UpdateView()
@@ -111,14 +96,12 @@ namespace JoyPro
                 }
                 svHead.ScrollToHorizontalOffset(svC.HorizontalOffset);
             }
-            savepos();
         }
 
         public void SetModsToView()
         {
             RefreshRelationsToShow();
             SetHeadersForScrollView();
-            savepos();
         }
 
         void DeleteModBtn(object sender, EventArgs e)
@@ -126,7 +109,6 @@ namespace JoyPro
             Button pressed = (Button)sender;
             int indx = Convert.ToInt32(pressed.Name.Replace("deleteBtn", ""));
             MainStructure.RemoveReformer(CURRENTDISPLAYEDMODS[indx].name);
-            savepos();
             UpdateView();
         }
 
@@ -136,7 +118,10 @@ namespace JoyPro
             int indx = Convert.ToInt32(tb.Name.Replace("txname", ""));
             if (tb.Text.Length > 3)
             {
-                MainStructure.ChangeReformerName(CURRENTDISPLAYEDMODS[indx].name, tb.Text);
+                if (MainStructure.GetReformerStringFromMod(tb.Text) == null)
+                    MainStructure.ChangeReformerName(CURRENTDISPLAYEDMODS[indx].name, tb.Text);
+                else
+                    MessageBox.Show("Key already exists: " + tb.Text);
             }
             else
             {

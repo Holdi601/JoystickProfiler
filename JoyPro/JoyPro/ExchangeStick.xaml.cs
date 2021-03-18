@@ -29,6 +29,8 @@ namespace JoyPro
             stickToReplace = toReplace;
             CancelJoyExchange.Click += new RoutedEventHandler(CancelJoystick);
             OKJoyExchange.Click += new RoutedEventHandler(OKNewJoystick);
+            this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
+            this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
         }
 
         void OKNewJoystick(object sender, EventArgs e)

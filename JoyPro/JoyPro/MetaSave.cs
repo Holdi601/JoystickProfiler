@@ -17,6 +17,7 @@ namespace JoyPro
         public WindowPos ModifierW = null;
         public WindowPos ValidW = null;
         public WindowPos SettingsW = null;
+        public WindowPos stick2ExW = null;
         public string lastGameSelected = "";
         public string lastInstanceSelected ="";
         public int timeToSet;
@@ -37,6 +38,7 @@ namespace JoyPro
             ModifierW = new WindowPos();
             ValidW = new WindowPos();
             SettingsW = new WindowPos();
+            stick2ExW = new WindowPos();
             timeToSet = 5000;
             axisThreshold = 10000;
             warmupTime = 300;

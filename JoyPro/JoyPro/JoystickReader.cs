@@ -85,7 +85,7 @@ namespace JoyPro
             axisThreshold = 10000;
             warmupTime = 300;
             pollWaitTime = 10;
-            if (MainStructure.msave != null)
+            if (MainStructure.msave != null&&MainStructure.msave.timeToSet>0&&MainStructure.msave.axisThreshold>0&&MainStructure.msave.warmupTime>0&&MainStructure.msave.pollWaitTime>0)
             {
                 timeToSet = MainStructure.msave.timeToSet;
                 axisThreshold = MainStructure.msave.axisThreshold;

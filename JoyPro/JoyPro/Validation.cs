@@ -129,7 +129,7 @@ namespace JoyPro
                 }
                 for(int j=0; j<mods.Count; ++j)
                 {
-                    if (mods[j].device == binds[i].Joystick && mods[j].key == binds[i].JButton)
+                    if (mods[j].device.ToUpper() == binds[i].Joystick.ToUpper() && mods[j].key.ToUpper() == binds[i].JButton.ToUpper())
                     {
                         List<RelationItem> ari = binds[i].Rl.AllRelations();
                         for(int k=0; k<ari.Count; ++k)

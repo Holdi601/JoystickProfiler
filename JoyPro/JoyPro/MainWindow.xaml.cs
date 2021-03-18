@@ -81,10 +81,11 @@ namespace JoyPro
             NewFileBtn.Click += new RoutedEventHandler(NewFileEvent);
             ModManagerBtn.Click += new RoutedEventHandler(OpenModifierManager);
             ValidateBtn.Click += new RoutedEventHandler(DoValidate);
+            ExchStickBtn.Click += new RoutedEventHandler(ExchangeStick);
+            JoystickSettingsBtn.Click += new RoutedEventHandler(ChangeJoystickSettings);
             FirstStart();
             joyReader = null;
             buttonSetting = -1;
-            Application.Current.Exit += new ExitEventHandler(SaveMeta);
             //this.SizeChanged += new SizeChangedEventHandler(SaveMeta);
             selectedSort = "Relation";
             SortSelectionDropDown.SelectionChanged += new SelectionChangedEventHandler(SortChanged);
@@ -93,6 +94,16 @@ namespace JoyPro
             this.ContentRendered += new EventHandler(setWindowPosSize);
             this.Loaded += new RoutedEventHandler(AfterLoading);
             
+            
+        }
+
+        void ChangeJoystickSettings(object sender, EventArgs e)
+        {
+
+        }
+        void ExchangeStick(object sender, EventArgs e)
+        {
+
         }
 
         void DoValidate(object sender, EventArgs e)
@@ -127,8 +138,8 @@ namespace JoyPro
                 }
                 MainStructure.AfterLoad();
             }
-            this.SizeChanged += new SizeChangedEventHandler(SaveMeta);
-            this.LocationChanged += new EventHandler(SaveMeta);
+            this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
+            this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
         }
         void sizeChanged(object sender, EventArgs e)
         {
@@ -147,7 +158,6 @@ namespace JoyPro
             selectedSort = ((ComboBoxItem)SortSelectionDropDown.SelectedItem).Content.ToString();
             Console.WriteLine(selectedSort);
             MainStructure.ResyncRelations();
-            savepos();
         }
         void ImportProf(object sender, EventArgs e)
         {
@@ -160,7 +170,6 @@ namespace JoyPro
             DisableInputs();
             iw.Show();
             iw.Closing += new CancelEventHandler(ActivateInputs);
-            savepos();
 
         }
         void LoadExistingExportKeepExisting(object sender, EventArgs e)
@@ -186,7 +195,6 @@ namespace JoyPro
             else
                 param = true;
             MainStructure.WriteProfileCleanAndLoadedOverwritten(param);
-            savepos();
         }
         void LoadExistingExportAndAdd(object sender, EventArgs e)
         {
@@ -199,12 +207,10 @@ namespace JoyPro
             else
                 param = true;
             MainStructure.WriteProfileCleanAndLoadedOverwrittenAndAdd(param);
-            savepos();
         }
         void CleanAndExport(object sender, EventArgs e)
         {
             MainStructure.WriteProfileClean();
-            savepos();
         }
         void SaveProfileEvent(object sender, EventArgs e)
         {
@@ -233,7 +239,6 @@ namespace JoyPro
                 }
             }
             MainStructure.SaveProfileTo(filePath);
-            savepos();
         }
         void SaveReleationsEvent(object sender, EventArgs e)
         {
@@ -262,7 +267,6 @@ namespace JoyPro
                 }
             }
             MainStructure.SaveRelationsTo(filePath);
-            savepos();
 
         }
         public bool? RelationAlreadyExists(string relName)
@@ -304,7 +308,6 @@ namespace JoyPro
                     }
                 }
                 MainStructure.LoadRelations(fileToOpen);
-                savepos();
             }
         }
         void IncludeRelationsEvent(object sender, EventArgs e)
@@ -336,7 +339,6 @@ namespace JoyPro
                     }
                 }
                 MainStructure.InsertRelations(filesToInclude);
-                savepos();
             }
         }
         void LoadProfileEvent(object sendder, EventArgs e)
@@ -369,7 +371,6 @@ namespace JoyPro
                     }
                 }
                 MainStructure.LoadProfile(fileToOpen);
-                savepos();
             }
         }
         void DeleteRelationButton(object sender, EventArgs e)
@@ -378,7 +379,6 @@ namespace JoyPro
             int indx = Convert.ToInt32(b.Name.Replace("deleteBtn", ""));
             Relation r = CURRENTDISPLAYEDRELATION[indx];
             MainStructure.RemoveRelation(r);
-            savepos();
         }
         void EditRelationButton(object sender, EventArgs e)
         {
@@ -394,7 +394,6 @@ namespace JoyPro
             rw.Closed += new EventHandler(WindowClosing);
             rw.Refresh();
             DisableInputs();
-            savepos();
         }
         Grid BaseSetupRelationGrid()
         {
@@ -496,7 +495,6 @@ namespace JoyPro
             stickLabels[indx].Content = joyReader.result.Device;
             joyReader = null;
             Console.WriteLine(setBtns[indx].Content);
-            savepos();
         }
         void ButtonSet(object sender, EventArgs e)
         {
@@ -522,7 +520,6 @@ namespace JoyPro
             Console.WriteLine(setBtns[indx].Content);
             stickLabels[indx].Content = joyReader.result.Device;
             joyReader = null;
-            savepos();
         }
         void modSelectionChanged(object sender, EventArgs e)
         {
@@ -975,7 +972,6 @@ namespace JoyPro
             {
                 MessageBox.Show("Given SaturationY not a valid double");
             }
-            savepos();
         }
         void CurvitureSelectionChanged(object sender, EventArgs e)
         {
@@ -1008,7 +1004,6 @@ namespace JoyPro
                 if (cr.Curvature.Count > 0) cr.Curvature[0] = curv;
                 else cr.Curvature.Add(curv);
             }
-            savepos();
         }
         void DeadzoneSelectionChanged(object sender, EventArgs e)
         {
@@ -1033,7 +1028,6 @@ namespace JoyPro
             {
                 MessageBox.Show("Given Deadzone not a valid double");
             }
-            savepos();
         }
         void InitDCS()
         {
@@ -1146,16 +1140,6 @@ namespace JoyPro
                 MainStructure.msave.lastInstanceSelected= (string)DropDownInstanceSelection.SelectedItem;
             }
         }
-        void SaveMeta(object sender, EventArgs e)
-        {
-            savepos();
-        }
 
-        void savepos()
-        {
-            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
-            MainStructure.msave.mainWLast = MainStructure.GetWindowPosFrom(this);
-            MainStructure.SaveMetaLast();
-        }
     }
 }

@@ -38,15 +38,9 @@ namespace JoyPro
                 this.Width = MainStructure.msave.importWindowLast.Width;
                 this.Height = MainStructure.msave.importWindowLast.Height;
             }
-            this.Closing += new System.ComponentModel.CancelEventHandler(chnged);
-            this.SizeChanged += new SizeChangedEventHandler(chnged);
-        
-        }
+            this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
+            this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
 
-        void chnged (object sender, EventArgs e)
-        {
-            MainStructure.msave.importWindowLast = MainStructure.GetWindowPosFrom(this);
-            MainStructure.SaveMetaLast();
         }
 
         void CancelImport(object sender, EventArgs e)

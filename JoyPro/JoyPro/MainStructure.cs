@@ -51,7 +51,7 @@ namespace JoyPro
         public static Modifier GetModifierWithKeyCombo(string device, string key)
         {
             foreach (KeyValuePair<string, Modifier> kvp in AllModifiers)
-                if (kvp.Value.device == device && kvp.Value.key == key) return kvp.Value;
+                if (kvp.Value.device.ToUpper() == device.ToUpper() && kvp.Value.key.ToUpper() == key.ToUpper()) return kvp.Value;
             return null;
         }
 
@@ -94,7 +94,7 @@ namespace JoyPro
             bool found = false;
             foreach(KeyValuePair<string, Modifier> kvp in AllModifiers)
             {
-                if (kvp.Value.device == device && kvp.Value.key==key) return true;
+                if (kvp.Value.device.ToUpper() == device.ToUpper() && kvp.Value.key.ToUpper() == key.ToUpper()) return true;
             }
             return found;
         }
@@ -185,8 +185,8 @@ namespace JoyPro
             }
             else
             {
-                if (AllModifiers[m.name].device == m.device &&
-                    AllModifiers[m.name].key == m.key)
+                if (AllModifiers[m.name].device.ToUpper() == m.device.ToUpper() &&
+                    AllModifiers[m.name].key.ToUpper() == m.key.ToUpper())
                 {
                     return ModExists.ALL_EXISTS;
                 }
@@ -195,6 +195,37 @@ namespace JoyPro
                     return ModExists.BINDNAME_EXISTS;
                 }
             }
+        }
+
+        public static void SaveWindowState(object sender, EventArgs e)
+        {
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            Console.WriteLine(sender.GetType().ToString());
+            if(sender is Window)
+            {
+                WindowPos p = GetWindowPosFrom((Window)sender);
+                if(sender is MainWindow)
+                {
+                    msave.mainWLast = p;
+                }else if( sender is RelationWindow)
+                {
+                    msave.relationWindowLast = p;
+                }else if ( sender is ExchangeStick)
+                {
+                    msave.exchangeW = p;
+                }else if( sender is ImportWindow)
+                {
+                    msave.importWindowLast = p;
+                } else if(sender is ModifierManager)
+                {
+                    msave.ModifierW = p;
+                }else if(sender is StickToExchange)
+                {
+                    msave.stick2ExW = p;
+                }
+            }
+
+            SaveMetaLast();
         }
 
         public static string GetReformerStringFromMod(string name)
