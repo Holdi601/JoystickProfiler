@@ -29,6 +29,19 @@ namespace JoyPro
             stickToReplace = toReplace;
             CancelJoyExchange.Click += new RoutedEventHandler(CancelJoystick);
             OKJoyExchange.Click += new RoutedEventHandler(OKNewJoystick);
+
+            if (MainStructure.msave != null&&MainStructure.msave.exchangeW!=null)
+            {
+                if (MainStructure.msave.exchangeW.Top > 0) this.Top = MainStructure.msave.exchangeW.Top;
+                if (MainStructure.msave.exchangeW.Left > 0) this.Left = MainStructure.msave.exchangeW.Left;
+                if (MainStructure.msave.exchangeW.Width > 0) this.Width = MainStructure.msave.exchangeW.Width;
+                if (MainStructure.msave.exchangeW.Height > 0) this.Height = MainStructure.msave.exchangeW.Height;
+            }
+            else
+            {
+                MainStructure.msave = new MetaSave();
+            }
+
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
         }

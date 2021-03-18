@@ -189,7 +189,8 @@ namespace JoyPro
                         }
                         else if (alreadyExists == ModExists.BINDNAME_EXISTS||alreadyExists== ModExists.ALL_EXISTS)
                         {
-                            toAdd = MainStructure.GetReformerStringFromMod(m.name);
+                            Modifier mf = MainStructure.ReformerToMod(toAdd);
+                            toAdd = MainStructure.GetReformerStringFromMod(mf.name);
                             if (!b.AllReformers.Contains(toAdd)) b.AllReformers.Add(toAdd);
                         }else if (alreadyExists == ModExists.KEYBIND_EXISTS)
                         {

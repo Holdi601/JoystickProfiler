@@ -43,7 +43,8 @@ namespace JoyPro
                 if (MainStructure.msave.relationWindowLast.Height != -1) this.Height = MainStructure.msave.relationWindowLast.Height;
             }
             svcCont.ScrollChanged += new ScrollChangedEventHandler(scrollChanged);
-
+            this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
+            this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
             if (Current == null)
             {
                 Current = new Relation();
@@ -55,14 +56,8 @@ namespace JoyPro
                 RelationNameTF.Text = Current.NAME;
             }
             svcCont.CanContentScroll = true;
-            svcCont.GotMouseCapture += new MouseEventHandler(whatIsIt);
-            svHead.GotMouseCapture += new MouseEventHandler(whatIsIt);
         }
 
-        void whatIsIt(object sender, EventArgs e)
-        {
-            Console.WriteLine(((ScrollViewer)sender).Name);
-        }
         void setLastSizeAndPosition()
         {
             if (MainStructure.msave == null) MainStructure.msave = new MetaSave();

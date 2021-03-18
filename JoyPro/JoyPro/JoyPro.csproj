@@ -108,6 +108,9 @@
       <DependentUpon>RelationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SearchQueryResults.cs" />
+    <Compile Include="StickSettings.xaml.cs">
+      <DependentUpon>StickSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StickToExchange.xaml.cs">
       <DependentUpon>StickToExchange.xaml</DependentUpon>
     </Compile>
@@ -141,6 +144,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RelationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StickSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

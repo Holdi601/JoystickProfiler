@@ -86,24 +86,54 @@ namespace JoyPro
             FirstStart();
             joyReader = null;
             buttonSetting = -1;
-            //this.SizeChanged += new SizeChangedEventHandler(SaveMeta);
             selectedSort = "Relation";
             SortSelectionDropDown.SelectionChanged += new SelectionChangedEventHandler(SortChanged);
             this.SizeChanged += new SizeChangedEventHandler(sizeChanged);
             sv.ScrollChanged += new ScrollChangedEventHandler(sizeChanged);
             this.ContentRendered += new EventHandler(setWindowPosSize);
             this.Loaded += new RoutedEventHandler(AfterLoading);
-            
-            
         }
 
         void ChangeJoystickSettings(object sender, EventArgs e)
         {
-
+            DisableInputs();
+            StickSettings stickSettings = new StickSettings();
+            stickSettings.Show();
+            stickSettings.Closing += new CancelEventHandler(ActivateInputs);
         }
         void ExchangeStick(object sender, EventArgs e)
         {
+            List<string> sticksInBind = new List<string>();
+            List<Bind> allBinds = MainStructure.GetAllBinds();
+            for (int i = 0; i < allBinds.Count; ++i)
+            {
+                if (allBinds[i].Joystick.Length > 0)
+                {
+                    if (!sticksInBind.Contains(allBinds[i].Joystick))
+                    {
+                        sticksInBind.Add(allBinds[i].Joystick);
+                    }
+                }
+            }
+            List<Modifier> mods = MainStructure.GetAllModifiers();
+            for (int i = 0; i < mods.Count; ++i)
+            {
+                string otherId = mods[i].device;
+                if (otherId.Contains('{'))
+                {
+                    otherId = otherId.Split('{')[0] + "{" + otherId.Split('{')[1].ToUpper();
+                }
 
+                if (!sticksInBind.Contains(otherId))
+                {
+                    sticksInBind.Add(otherId);
+                }
+
+            }
+            DisableInputs();
+            StickToExchange ste = new StickToExchange(sticksInBind);
+            ste.Show();
+            ste.Closing += new CancelEventHandler(ActivateInputs);
         }
 
         void DoValidate(object sender, EventArgs e)
@@ -143,7 +173,7 @@ namespace JoyPro
         }
         void sizeChanged(object sender, EventArgs e)
         {
-            if(colDefs!=null&&colHds!=null)
+            if (colDefs != null && colHds != null)
             {
                 for (int i = 0; i < colDefs.Count; ++i)
                 {
@@ -450,7 +480,7 @@ namespace JoyPro
             }
             bw.RunWorkerAsync();
         }
-        
+
         void listenButton(object sender, EventArgs e)
         {
             joyReader = new JoystickReader(false);
@@ -771,7 +801,7 @@ namespace JoyPro
                 }
             }
             sv.Content = grid;
-            
+
         }
         public void CleanText(object sender, EventArgs e)
         {
@@ -797,7 +827,7 @@ namespace JoyPro
             var converter = new GridLengthConverter();
             Grid grid = new Grid();
             colHds = new List<ColumnDefinition>();
-            for(int i=0; i < 11; ++i)
+            for (int i = 0; i < 11; ++i)
             {
                 ColumnDefinition c = new ColumnDefinition();
                 grid.ColumnDefinitions.Add(c);
@@ -938,7 +968,7 @@ namespace JoyPro
 
                 return;
             }
-            if (cx.Text.Length < 1||cx.Text.Replace(" ","")==".") return;
+            if (cx.Text.Length < 1 || cx.Text.Replace(" ", "") == ".") return;
             string cleaned = cx.Text.Replace(',', '.');
             try
             {
@@ -1062,14 +1092,14 @@ namespace JoyPro
             for (int i = 0; i < ALLBUTTONS.Count; ++i)
                 ALLBUTTONS[i].IsEnabled = false;
             MainStructure.LoadMetaLast();
-            
+
         }
 
         void setWindowPosSize(object sender, EventArgs e)
         {
             Console.WriteLine("Should set");
             MainStructure.LoadMetaLast();
-            if (MainStructure.msave != null&&MainStructure.msave.mainWLast.Width>0)
+            if (MainStructure.msave != null && MainStructure.msave.mainWLast.Width > 0)
             {
                 this.Top = MainStructure.msave.mainWLast.Top;
                 this.Left = MainStructure.msave.mainWLast.Left;
@@ -1095,17 +1125,17 @@ namespace JoyPro
                     editBtns[i].IsEnabled = true;
                     setBtns[i].IsEnabled = true;
                 }
-            if(modBtns!=null)
-            foreach (KeyValuePair<int, Button[]> kvp in modBtns)
-            {
-                for (int i = 0; i < kvp.Value.Length; ++i)
+            if (modBtns != null)
+                foreach (KeyValuePair<int, Button[]> kvp in modBtns)
                 {
-                    if (kvp.Value[i] != null)
+                    for (int i = 0; i < kvp.Value.Length; ++i)
                     {
-                        kvp.Value[i].IsEnabled = true;
+                        if (kvp.Value[i] != null)
+                        {
+                            kvp.Value[i].IsEnabled = true;
+                        }
                     }
                 }
-            }
         }
         void DisableInputs()
         {
@@ -1119,17 +1149,17 @@ namespace JoyPro
                     editBtns[i].IsEnabled = false;
                     setBtns[i].IsEnabled = false;
                 }
-            if(modBtns!=null)
-            foreach (KeyValuePair<int, Button[]> kvp in modBtns)
-            {
-                for (int i = 0; i < kvp.Value.Length; ++i)
+            if (modBtns != null)
+                foreach (KeyValuePair<int, Button[]> kvp in modBtns)
                 {
-                    if (kvp.Value[i] != null)
+                    for (int i = 0; i < kvp.Value.Length; ++i)
                     {
-                        kvp.Value[i].IsEnabled = false;
+                        if (kvp.Value[i] != null)
+                        {
+                            kvp.Value[i].IsEnabled = false;
+                        }
                     }
                 }
-            }
         }
         private void InstanceSelectionChanged(object sender, EventArgs e)
         {
@@ -1137,7 +1167,7 @@ namespace JoyPro
             MainStructure.selectedInstancePath = (string)DropDownInstanceSelection.SelectedItem;
             if (MainStructure.msave != null)
             {
-                MainStructure.msave.lastInstanceSelected= (string)DropDownInstanceSelection.SelectedItem;
+                MainStructure.msave.lastInstanceSelected = (string)DropDownInstanceSelection.SelectedItem;
             }
         }
 

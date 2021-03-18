@@ -23,7 +23,7 @@ namespace JoyPro
         public StickToExchange(List<string> sticks)
         {
             InitializeComponent();
-            if (MainStructure.msave != null)
+            if (MainStructure.msave != null&&MainStructure.msave.stick2ExW!=null)
             {
                 if(MainStructure.msave.stick2ExW.Top>0) this.Top = MainStructure.msave.stick2ExW.Top;
                 if (MainStructure.msave.stick2ExW.Left > 0) this.Left = MainStructure.msave.stick2ExW.Left;
@@ -33,6 +33,9 @@ namespace JoyPro
 
             CancelJoyExchange.Click += new RoutedEventHandler(CancelButton);
             DDJoysticks.ItemsSource = sticks;
+            this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
+            this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
+            OKJoyExchange.Click += new RoutedEventHandler(OkExchangeNow);
         }
 
         void CancelButton(object sender, EventArgs e)
@@ -42,7 +45,20 @@ namespace JoyPro
 
         void OkExchangeNow(object sender, EventArgs e)
         {
-
+            if (DDJoysticks.SelectedItem != null || ((string)DDJoysticks.SelectedItem).Length > 0)
+            {
+                ExchangeStick exs = new ExchangeStick((string)DDJoysticks.SelectedItem);
+                exs.Closing += new System.ComponentModel.CancelEventHandler(CancelButton);
+                exs.Show();
+            }
+            else
+            {
+                MessageBox.Show("No stick selected");
+                return;
+            }
+            DDJoysticks.IsEnabled = false;
+            CancelJoyExchange.IsEnabled = false;
+            OKJoyExchange.IsEnabled = false;
         }
     }
 }

@@ -222,6 +222,9 @@ namespace JoyPro
                 }else if(sender is StickToExchange)
                 {
                     msave.stick2ExW = p;
+                }else if(sender is StickSettings)
+                {
+                    msave.SettingsW = p;
                 }
             }
 
@@ -1011,10 +1014,11 @@ namespace JoyPro
         static void AddLoadedJoysticks()
         {
             List<string> sticks = new List<string>();
-            for (int i = 0; i < DCSJoysticks.Length; ++i)
-            {
-                sticks.Add(DCSJoysticks[i]);
-            }
+            if(DCSJoysticks!=null)
+                for (int i = 0; i < DCSJoysticks.Length; ++i)
+                {
+                    sticks.Add(DCSJoysticks[i]);
+                }
             foreach (KeyValuePair<string, Bind> kvp in AllBinds)
             {
                 if (kvp.Value.Joystick != null && kvp.Value.Joystick.Length > 0 && !sticks.Contains<string>(kvp.Value.Joystick))
