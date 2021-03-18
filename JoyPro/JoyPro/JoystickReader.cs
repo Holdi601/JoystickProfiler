@@ -57,10 +57,10 @@ namespace JoyPro
         bool detectionEventActiveAxis;
         bool quit;
         bool keybValues;
-        const int timeToSet = 5000;
-        const int axisThreshold = 10000;
+        int timeToSet;
+        int axisThreshold;
         int warmupTime;
-        int timeLeftToSet = timeToSet;
+        int timeLeftToSet;
         public JoystickResults result;
         int pollWaitTime;
         Keyboard kb;
@@ -81,8 +81,16 @@ namespace JoyPro
         }
         public JoystickReader(bool axis, bool includeKeyboard=false)
         {
+            timeToSet = 5000;
+            axisThreshold = 10000;
+            if (MainStructure.msave != null)
+            {
+                timeToSet = MainStructure.msave.timeToSet;
+                axisThreshold = MainStructure.msave.axisThreshold;
+            }
             if (includeKeyboard) axis = false;
             pollWaitTime = 10;
+            timeLeftToSet = timeToSet;
             warmupTime = 300;
             directInputList = new List<DeviceInstance>();
             directInput = new DirectInput();

@@ -1283,5 +1283,21 @@ namespace JoyPro
             DCSJoysticks = Joysticks.ToArray();
         }
 
+        public static List<Relation> GetAllRelations()
+        {
+            List<Relation> result = new List<Relation>();
+            foreach (KeyValuePair<string, Relation> kvp in AllRelations)
+                result.Add(kvp.Value);
+            return result;
+        }
+
+        public static List<Bind> GetAllBinds()
+        {
+            List<Bind> result = new List<Bind>();
+            foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+                result.Add(kvp.Value);
+            return result;
+        }
+
     }
 }

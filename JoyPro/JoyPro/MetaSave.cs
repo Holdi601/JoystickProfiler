@@ -15,8 +15,14 @@ namespace JoyPro
         public WindowPos mainWLast = null;
         public WindowPos exchangeW = null;
         public WindowPos ModifierW = null;
+        public WindowPos ValidW = null;
+        public WindowPos SettingsW = null;
         public string lastGameSelected = "";
         public string lastInstanceSelected ="";
+        public int timeToSet;
+        public int axisThreshold;
+
+
         public MetaSave()
         {
             lastGameSelected = "";
@@ -27,6 +33,10 @@ namespace JoyPro
             mainWLast = new WindowPos();
             exchangeW = new WindowPos();
             ModifierW = new WindowPos();
+            ValidW = new WindowPos();
+            SettingsW = new WindowPos();
+            timeToSet = 5000;
+            axisThreshold = 10000;
         }
     }
 }

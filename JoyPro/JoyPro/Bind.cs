@@ -75,37 +75,6 @@ namespace JoyPro
             AllReformers = new List<string>();
         }
 
-        public bool? SetButton(string btn)
-        {
-            if (JAxis.Length<1) return null;
-            bool isPov = false;
-            string PreFixButton = "JOY_BTN";
-            btn = btn.Replace(PreFixButton, "");
-            int iFound = -1;
-            int btnnmbr = -1;
-            bool success = int.TryParse(btn, out btnnmbr);
-            if (btnnmbr >= 0 && success)
-            {
-                JButton = PreFixButton + btnnmbr.ToString();
-                return true;
-            }
-            for (int i=0; i<PovHeads.Length; ++i)
-            {
-                if (PovHeads[i].ToLower().Contains(btn.ToLower()))
-                {
-                    isPov = true;
-                    iFound = i;
-                    break;
-                }
-            }
-            if (isPov)
-            {
-                JButton = PreFixButton + "_" + PovHeads[iFound];
-                return true;
-            }
-            return false;
-        }
-
         public DCSAxisBind toDCSAxisBind()
         {
             DCSAxisBind result = new DCSAxisBind();
@@ -315,26 +284,6 @@ namespace JoyPro
             }
             return "";
         }
-        public void deleteReformer(string displayName)
-        {
-            for(int i=AllReformers.Count-1; i>=0; i--)
-            {
-                string[] parts = AllReformers[i].Split('§');
-                if ((parts.Length >= 3 && parts[0] == displayName)||parts.Length<3)
-                {
-                    AllReformers.RemoveAt(i);
-                }
-            }
-        }
-        public string ModToDosplayString(int mod)
-        {
-            string result = "None";
-            if (mod - 1 < AllReformers.Count && mod - 1 >= 0)
-            {
-                string[] parts = AllReformers[mod - 1].Split('§');
-                result = parts[0];
-            }
-            return result;
-        }
+
     }
 }

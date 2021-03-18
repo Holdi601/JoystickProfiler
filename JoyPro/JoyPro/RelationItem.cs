@@ -125,5 +125,16 @@ namespace JoyPro
                     return AllInputs[i].Title;
             return "";
         }
+
+        public List<string> GetActiveAircraftList()
+        {
+            List<string> result = new List<string>();
+            foreach(KeyValuePair<string, bool> kvp in AIRCRAFT)
+            {
+                if (kvp.Value)
+                    result.Add(kvp.Key);
+            }
+            return result;
+        }
     }
 }

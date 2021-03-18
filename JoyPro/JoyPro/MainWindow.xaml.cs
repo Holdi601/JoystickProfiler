@@ -746,7 +746,6 @@ namespace JoyPro
                     grid.Children.Add(modCbx4);
 
 
-
                     //Check against mod buttons needed
                     if (currentBind != null)
                     {
