@@ -108,6 +108,7 @@
       <DependentUpon>RelationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SearchQueryResults.cs" />
+    <Compile Include="Validation.cs" />
     <Compile Include="WindowPos.cs" />
     <Page Include="ExchangeStick.xaml">
       <SubType>Designer</SubType>

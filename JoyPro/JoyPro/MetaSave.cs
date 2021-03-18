@@ -21,6 +21,8 @@ namespace JoyPro
         public string lastInstanceSelected ="";
         public int timeToSet;
         public int axisThreshold;
+        public int warmupTime;
+        public int pollWaitTime;
 
 
         public MetaSave()
@@ -37,6 +39,8 @@ namespace JoyPro
             SettingsW = new WindowPos();
             timeToSet = 5000;
             axisThreshold = 10000;
+            warmupTime = 300;
+            pollWaitTime = 10;
         }
     }
 }

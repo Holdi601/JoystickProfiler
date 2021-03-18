@@ -83,15 +83,19 @@ namespace JoyPro
         {
             timeToSet = 5000;
             axisThreshold = 10000;
+            warmupTime = 300;
+            pollWaitTime = 10;
             if (MainStructure.msave != null)
             {
                 timeToSet = MainStructure.msave.timeToSet;
                 axisThreshold = MainStructure.msave.axisThreshold;
+                warmupTime = MainStructure.msave.warmupTime;
+                pollWaitTime = MainStructure.msave.pollWaitTime;
             }
             if (includeKeyboard) axis = false;
-            pollWaitTime = 10;
+            
             timeLeftToSet = timeToSet;
-            warmupTime = 300;
+            
             directInputList = new List<DeviceInstance>();
             directInput = new DirectInput();
             contrl = new SlimDX.XInput.Controller(SlimDX.XInput.UserIndex.Any);
