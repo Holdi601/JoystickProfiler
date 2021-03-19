@@ -701,13 +701,65 @@ namespace JoyPro
 
                     if (currentBind != null)
                     {
-                        joybtnin.Content = currentBind.JAxis.ToString();
-                        cbx.IsChecked = currentBind.Inverted;
-                        cbxs.IsChecked = currentBind.Slider;
-                        txrl.Text = currentBind.Deadzone.ToString();
-                        txrlsx.Text = currentBind.SaturationX.ToString();
-                        txrlsy.Text = currentBind.SaturationY.ToString();
-                        txrlcv.Text = currentBind.Curvature[0].ToString();
+                        if(currentBind.JAxis!=null&& currentBind.JAxis.Length>0)
+                            joybtnin.Content = currentBind.JAxis.ToString();
+                        else
+                        {
+                            joybtnin.Content = "ERROR PLEASE REASSIGN";
+                        }
+                        if(currentBind.Inverted != null)
+                            cbx.IsChecked = currentBind.Inverted;
+                        else
+                        {
+                            currentBind.Inverted = false;
+                            cbx.IsChecked = false;
+                        }
+                        if (currentBind.Slider!=null)
+                        {
+                            cbxs.IsChecked = currentBind.Slider;
+                        }
+                        else
+                        {
+                            currentBind.Slider = false;
+                            cbxs.IsChecked = false;
+                        }
+                        if (currentBind.Deadzone != null&&!double.IsNaN(currentBind.Deadzone))
+                        {
+                            txrl.Text = currentBind.Deadzone.ToString();
+                        }
+                        else
+                        {
+                            currentBind.Deadzone = 0.0;
+                            txrl.Text = "0";
+                        }
+                        if (currentBind.SaturationX != null && !double.IsNaN(currentBind.SaturationX))
+                        {
+                            txrlsx.Text = currentBind.SaturationX.ToString();
+                        }
+                        else
+                        {
+                            currentBind.SaturationX = 1.0;
+                            txrlsx.Text = "1";
+                        }
+                        if (currentBind.SaturationY != null && !double.IsNaN(currentBind.SaturationY))
+                        {
+                            txrlsy.Text = currentBind.SaturationY.ToString();
+                        }
+                        else
+                        {
+                            currentBind.SaturationY = 1.0;
+                            txrlsy.Text = "1";
+                        }
+                        if(currentBind.Curvature!=null&& currentBind.Curvature.Count > 0&&!double.IsNaN(currentBind.Curvature[0]))
+                        {
+                            txrlcv.Text = currentBind.Curvature[0].ToString();
+                        }
+                        else
+                        {
+                            currentBind.Curvature = new List<double>();
+                            currentBind.Curvature.Add(0);
+                            txrlcv.Text = "0.0";
+                        }                        
                     }
                     else
                     {
