@@ -1023,20 +1023,34 @@ namespace JoyPro
         public static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
         {
             if (filePath == null || filePath.Length < 1) return;
-            using (Stream stream = File.Open(filePath, append ? FileMode.Append : FileMode.Create))
+            try
             {
-                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                binaryFormatter.Serialize(stream, objectToWrite);
+                using (Stream stream = File.Open(filePath, append ? FileMode.Append : FileMode.Create))
+                {
+                    var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                    binaryFormatter.Serialize(stream, objectToWrite);
+                }
+            }
+            catch
+            {
+                
             }
         }
         public static void LoadRelations(string filePath)
         {
             if (filePath == null || filePath.Length < 1) return;
             NewFile();
-            AllRelations = ReadFromBinaryFile<Dictionary<string, Relation>>(filePath);
-            foreach(KeyValuePair<string, Relation> kvp in AllRelations)
+            try
             {
-                kvp.Value.CheckNamesAgainstDB();
+                AllRelations = ReadFromBinaryFile<Dictionary<string, Relation>>(filePath);
+                foreach (KeyValuePair<string, Relation> kvp in AllRelations)
+                {
+                    kvp.Value.CheckNamesAgainstDB();
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Couldn't load relations");
             }
             ResyncRelations();
         }
@@ -1094,17 +1108,27 @@ namespace JoyPro
         public static void LoadProfile(string filePath)
         {
             if (filePath == null || filePath.Length < 1) return;
-            Pr0file pr = ReadFromBinaryFile<Pr0file>(filePath);
-            NewFile();
-            AllRelations = pr.Relations;
-            AllBinds = pr.Binds;
-            ResyncBindsToMods();
-            foreach (KeyValuePair<string, Relation> kvp in AllRelations)
+            Pr0file pr = null;
+            try
             {
-                kvp.Value.CheckNamesAgainstDB();
+                pr = ReadFromBinaryFile<Pr0file>(filePath);
+                NewFile();
+                AllRelations = pr.Relations;
+                AllBinds = pr.Binds;
+                ResyncBindsToMods();
+                foreach (KeyValuePair<string, Relation> kvp in AllRelations)
+                {
+                    kvp.Value.CheckNamesAgainstDB();
+                }
+                AddLoadedJoysticks();
+                CheckConnectedSticksToBinds();
             }
-            AddLoadedJoysticks();
-            CheckConnectedSticksToBinds();
+            catch
+            {
+                MessageBox.Show("Couldn't load profile. Either opened by some program or other error");
+            }
+
+            
             ResyncRelations();
         }
         public static void AddBind(string name, Bind b)
@@ -1174,10 +1198,14 @@ namespace JoyPro
             List<string> connectedSticks = JoystickReader.GetConnectedJoysticks();
             List<string> misMatches = new List<string>();
             List<Bind> toRemove = new List<Bind>();
+            List<string> upperConn = new List<string>();
+            for (int i = 0; i < connectedSticks.Count; ++i)
+                if (!upperConn.Contains(connectedSticks[i].ToUpper()))
+                    upperConn.Add(connectedSticks[i].ToUpper());
             foreach (KeyValuePair<string, Bind> kvp in AllBinds)
             {
                 if (kvp.Value.Joystick != null && kvp.Value.Joystick.Length > 0)
-                    if (!connectedSticks.Contains(kvp.Value.Joystick)&& !misMatches.Contains(kvp.Value.Joystick))
+                    if (!upperConn.Contains(kvp.Value.Joystick.ToUpper())&& !misMatches.Contains(kvp.Value.Joystick))
                         misMatches.Add(kvp.Value.Joystick);
             }
             foreach (Bind b in toRemove) if(AllBinds.ContainsKey(b.Rl.NAME)) AllBinds.Remove(b.Rl.NAME);

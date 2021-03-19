@@ -116,7 +116,7 @@ namespace JoyPro
         {
             TextBox tb = (TextBox)sender;
             int indx = Convert.ToInt32(tb.Name.Replace("txname", ""));
-            if (tb.Text.Length > 3)
+            if (tb.Text.Length > 1)
             {
                 if (MainStructure.GetReformerStringFromMod(tb.Text) == null)
                     MainStructure.ChangeReformerName(CURRENTDISPLAYEDMODS[indx].name, tb.Text);

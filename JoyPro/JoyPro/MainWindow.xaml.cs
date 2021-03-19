@@ -264,16 +264,19 @@ namespace JoyPro
             string filePath;
             saveFileDialog1.ShowDialog();
             filePath = saveFileDialog1.FileName;
-            string[] pathParts = filePath.Split('\\');
-            if (pathParts.Length > 0)
+            if(filePath.Length>4)
             {
-                MainStructure.msave.lastOpenedLocation = pathParts[0];
-                for (int i = 1; i < pathParts.Length - 1; ++i)
+                string[] pathParts = filePath.Split('\\');
+                if (pathParts.Length > 0)
                 {
-                    MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
+                    MainStructure.msave.lastOpenedLocation = pathParts[0];
+                    for (int i = 1; i < pathParts.Length - 1; ++i)
+                    {
+                        MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
+                    }
                 }
+                MainStructure.SaveProfileTo(filePath);
             }
-            MainStructure.SaveProfileTo(filePath);
         }
         void SaveReleationsEvent(object sender, EventArgs e)
         {
