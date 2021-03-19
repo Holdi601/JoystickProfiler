@@ -88,4 +88,4 @@ Contact me, I will try to fix it asap.
 But lets see. Depends on time and motivation. 
 
 
-Discord for more direct question answer or concerns: https://discord.gg/yK4gQA9xgk
+Discord for more direct question answer or concerns: https://discord.gg/SeCTXJHhJf
