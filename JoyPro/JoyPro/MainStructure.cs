@@ -200,8 +200,7 @@ namespace JoyPro
         public static void SaveWindowState(object sender, EventArgs e)
         {
             if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
-            Console.WriteLine(sender.GetType().ToString());
-            if(sender is Window)
+            if(sender!=null&&sender is Window)
             {
                 WindowPos p = GetWindowPosFrom((Window)sender);
                 if(sender is MainWindow)
@@ -230,7 +229,8 @@ namespace JoyPro
                     msave.ValidW = p;
                 }
             }
-
+            if (mainW.CBNukeUnused.IsChecked == true)
+                msave.NukeSticks = true;
             SaveMetaLast();
         }
 
@@ -418,12 +418,43 @@ namespace JoyPro
             writeFiles();
             mainW.ShowMessageBox("It appears to have successfully exported");
         }
-        public static void WriteProfileClean()
+        public static void WriteProfileClean(bool nukeDevices)
         {
             if (!Directory.Exists(selectedInstancePath)) return;
             PushAllBindsToExport(true, true, false);
+            if (nukeDevices)
+                NukeUnusedButConnectedDevicesToExport();
             writeFiles();
             mainW.ShowMessageBox("It appears to have successfully exported");
+        }
+        static void NukeUnusedButConnectedDevicesToExport()
+        {
+            string[] allPlanes = Planes;
+            List<string> connectedSticks = JoystickReader.GetConnectedJoysticks();
+            for(int i=0; i < allPlanes.Length; ++i)
+            {
+                if (!ToExport.ContainsKey(allPlanes[i]))
+                {
+                    ToExport.Add(allPlanes[i], new DCSExportPlane());
+                    ToExport[allPlanes[i]].plane = allPlanes[i];
+                }
+                DCSLuaInput empty = null;
+                if (EmptyOutputs.ContainsKey(allPlanes[i]))
+                {
+                    empty = EmptyOutputs[allPlanes[i]];
+                }
+                else
+                    continue;
+                for(int j=0; j<connectedSticks.Count; j++)
+                {
+                    if (!ToExport[allPlanes[i]].joystickConfig.ContainsKey(connectedSticks[j]))
+                    {
+                        ToExport[allPlanes[i]].joystickConfig.Add(connectedSticks[j], empty.Copy());
+                        ToExport[allPlanes[i]].joystickConfig[connectedSticks[j]].plane = allPlanes[i];
+                        ToExport[allPlanes[i]].joystickConfig[connectedSticks[j]].JoystickName = connectedSticks[j];
+                    }
+                }
+            }
         }
         public static void PushAllBindsToExport(bool oride, bool fillBeforeEmpty=true, bool overwriteAdd=false)
         {
@@ -557,6 +588,33 @@ namespace JoyPro
                                             ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key].removed.Add(old.removed[i].Copy());
                                         }
                                     }
+                                    if (fillBeforeEmpty)
+                                    {
+                                        if (EmptyOutputs.ContainsKey(kvp.Key) && EmptyOutputs[kvp.Key].axisDiffs.ContainsKey(kvpDiffsAxisElement.Key))
+                                        {
+                                            bool found = false;
+                                            for (int r = 0; r < EmptyOutputs[kvp.Key].axisDiffs[kvpDiffsAxisElement.Key].removed.Count; ++r)
+                                            {
+                                                for (int w = 0; w < kvpDiffsAxisElement.Value.added.Count; ++w)
+                                                {
+                                                    if (kvpDiffsAxisElement.Value.added[w].key == EmptyOutputs[kvp.Key].axisDiffs[kvpDiffsAxisElement.Key].removed[r].key)
+                                                    {
+                                                        found = true;
+                                                        break;
+                                                    }
+                                                    if (found)
+                                                        break;
+                                                }
+                                            }
+                                            if (!found)
+                                            {
+                                                for (int r = 0; r < EmptyOutputs[kvp.Key].axisDiffs[kvpDiffsAxisElement.Key].removed.Count; ++r)
+                                                {
+                                                    ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key].removed.Add(EmptyOutputs[kvp.Key].axisDiffs[kvpDiffsAxisElement.Key].removed[r]);
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                             
@@ -587,7 +645,85 @@ namespace JoyPro
                                             ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key].added.Add(old.removed[i].Copy());
                                         }
                                     }
+                                    if (fillBeforeEmpty)
+                                    {
+                                        if (EmptyOutputs.ContainsKey(kvp.Key)&&EmptyOutputs[kvp.Key].keyDiffs.ContainsKey(kvpDiffsButtonsElement.Key))
+                                        {
+                                            bool found = false;
+                                            for(int r=0; r<EmptyOutputs[kvp.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed.Count; ++r)
+                                            {
+                                                for(int w=0; w<kvpDiffsButtonsElement.Value.added.Count; ++w)
+                                                {
+                                                    if (kvpDiffsButtonsElement.Value.added[w].key == EmptyOutputs[kvp.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed[r].key)
+                                                    {
+                                                        found = true;
+                                                        break;
+                                                    }
+                                                    if (found)
+                                                        break;
+                                                }
+                                            }
+                                            if (!found)
+                                            {
+                                                for(int r=0; r < EmptyOutputs[kvp.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed.Count; ++r)
+                                                {
+                                                    ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed.Add(EmptyOutputs[kvp.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed[r]);
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+            CorrectExportForAddedRemoved();
+        }
+
+        static void CorrectExportForAddedRemoved()
+        {
+            foreach (KeyValuePair<string, DCSExportPlane> kvpExpPlane in ToExport)
+            {
+                foreach (KeyValuePair<string, DCSLuaInput> kvpJoyConf in kvpExpPlane.Value.joystickConfig)
+                {
+                    foreach(KeyValuePair<string, DCSLuaDiffsAxisElement> kvpAxEl in kvpJoyConf.Value.axisDiffs)
+                    {
+                        if (kvpAxEl.Value.added.Count > 1)
+                        {
+                            for(int i=kvpAxEl.Value.added.Count-1; i>=0; i--)
+                            {
+                                bool foundToRemove = false;
+                                for(int j=0; j < kvpAxEl.Value.removed.Count; j++)
+                                {
+                                    if (kvpAxEl.Value.removed[j].key == kvpAxEl.Value.added[i].key)
+                                    {
+                                        foundToRemove = true;
+                                        break;
+                                    }       
+                                }
+                                if (foundToRemove)
+                                    kvpAxEl.Value.added.RemoveAt(i);
+                            }
+                        }
+                    }
+                    foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvpBnEl in kvpJoyConf.Value.keyDiffs)
+                    {
+                        if (kvpBnEl.Value.added.Count > 1)
+                        {
+                            for (int i = kvpBnEl.Value.added.Count - 1; i >= 0; i--)
+                            {
+                                bool foundToRemove = false;
+                                for (int j = 0; j < kvpBnEl.Value.removed.Count; j++)
+                                {
+                                    if (kvpBnEl.Value.removed[j].key == kvpBnEl.Value.added[i].key)
+                                    {
+                                        foundToRemove = true;
+                                        break;
+                                    }
+                                }
+                                if (foundToRemove)
+                                    kvpBnEl.Value.added.RemoveAt(i);
                             }
                         }
                     }

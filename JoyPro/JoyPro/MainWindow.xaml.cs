@@ -42,8 +42,8 @@ namespace JoyPro
 
         public MainWindow()
         {
-            //AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
-            //Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
+            Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
             CURRENTDISPLAYEDRELATION = new List<Relation>();
             MessageBox.Show("Please Backup your existing binds. C:\\Users\\USERNAME\\Saved Games\\DCS Please make a backup of these folders somewhere outside your savegames.");
@@ -92,6 +92,7 @@ namespace JoyPro
             sv.ScrollChanged += new ScrollChangedEventHandler(sizeChanged);
             this.ContentRendered += new EventHandler(setWindowPosSize);
             this.Loaded += new RoutedEventHandler(AfterLoading);
+            CBNukeUnused.Click += new RoutedEventHandler(MainStructure.SaveWindowState);
         }
 
         void ChangeJoystickSettings(object sender, EventArgs e)
@@ -183,7 +184,6 @@ namespace JoyPro
                 }
                 svHeader.ScrollToHorizontalOffset(sv.HorizontalOffset);
             }
-            //savepos();
         }
         void SortChanged(object sender, EventArgs e)
         {
@@ -242,7 +242,10 @@ namespace JoyPro
         }
         void CleanAndExport(object sender, EventArgs e)
         {
-            MainStructure.WriteProfileClean();
+            bool nukeDevices = false;
+            if (CBNukeUnused.IsChecked == true)
+                nukeDevices = true;
+            MainStructure.WriteProfileClean(nukeDevices);
         }
         void SaveProfileEvent(object sender, EventArgs e)
         {
@@ -1104,6 +1107,7 @@ namespace JoyPro
                 this.Width = MainStructure.msave.mainWLast.Width;
                 this.Height = MainStructure.msave.mainWLast.Height;
                 Console.WriteLine("Done set");
+                CBNukeUnused.IsChecked = MainStructure.msave.NukeSticks;
             }
         }
         void ActivateInputs(object sender, EventArgs e)

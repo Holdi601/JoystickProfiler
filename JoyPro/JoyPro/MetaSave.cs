@@ -24,6 +24,7 @@ namespace JoyPro
         public int axisThreshold;
         public int warmupTime;
         public int pollWaitTime;
+        public bool NukeSticks;
 
 
         public MetaSave()
@@ -43,6 +44,7 @@ namespace JoyPro
             axisThreshold = 10000;
             warmupTime = 300;
             pollWaitTime = 10;
+            NukeSticks = false;
         }
     }
 }
