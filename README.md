@@ -76,13 +76,6 @@ Contact me, I will try to fix it asap.
 
 -Autoupdater
 
--Profile Validation:
-
---ID Validation
-
---Modifier Validation
-
---No double joystick use validation
 
 
 But lets see. Depends on time and motivation. 
