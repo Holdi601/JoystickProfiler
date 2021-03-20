@@ -415,8 +415,12 @@ namespace JoyPro
         {
             Button b = (Button)sender;
             int indx = Convert.ToInt32(b.Name.Replace("deleteBtn", ""));
-            Relation r = CURRENTDISPLAYEDRELATION[indx];
-            MainStructure.RemoveRelation(r);
+            MessageBoxResult mr=  MessageBox.Show("Are you sure that you want to delete the Relation: "+CURRENTDISPLAYEDRELATION[indx].NAME, "Joy Pro Relation Deletion", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+            if(mr== MessageBoxResult.Yes)
+            {
+                Relation r = CURRENTDISPLAYEDRELATION[indx];
+                MainStructure.RemoveRelation(r);
+            }
         }
         void EditRelationButton(object sender, EventArgs e)
         {
