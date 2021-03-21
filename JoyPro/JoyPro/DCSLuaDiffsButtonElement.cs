@@ -36,11 +36,25 @@ namespace JoyPro
             return result;
         }
 
-        public bool doesAddedContainKey(string key)
+        public bool doesAddedContainKey(string key, List<string> refs)
         {
             for (int i = 0; i < added.Count; ++i)
             {
-                if (added[i].key == key) return true;
+                if (added[i].key == key&&added[i].reformers.Count==0&&(refs==null||refs.Count==0)) return true;
+                else if(added[i].key == key&&refs!=null&&refs.Count==added[i].reformers.Count)
+                {
+                    bool allTrue = true;
+                    for(int j=0; j<added[i].reformers.Count; j++)
+                    {
+                        if (!refs.Contains(added[i].reformers[j]))
+                        {
+                            allTrue = false;
+                            break;
+                        }
+                    }
+                    if (allTrue)
+                        return true;
+                }
             }
             return false;
         }

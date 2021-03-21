@@ -30,6 +30,20 @@ namespace JoyPro
             return results;
         }
 
+        public Relation Copy()
+        {
+            Relation r = new Relation();
+            r.ISAXIS = ISAXIS;
+            r.NAME = NAME;
+            for(int i=0; i<NODES.Count; ++i)
+            {
+                r.NODES.Add(NODES[i].Copy());
+            }
+            if(bind!=null)
+                r.bind = bind.Copy(r);
+            return r;
+        }
+
         public void CheckNamesAgainstDB()
         {
             foreach (RelationItem r in NODES)

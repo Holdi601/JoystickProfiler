@@ -58,6 +58,36 @@ namespace JoyPro
             ,"POV4_DR"
             ,"POV4_UR"
         };
+
+        public Bind Copy(Relation rl)
+        {
+            Bind r = new Bind(rl);
+            r.Joystick=Joystick;
+            r.JAxis=JAxis;
+            r.JButton=JButton;
+            r.Reformer_depr=Reformer_depr;
+            r.Inverted=Inverted;
+            r.Slider=Slider;
+            r.Deadzone=Deadzone;
+            r.Curvature= new List<double>();
+            if (Curvature != null)
+                for (int i = 0; i < Curvature.Count; ++i)
+                {
+                    r.Curvature.Add(Curvature[i]);
+                }
+            else
+                r.Curvature.Add(0);
+            r.SaturationX = SaturationX;
+            r.SaturationY = SaturationY;
+            r.AllReformers = new List<string>();
+            for(int i=0; i<AllReformers.Count; ++i)
+            {
+                r.AllReformers.Add(AllReformers[i]);
+            }
+            r.Rl = rl;
+            return r;
+        }
+
         public Bind(Relation r)
         {
             Joystick = "";

@@ -25,6 +25,11 @@ namespace JoyPro
             Init(plane);
         }
 
+        public RelationItem()
+        {
+
+        }
+
         public void CheckAgainstDB()
         {
             DCSInput[] dbItems = MainStructure.GetAllInputsWithId(ID);
@@ -63,6 +68,23 @@ namespace JoyPro
                 AIRCRAFT.Remove(toRemove[i].Plane);
             }
             AllInputs = toKeep.ToArray();
+        }
+
+        public RelationItem Copy()
+        {
+            RelationItem ri = new RelationItem();
+            ri.ID = ID;
+            ri.AIRCRAFT = new Dictionary<string, bool>();
+            foreach(KeyValuePair<string, bool> kvp in AIRCRAFT)
+            {
+                ri.AIRCRAFT.Add(kvp.Key, kvp.Value);
+            }
+            ri.AllInputs = new DCSInput[AllInputs.Length];
+            for(int i=0; i<AllInputs.Length; ++i)
+            {
+                ri.AllInputs[i] = AllInputs[i].Copy();
+            }
+            return ri;
         }
 
         DCSInput InputsContainPlane(DCSInput[] inputs, string plane)

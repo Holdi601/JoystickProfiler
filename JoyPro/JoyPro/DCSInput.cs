@@ -21,6 +21,11 @@ namespace JoyPro
             this.Plane = plane;
         }
 
+        public DCSInput Copy()
+        {
+            DCSInput dip = new DCSInput(ID, Title, IsAxis, Plane);
+            return dip;
+        }
     }
 
 }

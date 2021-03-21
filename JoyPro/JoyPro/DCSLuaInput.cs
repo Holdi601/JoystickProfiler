@@ -247,11 +247,6 @@ namespace JoyPro
                             {
                                 DCSButtonBind dab = new DCSButtonBind();
                                 dab.key = (string)((Dictionary<object, object>)kvpAdded.Value)["key"];
-                                if (!current.doesAddedContainKey(dab.key))
-                                {
-                                    current.added.Add(dab);
-                                    current.removeItemFromRemoved(dab.key);
-                                }
                                 if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("reformers"))
                                 {
                                     foreach (KeyValuePair<object, object> kvpReformers in (Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["reformers"])
@@ -267,6 +262,11 @@ namespace JoyPro
                                             }
                                         }
                                     }
+                                }
+                                if (!current.doesAddedContainKey(dab.key, dab.reformers))
+                                {
+                                    current.added.Add(dab);
+                                    current.removeItemFromRemoved(dab.key);
                                 }
                             }
                         }

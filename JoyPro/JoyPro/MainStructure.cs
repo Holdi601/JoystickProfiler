@@ -421,6 +421,7 @@ namespace JoyPro
         public static void WriteProfileClean(bool nukeDevices)
         {
             if (!Directory.Exists(selectedInstancePath)) return;
+            ToExport.Clear();
             PushAllBindsToExport(true, true, false);
             if (nukeDevices)
                 NukeUnusedButConnectedDevicesToExport();
@@ -632,7 +633,7 @@ namespace JoyPro
                                     {
                                         for (int i = 0; i < old.added.Count; ++i)
                                         {
-                                            if (!kvpDiffsButtonsElement.Value.doesAddedContainKey(old.added[i].key) && !kvpDiffsButtonsElement.Value.doesRemovedContainKey(old.added[i].key))
+                                            if (!kvpDiffsButtonsElement.Value.doesAddedContainKey(old.added[i].key, old.added[i].reformers) && !kvpDiffsButtonsElement.Value.doesRemovedContainKey(old.added[i].key))
                                             {
                                                 ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key].added.Add(old.added[i].Copy());
                                             }
@@ -640,9 +641,9 @@ namespace JoyPro
                                     }
                                     for (int i = 0; i < old.removed.Count; ++i)
                                     {
-                                        if (!kvpDiffsButtonsElement.Value.doesAddedContainKey(old.removed[i].key) && !kvpDiffsButtonsElement.Value.doesRemovedContainKey(old.removed[i].key))
+                                        if (!kvpDiffsButtonsElement.Value.doesAddedContainKey(old.removed[i].key, old.removed[i].reformers) && !kvpDiffsButtonsElement.Value.doesRemovedContainKey(old.removed[i].key))
                                         {
-                                            ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key].added.Add(old.removed[i].Copy());
+                                            ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed.Add(old.removed[i].Copy());
                                         }
                                     }
                                     if (fillBeforeEmpty)
@@ -722,6 +723,10 @@ namespace JoyPro
                                         break;
                                     }
                                 }
+                                if (EmptyOutputs.ContainsKey(kvpExpPlane.Key))
+                                {
+
+                                }
                                 if (foundToRemove)
                                     kvpBnEl.Value.added.RemoveAt(i);
                             }
@@ -730,30 +735,7 @@ namespace JoyPro
                 }
             }
         }
-        static string[] GetJoysticksFromCustomBinds()
-        {
-            List<string> SticksToBind = new List<string>();
-            foreach (KeyValuePair<string, Bind> kvp in AllBinds)
-            {
-                if (!SticksToBind.Contains(kvp.Value.Joystick))
-                    SticksToBind.Add(kvp.Value.Joystick);
-            }
-            return SticksToBind.ToArray();
-        }
-        static string[] GetPlanesFromCustomBinds()
-        {
-            List<string> planes = new List<string>();
-            foreach (KeyValuePair<string, Bind> kvp in AllBinds)
-            {
-                Dictionary<string, int> planeCounter = kvp.Value.Rl.GetPlaneSetState();
-                foreach (KeyValuePair<string, int> kvpplane in planeCounter)
-                {
-                    if (kvpplane.Value > 0 && !planes.Contains(kvpplane.Key))
-                        planes.Add(kvpplane.Key);
-                }
-            }
-            return planes.ToArray();
-        }
+
         public static string GetContentBetweenSymbols(string content, string openingSymbol, string closingSymbol = "")
         {
             if (content.Length < 1) return null;
