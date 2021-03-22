@@ -20,7 +20,7 @@
             <ColumnDefinition Width="120" />
             <ColumnDefinition Width="120" />
             <ColumnDefinition Width="120" />
-            <ColumnDefinition Width="130" />
+            <ColumnDefinition Width="150" />
             <ColumnDefinition Width="140"/>
             <ColumnDefinition Width="140"/>
             <ColumnDefinition/>
@@ -44,11 +44,11 @@
         <Button FontWeight="Bold" Name="ModManagerBtn" Content="Modifier" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,19,0,11" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" />
         <Button FontWeight="Bold" Name="SaveProfileBtn" Content="Save Profile" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,19,15,11" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="1" />
         <Button FontWeight="Bold" Name="AddRelationsBtn" Content="Add Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="2" />
-        <Button FontWeight="Bold" Name="IncludeRelationsBtn" Content="Include Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" />
-        <Button FontWeight="Bold" Name="ImportProfileBtn" Content="Import Profile" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="1" />
+        <Button FontWeight="Bold" Name="IncludeRelationsBtn" Content="Include Relations" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" />
+        <Button FontWeight="Bold" Name="ImportProfileBtn" Content="Import DCS Bindings" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="1" />
 
         <Button FontWeight="Bold" Name="CEBAEBtn" Content="Clean Existing Binds and Export" Height="30" Width="190"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,18,2,12" Grid.Row="5" Grid.Column="0" />
-        <Button FontWeight="Bold" Name="MEBWEAOEBtn" Content="Merge and Keep Existing Binds" Height="30" Width="227"  Background="#FFC9C9C9" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,18,5,12" Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" />
+        <Button FontWeight="Bold" Name="MEBWEAOEBtn" Content="Merge and Keep Existing Binds" Height="30" Width="227"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,18,0,12" Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" />
         <Button FontWeight="Bold" Name="MEBWEAKEBtn" Content="Merge and Overwrite Existing Binds" Height="30" Width="231"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,18,0,12" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" />
         <Button FontWeight="Bold" Name="MEBWEAABBtn" Content="Merge, Keep Existing and Add to" Height="30" Width="231"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,18,0,12" Grid.Row="5" Grid.Column="5" Grid.ColumnSpan="2" />
 

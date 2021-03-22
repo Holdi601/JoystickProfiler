@@ -43,6 +43,7 @@ namespace JoyPro
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
             OkBtn.Click += new RoutedEventHandler(CloseThis);
+            this.Loaded += new RoutedEventHandler(syncScrolls);
         }
 
 
@@ -84,6 +85,13 @@ namespace JoyPro
         void syncScrolls(object sender, EventArgs e)
         {
             svHead.ScrollToHorizontalOffset(svC.HorizontalOffset);
+            if (colHds != null && colHds.Count > 0)
+            {
+                for(int i=0; i<colHds.Count; ++i)
+                {
+                    colHds[i].MinWidth = colDefs[i].ActualWidth;
+                }
+            }
         }
 
         void sizeChanged(object sender, EventArgs e)
