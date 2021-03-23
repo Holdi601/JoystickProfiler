@@ -216,6 +216,8 @@ namespace JoyPro
                 txname.Text = CURRENTDISPLAYEDMODS[i].name;
                 Grid.SetColumn(txname, 0);
                 Grid.SetRow(txname, i);
+                txname.HorizontalAlignment = HorizontalAlignment.Left;
+                txname.VerticalAlignment = VerticalAlignment.Center;
                 txname.LostFocus += new RoutedEventHandler(ChangedName);
                 grid.Children.Add(txname);
 
@@ -224,7 +226,7 @@ namespace JoyPro
                 deleteBtn.Name = "deleteBtn" + i.ToString();
                 deleteBtn.Content = "Delete Modifier";
                 deleteBtn.Click += new RoutedEventHandler(DeleteModBtn);
-                deleteBtn.HorizontalAlignment = HorizontalAlignment.Center;
+                deleteBtn.HorizontalAlignment = HorizontalAlignment.Left;
                 deleteBtn.VerticalAlignment = VerticalAlignment.Center;
                 deleteBtn.Width = 100;
                 Grid.SetColumn(deleteBtn, 1);
@@ -236,7 +238,7 @@ namespace JoyPro
                 joystickPick.Foreground = Brushes.White;
                 joystickPick.Content = CURRENTDISPLAYEDMODS[i].device;
                 joystickPick.Width = 500;
-                joystickPick.HorizontalAlignment = HorizontalAlignment.Center;
+                joystickPick.HorizontalAlignment = HorizontalAlignment.Left;
                 joystickPick.VerticalAlignment = VerticalAlignment.Center;
                 Grid.SetColumn(joystickPick, 2);
                 Grid.SetRow(joystickPick, i);
@@ -247,7 +249,7 @@ namespace JoyPro
                 buttonName.Foreground = Brushes.White;
                 buttonName.Content = CURRENTDISPLAYEDMODS[i].key;
                 buttonName.Width = 100;
-                buttonName.HorizontalAlignment = HorizontalAlignment.Center;
+                buttonName.HorizontalAlignment = HorizontalAlignment.Left;
                 buttonName.VerticalAlignment = VerticalAlignment.Center;
                 Grid.SetColumn(buttonName, 3);
                 Grid.SetRow(buttonName, i);
@@ -272,7 +274,7 @@ namespace JoyPro
             relPick.Name = "joyHdrLblRlName";
             relPick.Content = "Mod Name";
             relPick.Foreground = Brushes.White;
-            relPick.HorizontalAlignment = HorizontalAlignment.Center;
+            relPick.HorizontalAlignment = HorizontalAlignment.Left;
             relPick.VerticalAlignment = VerticalAlignment.Center;
             Grid.SetColumn(relPick, 0);
             grid.Children.Add(relPick);
@@ -280,7 +282,7 @@ namespace JoyPro
             addBtn = new Button();
             addBtn.Name = "addBtn";
             addBtn.Content = "Add Modifier";
-            addBtn.HorizontalAlignment = HorizontalAlignment.Center;
+            addBtn.HorizontalAlignment = HorizontalAlignment.Left;
             addBtn.VerticalAlignment = VerticalAlignment.Center;
             addBtn.Width = 100;
             addBtn.Click += new RoutedEventHandler(AddNewMod);
@@ -291,7 +293,7 @@ namespace JoyPro
             joystickPick.Name = "joyHdrLbldeviceName";
             joystickPick.Content = "Device Name";
             joystickPick.Foreground = Brushes.White;
-            joystickPick.HorizontalAlignment = HorizontalAlignment.Center;
+            joystickPick.HorizontalAlignment = HorizontalAlignment.Left;
             joystickPick.VerticalAlignment = VerticalAlignment.Center;
             Grid.SetColumn(joystickPick, 2);
             grid.Children.Add(joystickPick);
@@ -300,7 +302,7 @@ namespace JoyPro
             joystickBtn.Name = "joyHdrLblaxisname";
             joystickBtn.Content = "Button Name";
             joystickBtn.Foreground = Brushes.White;
-            joystickBtn.HorizontalAlignment = HorizontalAlignment.Center;
+            joystickBtn.HorizontalAlignment = HorizontalAlignment.Left;
             joystickBtn.VerticalAlignment = VerticalAlignment.Center;
             Grid.SetColumn(joystickBtn, 3);
             grid.Children.Add(joystickBtn);

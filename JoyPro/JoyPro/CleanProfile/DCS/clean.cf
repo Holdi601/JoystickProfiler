@@ -427,6 +427,50 @@ local diff = {
 				},
 			},
 		},
+		["dnilp93u215cdnilvdnilvpnilvunil"] = {
+			["name"] = "Trim: Left Wing Down",
+			["removed"] = {
+				[1] = {
+					["key"] = "JOY_BTN_POV1_L",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["dnilp94u215cdnilvdnilvpnilvunil"] = {
+			["name"] = "Trim: Right Wing Down",
+			["removed"] = {
+				[1] = {
+					["key"] = "JOY_BTN_POV1_R",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["dnilp95u215cdnilvdnilvpnilvunil"] = {
+			["name"] = "Trim: Nose Down",
+			["removed"] = {
+				[1] = {
+					["key"] = "JOY_BTN_POV1_U",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["dnilp96u215cdnilvdnilvpnilvunil"] = {
+			["name"] = "Trim: Nose Up",
+			["removed"] = {
+				[1] = {
+					["key"] = "JOY_BTN_POV1_D",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
 	},
 }
 return diff
