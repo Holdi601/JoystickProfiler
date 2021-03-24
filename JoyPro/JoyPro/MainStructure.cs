@@ -19,6 +19,7 @@ namespace JoyPro
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
     public static class MainStructure
     {
+        const int version = 28;
         public static MainWindow mainW;
         public static string SELECTEDGAME = "";
         public static string PROGPATH;
