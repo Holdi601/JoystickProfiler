@@ -32,6 +32,7 @@ namespace JoyPro
         Button[] dltBtns;
         Button[] dupBtns;
         Button[] setBtns;
+        ComboBox[,] mods;
         Label[] stickLabels;
         int buttonSetting;
         JoystickReader joyReader;
@@ -459,6 +460,7 @@ namespace JoyPro
             setBtns = new Button[CURRENTDISPLAYEDRELATION.Count];
             dupBtns = new Button[CURRENTDISPLAYEDRELATION.Count];
             stickLabels = new Label[CURRENTDISPLAYEDRELATION.Count];
+            mods = new ComboBox[CURRENTDISPLAYEDRELATION.Count, 4];
             return grid;
         }
         public void ShowMessageBox(string msg)
@@ -563,26 +565,39 @@ namespace JoyPro
             ComboBox cx = (ComboBox)sender;
             int indx = Convert.ToInt32(cx.Name.Split('x')[1]);
             Bind currentBind = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            int modint = Convert.ToInt32(cx.Name.Split('c')[0].Replace("mod", ""))-1;
             if (currentBind == null)
             {
                 MessageBox.Show("Please bind the main key first and then the modifiers");
                 return;
             }
-            Modifier m = MainStructure.ModifierByName((string)cx.SelectedItem);
-            if (m == null)
+            string element = (string)cx.SelectedItem;
+            if (element == "Delete")
             {
-                MessageBox.Show("Something went wrong when trying to assing modifier please report with accurate repro steps or simply retry");
-                return;
+                if (modint < currentBind.AllReformers.Count)
+                {
+                    currentBind.AllReformers.RemoveAt(modint);
+                }
             }
-            if (!currentBind.AllReformers.Contains(m.toReformerString()))
+            else
             {
-                currentBind.AllReformers.Add(m.toReformerString());
+                Modifier m = MainStructure.ModifierByName(element);
+                if (m == null)
+                {
+                    MessageBox.Show("Something went wrong when trying to assing modifier please report with accurate repro steps or simply retry");
+                    return;
+                }
+                if (!currentBind.AllReformers.Contains(m.toReformerString()))
+                {
+                    currentBind.AllReformers.Add(m.toReformerString());
+                }
             }
-
+            MainStructure.ResyncRelations();
         }
         void RefreshRelationsToShow()
         {
             List<string> allMods = MainStructure.GetAllModsAsString();
+            allMods.Add("Delete");
             Grid grid = BaseSetupRelationGrid();
             for (int i = 0; i < CURRENTDISPLAYEDRELATION.Count; i++)
             {
@@ -809,6 +824,7 @@ namespace JoyPro
                     modCbx1.VerticalAlignment = VerticalAlignment.Center;
                     modCbx1.Width = 150;
                     modCbx1.ItemsSource = allMods;
+                    mods[i, 0] = modCbx1;
                     Grid.SetColumn(modCbx1, 8);
                     Grid.SetRow(modCbx1, i);
                     grid.Children.Add(modCbx1);
@@ -819,6 +835,7 @@ namespace JoyPro
                     modCbx2.VerticalAlignment = VerticalAlignment.Center;
                     modCbx2.Width = 150;
                     modCbx2.ItemsSource = allMods;
+                    mods[i, 1] = modCbx2;
                     Grid.SetColumn(modCbx2, 9);
                     Grid.SetRow(modCbx2, i);
                     grid.Children.Add(modCbx2);
@@ -829,6 +846,7 @@ namespace JoyPro
                     modCbx3.VerticalAlignment = VerticalAlignment.Center;
                     modCbx3.Width = 150;
                     modCbx3.ItemsSource = allMods;
+                    mods[i, 2] = modCbx3;
                     Grid.SetColumn(modCbx3, 10);
                     Grid.SetRow(modCbx3, i);
                     grid.Children.Add(modCbx3);
@@ -839,6 +857,7 @@ namespace JoyPro
                     modCbx4.VerticalAlignment = VerticalAlignment.Center;
                     modCbx4.Width = 150;
                     modCbx4.ItemsSource = allMods;
+                    mods[i, 3] = modCbx4;
                     Grid.SetColumn(modCbx4, 11);
                     Grid.SetRow(modCbx4, i);
                     grid.Children.Add(modCbx4);
@@ -912,7 +931,7 @@ namespace JoyPro
             CURRENTDISPLAYEDRELATION = li;
             RefreshRelationsToShow();
             SetHeadersForScrollView();
-            //savepos();
+            sizeChanged(null,null);
         }
         void SetHeadersForScrollView()
         {
@@ -1219,6 +1238,17 @@ namespace JoyPro
                     setBtns[i].IsEnabled = true;
                     dupBtns[i].IsEnabled = false;
                 }
+            if (mods != null)
+            {
+                for(int i=0; i<mods.GetLength(0); ++i)
+                {
+                    for(int j=0; j<mods.GetLength(1); ++j)
+                    {
+                        if (mods[i, j] != null)
+                            mods[i, j].IsEnabled = true;
+                    }
+                }
+            }
         }
         void DisableInputs()
         {
@@ -1233,6 +1263,17 @@ namespace JoyPro
                     setBtns[i].IsEnabled = false;
                     dupBtns[i].IsEnabled = false;
                 }
+            if (mods != null)
+            {
+                for (int i = 0; i < mods.GetLength(0); ++i)
+                {
+                    for (int j = 0; j < mods.GetLength(1); ++j)
+                    {
+                        if (mods[i, j] != null)
+                            mods[i, j].IsEnabled = false;
+                    }
+                }
+            }
 
         }
         private void InstanceSelectionChanged(object sender, EventArgs e)
