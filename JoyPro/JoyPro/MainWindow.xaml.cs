@@ -42,8 +42,8 @@ namespace JoyPro
 
         public MainWindow()
         {
-            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
-            Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
+            //AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
+            //Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
             CURRENTDISPLAYEDRELATION = new List<Relation>();
             MessageBox.Show("Please Backup your existing binds. C:\\Users\\USERNAME\\Saved Games\\DCS Please make a backup of these folders somewhere outside your savegames.");
@@ -1200,6 +1200,7 @@ namespace JoyPro
 
         void FirstStart()
         {
+            MainStructure.InitProgram();
             for (int i = 0; i < ALLBUTTONS.Count; ++i)
                 ALLBUTTONS[i].IsEnabled = false;
             MainStructure.LoadMetaLast();
@@ -1284,6 +1285,7 @@ namespace JoyPro
             {
                 MainStructure.msave.lastInstanceSelected = (string)DropDownInstanceSelection.SelectedItem;
             }
+            MainStructure.PopulateDCSDictionaryWithLocal((string)DropDownInstanceSelection.SelectedItem);
         }
 
     }

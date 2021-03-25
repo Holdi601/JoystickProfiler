@@ -9,6 +9,8 @@ using System.Xml;
 using System.Xml.Serialization;
 using SlimDX.DirectInput;
 using System.Windows;
+using System.Net;
+using Microsoft.Win32;
 
 namespace JoyPro
 {
@@ -19,7 +21,8 @@ namespace JoyPro
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
     public static class MainStructure
     {
-        const int version = 28;
+        const string externalWebUrl = "https://raw.githubusercontent.com/Holdi601/JoystickProfiler/master/JoyPro/JoyPro/ver.txt";
+        const int version = 29;
         public static MainWindow mainW;
         public static string SELECTEDGAME = "";
         public static string PROGPATH;
@@ -38,6 +41,7 @@ namespace JoyPro
         public static MetaSave msave = null;
         public static string selectedInstancePath = "";
         static Dictionary<string, Modifier> AllModifiers = new Dictionary<string, Modifier>();
+        static string[] installPaths;
 
         public static List<string> GetAllModsAsString()
         {
@@ -54,6 +58,26 @@ namespace JoyPro
             foreach (KeyValuePair<string, Modifier> kvp in AllModifiers)
                 if (kvp.Value.device.ToUpper() == device.ToUpper() && kvp.Value.key.ToUpper() == key.ToUpper()) return kvp.Value;
             return null;
+        }
+
+        static int GetNewestVersionNumber()
+        {
+            try
+            {
+                WebClient web = new WebClient();
+                System.IO.Stream stream = web.OpenRead(externalWebUrl);
+                using (System.IO.StreamReader reader = new System.IO.StreamReader(stream))
+                {
+
+                    return Convert.ToInt32(reader.ReadToEnd());
+                }
+            }
+            catch
+            {
+                
+                
+            }
+            return -1;
         }
 
         public static void ChangeReformerName(string oldName, string newName)
@@ -1071,6 +1095,11 @@ namespace JoyPro
             return null;
         }
 
+        public static void InitProgram()
+        {
+            if (GetNewestVersionNumber() > version)
+                MessageBox.Show("Newer Version available on github!");
+        }
         public static Modifier ReformerToMod(string reformer)
         {
             string[] parts = reformer.Split('§');
@@ -1309,9 +1338,10 @@ namespace JoyPro
         public static void LoadDcsData()
         {
             DCSLib.Clear();
-            string DcsPath = PROGPATH + "\\DB\\DCS";
-            PopulateDCSDictionary(DcsPath + "\\axis.csv", true);
-            PopulateDCSDictionary(DcsPath + "\\btn.csv", false);
+            PopulateDCSDictionaryWithProgram();
+            //string DcsPath = PROGPATH + "\\DB\\DCS";
+            //PopulateDCSDictionary(DcsPath + "\\axis.csv", true);
+            //PopulateDCSDictionary(DcsPath + "\\btn.csv", false);
         }
         public static List<SearchQueryResults> SearchBinds(string[] keywords)
         {
@@ -1373,6 +1403,120 @@ namespace JoyPro
             LoadDcsData();
             InitDCSJoysticks();
             SelectedGame = Game.DCS;
+            List<string> installs = new List<string>();
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Eagle Dynamics\\DCS World");
+            if (key != null)
+            {
+                string currentKey = key.GetValue("Path", true).ToString();
+                installs.Add(currentKey);
+            }
+            RegistryKey keyOpenBeta = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Eagle Dynamics\\DCS World OpenBeta");
+            if (keyOpenBeta != null)
+            {
+                string currentKey = key.GetValue("Path", true).ToString();
+                installs.Add(currentKey);
+            }
+            installPaths = installs.ToArray();
+
+        }
+        public static void PopulateDCSDictionaryWithLocal(string instance)
+        {
+            if(Directory.Exists(instance+ "\\InputLayoutsTxt"))
+            {
+                DirectoryInfo dirInfo = new DirectoryInfo(instance + "\\InputLayoutsTxt");
+                DirectoryInfo[] allHtmlDirs = dirInfo.GetDirectories();
+                List<string> tempPlanes = Planes.ToList();
+                for(int i=0; i< allHtmlDirs.Length; ++i)
+                {
+                    string currentPlane = allHtmlDirs[i].Name;
+                    FileInfo[] filesInDir = allHtmlDirs[i].GetFiles();
+                    for(int j=0; j<filesInDir.Length; j++)
+                    {
+                        if (filesInDir[j].Name.EndsWith(".html")&&
+                            !filesInDir[j].Name.Contains("Keyboard")&&
+                            !filesInDir[j].Name.Contains("TrackIR")&&
+                            !filesInDir[j].Name.Contains("Mouse"))
+                        {
+                            PopulateDictionaryWithFile(filesInDir[j].FullName, currentPlane);
+                            if (!tempPlanes.Contains(currentPlane))
+                                tempPlanes.Add(currentPlane);
+                        }
+                    }
+                }
+            }
+        }
+        static void PopulateDCSDictionaryWithProgram()
+        {
+            DirectoryInfo fileStorage = new DirectoryInfo(PROGPATH + "\\DB\\DCS");
+            FileInfo[] allFilesShipped = fileStorage.GetFiles();
+            List<string> loadedPlanes = new List<string>();
+            for(int i=0; i<allFilesShipped.Length; ++i)
+            {
+                if (allFilesShipped[i].Name.EndsWith(".html"))
+                {
+                    PopulateDictionaryWithFile(allFilesShipped[i].FullName);
+                    if (!loadedPlanes.Contains(allFilesShipped[i].Name.Replace(".html", "")))
+                        loadedPlanes.Add(allFilesShipped[i].Name.Replace(".html", ""));
+                }
+            }
+            Planes = loadedPlanes.ToArray();
+        }
+        static void PopulateDictionaryWithFile(string file, string overWrite = "")
+        {
+            string planeName;
+            if (overWrite.Length > 1)
+            {
+                planeName = overWrite;
+            }
+            else
+            {
+                string[] parts = file.Split('\\');
+                planeName = parts[parts.Length - 1].Replace(".html", "");
+            }
+            StreamReader sr = new StreamReader(file);
+            int iterator = 0;
+            string id = "";
+            string title = "";
+            if (!DCSLib.ContainsKey(planeName))
+                DCSLib.Add(planeName, new DCSPlane(planeName));
+            while (!sr.EndOfStream)
+            {
+                string currentLine = sr.ReadLine();
+                if (iterator > 0)
+                {
+                    string cleanedLine = currentLine.Replace("\t", "").Replace("<td>", "").Replace("</td>", "").Replace("  ","").Trim();
+                    switch (iterator)
+                    {
+                        case 1:
+                            title = cleanedLine;
+                            break;
+                        case 3:
+                            id = cleanedLine;
+                            iterator = -1;
+                            if (id.Substring(0, 1) == "a")
+                            {
+                                if (!DCSLib[planeName].Axis.ContainsKey(id))
+                                    DCSLib[planeName].Axis.Add(id, new DCSInput(id, title, true, planeName));
+                                else
+                                    DCSLib[planeName].Axis[id].Title = title;
+                            }
+                            else
+                            {
+                                if (!DCSLib[planeName].Buttons.ContainsKey(id))
+                                    DCSLib[planeName].Buttons.Add(id, new DCSInput(id, title, false, planeName));
+                                else
+                                    DCSLib[planeName].Buttons[id].Title = title;
+                            }
+                            id = "";
+                            title = "";
+                            break;
+                    }
+                    iterator++;
+                }
+                if (currentLine.Contains("<td></td>"))
+                    iterator++;
+            }
+            sr.Close();
         }
         static void PopulateDCSDictionary(string filePath, bool isAxis)
         {
