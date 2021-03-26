@@ -41,7 +41,7 @@ namespace JoyPro
         public static MetaSave msave = null;
         public static string selectedInstancePath = "";
         static Dictionary<string, Modifier> AllModifiers = new Dictionary<string, Modifier>();
-        static string[] installPaths;
+        public static string[] installPaths;
 
         public static List<string> GetAllModsAsString()
         {
@@ -932,6 +932,75 @@ namespace JoyPro
                 if (toCheck[0] > toCheck[i]) return false;
             return true;
         }
+        public static void LoadLocalDefaults()
+        {
+            string install = GetInstallationPath();
+            string further = "\\Input";
+            string modPaths = "\\Mods\\aircraft";
+            if (install != null)
+            {
+                DirectoryInfo dirInfo = new DirectoryInfo(install + modPaths);
+                DirectoryInfo[] allMods = dirInfo.GetDirectories();
+                for (int i = 0; i < allMods.Length; ++i)
+                {
+                    if (!Directory.Exists(allMods[i].FullName + further)) continue;
+                    DirectoryInfo[] innerPlaneCollection = (new DirectoryInfo(allMods[i].FullName + further)).GetDirectories();
+                    for(int j=0; j<innerPlaneCollection.Length; ++j)
+                    {
+                        string planeName = innerPlaneCollection[j].Name;
+                        if (!EmptyOutputs.ContainsKey(planeName))
+                        {
+                            EmptyOutputs.Add(planeName, new DCSLuaInput());
+                            EmptyOutputs[planeName].plane = planeName;
+                            EmptyOutputs[planeName].JoystickName = "EMPTY";
+                        }
+                        FileInfo[] files = innerPlaneCollection[j].GetFiles();
+                        for(int k=0; k<files.Length; k++)
+                        {
+                            if (files[k].Name.EndsWith(".diff.lua"))
+                            {
+                                StreamReader sr = new StreamReader(files[k].FullName);
+                                string content = sr.ReadToEnd();
+                                EmptyOutputs[planeName].AdditionalAnalyzationRawLua(content);
+                                sr.Close();
+                            }
+                        }
+                    }
+                }
+                if (Directory.Exists(selectedInstancePath+ modPaths))
+                {
+                    DirectoryInfo dirInstance = new DirectoryInfo(selectedInstancePath + modPaths);
+                    DirectoryInfo[] allPlanes = dirInstance.GetDirectories();
+                    string stickJoy = "\\Joystick";
+                    for(int i=0; i<allPlanes.Length; ++i)
+                    {
+                        string planeName = allPlanes[i].Name;
+                        if (!EmptyOutputs.ContainsKey(planeName))
+                        {
+                            EmptyOutputs.Add(planeName, new DCSLuaInput());
+                            EmptyOutputs[planeName].plane = planeName;
+                            EmptyOutputs[planeName].JoystickName = "EMPTY";
+                        }
+                        if (Directory.Exists(allPlanes[i].FullName + further+stickJoy))
+                        {
+                            DirectoryInfo dirBins = new DirectoryInfo(allPlanes[i].FullName + further + stickJoy);
+                            FileInfo[] files = dirBins.GetFiles();
+                            for(int j=0; j<files.Length; ++j)
+                            {
+                                if (files[j].Name.EndsWith(".diff.lua"))
+                                {
+                                    StreamReader sr = new StreamReader(files[j].FullName);
+                                    string content = sr.ReadToEnd();
+                                    EmptyOutputs[planeName].AdditionalAnalyzationRawLua(content);
+                                    sr.Close();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
         public static void LoadCleanLuas()
         {
             StreamReader sr = new StreamReader(PROGPATH + "\\CleanProfile\\DCS\\clean.cf");
@@ -1010,8 +1079,6 @@ namespace JoyPro
                 }
             }
             Console.WriteLine("Locals loaded lol");
-            //fill up with defaults
-
         }
         public static void AddRelation(Relation r)
         {
@@ -1418,6 +1485,51 @@ namespace JoyPro
             }
             installPaths = installs.ToArray();
 
+        }
+
+        public static string GetInstallationPath()
+        {
+            if (installPaths.Length > 0)
+            {
+                if (installPaths.Length == 1&&Directory.Exists(installPaths[0]))
+                {
+                    return installPaths[0];
+                }
+                else
+                {
+                    for (int i = 0; i < installPaths.Length; ++i)
+                    {
+                        if (selectedInstancePath.ToLower().Contains("openbeta")&& installPaths[i].ToLower().Contains("beta") && Directory.Exists(installPaths[i]))
+                        {
+                            return installPaths[i];
+                        }
+                        else if (!selectedInstancePath.ToLower().Contains("openbeta") && !installPaths[i].ToLower().Contains("beta") && Directory.Exists(installPaths[i]))
+                        {
+                            return installPaths[i];
+                        }
+                    }
+                }
+            }
+            else
+            {
+                string basePath = "Program Files\\Eagle Dynamics\\DCS World";
+                string openBetaExtention = " OpenBeta";
+                 DriveInfo[] allDrives = DriveInfo.GetDrives();
+                for(int i=0; i<allDrives.Length; ++i)
+                {
+                    string path = allDrives[i].Name + basePath;
+                    if (selectedInstancePath.ToLower().Contains("openbeta"))
+                    {
+                        path = path + openBetaExtention;
+                    }
+                    if (Directory.Exists(path))
+                    {
+                        return path;
+                    }
+                }
+                
+            }
+            return null;
         }
         public static void PopulateDCSDictionaryWithLocal(string instance)
         {

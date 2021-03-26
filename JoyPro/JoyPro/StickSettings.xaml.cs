@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,16 +42,35 @@ namespace JoyPro
             pollitBox.Text = MainStructure.msave.pollWaitTime.ToString();
             itBox.Text = MainStructure.msave.warmupTime.ToString();
             athBox.Text = MainStructure.msave.axisThreshold.ToString();
+            string installPath = MainStructure.GetInstallationPath();
+            if (installPath != null)
+            {
+                installPathBox.Text = installPath;
+            }
 
             ttsBox.LostFocus += new RoutedEventHandler(ChangeTimeToSet);
             pollitBox.LostFocus += new RoutedEventHandler(ChangePollTime);
             itBox.LostFocus += new RoutedEventHandler(ChangeWarmUp);
             athBox.LostFocus += new RoutedEventHandler(ChangeAxisThreshhold);
+            installPathBox.LostFocus += new RoutedEventHandler(SetInstallPath);
         }
 
         void CloseThis(object sender, EventArgs e)
         {
             Close();
+        }
+
+        void SetInstallPath(object sender, EventArgs e)
+        {
+            if (Directory.Exists(installPathBox.Text))
+            {
+                MainStructure.installPaths = new string[1];
+                MainStructure.installPaths[0] = installPathBox.Text;
+            }
+            else
+            {
+                MessageBox.Show("Folder doesn't exist");
+            }
         }
 
         void ChangeTimeToSet(object sender, EventArgs e)

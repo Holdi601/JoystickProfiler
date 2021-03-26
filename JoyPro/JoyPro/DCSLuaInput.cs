@@ -132,6 +132,13 @@ namespace JoyPro
             return result;
         }
 
+        public void AdditionalAnalyzationRawLua(string content)
+        {
+            if (!content.Contains('{')) return;
+            string cleaned = MainStructure.GetContentBetweenSymbols(content, "{", "}");
+            Dictionary<object, object> dct = MainStructure.CreateAttributeDictFromLua(content);
+        }
+
         public void AnalyzeRawLuaInput(string content,DCSExportPlane refMod = null)
         {
             if (!content.Contains('{')) return;

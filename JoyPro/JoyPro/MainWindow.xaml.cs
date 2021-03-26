@@ -93,6 +93,8 @@ namespace JoyPro
             this.ContentRendered += new EventHandler(setWindowPosSize);
             this.Loaded += new RoutedEventHandler(AfterLoading);
             CBNukeUnused.Click += new RoutedEventHandler(MainStructure.SaveWindowState);
+
+            
         }
 
         void ChangeJoystickSettings(object sender, EventArgs e)
@@ -1025,6 +1027,7 @@ namespace JoyPro
                     InitDCS();
                     ActivateInputs();
                     MainStructure.LoadCleanLuas();
+                    MainStructure.LoadLocalDefaults();
                     MainStructure.msave.lastGameSelected = "Digital Combat Simulator";
                     if (MainStructure.msave.lastInstanceSelected.Length > 0)
                     {
