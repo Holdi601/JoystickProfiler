@@ -1189,6 +1189,11 @@ namespace JoyPro
                     DownloadNewerVersion();
                 }
             }
+            DCSInstances = GetDCSUserFolders();
+            for(int i=0; i<DCSInstances.Length; ++i)
+            {
+                BackupConfigsOfInstance(DCSInstances[i]);
+            }
         }
         public static Modifier ReformerToMod(string reformer)
         {
@@ -1480,9 +1485,6 @@ namespace JoyPro
         {
             DCSLib.Clear();
             PopulateDCSDictionaryWithProgram();
-            //string DcsPath = PROGPATH + "\\DB\\DCS";
-            //PopulateDCSDictionary(DcsPath + "\\axis.csv", true);
-            //PopulateDCSDictionary(DcsPath + "\\btn.csv", false);
         }
         public static List<SearchQueryResults> SearchBinds(string[] keywords)
         {
@@ -1558,8 +1560,75 @@ namespace JoyPro
                 installs.Add(currentKey);
             }
             installPaths = installs.ToArray();
-
+            
         }
+
+        public static void BackupConfigsOfInstance(string instance)
+        {
+            if (!Directory.Exists(instance+"\\Config\\JP_Backup"))
+            {
+                Directory.CreateDirectory(instance + "\\Config\\JP_Backup");
+            }
+            if (!Directory.Exists(instance + "\\Config\\JP_InitBackup")&&Directory.Exists(instance+"\\Config\\Input"))
+            {
+                Directory.CreateDirectory(instance + "\\Config\\JP_InitBackup");
+                copy_folder_into_folder(instance + "\\Config\\Input", instance + "\\Config\\JP_InitBackup");
+            }
+            if(Directory.Exists(instance + "\\Config\\Input"))
+            {
+                string now = DateTime.Now.ToString("yyyy-MM-dd");
+                DirectoryInfo pFolder = new DirectoryInfo(instance + "\\Config\\JP_Backup");
+                DirectoryInfo[] allSubs = pFolder.GetDirectories();
+                if (allSubs.Length > 10)
+                {
+                    List<DirectoryInfo> subList = allSubs.ToList();
+                    subList = subList.OrderBy(o => o.Name).ToList();
+                    delete_folder(subList[0].FullName);
+                }
+                if (!Directory.Exists(instance + "\\Config\\JP_Backup\\"+now))
+                {
+                    Directory.CreateDirectory(instance + "\\Config\\JP_Backup\\" + now);
+                    copy_folder_into_folder(instance + "\\Config\\Input", instance + "\\Config\\JP_Backup\\" + now);
+                }
+                
+            }
+        }
+
+        public static void copy_folder_into_folder(string source, string dest)
+        {
+            string[] splitt = source.Split('\\');
+            string last_part = splitt[splitt.Length - 1];
+            if (!Directory.Exists(dest + "\\" + last_part)) Directory.CreateDirectory(dest + "\\" + last_part);
+            DirectoryInfo sor = new DirectoryInfo(source);
+            FileInfo[] all_files = sor.GetFiles();
+            for (int i = 0; i < all_files.Length; i++)
+            {
+                File.Copy(all_files[i].FullName, dest + "\\" + last_part + "\\" + all_files[i].Name, true);
+            }
+
+            DirectoryInfo[] all_dirs = sor.GetDirectories();
+            for (int i = 0; i < all_dirs.Length; i++)
+            {
+                copy_folder_into_folder(all_dirs[i].FullName, dest + "\\" + last_part);
+            }
+        }
+
+        public static void delete_folder(string folder)
+        {
+            DirectoryInfo dd = new DirectoryInfo(folder);
+            FileInfo[] fi = dd.GetFiles();
+            for (int i = 0; i < fi.Length; i++)
+            {
+                File.Delete(fi[i].FullName);
+            }
+            DirectoryInfo[] dirs = dd.GetDirectories();
+            for (int i = 0; i < dirs.Length; i++)
+            {
+                delete_folder(dirs[i].FullName);
+            }
+            Directory.Delete(folder);
+        }
+
 
         public static string GetInstallationPath()
         {
@@ -1748,7 +1817,7 @@ namespace JoyPro
         public static void InitDCSJoysticks()
         {
             List<string> Joysticks = new List<string>();
-            DCSInstances = GetDCSUserFolders();
+            
             for (int i = 0; i < DCSInstances.Length; ++i)
             {
                 if (Directory.Exists(DCSInstances[i] + "\\InputLayoutsTxt"))
