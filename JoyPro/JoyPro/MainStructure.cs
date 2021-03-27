@@ -11,6 +11,8 @@ using SlimDX.DirectInput;
 using System.Windows;
 using System.Net;
 using Microsoft.Win32;
+using System.Net.Http;
+using System.Web.Hosting;
 
 namespace JoyPro
 {
@@ -22,7 +24,8 @@ namespace JoyPro
     public static class MainStructure
     {
         const string externalWebUrl = "https://raw.githubusercontent.com/Holdi601/JoystickProfiler/master/JoyPro/JoyPro/ver.txt";
-        const int version = 29;
+        const string buildPath = "https://github.com/Holdi601/JoystickProfiler/raw/master/Builds/JoyPro_WinX64_v";
+        const int version = 28;
         public static MainWindow mainW;
         public static string SELECTEDGAME = "";
         public static string PROGPATH;
@@ -42,6 +45,8 @@ namespace JoyPro
         public static string selectedInstancePath = "";
         static Dictionary<string, Modifier> AllModifiers = new Dictionary<string, Modifier>();
         public static string[] installPaths;
+        static string newestAvailableVersion;
+        static int downloadFails = 0;
 
         public static List<string> GetAllModsAsString()
         {
@@ -68,8 +73,8 @@ namespace JoyPro
                 System.IO.Stream stream = web.OpenRead(externalWebUrl);
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(stream))
                 {
-
-                    return Convert.ToInt32(reader.ReadToEnd());
+                    newestAvailableVersion = reader.ReadToEnd();
+                    return Convert.ToInt32(newestAvailableVersion);
                 }
             }
             catch
@@ -1165,7 +1170,13 @@ namespace JoyPro
         public static void InitProgram()
         {
             if (GetNewestVersionNumber() > version)
-                MessageBox.Show("Newer Version available on github!");
+            {
+                MessageBoxResult mr = MessageBox.Show("A newer version is available, if you press yes, it will download in the background (Dont close the program please), it will close itself once its done.", "Newer Version Available", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if(mr== MessageBoxResult.Yes)
+                {
+                    DownloadNewerVersion();
+                }
+            }
         }
         public static Modifier ReformerToMod(string reformer)
         {
@@ -1184,6 +1195,55 @@ namespace JoyPro
                 return null;
             }
         }
+
+
+
+        public static Task DownloadAsync(string requestUri, string filename)
+        {
+            return DownloadAsync(new Uri(requestUri), filename);
+        }
+
+        public static async Task DownloadAsync(Uri requestUri, string filename)
+        {
+            if (filename == null)
+                return;
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var request = new HttpRequestMessage(HttpMethod.Get, requestUri))
+                {
+                    using (
+                        Stream contentStream = await (await httpClient.SendAsync(request)).Content.ReadAsStreamAsync(),
+                        stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true))
+                    {
+                        await contentStream.CopyToAsync(stream);
+                    }
+                }
+            }
+        }
+
+        static void DownloadNewerVersion()
+        {
+            if (downloadFails < 10)
+            {
+                try
+                {
+                    Uri uri = new Uri(buildPath + newestAvailableVersion + ".zip");
+                    Console.WriteLine(buildPath + newestAvailableVersion + ".zip");
+                    Task.Run(() => DownloadAsync(uri, "NewerVersion.zip"));
+                }
+                catch
+                {
+                    downloadFails++;
+                    DownloadNewerVersion();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Failed to download after 10 tries");
+            }
+        }
+
         public static void LoadProfile(string filePath)
         {
             if (filePath == null || filePath.Length < 1) return;
