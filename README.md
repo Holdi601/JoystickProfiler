@@ -74,9 +74,6 @@ Contact me, I will try to fix it asap.
 
 -AutoBackup on Startup
 
--Autoupdater
-
-
 
 But lets see. Depends on time and motivation. 
 
