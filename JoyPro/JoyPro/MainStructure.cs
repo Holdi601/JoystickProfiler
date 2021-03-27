@@ -13,6 +13,7 @@ using System.Net;
 using Microsoft.Win32;
 using System.Net.Http;
 using System.Web.Hosting;
+using System.Diagnostics;
 
 namespace JoyPro
 {
@@ -47,6 +48,7 @@ namespace JoyPro
         public static string[] installPaths;
         static string newestAvailableVersion;
         static int downloadFails = 0;
+        static event EventHandler downloadCompletedEvent;
 
         public static List<string> GetAllModsAsString()
         {
@@ -63,6 +65,16 @@ namespace JoyPro
             foreach (KeyValuePair<string, Modifier> kvp in AllModifiers)
                 if (kvp.Value.device.ToUpper() == device.ToUpper() && kvp.Value.key.ToUpper() == key.ToUpper()) return kvp.Value;
             return null;
+        }
+
+        static void downloadCompleted(object o, EventArgs e)
+        {
+            Console.WriteLine(PROGPATH);
+            ProcessStartInfo startInfo = new ProcessStartInfo(PROGPATH+"\\TOOLS\\Unzipper\\UnzipMeHereWin.exe");
+            startInfo.Arguments = "\""+PROGPATH+"\\NewerVersion.zip\" \""+PROGPATH+"\" \""+PROGPATH+"\\JoyPro.exe\"";
+            Process.Start(startInfo);
+            Environment.Exit(0);
+
         }
 
         static int GetNewestVersionNumber()
@@ -1220,6 +1232,7 @@ namespace JoyPro
                     }
                 }
             }
+            downloadCompletedEvent.Invoke(null, null);
         }
 
         static void DownloadNewerVersion()
@@ -1230,6 +1243,7 @@ namespace JoyPro
                 {
                     Uri uri = new Uri(buildPath + newestAvailableVersion + ".zip");
                     Console.WriteLine(buildPath + newestAvailableVersion + ".zip");
+                    downloadCompletedEvent += new EventHandler(downloadCompleted);
                     Task.Run(() => DownloadAsync(uri, "NewerVersion.zip"));
                 }
                 catch
