@@ -132,11 +132,124 @@ namespace JoyPro
             return result;
         }
 
-        public void AdditionalAnalyzationRawLua(string content)
+        public void AdditionalAnalyzationRawLuaInvert(string content)
         {
             if (!content.Contains('{')) return;
             string cleaned = MainStructure.GetContentBetweenSymbols(content, "{", "}");
             Dictionary<object, object> dct = MainStructure.CreateAttributeDictFromLua(content);
+
+            if (dct.ContainsKey("axisDiffs"))
+            {
+                foreach (KeyValuePair<object, object> kvp in (Dictionary<object, object>)dct["axisDiffs"])
+                {
+                    DCSLuaDiffsAxisElement current = new DCSLuaDiffsAxisElement();
+                    current.Keyname = (string)kvp.Key;
+                    if (axisDiffs.ContainsKey(current.Keyname)) current= axisDiffs[current.Keyname];
+                    else axisDiffs.Add(current.Keyname, current);
+                    if (((Dictionary<object, object>)kvp.Value).ContainsKey("name"))
+                        current.Title = (string)((Dictionary<object, object>)kvp.Value)["name"];
+                    if (((Dictionary<object, object>)kvp.Value).ContainsKey("added"))
+                    {
+                        Dictionary<object, object> dictAdded = (Dictionary<object, object>)((Dictionary<object, object>)kvp.Value)["added"];
+                        foreach (KeyValuePair<object, object> kvpAdded in dictAdded)
+                        {
+                            if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("key"))
+                            {
+                                DCSAxisBind dab = new DCSAxisBind();
+                                dab.key = (string)((Dictionary<object, object>)kvpAdded.Value)["key"];
+                                if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("filter"))
+                                {
+                                    DCSAxisFilter daf = new DCSAxisFilter();
+                                    dab.filter = daf;
+                                    daf.deadzone = (double)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["deadzone"];
+                                    daf.inverted = (bool)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["invert"];
+                                    daf.slider = (bool)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["slider"];
+                                    daf.saturationX = (double)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["saturationX"];
+                                    daf.saturationY = (double)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["saturationY"];
+                                    foreach (KeyValuePair<object, object> kvpCurve in (Dictionary<object, object>)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["curvature"])
+                                    {
+                                        daf.curvature.Add((double)kvpCurve.Value);
+                                    }
+                                }
+                                if (!current.doesRemovedContainKey(dab.key))
+                                {
+                                    current.removed.Add(dab);
+                                    current.removeItemFromAdded(dab.key);
+                                }
+                            }
+                        }
+                    }
+                    if (((Dictionary<object, object>)kvp.Value).ContainsKey("changed"))
+                    {
+                        Dictionary<object, object> dictAdded = (Dictionary<object, object>)((Dictionary<object, object>)kvp.Value)["changed"];
+                        foreach (KeyValuePair<object, object> kvpAdded in dictAdded)
+                        {
+                            if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("key"))
+                            {
+                                DCSAxisBind dab = new DCSAxisBind();
+                                dab.key = (string)((Dictionary<object, object>)kvpAdded.Value)["key"];
+                                if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("filter"))
+                                {
+                                    DCSAxisFilter daf = new DCSAxisFilter();
+                                    dab.filter = daf;
+                                    daf.deadzone = (double)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["deadzone"];
+                                    daf.inverted = (bool)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["invert"];
+                                    daf.slider = (bool)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["slider"];
+                                    daf.saturationX = (double)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["saturationX"];
+                                    daf.saturationY = (double)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["saturationY"];
+                                    foreach (KeyValuePair<object, object> kvpCurve in (Dictionary<object, object>)((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["filter"])["curvature"])
+                                    {
+                                        daf.curvature.Add((double)kvpCurve.Value);
+                                    }
+                                }
+                                if (!current.doesRemovedContainKey(dab.key))
+                                {
+                                    current.removed.Add(dab);
+                                    current.removeItemFromAdded(dab.key);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (dct.ContainsKey("keyDiffs"))
+            {
+                foreach (KeyValuePair<object, object> kvp in (Dictionary<object, object>)dct["keyDiffs"])
+                {
+                    DCSLuaDiffsButtonElement current = new DCSLuaDiffsButtonElement();
+                    current.Keyname = (string)kvp.Key;
+                    if (keyDiffs.ContainsKey(current.Keyname)) current= keyDiffs[current.Keyname];
+                    else keyDiffs.Add(current.Keyname, current);
+                    if (((Dictionary<object, object>)kvp.Value).ContainsKey("name"))
+                        current.Title = (string)((Dictionary<object, object>)kvp.Value)["name"];
+                    if (((Dictionary<object, object>)kvp.Value).ContainsKey("added"))
+                    {
+                        Dictionary<object, object> dictAdded = (Dictionary<object, object>)((Dictionary<object, object>)kvp.Value)["added"];
+                        foreach (KeyValuePair<object, object> kvpAdded in dictAdded)
+                        {
+                            if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("key"))
+                            {
+                                DCSButtonBind dab = new DCSButtonBind();
+                                dab.key = (string)((Dictionary<object, object>)kvpAdded.Value)["key"];
+                                if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("reformers"))
+                                {
+                                    foreach (KeyValuePair<object, object> kvpReformers in (Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["reformers"])
+                                    {
+                                        if (!dab.reformers.Contains((string)kvpReformers.Value))
+                                            dab.reformers.Add((string)kvpReformers.Value);
+                                        
+                                    }
+                                }
+                                if (!current.doesRemovedContainKey(dab.key, dab.reformers))
+                                {
+                                    current.removed.Add(dab);
+                                    current.removeItemFromAdded(dab.key, dab.reformers);
+                                }
+                            }
+                        }
+                    }                  
+                }
+            }
         }
 
         public void AnalyzeRawLuaInput(string content,DCSExportPlane refMod = null)

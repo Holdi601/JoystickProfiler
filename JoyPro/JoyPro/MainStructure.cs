@@ -961,7 +961,7 @@ namespace JoyPro
                             {
                                 StreamReader sr = new StreamReader(files[k].FullName);
                                 string content = sr.ReadToEnd();
-                                EmptyOutputs[planeName].AdditionalAnalyzationRawLua(content);
+                                EmptyOutputs[planeName].AdditionalAnalyzationRawLuaInvert(content);
                                 sr.Close();
                             }
                         }
@@ -991,7 +991,7 @@ namespace JoyPro
                                 {
                                     StreamReader sr = new StreamReader(files[j].FullName);
                                     string content = sr.ReadToEnd();
-                                    EmptyOutputs[planeName].AdditionalAnalyzationRawLua(content);
+                                    EmptyOutputs[planeName].AdditionalAnalyzationRawLuaInvert(content);
                                     sr.Close();
                                 }
                             }
