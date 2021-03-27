@@ -73,7 +73,7 @@ namespace JoyPro
                 System.IO.Stream stream = web.OpenRead(externalWebUrl);
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(stream))
                 {
-                    newestAvailableVersion = reader.ReadToEnd();
+                    newestAvailableVersion = reader.ReadToEnd().Replace("v","");
                     return Convert.ToInt32(newestAvailableVersion);
                 }
             }
