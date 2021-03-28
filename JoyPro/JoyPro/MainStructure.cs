@@ -1594,6 +1594,43 @@ namespace JoyPro
             }
         }
 
+        public static void RestoreInputsInInstance(string instance, string fallBack)
+        {
+            string dir;
+            if (fallBack == "initial")
+            {
+                if (Directory.Exists(instance+ "\\Config\\JP_InitBackup\\Input"))
+                {
+                    dir = instance + "\\Config\\JP_InitBackup\\Input";
+                }
+                else
+                {
+                    MessageBox.Show("Initial Backup does not exist.");
+                    return;
+                }
+            }
+            else
+            {
+                if (Directory.Exists(instance + "\\Config\\JP_Backup\\"+fallBack+"\\Input"))
+                {
+                    dir = instance + "\\Config\\JP_Backup\\" + fallBack + "\\Input";
+                }
+                else
+                {
+                    MessageBox.Show("Given Fallback does not exist.");
+                    return;
+                }
+            }
+            if (!Directory.Exists(instance + "\\Config\\Input"))
+                Directory.CreateDirectory(instance + "\\Config\\Input");
+
+            DirectoryInfo dirin = new DirectoryInfo(dir);
+            DirectoryInfo[] toCopy = dirin.GetDirectories();
+            for (int i = 0; i < toCopy.Length; ++i)
+                copy_folder_into_folder(toCopy[i].FullName, dir);
+
+        }
+
         public static void copy_folder_into_folder(string source, string dest)
         {
             string[] splitt = source.Split('\\');
