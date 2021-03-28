@@ -72,7 +72,7 @@ Contact me, I will try to fix it asap.
 
 -Maybe other games come like star citizen, as that game is in its joystick mapping a mess inside the game. But if so, thats far out. 
 
--AutoBackup on Startup
+-Refactoring at some point, prolly too much spaghetti for some :-D 
 
 
 But lets see. Depends on time and motivation. 
