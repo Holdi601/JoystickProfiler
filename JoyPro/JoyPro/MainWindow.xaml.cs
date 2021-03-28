@@ -42,11 +42,10 @@ namespace JoyPro
 
         public MainWindow()
         {
-            //AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
-            //Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
+            Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
             CURRENTDISPLAYEDRELATION = new List<Relation>();
-            MessageBox.Show("Please Backup your existing binds. C:\\Users\\USERNAME\\Saved Games\\DCS Please make a backup of these folders somewhere outside your savegames.");
             ALLBUTTONS = new List<Button>();
             ALLBUTTONS.Add(LoadRelationsBtn);
             ALLBUTTONS.Add(SaveRelationsBtn);
@@ -1248,7 +1247,7 @@ namespace JoyPro
                     dltBtns[i].IsEnabled = true;
                     editBtns[i].IsEnabled = true;
                     setBtns[i].IsEnabled = true;
-                    dupBtns[i].IsEnabled = false;
+                    dupBtns[i].IsEnabled = true;
                 }
             if (mods != null)
             {

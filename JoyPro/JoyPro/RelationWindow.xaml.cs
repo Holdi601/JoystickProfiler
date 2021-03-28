@@ -196,7 +196,7 @@ namespace JoyPro
         {
             System.Data.DataTable dt = new DataTable("Data");
             dt.Columns.Add("ID", typeof(string));
-            for (int i = 1; i < MainStructure.Planes.Length; ++i)
+            for (int i = 0; i < MainStructure.Planes.Length; ++i)
             {
                 dt.Columns.Add(MainStructure.Planes[i]+"_cb", typeof(bool));
                 dt.Columns.Add(MainStructure.Planes[i]+"_desc", typeof(string));
@@ -218,10 +218,10 @@ namespace JoyPro
 
                 for (int i = 0; i < ri.Count; ++i)
                 {
-                    object[] row = new object[1 + (MainStructure.Planes.Length - 1) * 2];
+                    object[] row = new object[1 + (MainStructure.Planes.Length ) * 2];
                     row[0] = ri[i].ID;
                     int k = 1;
-                    for (int j = 1; j < MainStructure.Planes.Length; ++j)
+                    for (int j = 0; j < MainStructure.Planes.Length; ++j)
                     {
                         if (ri[i].GetStateAircraft(MainStructure.Planes[j]) == PlaneState.ACTIVE)
                             row[k] = true;

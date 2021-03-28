@@ -30,7 +30,7 @@ namespace JoyPro
         const string initialBackupFolder = "\\Config\\JP_InitBackup";
         const string externalWebUrl = "https://raw.githubusercontent.com/Holdi601/JoystickProfiler/master/JoyPro/JoyPro/ver.txt";
         const string buildPath = "https://github.com/Holdi601/JoystickProfiler/raw/master/Builds/JoyPro_WinX64_v";
-        const int version = 28;
+        const int version = 30;
         public static MainWindow mainW;
         public static string SELECTEDGAME = "";
         public static string PROGPATH;
@@ -295,7 +295,6 @@ namespace JoyPro
         {
             LoadLocalBinds(selectedInstancePath, loadDefaults);
             Dictionary<string, Bind> result = new Dictionary<string, Bind>();
-            Dictionary<string, JoystickResults> modifiers = new Dictionary<string, JoystickResults>();
             Dictionary<string, Dictionary<string, List<string>>> checkedIds = new Dictionary<string, Dictionary<string, List<string>>>();
             foreach(KeyValuePair<string, DCSExportPlane> kvp in LocalBinds)
             {
@@ -410,8 +409,41 @@ namespace JoyPro
                 }
             }
             MergeImport(result);
+            ImportNameCorrectionOnBinds();
         }
 
+        static void ImportNameCorrectionOnBinds()
+        {
+            List<string> setNames = new List<string>();
+            List<string> toRemove = new List<string>();
+            List<Bind> toModify = new List<Bind>();
+            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (kvp.Value.additionalImportInfo != null && kvp.Value.additionalImportInfo.Length > 1)
+                {
+                    string name = kvp.Value.additionalImportInfo;
+                    while (AllRelations.ContainsKey(name) || setNames.Contains(name))
+                    {
+                        name = name + "1";
+                    }
+                    toRemove.Add(kvp.Key);
+                    kvp.Value.Rl.NAME = name;
+                    setNames.Add(name);
+                    toModify.Add(kvp.Value);
+                }
+            }
+            for(int i=0; i<toRemove.Count; ++i)
+            {
+                AllRelations.Remove(toRemove[i]);
+                AllBinds.Remove(toRemove[i]);
+            }
+            for(int i=0; i<toModify.Count; ++i)
+            {
+                AllRelations.Add(toModify[i].Rl.NAME, toModify[i].Rl);
+                AllBinds.Add(toModify[i].Rl.NAME, toModify[i]);
+            }
+            ResyncRelations();
+        }
         static void MergeImport(Dictionary<string, Bind> res)
         {
             foreach(KeyValuePair<string, Bind> kvp in res)
@@ -1806,10 +1838,10 @@ namespace JoyPro
                     string cleanedLine = currentLine.Replace("\t", "").Replace("<td>", "").Replace("</td>", "").Replace("  ","").Trim();
                     switch (iterator)
                     {
-                        case 1:
+                        case 2:
                             title = cleanedLine;
                             break;
-                        case 3:
+                        case 4:
                             id = cleanedLine;
                             iterator = -1;
                             if (id.Substring(0, 1) == "a")
@@ -1832,38 +1864,14 @@ namespace JoyPro
                     }
                     iterator++;
                 }
-                if (currentLine.Contains("<td></td>"))
+                if (currentLine.Contains("</tr>"))
+                    iterator=0;
+                if (currentLine.Contains("<tr>"))
                     iterator++;
             }
             sr.Close();
         }
-        static void PopulateDCSDictionary(string filePath, bool isAxis)
-        {
-            StreamReader reader = new StreamReader(filePath);
-            Planes = reader.ReadLine().Split(';');
-            for (int i = 1; i < Planes.Length; ++i)
-                if (!DCSLib.ContainsKey(Planes[i]))
-                {
-                    DCSLib.Add(Planes[i], new DCSPlane(Planes[i]));
-                }
-            while (!reader.EndOfStream)
-            {
-                string[] currentLine = reader.ReadLine().Split(';');
-                if (isAxis)
-                {
-                    for (int i = 1; i < Planes.Length; ++i)
-                        if (currentLine[i].Length > 0)
-                            DCSLib[Planes[i]].Axis.Add(currentLine[0], new DCSInput(currentLine[0], currentLine[i], isAxis, Planes[i]));
-                }
-                else
-                {
-                    for (int i = 1; i < Planes.Length; ++i)
-                        if (currentLine[i].Length > 0)
-                            DCSLib[Planes[i]].Buttons.Add(currentLine[0], new DCSInput(currentLine[0], currentLine[i], isAxis, Planes[i]));
-                }
-            }
-            reader.Close();
-        }
+
         static string[] GetDCSUserFolders()
         {
             KnownFolder sg = KnownFolder.SavedGames;

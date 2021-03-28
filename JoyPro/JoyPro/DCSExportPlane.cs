@@ -52,6 +52,12 @@ namespace JoyPro
                     m.device = (string)innerDict["device"];
                 if (innerDict.ContainsKey("key"))
                     m.key = (string)innerDict["key"];
+                if (innerDict.ContainsKey("JPK")&&((string)innerDict["JPK"]).Length>1)
+                {
+                    m.JPN = (string)innerDict["JPK"];
+                    m.name = m.JPN;
+                    modName = m.JPN;
+                }
                 if (innerDict.ContainsKey("switch"))
                 {
                     m.sw = (bool)innerDict["switch"];
@@ -76,6 +82,7 @@ namespace JoyPro
                 swr.Write("\t[\"" + kvp.Key + "\"] = {\n");
                 swr.Write("\t\t[\"device\"] = \""+kvp.Value.device+ "\",\n");
                 swr.Write("\t\t[\"key\"] = \"" + kvp.Value.key + "\",\n");
+                swr.Write("\t\t[\"JPK\"] = \"" + kvp.Key + "\",\n");
                 if (kvp.Value.sw)
                 {
                     swr.Write("\t\t[\"switch\"] = true,\n");

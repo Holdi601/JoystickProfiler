@@ -34,6 +34,7 @@ namespace JoyPro
                         {
                             swr.Write("\t\t\t\t[" + (y + 1).ToString() + "] = {\n");
                             swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.added[y].key + "\",\n");
+                            swr.Write("\t\t\t\t\t[\"JPK\"] = \"" + kvp.Value.added[y].JPRelName + "\",\n");
                             if (kvp.Value.added[y].filter != null)
                             {
                                 swr.Write("\t\t\t\t\t[\"filter\"] = {\n");
@@ -83,6 +84,7 @@ namespace JoyPro
                         {
                             swr.Write("\t\t\t\t[" + (z + 1).ToString() + "] = {\n");
                             swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.added[z].key + "\",\n");
+                            swr.Write("\t\t\t\t\t[\"JPK\"] = \"" + kvp.Value.added[z].JPRelName + "\",\n");
                             if (kvp.Value.added[z].reformers.Count > 0)
                             {
                                 swr.Write("\t\t\t\t\t[\"reformers\"] = {\n");
@@ -276,6 +278,10 @@ namespace JoyPro
                             {
                                 DCSAxisBind dab = new DCSAxisBind();
                                 dab.key = (string)((Dictionary<object, object>)kvpAdded.Value)["key"];
+                                if(((Dictionary<object, object>)kvpAdded.Value).ContainsKey("JPK")&& ((string)((Dictionary<object, object>)kvpAdded.Value)["JPK"]).Length>1)
+                                {
+                                    dab.JPRelName= (string)((Dictionary<object, object>)kvpAdded.Value)["JPK"];
+                                }
                                 if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("filter"))
                                 {
                                     DCSAxisFilter daf = new DCSAxisFilter();
@@ -307,6 +313,10 @@ namespace JoyPro
                             {
                                 DCSAxisBind dab = new DCSAxisBind();
                                 dab.key = (string)((Dictionary<object, object>)kvpAdded.Value)["key"];
+                                if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("JPK") && ((string)((Dictionary<object, object>)kvpAdded.Value)["JPK"]).Length > 1)
+                                {
+                                    dab.JPRelName = (string)((Dictionary<object, object>)kvpAdded.Value)["JPK"];
+                                }
                                 if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("filter"))
                                 {
                                     DCSAxisFilter daf = new DCSAxisFilter();
@@ -367,6 +377,10 @@ namespace JoyPro
                             {
                                 DCSButtonBind dab = new DCSButtonBind();
                                 dab.key = (string)((Dictionary<object, object>)kvpAdded.Value)["key"];
+                                if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("JPK") && ((string)((Dictionary<object, object>)kvpAdded.Value)["JPK"]).Length > 1)
+                                {
+                                    dab.JPRelName = (string)((Dictionary<object, object>)kvpAdded.Value)["JPK"];
+                                }
                                 if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("reformers"))
                                 {
                                     foreach (KeyValuePair<object, object> kvpReformers in (Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["reformers"])

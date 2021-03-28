@@ -10,15 +10,18 @@ namespace JoyPro
     {
         public DCSAxisFilter filter;
         public string key;
+        public string JPRelName;
 
         public DCSAxisBind()
         {
             filter = new DCSAxisFilter();
             key = "";
+            JPRelName = "";
         }
         public DCSAxisBind Copy()
         {
             DCSAxisBind result = new DCSAxisBind();
+            result.JPRelName = JPRelName;
             result.key = key;
             result.filter = filter.Copy();
             return result;

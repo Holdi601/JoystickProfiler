@@ -10,6 +10,7 @@ namespace JoyPro
     {
         public string name;
         string devicem;
+        public string JPN;
         public string device
         {
             get
@@ -53,6 +54,7 @@ namespace JoyPro
             device = "";
             key = "";
             sw = false;
+            JPN = "";
         }
 
         public Modifier Copy()
@@ -62,6 +64,7 @@ namespace JoyPro
             m.device = device;
             m.key = key;
             m.sw = sw;
+            m.JPN = JPN;
             return m;
         }
 

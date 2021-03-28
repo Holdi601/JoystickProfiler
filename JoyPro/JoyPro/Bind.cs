@@ -22,6 +22,7 @@ namespace JoyPro
         public double SaturationX;
         public double SaturationY;
         public List<string> AllReformers;
+        public string additionalImportInfo;
 
         public string[] PovHeads = new string[]
         {
@@ -103,6 +104,7 @@ namespace JoyPro
             Deadzone = 0;
             Reformer_depr = "";
             AllReformers = new List<string>();
+            additionalImportInfo = "";
         }
 
         public DCSAxisBind toDCSAxisBind()
@@ -112,6 +114,7 @@ namespace JoyPro
             result.key = JAxis.ToString();
             DCSAxisFilter daf = new DCSAxisFilter();
             result.filter = daf;
+            result.JPRelName = Rl.NAME;
             daf.curvature = Curvature;
             daf.deadzone = Deadzone;
             daf.inverted = Inverted ?? false;
@@ -131,6 +134,8 @@ namespace JoyPro
             r.ISAXIS = true;
             b.JAxis = dab.key;
             b.Joystick = joystick;
+            if (dab.JPRelName.Length > 2)
+                b.additionalImportInfo = dab.JPRelName;
             if (dab.filter != null)
             {
                 b.Inverted = dab.filter.inverted;
@@ -194,10 +199,14 @@ namespace JoyPro
             r.ISAXIS = false;
             string shorten = MainStructure.ShortenDeviceName(joystick);
             string relationName = shorten + dab.key;
+
             if(dab.modifiers!=null)
                 foreach(Modifier m in dab.modifiers)
                 {
                     //same code as mainwindow
+                    if (m.JPN != null && m.JPN.Length > 1)
+                        m.name = m.JPN;
+
                     string reform = m.name + "§" + m.device + "§" + m.key;
 
                     string device;
@@ -205,7 +214,11 @@ namespace JoyPro
                         device = "Keyboard";
                     else
                         device = "m" + m.device.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
-                    string nameToShow = device + m.key;
+                    string nameToShow;
+                    if (m.JPN != null && m.JPN.Length > 1)
+                        nameToShow = m.JPN;
+                    else
+                        nameToShow = device + m.key;
                     string moddedDevice = Bind.JoystickGuidToModifierGuid(m.device);
                     string toAdd = nameToShow + "§" + moddedDevice + "§" + m.key;
                     if (!b.AllReformers.Contains(toAdd))
@@ -240,6 +253,8 @@ namespace JoyPro
 
                 }
             r.NAME = relationName;
+            if(dab.JPRelName.Length>2)
+                b.additionalImportInfo = dab.JPRelName;
             b.JButton = dab.key;
             b.Joystick = joystick;
             r.AddNode(id, plane);
@@ -250,6 +265,7 @@ namespace JoyPro
         {
             DCSButtonBind dbb = new DCSButtonBind();
             dbb.key = JButton;
+            dbb.JPRelName = Rl.NAME;
             if (JButton.Length < 1||Joystick.Length<1) return null;
             if (dbb.reformers == null) dbb.reformers = new List<string>();
             for (int i=0; i<AllReformers.Count; ++i)

@@ -23,7 +23,7 @@ namespace JoyPro
         public Dictionary<string, int> GetPlaneSetState()
         {
             Dictionary<string, int> results = new Dictionary<string, int>();
-            for(int i=1; i<MainStructure.Planes.Length; ++i)
+            for(int i=0; i<MainStructure.Planes.Length; ++i)
             {
                 results.Add(MainStructure.Planes[i], GetPlaneRelationState(MainStructure.Planes[i]));
             }
