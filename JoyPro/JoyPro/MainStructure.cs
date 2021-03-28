@@ -24,6 +24,10 @@ namespace JoyPro
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
     public static class MainStructure
     {
+        const string runningBackupFolder = "\\Config\\JP_Backup";
+        const string subInputPath = "\\Config\\Input";
+        const string inputFolderName = "\\Input";
+        const string initialBackupFolder = "\\Config\\JP_InitBackup";
         const string externalWebUrl = "https://raw.githubusercontent.com/Holdi601/JoystickProfiler/master/JoyPro/JoyPro/ver.txt";
         const string buildPath = "https://github.com/Holdi601/JoystickProfiler/raw/master/Builds/JoyPro_WinX64_v";
         const int version = 28;
@@ -48,6 +52,7 @@ namespace JoyPro
         public static string[] installPaths;
         static string newestAvailableVersion;
         static int downloadFails = 0;
+
         static event EventHandler downloadCompletedEvent;
 
         public static List<string> GetAllModsAsString()
@@ -1565,30 +1570,33 @@ namespace JoyPro
 
         public static void BackupConfigsOfInstance(string instance)
         {
-            if (!Directory.Exists(instance+"\\Config\\JP_Backup"))
+            if (!Directory.Exists(instance+runningBackupFolder))
             {
-                Directory.CreateDirectory(instance + "\\Config\\JP_Backup");
+                Directory.CreateDirectory(instance + runningBackupFolder);
             }
-            if (!Directory.Exists(instance + "\\Config\\JP_InitBackup")&&Directory.Exists(instance+"\\Config\\Input"))
+            if (!Directory.Exists(instance +initialBackupFolder)&&Directory.Exists(instance+subInputPath))
             {
-                Directory.CreateDirectory(instance + "\\Config\\JP_InitBackup");
-                copy_folder_into_folder(instance + "\\Config\\Input", instance + "\\Config\\JP_InitBackup");
+                Directory.CreateDirectory(instance + initialBackupFolder);
+                copy_folder_into_folder(instance + subInputPath, instance + initialBackupFolder);
             }
-            if(Directory.Exists(instance + "\\Config\\Input"))
+            if(Directory.Exists(instance + subInputPath))
             {
                 string now = DateTime.Now.ToString("yyyy-MM-dd");
-                DirectoryInfo pFolder = new DirectoryInfo(instance + "\\Config\\JP_Backup");
+                if (!Directory.Exists(instance + runningBackupFolder))
+                    Directory.CreateDirectory(instance + runningBackupFolder);
+                DirectoryInfo pFolder = new DirectoryInfo(instance + runningBackupFolder);
                 DirectoryInfo[] allSubs = pFolder.GetDirectories();
-                if (allSubs.Length > 10)
+                if(msave!=null)
+                    if (allSubs.Length > msave.backupDays)
+                    {
+                        List<DirectoryInfo> subList = allSubs.ToList();
+                        subList = subList.OrderBy(o => o.Name).ToList();
+                        delete_folder(subList[0].FullName);
+                    }
+                if (!Directory.Exists(instance + runningBackupFolder+"\\"+now))
                 {
-                    List<DirectoryInfo> subList = allSubs.ToList();
-                    subList = subList.OrderBy(o => o.Name).ToList();
-                    delete_folder(subList[0].FullName);
-                }
-                if (!Directory.Exists(instance + "\\Config\\JP_Backup\\"+now))
-                {
-                    Directory.CreateDirectory(instance + "\\Config\\JP_Backup\\" + now);
-                    copy_folder_into_folder(instance + "\\Config\\Input", instance + "\\Config\\JP_Backup\\" + now);
+                    Directory.CreateDirectory(instance + runningBackupFolder + "\\" + now);
+                    copy_folder_into_folder(instance + subInputPath, instance + runningBackupFolder + "\\" + now);
                 }
                 
             }
@@ -1599,9 +1607,9 @@ namespace JoyPro
             string dir;
             if (fallBack == "initial")
             {
-                if (Directory.Exists(instance+ "\\Config\\JP_InitBackup\\Input"))
+                if (Directory.Exists(instance+ initialBackupFolder+inputFolderName))
                 {
-                    dir = instance + "\\Config\\JP_InitBackup\\Input";
+                    dir = instance + initialBackupFolder + inputFolderName;
                 }
                 else
                 {
@@ -1611,9 +1619,9 @@ namespace JoyPro
             }
             else
             {
-                if (Directory.Exists(instance + "\\Config\\JP_Backup\\"+fallBack+"\\Input"))
+                if (Directory.Exists(instance + runningBackupFolder+"\\"+fallBack+inputFolderName))
                 {
-                    dir = instance + "\\Config\\JP_Backup\\" + fallBack + "\\Input";
+                    dir = instance + runningBackupFolder + "\\" + fallBack + inputFolderName;
                 }
                 else
                 {
@@ -1621,14 +1629,33 @@ namespace JoyPro
                     return;
                 }
             }
-            if (!Directory.Exists(instance + "\\Config\\Input"))
-                Directory.CreateDirectory(instance + "\\Config\\Input");
+            if (!Directory.Exists(instance + subInputPath))
+                Directory.CreateDirectory(instance + subInputPath);
 
             DirectoryInfo dirin = new DirectoryInfo(dir);
             DirectoryInfo[] toCopy = dirin.GetDirectories();
             for (int i = 0; i < toCopy.Length; ++i)
                 copy_folder_into_folder(toCopy[i].FullName, dir);
 
+        }
+
+        public static List<string> getPossibleFallbacksForInstance(string instance)
+        {
+            List<string> fallback = new List<string>();
+            if (Directory.Exists(instance + initialBackupFolder + inputFolderName))
+            {
+                fallback.Add("Initial");
+            }
+            if (Directory.Exists(instance+runningBackupFolder))
+            {
+                DirectoryInfo pFolder = new DirectoryInfo(instance + runningBackupFolder);
+                DirectoryInfo[] subs = pFolder.GetDirectories();
+                for (int i = 0; i < subs.Length; ++i)
+                    fallback.Add(subs[i].Name);
+
+            }
+
+            return fallback;
         }
 
         public static void copy_folder_into_folder(string source, string dest)
@@ -1707,7 +1734,6 @@ namespace JoyPro
                         return path;
                     }
                 }
-                
             }
             return null;
         }
@@ -1737,6 +1763,7 @@ namespace JoyPro
                 }
             }
         }
+        
         static void PopulateDCSDictionaryWithProgram()
         {
             DirectoryInfo fileStorage = new DirectoryInfo(PROGPATH + "\\DB\\DCS");

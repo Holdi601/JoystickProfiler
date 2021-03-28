@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JoyPro"
         mc:Ignorable="d"
-        Title="StickSettings" Height="471.853" Width="766.946">
+        Title="Settings" Height="471.853" Width="766.946">
     <Grid Background="#FF191919">
         <Grid.RowDefinitions>
+            <RowDefinition Height="80*"/>
             <RowDefinition Height="80*"/>
             <RowDefinition Height="80*"/>
             <RowDefinition Height="80*"/>
@@ -24,14 +25,16 @@
         <Label Content="Axis threshold to detect (65536 > Value > 0 as Int):" Foreground="White" Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Margin="0,5,0,5" Width="278"/>
         <Label Content="Initialisation time in ms (Value > 0 as Int):" Foreground="White" Grid.Column="0" Grid.Row="2"  HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Margin="0,5,0,5" Width="227"/>
         <Label Content="Poll Interval Timeout in ms (Value > 0 as Int):" Foreground="White" Grid.Column="0" Grid.Row="3"  HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Margin="0,5,0,5" Width="245"/>
-        <Label Content="DCS Install Path:" Foreground="White" Grid.Column="0" Grid.Row="4"  HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Margin="0,5,0,5" Width="100"/>
+        <Label Content="DCS Install Path:" Foreground="White" Grid.Column="0" Grid.Row="4"  HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Margin="0,5,0,5" Width="97"/>
+        <Label Content="Backup Days:" Foreground="White" Grid.Column="0" Grid.Row="5"  HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Margin="0,5,0,5" Width="80"/>
 
-        <Button FontWeight="Bold" Name="CloseBtn" Content="Close" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,9,0,7" Grid.Row="5" Grid.Column="1" Grid.RowSpan="1" />
+        <Button FontWeight="Bold" Name="CloseBtn" Content="Close" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,9,0,7" Grid.Row="6" Grid.Column="1" Grid.RowSpan="1" />
 
         <TextBox Name="ttsBox" Grid.Column="1" Grid.Row="0" Width="431" HorizontalAlignment="Left" Margin="10,15,0,15"/>
         <TextBox Name="athBox" Grid.Column="1" Grid.Row="1" Width="431" HorizontalAlignment="Left" Margin="10,15,0,15"/>
         <TextBox Name="itBox" Grid.Column="1" Grid.Row="2" Width="431" HorizontalAlignment="Left" Margin="10,15,0,15"/>
         <TextBox Name="pollitBox" Grid.Column="1" Grid.Row="3" Width="431" HorizontalAlignment="Left" Margin="10,15,0,15"/>
         <TextBox Name="installPathBox" Grid.Column="1" Grid.Row="4" Width="431" HorizontalAlignment="Left" Margin="10,15,0,15"/>
+        <TextBox Name="BackupDaysBox" Grid.Column="1" Grid.Row="5" Width="431" HorizontalAlignment="Left" Margin="10,15,0,15"/>
     </Grid>
 </Window>

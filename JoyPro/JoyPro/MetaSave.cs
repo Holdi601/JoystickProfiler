@@ -25,6 +25,7 @@ namespace JoyPro
         public int warmupTime;
         public int pollWaitTime;
         public bool NukeSticks;
+        public int backupDays;
 
 
         public MetaSave()
@@ -45,6 +46,7 @@ namespace JoyPro
             warmupTime = 300;
             pollWaitTime = 10;
             NukeSticks = false;
+            backupDays = 90;
         }
     }
 }

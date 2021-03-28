@@ -42,6 +42,7 @@ namespace JoyPro
             pollitBox.Text = MainStructure.msave.pollWaitTime.ToString();
             itBox.Text = MainStructure.msave.warmupTime.ToString();
             athBox.Text = MainStructure.msave.axisThreshold.ToString();
+            BackupDaysBox.Text = MainStructure.msave.backupDays.ToString();
             string installPath = MainStructure.GetInstallationPath();
             if (installPath != null)
             {
@@ -53,6 +54,19 @@ namespace JoyPro
             itBox.LostFocus += new RoutedEventHandler(ChangeWarmUp);
             athBox.LostFocus += new RoutedEventHandler(ChangeAxisThreshhold);
             installPathBox.LostFocus += new RoutedEventHandler(SetInstallPath);
+            BackupDaysBox.LostFocus += new RoutedEventHandler(changeBackupDays);
+        }
+
+        void changeBackupDays(object sender, EventArgs e)
+        {
+            int days = 90;
+            bool? succ = int.TryParse(BackupDaysBox.Text, out days);
+            if (succ == false || succ == null)
+            {
+                MessageBox.Show("Not a valid integer for backup days");
+                BackupDaysBox.Text = MainStructure.msave.backupDays.ToString();
+            }
+            MainStructure.msave.backupDays = days;
         }
 
         void CloseThis(object sender, EventArgs e)
