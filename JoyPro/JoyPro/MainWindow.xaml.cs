@@ -62,6 +62,7 @@ namespace JoyPro
             ALLBUTTONS.Add(NewFileBtn);
             ALLBUTTONS.Add(ModManagerBtn);
             ALLBUTTONS.Add(ValidateBtn);
+            ALLBUTTONS.Add(ReinstateBUBtn);
             ALLWINDOWS = new List<Window>();
             MainStructure.mainW = this;
             DropDownGameSelection.SelectionChanged += new SelectionChangedEventHandler(Event_GameSelectionChanged);
@@ -93,8 +94,15 @@ namespace JoyPro
             this.ContentRendered += new EventHandler(setWindowPosSize);
             this.Loaded += new RoutedEventHandler(AfterLoading);
             CBNukeUnused.Click += new RoutedEventHandler(MainStructure.SaveWindowState);
+            ReinstateBUBtn.Click += new RoutedEventHandler(reinstiateBackupWindow);
+        }
 
-            
+        void reinstiateBackupWindow(object sender, EventArgs e)
+        {
+            DisableInputs();
+            ReinstateBackup ri = new ReinstateBackup(MainStructure.getPossibleFallbacksForInstance(MainStructure.selectedInstancePath));
+            ri.Closing += new CancelEventHandler(ActivateInputs);
+            ri.Show();
         }
 
         void ChangeJoystickSettings(object sender, EventArgs e)

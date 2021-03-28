@@ -26,6 +26,7 @@ namespace JoyPro
         public int pollWaitTime;
         public bool NukeSticks;
         public int backupDays;
+        public WindowPos BackupW = null;
 
 
         public MetaSave()
@@ -47,6 +48,7 @@ namespace JoyPro
             pollWaitTime = 10;
             NukeSticks = false;
             backupDays = 90;
+            BackupW = new WindowPos();
         }
     }
 }
