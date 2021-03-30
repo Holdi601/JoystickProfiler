@@ -27,6 +27,7 @@ namespace JoyPro
         public bool NukeSticks;
         public int backupDays;
         public WindowPos BackupW = null;
+        public WindowPos UsrCvW = null;
 
 
         public MetaSave()
@@ -49,6 +50,7 @@ namespace JoyPro
             NukeSticks = false;
             backupDays = 90;
             BackupW = new WindowPos();
+            UsrCvW = new WindowPos();
         }
     }
 }

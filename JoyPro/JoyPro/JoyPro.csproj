@@ -118,6 +118,9 @@
     <Compile Include="StickToExchange.xaml.cs">
       <DependentUpon>StickToExchange.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserCurveDCS.xaml.cs">
+      <DependentUpon>UserCurveDCS.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Validation.cs" />
     <Compile Include="ValidationErrors.xaml.cs">
       <DependentUpon>ValidationErrors.xaml</DependentUpon>
@@ -163,6 +166,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="StickToExchange.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserCurveDCS.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

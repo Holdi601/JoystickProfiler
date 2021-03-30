@@ -161,10 +161,13 @@ namespace JoyPro
             if (slid) relationName = relationName + "s" + b.Slider.ToString();
             if (curv && b.Curvature.Count > 0)
             {
-                if (b.Curvature[0].ToString(new CultureInfo("en-US")).Length > 3)
-                    relationName = relationName + "c" + b.Curvature[0].ToString(new CultureInfo("en-US")).Substring(0, 4);
-                else
-                    relationName = relationName + "c" + b.Curvature[0].ToString(new CultureInfo("en-US"));
+                for(int i=0; i<b.Curvature.Count; ++i)
+                {
+                    if (b.Curvature[i].ToString(new CultureInfo("en-US")).Length > 3)
+                        relationName = relationName + "c" + b.Curvature[i].ToString(new CultureInfo("en-US")).Substring(0, 4);
+                    else
+                        relationName = relationName + "c" + b.Curvature[i].ToString(new CultureInfo("en-US"));
+                }
             }
             if (dz)
             {

@@ -39,6 +39,7 @@ namespace JoyPro
         public string selectedSort;
         List<ColumnDefinition> colDefs = null;
         List<ColumnDefinition> colHds = null;
+        List<Button> additional;
 
         public MainWindow()
         {
@@ -451,7 +452,7 @@ namespace JoyPro
             var converter = new GridLengthConverter();
             Grid grid = new Grid();
             colDefs = new List<ColumnDefinition>();
-            for (int i = 0; i < 12; ++i)
+            for (int i = 0; i < 13; ++i)
             {
                 ColumnDefinition c = new ColumnDefinition();
                 grid.ColumnDefinitions.Add(c);
@@ -603,8 +604,53 @@ namespace JoyPro
             }
             MainStructure.ResyncRelations();
         }
+
+        void changeCurveToUserCurve(object sender, EventArgs e)
+        {
+            CheckBox cx = (CheckBox)sender;
+            int indx = Convert.ToInt32(cx.Name.Split('l')[1]);
+            Bind currentBind = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            if (currentBind == null)
+            {
+                MessageBox.Show("Please bind the main key first and then the User Curve");
+                return;
+            }
+            currentBind.Curvature = new List<double>();
+            currentBind.Curvature.Add(0.0);
+            if (cx.IsChecked == true)
+            {
+                currentBind.Curvature.Add(0.1);
+                currentBind.Curvature.Add(0.2);
+                currentBind.Curvature.Add(0.3);
+                currentBind.Curvature.Add(0.4);
+                currentBind.Curvature.Add(0.5);
+                currentBind.Curvature.Add(0.6);
+                currentBind.Curvature.Add(0.7);
+                currentBind.Curvature.Add(0.8);
+                currentBind.Curvature.Add(0.9);
+                currentBind.Curvature.Add(1.0);
+            }
+            MainStructure.ResyncRelations();
+        }
+
+        void changeUserCurve(object sender, EventArgs e)
+        {
+            Button cx = (Button)sender;
+            int indx = Convert.ToInt32(cx.Name.Split('n')[1]);
+            Bind currentBind = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            if (currentBind == null)
+            {
+                MessageBox.Show("Please bind the main key first and then the User Curve");
+                return;
+            }
+            UserCurveDCS uc = new UserCurveDCS(currentBind);
+            uc.Show();
+            DisableInputs();
+            uc.Closing += new CancelEventHandler(ActivateInputs);
+        }
         void RefreshRelationsToShow()
         {
+            additional = new List<Button>();
             List<string> allMods = MainStructure.GetAllModsAsString();
             allMods.Add("Delete");
             Grid grid = BaseSetupRelationGrid();
@@ -709,11 +755,22 @@ namespace JoyPro
                     Grid.SetRow(cbxs, i);
                     grid.Children.Add(cbxs);
 
+                    CheckBox cbxu = new CheckBox();
+                    cbxu.Name = "cbxsrel" + i.ToString();
+                    cbxu.Content = "User Curve";
+                    cbxu.Foreground = Brushes.White;
+                    cbxu.HorizontalAlignment = HorizontalAlignment.Center;
+                    cbxu.VerticalAlignment = VerticalAlignment.Center;
+                    cbxu.Click += new RoutedEventHandler(changeCurveToUserCurve);
+                    Grid.SetColumn(cbxu, 8);
+                    Grid.SetRow(cbxu, i);
+                    grid.Children.Add(cbxu);
+
                     TextBox txrl = new TextBox();
                     txrl.Name = "txrldz" + i.ToString();
                     txrl.Width = 150;
                     txrl.Height = 24;
-                    Grid.SetColumn(txrl, 8);
+                    Grid.SetColumn(txrl, 9);
                     Grid.SetRow(txrl, i);
                     grid.Children.Add(txrl);
 
@@ -721,7 +778,7 @@ namespace JoyPro
                     txrlsx.Name = "txrlsatx" + i.ToString();
                     txrlsx.Width = 150;
                     txrlsx.Height = 24;
-                    Grid.SetColumn(txrlsx, 9);
+                    Grid.SetColumn(txrlsx, 10);
                     Grid.SetRow(txrlsx, i);
                     grid.Children.Add(txrlsx);
 
@@ -729,7 +786,7 @@ namespace JoyPro
                     txrlsy.Name = "txrlsaty" + i.ToString();
                     txrlsy.Width = 150;
                     txrlsy.Height = 24;
-                    Grid.SetColumn(txrlsy, 10);
+                    Grid.SetColumn(txrlsy, 11);
                     Grid.SetRow(txrlsy, i);
                     grid.Children.Add(txrlsy);
 
@@ -737,9 +794,19 @@ namespace JoyPro
                     txrlcv.Name = "txrlsacv" + i.ToString();
                     txrlcv.Width = 150;
                     txrlcv.Height = 24;
-                    Grid.SetColumn(txrlcv, 11);
+                    Grid.SetColumn(txrlcv, 12);
                     Grid.SetRow(txrlcv, i);
-                    grid.Children.Add(txrlcv);
+
+                    Button userCurvBtn = new Button();
+                    userCurvBtn.Name = "UsrcvBtn" + i.ToString();
+                    userCurvBtn.Content = "User Curve";
+                    userCurvBtn.HorizontalAlignment = HorizontalAlignment.Center;
+                    userCurvBtn.VerticalAlignment = VerticalAlignment.Center;
+                    userCurvBtn.Width = 100;
+                    userCurvBtn.Click += new RoutedEventHandler(changeUserCurve);
+                    additional.Add(userCurvBtn);
+                    Grid.SetColumn(userCurvBtn, 12);
+                    Grid.SetRow(userCurvBtn, i);
 
                     if (currentBind != null)
                     {
@@ -794,7 +861,18 @@ namespace JoyPro
                         }
                         if(currentBind.Curvature!=null&& currentBind.Curvature.Count > 0&&!double.IsNaN(currentBind.Curvature[0]))
                         {
-                            txrlcv.Text = currentBind.Curvature[0].ToString();
+                            if (currentBind.Curvature.Count == 1)
+                            {
+                                txrlcv.Text = currentBind.Curvature[0].ToString();
+                                cbxu.IsChecked = false;
+                                grid.Children.Add(txrlcv);
+                            }
+                            else
+                            {
+                                cbxu.IsChecked = true;
+                                grid.Children.Add(userCurvBtn);
+                            }
+                            
                         }
                         else
                         {
@@ -809,6 +887,8 @@ namespace JoyPro
                         txrlsx.Text = "SatX (Dec)";
                         txrlsy.Text = "SatY (Dec)";
                         txrlcv.Text = "Curvature (Dec)";
+                        cbxu.IsChecked = false;
+                        grid.Children.Add(txrlcv);
                     }
                     txrlcv.TextChanged += new TextChangedEventHandler(CurvitureSelectionChanged);
                     txrlsy.TextChanged += new TextChangedEventHandler(SaturationYSelectionChanged);
@@ -834,7 +914,7 @@ namespace JoyPro
                     modCbx1.Width = 150;
                     modCbx1.ItemsSource = allMods;
                     mods[i, 0] = modCbx1;
-                    Grid.SetColumn(modCbx1, 8);
+                    Grid.SetColumn(modCbx1, 9);
                     Grid.SetRow(modCbx1, i);
                     grid.Children.Add(modCbx1);
 
@@ -845,7 +925,7 @@ namespace JoyPro
                     modCbx2.Width = 150;
                     modCbx2.ItemsSource = allMods;
                     mods[i, 1] = modCbx2;
-                    Grid.SetColumn(modCbx2, 9);
+                    Grid.SetColumn(modCbx2, 10);
                     Grid.SetRow(modCbx2, i);
                     grid.Children.Add(modCbx2);
 
@@ -856,7 +936,7 @@ namespace JoyPro
                     modCbx3.Width = 150;
                     modCbx3.ItemsSource = allMods;
                     mods[i, 2] = modCbx3;
-                    Grid.SetColumn(modCbx3, 10);
+                    Grid.SetColumn(modCbx3, 11);
                     Grid.SetRow(modCbx3, i);
                     grid.Children.Add(modCbx3);
 
@@ -867,7 +947,7 @@ namespace JoyPro
                     modCbx4.Width = 150;
                     modCbx4.ItemsSource = allMods;
                     mods[i, 3] = modCbx4;
-                    Grid.SetColumn(modCbx4, 11);
+                    Grid.SetColumn(modCbx4, 12);
                     Grid.SetRow(modCbx4, i);
                     grid.Children.Add(modCbx4);
 
@@ -947,7 +1027,7 @@ namespace JoyPro
             var converter = new GridLengthConverter();
             Grid grid = new Grid();
             colHds = new List<ColumnDefinition>();
-            for (int i = 0; i < 12; ++i)
+            for (int i = 0; i < 13; ++i)
             {
                 ColumnDefinition c = new ColumnDefinition();
                 grid.ColumnDefinitions.Add(c);
@@ -996,7 +1076,7 @@ namespace JoyPro
             dzlbl.Foreground = Brushes.White;
             dzlbl.HorizontalAlignment = HorizontalAlignment.Center;
             dzlbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(dzlbl, 8);
+            Grid.SetColumn(dzlbl, 9);
             grid.Children.Add(dzlbl);
 
             Label sxlbl = new Label();
@@ -1004,7 +1084,7 @@ namespace JoyPro
             sxlbl.Foreground = Brushes.White;
             sxlbl.HorizontalAlignment = HorizontalAlignment.Center;
             sxlbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(sxlbl, 9);
+            Grid.SetColumn(sxlbl, 10);
             grid.Children.Add(sxlbl);
 
             Label sylbl = new Label();
@@ -1012,7 +1092,7 @@ namespace JoyPro
             sylbl.Foreground = Brushes.White;
             sylbl.HorizontalAlignment = HorizontalAlignment.Center;
             sylbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(sylbl, 10);
+            Grid.SetColumn(sylbl, 11);
             grid.Children.Add(sylbl);
 
             Label curvlbl = new Label();
@@ -1020,7 +1100,7 @@ namespace JoyPro
             curvlbl.Foreground = Brushes.White;
             curvlbl.HorizontalAlignment = HorizontalAlignment.Center;
             curvlbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(curvlbl, 11);
+            Grid.SetColumn(curvlbl, 12);
             grid.Children.Add(curvlbl);
 
             svHeader.Content = grid;
@@ -1260,6 +1340,14 @@ namespace JoyPro
                     }
                 }
             }
+            if (additional != null)
+            {
+                for(int i=0; i<additional.Count; ++i)
+                {
+                    if (additional[i] != null)
+                        additional[i].IsEnabled = true;
+                }
+            }
         }
         void DisableInputs()
         {
@@ -1283,6 +1371,14 @@ namespace JoyPro
                         if (mods[i, j] != null)
                             mods[i, j].IsEnabled = false;
                     }
+                }
+            }
+            if (additional != null)
+            {
+                for (int i = 0; i < additional.Count; ++i)
+                {
+                    if (additional[i] != null)
+                        additional[i].IsEnabled = false;
                 }
             }
 

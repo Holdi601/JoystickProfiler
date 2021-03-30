@@ -14,6 +14,8 @@ namespace JoyPro
     {
         public string AxisButton { get; set; }
         public string Device { get; set; }
+
+        public List<string> All = new List<string>();
     }
     public class JoyAxisState
     {
@@ -205,69 +207,86 @@ namespace JoyPro
             if (s2rDiff < 0) s2rDiff *= -1;
             JoystickResults args = new JoystickResults();
             args.Device = ToDeviceString(pad);
+            string pre= "JOY_";
             args.AxisButton = "JOY_";
+            bool triggered = false;
             if (xDiff > axisThreshold&&last.x>10&&current.x>10)
             {
                 Console.WriteLine(last.x.ToString() + " " + current.x.ToString());
                 args.AxisButton += "X";
-                if(warmupTime<0)ResultFound(args);
+                args.All.Add(pre+"X");
+                triggered = true;
             }
             else if (yDiff > axisThreshold && last.y > 10 && current.y > 10)
             {
                 Console.WriteLine(last.y.ToString() + " " + current.y.ToString());
                 args.AxisButton += "Y";
-                if (warmupTime < 0) ResultFound(args);
+                args.All.Add(pre + "Y");
+                triggered = true;
             }
             else if (zDiff > axisThreshold && last.z > 10 && current.z > 10)
             {
                 Console.WriteLine(last.z.ToString() + " " + current.z.ToString());
                 args.AxisButton += "Z";
-                if (warmupTime < 0) ResultFound(args);
+                args.All.Add(pre + "Z");
+                triggered = true;
             }
             else if (xrDiff > axisThreshold && last.xr > 10 && current.xr > 10)
             {
                 Console.WriteLine(last.xr.ToString() + " " + current.xr.ToString());
                 args.AxisButton += "RX";
-                if (warmupTime < 0) ResultFound(args);
+                args.All.Add(pre + "RX");
+                triggered = true;
             }
             else if (yrDiff > axisThreshold && last.yr > 10 && current.yr > 10)
             {
                 Console.WriteLine(last.yr.ToString() + " " + current.yr.ToString());
                 args.AxisButton += "RY";
-                if (warmupTime < 0) ResultFound(args);
+                args.All.Add(pre + "RY");
+                triggered = true;
             }
             else if (zrDiff > axisThreshold && last.zr > 10 && current.zr > 10)
             {
                 Console.WriteLine(last.zr.ToString() + " " + current.zr.ToString());
                 args.AxisButton += "RZ";
-                if (warmupTime < 0) ResultFound(args);
+                args.All.Add(pre + "RZ");
+                triggered = true;
             }
             else if (s1rDiff > axisThreshold && last.s1r > 10 && current.s1r > 10)
             {
                 Console.WriteLine(last.s1r.ToString() + " " + current.s1r.ToString());
                 args.AxisButton += "SLIDER1";
-                if (warmupTime < 0) ResultFound(args);
+                args.All.Add(pre + "SLIDER1");
+                triggered = true;
             }
             else if (s2rDiff > axisThreshold && last.s2r > 10 && current.s2r > 10)
             {
                 Console.WriteLine(last.s2r.ToString() + " " + current.s2r.ToString());
                 args.AxisButton += "SLIDER2";
-                if (warmupTime < 0) ResultFound(args);
+                args.All.Add(pre + "SLIDER2");
+                triggered = true;
             }
+            if(triggered&& warmupTime < 0)
+                ResultFound(args);
+
         }
         void CheckIfKeyboardGotPressed(KeyboardState ks)
         {
             if (warmupTime < 0)
             {
                 var allPressed = ks.PressedKeys;
-                foreach(var keyPressed  in allPressed)
+                JoystickResults r = new JoystickResults();
+                bool found = false;
+                foreach (var keyPressed  in allPressed)
                 {
-                    JoystickResults r = new JoystickResults();
                     r.Device = "Keyboard";
                     r.AxisButton = keyPressed.ToString();
-                    ResultFound(r);
-                    return;
+                    r.All.Add(keyPressed.ToString());
+                    found = true;
+                    
                 }
+                if(found)
+                    ResultFound(r);
             }
             lastKbState = ks;
         }
@@ -275,21 +294,25 @@ namespace JoyPro
         {
             JoyAxisState last = state[pad];
             bool[] curBtns = js.GetButtons();
-            bool[] lastBtns; 
-            if(warmupTime<0)
+            bool[] lastBtns;
+            bool found = false;
+            JoystickResults args = new JoystickResults();
+            if (warmupTime<0)
             {
                 lastBtns = lastState[pad].GetButtons();
+                
                 for (int i = 0; i < curBtns.Length; ++i)
                 {
                     if (curBtns[i] != lastBtns[i])
                     {
-                        JoystickResults args = new JoystickResults();
+                        string pre = "JOY_BTN";
                         args.Device = ToDeviceString(pad);
                         args.AxisButton = "JOY_BTN" + (i + 1).ToString();
-                        ResultFound(args);
-                        return;
+                        args.All.Add(args.AxisButton);
+                        found = true;
                     }
                 }
+                
             }
             
             int[] povs = js.GetPointOfViewControllers();
@@ -325,13 +348,14 @@ namespace JoyPro
                             dir += "UL";
                             break;
                     }
-                    JoystickResults args = new JoystickResults();
                     args.Device = ToDeviceString(pad);
                     args.AxisButton = dir;
-                    ResultFound(args);
-                    return;
+                    args.All.Add(dir);
+                    found = true;
                 }
             }
+            if (found)
+                ResultFound(args);
 
         }
         static string ToDeviceString(Joystick pad)
@@ -376,6 +400,9 @@ namespace JoyPro
 
         void ResultFound(JoystickResults e)
         {
+            Random r = new Random();
+            if (e.All.Count > 0)
+                e.AxisButton = e.All[r.Next(0, e.All.Count )];
             quit = true;
             result = e;
         }
