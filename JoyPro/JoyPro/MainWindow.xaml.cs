@@ -39,12 +39,13 @@ namespace JoyPro
         public string selectedSort;
         List<ColumnDefinition> colDefs = null;
         List<ColumnDefinition> colHds = null;
+        Control[] controls = null;
         List<Button> additional;
 
         public MainWindow()
         {
-            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
-            Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
+            //AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
+            //Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
             CURRENTDISPLAYEDRELATION = new List<Relation>();
             ALLBUTTONS = new List<Button>();
@@ -88,7 +89,6 @@ namespace JoyPro
             joyReader = null;
             buttonSetting = -1;
             selectedSort = "Relation";
-            SortSelectionDropDown.SelectionChanged += new SelectionChangedEventHandler(SortChanged);
             this.SizeChanged += new SizeChangedEventHandler(sizeChanged);
             sv.ScrollChanged += new ScrollChangedEventHandler(sizeChanged);
             this.ContentRendered += new EventHandler(setWindowPosSize);
@@ -191,16 +191,15 @@ namespace JoyPro
                 for (int i = 0; i < colDefs.Count; ++i)
                 {
                     colHds[i].MinWidth = colDefs[i].ActualWidth;
+                    if (controls != null&&controls[i]!=null)
+                    {
+                        controls[i].MinWidth= colDefs[i].ActualWidth;
+                    }
                 }
                 svHeader.ScrollToHorizontalOffset(sv.HorizontalOffset);
             }
         }
-        void SortChanged(object sender, EventArgs e)
-        {
-            selectedSort = ((ComboBoxItem)SortSelectionDropDown.SelectedItem).Content.ToString();
-            Console.WriteLine(selectedSort);
-            MainStructure.ResyncRelations();
-        }
+
         void ImportProf(object sender, EventArgs e)
         {
             if (MainStructure.selectedInstancePath == null || MainStructure.selectedInstancePath.Length < 1)
@@ -216,6 +215,8 @@ namespace JoyPro
         }
         void LoadExistingExportKeepExisting(object sender, EventArgs e)
         {
+            MessageBoxResult res = MessageBox.Show("Are you sure you want to export your profile (Keep-Mode)?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (res == MessageBoxResult.No || res == MessageBoxResult.Cancel || res == MessageBoxResult.None) return;
             bool? overwrite = CBKeepDefault.IsChecked;
             bool param;
             if (overwrite == null)
@@ -228,6 +229,8 @@ namespace JoyPro
         }
         void LoadExistingExportOverwrite(object sender, EventArgs e)
         {
+            MessageBoxResult res = MessageBox.Show("Are you sure you want to export your profile (Overwrite-Mode)?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (res == MessageBoxResult.No || res == MessageBoxResult.Cancel || res == MessageBoxResult.None) return;
             bool? overwrite = CBKeepDefault.IsChecked;
             bool param;
             if (overwrite == null)
@@ -240,6 +243,8 @@ namespace JoyPro
         }
         void LoadExistingExportAndAdd(object sender, EventArgs e)
         {
+            MessageBoxResult res = MessageBox.Show("Are you sure you want to export your profile (Add-Mode)?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (res == MessageBoxResult.No || res == MessageBoxResult.Cancel || res == MessageBoxResult.None) return;
             bool? overwrite = CBKeepDefault.IsChecked;
             bool param;
             if (overwrite == null)
@@ -252,6 +257,8 @@ namespace JoyPro
         }
         void CleanAndExport(object sender, EventArgs e)
         {
+            MessageBoxResult res = MessageBox.Show("Are you sure you want to export your profile (Clean-Mode)?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (res == MessageBoxResult.No || res == MessageBoxResult.Cancel || res == MessageBoxResult.None) return;
             bool nukeDevices = false;
             if (CBNukeUnused.IsChecked == true)
                 nukeDevices = true;
@@ -1022,11 +1029,51 @@ namespace JoyPro
             SetHeadersForScrollView();
             sizeChanged(null,null);
         }
+
+        void sortName(object o, EventArgs e)
+        {
+            if (selectedSort == "NAME_NORM")
+            {
+                selectedSort = "NAME_DESC";
+            }
+            else
+            {
+                selectedSort = "NAME_NORM";
+            }
+            MainStructure.ResyncRelations();
+        }
+
+        void sortStick(object o, EventArgs e)
+        {
+            if (selectedSort == "STICK_NORM")
+            {
+                selectedSort = "STICK_DESC";
+            }
+            else
+            {
+                selectedSort = "STICK_NORM";
+            }
+            MainStructure.ResyncRelations();
+        }
+
+        void sortBtn(object o, EventArgs e)
+        {
+            if (selectedSort == "BTN_NORM")
+            {
+                selectedSort = "BTN_DESC";
+            }
+            else
+            {
+                selectedSort = "BTN_NORM";
+            }
+            MainStructure.ResyncRelations();
+        }
         void SetHeadersForScrollView()
         {
             var converter = new GridLengthConverter();
             Grid grid = new Grid();
             colHds = new List<ColumnDefinition>();
+            controls = new Control[13];
             for (int i = 0; i < 13; ++i)
             {
                 ColumnDefinition c = new ColumnDefinition();
@@ -1036,38 +1083,58 @@ namespace JoyPro
             }
 
 
-            Label relPick = new Label();
+            Button relPick = new Button();
             relPick.Name = "joyHdrLblRlName";
             relPick.Content = "Relation Name";
             relPick.Foreground = Brushes.White;
             relPick.HorizontalAlignment = HorizontalAlignment.Center;
             relPick.VerticalAlignment = VerticalAlignment.Center;
+            relPick.Background = Brushes.DarkSlateGray;
+            relPick.Click += new RoutedEventHandler(sortName);
             Grid.SetColumn(relPick, 0);
             grid.Children.Add(relPick);
+            controls[0] = relPick;
 
-            Label joystickPick = new Label();
+            Label abc = new Label();
+            abc.Name = "relationManagement";
+            abc.Content = "Relation Management";
+            abc.Foreground = Brushes.White;
+            abc.HorizontalAlignment = HorizontalAlignment.Center;
+            abc.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumnSpan(abc, 3);
+            Grid.SetColumn(abc, 1);
+            grid.Children.Add(abc);
+
+            Button joystickPick = new Button();
             joystickPick.Name = "joyHdrLbldeviceName";
             joystickPick.Content = "Device Name";
             joystickPick.Foreground = Brushes.White;
             joystickPick.HorizontalAlignment = HorizontalAlignment.Center;
             joystickPick.VerticalAlignment = VerticalAlignment.Center;
+            joystickPick.Background = Brushes.DarkSlateGray;
+            joystickPick.Click += new RoutedEventHandler(sortStick);
             Grid.SetColumn(joystickPick, 4);
             grid.Children.Add(joystickPick);
+            controls[4] = joystickPick;
 
-            Label joystickBtn = new Label();
+            Button joystickBtn = new Button();
             joystickBtn.Name = "joyHdrLblaxisname";
             joystickBtn.Content = "Axis/Btn Name";
             joystickBtn.Foreground = Brushes.White;
             joystickBtn.HorizontalAlignment = HorizontalAlignment.Center;
             joystickBtn.VerticalAlignment = VerticalAlignment.Center;
+            joystickBtn.Background = Brushes.DarkSlateGray;
+            joystickBtn.Click += new RoutedEventHandler(sortBtn);
             Grid.SetColumn(joystickBtn, 5);
             grid.Children.Add(joystickBtn);
+            controls[5] = joystickBtn;
 
             Label joystickAxisS = new Label();
             joystickAxisS.Content = "Axis Setting";
             joystickAxisS.Foreground = Brushes.White;
             joystickAxisS.HorizontalAlignment = HorizontalAlignment.Center;
             joystickAxisS.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumnSpan(joystickAxisS, 3);
             Grid.SetColumn(joystickAxisS, 6);
             grid.Children.Add(joystickAxisS);
 

@@ -21,6 +21,8 @@ namespace JoyPro
     public enum JoystickAxis { JOY_X, JOY_Y, JOY_Z, JOY_RX, JOY_RY, JOY_RZ, JOY_SLIDER1, JOY_SLIDER2, NONE }
     public enum LuaDataType { String, Number, Dict, Bool, Error };
 
+    public enum SortType { NAME_NORM, NAME_DESC, STICK_NORM, STICK_DESC, BTN_NORM, BTN_DESC}
+
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
     public static class MainStructure
     {
@@ -30,7 +32,7 @@ namespace JoyPro
         const string initialBackupFolder = "\\Config\\JP_InitBackup";
         const string externalWebUrl = "https://raw.githubusercontent.com/Holdi601/JoystickProfiler/master/JoyPro/JoyPro/ver.txt";
         const string buildPath = "https://github.com/Holdi601/JoystickProfiler/raw/master/Builds/JoyPro_WinX64_v";
-        const int version = 31;
+        const int version = 32;
         public static MainWindow mainW;
         public static string SELECTEDGAME = "";
         public static string PROGPATH;
@@ -437,7 +439,7 @@ namespace JoyPro
             if (b == null || lib == null) return;
             foreach(KeyValuePair<string, Bind> kvp in lib)
             {
-                if (b.additionalImportInfo != null && b.additionalImportInfo.Length > 2)
+                if (b.additionalImportInfo != null && b.additionalImportInfo.Length > 0)
                 {
                     if(b.Joystick==kvp.Value.Joystick&&
                         b.Inverted==kvp.Value.Inverted&&
@@ -1536,17 +1538,26 @@ namespace JoyPro
                 }
             }
             List<Relation> RelWOBinds = new List<Relation>();
+            string sortType="NAME";
+            string sortOrder="NORM";
+            if (mainW.selectedSort != null && mainW.selectedSort.Contains('_'))
+            {
+                sortType = mainW.selectedSort.Split('_')[0];
+                sortOrder = mainW.selectedSort.Split('_')[1];
+            }
+            
             for(int i=0; i < li.Count; ++i)
             {
                 if (!RelWOBinds.Contains(li[i]) && !relWithBinds.Contains(li[i]))
                     RelWOBinds.Add(li[i]);
             }
-            switch (mainW.selectedSort)
+            switch (sortType)
             {
-                case "Relation":
+                case "NAME":
                     li = li.OrderBy(o => o.NAME).ToList();
                     break;
-                case "Joystick":
+                case "STICK":
+                    relWithBinds = relWithBinds.OrderBy(o => o.NAME).ToList();
                     relWithBinds = relWithBinds.OrderBy(o => AllBinds[o.NAME].Joystick).ToList();
                     RelWOBinds = RelWOBinds.OrderBy(o => o.NAME).ToList();
                     for (int i = 0; i < RelWOBinds.Count; ++i)
@@ -1555,6 +1566,26 @@ namespace JoyPro
                     }
                     li = relWithBinds;
                     break;
+                case "BTN":
+                    relWithBinds = relWithBinds.OrderBy(o => o.NAME).ToList();
+                    relWithBinds = relWithBinds.OrderBy(o => AllBinds[o.NAME].Joystick).ToList();
+                    relWithBinds = relWithBinds.OrderBy(o => (AllBinds[o.NAME].JAxis + AllBinds[o.NAME].JButton)).ToList();
+                    RelWOBinds = RelWOBinds.OrderBy(o => o.NAME).ToList();
+                    for (int i = 0; i < RelWOBinds.Count; ++i)
+                    {
+                        relWithBinds.Add(RelWOBinds[i]);
+                    }
+                    li = relWithBinds;
+                    break;
+            }
+            if (sortOrder=="DESC")
+            {
+                List<Relation> fi = new List<Relation>();
+                for(int i=li.Count-1; i>=0; i--)
+                {
+                    fi.Add(li[i]);
+                }
+                li = fi;
             }
             SaveMetaLast();
             mainW.SetRelationsToView(li);

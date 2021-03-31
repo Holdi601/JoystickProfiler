@@ -30,10 +30,7 @@
             <ComboBoxItem Name="DropDownGameSelectionElementDCS" >Digital Combat Simulator</ComboBoxItem>
         </ComboBox>
 
-        <ComboBox Height="30" Width="180" Name="SortSelectionDropDown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,18,10,12" Grid.Row="1" Grid.Column="0" >
-            <ComboBoxItem Name="DDERelation" >Relation</ComboBoxItem>
-            <ComboBoxItem Name="DDEStick" >Joystick</ComboBoxItem>
-        </ComboBox>
+
         <Button FontWeight="Bold" Name="NewFileBtn" Content="Clear" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="1" />
         <Button FontWeight="Bold" Name="LoadRelationsBtn" Content="Load Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="3" />
         <Button FontWeight="Bold" Name="SaveRelationsBtn" Content="Save Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,19,15,11" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="1" />
@@ -59,7 +56,8 @@
         <ScrollViewer Name="svHeader" ScrollViewer.HorizontalScrollBarVisibility="Hidden"  Width="auto" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="8" Grid.RowSpan="1"/>
         <CheckBox Name="CBKeepDefault" Content="Keep Defaults" Grid.Row="5" Grid.Column="7" IsChecked="False" Width="100" Height="20" Foreground="White" HorizontalAlignment="Left" Margin="10,25,0,15"></CheckBox>
         <CheckBox Name="CBNukeUnused" Content="Nuke devices that are untouched by Joy Pro" Grid.Row="4" Grid.Column="7" IsChecked="False" Width="auto" Height="20" Foreground="White" HorizontalAlignment="Left" Margin="10,25,0,15"></CheckBox>
-        <Label Content=": Sort by" Foreground="White" Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Margin="5,16,0,18" Width="56"/>
+
+        
 
 
 
