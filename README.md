@@ -63,7 +63,7 @@ Contact me, I will try to fix it asap.
 # What features might come?
 
 -Maybe other games come like star citizen, as that game is in its joystick mapping a mess inside the game. But if so, thats far out. 
-
+(Right now im in the testing state how easy it is outside the game like IL2 or FS2020 or SC to change inputs)
 -Refactoring at some point, prolly too much spaghetti for some :-D 
 
 
