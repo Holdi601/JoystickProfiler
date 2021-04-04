@@ -67,7 +67,4 @@ Contact me, I will try to fix it asap.
 -Refactoring at some point, prolly too much spaghetti for some :-D 
 
 
-But lets see. Depends on time and motivation. 
-
-
 Discord for more direct question answer or concerns: https://discord.gg/SeCTXJHhJf
