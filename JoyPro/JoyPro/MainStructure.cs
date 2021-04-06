@@ -17,6 +17,10 @@ using System.Diagnostics;
 
 namespace JoyPro
 {
+
+    //IL2 steam path registry 
+    //Computer\HKEY_CURRENT_USER\System\GameConfigStore\Children\92e042fb-d93a-46df-8872-04039ab6d802
+    //Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 307960
     public enum Game { DCS, StarCitizen }
     public enum JoystickAxis { JOY_X, JOY_Y, JOY_Z, JOY_RX, JOY_RY, JOY_RZ, JOY_SLIDER1, JOY_SLIDER2, NONE }
     public enum LuaDataType { String, Number, Dict, Bool, Error };
