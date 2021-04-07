@@ -25,7 +25,7 @@ namespace JoyPro
     public enum JoystickAxis { JOY_X, JOY_Y, JOY_Z, JOY_RX, JOY_RY, JOY_RZ, JOY_SLIDER1, JOY_SLIDER2, NONE }
     public enum LuaDataType { String, Number, Dict, Bool, Error };
 
-    public enum SortType { NAME_NORM, NAME_DESC, STICK_NORM, STICK_DESC, BTN_NORM, BTN_DESC}
+    public enum SortType { NAME_NORM, NAME_DESC, STICK_NORM, STICK_DESC, BTN_NORM, BTN_DESC }
 
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
     public static class MainStructure
@@ -58,13 +58,19 @@ namespace JoyPro
         public static string[] installPaths;
         static string newestAvailableVersion;
         static int downloadFails = 0;
+        public static string IL2Instance = "";
 
         static event EventHandler downloadCompletedEvent;
 
+        public static void loadIL2Path()
+        {
+            string pth = getRegistryValue("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 307960", "InstallLocation", "LocalMachine");
+            if (pth != null) IL2Instance = pth;
+        }
         public static List<string> GetAllModsAsString()
         {
             List<string> result = new List<string>();
-            foreach(KeyValuePair<string, Modifier> kvp in AllModifiers)
+            foreach (KeyValuePair<string, Modifier> kvp in AllModifiers)
             {
                 result.Add(kvp.Key);
             }
@@ -81,8 +87,8 @@ namespace JoyPro
         static void downloadCompleted(object o, EventArgs e)
         {
             Console.WriteLine(PROGPATH);
-            ProcessStartInfo startInfo = new ProcessStartInfo(PROGPATH+"\\TOOLS\\Unzipper\\UnzipMeHereWin.exe");
-            startInfo.Arguments = "\""+PROGPATH+"\\NewerVersion.zip\" \""+PROGPATH+"\" \""+PROGPATH+"\\JoyPro.exe\"";
+            ProcessStartInfo startInfo = new ProcessStartInfo(PROGPATH + "\\TOOLS\\Unzipper\\UnzipMeHereWin.exe");
+            startInfo.Arguments = "\"" + PROGPATH + "\\NewerVersion.zip\" \"" + PROGPATH + "\" \"" + PROGPATH + "\\JoyPro.exe\"";
             Process.Start(startInfo);
             Environment.Exit(0);
         }
@@ -95,14 +101,14 @@ namespace JoyPro
                 System.IO.Stream stream = web.OpenRead(externalWebUrl);
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(stream))
                 {
-                    newestAvailableVersion = reader.ReadToEnd().Replace("v","");
+                    newestAvailableVersion = reader.ReadToEnd().Replace("v", "");
                     return Convert.ToInt32(newestAvailableVersion);
                 }
             }
             catch
             {
-                
-                
+
+
             }
             return -1;
         }
@@ -115,7 +121,7 @@ namespace JoyPro
                 string oldRefKey = m.toReformerString();
                 AllModifiers.Remove(oldName);
                 m.name = newName;
-                foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+                foreach (KeyValuePair<string, Bind> kvp in AllBinds)
                 {
                     if (kvp.Value.AllReformers.Contains(oldRefKey))
                     {
@@ -133,7 +139,7 @@ namespace JoyPro
             {
                 Modifier m = AllModifiers[name];
                 AllModifiers.Remove(name);
-                foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+                foreach (KeyValuePair<string, Bind> kvp in AllBinds)
                 {
                     if (kvp.Value.AllReformers.Contains(m.toReformerString()))
                         kvp.Value.AllReformers.Remove(m.toReformerString());
@@ -144,7 +150,7 @@ namespace JoyPro
         public static bool ModifiersContainKeyCombo(string device, string key)
         {
             bool found = false;
-            foreach(KeyValuePair<string, Modifier> kvp in AllModifiers)
+            foreach (KeyValuePair<string, Modifier> kvp in AllModifiers)
             {
                 if (kvp.Value.device.ToUpper() == device.ToUpper() && kvp.Value.key.ToUpper() == key.ToUpper()) return true;
             }
@@ -153,7 +159,7 @@ namespace JoyPro
         public static void LoadMetaLast()
         {
             string pth = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\JoyPro";
-            if (File.Exists(pth+ "\\meta.info"))
+            if (File.Exists(pth + "\\meta.info"))
             {
                 try
                 {
@@ -170,7 +176,7 @@ namespace JoyPro
                 msave = new MetaSave();
             }
         }
-        
+
         public static void AfterLoad()
         {
             string pth = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\JoyPro";
@@ -205,7 +211,7 @@ namespace JoyPro
             SaveProfileTo(pth + "\\last.pr0file");
         }
 
-        static void writeFiles(string ending= ".diff.lua")
+        static void writeFiles(string ending = ".diff.lua")
         {
             foreach (KeyValuePair<string, DCSExportPlane> kvp in ToExport)
             {
@@ -226,7 +232,7 @@ namespace JoyPro
             if (m == null) return ModExists.ERROR;
             if (!AllModifiers.ContainsKey(m.name))
             {
-                if(ModifiersContainKeyCombo(m.device, m.key))
+                if (ModifiersContainKeyCombo(m.device, m.key))
                 {
                     return ModExists.KEYBIND_EXISTS;
                 }
@@ -252,31 +258,38 @@ namespace JoyPro
         public static void SaveWindowState(object sender, EventArgs e)
         {
             if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
-            if(sender!=null&&sender is Window)
+            if (sender != null && sender is Window)
             {
                 WindowPos p = GetWindowPosFrom((Window)sender);
-                if(sender is MainWindow)
+                if (sender is MainWindow)
                 {
                     msave.mainWLast = p;
-                }else if( sender is RelationWindow)
+                }
+                else if (sender is RelationWindow)
                 {
                     msave.relationWindowLast = p;
-                }else if ( sender is ExchangeStick)
+                }
+                else if (sender is ExchangeStick)
                 {
                     msave.exchangeW = p;
-                }else if( sender is ImportWindow)
+                }
+                else if (sender is ImportWindow)
                 {
                     msave.importWindowLast = p;
-                } else if(sender is ModifierManager)
+                }
+                else if (sender is ModifierManager)
                 {
                     msave.ModifierW = p;
-                }else if(sender is StickToExchange)
+                }
+                else if (sender is StickToExchange)
                 {
                     msave.stick2ExW = p;
-                }else if(sender is StickSettings)
+                }
+                else if (sender is StickSettings)
                 {
                     msave.SettingsW = p;
-                }else if(sender is ValidationErrors)
+                }
+                else if (sender is ValidationErrors)
                 {
                     msave.ValidW = p;
                 }
@@ -428,30 +441,30 @@ namespace JoyPro
             Dictionary<string, DCSExportPlane> checkAgainst = new Dictionary<string, DCSExportPlane>();
             LoadLocalBinds(selectedInstancePath, loadDefaults, ".jp", checkAgainst);
             LoadLocalBinds(selectedInstancePath, loadDefaults);
-            Dictionary<string, Bind> checkRes = libraryFromLocalDict(checkAgainst, sticks, loadDefaults, inv, slid, curv,dz,sx,sy);
+            Dictionary<string, Bind> checkRes = libraryFromLocalDict(checkAgainst, sticks, loadDefaults, inv, slid, curv, dz, sx, sy);
             Dictionary<string, Bind> result = libraryFromLocalDict(LocalBinds, sticks, loadDefaults, inv, slid, curv, dz, sx, sy);
-            foreach(KeyValuePair<string, Bind> kvp in checkRes)
+            foreach (KeyValuePair<string, Bind> kvp in checkRes)
             {
                 correctBindNames(result, kvp.Value);
             }
-            
+
             MergeImport(result);
         }
 
         static void correctBindNames(Dictionary<string, Bind> lib, Bind b)
         {
             if (b == null || lib == null) return;
-            foreach(KeyValuePair<string, Bind> kvp in lib)
+            foreach (KeyValuePair<string, Bind> kvp in lib)
             {
                 if (b.additionalImportInfo != null && b.additionalImportInfo.Length > 0)
                 {
-                    if(b.Joystick==kvp.Value.Joystick&&
-                        b.Inverted==kvp.Value.Inverted&&
-                        b.Deadzone==kvp.Value.Deadzone&&
-                        b.JAxis==kvp.Value.JAxis&&
-                        b.JButton==kvp.Value.JButton&&
-                        b.SaturationX==kvp.Value.SaturationX&&
-                        b.SaturationY==kvp.Value.SaturationY&&
+                    if (b.Joystick == kvp.Value.Joystick &&
+                        b.Inverted == kvp.Value.Inverted &&
+                        b.Deadzone == kvp.Value.Deadzone &&
+                        b.JAxis == kvp.Value.JAxis &&
+                        b.JButton == kvp.Value.JButton &&
+                        b.SaturationX == kvp.Value.SaturationX &&
+                        b.SaturationY == kvp.Value.SaturationY &&
                         b.Slider == kvp.Value.Slider)
                     {
                         bool integrity = true;
@@ -465,7 +478,8 @@ namespace JoyPro
                                     break;
                                 }
                             }
-                        }else if ((b.AllReformers != null && kvp.Value.AllReformers == null) ||(b.AllReformers == null && kvp.Value.AllReformers != null))
+                        }
+                        else if ((b.AllReformers != null && kvp.Value.AllReformers == null) || (b.AllReformers == null && kvp.Value.AllReformers != null))
                         {
                             integrity = false;
                         }
@@ -495,7 +509,7 @@ namespace JoyPro
 
         static void MergeImport(Dictionary<string, Bind> res)
         {
-            foreach(KeyValuePair<string, Bind> kvp in res)
+            foreach (KeyValuePair<string, Bind> kvp in res)
             {
                 string name = kvp.Value.Rl.NAME;
                 while (AllRelations.ContainsKey(name))
@@ -564,7 +578,7 @@ namespace JoyPro
         {
             string[] allPlanes = Planes;
             List<string> connectedSticks = JoystickReader.GetConnectedJoysticks();
-            for(int i=0; i < allPlanes.Length; ++i)
+            for (int i = 0; i < allPlanes.Length; ++i)
             {
                 if (!ToExport.ContainsKey(allPlanes[i]))
                 {
@@ -578,7 +592,7 @@ namespace JoyPro
                 }
                 else
                     continue;
-                for(int j=0; j<connectedSticks.Count; j++)
+                for (int j = 0; j < connectedSticks.Count; j++)
                 {
                     if (!ToExport[allPlanes[i]].joystickConfig.ContainsKey(connectedSticks[j]))
                     {
@@ -589,7 +603,7 @@ namespace JoyPro
                 }
             }
         }
-        public static void PushAllBindsToExport(bool oride, bool fillBeforeEmpty=true, bool overwriteAdd=false)
+        public static void PushAllBindsToExport(bool oride, bool fillBeforeEmpty = true, bool overwriteAdd = false)
         {
             foreach (KeyValuePair<string, Bind> kvp in AllBinds)
             {
@@ -630,7 +644,7 @@ namespace JoyPro
                         result[kvpPS.Key].joystickConfig[b.Joystick].keyDiffs[ri.ID].Title = ri.GetInputDescription(kvpPS.Key);
                         DCSButtonBind dab = b.toDCSButtonBind();
                         if (dab == null) continue;
-                        for(int i=0; i<dab.modifiers.Count; ++i)
+                        for (int i = 0; i < dab.modifiers.Count; ++i)
                         {
                             if (!result[kvpPS.Key].modifiers.ContainsKey(dab.modifiers[i].name))
                                 result[kvpPS.Key].modifiers.Add(dab.modifiers[i].name, dab.modifiers[i]);
@@ -641,21 +655,21 @@ namespace JoyPro
             }
             return result;
         }
-        public static void OverwriteExportWith(Dictionary<string, DCSExportPlane> attr, bool overwrite = true, bool fillBeforeEmpty = true, bool overwriteAdd=false)
+        public static void OverwriteExportWith(Dictionary<string, DCSExportPlane> attr, bool overwrite = true, bool fillBeforeEmpty = true, bool overwriteAdd = false)
         {
             foreach (KeyValuePair<string, DCSExportPlane> kvp in attr)
             {
-                if ((!ToExport.ContainsKey(kvp.Key)&&!fillBeforeEmpty)||(!ToExport.ContainsKey(kvp.Key)&&fillBeforeEmpty&&!EmptyOutputs.ContainsKey(kvp.Key)))
+                if ((!ToExport.ContainsKey(kvp.Key) && !fillBeforeEmpty) || (!ToExport.ContainsKey(kvp.Key) && fillBeforeEmpty && !EmptyOutputs.ContainsKey(kvp.Key)))
                 {
                     ToExport.Add(kvp.Key, kvp.Value.Copy());
                 }
                 else
                 {
-                    if (!ToExport.ContainsKey(kvp.Key)&&fillBeforeEmpty)
+                    if (!ToExport.ContainsKey(kvp.Key) && fillBeforeEmpty)
                     {
                         ToExport.Add(kvp.Key, new DCSExportPlane());
                         ToExport[kvp.Key].plane = kvp.Key;
-                        foreach(KeyValuePair<string, DCSLuaInput> kvpDef in kvp.Value.joystickConfig)
+                        foreach (KeyValuePair<string, DCSLuaInput> kvpDef in kvp.Value.joystickConfig)
                         {
                             if (!ToExport[kvp.Key].joystickConfig.ContainsKey(kvpDef.Key) && EmptyOutputs.ContainsKey(kvp.Key))
                             {
@@ -667,19 +681,20 @@ namespace JoyPro
                             }
                         }
                     }
-                    foreach(KeyValuePair<string, Modifier> kMod in kvp.Value.modifiers)
+                    foreach (KeyValuePair<string, Modifier> kMod in kvp.Value.modifiers)
                     {
                         if (!ToExport[kvp.Key].modifiers.ContainsKey(kMod.Key))
                         {
                             ToExport[kvp.Key].modifiers.Add(kMod.Key, kMod.Value);
-                        }else if (overwrite)
+                        }
+                        else if (overwrite)
                         {
                             ToExport[kvp.Key].modifiers[kMod.Key] = kMod.Value;
                         }
                     }
                     foreach (KeyValuePair<string, DCSLuaInput> kvpIn in kvp.Value.joystickConfig)
                     {
-                        if (!ToExport[kvp.Key].joystickConfig.ContainsKey(kvpIn.Key) && fillBeforeEmpty&&EmptyOutputs.ContainsKey(kvp.Key))
+                        if (!ToExport[kvp.Key].joystickConfig.ContainsKey(kvpIn.Key) && fillBeforeEmpty && EmptyOutputs.ContainsKey(kvp.Key))
                         {
                             ToExport[kvp.Key].joystickConfig.Add(kvpIn.Key, EmptyOutputs[kvp.Key].Copy());
                             ToExport[kvp.Key].joystickConfig[kvpIn.Key].JoystickName = kvpIn.Key;
@@ -697,10 +712,10 @@ namespace JoyPro
                             foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvpDiffsAxisElement in kvpIn.Value.axisDiffs)
                             {
                                 if (!ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs.ContainsKey(kvpDiffsAxisElement.Key))
-                                {                        
+                                {
                                     ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs.Add(kvpDiffsAxisElement.Key, kvpDiffsAxisElement.Value.Copy());
                                 }
-                                else if (overwrite||defaultToOverwrite.Contains(current))
+                                else if (overwrite || defaultToOverwrite.Contains(current))
                                 {
                                     DCSLuaDiffsAxisElement old = ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key].Copy();
                                     ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key] = kvpDiffsAxisElement.Value.Copy();
@@ -713,7 +728,7 @@ namespace JoyPro
                                                 ToExport[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key].added.Add(old.added[i].Copy());
                                             }
                                         }
-                                    }                                  
+                                    }
                                     for (int i = 0; i < old.removed.Count; ++i)
                                     {
                                         if (!kvpDiffsAxisElement.Value.doesAddedContainKey(old.removed[i].key) && !kvpDiffsAxisElement.Value.doesRemovedContainKey(old.removed[i].key))
@@ -750,7 +765,7 @@ namespace JoyPro
                                     }
                                 }
                             }
-                            
+
                             foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvpDiffsButtonsElement in kvpIn.Value.keyDiffs)
                             {
                                 if (!ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs.ContainsKey(kvpDiffsButtonsElement.Key))
@@ -780,12 +795,12 @@ namespace JoyPro
                                     }
                                     if (fillBeforeEmpty)
                                     {
-                                        if (EmptyOutputs.ContainsKey(kvp.Key)&&EmptyOutputs[kvp.Key].keyDiffs.ContainsKey(kvpDiffsButtonsElement.Key))
+                                        if (EmptyOutputs.ContainsKey(kvp.Key) && EmptyOutputs[kvp.Key].keyDiffs.ContainsKey(kvpDiffsButtonsElement.Key))
                                         {
                                             bool found = false;
-                                            for(int r=0; r<EmptyOutputs[kvp.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed.Count; ++r)
+                                            for (int r = 0; r < EmptyOutputs[kvp.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed.Count; ++r)
                                             {
-                                                for(int w=0; w<kvpDiffsButtonsElement.Value.added.Count; ++w)
+                                                for (int w = 0; w < kvpDiffsButtonsElement.Value.added.Count; ++w)
                                                 {
                                                     if (kvpDiffsButtonsElement.Value.added[w].key == EmptyOutputs[kvp.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed[r].key)
                                                     {
@@ -798,7 +813,7 @@ namespace JoyPro
                                             }
                                             if (!found)
                                             {
-                                                for(int r=0; r < EmptyOutputs[kvp.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed.Count; ++r)
+                                                for (int r = 0; r < EmptyOutputs[kvp.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed.Count; ++r)
                                                 {
                                                     ToExport[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed.Add(EmptyOutputs[kvp.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed[r]);
                                                 }
@@ -820,20 +835,20 @@ namespace JoyPro
             {
                 foreach (KeyValuePair<string, DCSLuaInput> kvpJoyConf in kvpExpPlane.Value.joystickConfig)
                 {
-                    foreach(KeyValuePair<string, DCSLuaDiffsAxisElement> kvpAxEl in kvpJoyConf.Value.axisDiffs)
+                    foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvpAxEl in kvpJoyConf.Value.axisDiffs)
                     {
                         if (kvpAxEl.Value.added.Count > 1)
                         {
-                            for(int i=kvpAxEl.Value.added.Count-1; i>=0; i--)
+                            for (int i = kvpAxEl.Value.added.Count - 1; i >= 0; i--)
                             {
                                 bool foundToRemove = false;
-                                for(int j=0; j < kvpAxEl.Value.removed.Count; j++)
+                                for (int j = 0; j < kvpAxEl.Value.removed.Count; j++)
                                 {
                                     if (kvpAxEl.Value.removed[j].key == kvpAxEl.Value.added[i].key)
                                     {
                                         foundToRemove = true;
                                         break;
-                                    }       
+                                    }
                                 }
                                 if (foundToRemove)
                                     kvpAxEl.Value.added.RemoveAt(i);
@@ -1052,7 +1067,7 @@ namespace JoyPro
                 {
                     if (!Directory.Exists(allMods[i].FullName + further)) continue;
                     DirectoryInfo[] innerPlaneCollection = (new DirectoryInfo(allMods[i].FullName + further)).GetDirectories();
-                    for(int j=0; j<innerPlaneCollection.Length; ++j)
+                    for (int j = 0; j < innerPlaneCollection.Length; ++j)
                     {
                         string planeName = innerPlaneCollection[j].Name;
                         if (!EmptyOutputs.ContainsKey(planeName))
@@ -1062,7 +1077,7 @@ namespace JoyPro
                             EmptyOutputs[planeName].JoystickName = "EMPTY";
                         }
                         FileInfo[] files = innerPlaneCollection[j].GetFiles();
-                        for(int k=0; k<files.Length; k++)
+                        for (int k = 0; k < files.Length; k++)
                         {
                             if (files[k].Name.EndsWith(".diff.lua"))
                             {
@@ -1074,12 +1089,12 @@ namespace JoyPro
                         }
                     }
                 }
-                if (Directory.Exists(selectedInstancePath+ modPaths))
+                if (Directory.Exists(selectedInstancePath + modPaths))
                 {
                     DirectoryInfo dirInstance = new DirectoryInfo(selectedInstancePath + modPaths);
                     DirectoryInfo[] allPlanes = dirInstance.GetDirectories();
                     string stickJoy = "\\Joystick";
-                    for(int i=0; i<allPlanes.Length; ++i)
+                    for (int i = 0; i < allPlanes.Length; ++i)
                     {
                         string planeName = allPlanes[i].Name;
                         if (!EmptyOutputs.ContainsKey(planeName))
@@ -1088,11 +1103,11 @@ namespace JoyPro
                             EmptyOutputs[planeName].plane = planeName;
                             EmptyOutputs[planeName].JoystickName = "EMPTY";
                         }
-                        if (Directory.Exists(allPlanes[i].FullName + further+stickJoy))
+                        if (Directory.Exists(allPlanes[i].FullName + further + stickJoy))
                         {
                             DirectoryInfo dirBins = new DirectoryInfo(allPlanes[i].FullName + further + stickJoy);
                             FileInfo[] files = dirBins.GetFiles();
-                            for(int j=0; j<files.Length; ++j)
+                            for (int j = 0; j < files.Length; ++j)
                             {
                                 if (files[j].Name.EndsWith(".diff.lua"))
                                 {
@@ -1106,7 +1121,7 @@ namespace JoyPro
                     }
                 }
             }
-            
+
         }
         public static void LoadCleanLuas()
         {
@@ -1131,7 +1146,7 @@ namespace JoyPro
             sr.Close();
             Console.WriteLine("Clean Data loaded");
         }
-        public static void LoadLocalBinds(string localPath, bool fillWithDefaults=false, string ending= ".diff.lua", Dictionary<string, DCSExportPlane> resultsDict=null)
+        public static void LoadLocalBinds(string localPath, bool fillWithDefaults = false, string ending = ".diff.lua", Dictionary<string, DCSExportPlane> resultsDict = null)
         {
             Dictionary<string, DCSExportPlane> toOutput;
             if (resultsDict == null)
@@ -1155,7 +1170,7 @@ namespace JoyPro
                     current.plane = currentPlane;
                     toOutput.Add(currentPlane, current);
                     //Here load local modifiers lua
-                    if(File.Exists(allSubs[i].FullName+ "\\modifiers.lua"))
+                    if (File.Exists(allSubs[i].FullName + "\\modifiers.lua"))
                     {
                         StreamReader srmod = new StreamReader(allSubs[i].FullName + "\\modifiers.lua");
                         string modContentRaw = srmod.ReadToEnd();
@@ -1187,7 +1202,7 @@ namespace JoyPro
                 {
                     foreach (KeyValuePair<string, DCSExportPlane> kvp in toOutput)
                     {
-                        foreach(KeyValuePair<string, DCSLuaInput> kiwi in kvp.Value.joystickConfig)
+                        foreach (KeyValuePair<string, DCSLuaInput> kiwi in kvp.Value.joystickConfig)
                         {
                             kiwi.Value.FillUpWithDefaults();
                         }
@@ -1223,7 +1238,7 @@ namespace JoyPro
             }
             catch
             {
-                
+
             }
         }
         public static void LoadRelations(string filePath)
@@ -1255,9 +1270,9 @@ namespace JoyPro
         public static void ResyncBindsToMods()
         {
             AllModifiers.Clear();
-            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+            foreach (KeyValuePair<string, Bind> kvp in AllBinds)
             {
-                for(int i=0; i<kvp.Value.AllReformers.Count; ++i)
+                for (int i = 0; i < kvp.Value.AllReformers.Count; ++i)
                 {
                     Modifier m = ReformerToMod(kvp.Value.AllReformers[i]);
                     if (!AllModifiers.ContainsKey(m.name))
@@ -1283,13 +1298,13 @@ namespace JoyPro
             if (GetNewestVersionNumber() > version)
             {
                 MessageBoxResult mr = MessageBox.Show("A newer version is available, if you press yes, it will download in the background (Dont close the program please), it will close itself once its done.", "Newer Version Available", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if(mr== MessageBoxResult.Yes)
+                if (mr == MessageBoxResult.Yes)
                 {
                     DownloadNewerVersion();
                 }
             }
             DCSInstances = GetDCSUserFolders();
-            for(int i=0; i<DCSInstances.Length; ++i)
+            for (int i = 0; i < DCSInstances.Length; ++i)
             {
                 BackupConfigsOfInstance(DCSInstances[i]);
             }
@@ -1385,7 +1400,7 @@ namespace JoyPro
                 MessageBox.Show("Couldn't load profile. Either opened by some program or other error");
             }
 
-            
+
             ResyncRelations();
         }
         public static void AddBind(string name, Bind b)
@@ -1434,7 +1449,7 @@ namespace JoyPro
         static void AddLoadedJoysticks()
         {
             List<string> sticks = new List<string>();
-            if(DCSJoysticks!=null)
+            if (DCSJoysticks != null)
                 for (int i = 0; i < DCSJoysticks.Length; ++i)
                 {
                     sticks.Add(DCSJoysticks[i]);
@@ -1462,11 +1477,11 @@ namespace JoyPro
             foreach (KeyValuePair<string, Bind> kvp in AllBinds)
             {
                 if (kvp.Value.Joystick != null && kvp.Value.Joystick.Length > 0)
-                    if (!upperConn.Contains(kvp.Value.Joystick.ToUpper())&& !misMatches.Contains(kvp.Value.Joystick))
+                    if (!upperConn.Contains(kvp.Value.Joystick.ToUpper()) && !misMatches.Contains(kvp.Value.Joystick))
                         misMatches.Add(kvp.Value.Joystick);
             }
-            foreach (Bind b in toRemove) if(AllBinds.ContainsKey(b.Rl.NAME)) AllBinds.Remove(b.Rl.NAME);
-            foreach(string mis in misMatches)
+            foreach (Bind b in toRemove) if (AllBinds.ContainsKey(b.Rl.NAME)) AllBinds.Remove(b.Rl.NAME);
+            foreach (string mis in misMatches)
             {
                 ExchangeStick es = new ExchangeStick(mis);
                 es.Show();
@@ -1474,9 +1489,9 @@ namespace JoyPro
         }
         public static void ExchangeSticksInBind(string old, string newstr)
         {
-            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+            foreach (KeyValuePair<string, Bind> kvp in AllBinds)
             {
-                if (kvp.Value.Joystick != null && kvp.Value.Joystick.Length > 0 && kvp.Value.Joystick == old&&newstr.Length>0)
+                if (kvp.Value.Joystick != null && kvp.Value.Joystick.Length > 0 && kvp.Value.Joystick == old && newstr.Length > 0)
                 {
                     kvp.Value.Joystick = newstr;
                 }
@@ -1542,15 +1557,15 @@ namespace JoyPro
                 }
             }
             List<Relation> RelWOBinds = new List<Relation>();
-            string sortType="NAME";
-            string sortOrder="NORM";
+            string sortType = "NAME";
+            string sortOrder = "NORM";
             if (mainW.selectedSort != null && mainW.selectedSort.Contains('_'))
             {
                 sortType = mainW.selectedSort.Split('_')[0];
                 sortOrder = mainW.selectedSort.Split('_')[1];
             }
-            
-            for(int i=0; i < li.Count; ++i)
+
+            for (int i = 0; i < li.Count; ++i)
             {
                 if (!RelWOBinds.Contains(li[i]) && !relWithBinds.Contains(li[i]))
                     RelWOBinds.Add(li[i]);
@@ -1582,10 +1597,10 @@ namespace JoyPro
                     li = relWithBinds;
                     break;
             }
-            if (sortOrder=="DESC")
+            if (sortOrder == "DESC")
             {
                 List<Relation> fi = new List<Relation>();
-                for(int i=li.Count-1; i>=0; i--)
+                for (int i = li.Count - 1; i >= 0; i--)
                 {
                     fi.Add(li[i]);
                 }
@@ -1598,7 +1613,7 @@ namespace JoyPro
         public static List<Modifier> GetAllModifiers()
         {
             List<Modifier> res = new List<Modifier>();
-            foreach(KeyValuePair<string, Modifier> kvp in AllModifiers)
+            foreach (KeyValuePair<string, Modifier> kvp in AllModifiers)
             {
                 res.Add(kvp.Value);
             }
@@ -1675,69 +1690,71 @@ namespace JoyPro
             InitDCSJoysticks();
             SelectedGame = Game.DCS;
             List<string> installs = new List<string>();
+            string pth = getRegistryValue("SOFTWARE\\Eagle Dynamics\\DCS World", "Path", "CurrentUser");
+            if (pth != null) installs.Add(pth);
+            pth = getRegistryValue("SOFTWARE\\Eagle Dynamics\\DCS World OpenBeta", "Path", "CurrentUser");
+            if (pth != null) installs.Add(pth);
+            installPaths = installs.ToArray();
+        }
+
+        public static string getRegistryValue(string Path, string Value, string Locality)
+        {
             try
             {
-                RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Eagle Dynamics\\DCS World");
+                RegistryKey key = null;
+                switch (Locality)
+                {
+                    case "CurrentUser":
+                        key = Registry.CurrentUser.OpenSubKey(Path);
+                        break;
+                    case "LocalMachine":
+                        key = Registry.LocalMachine.OpenSubKey(Path);
+                        break;
+                }
                 if (key != null)
                 {
-                    string currentKey = key.GetValue("Path", true).ToString();
-                    installs.Add(currentKey);
+                    string currentKey = key.GetValue(Value, true).ToString();
+                    return currentKey;
                 }
             }
             catch
             {
 
             }
-            try
-            {
-                RegistryKey keyOpenBeta = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Eagle Dynamics\\DCS World OpenBeta");
-                if (keyOpenBeta != null)
-                {
-                    string currentKey = keyOpenBeta.GetValue("Path", true).ToString();
-                    installs.Add(currentKey);
-                }
-            }
-            catch
-            {
-
-            }
-            
-            
-            installPaths = installs.ToArray();
-            
+            return null;
         }
 
         public static void BackupConfigsOfInstance(string instance)
         {
-            if (!Directory.Exists(instance+runningBackupFolder))
+            if (!Directory.Exists(instance + runningBackupFolder))
             {
                 Directory.CreateDirectory(instance + runningBackupFolder);
             }
-            if (!Directory.Exists(instance +initialBackupFolder)&&Directory.Exists(instance+subInputPath))
+            if (!Directory.Exists(instance + initialBackupFolder) && Directory.Exists(instance + subInputPath))
             {
                 Directory.CreateDirectory(instance + initialBackupFolder);
                 copy_folder_into_folder(instance + subInputPath, instance + initialBackupFolder);
             }
-            if(Directory.Exists(instance + subInputPath))
+            if (Directory.Exists(instance + subInputPath))
             {
                 string now = DateTime.Now.ToString("yyyy-MM-dd");
                 if (!Directory.Exists(instance + runningBackupFolder))
                     Directory.CreateDirectory(instance + runningBackupFolder);
                 DirectoryInfo pFolder = new DirectoryInfo(instance + runningBackupFolder);
                 DirectoryInfo[] allSubs = pFolder.GetDirectories();
-                if(msave!=null)
+                if (msave != null)
                     if (allSubs.Length > msave.backupDays)
                     {
                         List<DirectoryInfo> subList = allSubs.ToList();
                         subList = subList.OrderBy(o => o.Name).ToList();
                         delete_folder(subList[0].FullName);
                     }
-                if (!Directory.Exists(instance + runningBackupFolder+"\\"+now))
+                if (!Directory.Exists(instance + runningBackupFolder + "\\" + now))
                 {
                     Directory.CreateDirectory(instance + runningBackupFolder + "\\" + now);
                     copy_folder_into_folder(instance + subInputPath, instance + runningBackupFolder + "\\" + now);
                 }
-                
+
             }
         }
 
@@ -1746,7 +1763,7 @@ namespace JoyPro
             string dir;
             if (fallBack == "initial")
             {
-                if (Directory.Exists(instance+ initialBackupFolder+inputFolderName))
+                if (Directory.Exists(instance + initialBackupFolder + inputFolderName))
                 {
                     dir = instance + initialBackupFolder + inputFolderName;
                 }
@@ -1758,7 +1775,7 @@ namespace JoyPro
             }
             else
             {
-                if (Directory.Exists(instance + runningBackupFolder+"\\"+fallBack+inputFolderName))
+                if (Directory.Exists(instance + runningBackupFolder + "\\" + fallBack + inputFolderName))
                 {
                     dir = instance + runningBackupFolder + "\\" + fallBack + inputFolderName;
                 }
@@ -1785,7 +1802,7 @@ namespace JoyPro
             {
                 fallback.Add("Initial");
             }
-            if (Directory.Exists(instance+runningBackupFolder))
+            if (Directory.Exists(instance + runningBackupFolder))
             {
                 DirectoryInfo pFolder = new DirectoryInfo(instance + runningBackupFolder);
                 DirectoryInfo[] subs = pFolder.GetDirectories();
@@ -1837,7 +1854,7 @@ namespace JoyPro
         {
             if (installPaths.Length > 0)
             {
-                if (installPaths.Length == 1&&Directory.Exists(installPaths[0]))
+                if (installPaths.Length == 1 && Directory.Exists(installPaths[0]))
                 {
                     return installPaths[0];
                 }
@@ -1845,7 +1862,7 @@ namespace JoyPro
                 {
                     for (int i = 0; i < installPaths.Length; ++i)
                     {
-                        if (selectedInstancePath.ToLower().Contains("openbeta")&& installPaths[i].ToLower().Contains("beta") && Directory.Exists(installPaths[i]))
+                        if (selectedInstancePath.ToLower().Contains("openbeta") && installPaths[i].ToLower().Contains("beta") && Directory.Exists(installPaths[i]))
                         {
                             return installPaths[i];
                         }
@@ -1860,8 +1877,8 @@ namespace JoyPro
             {
                 string basePath = "Program Files\\Eagle Dynamics\\DCS World";
                 string openBetaExtention = " OpenBeta";
-                 DriveInfo[] allDrives = DriveInfo.GetDrives();
-                for(int i=0; i<allDrives.Length; ++i)
+                DriveInfo[] allDrives = DriveInfo.GetDrives();
+                for (int i = 0; i < allDrives.Length; ++i)
                 {
                     string path = allDrives[i].Name + basePath;
                     if (selectedInstancePath.ToLower().Contains("openbeta"))
@@ -1878,20 +1895,20 @@ namespace JoyPro
         }
         public static void PopulateDCSDictionaryWithLocal(string instance)
         {
-            if(Directory.Exists(instance+ "\\InputLayoutsTxt"))
+            if (Directory.Exists(instance + "\\InputLayoutsTxt"))
             {
                 DirectoryInfo dirInfo = new DirectoryInfo(instance + "\\InputLayoutsTxt");
                 DirectoryInfo[] allHtmlDirs = dirInfo.GetDirectories();
                 List<string> tempPlanes = Planes.ToList();
-                for(int i=0; i< allHtmlDirs.Length; ++i)
+                for (int i = 0; i < allHtmlDirs.Length; ++i)
                 {
                     string currentPlane = allHtmlDirs[i].Name;
                     FileInfo[] filesInDir = allHtmlDirs[i].GetFiles();
-                    for(int j=0; j<filesInDir.Length; j++)
+                    for (int j = 0; j < filesInDir.Length; j++)
                     {
-                        if (filesInDir[j].Name.EndsWith(".html")&&
-                            !filesInDir[j].Name.Contains("Keyboard")&&
-                            !filesInDir[j].Name.Contains("TrackIR")&&
+                        if (filesInDir[j].Name.EndsWith(".html") &&
+                            !filesInDir[j].Name.Contains("Keyboard") &&
+                            !filesInDir[j].Name.Contains("TrackIR") &&
                             !filesInDir[j].Name.Contains("Mouse"))
                         {
                             PopulateDictionaryWithFile(filesInDir[j].FullName, currentPlane);
@@ -1902,13 +1919,13 @@ namespace JoyPro
                 }
             }
         }
-        
+
         static void PopulateDCSDictionaryWithProgram()
         {
             DirectoryInfo fileStorage = new DirectoryInfo(PROGPATH + "\\DB\\DCS");
             FileInfo[] allFilesShipped = fileStorage.GetFiles();
             List<string> loadedPlanes = new List<string>();
-            for(int i=0; i<allFilesShipped.Length; ++i)
+            for (int i = 0; i < allFilesShipped.Length; ++i)
             {
                 if (allFilesShipped[i].Name.EndsWith(".html"))
                 {
@@ -1942,7 +1959,7 @@ namespace JoyPro
                 string currentLine = sr.ReadLine();
                 if (iterator > 0)
                 {
-                    string cleanedLine = currentLine.Replace("\t", "").Replace("<td>", "").Replace("</td>", "").Replace("  ","").Trim();
+                    string cleanedLine = currentLine.Replace("\t", "").Replace("<td>", "").Replace("</td>", "").Replace("  ", "").Trim();
                     switch (iterator)
                     {
                         case 2:
@@ -1972,7 +1989,7 @@ namespace JoyPro
                     iterator++;
                 }
                 if (currentLine.Contains("</tr>"))
-                    iterator=0;
+                    iterator = 0;
                 if (currentLine.Contains("<tr>"))
                     iterator++;
             }
@@ -1996,7 +2013,7 @@ namespace JoyPro
         public static void InitDCSJoysticks()
         {
             List<string> Joysticks = new List<string>();
-            
+
             for (int i = 0; i < DCSInstances.Length; ++i)
             {
                 if (Directory.Exists(DCSInstances[i] + "\\InputLayoutsTxt"))
