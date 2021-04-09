@@ -4619,6 +4619,22 @@ local diff = {
 				},
 			},
 		},
+		["d957pnilu958cdnilvdnilvpnilvunil"] = {
+			["name"] = "Trimmer Button",
+			["removed"] = {
+				[1] = {
+					["key"] = "JOY_BTN19",
+				},
+			},
+		},
+		["d97pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Trimmer - Reset",
+			["removed"] = {
+				[1] = {
+					["key"] = "JOY_BTN13",
+				},
+			},
+		},
 		["dnilp210u214cdnilvdnilvpnilvunil"] = {
 			["name"] = "View Up Right slow",
 			["removed"] = {
