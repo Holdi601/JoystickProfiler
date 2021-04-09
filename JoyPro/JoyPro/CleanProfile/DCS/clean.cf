@@ -4598,6 +4598,17 @@ local diff = {
 				[1] = {
 					["key"] = "JOY_BTN1",
 				},
+				[2] = {
+					["key"] = "JOY_BTN6",
+				},
+			},
+		},
+		["d3025pnilu3025cd36vd0.5vpnilvu0"] = {
+			["name"] = "Radio trigger - ICS",
+			["removed"] = {
+				[1] = {
+					["key"] = "JOY_BTN1",
+				},
 			},
 		},
 		["d84pnilu84cdnilvd1vpnilvu0"] = {
