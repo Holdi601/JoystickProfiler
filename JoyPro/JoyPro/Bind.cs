@@ -190,6 +190,7 @@ namespace JoyPro
                 else
                     relationName = relationName + "y" + b.SaturationY.ToString(new CultureInfo("en-US"));
             }
+            
             r.NAME = relationName;
             r.AddNode(id, plane);
             return b;
@@ -252,7 +253,7 @@ namespace JoyPro
                            
                         }
                     }
-                    relationName = nameToShow + relationName;
+                    relationName = nameToShow + relationName + m.name;
 
                 }
             r.NAME = relationName;

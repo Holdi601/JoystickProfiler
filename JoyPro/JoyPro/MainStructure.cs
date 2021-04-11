@@ -511,7 +511,7 @@ namespace JoyPro
         {
             foreach (KeyValuePair<string, Bind> kvp in res)
             {
-                string name = kvp.Value.Rl.NAME;
+                string name = kvp.Value.additionalImportInfo;
                 while (AllRelations.ContainsKey(name))
                 {
                     name = name + "i";
