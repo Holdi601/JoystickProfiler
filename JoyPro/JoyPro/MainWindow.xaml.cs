@@ -558,7 +558,7 @@ namespace JoyPro
             int indx = buttonSetting;
             buttonSetting = -1;
             setBtns[indx].Background = Brushes.White;
-            if (joyReader.result == null)
+            if (joyReader==null||joyReader.result == null)
             {
                 setBtns[indx].Content = "None";
                 stickLabels[indx].Content = "None";
@@ -819,7 +819,7 @@ namespace JoyPro
                     {
                         if(currentBind.JAxis!=null&& currentBind.JAxis.Length > 0)
                         {
-                            joybtnin.Content = currentBind.JAxis.Replace("JOY_","").ToString();
+                            joybtnin.Content = currentBind.JAxis.Replace("JOY_","Axis-").ToString();
                         } 
                         else
                         {
@@ -964,7 +964,7 @@ namespace JoyPro
                     //Check against mod buttons needed
                     if (currentBind != null)
                     {
-                        string btnraw = currentBind.JButton.Replace("JOY_BTN","");
+                        string btnraw = currentBind.JButton.Replace("JOY_BTN","Button-");
                         joybtnin.Content = btnraw;
                         if (currentBind.AllReformers.Count > 0)
                         {

@@ -36,7 +36,7 @@ namespace JoyPro
         const string initialBackupFolder = "\\Config\\JP_InitBackup";
         const string externalWebUrl = "https://raw.githubusercontent.com/Holdi601/JoystickProfiler/master/JoyPro/JoyPro/ver.txt";
         const string buildPath = "https://github.com/Holdi601/JoystickProfiler/raw/master/Builds/JoyPro_WinX64_v";
-        const int version = 33;
+        const int version = 34;
         public static MainWindow mainW;
         public static string SELECTEDGAME = "";
         public static string PROGPATH;
