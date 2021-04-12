@@ -36,7 +36,7 @@ namespace JoyPro
         const string initialBackupFolder = "\\Config\\JP_InitBackup";
         const string externalWebUrl = "https://raw.githubusercontent.com/Holdi601/JoystickProfiler/master/JoyPro/JoyPro/ver.txt";
         const string buildPath = "https://github.com/Holdi601/JoystickProfiler/raw/master/Builds/JoyPro_WinX64_v";
-        const int version = 32;
+        const int version = 33;
         public static MainWindow mainW;
         public static string SELECTEDGAME = "";
         public static string PROGPATH;
@@ -304,6 +304,8 @@ namespace JoyPro
             }
             if (mainW.CBNukeUnused.IsChecked == true)
                 msave.NukeSticks = true;
+            else if (mainW.CBNukeUnused.IsChecked == false)
+                msave.NukeSticks = false;
             SaveMetaLast();
         }
 
@@ -1592,7 +1594,12 @@ namespace JoyPro
                 case "BTN":
                     relWithBinds = relWithBinds.OrderBy(o => o.NAME).ToList();
                     relWithBinds = relWithBinds.OrderBy(o => AllBinds[o.NAME].Joystick).ToList();
-                    relWithBinds = relWithBinds.OrderBy(o => (AllBinds[o.NAME].JAxis + AllBinds[o.NAME].JButton)).ToList();
+                    relWithBinds = relWithBinds.OrderBy(o => (AllBinds[o.NAME].JAxis + AllBinds[o.NAME].JButton).Replace("JOY_BTN","").Length<3?
+                        (("0"+(AllBinds[o.NAME].JAxis + AllBinds[o.NAME].JButton).Replace("JOY_BTN", "")).Length<3 ? 
+                            ("00" + (AllBinds[o.NAME].JAxis + AllBinds[o.NAME].JButton).Replace("JOY_BTN", "")):
+                            "0" + (AllBinds[o.NAME].JAxis + AllBinds[o.NAME].JButton).Replace("JOY_BTN", "")):
+                        (AllBinds[o.NAME].JAxis + AllBinds[o.NAME].JButton).Replace("JOY_BTN", "")
+                    ).ToList();
                     RelWOBinds = RelWOBinds.OrderBy(o => o.NAME).ToList();
                     for (int i = 0; i < RelWOBinds.Count; ++i)
                     {
@@ -1812,7 +1819,6 @@ namespace JoyPro
                 DirectoryInfo[] subs = pFolder.GetDirectories();
                 for (int i = 0; i < subs.Length; ++i)
                     fallback.Add(subs[i].Name);
-
             }
 
             return fallback;

@@ -44,8 +44,8 @@ namespace JoyPro
 
         public MainWindow()
         {
-            //AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
-            //Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
+            Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
             CURRENTDISPLAYEDRELATION = new List<Relation>();
             ALLBUTTONS = new List<Button>();
@@ -667,7 +667,7 @@ namespace JoyPro
                 lblName.Name = "lblname" + i.ToString();
                 lblName.Foreground = Brushes.White;
                 lblName.Content = CURRENTDISPLAYEDRELATION[i].NAME;
-                lblName.HorizontalAlignment = HorizontalAlignment.Center;
+                lblName.HorizontalAlignment = HorizontalAlignment.Left;
                 lblName.VerticalAlignment = VerticalAlignment.Center;
                 Grid.SetColumn(lblName, 0);
                 Grid.SetRow(lblName, i);
@@ -817,8 +817,10 @@ namespace JoyPro
 
                     if (currentBind != null)
                     {
-                        if(currentBind.JAxis!=null&& currentBind.JAxis.Length>0)
-                            joybtnin.Content = currentBind.JAxis.ToString();
+                        if(currentBind.JAxis!=null&& currentBind.JAxis.Length > 0)
+                        {
+                            joybtnin.Content = currentBind.JAxis.Replace("JOY_","").ToString();
+                        } 
                         else
                         {
                             joybtnin.Content = "ERROR PLEASE REASSIGN";
@@ -962,7 +964,8 @@ namespace JoyPro
                     //Check against mod buttons needed
                     if (currentBind != null)
                     {
-                        joybtnin.Content = currentBind.JButton;
+                        string btnraw = currentBind.JButton.Replace("JOY_BTN","");
+                        joybtnin.Content = btnraw;
                         if (currentBind.AllReformers.Count > 0)
                         {
                             modCbx1.SelectedItem = currentBind.AllReformers[0].Split('§')[0];
@@ -1080,14 +1083,16 @@ namespace JoyPro
                 grid.ColumnDefinitions.Add(c);
                 colHds.Add(c);
                 c.MinWidth = colDefs[i].ActualWidth;
+                c.MaxWidth = colDefs[i].ActualWidth;
             }
 
 
             Button relPick = new Button();
             relPick.Name = "joyHdrLblRlName";
             relPick.Content = "Relation Name";
+            for (int i = 0; i < 200; ++i) relPick.Content = relPick.Content + " ";
             relPick.Foreground = Brushes.White;
-            relPick.HorizontalAlignment = HorizontalAlignment.Center;
+            relPick.HorizontalAlignment = HorizontalAlignment.Stretch;
             relPick.VerticalAlignment = VerticalAlignment.Center;
             relPick.Background = Brushes.DarkSlateGray;
             relPick.Click += new RoutedEventHandler(sortName);
@@ -1108,8 +1113,9 @@ namespace JoyPro
             Button joystickPick = new Button();
             joystickPick.Name = "joyHdrLbldeviceName";
             joystickPick.Content = "Device Name";
+            for (int i = 0; i < 200; ++i) joystickPick.Content = joystickPick.Content + " ";
             joystickPick.Foreground = Brushes.White;
-            joystickPick.HorizontalAlignment = HorizontalAlignment.Center;
+            joystickPick.HorizontalAlignment = HorizontalAlignment.Stretch;
             joystickPick.VerticalAlignment = VerticalAlignment.Center;
             joystickPick.Background = Brushes.DarkSlateGray;
             joystickPick.Click += new RoutedEventHandler(sortStick);
