@@ -66,5 +66,5 @@ Contact me, I will try to fix it asap.
 (Right now im in the testing state how easy it is outside the game like IL2 or FS2020 or SC to change inputs)
 -Refactoring at some point, prolly too much spaghetti for some :-D 
 
-Tbd:-i duplication bug
+
 Discord for more direct question answer or concerns: https://discord.gg/SeCTXJHhJf
