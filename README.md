@@ -36,10 +36,13 @@ Windows 10
 # Tutorials
 
 How to create and edit Binds:
+
 https://youtu.be/XxzfEFHpWxI
 
 Other peoples Tutorials:
+
 https://youtu.be/rKtNZfLImoM -Grim Reapers
+
 https://www.youtube.com/watch?v=y0m1sVOM-JM -Lets play Indie Games Channel
 
 # Templates and Profiles
