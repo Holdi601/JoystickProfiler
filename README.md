@@ -36,28 +36,39 @@ Windows 10
 # Tutorials
 
 How to create and edit Binds:
+
 https://youtu.be/XxzfEFHpWxI
 
 Other peoples Tutorials:
+
 https://youtu.be/rKtNZfLImoM -Grim Reapers
+
 https://www.youtube.com/watch?v=y0m1sVOM-JM -Lets play Indie Games Channel
 
+# Templates and Profiles
+
+You have a template or profile you want to share with others or see here? No Problem join the discord and upload it. I will attach it. 
+
+# Common Issues:
+-You see it in the task bar open but no windows? Then, when it tried to save its window state last time it got corrupted. To fix it, delete the Documents\JoyPro folder to fix.
+
+-You crash on Binding ? You are missing c++ Redists.
+
+-The Program does not start at all? You are probably lacking then .Net
 
 # FAQ:
 I have mods installed, but they do not show up in relations?
+
 and
+
 DCS got updated Keybinds but it is not showing them?
+
 Go into DCS, Go into Controls for the Mod plane, click on make html. Restart joypro.
 
 
+# I have a bug?!
 
-My Tool crashes when assigning a button
-Make sure you have the needed Requirements installed.
-
-
-I have a bug?!
-
-Contact me, I will try to fix it asap. 
+Contact me, I will try to fix it asap. Join the discord or create an Issue. Discord preferred as the forth and back to figure out what is going wrong is faster.
 
 
 # What features might come?
