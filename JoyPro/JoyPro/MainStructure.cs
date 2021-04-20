@@ -239,7 +239,7 @@ namespace JoyPro
                                 outputName = outputName + "-" + idParts[i].ToUpper(); 
                             }
                         }
-                        outputName = outputName + "}";
+                        
                     }
                     string finalPath = adjustedPath + outputName + ending;
                     kvJoy.Value.writeLua(finalPath);
