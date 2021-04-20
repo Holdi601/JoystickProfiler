@@ -547,7 +547,7 @@ namespace JoyPro
             }
             cr.Joystick = joyReader.result.Device;
             cr.JAxis = joyReader.result.AxisButton;
-            setBtns[indx].Content = joyReader.result.AxisButton;
+            setBtns[indx].Content = joyReader.result.AxisButton.Replace("JOY_", "Axis-");
             stickLabels[indx].Content = joyReader.result.Device;
             joyReader = null;
             Console.WriteLine(setBtns[indx].Content);
@@ -572,7 +572,7 @@ namespace JoyPro
             }
             cr.Joystick = joyReader.result.Device;
             cr.JButton = joyReader.result.AxisButton;
-            setBtns[indx].Content = joyReader.result.AxisButton;
+            setBtns[indx].Content = joyReader.result.AxisButton.Replace("JOY_BTN", "Button-");
             Console.WriteLine(setBtns[indx].Content);
             stickLabels[indx].Content = joyReader.result.Device;
             joyReader = null;

@@ -105,6 +105,15 @@ namespace JoyPro
                         {
                             swr.Write("\t\t\t\t[" + (z + 1).ToString() + "] = {\n");
                             swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.removed[z].key + "\",\n");
+                            if (kvp.Value.removed[z].reformers.Count > 0)
+                            {
+                                swr.Write("\t\t\t\t\t[\"reformers\"] = {\n");
+                                for (int a = 0; a < kvp.Value.removed[z].reformers.Count; ++a)
+                                {
+                                    swr.Write("\t\t\t\t\t\t[" + (a + 1).ToString() + "] = \"" + kvp.Value.removed[z].reformers[a] + "\",\n");
+                                }
+                                swr.Write("\t\t\t\t\t},\n");
+                            }
                             swr.Write("\t\t\t\t},\n");
                         }
                         swr.Write("\t\t\t},\n");
@@ -400,7 +409,7 @@ namespace JoyPro
                                 if (!current.doesAddedContainKey(dab.key, dab.reformers))
                                 {
                                     current.added.Add(dab);
-                                    current.removeItemFromRemoved(dab.key);
+                                    current.removeItemFromRemoved(dab.key, dab.reformers);
                                 }
                             }
                         }
@@ -410,15 +419,33 @@ namespace JoyPro
                         Dictionary<object, object> dictRemoved = (Dictionary<object, object>)((Dictionary<object, object>)kvp.Value)["removed"];
                         foreach (KeyValuePair<object, object> kvpRemoved in dictRemoved)
                         {
+                            DCSButtonBind dab=null;
                             if (((Dictionary<object, object>)kvpRemoved.Value).ContainsKey("key"))
                             {
-                                DCSButtonBind dab = new DCSButtonBind();
+                                dab = new DCSButtonBind();
                                 dab.key = (string)((Dictionary<object, object>)kvpRemoved.Value)["key"];
-                                if (!current.doesRemovedContainKey(dab.key))
+                                
+                            }
+                            if (((Dictionary<object, object>)kvpRemoved.Value).ContainsKey("reformers")&&dab!=null)
+                            {
+                                foreach (KeyValuePair<object, object> kvpReformers in (Dictionary<object, object>)((Dictionary<object, object>)kvpRemoved.Value)["reformers"])
                                 {
-                                    current.removed.Add(dab);
-                                    current.removeItemFromAdded(dab.key);
+                                    if (!dab.reformers.Contains((string)kvpReformers.Value))
+                                        dab.reformers.Add((string)kvpReformers.Value);
+                                    if (refMod != null)
+                                    {
+                                        if (refMod.modifiers.ContainsKey((string)kvpReformers.Value))
+                                        {
+                                            Modifier m = refMod.modifiers[(string)kvpReformers.Value];
+                                            dab.modifiers.Add(m);
+                                        }
+                                    }
                                 }
+                            }
+                            if (!current.doesRemovedContainKey(dab.key, dab.reformers))
+                            {
+                                current.removed.Add(dab);
+                                current.removeItemFromAdded(dab.key, dab.reformers);
                             }
                         }
                     }
