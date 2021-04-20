@@ -221,7 +221,27 @@ namespace JoyPro
                 kvp.Value.WriteModifiers(modPath);
                 foreach (KeyValuePair<string, DCSLuaInput> kvJoy in kvp.Value.joystickConfig)
                 {
-                    string finalPath = adjustedPath + kvJoy.Key + ending;
+                    string outputName = kvJoy.Key;
+                    string[] partsName = outputName.Split('{');
+                    if (partsName.Length > 1)
+                    {
+                        outputName = partsName[0] + '{';
+                        string[] idParts = partsName[1].Split('-');
+                        outputName = outputName + idParts[0].ToUpper();
+                        for(int i=1; i< idParts.Length; ++i)
+                        {
+                            if (i == 2)
+                            {
+                                outputName = outputName + "-" + idParts[i].ToLower();
+                            }
+                            else
+                            {
+                                outputName = outputName + "-" + idParts[i].ToUpper(); 
+                            }
+                        }
+                        outputName = outputName + "}";
+                    }
+                    string finalPath = adjustedPath + outputName + ending;
                     kvJoy.Value.writeLua(finalPath);
                 }
             }
