@@ -521,13 +521,17 @@ namespace JoyPro
             int indx = buttonSetting;
             buttonSetting = -1;
             setBtns[indx].Background = Brushes.White;
+            Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (e == null)
             {
                 setBtns[indx].Content = "None";
                 stickLabels[indx].Content = "None";
+                if (cr != null)
+                {
+                    MainStructure.RemoveBind(cr);
+                }
                 return;
             }
-            Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (cr == null)
             {
                 cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
@@ -558,13 +562,17 @@ namespace JoyPro
             int indx = buttonSetting;
             buttonSetting = -1;
             setBtns[indx].Background = Brushes.White;
+            Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (joyReader==null||joyReader.result == null)
             {
                 setBtns[indx].Content = "None";
                 stickLabels[indx].Content = "None";
+                if (cr != null)
+                {
+                    MainStructure.RemoveBind(cr);
+                }
                 return;
             }
-            Bind cr = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (cr == null)
             {
                 cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);

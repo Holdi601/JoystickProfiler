@@ -219,10 +219,12 @@ namespace JoyPro
                     else
                         device = "m" + m.device.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
                     string nameToShow;
+                    nameToShow = device + m.key;
                     if (m.JPN != null && m.JPN.Length > 1)
-                        nameToShow = m.JPN;
-                    else
-                        nameToShow = device + m.key;
+                        b.additionalImportInfo +=  m.JPN+"§";
+                    //else
+                    //    nameToShow = device + m.key;
+                    
                     string moddedDevice = Bind.JoystickGuidToModifierGuid(m.device);
                     string toAdd = nameToShow + "§" + moddedDevice + "§" + m.key;
                     if (!b.AllReformers.Contains(toAdd))
@@ -258,7 +260,7 @@ namespace JoyPro
                 }
             r.NAME = relationName;
             if(dab.JPRelName.Length>2)
-                b.additionalImportInfo = dab.JPRelName;
+                b.additionalImportInfo += dab.JPRelName;
             b.JButton = dab.key;
             b.Joystick = joystick;
             r.AddNode(id, plane);
@@ -293,8 +295,24 @@ namespace JoyPro
         }
         public void replaceDeviceInReformers(string oldDevice, string newDevice)
         {
-            string shortenOld = "m"+oldDevice.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
-            string shortenNew = "m"+newDevice.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
+            string shortenOld, shortenNew;
+            if(oldDevice.Contains("{")&& oldDevice.Contains("}"))
+            {
+                shortenOld = "m" + oldDevice.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
+            }
+            else
+            {
+                shortenOld = oldDevice;
+            }
+            if (newDevice.Contains("{") && newDevice.Contains("}"))
+            {
+                shortenNew = "m" + newDevice.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
+            }
+            else
+            {
+                shortenNew = newDevice;
+            }
+
             oldDevice = JoystickGuidToModifierGuid(oldDevice);
             newDevice = JoystickGuidToModifierGuid(newDevice);
             for (int i=0; i<AllReformers.Count; ++i)

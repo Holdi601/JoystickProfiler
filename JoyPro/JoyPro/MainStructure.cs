@@ -36,7 +36,7 @@ namespace JoyPro
         const string initialBackupFolder = "\\Config\\JP_InitBackup";
         const string externalWebUrl = "https://raw.githubusercontent.com/Holdi601/JoystickProfiler/master/JoyPro/JoyPro/ver.txt";
         const string buildPath = "https://github.com/Holdi601/JoystickProfiler/raw/master/Builds/JoyPro_WinX64_v";
-        const int version = 35;
+        const int version = 36;
         public static MainWindow mainW;
         public static string SELECTEDGAME = "";
         public static string PROGPATH;
@@ -113,6 +113,16 @@ namespace JoyPro
             return -1;
         }
 
+        public static void RemoveBind(Bind b)
+        {
+            foreach(KeyValuePair<string, Relation> kvp in AllRelations)
+            {
+                if (kvp.Value.bind == b)
+                    kvp.Value.bind = null;
+            }
+            if (AllBinds.ContainsKey(b.Rl.NAME))
+                AllBinds.Remove(b.Rl.NAME);
+        }
         public static void ChangeReformerName(string oldName, string newName)
         {
             if (AllModifiers.ContainsKey(oldName))
@@ -522,7 +532,27 @@ namespace JoyPro
                         }
                         if (integrity)
                         {
-                            kvp.Value.Rl.NAME = b.additionalImportInfo;
+                            kvp.Value.Rl.NAME = b.additionalImportInfo.Split('§')[b.additionalImportInfo.Split('§').Length-1];
+                            string[] modNames = b.additionalImportInfo.Split('§');
+                            for(int i=0; i<modNames.Length-1; ++i)
+                            {
+                                if (kvp.Value.AllReformers.Count > i)
+                                {
+                                    string[] refParts = kvp.Value.AllReformers[i].Split('§');
+                                    string replacement = modNames[i] + "§";
+                                    if (refParts.Length > 2)
+                                    {
+                                        Modifier m = GetModifierWithKeyCombo(refParts[1], refParts[2]);
+                                        string toRemove = m.name;
+                                        m.JPN = modNames[i];
+                                        m.name = modNames[i];
+                                        AllModifiers.Remove(toRemove);
+                                        if (!AllModifiers.ContainsKey(m.name))
+                                            AllModifiers.Add(m.name, m); 
+                                        kvp.Value.AllReformers[i] = m.toReformerString();
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -535,7 +565,7 @@ namespace JoyPro
             {
                 string name = "";
                 if (kvp.Value.additionalImportInfo.Length > 1)
-                    name = kvp.Value.additionalImportInfo;
+                    name = kvp.Value.additionalImportInfo.Split('§')[kvp.Value.additionalImportInfo.Split('§').Length - 1];
                 else
                     name = kvp.Value.Rl.NAME;
                 while (AllRelations.ContainsKey(name))
@@ -1478,16 +1508,42 @@ namespace JoyPro
             if (DCSJoysticks != null)
                 for (int i = 0; i < DCSJoysticks.Length; ++i)
                 {
-                    sticks.Add(DCSJoysticks[i]);
+                    sticks.Add(DCSStickNaming(DCSJoysticks[i]));
                 }
             foreach (KeyValuePair<string, Bind> kvp in AllBinds)
             {
-                if (kvp.Value.Joystick != null && kvp.Value.Joystick.Length > 0 && !sticks.Contains<string>(kvp.Value.Joystick))
+                if (kvp.Value.Joystick != null && kvp.Value.Joystick.Length > 0 && !sticks.Contains<string>(DCSStickNaming(kvp.Value.Joystick)))
                 {
-                    sticks.Add(kvp.Value.Joystick);
+                    sticks.Add(DCSStickNaming(kvp.Value.Joystick));
                 }
             }
             DCSJoysticks = sticks.ToArray();
+
+        }
+
+        static string DCSStickNaming(string stName)
+        {
+            string outputName = stName;
+            string[] partsName = outputName.Split('{');
+            if (partsName.Length > 1)
+            {
+                outputName = partsName[0] + '{';
+                string[] idParts = partsName[1].Split('-');
+                outputName = outputName + idParts[0].ToUpper();
+                for (int i = 1; i < idParts.Length; ++i)
+                {
+                    if (i == 2)
+                    {
+                        outputName = outputName + "-" + idParts[i].ToLower();
+                    }
+                    else
+                    {
+                        outputName = outputName + "-" + idParts[i].ToUpper();
+                    }
+                }
+                return outputName;
+            }
+            return stName;
 
         }
         static void CheckConnectedSticksToBinds()
@@ -2059,9 +2115,9 @@ namespace JoyPro
                             if (toCompare.EndsWith(".html"))
                             {
                                 string toAdd = toCompare.Replace(".html", "");
-                                if (!Joysticks.Contains(toAdd) && toAdd != "Keyboard" && toAdd != "Mouse" && toAdd != "TrackIR")
+                                if (!Joysticks.Contains(DCSStickNaming(toAdd)) && toAdd != "Keyboard" && toAdd != "Mouse" && toAdd != "TrackIR")
                                 {
-                                    Joysticks.Add(toAdd);
+                                    Joysticks.Add(DCSStickNaming(toAdd));
                                 }
                             }
                         }
@@ -2083,7 +2139,7 @@ namespace JoyPro
                                 if (toCompare.EndsWith(".diff.lua"))
                                 {
                                     string toAdd = toCompare.Replace(".diff.lua", "");
-                                    if (!Joysticks.Contains(toAdd) && toAdd != "Keyboard" && toAdd != "Mouse" && toAdd != "TrackIR") Joysticks.Add(toAdd);
+                                    if (!Joysticks.Contains(DCSStickNaming(toAdd)) && toAdd != "Keyboard" && toAdd != "Mouse" && toAdd != "TrackIR") Joysticks.Add(DCSStickNaming(toAdd));
                                 }
                             }
                         }
