@@ -86,58 +86,62 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Bind.cs" />
-    <Compile Include="DCSAxisBind.cs" />
-    <Compile Include="DCSAxisFilter.cs" />
-    <Compile Include="DCSButtonBind.cs" />
-    <Compile Include="DCSExportPlane.cs" />
-    <Compile Include="DCSLuaDiffsAxisElement.cs" />
-    <Compile Include="DCSLuaDiffsButtonElement.cs" />
-    <Compile Include="DCSLuaInput.cs" />
-    <Compile Include="ExchangeStick.xaml.cs">
+    <Compile Include="DataStructures\Internal\Bind.cs" />
+    <Compile Include="DataStructures\DCS\DCSAxisBind.cs" />
+    <Compile Include="DataStructures\DCS\DCSAxisFilter.cs" />
+    <Compile Include="DataStructures\DCS\DCSButtonBind.cs" />
+    <Compile Include="DataStructures\DCS\DCSExportPlane.cs" />
+    <Compile Include="DataStructures\DCS\DCSLuaDiffsAxisElement.cs" />
+    <Compile Include="DataStructures\DCS\DCSLuaDiffsButtonElement.cs" />
+    <Compile Include="DataStructures\DCS\DCSLuaInput.cs" />
+    <Compile Include="DataStructures\Other\OtherGame.cs" />
+    <Compile Include="DataStructures\Other\OtherGameInput.cs" />
+    <Compile Include="MISC\HtmlBindElement.cs" />
+    <Compile Include="MISC\HtmlInputElementDCS.cs" />
+    <Compile Include="Windows\ExchangeStick.xaml.cs">
       <DependentUpon>ExchangeStick.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ImportWindow.xaml.cs">
+    <Compile Include="Windows\ImportWindow.xaml.cs">
       <DependentUpon>ImportWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="JoystickReader.cs" />
-    <Compile Include="KnownFolders.cs" />
-    <Compile Include="MetaSave.cs" />
-    <Compile Include="Modifier.cs" />
-    <Compile Include="ModifierManager.xaml.cs">
+    <Compile Include="MISC\JoystickReader.cs" />
+    <Compile Include="MISC\KnownFolders.cs" />
+    <Compile Include="MISC\MetaSave.cs" />
+    <Compile Include="DataStructures\Internal\Modifier.cs" />
+    <Compile Include="Windows\ModifierManager.xaml.cs">
       <DependentUpon>ModifierManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pr0file.cs" />
-    <Compile Include="ReinstateBackup.xaml.cs">
+    <Compile Include="DataStructures\Internal\Pr0file.cs" />
+    <Compile Include="Windows\ReinstateBackup.xaml.cs">
       <DependentUpon>ReinstateBackup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RelationWindow.xaml.cs">
+    <Compile Include="Windows\RelationWindow.xaml.cs">
       <DependentUpon>RelationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SearchQueryResults.cs" />
-    <Compile Include="StickSettings.xaml.cs">
+    <Compile Include="DataStructures\Internal\SearchQueryResults.cs" />
+    <Compile Include="Windows\StickSettings.xaml.cs">
       <DependentUpon>StickSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StickToExchange.xaml.cs">
+    <Compile Include="Windows\StickToExchange.xaml.cs">
       <DependentUpon>StickToExchange.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserCurveDCS.xaml.cs">
+    <Compile Include="Windows\UserCurveDCS.xaml.cs">
       <DependentUpon>UserCurveDCS.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Validation.cs" />
-    <Compile Include="ValidationErrors.xaml.cs">
+    <Compile Include="MISC\Validation.cs" />
+    <Compile Include="Windows\ValidationErrors.xaml.cs">
       <DependentUpon>ValidationErrors.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WindowPos.cs" />
-    <Page Include="ExchangeStick.xaml">
+    <Compile Include="MISC\WindowPos.cs" />
+    <Page Include="Windows\ExchangeStick.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ImportWindow.xaml">
+    <Page Include="Windows\ImportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -145,38 +149,38 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DCSInput.cs" />
-    <Compile Include="DCSPlane.cs" />
+    <Compile Include="DataStructures\DCS\DCSInput.cs" />
+    <Compile Include="DataStructures\DCS\DCSPlane.cs" />
     <Compile Include="MainStructure.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ModifierManager.xaml">
+    <Page Include="Windows\ModifierManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ReinstateBackup.xaml">
+    <Page Include="Windows\ReinstateBackup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RelationWindow.xaml">
+    <Page Include="Windows\RelationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StickSettings.xaml">
+    <Page Include="Windows\StickSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StickToExchange.xaml">
+    <Page Include="Windows\StickToExchange.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserCurveDCS.xaml">
+    <Page Include="Windows\UserCurveDCS.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ValidationErrors.xaml">
+    <Page Include="Windows\ValidationErrors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -185,8 +189,8 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Relation.cs" />
-    <Compile Include="RelationItem.cs" />
+    <Compile Include="DataStructures\Internal\Relation.cs" />
+    <Compile Include="DataStructures\Internal\RelationItem.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -460,6 +464,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="DB\IL2\" />
     <Folder Include="DB\StarCitizen\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -29,7 +29,7 @@
         <TextBox Name="SearchQueryTF" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="4" Background="White" Margin="136,22,39,22" HorizontalAlignment="Center" VerticalAlignment="Center" Width="347" Height="26" ></TextBox>
 
         <Button FontWeight="Bold" Name="FinishRelationBtn" Content="Finish Relation" Height="30" Width="102"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,23,18,17" Grid.Row="5" Grid.Column="5" />
-        <Button FontWeight="Bold" Name="CancelRelationBtn" Content="Cancel" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,23,10,17" Grid.Row="5" Grid.Column="4" />
+        <Button FontWeight="Bold" Name="CancelRelationBtn" Content="Close" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,23,10,17" Grid.Row="5" Grid.Column="4" />
 
         <Button FontWeight="Bold" Name="AddItemBtn" Content="Add Item" Height="32" Width="92"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,18,22" Grid.Row="2" Grid.Column="5" RenderTransformOrigin="0.38,-0.875" />
         <Button FontWeight="Bold" Name="RemoveItemBtn" Content="Remove Item" Height="32" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,22" Grid.Row="2" Grid.Column="4" />

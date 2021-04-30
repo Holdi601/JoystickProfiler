@@ -544,12 +544,76 @@ namespace JoyPro
             return null;
         }
 
+        public void InvertedHTMLAnalyzeAxis(HtmlInputElementDCS element)
+        {
+            DCSLuaDiffsAxisElement diff;
+            if (!axisDiffs.ContainsKey(element.id))
+            {
+                diff = new DCSLuaDiffsAxisElement();
+                diff.Title = element.title;
+                diff.Keyname = element.id;
+            }
+            else
+            {
+                diff = axisDiffs[element.id];
+            }
+            List<string> binds = new List<string>();
+            if (element.bind.Length > 1)
+                binds = element.bind.Split(';').ToList();
+            else
+                binds.Add(element.bind);
+            for(int i=0; i<binds.Count; ++i)
+            {
+                if (!diff.doesRemovedContainKey(binds[i]))
+                {
+                    DCSAxisBind dab = new DCSAxisBind();
+                    dab.key = binds[i];
+                    diff.removed.Add(dab);
+                }
+            }
+        }
+
+        public void InvertedHTMLAnalyzeBtn(HtmlInputElementDCS element)
+        {
+            DCSLuaDiffsButtonElement diff;
+            if (!keyDiffs.ContainsKey(element.id))
+            {
+                diff = new DCSLuaDiffsButtonElement();
+                diff.Title = element.title;
+                diff.Keyname = element.id;
+            }
+            else
+            {
+                diff = keyDiffs[element.id];
+            }
+            List<HtmlBindElement> binds = MainStructure.GetBindElmentsFromCell(element.bind);
+            for(int i=0; i<binds.Count; ++i)
+            {
+                List<string> refs = new List<string>();
+                List<Modifier> ms = new List<Modifier>();
+                for (int j=0; j < binds[i].reformers.Count; ++j)
+                {
+                    string toAdd = binds[i].reformers[j] + "§Keyboard§" + binds[i].reformers[j];
+                    refs.Add(toAdd);
+                    ms.Add(Modifier.ReformerToMod(toAdd));
+                }
+                if (!diff.doesRemovedContainKey(binds[i].button))
+                {
+                    DCSButtonBind dab = new DCSButtonBind();
+                    dab.key = binds[i].button;
+                    dab.reformers = refs;
+                    dab.modifiers = ms;
+                    diff.removed.Add(dab);
+                }
+            }
+        }
+
         DCSLuaInput getDefaultBinds()
         {
             DCSLuaInput result = null;
-            if (MainStructure.EmptyOutputs.ContainsKey(plane))
+            if (MainStructure.EmptyOutputsDCS.ContainsKey(plane))
             {
-                return MainStructure.EmptyOutputs[plane].Copy();
+                return MainStructure.EmptyOutputsDCS[plane].Copy();
             }
             return result;
         }

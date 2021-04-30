@@ -192,7 +192,7 @@ namespace JoyPro
             }
             
             r.NAME = relationName;
-            r.AddNode(id, plane);
+            r.AddNodeDCS(id, plane);
             return b;
         }
 
@@ -238,7 +238,7 @@ namespace JoyPro
                         }
                         else if (alreadyExists == ModExists.BINDNAME_EXISTS||alreadyExists== ModExists.ALL_EXISTS)
                         {
-                            Modifier mf = MainStructure.ReformerToMod(toAdd);
+                            Modifier mf = Modifier.ReformerToMod(toAdd);
                             toAdd = MainStructure.GetReformerStringFromMod(mf.name);
                             if (!b.AllReformers.Contains(toAdd)) b.AllReformers.Add(toAdd);
                         }else if (alreadyExists == ModExists.KEYBIND_EXISTS)
@@ -263,7 +263,7 @@ namespace JoyPro
                 b.additionalImportInfo += dab.JPRelName;
             b.JButton = dab.key;
             b.Joystick = joystick;
-            r.AddNode(id, plane);
+            r.AddNodeDCS(id, plane);
             return b;
         }
 

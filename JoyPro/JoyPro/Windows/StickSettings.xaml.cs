@@ -43,7 +43,7 @@ namespace JoyPro
             itBox.Text = MainStructure.msave.warmupTime.ToString();
             athBox.Text = MainStructure.msave.axisThreshold.ToString();
             BackupDaysBox.Text = MainStructure.msave.backupDays.ToString();
-            string installPath = MainStructure.GetInstallationPath();
+            string installPath = MainStructure.GetDCSInstallationPath();
             if (installPath != null)
             {
                 installPathBox.Text = installPath;
@@ -78,8 +78,8 @@ namespace JoyPro
         {
             if (Directory.Exists(installPathBox.Text))
             {
-                MainStructure.installPaths = new string[1];
-                MainStructure.installPaths[0] = installPathBox.Text;
+                MainStructure.installPathsDCS = new string[1];
+                MainStructure.installPathsDCS[0] = installPathBox.Text;
             }
             else
             {

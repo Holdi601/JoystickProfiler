@@ -20,13 +20,16 @@ namespace JoyPro
     public partial class ImportWindow : Window
     {
         public List<string> selectedSticks;
-        public string[] availableJoysticks; 
+        public string[] availableJoysticks;
+        public List<string> connectedSticks;
         //check for null
         public ImportWindow()
         {
             selectedSticks = new List<string>();
-            MainStructure.InitDCSJoysticks();
-            availableJoysticks = MainStructure.DCSJoysticks;
+            availableJoysticks = MainStructure.LocalJoysticks;
+            connectedSticks = JoystickReader.GetConnectedJoysticks();
+            for (int i = 0; i < connectedSticks.Count; ++i)
+                connectedSticks[i] = connectedSticks[i].ToLower();
             InitializeComponent();
             CancelBtn.Click += new RoutedEventHandler(CancelImport);
             ImportBtn.Click += new RoutedEventHandler(Import);
@@ -40,7 +43,6 @@ namespace JoyPro
             }
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
-
         }
 
         void CancelImport(object sender, EventArgs e)
@@ -114,7 +116,14 @@ namespace JoyPro
                 CheckBox cbx = new CheckBox();
                 cbx.Name = "cbxjy" + i.ToString();
                 cbx.Content = availableJoysticks[i];
-                cbx.Foreground = Brushes.White;
+                if (connectedSticks.Contains(availableJoysticks[i].ToLower()))
+                {
+                    cbx.Foreground = Brushes.GreenYellow;
+                }
+                else
+                {
+                    cbx.Foreground = Brushes.White;
+                }
                 cbx.HorizontalAlignment = HorizontalAlignment.Left;
                 cbx.VerticalAlignment = VerticalAlignment.Center;
                 Thickness margin = cbx.Margin;

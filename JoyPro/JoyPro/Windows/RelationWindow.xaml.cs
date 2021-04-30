@@ -21,12 +21,12 @@ namespace JoyPro
     /// </summary>
     public partial class RelationWindow : Window
     {
-        DataTable InWorkTable=null;
+        DataTable InWorkTable = null;
         public Relation Current = null;
         bool editMode;
-        public RelationWindow()
+
+        void init()
         {
-            InitializeComponent();
             SearchQueryTF.TextChanged += new TextChangedEventHandler(SearchQueryChanged);
             RelationNameTF.TextChanged += new TextChangedEventHandler(NameChanged);
             AddItemBtn.Click += new RoutedEventHandler(AddItemBtnHit);
@@ -52,11 +52,23 @@ namespace JoyPro
             else
             {
                 editMode = true;
+                FinishRelationBtn.Visibility = Visibility.Hidden;
                 RefreshDGSelected();
                 RelationNameTF.Text = Current.NAME;
             }
             svcCont.CanContentScroll = true;
             scrollChanged(null, null);
+        }
+        public RelationWindow(Relation r)
+        {
+            InitializeComponent();
+            Current = r;
+            init();
+        }
+        public RelationWindow()
+        {
+            InitializeComponent();
+            init();
         }
 
         void setLastSizeAndPosition()
@@ -77,7 +89,7 @@ namespace JoyPro
         {
             svHead.ScrollToHorizontalOffset(svcCont.HorizontalOffset);
 
-            for(int i=0; i<DGAdded.Columns.Count; ++i)
+            for (int i = 0; i < DGAdded.Columns.Count; ++i)
             {
                 DGHead.Columns[i].MinWidth = DGAdded.Columns[i].ActualWidth;
             }
@@ -93,7 +105,7 @@ namespace JoyPro
 
         void FinishRelation(object sender, EventArgs e)
         {
-            if (Current.NAME==null || Current.NAME.Length < 1)
+            if (Current.NAME == null || Current.NAME.Length < 1)
             {
                 MessageBox.Show("No Relation name set.");
                 return;
@@ -103,12 +115,12 @@ namespace JoyPro
                 MessageBox.Show("Relation has no nodes.");
                 return;
             }
-            if (MainStructure.DoesRelationAlreadyExist(Current.NAME)&& !MainStructure.RelationIsTheSame(Current.NAME, Current))
+            if (MainStructure.DoesRelationAlreadyExist(Current.NAME) && !MainStructure.RelationIsTheSame(Current.NAME, Current))
             {
                 MessageBox.Show("Relation with same Name already exists.");
-                return;               
+                return;
             }
-            foreach(KeyValuePair<string, int> kvp in Current.GetPlaneSetState())
+            foreach (KeyValuePair<string, int> kvp in Current.GetPlaneSetState())
             {
                 if (kvp.Value > 1)
                 {
@@ -152,7 +164,7 @@ namespace JoyPro
         {
             setLastSizeAndPosition();
         }
-        void DeleteButtonEvent (object sender, EventArgs e)
+        void DeleteButtonEvent(object sender, EventArgs e)
         {
             List<DataRowView> selected = DGAdded.SelectedItems.Cast<DataRowView>().ToList();
             if (selected.Count < 1)
@@ -177,17 +189,17 @@ namespace JoyPro
                 return;
             }
             bool axis = selected[0].ID.Substring(0, 1) == "a";
-            for(int i=1; i<selected.Count; i++)
+            for (int i = 1; i < selected.Count; i++)
             {
-                if(axis!= (selected[i].ID.Substring(0, 1) == "a"))
+                if (axis != (selected[i].ID.Substring(0, 1) == "a"))
                 {
                     MessageBox.Show("Axis and Buttons mixed. One relation cannot have IDs that start with 'a' and 'd' mixed.");
                     return;
                 }
             }
-            for(int i=0; i<selected.Count; ++i)
+            for (int i = 0; i < selected.Count; ++i)
             {
-                Current.AddNode(selected[i].ID);
+                Current.AddNodeDCS(selected[i].ID);
             }
             RefreshDGSelected();
         }
@@ -196,66 +208,82 @@ namespace JoyPro
         {
             System.Data.DataTable dt = new DataTable("Data");
             dt.Columns.Add("ID", typeof(string));
+            dt.Columns.Add("Select None", typeof(bool));
+            dt.Columns.Add("Select Rest", typeof(bool));
             for (int i = 0; i < MainStructure.Planes.Length; ++i)
             {
-                dt.Columns.Add(MainStructure.Planes[i]+"_cb", typeof(bool));
-                dt.Columns.Add(MainStructure.Planes[i]+"_desc", typeof(string));
+                dt.Columns.Add(MainStructure.Planes[i] + "_cb", typeof(bool));
+                dt.Columns.Add(MainStructure.Planes[i] + "_desc", typeof(string));
             }
             return dt;
         }
 
         void RefreshDGSelected()
         {
-            try
-            {
-                if (InWorkTable != null)
-                {
-                    InWorkTable.Clear();
-                }
-                List<RelationItem> ri = Current.AllRelations();
-                System.Data.DataTable dt = GetEmptyDTForSelection();
-                InWorkTable = dt;
 
-                for (int i = 0; i < ri.Count; ++i)
-                {
-                    object[] row = new object[1 + (MainStructure.Planes.Length ) * 2];
-                    row[0] = ri[i].ID;
-                    int k = 1;
-                    for (int j = 0; j < MainStructure.Planes.Length; ++j)
-                    {
-                        if (ri[i].GetStateAircraft(MainStructure.Planes[j]) == PlaneState.ACTIVE)
-                            row[k] = true;
-                        else
-                            row[k] = false;
-                        ++k;
-                        row[k] = ri[i].GetInputDescription(MainStructure.Planes[j]);
-                        ++k;
-                    }
-                    dt.Rows.Add(row);
-                }
-                DGAdded.ItemsSource = dt.DefaultView;
-                DGHead.ItemsSource = dt.DefaultView;
-            }
-            catch(Exception e)
+            if (InWorkTable != null)
             {
-                Console.WriteLine("BLOODY EXCEPTION WHY?!");
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
-                Console.WriteLine(e.Source);
-            }            
+                InWorkTable.Clear();
+            }
+            List<RelationItem> ri = Current.AllRelations();
+            System.Data.DataTable dt = GetEmptyDTForSelection();
+            InWorkTable = dt;
+
+            for (int i = 0; i < ri.Count; ++i)
+            {
+                object[] row = new object[3 + (MainStructure.Planes.Length) * 2];
+                row[0] = ri[i].ID;
+                int k = 3;
+                row[1] = false;
+                row[2] = false;
+                for (int j = 0; j < MainStructure.Planes.Length; ++j)
+                {
+                    if (ri[i].GetStateAircraftDCS(MainStructure.Planes[j]) == PlaneState.ACTIVE)
+                        row[k] = true;
+                    else
+                        row[k] = false;
+                    ++k;
+                    row[k] = ri[i].GetInputDescription(MainStructure.Planes[j]);
+                    ++k;
+                }
+                dt.Rows.Add(row);
+            }
+            dt.Columns[0].ReadOnly = true;
+            for (int i = 4; i < dt.Columns.Count; i += 2)
+                dt.Columns[i].ReadOnly = true;
+            DGAdded.ItemsSource = dt.DefaultView;
+            DGHead.ItemsSource = dt.DefaultView;
+
         }
 
         private void DGAdded_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             string planeRaw = e.Column.Header.ToString();
-            string plane = planeRaw.Substring(0, planeRaw.Length - 3);
             string item = (string)((DataRowView)e.Row.Item)[0];
-            bool succ = Current.GetRelationItem(item).SwitchAircraftActivity(plane);
-            if (!succ)
+            if (planeRaw == "Select None")
             {
-                MessageBox.Show("The item that you wanted to enable, doesn't have an implementation for that Plane");
-                return;
+                ((CheckBox)e.EditingElement).IsChecked = false;
+                Current.DeactivateAllID(item);
+
             }
+            else if (planeRaw == "Select Rest")
+            {
+                ((CheckBox)e.EditingElement).IsChecked = false;
+                Current.ActivateRestForID(item);
+                
+            }
+            else if (planeRaw.Length > 2)
+            {
+                string plane = planeRaw.Substring(0, planeRaw.Length - 3);
+                bool succ = Current.GetRelationItem(item).SwitchAircraftActivityDCS(plane);
+                if (!succ)
+                {
+                    MessageBox.Show("The item that you wanted to enable, doesn't have an implementation for that Plane");
+                    ((CheckBox)e.EditingElement).IsChecked = false;
+                    return;
+                }
+            }
+            RefreshDGSelected();
         }
     }
 }

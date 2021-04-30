@@ -13,7 +13,6 @@ namespace JoyPro
         public string Name;
         public Dictionary<string, DCSInput> Axis;
         public Dictionary<string, DCSInput> Buttons;
-        public Dictionary<string, string> Bind;
 
         public DCSPlane(string name)
         {

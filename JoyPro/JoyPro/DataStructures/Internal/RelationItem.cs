@@ -10,19 +10,33 @@ namespace JoyPro
     public class RelationItem
     {
         public string ID;
-        Dictionary<string, bool> AIRCRAFT;
+        Dictionary<string, bool> AIRCRAFTDCS;
         DCSInput[] AllInputs;
+        public string Game;
+        OtherGameInput[] OtherInputs;
 
-        public RelationItem(string id)
+        public RelationItem(string id, string game)
         {
             ID = id;
-            Init();
+            Game = game;
+            switch (game)
+            {
+                case "DCS":
+                    InitDCS();
+                    break;
+                case "IL2":
+                    break;
+                default:
+                    InitDCS();
+                    break;
+            }
         }
 
-        public RelationItem(string id, string plane)
+        public RelationItem(string id, string plane, string game)
         {
             ID = id;
-            Init(plane);
+            Game = game;
+            InitDCS(plane);
         }
 
         public RelationItem()
@@ -60,12 +74,12 @@ namespace JoyPro
                 if (di == null)
                 {
                     toKeep.Add(dbItems[i]);
-                    AIRCRAFT.Add(dbItems[i].Plane, true);
+                    AIRCRAFTDCS.Add(dbItems[i].Plane, true);
                 }
             }
             for(int i=0; i<toRemove.Count; ++i)
             {
-                AIRCRAFT.Remove(toRemove[i].Plane);
+                AIRCRAFTDCS.Remove(toRemove[i].Plane);
             }
             AllInputs = toKeep.ToArray();
         }
@@ -74,10 +88,11 @@ namespace JoyPro
         {
             RelationItem ri = new RelationItem();
             ri.ID = ID;
-            ri.AIRCRAFT = new Dictionary<string, bool>();
-            foreach(KeyValuePair<string, bool> kvp in AIRCRAFT)
+            ri.Game = Game;
+            ri.AIRCRAFTDCS = new Dictionary<string, bool>();
+            foreach(KeyValuePair<string, bool> kvp in AIRCRAFTDCS)
             {
-                ri.AIRCRAFT.Add(kvp.Key, kvp.Value);
+                ri.AIRCRAFTDCS.Add(kvp.Key, kvp.Value);
             }
             ri.AllInputs = new DCSInput[AllInputs.Length];
             for(int i=0; i<AllInputs.Length; ++i)
@@ -95,48 +110,48 @@ namespace JoyPro
             }
             return null;
         }
-        void Init()
+        void InitDCS()
         {
-            AIRCRAFT = new Dictionary<string, bool>();
+            AIRCRAFTDCS = new Dictionary<string, bool>();
             AllInputs = MainStructure.GetAllInputsWithId(ID);
             for (int i = 0; i < AllInputs.Length; ++i)
-                if (!AIRCRAFT.ContainsKey(AllInputs[i].Plane))
-                    AIRCRAFT.Add(AllInputs[i].Plane, true);
+                if (!AIRCRAFTDCS.ContainsKey(AllInputs[i].Plane))
+                    AIRCRAFTDCS.Add(AllInputs[i].Plane, true);
         }
 
-        void Init(string plane)
+        void InitDCS(string plane)
         {
-            AIRCRAFT = new Dictionary<string, bool>();
+            AIRCRAFTDCS = new Dictionary<string, bool>();
             AllInputs = MainStructure.GetAllInputsWithId(ID);
             for (int i = 0; i < AllInputs.Length; ++i)
-                if (!AIRCRAFT.ContainsKey(AllInputs[i].Plane))
+                if (!AIRCRAFTDCS.ContainsKey(AllInputs[i].Plane))
                     if (AllInputs[i].Plane == plane)
-                        AIRCRAFT.Add(AllInputs[i].Plane, true);
+                        AIRCRAFTDCS.Add(AllInputs[i].Plane, true);
                     else
-                        AIRCRAFT.Add(AllInputs[i].Plane, false);
+                        AIRCRAFTDCS.Add(AllInputs[i].Plane, false);
         }
 
-        public PlaneState GetStateAircraft(string plane)
+        public PlaneState GetStateAircraftDCS(string plane)
         {
-            if (!AIRCRAFT.ContainsKey(plane)) return PlaneState.NOT_EXISTENT;
-            else if (AIRCRAFT[plane]) return PlaneState.ACTIVE;
+            if (!AIRCRAFTDCS.ContainsKey(plane)) return PlaneState.NOT_EXISTENT;
+            else if (AIRCRAFTDCS[plane]) return PlaneState.ACTIVE;
             else return PlaneState.DISABLED;
         }
 
-        public bool SwitchAircraftActivity(string plane)
+        public bool SwitchAircraftActivityDCS(string plane)
         {
-            if (AIRCRAFT.ContainsKey(plane))
+            if (AIRCRAFTDCS.ContainsKey(plane))
             {
-                AIRCRAFT[plane] = !AIRCRAFT[plane];
+                AIRCRAFTDCS[plane] = !AIRCRAFTDCS[plane];
                 return true;
             }
             return false;
         }
 
-        public bool SetAircraftActivity(string plane, bool activity)
+        public bool SetAircraftActivityDCS(string plane, bool activity)
         {
-            if (!AIRCRAFT.ContainsKey(plane)) return false;
-            AIRCRAFT[plane] = activity;
+            if (!AIRCRAFTDCS.ContainsKey(plane)) return false;
+            AIRCRAFTDCS[plane] = activity;
             return true;
         }
 
@@ -151,7 +166,7 @@ namespace JoyPro
         public List<string> GetActiveAircraftList()
         {
             List<string> result = new List<string>();
-            foreach(KeyValuePair<string, bool> kvp in AIRCRAFT)
+            foreach(KeyValuePair<string, bool> kvp in AIRCRAFTDCS)
             {
                 if (kvp.Value)
                     result.Add(kvp.Key);

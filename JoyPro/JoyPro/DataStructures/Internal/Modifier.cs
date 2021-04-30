@@ -72,5 +72,23 @@ namespace JoyPro
         {
             return name + "§" + device + "§" + key;
         }
+
+        public static Modifier ReformerToMod(string reformer)
+        {
+            string[] parts = reformer.Split('§');
+            if (parts.Length == 3)
+            {
+                Modifier m = new Modifier();
+                m.name = parts[0];
+                m.device = parts[1];
+                m.sw = false;
+                m.key = parts[2];
+                return m;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
