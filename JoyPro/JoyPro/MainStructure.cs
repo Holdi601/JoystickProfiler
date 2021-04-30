@@ -36,7 +36,7 @@ namespace JoyPro
         const string initialBackupFolder = "\\Config\\JP_InitBackup";
         const string externalWebUrl = "https://raw.githubusercontent.com/Holdi601/JoystickProfiler/master/JoyPro/JoyPro/ver.txt";
         const string buildPath = "https://github.com/Holdi601/JoystickProfiler/raw/master/Builds/JoyPro_WinX64_v";
-        const int version = 36;
+        const int version = 37;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static Dictionary<string, DCSPlane> DCSLib = new Dictionary<string, DCSPlane>();
