@@ -119,8 +119,8 @@ namespace JoyPro
             keybValues = includeKeyboard;
             quit = false;
             result = null;
-            initJoystick();
-            startPolling();
+            InitJoystick();
+            StartPolling();
         }
 
         JoyAxisState StateToJoyAxisState(JoystickState js)
@@ -155,7 +155,7 @@ namespace JoyPro
                 if (!jas.btns[i]) jas.btns[i] = filler.btns[i];
             }
         }
-        void initJoystick()
+        void InitJoystick()
         {
             directInputList.Clear();
             directInputList.AddRange(directInput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly));
@@ -168,7 +168,7 @@ namespace JoyPro
                 gamepads.Add(new SlimDX.DirectInput.Joystick(directInput, device.InstanceGuid));
             }
         }
-        void startPolling()
+        void StartPolling()
         {
             while (!quit)
             {
@@ -176,9 +176,9 @@ namespace JoyPro
                 KeyboardState ks = kb.GetCurrentState();
                 if (timeLeftToSet > -1&&(detectionEventActiveAxis||detectionEventActiveButton))
                 {
-                    timeLeftToSet = timeLeftToSet - pollWaitTime;
-                    warmupTime = warmupTime - pollWaitTime;
-                    tick();
+                    timeLeftToSet -=  pollWaitTime;
+                    warmupTime -=warmupTime - pollWaitTime;
+                    Tick();
                 }if((timeLeftToSet<0 && (detectionEventActiveAxis || detectionEventActiveButton))||(ks.IsPressed(Key.Escape))||(ks.IsPressed(Key.Delete)) ||(ks.IsPressed(Key.Backspace)))
                 {
                     quit = true;
@@ -294,7 +294,6 @@ namespace JoyPro
         }
         void CheckIfButtonGotPressed(Joystick pad, JoystickState js)
         {
-            JoyAxisState last = state[pad];
             bool[] curBtns = js.GetButtons();
             bool[] lastBtns;
             bool found = false;
@@ -307,7 +306,6 @@ namespace JoyPro
                 {
                     if (curBtns[i] != lastBtns[i])
                     {
-                        string pre = "JOY_BTN";
                         args.Device = ToDeviceString(pad);
                         args.AxisButton = "JOY_BTN" + (i + 1).ToString();
                         args.All.Add(args.AxisButton);
@@ -366,7 +364,7 @@ namespace JoyPro
             Console.WriteLine(rawId);
             return pad.Information.InstanceName + " {" + pad.Information.InstanceGuid.ToString().ToUpper() + "}";
         }
-        void tick()
+        void Tick()
         {
             foreach (var gamepad in gamepads)
             {

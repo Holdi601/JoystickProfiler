@@ -60,9 +60,9 @@ namespace JoyPro
         public static string IL2Instance = "";
         public static Dictionary<string, int> IL2JoystickId = new Dictionary<string, int>();
 
-        static event EventHandler downloadCompletedEvent;
+        static event EventHandler DownloadCompletedEvent;
 
-        public static void correctModifiersInBinds()
+        public static void CorrectModifiersInBinds()
         {
             foreach(KeyValuePair<string, Bind> kvp in AllBinds)
             {
@@ -83,9 +83,9 @@ namespace JoyPro
             }
             ResyncRelations();
         }
-        public static void loadIL2Path()
+        public static void LoadIL2Path()
         {
-            string pth = getRegistryValue("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 307960", "InstallLocation", "LocalMachine");
+            string pth = GetRegistryValue("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 307960", "InstallLocation", "LocalMachine");
             if (pth != null) IL2Instance = pth;
         }
         public static List<string> GetAllModsAsString()
@@ -105,7 +105,7 @@ namespace JoyPro
             return null;
         }
 
-        static void downloadCompleted(object o, EventArgs e)
+        static void DownloadCompleted(object o, EventArgs e)
         {
             Console.WriteLine(PROGPATH);
             ProcessStartInfo startInfo = new ProcessStartInfo(PROGPATH + "\\TOOLS\\Unzipper\\UnzipMeHereWin.exe");
@@ -241,7 +241,7 @@ namespace JoyPro
             SaveProfileTo(pth + "\\last.pr0file");
         }
 
-        static void writeFilesDCS(string endingDCS = ".diff.lua")
+        static void WriteFilesDCS(string endingDCS = ".diff.lua")
         {
             foreach (KeyValuePair<string, DCSExportPlane> kvp in ToExportDCS)
             {
@@ -257,7 +257,7 @@ namespace JoyPro
                     {
                         outputName = partsName[0] + '{';
                         string[] idParts = partsName[1].Split('-');
-                        outputName = outputName + idParts[0].ToUpper();
+                        outputName += idParts[0].ToUpper();
                         for (int i = 1; i < idParts.Length; ++i)
                         {
                             if (i == 2)
@@ -370,7 +370,7 @@ namespace JoyPro
             AllModifiers.Add(m.name, m);
         }
 
-        public static Dictionary<string, Bind> libraryFromLocalDict(Dictionary<string, DCSExportPlane> lib, List<string> sticks, bool loadDefaults, bool inv = false, bool slid = false, bool curv = false, bool dz = false, bool sx = false, bool sy = false)
+        public static Dictionary<string, Bind> LibraryFromLocalDict(Dictionary<string, DCSExportPlane> lib, List<string> sticks, bool loadDefaults, bool inv = false, bool slid = false, bool curv = false, bool dz = false, bool sx = false, bool sy = false)
         {
             Dictionary<string, Bind> result = new Dictionary<string, Bind>();
             Dictionary<string, Dictionary<string, List<string>>> checkedIds = new Dictionary<string, Dictionary<string, List<string>>>();
@@ -507,17 +507,17 @@ namespace JoyPro
             Dictionary<string, DCSExportPlane> checkAgainst = new Dictionary<string, DCSExportPlane>();
             LoadLocalBinds(selectedInstancePath, loadDefaults, ".jp", checkAgainst);
             LoadLocalBinds(selectedInstancePath, loadDefaults);
-            Dictionary<string, Bind> checkRes = libraryFromLocalDict(checkAgainst, sticks, loadDefaults, inv, slid, curv, dz, sx, sy);
-            Dictionary<string, Bind> result = libraryFromLocalDict(LocalBindsDCS, sticks, loadDefaults, inv, slid, curv, dz, sx, sy);
+            Dictionary<string, Bind> checkRes = LibraryFromLocalDict(checkAgainst, sticks, loadDefaults, inv, slid, curv, dz, sx, sy);
+            Dictionary<string, Bind> result = LibraryFromLocalDict(LocalBindsDCS, sticks, loadDefaults, inv, slid, curv, dz, sx, sy);
             foreach (KeyValuePair<string, Bind> kvp in checkRes)
             {
-                correctBindNames(result, kvp.Value);
+                CorrectBindNames(result, kvp.Value);
             }
             MergeImport(result);
-            correctModifiersInBinds();
+            CorrectModifiersInBinds();
         }
 
-        static void correctBindNames(Dictionary<string, Bind> lib, Bind b)
+        static void CorrectBindNames(Dictionary<string, Bind> lib, Bind b)
         {
             if (b == null || lib == null) return;
             foreach (KeyValuePair<string, Bind> kvp in lib)
@@ -605,7 +605,7 @@ namespace JoyPro
                     name = kvp.Value.Rl.NAME;
                 while (AllRelations.ContainsKey(name))
                 {
-                    name = name + "i";
+                    name += "i";
                 }
                 kvp.Value.Rl.NAME = name;
                 AllRelations.Add(name, kvp.Value.Rl);
@@ -623,8 +623,8 @@ namespace JoyPro
                 LoadLocalBinds(selectedInstancePath, true);
                 OverwriteDCSExportWith(LocalBindsDCS, true, false, false);
                 PushAllDCSBindsToExport(false, fillBeforeEmpty, false);
-                writeFilesDCS();
-                writeFilesDCS(".jp");
+                WriteFilesDCS();
+                WriteFilesDCS(".jp");
             }
             mainW.ShowMessageBox("Binds exported successfully ☺");
         }
@@ -638,8 +638,8 @@ namespace JoyPro
                 LoadLocalBinds(selectedInstancePath, true);
                 OverwriteDCSExportWith(LocalBindsDCS, true, false, false);
                 PushAllDCSBindsToExport(true, fillBeforeEmpty, false);
-                writeFilesDCS();
-                writeFilesDCS(".jp");
+                WriteFilesDCS();
+                WriteFilesDCS(".jp");
             }
             mainW.ShowMessageBox("Binds exported successfully ☻");
         }
@@ -666,8 +666,8 @@ namespace JoyPro
                 LoadLocalBinds(selectedInstancePath, true);
                 OverwriteDCSExportWith(LocalBindsDCS, true, false, false);
                 PushAllDCSBindsToExport(true, fillBeforeEmpty, true);
-                writeFilesDCS();
-                writeFilesDCS(".jp");
+                WriteFilesDCS();
+                WriteFilesDCS(".jp");
             }
             mainW.ShowMessageBox("Binds exported successfully ☺");
         }
@@ -680,8 +680,8 @@ namespace JoyPro
                 PushAllDCSBindsToExport(true, true, false);
                 if (nukeDevices)
                     NukeUnusedButConnectedDevicesToExport();
-                writeFilesDCS();
-                writeFilesDCS(".jp");
+                WriteFilesDCS();
+                WriteFilesDCS(".jp");
             }
             mainW.ShowMessageBox("Binds exported successfully ☻");
         }
@@ -721,10 +721,10 @@ namespace JoyPro
                 if (kvp.Value.Joystick.Length > 0 &&
                     ((kvp.Value.Rl.ISAXIS && kvp.Value.JAxis.Length > 0) ||
                     (!kvp.Value.Rl.ISAXIS && kvp.Value.JButton.Length > 0)))
-                    OverwriteDCSExportWith(bindToExportFormatDCS(kvp.Value), oride, fillBeforeEmpty, overwriteAdd);
+                    OverwriteDCSExportWith(BindToExportFormatDCS(kvp.Value), oride, fillBeforeEmpty, overwriteAdd);
             }
         }
-        public static Dictionary<string, DCSExportPlane> bindToExportFormatDCS(Bind b)
+        public static Dictionary<string, DCSExportPlane> BindToExportFormatDCS(Bind b)
         {
             Dictionary<string, int> pstate = b.Rl.GetPlaneSetState();
             Dictionary<string, DCSExportPlane> result = new Dictionary<string, DCSExportPlane>();
@@ -1149,13 +1149,13 @@ namespace JoyPro
                     indxNumber = tempIndex;
             }
             if (indxNumber == int.MaxValue) indxNumber = -1;
-            if (isFirstValueLowestButNotNegative(indxQuotas, indxCurlyBrackets, indxBool, indxNumber)) return LuaDataType.String;
-            if (isFirstValueLowestButNotNegative(indxCurlyBrackets, indxQuotas, indxBool, indxNumber)) return LuaDataType.Dict;
-            if (isFirstValueLowestButNotNegative(indxNumber, indxQuotas, indxCurlyBrackets, indxBool)) return LuaDataType.Number;
-            if (isFirstValueLowestButNotNegative(indxBool, indxQuotas, indxCurlyBrackets, indxNumber)) return LuaDataType.Bool;
+            if (IsFirstValueLowestButNotNegative(indxQuotas, indxCurlyBrackets, indxBool, indxNumber)) return LuaDataType.String;
+            if (IsFirstValueLowestButNotNegative(indxCurlyBrackets, indxQuotas, indxBool, indxNumber)) return LuaDataType.Dict;
+            if (IsFirstValueLowestButNotNegative(indxNumber, indxQuotas, indxCurlyBrackets, indxBool)) return LuaDataType.Number;
+            if (IsFirstValueLowestButNotNegative(indxBool, indxQuotas, indxCurlyBrackets, indxNumber)) return LuaDataType.Bool;
             return LuaDataType.Error;
         }
-        static bool isFirstValueLowestButNotNegative(int val1, int val2, int val3, int val4)
+        static bool IsFirstValueLowestButNotNegative(int val1, int val2, int val3, int val4)
         {
             if (val1 < 0) return false;
             List<int> toCheck = new List<int>();
@@ -1448,7 +1448,7 @@ namespace JoyPro
                     }
                 }
             }
-            downloadCompletedEvent.Invoke(null, null);
+            DownloadCompletedEvent.Invoke(null, null);
         }
 
         static void DownloadNewerVersion()
@@ -1459,7 +1459,7 @@ namespace JoyPro
                 {
                     Uri uri = new Uri(buildPath + newestAvailableVersion + ".zip");
                     Console.WriteLine(buildPath + newestAvailableVersion + ".zip");
-                    downloadCompletedEvent += new EventHandler(downloadCompleted);
+                    DownloadCompletedEvent += new EventHandler(DownloadCompleted);
                     Task.Run(() => DownloadAsync(uri, "NewerVersion.zip"));
                 }
                 catch
@@ -1587,7 +1587,7 @@ namespace JoyPro
             {
                 outputName = partsName[0] + '{';
                 string[] idParts = partsName[1].Split('-');
-                outputName = outputName + idParts[0].ToUpper();
+                outputName += idParts[0].ToUpper();
                 for (int i = 1; i < idParts.Length; ++i)
                 {
                     if (i == 2)
@@ -1834,9 +1834,9 @@ namespace JoyPro
             LoadCleanLuasDCS();
             LoadLocalDefaultsDCS();
             List<string> installs = new List<string>();
-            string pth = getRegistryValue("SOFTWARE\\Eagle Dynamics\\DCS World", "Path", "CurrentUser");
+            string pth = GetRegistryValue("SOFTWARE\\Eagle Dynamics\\DCS World", "Path", "CurrentUser");
             if (pth != null) installs.Add(pth);
-            pth = getRegistryValue("SOFTWARE\\Eagle Dynamics\\DCS World OpenBeta", "Path", "CurrentUser");
+            pth = GetRegistryValue("SOFTWARE\\Eagle Dynamics\\DCS World OpenBeta", "Path", "CurrentUser");
             if (pth != null) installs.Add(pth);
             installPathsDCS = installs.ToArray();
         }
@@ -1857,12 +1857,12 @@ namespace JoyPro
         {
             PROGPATH = Environment.CurrentDirectory;
             Console.WriteLine(PROGPATH);
-            loadIL2Path();
+            LoadIL2Path();
             InitIL2Joysticks();
             Console.WriteLine(IL2Instance);
         }
 
-        public static string getRegistryValue(string Path, string Value, string Locality)
+        public static string GetRegistryValue(string Path, string Value, string Locality)
         {
             try
             {
@@ -1898,7 +1898,7 @@ namespace JoyPro
             if (!Directory.Exists(instance + initialBackupFolder) && Directory.Exists(instance + subInputPath))
             {
                 Directory.CreateDirectory(instance + initialBackupFolder);
-                copy_folder_into_folder(instance + subInputPath, instance + initialBackupFolder);
+                CopyFolderIntoFolder(instance + subInputPath, instance + initialBackupFolder);
             }
             if (Directory.Exists(instance + subInputPath))
             {
@@ -1912,12 +1912,12 @@ namespace JoyPro
                     {
                         List<DirectoryInfo> subList = allSubs.ToList();
                         subList = subList.OrderBy(o => o.Name).ToList();
-                        delete_folder(subList[0].FullName);
+                        DeleteFolder(subList[0].FullName);
                     }
                 if (!Directory.Exists(instance + runningBackupFolder + "\\" + now))
                 {
                     Directory.CreateDirectory(instance + runningBackupFolder + "\\" + now);
-                    copy_folder_into_folder(instance + subInputPath, instance + runningBackupFolder + "\\" + now);
+                    CopyFolderIntoFolder(instance + subInputPath, instance + runningBackupFolder + "\\" + now);
                 }
 
             }
@@ -1956,11 +1956,11 @@ namespace JoyPro
             DirectoryInfo dirin = new DirectoryInfo(dir);
             DirectoryInfo[] toCopy = dirin.GetDirectories();
             for (int i = 0; i < toCopy.Length; ++i)
-                copy_folder_into_folder(toCopy[i].FullName, dir);
+                CopyFolderIntoFolder(toCopy[i].FullName, dir);
 
         }
 
-        public static List<string> getPossibleFallbacksForInstance(string instance)
+        public static List<string> GetPossibleFallbacksForInstance(string instance)
         {
             List<string> fallback = new List<string>();
             if (Directory.Exists(instance + initialBackupFolder + inputFolderName))
@@ -1978,7 +1978,7 @@ namespace JoyPro
             return fallback;
         }
 
-        public static void copy_folder_into_folder(string source, string dest)
+        public static void CopyFolderIntoFolder(string source, string dest)
         {
             string[] splitt = source.Split('\\');
             string last_part = splitt[splitt.Length - 1];
@@ -1993,11 +1993,11 @@ namespace JoyPro
             DirectoryInfo[] all_dirs = sor.GetDirectories();
             for (int i = 0; i < all_dirs.Length; i++)
             {
-                copy_folder_into_folder(all_dirs[i].FullName, dest + "\\" + last_part);
+                CopyFolderIntoFolder(all_dirs[i].FullName, dest + "\\" + last_part);
             }
         }
 
-        public static void delete_folder(string folder)
+        public static void DeleteFolder(string folder)
         {
             DirectoryInfo dd = new DirectoryInfo(folder);
             FileInfo[] fi = dd.GetFiles();
@@ -2008,7 +2008,7 @@ namespace JoyPro
             DirectoryInfo[] dirs = dd.GetDirectories();
             for (int i = 0; i < dirs.Length; i++)
             {
-                delete_folder(dirs[i].FullName);
+                DeleteFolder(dirs[i].FullName);
             }
             Directory.Delete(folder);
         }
@@ -2047,7 +2047,7 @@ namespace JoyPro
                     string path = allDrives[i].Name + basePath;
                     if (selectedInstancePath.ToLower().Contains("openbeta"))
                     {
-                        path = path + openBetaExtention;
+                        path += openBetaExtention;
                     }
                     if (Directory.Exists(path))
                     {
@@ -2273,8 +2273,7 @@ namespace JoyPro
                 for (int i = 1; i < lines.Length; ++i)
                 {
                     string[] parts = lines[i].Split(',');
-                    int id;
-                    if (parts.Length > 2 && int.TryParse(parts[0], out id) == true)
+                    if (parts.Length > 2 && int.TryParse(parts[0], out int id) == true)
                     {
                         string joy = IL2JoyIdToDCSJoyId(parts[1], parts[2]);
                         Joysticks.Add(joy);
