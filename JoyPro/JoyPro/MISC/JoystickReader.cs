@@ -77,7 +77,9 @@ namespace JoyPro
             List<SlimDX.DirectInput.Joystick> pds = new List<Joystick>();
             foreach (var device in dil)
             {
-                result.Add(ToDeviceString(new Joystick(di, device.InstanceGuid)));
+                string deviceToAdd = ToDeviceString(new Joystick(di, device.InstanceGuid));
+                if(!MainStructure.ListContainsCaseInsensitive(result, deviceToAdd))
+                    result.Add(deviceToAdd);
             }
             return result;
         }

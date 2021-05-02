@@ -626,7 +626,7 @@ namespace JoyPro
                 writeFilesDCS();
                 writeFilesDCS(".jp");
             }
-            mainW.ShowMessageBox("It appears to have successfully exported");
+            mainW.ShowMessageBox("Binds exported successfully ☺");
         }
         public static void WriteProfileCleanAndLoadedOverwritten(bool fillBeforeEmpty, List<string> games)
         {
@@ -641,7 +641,15 @@ namespace JoyPro
                 writeFilesDCS();
                 writeFilesDCS(".jp");
             }
-            mainW.ShowMessageBox("It appears to have successfully exported");
+            mainW.ShowMessageBox("Binds exported successfully ☻");
+        }
+        public static bool ListContainsCaseInsensitive(List<string> li, string toCheck)
+        {
+            for(int i=0; i<li.Count; ++i)
+            {
+                if (li[i].ToUpper() == toCheck.ToUpper()) return true;
+            }
+            return false;
         }
         public static string ShortenDeviceName(string device)
         {
@@ -661,7 +669,7 @@ namespace JoyPro
                 writeFilesDCS();
                 writeFilesDCS(".jp");
             }
-            mainW.ShowMessageBox("It appears to have successfully exported");
+            mainW.ShowMessageBox("Binds exported successfully ☺");
         }
         public static void WriteProfileClean(bool nukeDevices, List<string> games)
         {
@@ -675,7 +683,7 @@ namespace JoyPro
                 writeFilesDCS();
                 writeFilesDCS(".jp");
             }
-            mainW.ShowMessageBox("It appears to have successfully exported");
+            mainW.ShowMessageBox("Binds exported successfully ☻");
         }
         static void NukeUnusedButConnectedDevicesToExport()
         {
