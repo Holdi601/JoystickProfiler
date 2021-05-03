@@ -24,6 +24,28 @@ namespace JoyPro
         public List<string> AllReformers;
         public string additionalImportInfo;
 
+        public void CorrectJoystickName()
+        {
+            if (Joystick.Length > 0 && Joystick.Contains('{') && Joystick.Contains('}') && Joystick.Contains('-'))
+            {
+                string[] outerParts = Joystick.Split('{');
+                string[] innerParts = outerParts[1].Split('-');
+                Joystick = outerParts[0] + "{"+innerParts[0].ToUpper();
+                for(int i=1; i<innerParts.Length; ++i)
+                {
+                    if (i == 2)
+                    {
+                        Joystick += "-" + innerParts[i].ToLower();
+                    }
+                    else
+                    {
+                        Joystick += "-" + innerParts[i].ToUpper();
+                    }
+                }
+
+            }
+        }
+
         public string[] PovHeads = new string[]
         {
             "POV1_D"

@@ -177,7 +177,7 @@ namespace JoyPro
                 if (timeLeftToSet > -1&&(detectionEventActiveAxis||detectionEventActiveButton))
                 {
                     timeLeftToSet -=  pollWaitTime;
-                    warmupTime -=warmupTime - pollWaitTime;
+                    warmupTime -=  pollWaitTime;
                     Tick();
                 }if((timeLeftToSet<0 && (detectionEventActiveAxis || detectionEventActiveButton))||(ks.IsPressed(Key.Escape))||(ks.IsPressed(Key.Delete)) ||(ks.IsPressed(Key.Backspace)))
                 {
@@ -362,7 +362,24 @@ namespace JoyPro
         {
             string rawId = pad.Information.InstanceGuid.ToString();
             Console.WriteLine(rawId);
-            return pad.Information.InstanceName + " {" + pad.Information.InstanceGuid.ToString().ToUpper() + "}";
+            string[] idParts = pad.Information.InstanceGuid.ToString().Split('-');
+            string id = pad.Information.InstanceGuid.ToString().ToUpper();
+            if (idParts.Length > 2)
+            {
+                id = idParts[0];
+                for(int i=1; i<idParts.Length; ++i)
+                {
+                    if (i == 2)
+                    {
+                        id += "-" + idParts[i].ToLower();
+                    }
+                    else
+                    {
+                        id += "-" + idParts[i].ToUpper();
+                    }
+                }
+            }
+            return pad.Information.InstanceName + " {" + id+ "}";
         }
         void Tick()
         {
