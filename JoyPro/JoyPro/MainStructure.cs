@@ -40,7 +40,7 @@ namespace JoyPro
         public static MainWindow mainW;
         public static string PROGPATH;
         public static Dictionary<string, DCSPlane> DCSLib = new Dictionary<string, DCSPlane>();
-        public static Dictionary<string, DCSPlane> OtherLib = new Dictionary<string, DCSPlane>();
+        public static Dictionary<string, OtherGame> OtherLib = new Dictionary<string, OtherGame>();
         public static string[] LocalJoysticks;
         public static string SaveGamesPath;
         public static string[] DCSInstances;
@@ -1808,6 +1808,37 @@ namespace JoyPro
                         results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Plane, DESCRIPTION = inp.Value.Title });
                 }
             }
+            foreach(KeyValuePair<string, OtherGame> kvp in OtherLib)
+            {
+                foreach(KeyValuePair<string, OtherGameInput> inp in kvp.Value.Axis)
+                {
+                    bool hit = true;
+                    foreach (string key in keywords)
+                    {
+                        if (!inp.Value.Title.ToLower().Contains(key))
+                        {
+                            hit = false;
+                            break;
+                        }
+                    }
+                    if (hit)
+                        results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Game, DESCRIPTION = inp.Value.Title });
+                }
+                foreach (KeyValuePair<string, OtherGameInput> inp in kvp.Value.Buttons)
+                {
+                    bool hit = true;
+                    foreach (string key in keywords)
+                    {
+                        if (!inp.Value.Title.ToLower().Contains(key))
+                        {
+                            hit = false;
+                            break;
+                        }
+                    }
+                    if (hit)
+                        results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Game, DESCRIPTION = inp.Value.Title });
+                }
+            }
             return results;
         }
         public static DCSInput[] GetAllInputsWithId(string id)
@@ -1849,6 +1880,7 @@ namespace JoyPro
             LocalJoysticks = new string[0];
             EmptyOutputsDCS = new Dictionary<string, DCSLuaInput>();
             IL2JoystickId = new Dictionary<string, int>();
+            OtherLib = new Dictionary<string, OtherGame>();
             IL2Instance = "";
 
         }
@@ -1859,6 +1891,7 @@ namespace JoyPro
             Console.WriteLine(PROGPATH);
             LoadIL2Path();
             InitIL2Joysticks();
+            PopulateIL2Dictionary();
             Console.WriteLine(IL2Instance);
         }
 
@@ -2056,6 +2089,56 @@ namespace JoyPro
                 }
             }
             return null;
+        }
+        public static void PopulateIL2Dictionary()
+        {
+            string fileActionPath = PROGPATH + "\\DB\\IL2\\IL2.actions";
+            string gameName = "IL2Game";
+            if (File.Exists(fileActionPath))
+            {
+                if (!OtherLib.ContainsKey(gameName))
+                {
+                    OtherLib.Add(gameName, new OtherGame(gameName));
+                }
+                List<string> tempPlanes = Planes.ToList();
+                if (!tempPlanes.Contains(gameName))
+                    tempPlanes.Add(gameName);
+                Planes = tempPlanes.ToArray();
+                StreamReader sr = new StreamReader(fileActionPath);
+                while (!sr.EndOfStream)
+                {
+                    string rawLine = sr.ReadLine();
+                    if (rawLine.Contains("//a") || rawLine.Contains("//b"))
+                    {
+                        int dataSeperator = rawLine.IndexOf(",");
+                        if (dataSeperator < 0)
+                            continue;
+                        string id = rawLine.Substring(0, dataSeperator);
+                        rawLine = rawLine.Substring(dataSeperator + 1);
+                        dataSeperator = rawLine.IndexOf("//");
+                        if (dataSeperator < 0)
+                            continue;
+                        rawLine = rawLine.Substring(dataSeperator);
+                        bool axis = false;
+                        if (rawLine.Contains("//a"))
+                            axis = true;
+                        string descriptor = rawLine.Substring(4);
+                        OtherGameInput current = new OtherGameInput(id, descriptor, axis, gameName);
+                        if (axis)
+                        {
+                            if (!OtherLib[gameName].Axis.ContainsKey(id))
+                                OtherLib[gameName].Axis.Add(id, current);
+                        }
+                        else
+                        {
+                            if (!OtherLib[gameName].Buttons.ContainsKey(id))
+                                OtherLib[gameName].Buttons.Add(id, current);
+                        }
+                    }
+
+                }
+                sr.Close();
+            }
         }
         public static void PopulateDCSDictionaryWithLocal(string instance)
         {

@@ -435,6 +435,9 @@
     <Content Include="TOOLS\Unzipper\UnzipMeHereWin.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DB\IL2\IL2.actions">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="TOOLS\Unzipper\UnzipMeHereWin.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -464,7 +467,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DB\IL2\" />
     <Folder Include="DB\StarCitizen\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
