@@ -83,13 +83,21 @@ Discord for more direct question answer or concerns: https://discord.gg/SeCTXJHh
 # To Do, Features I want to work on
 
 -Grouping Relations
+
 -Import update Database
+
 -Device Manager
+
 -Search function in Relation overview
+
 -Filters in Relationview
+
 -Asynchronus download and update
+
 -Local DB Diffs if users want to exclude stuff from their DB
+
 -instance saving into profile
+
 -Keyboard support (lowest Priority for me, as after all this is the joystick profiler not input profiler. I see the use of this feature, but after all you dont exchange your keyboard and if you do you dont have IDs you need to work around, you got a fairly big different set of inputs in DCS of inputs for keyboard than the ones for joysticks. And other fairly big adjusmtents that need to be made for a feature which was originally not intendet. I see the benefit of it, but its low prio, just be clear.)
 
 Other Games i want to support:
