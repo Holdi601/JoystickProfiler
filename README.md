@@ -92,6 +92,8 @@ Discord for more direct question answer or concerns: https://discord.gg/SeCTXJHh
 
 -Filters in Relationview
 
+-Select All / None in Import
+
 -Asynchronus download and update
 
 -Local DB Diffs if users want to exclude stuff from their DB
