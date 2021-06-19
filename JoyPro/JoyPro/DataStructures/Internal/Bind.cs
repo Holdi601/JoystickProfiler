@@ -23,6 +23,7 @@ namespace JoyPro
         public double SaturationY;
         public List<string> AllReformers;
         public string additionalImportInfo;
+        public string aliasJoystick;
 
         public void CorrectJoystickName()
         {
@@ -143,6 +144,7 @@ namespace JoyPro
             daf.slider = Slider ?? false;
             daf.saturationX = SaturationX;
             daf.saturationY = SaturationY;
+            result.relatedBind = this;
             return result;
         }
 
@@ -294,6 +296,7 @@ namespace JoyPro
             DCSButtonBind dbb = new DCSButtonBind();
             dbb.key = JButton;
             dbb.JPRelName = Rl.NAME;
+            dbb.relatedBind = this;
             if (JButton.Length < 1||Joystick.Length<1) return null;
             if (dbb.reformers == null) dbb.reformers = new List<string>();
             for (int i=0; i<AllReformers.Count; ++i)

@@ -11,11 +11,13 @@ namespace JoyPro
     {
         public Dictionary<string, Relation> Relations;
         public Dictionary<string, Bind> Binds;
+        public string LastSelectedDCSInstance;
 
-        public Pr0file(Dictionary<string, Relation> Rel, Dictionary<string, Bind> Bnds)
+        public Pr0file(Dictionary<string, Relation> Rel, Dictionary<string, Bind> Bnds, string DCSInstance)
         {
             Relations = Rel;
             Binds = Bnds;
+            LastSelectedDCSInstance = DCSInstance;
         }
     }
 }

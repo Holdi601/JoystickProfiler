@@ -11,6 +11,7 @@ namespace JoyPro
         public DCSAxisFilter filter;
         public string key;
         public string JPRelName;
+        public Bind relatedBind; //don't 
 
         public DCSAxisBind()
         {

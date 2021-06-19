@@ -52,6 +52,7 @@ namespace JoyPro
             else
             {
                 editMode = true;
+                this.Title = "Edit Relation";
                 FinishRelationBtn.Visibility = Visibility.Hidden;
                 RefreshDGSelected();
                 RelationNameTF.Text = Current.NAME;

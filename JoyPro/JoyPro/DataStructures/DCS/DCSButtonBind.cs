@@ -12,7 +12,7 @@ namespace JoyPro
         public List<string> reformers;
         public List<Modifier> modifiers;
         public string JPRelName;
-
+        public Bind relatedBind; //don't 
         public DCSButtonBind()
         {
             key = "";
@@ -26,6 +26,7 @@ namespace JoyPro
             DCSButtonBind result = new DCSButtonBind();
             result.JPRelName = JPRelName;
             result.key = key;
+            result.relatedBind = relatedBind;
             for (int i = 0; i < reformers.Count; ++i)
                 result.reformers.Add(reformers[i]);
             for (int i = 0; i < modifiers.Count; ++i)

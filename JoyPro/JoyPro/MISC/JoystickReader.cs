@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace JoyPro
 {
-    
+
     public class JoystickResults
     {
         public string AxisButton { get; set; }
@@ -74,22 +74,21 @@ namespace JoyPro
             List<DeviceInstance> dil = new List<DeviceInstance>();
             dil.Clear();
             dil.AddRange(di.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly));
-            List<SlimDX.DirectInput.Joystick> pds = new List<Joystick>();
             foreach (var device in dil)
             {
                 string deviceToAdd = ToDeviceString(new Joystick(di, device.InstanceGuid));
-                if(!MainStructure.ListContainsCaseInsensitive(result, deviceToAdd))
+                if (!MainStructure.ListContainsCaseInsensitive(result, deviceToAdd))
                     result.Add(deviceToAdd);
             }
             return result;
         }
-        public JoystickReader(bool axis, bool includeKeyboard=false)
+        public JoystickReader(bool axis, bool includeKeyboard = false)
         {
             timeToSet = 5000;
             axisThreshold = 10000;
             warmupTime = 300;
             pollWaitTime = 10;
-            if (MainStructure.msave != null&&MainStructure.msave.timeToSet>0&&MainStructure.msave.axisThreshold>0&&MainStructure.msave.warmupTime>0&&MainStructure.msave.pollWaitTime>0)
+            if (MainStructure.msave != null && MainStructure.msave.timeToSet > 0 && MainStructure.msave.axisThreshold > 0 && MainStructure.msave.warmupTime > 0 && MainStructure.msave.pollWaitTime > 0)
             {
                 timeToSet = MainStructure.msave.timeToSet;
                 axisThreshold = MainStructure.msave.axisThreshold;
@@ -97,9 +96,9 @@ namespace JoyPro
                 pollWaitTime = MainStructure.msave.pollWaitTime;
             }
             if (includeKeyboard) axis = false;
-            
+
             timeLeftToSet = timeToSet;
-            
+
             directInputList = new List<DeviceInstance>();
             directInput = new DirectInput();
             contrl = new SlimDX.XInput.Controller(SlimDX.XInput.UserIndex.Any);
@@ -142,7 +141,7 @@ namespace JoyPro
         void FillInJoyAxisStateDefaults(JoyAxisState jas, JoystickState js)
         {
             JoyAxisState filler = StateToJoyAxisState(js);
-            if (jas.x < 11 || warmupTime>0) jas.x = filler.x;
+            if (jas.x < 11 || warmupTime > 0) jas.x = filler.x;
             if (jas.y < 11 || warmupTime > 0) jas.y = filler.y;
             if (jas.z < 11 || warmupTime > 0) jas.z = filler.z;
             if (jas.xr < 11 || warmupTime > 0) jas.xr = filler.xr;
@@ -150,7 +149,7 @@ namespace JoyPro
             if (jas.zr < 11 || warmupTime > 0) jas.zr = filler.zr;
             if (jas.s1r < 11 || warmupTime > 0) jas.s1r = filler.s1r;
             if (jas.s2r < 11 || warmupTime > 0) jas.s2r = filler.s2r;
-            for(int i=0; i<jas.btns.Length; ++i)
+            for (int i = 0; i < jas.btns.Length; ++i)
             {
                 if (!jas.btns[i]) jas.btns[i] = filler.btns[i];
             }
@@ -174,18 +173,19 @@ namespace JoyPro
             {
                 Thread.Sleep(pollWaitTime);
                 KeyboardState ks = kb.GetCurrentState();
-                if (timeLeftToSet > -1&&(detectionEventActiveAxis||detectionEventActiveButton))
+                if (timeLeftToSet > -1 && (detectionEventActiveAxis || detectionEventActiveButton))
                 {
-                    timeLeftToSet -=  pollWaitTime;
-                    warmupTime -=  pollWaitTime;
+                    timeLeftToSet -= pollWaitTime;
+                    warmupTime -= pollWaitTime;
                     Tick();
-                }if((timeLeftToSet<0 && (detectionEventActiveAxis || detectionEventActiveButton))||(ks.IsPressed(Key.Escape))||(ks.IsPressed(Key.Delete)) ||(ks.IsPressed(Key.Backspace)))
+                }
+                if ((timeLeftToSet < 0 && (detectionEventActiveAxis || detectionEventActiveButton)) || (ks.IsPressed(Key.Escape)) || (ks.IsPressed(Key.Delete)) || (ks.IsPressed(Key.Backspace)))
                 {
                     quit = true;
                     detectionEventActiveButton = false;
                     detectionEventActiveAxis = false;
                 }
-               
+
             }
         }
         void CheckIfAxisPassedThreshhold(Joystick pad, JoyAxisState current)
@@ -209,14 +209,14 @@ namespace JoyPro
             if (s2rDiff < 0) s2rDiff *= -1;
             JoystickResults args = new JoystickResults();
             args.Device = ToDeviceString(pad);
-            string pre= "JOY_";
+            string pre = "JOY_";
             args.AxisButton = "JOY_";
             bool triggered = false;
-            if (xDiff > axisThreshold&&last.x>10&&current.x>10)
+            if (xDiff > axisThreshold && last.x > 10 && current.x > 10)
             {
                 Console.WriteLine(last.x.ToString() + " " + current.x.ToString());
                 args.AxisButton += "X";
-                args.All.Add(pre+"X");
+                args.All.Add(pre + "X");
                 triggered = true;
             }
             else if (yDiff > axisThreshold && last.y > 10 && current.y > 10)
@@ -268,7 +268,7 @@ namespace JoyPro
                 args.All.Add(pre + "SLIDER2");
                 triggered = true;
             }
-            if(triggered&& warmupTime < 0)
+            if (triggered && warmupTime < 0)
                 ResultFound(args);
 
         }
@@ -279,15 +279,15 @@ namespace JoyPro
                 var allPressed = ks.PressedKeys;
                 JoystickResults r = new JoystickResults();
                 bool found = false;
-                foreach (var keyPressed  in allPressed)
+                foreach (var keyPressed in allPressed)
                 {
                     r.Device = "Keyboard";
                     r.AxisButton = keyPressed.ToString();
                     r.All.Add(keyPressed.ToString());
                     found = true;
-                    
+
                 }
-                if(found)
+                if (found)
                     ResultFound(r);
             }
             lastKbState = ks;
@@ -298,10 +298,10 @@ namespace JoyPro
             bool[] lastBtns;
             bool found = false;
             JoystickResults args = new JoystickResults();
-            if (warmupTime<0)
+            if (warmupTime < 0)
             {
                 lastBtns = lastState[pad].GetButtons();
-                
+
                 for (int i = 0; i < curBtns.Length; ++i)
                 {
                     if (curBtns[i] != lastBtns[i])
@@ -312,15 +312,15 @@ namespace JoyPro
                         found = true;
                     }
                 }
-                
+
             }
-            
+
             int[] povs = js.GetPointOfViewControllers();
-            for(int i=0; i<povs.Length; ++i)
+            for (int i = 0; i < povs.Length; ++i)
             {
                 if (povs[i] > -1)
                 {
-                    string dir = "JOY_BTN_POV"+(i+1).ToString()+"_";
+                    string dir = "JOY_BTN_POV" + (i + 1).ToString() + "_";
                     switch (povs[i])
                     {
                         case 0:
@@ -360,26 +360,17 @@ namespace JoyPro
         }
         static string ToDeviceString(Joystick pad)
         {
-            string rawId = pad.Information.InstanceGuid.ToString();
-            Console.WriteLine(rawId);
-            string[] idParts = pad.Information.InstanceGuid.ToString().Split('-');
-            string id = pad.Information.InstanceGuid.ToString().ToUpper();
+            string id = pad.Information.InstanceGuid.ToString();
+            string[] idParts = id.Split('-');
             if (idParts.Length > 2)
             {
-                id = idParts[0];
-                for(int i=1; i<idParts.Length; ++i)
-                {
-                    if (i == 2)
-                    {
-                        id += "-" + idParts[i].ToLower();
-                    }
-                    else
-                    {
-                        id += "-" + idParts[i].ToUpper();
-                    }
-                }
+                id = idParts[0].ToUpper() + "-"
+                    + idParts[1].ToUpper() + "-"
+                    + idParts[2].ToLower();
+                for (int i = 3; i < idParts.Length; ++i)
+                    id += "-" + idParts[i].ToUpper();
             }
-            return pad.Information.InstanceName + " {" + id+ "}";
+            return pad.Information.InstanceName + " {" + id + "}";
         }
         void Tick()
         {
@@ -408,7 +399,7 @@ namespace JoyPro
                     if (keybValues)
                     {
                         CheckIfKeyboardGotPressed(kb.GetCurrentState());
-                    }                    
+                    }
                 }
                 if (lastState.ContainsKey(gamepad)) lastState[gamepad] = currentState;
                 else lastState.Add(gamepad, currentState);
@@ -419,7 +410,7 @@ namespace JoyPro
         {
             Random r = new Random();
             if (e.All.Count > 0)
-                e.AxisButton = e.All[r.Next(0, e.All.Count )];
+                e.AxisButton = e.All[r.Next(0, e.All.Count)];
             quit = true;
             result = e;
         }

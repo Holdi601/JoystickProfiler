@@ -47,6 +47,8 @@ namespace JoyPro
         public static string[] Planes;
         static Dictionary<string, Relation> AllRelations = new Dictionary<string, Relation>();
         static Dictionary<string, Bind> AllBinds = new Dictionary<string, Bind>();
+        public static List<string> AllGroups = new List<string>();
+        public static Dictionary<string, string> JoystickAliases = new Dictionary<string, string>();
         public static Dictionary<string, DCSLuaInput> EmptyOutputsDCS = new Dictionary<string, DCSLuaInput>();
         static Dictionary<string, DCSExportPlane> LocalBindsDCS = new Dictionary<string, DCSExportPlane>();
         static Dictionary<string, DCSExportPlane> ToExportDCS = new Dictionary<string, DCSExportPlane>();
@@ -647,7 +649,7 @@ namespace JoyPro
         {
             for(int i=0; i<li.Count; ++i)
             {
-                if (li[i].ToUpper() == toCheck.ToUpper()) return true;
+                if (li[i].Replace(" ","").ToUpper() == toCheck.Replace(" ", "").ToUpper()) return true;
             }
             return false;
         }
@@ -1377,6 +1379,7 @@ namespace JoyPro
             AllBinds.Clear();
             AllRelations.Clear();
             AllModifiers.Clear();
+            AllGroups.Clear();
             ResyncRelations();
         }
 
@@ -1491,6 +1494,86 @@ namespace JoyPro
             return result;
         }
 
+        public static void DCSInstanceSelectionChanged(string newInstance)
+        {
+            if (selectedInstancePath == newInstance) return;
+            selectedInstancePath = newInstance;
+            LocalJoysticks = null;
+            InitDCSJoysticks();
+            if (msave != null)
+            {
+                msave.lastInstanceSelected = selectedInstancePath;
+            }
+            PopulateDCSDictionaryWithLocal(selectedInstancePath);
+            int indx = -1;
+            for(int i=0; i<DCSInstances.Length; ++i)
+            {
+                if (DCSInstances[i].ToLower() == newInstance.ToLower())
+                {
+                    indx = i;
+                    break;
+                }
+            }
+            if(indx>-1)
+                mainW.DropDownInstanceSelection.SelectedIndex = indx;
+        }
+        static void RecreateJoystickAliases()
+        {
+            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (kvp.Value.aliasJoystick != null && kvp.Value.aliasJoystick.Length > 1)
+                {
+                    if (!JoystickAliases.ContainsKey(kvp.Value.Joystick))
+                    {
+                        JoystickAliases.Add(kvp.Value.Joystick, kvp.Value.aliasJoystick);
+                    }
+                }
+            }
+        }
+
+        public static void RemoveDeviceAlias(string device)
+        {
+            if (JoystickAliases.ContainsKey(device))
+                JoystickAliases.Remove(device);
+            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (kvp.Value.Joystick.ToLower() == device.ToLower())
+                {
+                    kvp.Value.aliasJoystick = "";
+                }
+            }
+        }
+
+        public static void AddJoystickAlias(string device, string alias)
+        {
+            if (JoystickAliases.ContainsKey(device))
+            {
+                RemoveDeviceAlias(device);
+            }
+            JoystickAliases.Add(device, alias);
+            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (kvp.Value.Joystick.ToLower() == device.ToLower())
+                {
+                    kvp.Value.aliasJoystick = alias;
+                }
+            }
+        }
+
+        static void RecreateGroups()
+        {
+            foreach(KeyValuePair<string, Relation> kvp in AllRelations)
+            {
+                if (kvp.Value.Groups != null)
+                {
+                    for(int i=0; i<kvp.Value.Groups.Count; ++i)
+                    {
+                        if (!ListContainsCaseInsensitive(AllGroups, kvp.Value.Groups[i]))
+                            AllGroups.Add(kvp.Value.Groups[i]);
+                    }
+                }
+            }
+        }
         public static void LoadProfile(string filePath)
         {
             if (filePath == null || filePath.Length < 1) return;
@@ -1501,7 +1584,13 @@ namespace JoyPro
                 NewFile();
                 AllRelations = pr.Relations;
                 AllBinds = pr.Binds;
+                if (pr.LastSelectedDCSInstance != null && Directory.Exists(pr.LastSelectedDCSInstance))
+                {
+                    DCSInstanceSelectionChanged(pr.LastSelectedDCSInstance);
+                }
                 ResyncBindsToMods();
+                RecreateGroups();
+                RecreateJoystickAliases();
                 foreach (KeyValuePair<string, Relation> kvp in AllRelations)
                 {
                     kvp.Value.CheckNamesAgainstDB();
@@ -1645,7 +1734,7 @@ namespace JoyPro
         }
         public static void SaveProfileTo(string filePath)
         {
-            Pr0file pr = new Pr0file(AllRelations, AllBinds);
+            Pr0file pr = new Pr0file(AllRelations, AllBinds, selectedInstancePath);
             WriteToBinaryFile<Pr0file>(filePath, pr);
         }
         public static T ReadFromBinaryFile<T>(string filePath)

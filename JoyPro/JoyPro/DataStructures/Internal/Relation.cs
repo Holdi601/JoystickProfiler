@@ -14,10 +14,12 @@ namespace JoyPro
         List<RelationItem> NODES;
         public bool ISAXIS;
         public Bind bind = null;
+        public List<string> Groups;
 
         public Relation()
         {
             NODES = new List<RelationItem>();
+            Groups = new List<string>();
         }
 
         public List<string> GamesInRelation()
@@ -57,6 +59,13 @@ namespace JoyPro
             }
             if (bind != null)
                 r.bind = bind.Copy(r);
+            if (Groups != null)
+            {
+                for(int i=0; i<Groups.Count; ++i)
+                {
+                    r.Groups.Add(Groups[i]);
+                }
+            }
             return r;
         }
 

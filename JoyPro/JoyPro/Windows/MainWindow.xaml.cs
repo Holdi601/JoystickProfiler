@@ -480,7 +480,7 @@ namespace JoyPro
             var converter = new GridLengthConverter();
             Grid grid = new Grid();
             colDefs = new List<ColumnDefinition>();
-            for (int i = 0; i < 13; ++i)
+            for (int i = 0; i < 14; ++i)
             {
                 ColumnDefinition c = new ColumnDefinition();
                 grid.ColumnDefinitions.Add(c);
@@ -710,7 +710,7 @@ namespace JoyPro
                 editBtn.HorizontalAlignment = HorizontalAlignment.Center;
                 editBtn.VerticalAlignment = VerticalAlignment.Center;
                 editBtn.Width = 50;
-                Grid.SetColumn(editBtn, 1);
+                Grid.SetColumn(editBtn, 2);
                 Grid.SetRow(editBtn, i);
                 grid.Children.Add(editBtn);
 
@@ -722,7 +722,7 @@ namespace JoyPro
                 dupBtn.HorizontalAlignment = HorizontalAlignment.Center;
                 dupBtn.VerticalAlignment = VerticalAlignment.Center;
                 dupBtn.Width = 75;
-                Grid.SetColumn(dupBtn, 2);
+                Grid.SetColumn(dupBtn, 3);
                 Grid.SetRow(dupBtn, i);
                 grid.Children.Add(dupBtn);
 
@@ -734,7 +734,7 @@ namespace JoyPro
                 deleteBtn.HorizontalAlignment = HorizontalAlignment.Center;
                 deleteBtn.VerticalAlignment = VerticalAlignment.Center;
                 deleteBtn.Width = 100;
-                Grid.SetColumn(deleteBtn, 3);
+                Grid.SetColumn(deleteBtn, 4);
                 Grid.SetRow(deleteBtn, i);
                 grid.Children.Add(deleteBtn);
 
@@ -752,7 +752,7 @@ namespace JoyPro
                 joystickPick.Width = 500;
                 joystickPick.HorizontalAlignment = HorizontalAlignment.Center;
                 joystickPick.VerticalAlignment = VerticalAlignment.Center;
-                Grid.SetColumn(joystickPick, 4);
+                Grid.SetColumn(joystickPick, 5);
                 Grid.SetRow(joystickPick, i);
                 grid.Children.Add(joystickPick);
 
@@ -764,7 +764,7 @@ namespace JoyPro
                 joybtnin.Width = 100;
                 joybtnin.Click += new RoutedEventHandler(SetBtnOrAxisEvent);
                 setBtns[i] = joybtnin;
-                Grid.SetColumn(joybtnin, 5);
+                Grid.SetColumn(joybtnin, 6);
                 Grid.SetRow(joybtnin, i);
                 grid.Children.Add(joybtnin);
 
@@ -777,7 +777,7 @@ namespace JoyPro
                     cbx.Foreground = Brushes.White;
                     cbx.HorizontalAlignment = HorizontalAlignment.Center;
                     cbx.VerticalAlignment = VerticalAlignment.Center;
-                    Grid.SetColumn(cbx, 6);
+                    Grid.SetColumn(cbx, 7);
                     Grid.SetRow(cbx, i);
                     grid.Children.Add(cbx);
 
@@ -787,7 +787,7 @@ namespace JoyPro
                     cbxs.Foreground = Brushes.White;
                     cbxs.HorizontalAlignment = HorizontalAlignment.Center;
                     cbxs.VerticalAlignment = VerticalAlignment.Center;
-                    Grid.SetColumn(cbxs, 7);
+                    Grid.SetColumn(cbxs, 8);
                     Grid.SetRow(cbxs, i);
                     grid.Children.Add(cbxs);
 
@@ -798,7 +798,7 @@ namespace JoyPro
                     cbxu.HorizontalAlignment = HorizontalAlignment.Center;
                     cbxu.VerticalAlignment = VerticalAlignment.Center;
                     cbxu.Click += new RoutedEventHandler(changeCurveToUserCurve);
-                    Grid.SetColumn(cbxu, 8);
+                    Grid.SetColumn(cbxu, 9);
                     Grid.SetRow(cbxu, i);
                     grid.Children.Add(cbxu);
 
@@ -806,7 +806,7 @@ namespace JoyPro
                     txrl.Name = "txrldz" + i.ToString();
                     txrl.Width = 150;
                     txrl.Height = 24;
-                    Grid.SetColumn(txrl, 9);
+                    Grid.SetColumn(txrl, 10);
                     Grid.SetRow(txrl, i);
                     grid.Children.Add(txrl);
 
@@ -814,7 +814,7 @@ namespace JoyPro
                     txrlsx.Name = "txrlsatx" + i.ToString();
                     txrlsx.Width = 150;
                     txrlsx.Height = 24;
-                    Grid.SetColumn(txrlsx, 10);
+                    Grid.SetColumn(txrlsx, 11);
                     Grid.SetRow(txrlsx, i);
                     grid.Children.Add(txrlsx);
 
@@ -822,7 +822,7 @@ namespace JoyPro
                     txrlsy.Name = "txrlsaty" + i.ToString();
                     txrlsy.Width = 150;
                     txrlsy.Height = 24;
-                    Grid.SetColumn(txrlsy, 11);
+                    Grid.SetColumn(txrlsy, 12);
                     Grid.SetRow(txrlsy, i);
                     grid.Children.Add(txrlsy);
 
@@ -830,7 +830,7 @@ namespace JoyPro
                     txrlcv.Name = "txrlsacv" + i.ToString();
                     txrlcv.Width = 150;
                     txrlcv.Height = 24;
-                    Grid.SetColumn(txrlcv, 12);
+                    Grid.SetColumn(txrlcv, 13);
                     Grid.SetRow(txrlcv, i);
 
                     Button userCurvBtn = new Button();
@@ -841,7 +841,7 @@ namespace JoyPro
                     userCurvBtn.Width = 100;
                     userCurvBtn.Click += new RoutedEventHandler(changeUserCurve);
                     additional.Add(userCurvBtn);
-                    Grid.SetColumn(userCurvBtn, 12);
+                    Grid.SetColumn(userCurvBtn, 13);
                     Grid.SetRow(userCurvBtn, i);
 
                     if (currentBind != null)
@@ -952,7 +952,7 @@ namespace JoyPro
                     modCbx1.Width = 150;
                     modCbx1.ItemsSource = allMods;
                     mods[i, 0] = modCbx1;
-                    Grid.SetColumn(modCbx1, 9);
+                    Grid.SetColumn(modCbx1, 10);
                     Grid.SetRow(modCbx1, i);
                     grid.Children.Add(modCbx1);
 
@@ -963,7 +963,7 @@ namespace JoyPro
                     modCbx2.Width = 150;
                     modCbx2.ItemsSource = allMods;
                     mods[i, 1] = modCbx2;
-                    Grid.SetColumn(modCbx2, 10);
+                    Grid.SetColumn(modCbx2, 11);
                     Grid.SetRow(modCbx2, i);
                     grid.Children.Add(modCbx2);
 
@@ -974,7 +974,7 @@ namespace JoyPro
                     modCbx3.Width = 150;
                     modCbx3.ItemsSource = allMods;
                     mods[i, 2] = modCbx3;
-                    Grid.SetColumn(modCbx3, 11);
+                    Grid.SetColumn(modCbx3, 12);
                     Grid.SetRow(modCbx3, i);
                     grid.Children.Add(modCbx3);
 
@@ -985,7 +985,7 @@ namespace JoyPro
                     modCbx4.Width = 150;
                     modCbx4.ItemsSource = allMods;
                     mods[i, 3] = modCbx4;
-                    Grid.SetColumn(modCbx4, 12);
+                    Grid.SetColumn(modCbx4, 13);
                     Grid.SetRow(modCbx4, i);
                     grid.Children.Add(modCbx4);
 
@@ -1105,8 +1105,8 @@ namespace JoyPro
             var converter = new GridLengthConverter();
             Grid grid = new Grid();
             colHds = new List<ColumnDefinition>();
-            controls = new Control[13];
-            for (int i = 0; i < 13; ++i)
+            controls = new Control[14];
+            for (int i = 0; i < 14; ++i)
             {
                 ColumnDefinition c = new ColumnDefinition();
                 grid.ColumnDefinitions.Add(c);
@@ -1136,7 +1136,7 @@ namespace JoyPro
             abc.HorizontalAlignment = HorizontalAlignment.Center;
             abc.VerticalAlignment = VerticalAlignment.Center;
             Grid.SetColumnSpan(abc, 3);
-            Grid.SetColumn(abc, 1);
+            Grid.SetColumn(abc, 2);
             grid.Children.Add(abc);
 
             Button joystickPick = new Button();
@@ -1148,7 +1148,7 @@ namespace JoyPro
             joystickPick.VerticalAlignment = VerticalAlignment.Center;
             joystickPick.Background = Brushes.DarkSlateGray;
             joystickPick.Click += new RoutedEventHandler(sortStick);
-            Grid.SetColumn(joystickPick, 4);
+            Grid.SetColumn(joystickPick, 5);
             grid.Children.Add(joystickPick);
             controls[4] = joystickPick;
 
@@ -1160,7 +1160,7 @@ namespace JoyPro
             joystickBtn.VerticalAlignment = VerticalAlignment.Center;
             joystickBtn.Background = Brushes.DarkSlateGray;
             joystickBtn.Click += new RoutedEventHandler(sortBtn);
-            Grid.SetColumn(joystickBtn, 5);
+            Grid.SetColumn(joystickBtn, 6);
             grid.Children.Add(joystickBtn);
             controls[5] = joystickBtn;
 
@@ -1170,7 +1170,7 @@ namespace JoyPro
             joystickAxisS.HorizontalAlignment = HorizontalAlignment.Center;
             joystickAxisS.VerticalAlignment = VerticalAlignment.Center;
             Grid.SetColumnSpan(joystickAxisS, 3);
-            Grid.SetColumn(joystickAxisS, 6);
+            Grid.SetColumn(joystickAxisS, 7);
             grid.Children.Add(joystickAxisS);
 
             Label dzlbl = new Label();
@@ -1178,7 +1178,7 @@ namespace JoyPro
             dzlbl.Foreground = Brushes.White;
             dzlbl.HorizontalAlignment = HorizontalAlignment.Center;
             dzlbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(dzlbl, 9);
+            Grid.SetColumn(dzlbl, 10);
             grid.Children.Add(dzlbl);
 
             Label sxlbl = new Label();
@@ -1186,7 +1186,7 @@ namespace JoyPro
             sxlbl.Foreground = Brushes.White;
             sxlbl.HorizontalAlignment = HorizontalAlignment.Center;
             sxlbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(sxlbl, 10);
+            Grid.SetColumn(sxlbl, 11);
             grid.Children.Add(sxlbl);
 
             Label sylbl = new Label();
@@ -1194,7 +1194,7 @@ namespace JoyPro
             sylbl.Foreground = Brushes.White;
             sylbl.HorizontalAlignment = HorizontalAlignment.Center;
             sylbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(sylbl, 11);
+            Grid.SetColumn(sylbl, 12);
             grid.Children.Add(sylbl);
 
             Label curvlbl = new Label();
@@ -1202,7 +1202,7 @@ namespace JoyPro
             curvlbl.Foreground = Brushes.White;
             curvlbl.HorizontalAlignment = HorizontalAlignment.Center;
             curvlbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(curvlbl, 12);
+            Grid.SetColumn(curvlbl, 13);
             grid.Children.Add(curvlbl);
 
             svHeader.Content = grid;
@@ -1236,12 +1236,14 @@ namespace JoyPro
             {
                 MainStructure.InitDCSData();
                 DropDownInstanceSelection.Items.Clear();
+                DropDownGameSelection.SelectedIndex = 0;
                 foreach (string inst in MainStructure.DCSInstances)
-                    DropDownInstanceSelection.Items.Add(inst);      
+                    DropDownInstanceSelection.Items.Add(inst);
             }
             if (IL2SELECT.IsChecked == true)
             {
                 MainStructure.InitIL2Data();
+                DropDownGameSelection.SelectedIndex = 1;
             }
 
             if (DCSSELECT.IsChecked == false && IL2SELECT.IsChecked == false)
@@ -1503,15 +1505,8 @@ namespace JoyPro
         }
         private void InstanceSelectionChanged(object sender, EventArgs e)
         {
-            //MainStructure.LoadLocalBinds((string)DropDownInstanceSelection.SelectedItem);
-            MainStructure.selectedInstancePath = (string)DropDownInstanceSelection.SelectedItem;
-            MainStructure.LocalJoysticks = null;
-            MainStructure.InitDCSJoysticks();
-            if (MainStructure.msave != null)
-            {
-                MainStructure.msave.lastInstanceSelected = (string)DropDownInstanceSelection.SelectedItem;
-            }
-            MainStructure.PopulateDCSDictionaryWithLocal((string)DropDownInstanceSelection.SelectedItem);
+            MainStructure.DCSInstanceSelectionChanged((string)DropDownInstanceSelection.SelectedItem);
+
         }
 
     }
