@@ -315,6 +315,15 @@
     <Content Include="DB\DCS\M-2000C.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DB\DCS\Mi-24P.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\DCS\Mi-24P_AimingStation.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\DCS\Mi-24P_AI_Menu.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DB\DCS\mi-8mt.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

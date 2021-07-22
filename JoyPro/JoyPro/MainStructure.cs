@@ -2236,7 +2236,10 @@ namespace JoyPro
             {
                 DirectoryInfo dirInfo = new DirectoryInfo(instance + "\\InputLayoutsTxt");
                 DirectoryInfo[] allHtmlDirs = dirInfo.GetDirectories();
-                List<string> tempPlanes = Planes.ToList();
+                List<string> tempPlanes;
+                if (Planes == null) tempPlanes = new List<string>();
+                else tempPlanes = Planes.ToList();
+
                 for (int i = 0; i < allHtmlDirs.Length; ++i)
                 {
                     string currentPlane = allHtmlDirs[i].Name;

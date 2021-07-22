@@ -259,31 +259,39 @@ namespace JoyPro
 
         private void DGAdded_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            string planeRaw = e.Column.Header.ToString();
-            string item = (string)((DataRowView)e.Row.Item)[0];
-            if (planeRaw == "Select None")
+            try
             {
-                ((CheckBox)e.EditingElement).IsChecked = false;
-                Current.DeactivateAllID(item);
-
-            }
-            else if (planeRaw == "Select Rest")
-            {
-                ((CheckBox)e.EditingElement).IsChecked = false;
-                Current.ActivateRestForID(item);
-                
-            }
-            else if (planeRaw.Length > 2)
-            {
-                string plane = planeRaw.Substring(0, planeRaw.Length - 3);
-                bool succ = Current.GetRelationItem(item).SwitchAircraftActivityDCS(plane);
-                if (!succ)
+                string planeRaw = e.Column.Header.ToString();
+                string item = (string)((DataRowView)e.Row.Item)[0];
+                if (planeRaw == "Select None")
                 {
-                    MessageBox.Show("The item that you wanted to enable, doesn't have an implementation for that Plane");
                     ((CheckBox)e.EditingElement).IsChecked = false;
-                    return;
+                    Current.DeactivateAllID(item);
+
+                }
+                else if (planeRaw == "Select Rest")
+                {
+                    ((CheckBox)e.EditingElement).IsChecked = false;
+                    Current.ActivateRestForID(item);
+
+                }
+                else if (planeRaw.Length > 2)
+                {
+                    string plane = planeRaw.Substring(0, planeRaw.Length - 3);
+                    bool succ = Current.GetRelationItem(item).SwitchAircraftActivityDCS(plane);
+                    if (!succ)
+                    {
+                        MessageBox.Show("The item that you wanted to enable, doesn't have an implementation for that Plane");
+                        ((CheckBox)e.EditingElement).IsChecked = false;
+                        return;
+                    }
                 }
             }
+            catch
+            {
+
+            }
+            
             RefreshDGSelected();
         }
     }
