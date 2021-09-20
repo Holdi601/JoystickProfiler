@@ -26,5 +26,4 @@
         <Button FontWeight="Bold" Name="OKJoyExchange" Content="OK" Height="30" Width="377"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,9,0,11" Grid.Row="4" Grid.Column="1" />
         <ComboBox Name="DropDownSticks" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,20,0,20" Grid.Row="3"  Grid.Column="0" Grid.ColumnSpan="2" Width="772" Height="38" ></ComboBox>
     </Grid>
-
 </Window>
