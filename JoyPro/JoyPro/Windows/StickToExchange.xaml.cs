@@ -32,7 +32,19 @@ namespace JoyPro
             }
 
             CancelJoyExchange.Click += new RoutedEventHandler(CancelButton);
-            DDJoysticks.ItemsSource = sticks;
+            Joysticks = sticks;
+            if (MainStructure.JoystickAliases == null) MainStructure.JoystickAliases = new Dictionary<string, string>();
+            for (int i=0; i<sticks.Count; ++i)
+            {
+                if (MainStructure.JoystickAliases.ContainsKey(sticks[i]) && MainStructure.JoystickAliases[sticks[i]].Length > 0)
+                {
+                    DDJoysticks.Items.Add(MainStructure.JoystickAliases[sticks[i]]);
+                }
+                else
+                {
+                    DDJoysticks.Items.Add(sticks[i]);
+                }
+            }
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
             OKJoyExchange.Click += new RoutedEventHandler(OkExchangeNow);
@@ -47,7 +59,7 @@ namespace JoyPro
         {
             if (DDJoysticks.SelectedItem != null || ((string)DDJoysticks.SelectedItem).Length > 0)
             {
-                ExchangeStick exs = new ExchangeStick((string)DDJoysticks.SelectedItem);
+                ExchangeStick exs = new ExchangeStick(Joysticks[DDJoysticks.SelectedIndex]);
                 exs.Closing += new System.ComponentModel.CancelEventHandler(CancelButton);
                 exs.Show();
             }

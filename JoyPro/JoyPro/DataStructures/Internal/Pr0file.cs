@@ -12,8 +12,9 @@ namespace JoyPro
         public Dictionary<string, Relation> Relations;
         public Dictionary<string, Bind> Binds;
         public string LastSelectedDCSInstance;
+        public Dictionary<string, string> JoystickAliases;
 
-        public Pr0file(Dictionary<string, Relation> Rel, Dictionary<string, Bind> Bnds, string DCSInstance)
+        public Pr0file(Dictionary<string, Relation> Rel, Dictionary<string, Bind> Bnds, string DCSInstance, Dictionary<string, string> JoystickAliases)
         {
             Relations = Rel;
             Binds = Bnds;

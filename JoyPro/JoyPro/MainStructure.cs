@@ -39,6 +39,7 @@ namespace JoyPro
         const int version = 39;
         public static MainWindow mainW;
         public static string PROGPATH;
+        public static bool showUnassignedRelations = true;
         public static Dictionary<string, DCSPlane> DCSLib = new Dictionary<string, DCSPlane>();
         public static Dictionary<string, OtherGame> OtherLib = new Dictionary<string, OtherGame>();
         public static string[] LocalJoysticks;
@@ -49,6 +50,7 @@ namespace JoyPro
         static Dictionary<string, Bind> AllBinds = new Dictionary<string, Bind>();
         public static List<string> AllGroups = new List<string>();
         public static Dictionary<string, bool> GroupActivity = new Dictionary<string, bool>();
+        public static Dictionary<string, bool> JoystickActivity = new Dictionary<string, bool>();
         public static Dictionary<string, string> JoystickAliases = new Dictionary<string, string>();
         public static Dictionary<string, DCSLuaInput> EmptyOutputsDCS = new Dictionary<string, DCSLuaInput>();
         static Dictionary<string, DCSExportPlane> LocalBindsDCS = new Dictionary<string, DCSExportPlane>();
@@ -357,6 +359,9 @@ namespace JoyPro
                 else if(sender is GroupManagerW)
                 {
                     msave.GrpMngr = p;
+                }else if(sender is CreateJoystickAlias)
+                {
+                    msave.AliasCr = p;
                 }
             }
             if (mainW.CBNukeUnused.IsChecked == true)
@@ -1385,6 +1390,7 @@ namespace JoyPro
             AllRelations.Clear();
             AllModifiers.Clear();
             AllGroups.Clear();
+            JoystickAliases.Clear();
             ResyncRelations();
         }
 
@@ -1554,19 +1560,7 @@ namespace JoyPro
             if(indx>-1)
                 mainW.DropDownInstanceSelection.SelectedIndex = indx;
         }
-        static void RecreateJoystickAliases()
-        {
-            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
-            {
-                if (kvp.Value.aliasJoystick != null && kvp.Value.aliasJoystick.Length > 1)
-                {
-                    if (!JoystickAliases.ContainsKey(kvp.Value.Joystick))
-                    {
-                        JoystickAliases.Add(kvp.Value.Joystick, kvp.Value.aliasJoystick);
-                    }
-                }
-            }
-        }
+
 
         public static void RemoveDeviceAlias(string device)
         {
@@ -1581,21 +1575,6 @@ namespace JoyPro
             }
         }
 
-        public static void AddJoystickAlias(string device, string alias)
-        {
-            if (JoystickAliases.ContainsKey(device))
-            {
-                RemoveDeviceAlias(device);
-            }
-            JoystickAliases.Add(device, alias);
-            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
-            {
-                if (kvp.Value.Joystick.ToLower() == device.ToLower())
-                {
-                    kvp.Value.aliasJoystick = alias;
-                }
-            }
-        }
 
         static void RecreateGroups()
         {
@@ -1621,13 +1600,13 @@ namespace JoyPro
                 NewFile();
                 AllRelations = pr.Relations;
                 AllBinds = pr.Binds;
+                JoystickAliases = pr.JoystickAliases;
                 if (pr.LastSelectedDCSInstance != null && Directory.Exists(pr.LastSelectedDCSInstance))
                 {
                     DCSInstanceSelectionChanged(pr.LastSelectedDCSInstance);
                 }
                 ResyncBindsToMods();
                 RecreateGroups();
-                RecreateJoystickAliases();
                 foreach (KeyValuePair<string, Relation> kvp in AllRelations)
                 {
                     kvp.Value.CheckNamesAgainstDB();
@@ -1642,6 +1621,24 @@ namespace JoyPro
 
 
             ResyncRelations();
+        }
+
+        public static List<string> GetAllPossibleJoysticks()
+        {
+            List<string> result = JoystickReader.GetConnectedJoysticks();
+            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (!result.Contains(kvp.Value.Joystick)) result.Add(kvp.Value.Joystick);
+            }
+            return result;
+        }
+        public static bool DoesJoystickAliasExist(string alias)
+        {
+            foreach(KeyValuePair<string, string> kvp in JoystickAliases)
+            {
+                if (alias == kvp.Value) return true;
+            }
+            return false;
         }
         public static void AddBind(string name, Bind b)
         {
@@ -1771,7 +1768,7 @@ namespace JoyPro
         }
         public static void SaveProfileTo(string filePath)
         {
-            Pr0file pr = new Pr0file(AllRelations, AllBinds, selectedInstancePath);
+            Pr0file pr = new Pr0file(AllRelations, AllBinds, selectedInstancePath, JoystickAliases);
             WriteToBinaryFile<Pr0file>(filePath, pr);
         }
         public static T ReadFromBinaryFile<T>(string filePath)
@@ -1883,16 +1880,23 @@ namespace JoyPro
                 li = fi;
             }
             SaveMetaLast();
-            //Group filter
+            li = FilterGroups(li);
+            li = FilterDevices(li);
+
+            mainW.SetRelationsToView(li);
+        }
+
+        static List<Relation> FilterDevices(List<Relation> temp)
+        {
             List<Relation> toReturn;
-            if (GroupActivity.Count > 0)
+            if (JoystickActivity.Count > 0)
             {
-                List<Relation> groupresult = new List<Relation>();
-                bool toCompare= GroupActivity[AllGroups[0]];
+                List<Relation> deviceResult = new List<Relation>();
+                bool toCompare = JoystickActivity.ElementAt(0).Value;
                 bool allTheSame = true;
-                for(int i=1; i<AllGroups.Count; ++i)
+                for(int i=1; i<JoystickActivity.Count; ++i)
                 {
-                    if (toCompare != GroupActivity[AllGroups[i]])
+                    if (toCompare != JoystickActivity.ElementAt(i).Value)
                     {
                         allTheSame = false;
                         break;
@@ -1900,23 +1904,106 @@ namespace JoyPro
                 }
                 if (!allTheSame)
                 {
+                    List<string> activeDevices = new List<string>();
+                    foreach (KeyValuePair<string, bool> kvp in JoystickActivity)
+                        if (kvp.Value)
+                            activeDevices.Add(kvp.Key);
+                    for (int i = 0; i < temp.Count; ++i)
+                    {
+                        if (temp[i].bind == null)
+                        {
+                            if (showUnassignedRelations)
+                            {
+                                deviceResult.Add(temp[i]);
+                            }
+                            continue;
+                        }
+                        bool groupFound = activeDevices.Contains(temp[i].bind.Joystick);
+                        if (groupFound)
+                            deviceResult.Add(temp[i]);
+                    }
+                    toReturn = deviceResult;
+                }
+                else
+                {
+                    if (toCompare)
+                    {
+                        if (!showUnassignedRelations)
+                        {
+                            for(int h=0; h<temp.Count; ++h)
+                            {
+                                if (temp[h].bind != null)
+                                    deviceResult.Add(temp[h]);
+                            }
+                            toReturn = deviceResult;
+                        }
+                        else
+                        {
+                            toReturn = temp;
+                        }
+                    }
+                    else
+                    {
+                        if (showUnassignedRelations)
+                        {
+                            for (int h = 0; h < temp.Count; ++h)
+                            {
+                                if (temp[h].bind == null)
+                                    deviceResult.Add(temp[h]);
+                            }
+                            toReturn = deviceResult;
+                        }
+                        else
+                        {
+                            toReturn = temp;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                toReturn = temp;
+            }
+
+            return toReturn;
+        }
+
+        static List<Relation> FilterGroups(List<Relation> temp)
+        {
+            List<Relation> toReturn;
+            if (GroupActivity.Count > 0)
+            {
+                List<Relation> groupresult = new List<Relation>();
+                bool toCompare = GroupActivity[AllGroups[0]];
+                bool allTheSame = true;
+                for (int i = 1; i < AllGroups.Count; ++i)
+                {
+                    if (toCompare != GroupActivity[AllGroups[i]])
+                    {
+                        allTheSame = false;
+                        break;
+                    }
+                    
+                }
+                if (!allTheSame)
+                {
                     List<string> activeGroups = new List<string>();
                     foreach (KeyValuePair<string, bool> kvp in GroupActivity)
                         if (kvp.Value)
                             activeGroups.Add(kvp.Key);
-                    for(int i=0; i<li.Count; ++i)
+                    for (int i = 0; i < temp.Count; ++i)
                     {
                         bool groupFound = false;
-                        for(int j=0; j<activeGroups.Count; ++j)
+                        for (int j = 0; j < activeGroups.Count; ++j)
                         {
-                            if (li[i].Groups == null)
+                            if (temp[i].Groups == null)
                             {
-                                li[i].Groups = new List<string>();
+                                temp[i].Groups = new List<string>();
                                 break;
                             }
                             else
                             {
-                                if (li[i].Groups.Contains(activeGroups[j]))
+                                if (temp[i].Groups.Contains(activeGroups[j]))
                                 {
                                     groupFound = true;
                                     break;
@@ -1924,22 +2011,20 @@ namespace JoyPro
                             }
                         }
                         if (groupFound)
-                            groupresult.Add(li[i]);
+                            groupresult.Add(temp[i]);
                     }
                     toReturn = groupresult;
-                    mainW.SetRelationsToView(groupresult);
                 }
                 else
                 {
-                    toReturn = li;
+                    toReturn = temp;
                 }
             }
             else
             {
-                toReturn = li;
+                toReturn = temp;
             }
-
-            mainW.SetRelationsToView(toReturn);
+            return toReturn;
         }
 
         public static List<Modifier> GetAllModifiers()

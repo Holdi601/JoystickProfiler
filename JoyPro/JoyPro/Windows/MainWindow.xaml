@@ -41,7 +41,7 @@
         <Button FontWeight="Bold" Name="LoadRelationsBtn" Content="Load Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="3" />
         <Button FontWeight="Bold" Name="SaveRelationsBtn" Content="Save Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,19,15,11" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="1" />
         <Button FontWeight="Bold" Name="ValidateBtn" Content="Validate Profile" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,19,15,11" Grid.Row="0" Grid.Column="6" Grid.ColumnSpan="1" />
-        <Button FontWeight="Bold" Name="JoystickSettingsBtn" Content="Settings" Height="30" Width="120"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,19,15,11" Grid.Row="0" Grid.Column="7" Grid.ColumnSpan="1" />
+        <Button FontWeight="Bold" Name="SettingsBtn" Content="Settings" Height="30" Width="120"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,19,15,11" Grid.Row="0" Grid.Column="7" Grid.ColumnSpan="1"  />
         <Button FontWeight="Bold" Name="ReinstateBUBtn" Content="Reinstate Backup" Height="30" Width="120"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,19,15,11" Grid.Row="1" Grid.Column="7" Grid.ColumnSpan="1" />
         <Button FontWeight="Bold" Name="ExchStickBtn" Content="Exchange Device" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,19,15,11" Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="1" />
         <Button FontWeight="Bold" Name="LoadProfileBtn" Content="Load Profile" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,19,0,11" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1" />
@@ -69,7 +69,7 @@
         <ComboBox Name="GroupFilterDropdown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,12,0,10" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="1" Width="150" Height="31" ></ComboBox>
         <Label Content="Device Filter:" Foreground="White" Grid.Column="5" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Margin="10,12,10,10" Width="80"/>
         <ComboBox Name="DeviceDropdown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,12,0,10" Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2" Width="275" Height="31" ></ComboBox>
-        <Button FontWeight="Bold" Name="AliasManagerBtn" Content="Aliases" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,19,0,11" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" />
+        
         <Button FontWeight="Bold" Name="GroupManagerBtn" Content="Group Manager" Height="30" Width="180"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,19,0,11" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" />
 
 

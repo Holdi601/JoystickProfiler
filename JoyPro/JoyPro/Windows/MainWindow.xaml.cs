@@ -42,6 +42,7 @@ namespace JoyPro
         Control[] controls = null;
         List<Button> additional;
         int gridCols;
+        List<string> possibleSticks;
 
         public MainWindow()
         {
@@ -77,6 +78,9 @@ namespace JoyPro
             ALLBUTTONS.Add(ModManagerBtn);
             ALLBUTTONS.Add(ValidateBtn);
             ALLBUTTONS.Add(ReinstateBUBtn);
+            ALLBUTTONS.Add(GroupManagerBtn);
+            ALLBUTTONS.Add(ExchStickBtn);
+            ALLBUTTONS.Add(SettingsBtn);
         }
 
         void SetupEventHandlers()
@@ -114,7 +118,7 @@ namespace JoyPro
             ModManagerBtn.Click += new RoutedEventHandler(OpenModifierManager);
             ValidateBtn.Click += new RoutedEventHandler(OpenValidation);
             ExchStickBtn.Click += new RoutedEventHandler(OpenExchangeStick);
-            JoystickSettingsBtn.Click += new RoutedEventHandler(OpenChangeJoystickSettings);
+            SettingsBtn.Click += new RoutedEventHandler(OpenChangeJoystickSettings);
             ReinstateBUBtn.Click += new RoutedEventHandler(OpenBackupWindow);
             GroupManagerBtn.Click += new RoutedEventHandler(OpenGroupManager);
         }
@@ -713,6 +717,47 @@ namespace JoyPro
             uc.Closing += new CancelEventHandler(ActivateInputs);
         }
 
+        void DeviceFilterChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            if (cb.Name == "ALL" && cb.IsChecked == true)
+            {
+                for (int i = MainStructure.JoystickActivity.Count - 1; i >= 0; i--)
+                {
+                    string toChange = MainStructure.JoystickActivity.ElementAt(i).Key;
+                    MainStructure.JoystickActivity[toChange] = true;
+                }
+                cb.IsChecked = false;
+            }
+            else if (cb.Name == "NONE" && cb.IsChecked == true)
+            {
+                for (int i = MainStructure.JoystickActivity.Count - 1; i >= 0; i--)
+                {
+                    string toChange = MainStructure.JoystickActivity.ElementAt(i).Key;
+                    MainStructure.JoystickActivity[toChange] = false;
+                }
+
+                cb.IsChecked = false;
+            }
+            else if(cb.Name== "UNASSIGNED")
+            {
+                if (cb.IsChecked == true)
+                    MainStructure.showUnassignedRelations = true;
+                else
+                    MainStructure.showUnassignedRelations = false;
+            }
+            else
+            {
+                int indx = Convert.ToInt32(cb.Name.Replace("d", ""));
+                if (cb.IsChecked == true)
+                    MainStructure.JoystickActivity[possibleSticks[indx]] = true;
+                else
+                    MainStructure.JoystickActivity[possibleSticks[indx]] = false;
+            }
+
+            MainStructure.ResyncRelations();
+        }
+
         void GroupFilterChanged(object sender, EventArgs e)
         {
             CheckBox cb = (CheckBox)sender;
@@ -748,6 +793,62 @@ namespace JoyPro
 
         void RefreshRelationsToShow()
         {
+            DeviceDropdown.Items.Clear();
+            CheckBox dvcbAll = new CheckBox();
+            dvcbAll.Name = "ALL";
+            dvcbAll.Content = "ALL";
+            dvcbAll.IsChecked = false;
+            dvcbAll.Click += new RoutedEventHandler(DeviceFilterChanged);
+            DeviceDropdown.Items.Add(dvcbAll);
+
+            CheckBox dvcbNone = new CheckBox();
+            dvcbNone.Name = "NONE";
+            dvcbNone.Content = "NONE";
+            dvcbNone.IsChecked = false;
+            dvcbNone.Click += new RoutedEventHandler(DeviceFilterChanged);
+            DeviceDropdown.Items.Add(dvcbNone);
+
+            CheckBox dvcbUnassigned = new CheckBox();
+            dvcbUnassigned.Name = "UNASSIGNED";
+            dvcbUnassigned.Content = "UNASSIGNED";
+            dvcbUnassigned.IsChecked = MainStructure.showUnassignedRelations;
+            dvcbUnassigned.Click += new RoutedEventHandler(DeviceFilterChanged);
+            DeviceDropdown.Items.Add(dvcbUnassigned);
+
+            possibleSticks = MainStructure.GetAllPossibleJoysticks();
+            possibleSticks.Sort();
+            if (possibleSticks.Count != MainStructure.JoystickActivity.Count)
+            {
+                MainStructure.JoystickActivity.Clear();
+                for(int i=0; i<possibleSticks.Count; ++i)
+                {
+                    MainStructure.JoystickActivity.Add(possibleSticks[i], true);
+                }
+            }
+            if (MainStructure.JoystickAliases == null)
+                MainStructure.JoystickAliases = new Dictionary<string, string>();
+            for (int i=0; i<MainStructure.JoystickActivity.Count; ++i)
+            {
+                CheckBox dvcbItem = new CheckBox();
+                dvcbItem.Name = "d" + i.ToString();
+                string deviceNameToShow = MainStructure.JoystickActivity.ElementAt(i).Key;
+                if (MainStructure.JoystickAliases.ContainsKey(deviceNameToShow) && MainStructure.JoystickAliases[deviceNameToShow].Length > 0)
+                {
+                    deviceNameToShow = MainStructure.JoystickAliases[deviceNameToShow];
+                }
+                dvcbItem.Content = deviceNameToShow;
+                if (MainStructure.JoystickActivity.ElementAt(i).Value == true)
+                {
+                    dvcbItem.IsChecked = true;
+                }
+                else
+                {
+                    dvcbItem.IsChecked = false;
+                }
+                dvcbItem.Click += new RoutedEventHandler(DeviceFilterChanged);
+                DeviceDropdown.Items.Add(dvcbItem);
+            }
+
             GroupFilterDropdown.Items.Clear();
             CheckBox cbAll = new CheckBox();
             cbAll.Name = "ALL";
@@ -770,7 +871,8 @@ namespace JoyPro
                     MainStructure.GroupActivity.Add(MainStructure.AllGroups[b], true);
                 }
             }
-            for(int b=0; b<MainStructure.AllGroups.Count; ++b)
+            if (MainStructure.JoystickAliases == null) MainStructure.JoystickAliases = new Dictionary<string, string>();
+            for (int b=0; b<MainStructure.AllGroups.Count; ++b)
             {
                 CheckBox cbItem = new CheckBox();
                 cbItem.Name = "g" + b.ToString();
@@ -867,12 +969,22 @@ namespace JoyPro
                 stickLabels[i] = joystickPick;
                 joystickPick.Foreground = Brushes.White;
                 if (currentBind != null)
-                {
-                    joystickPick.Content = currentBind.Joystick;
+                {                 
+
+                     if (MainStructure.JoystickAliases.ContainsKey(currentBind.Joystick) && MainStructure.JoystickAliases[currentBind.Joystick].Length > 0)
+                     {
+                         joystickPick.Content = MainStructure.JoystickAliases[currentBind.Joystick];
+                     }
+                     else
+                     {
+                         joystickPick.Content = currentBind.Joystick;
+                     }
+                    joystickPick.MouseLeftButtonUp += new MouseButtonEventHandler(OpenJoystickCreateAlias);                  
                 }
                 joystickPick.Width = 500;
                 joystickPick.HorizontalAlignment = HorizontalAlignment.Center;
                 joystickPick.VerticalAlignment = VerticalAlignment.Center;
+
                 Grid.SetColumn(joystickPick, 6);
                 Grid.SetRow(joystickPick, i);
                 grid.Children.Add(joystickPick);
@@ -1141,6 +1253,20 @@ namespace JoyPro
             }
             sv.Content = grid;
 
+        }
+
+        void OpenJoystickCreateAlias(object sender, EventArgs e)
+        {
+            DisableInputs();
+            string name = ((Label)sender).Name;
+            int indx = Convert.ToInt32(name.Replace("joyLbl", ""));
+            if (CURRENTDISPLAYEDRELATION[indx].bind == null) return;
+            string joystick = CURRENTDISPLAYEDRELATION[indx].bind.Joystick;
+            CreateJoystickAlias cja = new CreateJoystickAlias(joystick);
+            ALLWINDOWS.Add(cja);
+            cja.Show();
+            
+            cja.Closing += new CancelEventHandler(WindowClosing);
         }
 
         void GroupManagementCheckboxChange(object sender, EventArgs e)
@@ -1650,5 +1776,6 @@ namespace JoyPro
             MainStructure.DCSInstanceSelectionChanged((string)DropDownInstanceSelection.SelectedItem);
         }
 
+        
     }
 }

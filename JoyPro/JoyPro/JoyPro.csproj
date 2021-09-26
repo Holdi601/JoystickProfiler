@@ -98,6 +98,9 @@
     <Compile Include="DataStructures\Other\OtherGameInput.cs" />
     <Compile Include="MISC\HtmlBindElement.cs" />
     <Compile Include="MISC\HtmlInputElementDCS.cs" />
+    <Compile Include="Windows\CreateJoystickAlias.xaml.cs">
+      <DependentUpon>CreateJoystickAlias.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ExchangeStick.xaml.cs">
       <DependentUpon>ExchangeStick.xaml</DependentUpon>
     </Compile>
@@ -136,6 +139,10 @@
       <DependentUpon>ValidationErrors.xaml</DependentUpon>
     </Compile>
     <Compile Include="MISC\WindowPos.cs" />
+    <Page Include="Windows\CreateJoystickAlias.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\ExchangeStick.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

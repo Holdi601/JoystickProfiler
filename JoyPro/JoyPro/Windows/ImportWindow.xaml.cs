@@ -111,11 +111,22 @@ namespace JoyPro
         {
             Grid grid = BaseSetupRelationGrid();
             if (grid == null) return;
-            for(int i=0; i<availableJoysticks.Length; ++i)
+            if (MainStructure.JoystickAliases == null) MainStructure.JoystickAliases = new Dictionary<string, string>();
+            for (int i=0; i<availableJoysticks.Length; ++i)
             {
                 CheckBox cbx = new CheckBox();
                 cbx.Name = "cbxjy" + i.ToString();
-                cbx.Content = availableJoysticks[i];
+
+
+                if (MainStructure.JoystickAliases.ContainsKey(availableJoysticks[i]) && MainStructure.JoystickAliases[availableJoysticks[i]].Length > 0)
+                {
+                    cbx.Content = MainStructure.JoystickAliases[availableJoysticks[i]];
+                }
+                else
+                {
+                    cbx.Content = availableJoysticks[i];
+                }
+                               
                 if (connectedSticks.Contains(availableJoysticks[i].ToLower()))
                 {
                     cbx.Foreground = Brushes.GreenYellow;

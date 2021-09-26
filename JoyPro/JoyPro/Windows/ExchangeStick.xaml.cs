@@ -20,11 +20,24 @@ namespace JoyPro
     public partial class ExchangeStick : Window
     {
         string stickToReplace;
+        List<string> Joysticks;
         public ExchangeStick(string toReplace)
         {
             InitializeComponent();
             List<string> sticks = JoystickReader.GetConnectedJoysticks();
-            DropDownSticks.ItemsSource = sticks;
+            Joysticks = sticks;
+            if (MainStructure.JoystickAliases == null) MainStructure.JoystickAliases = new Dictionary<string, string>();
+            for (int i = 0; i < sticks.Count; ++i)
+            {
+                if (MainStructure.JoystickAliases.ContainsKey(sticks[i]) && MainStructure.JoystickAliases[sticks[i]].Length > 0)
+                {
+                    DropDownSticks.Items.Add(MainStructure.JoystickAliases[sticks[i]]);
+                }
+                else
+                {
+                    DropDownSticks.Items.Add(sticks[i]);
+                }
+            }
             JsToReplace.Content = toReplace;
             stickToReplace = toReplace;
             CancelJoyExchange.Click += new RoutedEventHandler(CancelJoystick);
@@ -44,11 +57,19 @@ namespace JoyPro
 
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
+            this.Topmost = true;
+            this.Activate();
+            this.Loaded += new RoutedEventHandler(loadedEvent);
         }
 
+        void loadedEvent(object sender, EventArgs e)
+        {
+            this.Topmost = true;
+            this.Activate();
+        }
         void OKNewJoystick(object sender, EventArgs e)
         {
-            string selItem = (string)DropDownSticks.SelectedItem;
+            string selItem = Joysticks[DropDownSticks.SelectedIndex];
             if (selItem == null || selItem.Length < 1)
                 MessageBox.Show("No Stick selected");
             MainStructure.ExchangeSticksInBind(stickToReplace, selItem);
