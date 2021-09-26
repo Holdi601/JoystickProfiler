@@ -82,23 +82,12 @@ Discord for more direct question answer or concerns: https://discord.gg/SeCTXJHh
 
 # To Do, Features I want to work on
 
--Grouping Relations
 
 -Import update Database
-
--Device Manager
-
--Search function in Relation overview
-
--Filters in Relationview
-
--Select All / None in Import
 
 -Asynchronus download and update
 
 -Local DB Diffs if users want to exclude stuff from their DB
-
--instance saving into profile
 
 -cancel an edit of a relation
 
