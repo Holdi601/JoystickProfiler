@@ -36,7 +36,7 @@ namespace JoyPro
         const string initialBackupFolder = "\\Config\\JP_InitBackup";
         const string externalWebUrl = "https://raw.githubusercontent.com/Holdi601/JoystickProfiler/master/JoyPro/JoyPro/ver.txt";
         const string buildPath = "https://github.com/Holdi601/JoystickProfiler/raw/master/Builds/JoyPro_WinX64_v";
-        const int version = 39;
+        const int version = 40;
         public static MainWindow mainW;
         public static string[] RelationWordFilter;
         public static string PROGPATH;
@@ -1392,6 +1392,7 @@ namespace JoyPro
             AllModifiers.Clear();
             AllGroups.Clear();
             JoystickAliases.Clear();
+            GroupActivity.Clear();
             ResyncRelations();
         }
 
