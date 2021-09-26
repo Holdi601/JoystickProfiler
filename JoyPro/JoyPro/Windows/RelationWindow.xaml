@@ -27,23 +27,20 @@
         <TextBox Name="RelationNameTF" Grid.Row="0" Grid.Column="1" Background="White" Margin="10,22" HorizontalAlignment="Center" VerticalAlignment="Center" Width="180" Height="26" ></TextBox>
         <Label Content="Search Query: " Foreground="White" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="37,22" Height="26" Width="88" />
         <TextBox Name="SearchQueryTF" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="4" Background="White" Margin="136,22,39,22" HorizontalAlignment="Center" VerticalAlignment="Center" Width="347" Height="26" ></TextBox>
+        <Rectangle Name="Test123"></Rectangle>
 
         <Button FontWeight="Bold" Name="FinishRelationBtn" Content="Finish Relation" Height="30" Width="102"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,23,18,17" Grid.Row="5" Grid.Column="5" />
         <Button FontWeight="Bold" Name="CancelRelationBtn" Content="Close" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,23,10,17" Grid.Row="5" Grid.Column="4" />
 
         <Button FontWeight="Bold" Name="AddItemBtn" Content="Add Item" Height="32" Width="92"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,18,22" Grid.Row="2" Grid.Column="5" RenderTransformOrigin="0.38,-0.875" />
-        <Button FontWeight="Bold" Name="RemoveItemBtn" Content="Remove Item" Height="32" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,22" Grid.Row="2" Grid.Column="4" />
+        
 
         <DataGrid Name="DGSource" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" IsReadOnly="True" />
         <ScrollViewer Name="svcCont"  ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"  Width="auto" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="6" Background="Transparent" ScrollViewer.CanContentScroll="True" >
-            <DataGrid Name="DGAdded" CellEditEnding="DGAdded_CellEditEnding" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled" Margin="0,-25,0,0" PreviewMouseWheel="DataGrid_PreviewMouseWheel">
-
-            </DataGrid>
+            
         </ScrollViewer>
         <ScrollViewer Name="svHead"  ScrollViewer.HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"  Width="auto" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6"  MaxHeight="25">
-            <DataGrid Name="DGHead"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled" MaxHeight="25" >
 
-            </DataGrid>
         </ScrollViewer>
         
 

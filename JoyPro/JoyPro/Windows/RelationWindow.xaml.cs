@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Dynamic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace JoyPro
@@ -24,16 +19,17 @@ namespace JoyPro
         DataTable InWorkTable = null;
         public Relation Current = null;
         bool editMode;
+        List<ColumnDefinition> headerColumns;
+        List<ColumnDefinition> mainColumns;
+        List<RelationItem> ri;
 
         void init()
         {
             SearchQueryTF.TextChanged += new TextChangedEventHandler(SearchQueryChanged);
             RelationNameTF.TextChanged += new TextChangedEventHandler(NameChanged);
             AddItemBtn.Click += new RoutedEventHandler(AddItemBtnHit);
-            RemoveItemBtn.Click += new RoutedEventHandler(DeleteButtonEvent);
             CancelRelationBtn.Click += new RoutedEventHandler(CloseThis);
             FinishRelationBtn.Click += new RoutedEventHandler(FinishRelation);
-            DGAdded.CanUserAddRows = false;
             this.Closing += new System.ComponentModel.CancelEventHandler(OnClosing);
             if (MainStructure.msave.relationWindowLast != null)
             {
@@ -88,12 +84,13 @@ namespace JoyPro
 
         void scrollChanged(object sender, EventArgs e)
         {
+            svcCont.UpdateLayout();
             svHead.ScrollToHorizontalOffset(svcCont.HorizontalOffset);
-
-            for (int i = 0; i < DGAdded.Columns.Count; ++i)
+            for(int i=0; i<headerColumns.Count; ++i)
             {
-                DGHead.Columns[i].MinWidth = DGAdded.Columns[i].ActualWidth;
+                headerColumns[i].MinWidth = mainColumns[i].ActualWidth;
             }
+            
         }
 
         public void Refresh()
@@ -165,22 +162,7 @@ namespace JoyPro
         {
             setLastSizeAndPosition();
         }
-        void DeleteButtonEvent(object sender, EventArgs e)
-        {
-            List<DataRowView> selected = DGAdded.SelectedItems.Cast<DataRowView>().ToList();
-            if (selected.Count < 1)
-            {
-                MessageBox.Show("No Items Selected");
-                return;
-            }
-            for (int i = 0; i < selected.Count; ++i)
-            {
-                string id = (string)selected[i].Row[0];
-                Current.RemoveNode(id);
-            }
-            RefreshDGSelected();
-        }
-
+       
         void AddItemBtnHit(object sender, EventArgs e)
         {
             List<SearchQueryResults> selected = DGSource.SelectedItems.Cast<SearchQueryResults>().ToList();
@@ -205,94 +187,237 @@ namespace JoyPro
             RefreshDGSelected();
         }
 
-        DataTable GetEmptyDTForSelection()
+        Grid createBaseGridHeader()
         {
-            System.Data.DataTable dt = new DataTable("Data");
-            dt.Columns.Add("ID", typeof(string));
-            dt.Columns.Add("Select None", typeof(bool));
-            dt.Columns.Add("Select Rest", typeof(bool));
-            for (int i = 0; i < MainStructure.Planes.Length; ++i)
+            headerColumns = new List<ColumnDefinition>();
+            var converter = new GridLengthConverter();
+            Grid grid = new Grid();
+            int columnsNeeded = MainStructure.Planes.Length + 4;
+            grid.RowDefinitions.Add(new RowDefinition());
+            for (int i = 0; i < columnsNeeded; ++i)
             {
-                dt.Columns.Add(MainStructure.Planes[i] + "_cb", typeof(bool));
-                dt.Columns.Add(MainStructure.Planes[i] + "_desc", typeof(string));
+                ColumnDefinition c = new ColumnDefinition();
+                c.Width= (GridLength)converter.ConvertFromString("80");
+                grid.ColumnDefinitions.Add(c);
+                headerColumns.Add(c);
             }
-            return dt;
+            return grid;
         }
+
+        Grid createMainGrid(int itemrows)
+        {
+            var converter = new GridLengthConverter();
+            Grid grid = new Grid();
+            int columnsNeeded = MainStructure.Planes.Length + 4;
+            mainColumns = new List<ColumnDefinition>();
+            for(int i=0; i<itemrows; ++i)
+            {
+                RowDefinition r = new RowDefinition();
+                r.Height = (GridLength)converter.ConvertFromString("30");
+                grid.RowDefinitions.Add(r);
+            }
+            for(int i=0; i<columnsNeeded; ++i)
+            {
+                ColumnDefinition c = new ColumnDefinition();
+                c.MinWidth = 80;
+                grid.ColumnDefinitions.Add(c);
+                mainColumns.Add(c);
+            }
+            
+            return grid;
+        }
+
 
         void RefreshDGSelected()
         {
+            var T = Type.GetType("System.Windows.Controls.Grid+GridLinesRenderer," + " PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35");
+            var GLR = Activator.CreateInstance(T);
+            GLR.GetType().GetField("s_oddDashPen", BindingFlags.Static | BindingFlags.NonPublic).SetValue(GLR, new Pen(Brushes.LightGray, 0.5));
+            GLR.GetType().GetField("s_evenDashPen", BindingFlags.Static | BindingFlags.NonPublic).SetValue(GLR, new Pen(Brushes.LightGray, 0.5));
+           
 
-            if (InWorkTable != null)
+            ri = Current.AllRelations();
+            Grid grid = createMainGrid(ri.Count);
+            for(int i=0; i<ri.Count; ++i)
             {
-                InWorkTable.Clear();
-            }
-            List<RelationItem> ri = Current.AllRelations();
-            System.Data.DataTable dt = GetEmptyDTForSelection();
-            InWorkTable = dt;
+                Label iditem = new Label();
+                iditem.Name = "id_"+ri[i].ID;
+                iditem.Foreground = Brushes.White;
+                iditem.Content = ri[i].ID;
+                iditem.HorizontalAlignment = HorizontalAlignment.Center;
+                iditem.VerticalAlignment = VerticalAlignment.Center;
+                Grid.SetColumn(iditem, 0);
+                Grid.SetRow(iditem, i);
+                grid.Children.Add(iditem);
 
-            for (int i = 0; i < ri.Count; ++i)
-            {
-                object[] row = new object[3 + (MainStructure.Planes.Length) * 2];
-                row[0] = ri[i].ID;
-                int k = 3;
-                row[1] = false;
-                row[2] = false;
-                for (int j = 0; j < MainStructure.Planes.Length; ++j)
+                Button deleteBtn = new Button();
+                deleteBtn.Name = "deleteBtn" + i.ToString();
+                deleteBtn.Content = "Delete";
+                deleteBtn.HorizontalAlignment = HorizontalAlignment.Center;
+                deleteBtn.VerticalAlignment = VerticalAlignment.Center;
+                deleteBtn.Width = 100;
+                deleteBtn.Click += new RoutedEventHandler(deleteItem);
+                Grid.SetColumn(deleteBtn, 1);
+                Grid.SetRow(deleteBtn, i);
+                grid.Children.Add(deleteBtn);
+
+                Button selectAllBtn = new Button();
+                selectAllBtn.Name = "selectAllBtn" + i.ToString();
+                selectAllBtn.Content = "Select All";
+                selectAllBtn.HorizontalAlignment = HorizontalAlignment.Center;
+                selectAllBtn.VerticalAlignment = VerticalAlignment.Center;
+                selectAllBtn.Width = 100;
+                selectAllBtn.Click += new RoutedEventHandler(selectAll);
+                Grid.SetColumn(selectAllBtn, 2);
+                Grid.SetRow(selectAllBtn, i);
+                grid.Children.Add(selectAllBtn);
+
+                Button selectNoneBtn = new Button();
+                selectNoneBtn.Name = "selectNoneBtn" + i.ToString();
+                selectNoneBtn.Content = "Select None";
+                selectNoneBtn.HorizontalAlignment = HorizontalAlignment.Center;
+                selectNoneBtn.VerticalAlignment = VerticalAlignment.Center;
+                selectNoneBtn.Width = 100;
+                selectNoneBtn.Click += new RoutedEventHandler(selectNone);
+                Grid.SetColumn(selectNoneBtn, 3);
+                Grid.SetRow(selectNoneBtn, i);
+                grid.Children.Add(selectNoneBtn);
+
+                for(int j=0; j< MainStructure.Planes.Length; ++j)
                 {
-                    if (ri[i].GetStateAircraftDCS(MainStructure.Planes[j]) == PlaneState.ACTIVE)
-                        row[k] = true;
-                    else
-                        row[k] = false;
-                    ++k;
-                    row[k] = ri[i].GetInputDescription(MainStructure.Planes[j]);
-                    ++k;
-                }
-                dt.Rows.Add(row);
-            }
-            dt.Columns[0].ReadOnly = true;
-            for (int i = 4; i < dt.Columns.Count; i += 2)
-                dt.Columns[i].ReadOnly = true;
-            DGAdded.ItemsSource = dt.DefaultView;
-            DGHead.ItemsSource = dt.DefaultView;
-
-        }
-
-        private void DGAdded_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            try
-            {
-                string planeRaw = e.Column.Header.ToString();
-                string item = (string)((DataRowView)e.Row.Item)[0];
-                if (planeRaw == "Select None")
-                {
-                    ((CheckBox)e.EditingElement).IsChecked = false;
-                    Current.DeactivateAllID(item);
-
-                }
-                else if (planeRaw == "Select Rest")
-                {
-                    ((CheckBox)e.EditingElement).IsChecked = false;
-                    Current.ActivateRestForID(item);
-
-                }
-                else if (planeRaw.Length > 2)
-                {
-                    string plane = planeRaw.Substring(0, planeRaw.Length - 3);
-                    bool succ = Current.GetRelationItem(item).SwitchAircraftActivityDCS(plane);
-                    if (!succ)
+                    PlaneState ps = ri[i].GetStateAircraftDCS(MainStructure.Planes[j]);
+                    if (ps == PlaneState.ACTIVE||ps == PlaneState.DISABLED)
                     {
-                        MessageBox.Show("The item that you wanted to enable, doesn't have an implementation for that Plane");
-                        ((CheckBox)e.EditingElement).IsChecked = false;
-                        return;
+                        CheckBox cbx = new CheckBox();
+                        cbx.Name = "p"+j.ToString()+"r" + i.ToString();
+                        cbx.Content = ri[i].GetInputDescription(MainStructure.Planes[j]);
+                        cbx.Foreground = Brushes.White;
+                        cbx.HorizontalAlignment = HorizontalAlignment.Left;
+                        cbx.VerticalAlignment = VerticalAlignment.Center;
+                        if (ps == PlaneState.ACTIVE)
+                            cbx.IsChecked = true;
+                        else
+                            cbx.IsChecked = false;
+                        cbx.Click += new RoutedEventHandler(planeActiveStateChanged);
+                        Grid.SetColumn(cbx, j+4);
+                        Grid.SetRow(cbx, i);
+                        grid.Children.Add(cbx);
                     }
+                    else
+                    {
+                        Label emptyItem = new Label();
+                        emptyItem.Name = "id_" + ri[i].ID;
+                        emptyItem.Foreground = Brushes.White;
+                        emptyItem.Content = "   ";
+                        emptyItem.HorizontalAlignment = HorizontalAlignment.Center;
+                        emptyItem.VerticalAlignment = VerticalAlignment.Center;
+                        Grid.SetColumn(emptyItem, j+4);
+                        Grid.SetRow(emptyItem, i);
+                        grid.Children.Add(emptyItem);
+                    }
+                    
                 }
-            }
-            catch
-            {
-
             }
             
+            grid.ShowGridLines = true;
+            svcCont.Content = grid;
+
+            Grid headerGrid = createBaseGridHeader();
+
+            Label headerID = new Label();
+            headerID.Name = "headerID";
+            headerID.Foreground = Brushes.White;
+            headerID.Content = "ID";
+            headerID.HorizontalAlignment = HorizontalAlignment.Left;
+            headerID.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(headerID, 0);
+            Grid.SetRow(headerID, 0);
+            headerGrid.Children.Add(headerID);
+
+            Label deleteBtnLbl = new Label();
+            deleteBtnLbl.Name = "deleteBtns";
+            deleteBtnLbl.Foreground = Brushes.White;
+            deleteBtnLbl.Content = "Delete Buttons";
+            deleteBtnLbl.HorizontalAlignment = HorizontalAlignment.Left;
+            deleteBtnLbl.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(deleteBtnLbl, 1);
+            Grid.SetRow(deleteBtnLbl, 0);
+            headerGrid.Children.Add(deleteBtnLbl);
+
+            Label selectAllBtnLbl = new Label();
+            selectAllBtnLbl.Name = "selectAllBtns";
+            selectAllBtnLbl.Foreground = Brushes.White;
+            selectAllBtnLbl.Content = "Select All";
+            selectAllBtnLbl.HorizontalAlignment = HorizontalAlignment.Left;
+            selectAllBtnLbl.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(selectAllBtnLbl, 2);
+            Grid.SetRow(selectAllBtnLbl, 0);
+            headerGrid.Children.Add(selectAllBtnLbl);
+
+            Label selectNoneBtnLbl = new Label();
+            selectNoneBtnLbl.Name = "selectAllBtns";
+            selectNoneBtnLbl.Foreground = Brushes.White;
+            selectNoneBtnLbl.Content = "Select All";
+            selectNoneBtnLbl.HorizontalAlignment = HorizontalAlignment.Left;
+            selectNoneBtnLbl.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(selectNoneBtnLbl, 3);
+            Grid.SetRow(selectNoneBtnLbl, 0);
+            headerGrid.Children.Add(selectNoneBtnLbl);
+
+            for (int i = 0; i < MainStructure.Planes.Length; ++i)
+            {
+                Label itemLbl = new Label();
+                itemLbl.Name = "Plane" + i.ToString();
+                itemLbl.Foreground = Brushes.White;
+                itemLbl.Content = MainStructure.Planes[i];
+                itemLbl.HorizontalAlignment = HorizontalAlignment.Left;
+                itemLbl.VerticalAlignment = VerticalAlignment.Center;
+                Grid.SetColumn(itemLbl, i + 4);
+                Grid.SetRow(itemLbl, 0);
+                headerGrid.Children.Add(itemLbl);
+            }
+            headerGrid.ShowGridLines = true;
+            svHead.Content = headerGrid;
+            scrollChanged(null, null);
+        }
+        void planeActiveStateChanged(object sender, EventArgs e)
+        {
+            CheckBox cbx = (CheckBox)sender;
+            string[] idParts = cbx.Name.Split('r');
+            string plane = MainStructure.Planes[Convert.ToInt32(idParts[0].Replace("p",""))];
+            bool state;
+            if (cbx.IsChecked == true) {
+                ri[Convert.ToInt32(idParts[1])].SetAircraftActivityDCS(plane, true);
+            }
+            else {
+                ri[Convert.ToInt32(idParts[1])].SetAircraftActivityDCS(plane, false);
+            }
             RefreshDGSelected();
         }
+        void selectNone(object sender, EventArgs e)
+        {
+            int indx = Convert.ToInt32(((Button)sender).Name.Replace("selectNoneBtn", ""));
+            for(int i=0; i<MainStructure.Planes.Length; ++i)
+            {
+                ri[indx].SetAircraftActivityDCS(MainStructure.Planes[i], false);
+            }
+            RefreshDGSelected();
+        }
+        void selectAll(object sender, EventArgs e)
+        {
+            int indx = Convert.ToInt32(((Button)sender).Name.Replace("selectAllBtn", ""));
+            for (int i = 0; i < MainStructure.Planes.Length; ++i)
+            {
+                ri[indx].SetAircraftActivityDCS(MainStructure.Planes[i], true);
+            }
+            RefreshDGSelected();
+        }
+        void deleteItem(object sender, EventArgs e)
+        {
+            int indx = Convert.ToInt32(((Button)sender).Name.Replace("deleteBtn", ""));
+            Current.RemoveNode(ri[indx].ID);
+            RefreshDGSelected();
+        }
+        
     }
 }
