@@ -43,6 +43,9 @@ namespace JoyPro
             }
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
+            CBselAll.Click += new RoutedEventHandler(SelectAll);
+            CBselNone.Click += new RoutedEventHandler(SelectNone);
+
         }
 
         void CancelImport(object sender, EventArgs e)
@@ -50,6 +53,36 @@ namespace JoyPro
             MainStructure.msave.importWindowLast = MainStructure.GetWindowPosFrom(this);
             MainStructure.SaveMetaLast();
             Close();
+        }
+
+        void SelectNone(object sender, EventArgs e)
+        {
+            if (CBselNone.IsChecked == true)
+            {
+                CBselNone.IsChecked = false;
+                CBinv.IsChecked = false;
+                CBcurv.IsChecked = false;
+                CBdz.IsChecked = false;
+                CBimportDefault.IsChecked = false;
+                CBsatx.IsChecked = false;
+                CBsaty.IsChecked = false;
+                CBslid.IsChecked = false;
+            }
+        }
+
+        void SelectAll(object sender, EventArgs e)
+        {
+            if (CBselAll.IsChecked == true)
+            {
+                CBselAll.IsChecked = false;
+                CBinv.IsChecked = true;
+                CBcurv.IsChecked = true;
+                CBdz.IsChecked = true;
+                CBimportDefault.IsChecked = true;
+                CBsatx.IsChecked = true;
+                CBsaty.IsChecked = true;
+                CBslid.IsChecked = true;
+            }
         }
 
         void Import(object sender, EventArgs e)
