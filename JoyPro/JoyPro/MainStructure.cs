@@ -38,6 +38,7 @@ namespace JoyPro
         const string buildPath = "https://github.com/Holdi601/JoystickProfiler/raw/master/Builds/JoyPro_WinX64_v";
         const int version = 39;
         public static MainWindow mainW;
+        public static string[] RelationWordFilter;
         public static string PROGPATH;
         public static bool showUnassignedRelations = true;
         public static Dictionary<string, DCSPlane> DCSLib = new Dictionary<string, DCSPlane>();
@@ -1882,10 +1883,32 @@ namespace JoyPro
             SaveMetaLast();
             li = FilterGroups(li);
             li = FilterDevices(li);
-
+            li = FilterWords(li);
             mainW.SetRelationsToView(li);
         }
 
+        static List<Relation> FilterWords(List<Relation> temp)
+        {
+            
+            if (RelationWordFilter == null || RelationWordFilter.Length == 0||temp==null) return temp;
+            List<Relation> toReturn = new List<Relation>();
+            for(int i=0; i < temp.Count; ++i)
+            {
+                bool allFound = true;
+                for(int j=0; j<RelationWordFilter.Length; ++j)
+                {
+                    if (!(temp[i].NAME.ToLower().Contains(RelationWordFilter[j].ToLower())))
+                    {
+                        allFound = false;
+                    }
+                }
+                if (allFound)
+                {
+                    toReturn.Add(temp[i]);
+                }
+            }
+            return toReturn;
+        }
         static List<Relation> FilterDevices(List<Relation> temp)
         {
             List<Relation> toReturn;

@@ -60,6 +60,25 @@ namespace JoyPro
             buttonSetting = -1;
             selectedSort = "Relation";
         }
+        void FilterSearchConfirm(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                FilterSearchResult(sender, e);
+            }
+        }
+        void FilterSearchResult(object sender, EventArgs e)
+        {
+            string rawQry = SearchQueryRelationName.Text;
+            if (rawQry.Replace(" ", "").Length < 1)
+                MainStructure.RelationWordFilter = null;
+            else
+            {
+                rawQry = rawQry.Trim();
+                MainStructure.RelationWordFilter = rawQry.Split(' ');
+            }
+            MainStructure.ResyncRelations();
+        }
         void ButtonsIntoList()
         {
             ALLBUTTONS = new List<Button>();
@@ -85,6 +104,7 @@ namespace JoyPro
 
         void SetupEventHandlers()
         {
+            SearchQueryRelationName.AcceptsReturn = true;
             App.Current.MainWindow.Closing += new System.ComponentModel.CancelEventHandler(ProgramClosing);
             SetupButtonsEventHandler();
             SetupDropDownsEventHandlers();
@@ -92,6 +112,8 @@ namespace JoyPro
             sv.ScrollChanged += new ScrollChangedEventHandler(sizeChanged);
             this.ContentRendered += new EventHandler(setWindowPosSize);
             this.Loaded += new RoutedEventHandler(AfterLoading);
+            SearchQueryRelationName.LostFocus += new RoutedEventHandler(FilterSearchResult);
+            SearchQueryRelationName.KeyUp += new KeyEventHandler(FilterSearchConfirm);
             CBNukeUnused.Click += new RoutedEventHandler(MainStructure.SaveWindowState);
         }
 
