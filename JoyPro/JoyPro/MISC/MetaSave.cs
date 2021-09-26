@@ -28,6 +28,7 @@ namespace JoyPro
         public int backupDays;
         public WindowPos BackupW = null;
         public WindowPos UsrCvW = null;
+        public WindowPos GrpMngr = null;
 
 
         public MetaSave()
@@ -51,6 +52,7 @@ namespace JoyPro
             backupDays = 90;
             BackupW = new WindowPos();
             UsrCvW = new WindowPos();
+            GrpMngr = new WindowPos();
         }
     }
 }

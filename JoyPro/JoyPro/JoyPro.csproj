@@ -101,6 +101,9 @@
     <Compile Include="Windows\ExchangeStick.xaml.cs">
       <DependentUpon>ExchangeStick.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\GroupManagerW.xaml.cs">
+      <DependentUpon>GroupManagerW.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ImportWindow.xaml.cs">
       <DependentUpon>ImportWindow.xaml</DependentUpon>
     </Compile>
@@ -134,6 +137,10 @@
     </Compile>
     <Compile Include="MISC\WindowPos.cs" />
     <Page Include="Windows\ExchangeStick.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\GroupManagerW.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

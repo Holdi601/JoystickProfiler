@@ -48,6 +48,7 @@ namespace JoyPro
         static Dictionary<string, Relation> AllRelations = new Dictionary<string, Relation>();
         static Dictionary<string, Bind> AllBinds = new Dictionary<string, Bind>();
         public static List<string> AllGroups = new List<string>();
+        public static Dictionary<string, bool> GroupActivity = new Dictionary<string, bool>();
         public static Dictionary<string, string> JoystickAliases = new Dictionary<string, string>();
         public static Dictionary<string, DCSLuaInput> EmptyOutputsDCS = new Dictionary<string, DCSLuaInput>();
         static Dictionary<string, DCSExportPlane> LocalBindsDCS = new Dictionary<string, DCSExportPlane>();
@@ -352,6 +353,10 @@ namespace JoyPro
                 else if (sender is UserCurveDCS)
                 {
                     msave.UsrCvW = p;
+                }
+                else if(sender is GroupManagerW)
+                {
+                    msave.GrpMngr = p;
                 }
             }
             if (mainW.CBNukeUnused.IsChecked == true)
@@ -1493,6 +1498,38 @@ namespace JoyPro
             }
             return result;
         }
+        public static void RemoveGroupFromSpecificRelation(string relation, string group)
+        {
+            if (AllRelations.ContainsKey(relation) && AllRelations[relation].Groups.Contains(group))
+                AllRelations[relation].Groups.Remove(group);
+        }
+        public static void RemoveGroupFromRelation(string group)
+        {
+            foreach(KeyValuePair <string, Relation> kvp in AllRelations)
+            {
+                if (kvp.Value.Groups == null)
+                {
+                    kvp.Value.Groups = new List<string>();
+                    continue;
+                }
+                if (kvp.Value.Groups.Contains(group))
+                {
+                    kvp.Value.Groups.Remove(group);
+                }
+            }
+            foreach(KeyValuePair <string, Bind> kvp in AllBinds)
+            {
+                if (kvp.Value.Rl.Groups == null)
+                {
+                    kvp.Value.Rl.Groups = new List<string>();
+                    continue;
+                }
+                if (kvp.Value.Rl.Groups.Contains(group))
+                {
+                    kvp.Value.Rl.Groups.Remove(group);
+                }
+            }
+        }
 
         public static void DCSInstanceSelectionChanged(string newInstance)
         {
@@ -1760,6 +1797,10 @@ namespace JoyPro
             if (AllBinds.ContainsKey(name)) return AllBinds[name];
             return null;
         }
+        public static void ResyncRelations(object sender, EventArgs e)
+        {
+            ResyncRelations();
+        }
         public static void ResyncRelations()
         {
             List<Relation> li = SyncRelations();
@@ -1842,7 +1883,63 @@ namespace JoyPro
                 li = fi;
             }
             SaveMetaLast();
-            mainW.SetRelationsToView(li);
+            //Group filter
+            List<Relation> toReturn;
+            if (GroupActivity.Count > 0)
+            {
+                List<Relation> groupresult = new List<Relation>();
+                bool toCompare= GroupActivity[AllGroups[0]];
+                bool allTheSame = true;
+                for(int i=1; i<AllGroups.Count; ++i)
+                {
+                    if (toCompare != GroupActivity[AllGroups[i]])
+                    {
+                        allTheSame = false;
+                        break;
+                    }
+                }
+                if (!allTheSame)
+                {
+                    List<string> activeGroups = new List<string>();
+                    foreach (KeyValuePair<string, bool> kvp in GroupActivity)
+                        if (kvp.Value)
+                            activeGroups.Add(kvp.Key);
+                    for(int i=0; i<li.Count; ++i)
+                    {
+                        bool groupFound = false;
+                        for(int j=0; j<activeGroups.Count; ++j)
+                        {
+                            if (li[i].Groups == null)
+                            {
+                                li[i].Groups = new List<string>();
+                                break;
+                            }
+                            else
+                            {
+                                if (li[i].Groups.Contains(activeGroups[j]))
+                                {
+                                    groupFound = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (groupFound)
+                            groupresult.Add(li[i]);
+                    }
+                    toReturn = groupresult;
+                    mainW.SetRelationsToView(groupresult);
+                }
+                else
+                {
+                    toReturn = li;
+                }
+            }
+            else
+            {
+                toReturn = li;
+            }
+
+            mainW.SetRelationsToView(toReturn);
         }
 
         public static List<Modifier> GetAllModifiers()

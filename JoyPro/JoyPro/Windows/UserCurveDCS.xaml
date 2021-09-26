@@ -32,7 +32,7 @@
         <TextBox FontWeight="Bold" Name="tbcv4" Width="60" Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1" />
         <TextBox FontWeight="Bold" Name="tbcv5" Width="60" Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="1" />
         <TextBox FontWeight="Bold" Name="tbcv6" Width="60" Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="1" />
-        <TextBox FontWeight="Bold" Name="tbcv7" Width="60" Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6,39,6,37" Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="1" />
+        <TextBox FontWeight="Bold" Name="tbcv7" Width="60" Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="1" />
         <TextBox FontWeight="Bold" Name="tbcv8" Width="60" Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" Grid.Column="7" Grid.ColumnSpan="1" />
         <TextBox FontWeight="Bold" Name="tbcv9" Width="60" Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" Grid.Column="8" Grid.ColumnSpan="1" />
         <TextBox FontWeight="Bold" Name="tbcv10" Width="60" Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" Grid.Column="9" Grid.ColumnSpan="1" />

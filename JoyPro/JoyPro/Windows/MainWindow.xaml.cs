@@ -41,13 +41,26 @@ namespace JoyPro
         List<ColumnDefinition> colHds = null;
         Control[] controls = null;
         List<Button> additional;
+        int gridCols;
 
         public MainWindow()
         {
-            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
-            Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
+            //AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
+            //Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
+            gridCols = 15;
             CURRENTDISPLAYEDRELATION = new List<Relation>();
+            ButtonsIntoList();
+            SetupEventHandlers();
+            ALLWINDOWS = new List<Window>();
+            MainStructure.mainW = this;
+            FirstStart();
+            joyReader = null;
+            buttonSetting = -1;
+            selectedSort = "Relation";
+        }
+        void ButtonsIntoList()
+        {
             ALLBUTTONS = new List<Button>();
             ALLBUTTONS.Add(LoadRelationsBtn);
             ALLBUTTONS.Add(SaveRelationsBtn);
@@ -64,42 +77,49 @@ namespace JoyPro
             ALLBUTTONS.Add(ModManagerBtn);
             ALLBUTTONS.Add(ValidateBtn);
             ALLBUTTONS.Add(ReinstateBUBtn);
-            ALLWINDOWS = new List<Window>();
-            MainStructure.mainW = this;
-            DCSSELECT.Click += new RoutedEventHandler(GameSelectionChanged);
-            IL2SELECT.Click += new RoutedEventHandler(GameSelectionChanged);
+        }
 
-            AddRelationsBtn.Click += new RoutedEventHandler(Event_AddRelation);
+        void SetupEventHandlers()
+        {
             App.Current.MainWindow.Closing += new System.ComponentModel.CancelEventHandler(ProgramClosing);
-            LoadRelationsBtn.Click += new RoutedEventHandler(LoadRelationsEvent);
-            IncludeRelationsBtn.Click += new RoutedEventHandler(IncludeRelationsEvent);
-            LoadProfileBtn.Click += new RoutedEventHandler(LoadProfileEvent);
-            SaveRelationsBtn.Click += new RoutedEventHandler(SaveReleationsEvent);
-            SaveProfileBtn.Click += new RoutedEventHandler(SaveProfileEvent);
-            DropDownInstanceSelection.SelectionChanged += new SelectionChangedEventHandler(InstanceSelectionChanged);
-            MEBWEAKEBtn.Click += new RoutedEventHandler(LoadExistingExportKeepExisting);
-            MEBWEAOEBtn.Click += new RoutedEventHandler(LoadExistingExportOverwrite);
-            CEBAEBtn.Click += new RoutedEventHandler(CleanAndExport);
-            MEBWEAABBtn.Click += new RoutedEventHandler(LoadExistingExportAndAdd);
-            ImportProfileBtn.Click += new RoutedEventHandler(ImportProf);
-            NewFileBtn.Click += new RoutedEventHandler(NewFileEvent);
-            ModManagerBtn.Click += new RoutedEventHandler(OpenModifierManager);
-            ValidateBtn.Click += new RoutedEventHandler(DoValidate);
-            ExchStickBtn.Click += new RoutedEventHandler(ExchangeStick);
-            JoystickSettingsBtn.Click += new RoutedEventHandler(ChangeJoystickSettings);
-            FirstStart();
-            joyReader = null;
-            buttonSetting = -1;
-            selectedSort = "Relation";
+            SetupButtonsEventHandler();
+            SetupDropDownsEventHandlers();
             this.SizeChanged += new SizeChangedEventHandler(sizeChanged);
             sv.ScrollChanged += new ScrollChangedEventHandler(sizeChanged);
             this.ContentRendered += new EventHandler(setWindowPosSize);
             this.Loaded += new RoutedEventHandler(AfterLoading);
             CBNukeUnused.Click += new RoutedEventHandler(MainStructure.SaveWindowState);
-            ReinstateBUBtn.Click += new RoutedEventHandler(reinstiateBackupWindow);
         }
 
-        void reinstiateBackupWindow(object sender, EventArgs e)
+        void SetupDropDownsEventHandlers()
+        {
+            DCSSELECT.Click += new RoutedEventHandler(GameSelectionChanged);
+            IL2SELECT.Click += new RoutedEventHandler(GameSelectionChanged);
+            DropDownInstanceSelection.SelectionChanged += new SelectionChangedEventHandler(InstanceSelectionChanged);
+        }
+        void SetupButtonsEventHandler()
+        {
+            AddRelationsBtn.Click += new RoutedEventHandler(OpenRelation);
+            LoadRelationsBtn.Click += new RoutedEventHandler(OpenLoadRelations);
+            IncludeRelationsBtn.Click += new RoutedEventHandler(OpenIncludeRelations);
+            LoadProfileBtn.Click += new RoutedEventHandler(OpenLoadProfile);
+            SaveRelationsBtn.Click += new RoutedEventHandler(OpenSaveReleations);
+            SaveProfileBtn.Click += new RoutedEventHandler(OpenSaveProfile);
+            MEBWEAKEBtn.Click += new RoutedEventHandler(LoadExistingExportKeepExisting);
+            MEBWEAOEBtn.Click += new RoutedEventHandler(LoadExistingExportOverwrite);
+            CEBAEBtn.Click += new RoutedEventHandler(CleanAndExport);
+            MEBWEAABBtn.Click += new RoutedEventHandler(LoadExistingExportAndAdd);
+            ImportProfileBtn.Click += new RoutedEventHandler(OpenImportProf);
+            NewFileBtn.Click += new RoutedEventHandler(NewFileEvent);
+            ModManagerBtn.Click += new RoutedEventHandler(OpenModifierManager);
+            ValidateBtn.Click += new RoutedEventHandler(OpenValidation);
+            ExchStickBtn.Click += new RoutedEventHandler(OpenExchangeStick);
+            JoystickSettingsBtn.Click += new RoutedEventHandler(OpenChangeJoystickSettings);
+            ReinstateBUBtn.Click += new RoutedEventHandler(OpenBackupWindow);
+            GroupManagerBtn.Click += new RoutedEventHandler(OpenGroupManager);
+        }
+
+        void OpenBackupWindow(object sender, EventArgs e)
         {
             DisableInputs();
             ReinstateBackup ri = new ReinstateBackup(MainStructure.GetPossibleFallbacksForInstance(MainStructure.selectedInstancePath));
@@ -107,14 +127,14 @@ namespace JoyPro
             ri.Show();
         }
 
-        void ChangeJoystickSettings(object sender, EventArgs e)
+        void OpenChangeJoystickSettings(object sender, EventArgs e)
         {
             DisableInputs();
             StickSettings stickSettings = new StickSettings();
             stickSettings.Show();
             stickSettings.Closing += new CancelEventHandler(ActivateInputs);
         }
-        void ExchangeStick(object sender, EventArgs e)
+        void OpenExchangeStick(object sender, EventArgs e)
         {
             List<string> sticksInBind = new List<string>();
             List<Bind> allBinds = MainStructure.GetAllBinds();
@@ -149,7 +169,7 @@ namespace JoyPro
             ste.Closing += new CancelEventHandler(ActivateInputs);
         }
 
-        void DoValidate(object sender, EventArgs e)
+        void OpenValidation(object sender, EventArgs e)
         {
             Validation validate = new Validation();
             ValidationErrors win = new ValidationErrors(validate);
@@ -202,7 +222,15 @@ namespace JoyPro
             }
         }
 
-        void ImportProf(object sender, EventArgs e)
+        void OpenGroupManager(object sender, EventArgs e)
+        {
+            GroupManagerW gmw = new GroupManagerW();
+            DisableInputs();
+            gmw.Show();
+            gmw.Closing += new CancelEventHandler(MainStructure.ResyncRelations);
+            gmw.Closing += new CancelEventHandler(ActivateInputs);            
+        }
+        void OpenImportProf(object sender, EventArgs e)
         {
             if (MainStructure.selectedInstancePath == null || MainStructure.selectedInstancePath.Length < 1)
             {
@@ -286,7 +314,7 @@ namespace JoyPro
                 games.Add("IL2");
             MainStructure.WriteProfileClean(nukeDevices, games);
         }
-        void SaveProfileEvent(object sender, EventArgs e)
+        void OpenSaveProfile(object sender, EventArgs e)
         {
             if (CURRENTDISPLAYEDRELATION.Count < 1) return;
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -317,7 +345,7 @@ namespace JoyPro
                 MainStructure.SaveProfileTo(filePath);
             }
         }
-        void SaveReleationsEvent(object sender, EventArgs e)
+        void OpenSaveReleations(object sender, EventArgs e)
         {
             if (CURRENTDISPLAYEDRELATION.Count < 1) return;
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -356,7 +384,7 @@ namespace JoyPro
             else if (result == MessageBoxResult.No) return false;
             else return null;
         }
-        void LoadRelationsEvent(object sender, EventArgs e)
+        void OpenLoadRelations(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = false;
@@ -387,7 +415,7 @@ namespace JoyPro
                 MainStructure.LoadRelations(fileToOpen);
             }
         }
-        void IncludeRelationsEvent(object sender, EventArgs e)
+        void OpenIncludeRelations(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = true;
@@ -418,7 +446,7 @@ namespace JoyPro
                 MainStructure.InsertRelations(filesToInclude);
             }
         }
-        void LoadProfileEvent(object sendder, EventArgs e)
+        void OpenLoadProfile(object sendder, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = false;
@@ -480,7 +508,7 @@ namespace JoyPro
             var converter = new GridLengthConverter();
             Grid grid = new Grid();
             colDefs = new List<ColumnDefinition>();
-            for (int i = 0; i < 14; ++i)
+            for (int i = 0; i < gridCols; ++i)
             {
                 ColumnDefinition c = new ColumnDefinition();
                 grid.ColumnDefinitions.Add(c);
@@ -684,8 +712,78 @@ namespace JoyPro
             DisableInputs();
             uc.Closing += new CancelEventHandler(ActivateInputs);
         }
+
+        void GroupFilterChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            if (cb.Name == "ALL"&&cb.IsChecked==true)
+            {
+                for (int i = MainStructure.GroupActivity.Count - 1; i >= 0; i--)
+                {
+                    string toChange = MainStructure.GroupActivity.ElementAt(i).Key;
+                    MainStructure.GroupActivity[toChange] = true;
+                }
+                cb.IsChecked = false;
+            }else if(cb.Name == "NONE"&&cb.IsChecked==true)
+            {
+                for (int i = MainStructure.GroupActivity.Count - 1; i >= 0; i--)
+                {
+                    string toChange= MainStructure.GroupActivity.ElementAt(i).Key;
+                    MainStructure.GroupActivity[toChange] = false;
+                }
+                
+                cb.IsChecked = false;
+            }
+            else
+            {
+                int indx = Convert.ToInt32(cb.Name.Replace("g",""));
+                if (cb.IsChecked == true)
+                    MainStructure.GroupActivity[MainStructure.AllGroups[indx]] = true;
+                else
+                    MainStructure.GroupActivity[MainStructure.AllGroups[indx]] = false;
+            }
+
+            MainStructure.ResyncRelations();
+        }
+
         void RefreshRelationsToShow()
         {
+            GroupFilterDropdown.Items.Clear();
+            CheckBox cbAll = new CheckBox();
+            cbAll.Name = "ALL";
+            cbAll.Content = "ALL";
+            cbAll.IsChecked = false;
+            cbAll.Click += new RoutedEventHandler(GroupFilterChanged);
+            GroupFilterDropdown.Items.Add(cbAll);
+
+            CheckBox cbNone = new CheckBox();
+            cbNone.Name = "NONE";
+            cbNone.Content = "NONE";
+            cbNone.IsChecked = false;
+            cbNone.Click += new RoutedEventHandler(GroupFilterChanged);
+            GroupFilterDropdown.Items.Add(cbNone);
+            if (MainStructure.AllGroups.Count != MainStructure.GroupActivity.Count)
+            {
+                MainStructure.GroupActivity.Clear();
+                for (int b = 0; b < MainStructure.AllGroups.Count; ++b)
+                {
+                    MainStructure.GroupActivity.Add(MainStructure.AllGroups[b], true);
+                }
+            }
+            for(int b=0; b<MainStructure.AllGroups.Count; ++b)
+            {
+                CheckBox cbItem = new CheckBox();
+                cbItem.Name = "g" + b.ToString();
+                cbItem.Content = MainStructure.AllGroups[b];
+                if (MainStructure.GroupActivity[MainStructure.AllGroups[b]] == true)
+                    cbItem.IsChecked = true;
+                else
+                    cbItem.IsChecked = false;
+                cbItem.Click += new RoutedEventHandler(GroupFilterChanged);
+                GroupFilterDropdown.Items.Add(cbItem);
+            }
+            
+
             additional = new List<Button>();
             List<string> allMods = MainStructure.GetAllModsAsString();
             allMods.Add("Delete");
@@ -738,6 +836,29 @@ namespace JoyPro
                 Grid.SetRow(deleteBtn, i);
                 grid.Children.Add(deleteBtn);
 
+                
+
+                ComboBox groupDropdown = new ComboBox();
+                groupDropdown.Name = "GroupDropDown" + i.ToString();
+                groupDropdown.HorizontalAlignment = HorizontalAlignment.Center;
+                groupDropdown.VerticalAlignment = VerticalAlignment.Center;
+                groupDropdown.Width = 150;
+                for(int a=0; a<MainStructure.AllGroups.Count; ++a)
+                {
+                    CheckBox cbxGroup = new CheckBox();
+                    cbxGroup.Name = "r" + i.ToString() + "g" + a.ToString();
+                    cbxGroup.Content = MainStructure.AllGroups[a];
+                    if (CURRENTDISPLAYEDRELATION[i].Groups!=null&&CURRENTDISPLAYEDRELATION[i].Groups.Contains(MainStructure.AllGroups[a]))
+                        cbxGroup.IsChecked = true;
+                    else
+                        cbxGroup.IsChecked = false;
+                    cbxGroup.Checked += new RoutedEventHandler(GroupManagementCheckboxChange);
+                    groupDropdown.Items.Add(cbxGroup);
+                }
+                Grid.SetColumn(groupDropdown, 5);
+                Grid.SetRow(groupDropdown, i);
+                grid.Children.Add(groupDropdown);
+
                 Bind currentBind = MainStructure.GetBindForRelation(CURRENTDISPLAYEDRELATION[i].NAME);
 
                 Label joystickPick = new Label();
@@ -752,7 +873,7 @@ namespace JoyPro
                 joystickPick.Width = 500;
                 joystickPick.HorizontalAlignment = HorizontalAlignment.Center;
                 joystickPick.VerticalAlignment = VerticalAlignment.Center;
-                Grid.SetColumn(joystickPick, 5);
+                Grid.SetColumn(joystickPick, 6);
                 Grid.SetRow(joystickPick, i);
                 grid.Children.Add(joystickPick);
 
@@ -764,7 +885,7 @@ namespace JoyPro
                 joybtnin.Width = 100;
                 joybtnin.Click += new RoutedEventHandler(SetBtnOrAxisEvent);
                 setBtns[i] = joybtnin;
-                Grid.SetColumn(joybtnin, 6);
+                Grid.SetColumn(joybtnin, 7);
                 Grid.SetRow(joybtnin, i);
                 grid.Children.Add(joybtnin);
 
@@ -777,7 +898,7 @@ namespace JoyPro
                     cbx.Foreground = Brushes.White;
                     cbx.HorizontalAlignment = HorizontalAlignment.Center;
                     cbx.VerticalAlignment = VerticalAlignment.Center;
-                    Grid.SetColumn(cbx, 7);
+                    Grid.SetColumn(cbx, 8);
                     Grid.SetRow(cbx, i);
                     grid.Children.Add(cbx);
 
@@ -787,7 +908,7 @@ namespace JoyPro
                     cbxs.Foreground = Brushes.White;
                     cbxs.HorizontalAlignment = HorizontalAlignment.Center;
                     cbxs.VerticalAlignment = VerticalAlignment.Center;
-                    Grid.SetColumn(cbxs, 8);
+                    Grid.SetColumn(cbxs, 9);
                     Grid.SetRow(cbxs, i);
                     grid.Children.Add(cbxs);
 
@@ -798,7 +919,7 @@ namespace JoyPro
                     cbxu.HorizontalAlignment = HorizontalAlignment.Center;
                     cbxu.VerticalAlignment = VerticalAlignment.Center;
                     cbxu.Click += new RoutedEventHandler(changeCurveToUserCurve);
-                    Grid.SetColumn(cbxu, 9);
+                    Grid.SetColumn(cbxu, 10);
                     Grid.SetRow(cbxu, i);
                     grid.Children.Add(cbxu);
 
@@ -806,7 +927,7 @@ namespace JoyPro
                     txrl.Name = "txrldz" + i.ToString();
                     txrl.Width = 150;
                     txrl.Height = 24;
-                    Grid.SetColumn(txrl, 10);
+                    Grid.SetColumn(txrl, 11);
                     Grid.SetRow(txrl, i);
                     grid.Children.Add(txrl);
 
@@ -814,7 +935,7 @@ namespace JoyPro
                     txrlsx.Name = "txrlsatx" + i.ToString();
                     txrlsx.Width = 150;
                     txrlsx.Height = 24;
-                    Grid.SetColumn(txrlsx, 11);
+                    Grid.SetColumn(txrlsx, 12);
                     Grid.SetRow(txrlsx, i);
                     grid.Children.Add(txrlsx);
 
@@ -822,7 +943,7 @@ namespace JoyPro
                     txrlsy.Name = "txrlsaty" + i.ToString();
                     txrlsy.Width = 150;
                     txrlsy.Height = 24;
-                    Grid.SetColumn(txrlsy, 12);
+                    Grid.SetColumn(txrlsy, 13);
                     Grid.SetRow(txrlsy, i);
                     grid.Children.Add(txrlsy);
 
@@ -830,7 +951,7 @@ namespace JoyPro
                     txrlcv.Name = "txrlsacv" + i.ToString();
                     txrlcv.Width = 150;
                     txrlcv.Height = 24;
-                    Grid.SetColumn(txrlcv, 13);
+                    Grid.SetColumn(txrlcv, 14);
                     Grid.SetRow(txrlcv, i);
 
                     Button userCurvBtn = new Button();
@@ -841,7 +962,7 @@ namespace JoyPro
                     userCurvBtn.Width = 100;
                     userCurvBtn.Click += new RoutedEventHandler(changeUserCurve);
                     additional.Add(userCurvBtn);
-                    Grid.SetColumn(userCurvBtn, 13);
+                    Grid.SetColumn(userCurvBtn, 14);
                     Grid.SetRow(userCurvBtn, i);
 
                     if (currentBind != null)
@@ -952,7 +1073,7 @@ namespace JoyPro
                     modCbx1.Width = 150;
                     modCbx1.ItemsSource = allMods;
                     mods[i, 0] = modCbx1;
-                    Grid.SetColumn(modCbx1, 10);
+                    Grid.SetColumn(modCbx1, 11);
                     Grid.SetRow(modCbx1, i);
                     grid.Children.Add(modCbx1);
 
@@ -963,7 +1084,7 @@ namespace JoyPro
                     modCbx2.Width = 150;
                     modCbx2.ItemsSource = allMods;
                     mods[i, 1] = modCbx2;
-                    Grid.SetColumn(modCbx2, 11);
+                    Grid.SetColumn(modCbx2, 12);
                     Grid.SetRow(modCbx2, i);
                     grid.Children.Add(modCbx2);
 
@@ -974,7 +1095,7 @@ namespace JoyPro
                     modCbx3.Width = 150;
                     modCbx3.ItemsSource = allMods;
                     mods[i, 2] = modCbx3;
-                    Grid.SetColumn(modCbx3, 12);
+                    Grid.SetColumn(modCbx3, 13);
                     Grid.SetRow(modCbx3, i);
                     grid.Children.Add(modCbx3);
 
@@ -985,7 +1106,7 @@ namespace JoyPro
                     modCbx4.Width = 150;
                     modCbx4.ItemsSource = allMods;
                     mods[i, 3] = modCbx4;
-                    Grid.SetColumn(modCbx4, 13);
+                    Grid.SetColumn(modCbx4, 14);
                     Grid.SetRow(modCbx4, i);
                     grid.Children.Add(modCbx4);
 
@@ -1020,6 +1141,24 @@ namespace JoyPro
             }
             sv.Content = grid;
 
+        }
+
+        void GroupManagementCheckboxChange(object sender, EventArgs e)
+        {
+            string name = ((CheckBox)sender).Name;
+            string[] nameParts = name.Split('g');
+            int relIndex = Convert.ToInt32(nameParts[0].Replace("r", ""));
+            int grpIndex = Convert.ToInt32(nameParts[1]);
+            if (CURRENTDISPLAYEDRELATION[relIndex].Groups == null) CURRENTDISPLAYEDRELATION[relIndex].Groups = new List<string>();
+            if (((CheckBox)sender).IsChecked == true)
+            {
+                if(!CURRENTDISPLAYEDRELATION[relIndex].Groups.Contains(MainStructure.AllGroups[grpIndex]))
+                CURRENTDISPLAYEDRELATION[relIndex].Groups.Add(MainStructure.AllGroups[grpIndex]);
+            }
+            else
+            {
+                MainStructure.RemoveGroupFromSpecificRelation(CURRENTDISPLAYEDRELATION[relIndex].NAME, MainStructure.AllGroups[grpIndex]);
+            }
         }
 
         void duplicateRelation(object sender, EventArgs e)
@@ -1105,8 +1244,8 @@ namespace JoyPro
             var converter = new GridLengthConverter();
             Grid grid = new Grid();
             colHds = new List<ColumnDefinition>();
-            controls = new Control[14];
-            for (int i = 0; i < 14; ++i)
+            controls = new Control[gridCols];
+            for (int i = 0; i < gridCols; ++i)
             {
                 ColumnDefinition c = new ColumnDefinition();
                 grid.ColumnDefinitions.Add(c);
@@ -1135,7 +1274,7 @@ namespace JoyPro
             abc.Foreground = Brushes.White;
             abc.HorizontalAlignment = HorizontalAlignment.Center;
             abc.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumnSpan(abc, 3);
+            Grid.SetColumnSpan(abc, 4);
             Grid.SetColumn(abc, 2);
             grid.Children.Add(abc);
 
@@ -1148,7 +1287,7 @@ namespace JoyPro
             joystickPick.VerticalAlignment = VerticalAlignment.Center;
             joystickPick.Background = Brushes.DarkSlateGray;
             joystickPick.Click += new RoutedEventHandler(sortStick);
-            Grid.SetColumn(joystickPick, 5);
+            Grid.SetColumn(joystickPick, 6);
             grid.Children.Add(joystickPick);
             controls[4] = joystickPick;
 
@@ -1160,7 +1299,7 @@ namespace JoyPro
             joystickBtn.VerticalAlignment = VerticalAlignment.Center;
             joystickBtn.Background = Brushes.DarkSlateGray;
             joystickBtn.Click += new RoutedEventHandler(sortBtn);
-            Grid.SetColumn(joystickBtn, 6);
+            Grid.SetColumn(joystickBtn, 7);
             grid.Children.Add(joystickBtn);
             controls[5] = joystickBtn;
 
@@ -1170,7 +1309,7 @@ namespace JoyPro
             joystickAxisS.HorizontalAlignment = HorizontalAlignment.Center;
             joystickAxisS.VerticalAlignment = VerticalAlignment.Center;
             Grid.SetColumnSpan(joystickAxisS, 3);
-            Grid.SetColumn(joystickAxisS, 7);
+            Grid.SetColumn(joystickAxisS, 8);
             grid.Children.Add(joystickAxisS);
 
             Label dzlbl = new Label();
@@ -1178,7 +1317,7 @@ namespace JoyPro
             dzlbl.Foreground = Brushes.White;
             dzlbl.HorizontalAlignment = HorizontalAlignment.Center;
             dzlbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(dzlbl, 10);
+            Grid.SetColumn(dzlbl, 11);
             grid.Children.Add(dzlbl);
 
             Label sxlbl = new Label();
@@ -1186,7 +1325,7 @@ namespace JoyPro
             sxlbl.Foreground = Brushes.White;
             sxlbl.HorizontalAlignment = HorizontalAlignment.Center;
             sxlbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(sxlbl, 11);
+            Grid.SetColumn(sxlbl, 12);
             grid.Children.Add(sxlbl);
 
             Label sylbl = new Label();
@@ -1194,7 +1333,7 @@ namespace JoyPro
             sylbl.Foreground = Brushes.White;
             sylbl.HorizontalAlignment = HorizontalAlignment.Center;
             sylbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(sylbl, 12);
+            Grid.SetColumn(sylbl, 13);
             grid.Children.Add(sylbl);
 
             Label curvlbl = new Label();
@@ -1202,7 +1341,7 @@ namespace JoyPro
             curvlbl.Foreground = Brushes.White;
             curvlbl.HorizontalAlignment = HorizontalAlignment.Center;
             curvlbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(curvlbl, 13);
+            Grid.SetColumn(curvlbl, 14);
             grid.Children.Add(curvlbl);
 
             svHeader.Content = grid;
@@ -1235,6 +1374,7 @@ namespace JoyPro
             if (DCSSELECT.IsChecked ==true)
             {
                 MainStructure.InitDCSData();
+                
                 DropDownInstanceSelection.Items.Clear();
                 DropDownGameSelection.SelectedIndex = 0;
                 foreach (string inst in MainStructure.DCSInstances)
@@ -1400,7 +1540,7 @@ namespace JoyPro
             ActivateInputs();
             MainStructure.ResyncRelations();
         }
-        void Event_AddRelation(object sender, EventArgs e)
+        void OpenRelation(object sender, EventArgs e)
         {
             DisableInputs();
             RelationWindow rw = new RelationWindow();
@@ -1505,8 +1645,9 @@ namespace JoyPro
         }
         private void InstanceSelectionChanged(object sender, EventArgs e)
         {
+            Console.WriteLine(sender.GetType().ToString());
+            if (((ComboBox)sender).SelectedIndex < 0) return;
             MainStructure.DCSInstanceSelectionChanged((string)DropDownInstanceSelection.SelectedItem);
-
         }
 
     }
