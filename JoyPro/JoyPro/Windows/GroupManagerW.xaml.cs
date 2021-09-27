@@ -77,7 +77,8 @@ namespace JoyPro
         {
             if(NewGroupTF.Text.Replace(" ", "").Length > 1&&
                 NewGroupTF.Text!="ALL" &&
-                NewGroupTF.Text!="NONE")
+                NewGroupTF.Text!="NONE" &&
+                NewGroupTF.Text != "UNASSIGNED")
             {
                 if (!MainStructure.AllGroups.Contains(NewGroupTF.Text))
                 {
@@ -151,9 +152,7 @@ namespace JoyPro
         void CloseGroupManager(object sender, EventArgs e)
         {
             MainStructure.SaveMetaLast();
-            Close();          
-            
-            
+            Close();
         }
     }
 }

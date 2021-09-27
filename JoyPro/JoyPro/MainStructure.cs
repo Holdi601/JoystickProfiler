@@ -41,6 +41,7 @@ namespace JoyPro
         public static string[] RelationWordFilter;
         public static string PROGPATH;
         public static bool showUnassignedRelations = true;
+        public static bool showUnassignedGroups = true;
         public static Dictionary<string, DCSPlane> DCSLib = new Dictionary<string, DCSPlane>();
         public static Dictionary<string, OtherGame> OtherLib = new Dictionary<string, OtherGame>();
         public static string[] LocalJoysticks;
@@ -2023,7 +2024,11 @@ namespace JoyPro
                             if (temp[i].Groups == null)
                             {
                                 temp[i].Groups = new List<string>();
+                                if (showUnassignedGroups) groupFound = true;
                                 break;
+                            }else if (temp[i].Groups.Count == 0&& showUnassignedGroups)
+                            {
+                                groupFound = true;
                             }
                             else
                             {
@@ -2041,7 +2046,26 @@ namespace JoyPro
                 }
                 else
                 {
-                    toReturn = temp;
+                    if (showUnassignedGroups)
+                    {
+                        toReturn = temp;
+                    }
+                    else
+                    {
+                        for(int i=0; i<temp.Count; ++i)
+                        {
+                            if (temp[i].Groups == null)
+                            {
+                                temp[i].Groups = new List<string>();
+                                break;
+                            }else if (temp[i].Groups.Count > 0)
+                            {
+                                groupresult.Add(temp[i]);
+                            }
+                        }
+                        toReturn = groupresult;
+                    }
+                    
                 }
             }
             else

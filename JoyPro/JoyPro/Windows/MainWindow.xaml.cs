@@ -800,6 +800,16 @@ namespace JoyPro
                 }
                 
                 cb.IsChecked = false;
+            }else if (cb.Name == "UNASSIGNED")
+            {
+                if (cb.IsChecked == true)
+                {
+                    MainStructure.showUnassignedGroups = true;
+                }
+                else
+                {
+                    MainStructure.showUnassignedGroups = false;
+                }
             }
             else
             {
@@ -885,6 +895,14 @@ namespace JoyPro
             cbNone.IsChecked = false;
             cbNone.Click += new RoutedEventHandler(GroupFilterChanged);
             GroupFilterDropdown.Items.Add(cbNone);
+
+            CheckBox cbUnass = new CheckBox();
+            cbUnass.Name = "UNASSIGNED";
+            cbUnass.Content = "UNASSIGNED";
+            cbUnass.IsChecked = MainStructure.showUnassignedGroups;
+            cbUnass.Click += new RoutedEventHandler(GroupFilterChanged);
+            GroupFilterDropdown.Items.Add(cbUnass);
+
             if (MainStructure.AllGroups.Count != MainStructure.GroupActivity.Count)
             {
                 MainStructure.GroupActivity.Clear();
