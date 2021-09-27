@@ -35,7 +35,7 @@
         <CheckBox Name="CBsaty" Content="Saturation Y" Grid.Row="5" Grid.Column="1" IsChecked="False" Width="120" Foreground="White" HorizontalAlignment="Left" Margin="5,2,0,0"/>
         <CheckBox Name="CBsatx" Content="Saturation X" Grid.Row="5" Grid.Column="0" IsChecked="False" Width="120" Foreground="White" HorizontalAlignment="Left" Margin="80,2,0,0"/>
         <Label Content="Joysticks to Import:" Foreground="White" Grid.Column="0" Grid.Row="6"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Margin="0,0,0,0" Width="180"/>
-        <ScrollViewer Name="sv" ScrollViewer.HorizontalScrollBarVisibility="Auto"  Width="auto" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <ScrollViewer Name="sv" ScrollViewer.HorizontalScrollBarVisibility="Auto"  Width="auto" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"/>
 
         <Button FontWeight="Bold" Name="CancelBtn" Content="Cancel" Height="30" Width="192"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,18,0,12" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="1" />
         <Button FontWeight="Bold" Name="ImportBtn" Content="Import" Height="30" Width="231"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,18,0,12" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" />

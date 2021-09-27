@@ -64,6 +64,7 @@ namespace JoyPro
             tbcv10.Text = curve[9].ToString();
             tbcv11.Text = curve[10].ToString();
             SubmitBtn.Click += new RoutedEventHandler(submitCurve);
+            this.Title = b.Rl.NAME + " - " + "Set User Curve";
         }
 
         void closeThis(object sender, EventArgs e)

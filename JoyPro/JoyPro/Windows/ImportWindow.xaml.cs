@@ -22,6 +22,7 @@ namespace JoyPro
         public List<string> selectedSticks;
         public string[] availableJoysticks;
         public List<string> connectedSticks;
+        List<CheckBox> joystickCheckboxes;
         //check for null
         public ImportWindow()
         {
@@ -129,7 +130,7 @@ namespace JoyPro
             grid.ColumnDefinitions.Add(new ColumnDefinition());
             if (availableJoysticks == null) return null;
 
-            for (int i = 0; i < availableJoysticks.Length; i++)
+            for (int i = 0; i < availableJoysticks.Length+2; i++)
             {
                 RowDefinition r = new RowDefinition();
                 r.Height = (GridLength)converter.ConvertFromString("30");
@@ -145,10 +146,39 @@ namespace JoyPro
             Grid grid = BaseSetupRelationGrid();
             if (grid == null) return;
             if (MainStructure.JoystickAliases == null) MainStructure.JoystickAliases = new Dictionary<string, string>();
+            CheckBox cbxAll = new CheckBox();
+            cbxAll.Name = "cbxjyAll";
+            cbxAll.Content = "ALL";
+            cbxAll.HorizontalAlignment = HorizontalAlignment.Left;
+            cbxAll.VerticalAlignment = VerticalAlignment.Center;
+            Thickness marginc = cbxAll.Margin;
+            marginc.Left = 10;
+            cbxAll.Margin = marginc;
+            Grid.SetColumn(cbxAll, 0);
+            Grid.SetRow(cbxAll, 0);
+            grid.Children.Add(cbxAll);
+            cbxAll.Click += new RoutedEventHandler(JoystickSetChanged);
+
+            CheckBox cbxNone = new CheckBox();
+            cbxNone.Name = "cbxjyNone";
+            cbxNone.Content = "NONE";
+            cbxNone.HorizontalAlignment = HorizontalAlignment.Left;
+            cbxNone.VerticalAlignment = VerticalAlignment.Center;
+            Thickness marginn = cbxNone.Margin;
+            marginn.Left = 10;
+            cbxNone.Margin = marginn;
+            Grid.SetColumn(cbxNone, 0);
+            Grid.SetRow(cbxNone, 1);
+            grid.Children.Add(cbxNone);
+            cbxNone.Click += new RoutedEventHandler(JoystickSetChanged);
+
+            joystickCheckboxes = new List<CheckBox>();
+
             for (int i=0; i<availableJoysticks.Length; ++i)
             {
                 CheckBox cbx = new CheckBox();
                 cbx.Name = "cbxjy" + i.ToString();
+                cbx.Foreground = Brushes.LightBlue;
 
 
                 if (MainStructure.JoystickAliases.ContainsKey(availableJoysticks[i]) && MainStructure.JoystickAliases[availableJoysticks[i]].Length > 0)
@@ -174,9 +204,10 @@ namespace JoyPro
                 margin.Left = 10;
                 cbx.Margin = margin;
                 Grid.SetColumn(cbx, 0);
-                Grid.SetRow(cbx, i);
+                Grid.SetRow(cbx, i+2);
                 grid.Children.Add(cbx);
                 cbx.Click += new RoutedEventHandler(JoystickSetChanged);
+                joystickCheckboxes.Add(cbx);
             }
             sv.Content = grid;
         }
@@ -186,16 +217,35 @@ namespace JoyPro
             MainStructure.msave.importWindowLast = MainStructure.GetWindowPosFrom(this);
             MainStructure.SaveMetaLast();
             CheckBox cx = (CheckBox)sender;
-            int indx = Convert.ToInt32(cx.Name.Replace("cbxjy", ""));
-            if (indx < 0 || indx >= availableJoysticks.Length) return;
-            string stick = availableJoysticks[indx];
-            if (cx.IsChecked == true && !selectedSticks.Contains(stick))
+            if ((string)cx.Content == "ALL")
             {
-                selectedSticks.Add(stick);
-            }else if (cx.IsChecked==false && selectedSticks.Contains(stick))
-            {
-                selectedSticks.Remove(stick);
+                for(int i=0; i<joystickCheckboxes.Count; ++i)
+                {
+                    joystickCheckboxes[i].IsChecked = true;
+                }
             }
+            else if ((string)cx.Content=="NONE")
+            {
+                for (int i = 0; i < joystickCheckboxes.Count; ++i)
+                {
+                    joystickCheckboxes[i].IsChecked = false;
+                }
+            }
+            else
+            {
+                int indx = Convert.ToInt32(cx.Name.Replace("cbxjy", ""));
+                if (indx < 0 || indx >= availableJoysticks.Length) return;
+                string stick = availableJoysticks[indx];
+                if (cx.IsChecked == true && !selectedSticks.Contains(stick))
+                {
+                    selectedSticks.Add(stick);
+                }
+                else if (cx.IsChecked == false && selectedSticks.Contains(stick))
+                {
+                    selectedSticks.Remove(stick);
+                }
+            }
+            
         }
 
     }

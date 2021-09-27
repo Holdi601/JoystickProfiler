@@ -219,7 +219,7 @@ namespace JoyPro
             for(int i=0; i<columnsNeeded; ++i)
             {
                 ColumnDefinition c = new ColumnDefinition();
-                c.MinWidth = 80;
+                c.MinWidth = 110;
                 grid.ColumnDefinitions.Add(c);
                 mainColumns.Add(c);
             }
@@ -241,7 +241,7 @@ namespace JoyPro
             for(int i=0; i<ri.Count; ++i)
             {
                 Label iditem = new Label();
-                iditem.Name = "id_"+ri[i].ID;
+                iditem.Name = "id_"+i.ToString();
                 iditem.Foreground = Brushes.White;
                 iditem.Content = ri[i].ID;
                 iditem.HorizontalAlignment = HorizontalAlignment.Center;
@@ -306,7 +306,7 @@ namespace JoyPro
                     else
                     {
                         Label emptyItem = new Label();
-                        emptyItem.Name = "id_" + ri[i].ID;
+                        emptyItem.Name = "id_" + i.ToString();
                         emptyItem.Foreground = Brushes.White;
                         emptyItem.Content = "   ";
                         emptyItem.HorizontalAlignment = HorizontalAlignment.Center;

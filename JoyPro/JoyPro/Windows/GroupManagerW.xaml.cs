@@ -39,8 +39,18 @@ namespace JoyPro
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
             GroupDeleteBtn = new List<Button>();
             AddBtn.Click += new RoutedEventHandler(AddGroup);
+            NewGroupTF.KeyUp += new KeyEventHandler(GroupAddEnter);
             ListExistingGroups();
         }
+
+        private void GroupAddEnter(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                AddGroup(sender, e);
+            }
+        }
+
         Grid BaseSetupRelationGrid()
         {
             var converter = new GridLengthConverter();
@@ -70,8 +80,13 @@ namespace JoyPro
                 NewGroupTF.Text!="NONE")
             {
                 if (!MainStructure.AllGroups.Contains(NewGroupTF.Text))
+                {
                     MainStructure.AllGroups.Add(NewGroupTF.Text);
+                    MainStructure.GroupActivity.Add(NewGroupTF.Text, true);
+                }
+                    
                 NewGroupTF.Text = "";
+
             }
             else
             {
@@ -90,6 +105,10 @@ namespace JoyPro
             MainStructure.RemoveGroupFromRelation(groupToDelete);
             MainStructure.AllGroups.Remove(groupToDelete);
             MainStructure.AllGroups.Sort();
+            if (MainStructure.GroupActivity.ContainsKey(groupToDelete))
+            {
+                MainStructure.GroupActivity.Remove(groupToDelete);
+            }
             ListExistingGroups();
         }
 
@@ -132,7 +151,9 @@ namespace JoyPro
         void CloseGroupManager(object sender, EventArgs e)
         {
             MainStructure.SaveMetaLast();
-            Close();
+            Close();          
+            
+            
         }
     }
 }
