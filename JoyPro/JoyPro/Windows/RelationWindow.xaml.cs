@@ -25,6 +25,8 @@ namespace JoyPro
 
         void init()
         {
+            headerColumns = new List<ColumnDefinition>();
+            mainColumns = new List<ColumnDefinition>();
             SearchQueryTF.TextChanged += new TextChangedEventHandler(SearchQueryChanged);
             RelationNameTF.TextChanged += new TextChangedEventHandler(NameChanged);
             AddItemBtn.Click += new RoutedEventHandler(AddItemBtnHit);
