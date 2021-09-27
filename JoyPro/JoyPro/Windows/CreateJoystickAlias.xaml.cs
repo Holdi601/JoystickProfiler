@@ -61,9 +61,12 @@ namespace JoyPro
                 NewAliasTF.Text.Replace(" ", "") == "ALL" ||
                 NewAliasTF.Text.Replace(" ", "") == "NONE" ||
                 NewAliasTF.Text.Replace(" ", "") == "UNASSIGNED" ||
+                NewAliasTF.Text.Replace(" ", "").Contains("\"") ||
+                NewAliasTF.Text.Replace(" ", "").Contains("\\") ||
+                NewAliasTF.Text.Replace(" ", "").Contains(",") ||
                 MainStructure.DoesJoystickAliasExist(NewAliasTF.Text))
             {
-                MessageBox.Show("Name to short, or reserved name or already exists");
+                MessageBox.Show("Name to short, or reserved name or symbol or already exists");
                 return;
             }
             if (MainStructure.JoystickAliases.ContainsKey(originalName))

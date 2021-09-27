@@ -12,6 +12,7 @@ namespace JoyPro
         public List<string> reformers;
         public List<Modifier> modifiers;
         public string JPRelName;
+        public List<string> Groups;
         public Bind relatedBind; //don't 
         public DCSButtonBind()
         {
@@ -19,6 +20,7 @@ namespace JoyPro
             reformers = new List<string>();
             modifiers = new List<Modifier>();
             JPRelName = "";
+            Groups = new List<string>();
         }
 
         public DCSButtonBind Copy()
@@ -27,6 +29,8 @@ namespace JoyPro
             result.JPRelName = JPRelName;
             result.key = key;
             result.relatedBind = relatedBind;
+            for (int i = 0; i < Groups.Count; ++i)
+                result.Groups.Add(Groups[i]);
             for (int i = 0; i < reformers.Count; ++i)
                 result.reformers.Add(reformers[i]);
             for (int i = 0; i < modifiers.Count; ++i)

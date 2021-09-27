@@ -78,7 +78,10 @@ namespace JoyPro
             if(NewGroupTF.Text.Replace(" ", "").Length > 1&&
                 NewGroupTF.Text!="ALL" &&
                 NewGroupTF.Text!="NONE" &&
-                NewGroupTF.Text != "UNASSIGNED")
+                NewGroupTF.Text != "UNASSIGNED"&&
+                !NewGroupTF.Text.Contains("\"") &&
+                !NewGroupTF.Text.Contains("\\") &&
+                !NewGroupTF.Text.Contains(","))
             {
                 if (!MainStructure.AllGroups.Contains(NewGroupTF.Text))
                 {

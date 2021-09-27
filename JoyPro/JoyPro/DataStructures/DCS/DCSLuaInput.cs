@@ -22,6 +22,12 @@ namespace JoyPro
             swr.Write(filestart);
             if (axisDiffs.Count > 0)
             {
+                string joyAl = "";
+                if (MainStructure.JoystickAliases.ContainsKey(JoystickName))
+                {
+                    joyAl = MainStructure.JoystickAliases[JoystickName];
+                }
+                swr.Write("\t[\"JAL\"] = \"" + joyAl + "\",\n");
                 swr.Write("\t[\"axisDiffs\"] = {\n");
                 foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in axisDiffs)
                 {
@@ -35,6 +41,15 @@ namespace JoyPro
                             swr.Write("\t\t\t\t[" + (y + 1).ToString() + "] = {\n");
                             swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.added[y].key + "\",\n");
                             swr.Write("\t\t\t\t\t[\"JPK\"] = \"" + kvp.Value.added[y].JPRelName + "\",\n");
+                            if (kvp.Value.added[y].Groups.Count > 0)
+                            {
+                                swr.Write("\t\t\t\t\t[\"JGRP\"] = {\n");
+                                for (int r = 0; r < kvp.Value.added[y].Groups.Count; ++r)
+                                {
+                                    swr.Write("\t\t\t\t\t\t[" + (r + 1).ToString() + "] = \"" + kvp.Value.added[y].Groups[r] + "\",\n");
+                                }
+                                swr.Write("\t\t\t\t\t},\n");
+                            }                      
                             if (kvp.Value.added[y].filter != null)
                             {
                                 swr.Write("\t\t\t\t\t[\"filter\"] = {\n");
@@ -85,6 +100,15 @@ namespace JoyPro
                             swr.Write("\t\t\t\t[" + (z + 1).ToString() + "] = {\n");
                             swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.added[z].key + "\",\n");
                             swr.Write("\t\t\t\t\t[\"JPK\"] = \"" + kvp.Value.added[z].JPRelName + "\",\n");
+                            if (kvp.Value.added[z].Groups.Count > 0)
+                            {
+                                swr.Write("\t\t\t\t\t[\"JGRP\"] = {\n");
+                                for (int r = 0; r < kvp.Value.added[z].Groups.Count; ++r)
+                                {
+                                    swr.Write("\t\t\t\t\t\t[" + (r + 1).ToString() + "] = \"" + kvp.Value.added[z].Groups[r] + "\",\n");
+                                }
+                                swr.Write("\t\t\t\t\t},\n");
+                            }
                             if (kvp.Value.added[z].reformers.Count > 0)
                             {
                                 swr.Write("\t\t\t\t\t[\"reformers\"] = {\n");
@@ -148,7 +172,6 @@ namespace JoyPro
             if (!content.Contains('{')) return;
             string cleaned = MainStructure.GetContentBetweenSymbols(content, "{", "}");
             Dictionary<object, object> dct = MainStructure.CreateAttributeDictFromLua(content);
-
             if (dct.ContainsKey("axisDiffs"))
             {
                 foreach (KeyValuePair<object, object> kvp in (Dictionary<object, object>)dct["axisDiffs"])
@@ -268,6 +291,22 @@ namespace JoyPro
             if (!content.Contains('{')) return;
             string cleaned = MainStructure.GetContentBetweenSymbols(content, "{", "}");
             Dictionary<object, object> dct = MainStructure.CreateAttributeDictFromLua(content);
+            string joyAlias = "";
+            if (dct.ContainsKey("JAL"))
+            {
+                joyAlias = (string)dct["JAL"];
+                if (JoystickName.Length > 0 && joyAlias.Length > 0)
+                {
+                    if (MainStructure.JoystickAliases.ContainsKey(JoystickName))
+                    {
+                        MainStructure.JoystickAliases[JoystickName] = joyAlias;
+                    }
+                    else
+                    {
+                        MainStructure.JoystickAliases.Add(JoystickName, joyAlias);
+                    }
+                }
+            }
             if (dct.ContainsKey("axisDiffs"))
             {
                 foreach (KeyValuePair<object, object> kvp in (Dictionary<object, object>)dct["axisDiffs"])
@@ -290,6 +329,17 @@ namespace JoyPro
                                 if(((Dictionary<object, object>)kvpAdded.Value).ContainsKey("JPK")&& ((string)((Dictionary<object, object>)kvpAdded.Value)["JPK"]).Length>1)
                                 {
                                     dab.JPRelName= (string)((Dictionary<object, object>)kvpAdded.Value)["JPK"];
+                                }
+                                if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("JGRP"))
+                                {
+                                    foreach (KeyValuePair<object, object> kvpGroup in ((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["JGRP"]))
+                                    {
+                                        dab.Groups.Add((string)kvpGroup.Value);
+                                        if (!MainStructure.AllGroups.Contains((string)kvpGroup.Value))
+                                        {
+                                            MainStructure.AllGroups.Add((string)kvpGroup.Value);
+                                        }
+                                    }
                                 }
                                 if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("filter"))
                                 {
@@ -325,6 +375,17 @@ namespace JoyPro
                                 if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("JPK") && ((string)((Dictionary<object, object>)kvpAdded.Value)["JPK"]).Length > 1)
                                 {
                                     dab.JPRelName = (string)((Dictionary<object, object>)kvpAdded.Value)["JPK"];
+                                }
+                                if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("JGRP"))
+                                {
+                                    foreach (KeyValuePair<object, object> kvpGroup in ((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["JGRP"]))
+                                    {
+                                        dab.Groups.Add((string)kvpGroup.Value);
+                                        if (!MainStructure.AllGroups.Contains((string)kvpGroup.Value))
+                                        {
+                                            MainStructure.AllGroups.Add((string)kvpGroup.Value);
+                                        }
+                                    }
                                 }
                                 if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("filter"))
                                 {
@@ -389,6 +450,17 @@ namespace JoyPro
                                 if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("JPK") && ((string)((Dictionary<object, object>)kvpAdded.Value)["JPK"]).Length > 1)
                                 {
                                     dab.JPRelName = (string)((Dictionary<object, object>)kvpAdded.Value)["JPK"];
+                                }
+                                if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("JGRP"))
+                                {
+                                    foreach (KeyValuePair<object, object> kvpGroup in ((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["JGRP"]))
+                                    {
+                                        dab.Groups.Add((string)kvpGroup.Value);
+                                        if (!MainStructure.AllGroups.Contains((string)kvpGroup.Value))
+                                        {
+                                            MainStructure.AllGroups.Add((string)kvpGroup.Value);
+                                        }
+                                    }
                                 }
                                 if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("reformers"))
                                 {

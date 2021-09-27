@@ -144,6 +144,10 @@ namespace JoyPro
             daf.slider = Slider ?? false;
             daf.saturationX = SaturationX;
             daf.saturationY = SaturationY;
+            if (Rl.Groups != null)
+            {
+                result.Groups = Rl.Groups;
+            }
             result.relatedBind = this;
             return result;
         }
@@ -158,6 +162,17 @@ namespace JoyPro
             r.ISAXIS = true;
             b.JAxis = dab.key;
             b.Joystick = joystick;
+            
+            if (dab.Groups.Count > 0)
+            {
+                for(int i=0; i<dab.Groups.Count; ++i)
+                {
+                    if (!b.Rl.Groups.Contains(dab.Groups[i]))
+                    {
+                        b.Rl.Groups.Add(dab.Groups[i]);
+                    }
+                }
+            }
             if (dab.JPRelName.Length > 2)
                 b.additionalImportInfo = dab.JPRelName;
             if (dab.filter != null)
@@ -227,8 +242,17 @@ namespace JoyPro
             r.ISAXIS = false;
             string shorten = MainStructure.ShortenDeviceName(joystick);
             string relationName = shorten + dab.key;
-
-            if(dab.modifiers!=null)
+            if (dab.Groups.Count > 0)
+            {
+                for (int i = 0; i < dab.Groups.Count; ++i)
+                {
+                    if (!b.Rl.Groups.Contains(dab.Groups[i]))
+                    {
+                        b.Rl.Groups.Add(dab.Groups[i]);
+                    }
+                }
+            }
+            if (dab.modifiers!=null)
                 foreach(Modifier m in dab.modifiers)
                 {
                     //same code as mainwindow
@@ -297,6 +321,8 @@ namespace JoyPro
             dbb.key = JButton;
             dbb.JPRelName = Rl.NAME;
             dbb.relatedBind = this;
+            if(Rl.Groups!=null)
+                dbb.Groups = Rl.Groups;
             if (JButton.Length < 1||Joystick.Length<1) return null;
             if (dbb.reformers == null) dbb.reformers = new List<string>();
             for (int i=0; i<AllReformers.Count; ++i)

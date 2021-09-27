@@ -36,7 +36,7 @@ namespace JoyPro
         const string initialBackupFolder = "\\Config\\JP_InitBackup";
         const string externalWebUrl = "https://raw.githubusercontent.com/Holdi601/JoystickProfiler/master/JoyPro/JoyPro/ver.txt";
         const string buildPath = "https://github.com/Holdi601/JoystickProfiler/raw/master/Builds/JoyPro_WinX64_v";
-        const int version = 41;
+        const int version = 42;
         public static MainWindow mainW;
         public static string[] RelationWordFilter;
         public static string PROGPATH;
@@ -420,6 +420,11 @@ namespace JoyPro
                                 {
                                     result[b.Rl.NAME].additionalImportInfo = b.additionalImportInfo;
                                 }
+                                for (int a = 0; a < b.Rl.Groups.Count; ++a)
+                                {
+                                    if (!result[b.Rl.NAME].Rl.Groups.Contains(b.Rl.Groups[a]))
+                                        result[b.Rl.NAME].Rl.Groups.Add(b.Rl.Groups[a]);
+                                }
                             }
                         }
                     }
@@ -444,6 +449,11 @@ namespace JoyPro
                                    b.additionalImportInfo.Length > 0))
                                 {
                                     result[b.Rl.NAME].additionalImportInfo = b.additionalImportInfo;
+                                }
+                                for(int a=0; a<b.Rl.Groups.Count; ++a)
+                                {
+                                    if (!result[b.Rl.NAME].Rl.Groups.Contains(b.Rl.Groups[a]))
+                                        result[b.Rl.NAME].Rl.Groups.Add(b.Rl.Groups[a]);
                                 }
                             }
                         }
@@ -582,6 +592,11 @@ namespace JoyPro
                         if (integrity)
                         {
                             kvp.Value.Rl.NAME = b.additionalImportInfo.Split('§')[b.additionalImportInfo.Split('§').Length - 1];
+                            for(int a=0; a<b.Rl.Groups.Count; ++a)
+                            {
+                                if (!kvp.Value.Rl.Groups.Contains(b.Rl.Groups[a]))
+                                    kvp.Value.Rl.Groups.Add(b.Rl.Groups[a]);
+                            }
                             string[] modNames = b.additionalImportInfo.Split('§');
                             for (int i = 0; i < modNames.Length - 1; ++i)
                             {
@@ -1621,8 +1636,6 @@ namespace JoyPro
             {
                 MessageBox.Show("Couldn't load profile. Either opened by some program or other error");
             }
-
-
             ResyncRelations();
         }
 
@@ -2689,7 +2702,6 @@ namespace JoyPro
                         }
                     }
                 }
-
             }
         }
 

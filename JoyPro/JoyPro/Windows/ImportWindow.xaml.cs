@@ -153,6 +153,7 @@ namespace JoyPro
             cbxAll.VerticalAlignment = VerticalAlignment.Center;
             Thickness marginc = cbxAll.Margin;
             marginc.Left = 10;
+            cbxAll.Foreground = Brushes.LightBlue;
             cbxAll.Margin = marginc;
             Grid.SetColumn(cbxAll, 0);
             Grid.SetRow(cbxAll, 0);
@@ -165,6 +166,7 @@ namespace JoyPro
             cbxNone.HorizontalAlignment = HorizontalAlignment.Left;
             cbxNone.VerticalAlignment = VerticalAlignment.Center;
             Thickness marginn = cbxNone.Margin;
+            cbxNone.Foreground = Brushes.LightBlue;
             marginn.Left = 10;
             cbxNone.Margin = marginn;
             Grid.SetColumn(cbxNone, 0);
@@ -178,7 +180,7 @@ namespace JoyPro
             {
                 CheckBox cbx = new CheckBox();
                 cbx.Name = "cbxjy" + i.ToString();
-                cbx.Foreground = Brushes.LightBlue;
+                
 
 
                 if (MainStructure.JoystickAliases.ContainsKey(availableJoysticks[i]) && MainStructure.JoystickAliases[availableJoysticks[i]].Length > 0)
@@ -219,9 +221,11 @@ namespace JoyPro
             CheckBox cx = (CheckBox)sender;
             if ((string)cx.Content == "ALL")
             {
+                selectedSticks.Clear();
                 for(int i=0; i<joystickCheckboxes.Count; ++i)
                 {
                     joystickCheckboxes[i].IsChecked = true;
+                    selectedSticks.Add(availableJoysticks[i]);
                 }
             }
             else if ((string)cx.Content=="NONE")
@@ -230,6 +234,7 @@ namespace JoyPro
                 {
                     joystickCheckboxes[i].IsChecked = false;
                 }
+                selectedSticks.Clear();
             }
             else
             {
