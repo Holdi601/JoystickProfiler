@@ -51,6 +51,8 @@ namespace JoyPro
             AddJoystickTF.KeyUp += new KeyEventHandler(EnterNewJoystickEnter);
             CloseBtn.Click += new RoutedEventHandler(CloseThis);
             ApplyBtn.Click += new RoutedEventHandler(Apply);
+
+            this.Title = rel.NAME + " - Manual Input Assignment";
         }
 
         void updateJoystickList()
