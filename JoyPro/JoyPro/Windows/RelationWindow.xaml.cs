@@ -43,6 +43,7 @@ namespace JoyPro
             svcCont.ScrollChanged += new ScrollChangedEventHandler(scrollChanged);
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
+            SetupGamesDropDown();
             if (Current == null)
             {
                 Current = new Relation();
@@ -79,9 +80,43 @@ namespace JoyPro
             MainStructure.msave.relationWindowLast.Width = this.Width;
         }
 
-        private void DataGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+
+        private void SetupGamesDropDown()
         {
-            svcCont.ScrollToVerticalOffset(svcCont.VerticalOffset - e.Delta / 3);
+            GamesFilterDropDown.Items.Clear();
+            if (MainStructure.GamesFilter == null || MainStructure.GamesFilter.Count == 0)
+            {
+                for(int i=0; i<MainStructure.Games.Count; ++i)
+                {
+                    MainStructure.GamesFilter.Add(MainStructure.Games[i], true);
+                }
+            }
+            foreach(KeyValuePair<string, bool> kvp in MainStructure.GamesFilter)
+            {
+                CheckBox cbx = new CheckBox();
+                cbx.Name = kvp.Key+"game";
+                cbx.Content = kvp.Key;
+                cbx.Foreground = Brushes.Black;
+                cbx.IsChecked = kvp.Value;
+                cbx.HorizontalAlignment = HorizontalAlignment.Left;
+                cbx.VerticalAlignment = VerticalAlignment.Center;
+                cbx.Click += new RoutedEventHandler(gameFilterChanged);
+                GamesFilterDropDown.Items.Add(cbx);
+            }
+        }
+
+        void gameFilterChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            if (cb.IsChecked == true)
+            {
+                MainStructure.GamesFilter[(string)cb.Content] = true;
+            }
+            else
+            {
+                MainStructure.GamesFilter[(string)cb.Content] = false;
+            }
+            SearchQueryChanged(null, null);
         }
 
         void scrollChanged(object sender, EventArgs e)
@@ -173,19 +208,26 @@ namespace JoyPro
                 MessageBox.Show("No Items Selected");
                 return;
             }
-            bool axis = selected[0].ID.Substring(0, 1) == "a";
-            for (int i = 1; i < selected.Count; i++)
+            if (selected[0].AIRCRAFT == "IL2GAME")
             {
-                if (axis != (selected[i].ID.Substring(0, 1) == "a"))
+
+            }
+            else
+            {
+                bool axis = selected[0].ID.Substring(0, 1) == "a";
+                for (int i = 1; i < selected.Count; i++)
                 {
-                    MessageBox.Show("Axis and Buttons mixed. One relation cannot have IDs that start with 'a' and 'd' mixed.");
-                    return;
+                    if (axis != (selected[i].ID.Substring(0, 1) == "a"))
+                    {
+                        MessageBox.Show("Axis and Buttons mixed. One relation cannot have IDs that start with 'a' and 'd' mixed.");
+                        return;
+                    }
                 }
-            }
-            for (int i = 0; i < selected.Count; ++i)
-            {
-                Current.AddNodeDCS(selected[i].ID);
-            }
+                for (int i = 0; i < selected.Count; ++i)
+                {
+                    Current.AddNodeDCS(selected[i].ID);
+                }
+            }            
             RefreshDGSelected();
         }
 
@@ -287,36 +329,44 @@ namespace JoyPro
 
                 for(int j=0; j< MainStructure.Planes.Length; ++j)
                 {
-                    PlaneState ps = ri[i].GetStateAircraftDCS(MainStructure.Planes[j]);
-                    if (ps == PlaneState.ACTIVE||ps == PlaneState.DISABLED)
+                    if (ri[i].Game == "DCS"||ri[i].Game==null)
                     {
-                        CheckBox cbx = new CheckBox();
-                        cbx.Name = "p"+j.ToString()+"r" + i.ToString();
-                        cbx.Content = ri[i].GetInputDescription(MainStructure.Planes[j]);
-                        cbx.Foreground = Brushes.White;
-                        cbx.HorizontalAlignment = HorizontalAlignment.Left;
-                        cbx.VerticalAlignment = VerticalAlignment.Center;
-                        if (ps == PlaneState.ACTIVE)
-                            cbx.IsChecked = true;
+                        PlaneState ps = ri[i].GetStateAircraftDCS(MainStructure.Planes[j]);
+                        if (ps == PlaneState.ACTIVE || ps == PlaneState.DISABLED)
+                        {
+                            CheckBox cbx = new CheckBox();
+                            cbx.Name = "p" + j.ToString() + "r" + i.ToString();
+                            cbx.Content = ri[i].GetInputDescription(MainStructure.Planes[j]);
+                            cbx.Foreground = Brushes.White;
+                            cbx.HorizontalAlignment = HorizontalAlignment.Left;
+                            cbx.VerticalAlignment = VerticalAlignment.Center;
+                            if (ps == PlaneState.ACTIVE)
+                                cbx.IsChecked = true;
+                            else
+                                cbx.IsChecked = false;
+                            cbx.Click += new RoutedEventHandler(planeActiveStateChanged);
+                            Grid.SetColumn(cbx, j + 4);
+                            Grid.SetRow(cbx, i);
+                            grid.Children.Add(cbx);
+                        }
                         else
-                            cbx.IsChecked = false;
-                        cbx.Click += new RoutedEventHandler(planeActiveStateChanged);
-                        Grid.SetColumn(cbx, j+4);
-                        Grid.SetRow(cbx, i);
-                        grid.Children.Add(cbx);
+                        {
+                            Label emptyItem = new Label();
+                            emptyItem.Name = "id_" + i.ToString();
+                            emptyItem.Foreground = Brushes.White;
+                            emptyItem.Content = "   ";
+                            emptyItem.HorizontalAlignment = HorizontalAlignment.Center;
+                            emptyItem.VerticalAlignment = VerticalAlignment.Center;
+                            Grid.SetColumn(emptyItem, j + 4);
+                            Grid.SetRow(emptyItem, i);
+                            grid.Children.Add(emptyItem);
+                        }
                     }
-                    else
+                    else if (ri[i].Game == "IL2")
                     {
-                        Label emptyItem = new Label();
-                        emptyItem.Name = "id_" + i.ToString();
-                        emptyItem.Foreground = Brushes.White;
-                        emptyItem.Content = "   ";
-                        emptyItem.HorizontalAlignment = HorizontalAlignment.Center;
-                        emptyItem.VerticalAlignment = VerticalAlignment.Center;
-                        Grid.SetColumn(emptyItem, j+4);
-                        Grid.SetRow(emptyItem, i);
-                        grid.Children.Add(emptyItem);
+
                     }
+                    
                     
                 }
             }

@@ -114,6 +114,9 @@
     <Compile Include="MISC\KnownFolders.cs" />
     <Compile Include="MISC\MetaSave.cs" />
     <Compile Include="DataStructures\Internal\Modifier.cs" />
+    <Compile Include="Windows\ManualJoystickAssign.xaml.cs">
+      <DependentUpon>ManualJoystickAssign.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ModifierManager.xaml.cs">
       <DependentUpon>ModifierManager.xaml</DependentUpon>
     </Compile>
@@ -170,6 +173,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\ManualJoystickAssign.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\ModifierManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

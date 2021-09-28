@@ -44,6 +44,7 @@ namespace JoyPro
             }
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
+            SetupGamesDropDown();
             CBselAll.Click += new RoutedEventHandler(SelectAll);
             CBselNone.Click += new RoutedEventHandler(SelectNone);
 
@@ -212,6 +213,43 @@ namespace JoyPro
                 joystickCheckboxes.Add(cbx);
             }
             sv.Content = grid;
+        }
+
+        private void SetupGamesDropDown()
+        {
+            GamesFilterDropDown.Items.Clear();
+            if (MainStructure.GamesFilter == null || MainStructure.GamesFilter.Count == 0)
+            {
+                for (int i = 0; i < MainStructure.Games.Count; ++i)
+                {
+                    MainStructure.GamesFilter.Add(MainStructure.Games[i], true);
+                }
+            }
+            foreach (KeyValuePair<string, bool> kvp in MainStructure.GamesFilter)
+            {
+                CheckBox cbx = new CheckBox();
+                cbx.Name = kvp.Key + "game";
+                cbx.Content = kvp.Key;
+                cbx.Foreground = Brushes.Black;
+                cbx.IsChecked = kvp.Value;
+                cbx.HorizontalAlignment = HorizontalAlignment.Left;
+                cbx.VerticalAlignment = VerticalAlignment.Center;
+                cbx.Click += new RoutedEventHandler(gameFilterChanged);
+                GamesFilterDropDown.Items.Add(cbx);
+            }
+        }
+
+        private void gameFilterChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            if (cb.IsChecked == true)
+            {
+                MainStructure.GamesFilter[(string)cb.Content] = true;
+            }
+            else
+            {
+                MainStructure.GamesFilter[(string)cb.Content] = false;
+            }
         }
 
         void JoystickSetChanged(object sender, EventArgs e)

@@ -48,6 +48,8 @@ namespace JoyPro
         public static string SaveGamesPath;
         public static string[] DCSInstances;
         public static string[] Planes;
+        public static string IL2PathOverride = "";
+        public static string DCSInstanceOverride = "";
         static Dictionary<string, Relation> AllRelations = new Dictionary<string, Relation>();
         static Dictionary<string, Bind> AllBinds = new Dictionary<string, Bind>();
         public static List<string> AllGroups = new List<string>();
@@ -64,6 +66,8 @@ namespace JoyPro
         public static string[] installPathsDCS;
         static string newestAvailableVersion;
         static int downloadFails = 0;
+        public static List<string> Games = new List<string>();
+        public static Dictionary<string, bool> GamesFilter = new Dictionary<string, bool>();
         public static string IL2Instance = "";
         public static Dictionary<string, int> IL2JoystickId = new Dictionary<string, int>();
 
@@ -364,6 +368,9 @@ namespace JoyPro
                 }else if(sender is CreateJoystickAlias)
                 {
                     msave.AliasCr = p;
+                }else if(sender is ManualJoystickAssign)
+                {
+                    msave.JoyManAs = p;
                 }
             }
             if (mainW.CBNukeUnused.IsChecked == true)
@@ -642,34 +649,28 @@ namespace JoyPro
             }
             ResyncRelations();
         }
-        public static void WriteProfileCleanNotOverwriteLocal(bool fillBeforeEmpty, List<string> games)
+        public static void WriteProfileCleanNotOverwriteLocal(bool fillBeforeEmpty)
         {
             if (!Directory.Exists(selectedInstancePath)) return;
             ToExportDCS.Clear();
             defaultToOverwrite = new List<string>();
-            if (games != null && games.Contains("DCS"))
-            {
-                LoadLocalBinds(selectedInstancePath, true);
-                OverwriteDCSExportWith(LocalBindsDCS, true, false, false);
-                PushAllDCSBindsToExport(false, fillBeforeEmpty, false);
-                WriteFilesDCS();
-                WriteFilesDCS(".jp");
-            }
+            LoadLocalBinds(selectedInstancePath, true);
+            OverwriteDCSExportWith(LocalBindsDCS, true, false, false);
+            PushAllDCSBindsToExport(false, fillBeforeEmpty, false);
+            WriteFilesDCS();
+            WriteFilesDCS(".jp");
             mainW.ShowMessageBox("Binds exported successfully ☺");
         }
-        public static void WriteProfileCleanAndLoadedOverwritten(bool fillBeforeEmpty, List<string> games)
+        public static void WriteProfileCleanAndLoadedOverwritten(bool fillBeforeEmpty)
         {
             if (!Directory.Exists(selectedInstancePath)) return;
             ToExportDCS.Clear();
             defaultToOverwrite = new List<string>();
-            if (games != null && games.Contains("DCS"))
-            {
-                LoadLocalBinds(selectedInstancePath, true);
-                OverwriteDCSExportWith(LocalBindsDCS, true, false, false);
-                PushAllDCSBindsToExport(true, fillBeforeEmpty, false);
-                WriteFilesDCS();
-                WriteFilesDCS(".jp");
-            }
+            LoadLocalBinds(selectedInstancePath, true);
+            OverwriteDCSExportWith(LocalBindsDCS, true, false, false);
+            PushAllDCSBindsToExport(true, fillBeforeEmpty, false);
+            WriteFilesDCS();
+            WriteFilesDCS(".jp");
             mainW.ShowMessageBox("Binds exported successfully ☻");
         }
         public static bool ListContainsCaseInsensitive(List<string> li, string toCheck)
@@ -685,33 +686,29 @@ namespace JoyPro
             if (!device.Contains("{")) return null;
             return device.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
         }
-        public static void WriteProfileCleanAndLoadedOverwrittenAndAdd(bool fillBeforeEmpty, List<string> games)
+        public static void WriteProfileCleanAndLoadedOverwrittenAndAdd(bool fillBeforeEmpty)
         {
             if (!Directory.Exists(selectedInstancePath)) return;
             ToExportDCS.Clear();
             defaultToOverwrite = new List<string>();
-            if (games != null && games.Contains("DCS"))
-            {
-                LoadLocalBinds(selectedInstancePath, true);
-                OverwriteDCSExportWith(LocalBindsDCS, true, false, false);
-                PushAllDCSBindsToExport(true, fillBeforeEmpty, true);
-                WriteFilesDCS();
-                WriteFilesDCS(".jp");
-            }
+            LoadLocalBinds(selectedInstancePath, true);
+            OverwriteDCSExportWith(LocalBindsDCS, true, false, false);
+            PushAllDCSBindsToExport(true, fillBeforeEmpty, true);
+            WriteFilesDCS();
+            WriteFilesDCS(".jp");
+            
             mainW.ShowMessageBox("Binds exported successfully ☺");
         }
-        public static void WriteProfileClean(bool nukeDevices, List<string> games)
+        public static void WriteProfileClean(bool nukeDevices)
         {
             if (!Directory.Exists(selectedInstancePath)) return;
-            if (games != null && games.Contains("DCS"))
-            {
-                ToExportDCS.Clear();
-                PushAllDCSBindsToExport(true, true, false);
-                if (nukeDevices)
-                    NukeUnusedButConnectedDevicesToExport();
-                WriteFilesDCS();
-                WriteFilesDCS(".jp");
-            }
+            ToExportDCS.Clear();
+            PushAllDCSBindsToExport(true, true, false);
+            if (nukeDevices)
+                NukeUnusedButConnectedDevicesToExport();
+            WriteFilesDCS();
+            WriteFilesDCS(".jp");
+            
             mainW.ShowMessageBox("Binds exported successfully ☻");
         }
         static void NukeUnusedButConnectedDevicesToExport()
@@ -1401,7 +1398,7 @@ namespace JoyPro
             }
             ResyncRelations();
         }
-        public static void NewFile()
+        public static void NewFile(bool programStart=false)
         {
             AllBinds.Clear();
             AllRelations.Clear();
@@ -1409,7 +1406,11 @@ namespace JoyPro
             AllGroups.Clear();
             JoystickAliases.Clear();
             GroupActivity.Clear();
-            ResyncRelations();
+            ReloadGameData();
+            
+
+            if(!programStart)
+                ResyncRelations();
         }
 
         public static void ResyncBindsToMods()
@@ -1451,12 +1452,73 @@ namespace JoyPro
             DCSInstances = GetDCSUserFolders();
             for (int i = 0; i < DCSInstances.Length; ++i)
             {
-                BackupConfigsOfInstance(DCSInstances[i]);
+                BackupConfigsOfDCSInstance(DCSInstances[i]);
+            }
+            //IL2 Backup needed
+            LoadIL2Path();
+            BackupConfigsOfIL2();
+            if (!Games.Contains("DCS"))
+                Games.Add("DCS");
+            if (!Games.Contains("IL2Game"))
+                Games.Add("IL2Game");
+        }
+
+        public static void BackupConfigsOfIL2()
+        {
+            if (!Directory.Exists(IL2Instance)) return;
+            try
+            {
+                const string inputFolder = "\\data\\input";
+                const string initBU = "\\data\\JP_InitBackup";
+                const string runningBU = "\\data\\JP_Backup";
+                if (!Directory.Exists(IL2Instance + initBU))
+                {
+                    Directory.CreateDirectory(IL2Instance + initBU);
+                    CopyFolderIntoFolder(IL2Instance + inputFolder, IL2Instance + initBU);
+                } else 
+                {
+                    if (!Directory.Exists(IL2Instance + runningBU))
+                    {
+                        Directory.CreateDirectory(IL2Instance + runningBU);
+                    }
+                    DirectoryInfo dirInfo = new DirectoryInfo(IL2Instance + runningBU);
+                    int days;
+                    if (msave == null)
+                        days = 90;
+                    else
+                        days = msave.backupDays;
+                    
+                    if (dirInfo.GetDirectories().Length > days)
+                    {
+                        string dirToDelete = "";
+                        DateTime lastWritten = DateTime.UtcNow;
+                        foreach(DirectoryInfo d in dirInfo.GetDirectories())
+                        {
+                            if (d.LastWriteTimeUtc < lastWritten)
+                            {
+                                lastWritten = d.LastWriteTimeUtc;
+                                dirToDelete = d.FullName;
+                            }
+                        }
+                        DeleteFolder(dirToDelete);
+                    }
+                    string now = DateTime.UtcNow.ToString("yyyy-MM-dd");
+                    if (!Directory.Exists(IL2Instance + runningBU + "\\" + now))
+                    {
+                        Directory.CreateDirectory(IL2Instance + runningBU + "\\" + now);
+                        CopyFolderIntoFolder(IL2Instance + inputFolder, IL2Instance + runningBU + "\\" + now);
+                    }
+                }
+
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+                Console.WriteLine(e.Source);
+                Console.WriteLine(e.HelpLink);
             }
         }
-       
-
-
 
         public static Task DownloadAsync(string requestUri, string filename)
         {
@@ -2109,68 +2171,75 @@ namespace JoyPro
         public static List<SearchQueryResults> SearchBinds(string[] keywords)
         {
             List<SearchQueryResults> results = new List<SearchQueryResults>();
-            foreach (KeyValuePair<string, DCSPlane> kvp in DCSLib)
+            if (GamesFilter["DCS"])
             {
-                foreach (KeyValuePair<string, DCSInput> inp in kvp.Value.Axis)
+                foreach (KeyValuePair<string, DCSPlane> kvp in DCSLib)
                 {
-                    bool hit = true;
-                    foreach (string key in keywords)
+                    foreach (KeyValuePair<string, DCSInput> inp in kvp.Value.Axis)
                     {
-                        if (!inp.Value.Title.ToLower().Contains(key))
+                        bool hit = true;
+                        foreach (string key in keywords)
                         {
-                            hit = false;
-                            break;
+                            if (!inp.Value.Title.ToLower().Contains(key))
+                            {
+                                hit = false;
+                                break;
+                            }
                         }
+                        if (hit)
+                            results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Plane, DESCRIPTION = inp.Value.Title });
                     }
-                    if (hit)
-                        results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Plane, DESCRIPTION = inp.Value.Title });
-                }
 
-                foreach (KeyValuePair<string, DCSInput> inp in kvp.Value.Buttons)
-                {
-                    bool hit = true;
-                    foreach (string key in keywords)
+                    foreach (KeyValuePair<string, DCSInput> inp in kvp.Value.Buttons)
                     {
-                        if (!inp.Value.Title.ToLower().Contains(key))
+                        bool hit = true;
+                        foreach (string key in keywords)
                         {
-                            hit = false;
-                            break;
+                            if (!inp.Value.Title.ToLower().Contains(key))
+                            {
+                                hit = false;
+                                break;
+                            }
                         }
+                        if (hit)
+                            results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Plane, DESCRIPTION = inp.Value.Title });
                     }
-                    if (hit)
-                        results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Plane, DESCRIPTION = inp.Value.Title });
                 }
             }
+           
             foreach(KeyValuePair<string, OtherGame> kvp in OtherLib)
             {
-                foreach(KeyValuePair<string, OtherGameInput> inp in kvp.Value.Axis)
+                if (GamesFilter.ContainsKey(kvp.Key) && GamesFilter[kvp.Key])
                 {
-                    bool hit = true;
-                    foreach (string key in keywords)
+                    foreach (KeyValuePair<string, OtherGameInput> inp in kvp.Value.Axis)
                     {
-                        if (!inp.Value.Title.ToLower().Contains(key))
+                        bool hit = true;
+                        foreach (string key in keywords)
                         {
-                            hit = false;
-                            break;
+                            if (!inp.Value.Title.ToLower().Contains(key))
+                            {
+                                hit = false;
+                                break;
+                            }
                         }
+                        if (hit)
+                            results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Game, DESCRIPTION = inp.Value.Title });
                     }
-                    if (hit)
-                        results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Game, DESCRIPTION = inp.Value.Title });
-                }
-                foreach (KeyValuePair<string, OtherGameInput> inp in kvp.Value.Buttons)
-                {
-                    bool hit = true;
-                    foreach (string key in keywords)
+                    foreach (KeyValuePair<string, OtherGameInput> inp in kvp.Value.Buttons)
                     {
-                        if (!inp.Value.Title.ToLower().Contains(key))
+                        bool hit = true;
+                        foreach (string key in keywords)
                         {
-                            hit = false;
-                            break;
+                            if (!inp.Value.Title.ToLower().Contains(key))
+                            {
+                                hit = false;
+                                break;
+                            }
                         }
+                        if (hit)
+                            results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Game, DESCRIPTION = inp.Value.Title });
                     }
-                    if (hit)
-                        results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Game, DESCRIPTION = inp.Value.Title });
-                }
+                }   
             }
             return results;
         }
@@ -2203,6 +2272,16 @@ namespace JoyPro
             pth = GetRegistryValue("SOFTWARE\\Eagle Dynamics\\DCS World OpenBeta", "Path", "CurrentUser");
             if (pth != null) installs.Add(pth);
             installPathsDCS = installs.ToArray();
+            mainW.DropDownInstanceSelection.Items.Clear();
+            if (DCSInstanceOverride.Length > 0)
+            {
+                mainW.DropDownInstanceSelection.Items.Add(DCSInstanceOverride);
+            }
+            else
+            {
+                foreach (string inst in DCSInstances)
+                    mainW.DropDownInstanceSelection.Items.Add(inst);
+            }
         }
 
         public static void UnloadGameData()
@@ -2218,11 +2297,37 @@ namespace JoyPro
 
         }
 
+        public static void ReloadGameData()
+        {
+            UnloadGameData();
+            InitDCSData();
+            InitIL2Data();
+            try
+            {
+                List<string> connectedSticks = JoystickReader.GetConnectedJoysticks();
+                List<string> crSticks = LocalJoysticks.ToList();
+                for(int i=0; i < connectedSticks.Count; ++i)
+                {
+                    if (!crSticks.Contains(connectedSticks[i]))
+                        crSticks.Add(connectedSticks[i]);
+                }
+                LocalJoysticks = crSticks.ToArray();
+            }
+            catch
+            {
+
+            }
+        }
+
         public static void InitIL2Data()
         {
             PROGPATH = Environment.CurrentDirectory;
             Console.WriteLine(PROGPATH);
             LoadIL2Path();
+            if (IL2PathOverride.Length>0)
+            {
+                IL2Instance = IL2PathOverride;
+            }
             InitIL2Joysticks();
             PopulateIL2Dictionary();
             Console.WriteLine(IL2Instance);
@@ -2255,7 +2360,7 @@ namespace JoyPro
             return null;
         }
 
-        public static void BackupConfigsOfInstance(string instance)
+        public static void BackupConfigsOfDCSInstance(string instance)
         {
             if (!Directory.Exists(instance + runningBackupFolder))
             {
@@ -2461,6 +2566,13 @@ namespace JoyPro
                         {
                             if (!OtherLib[gameName].Axis.ContainsKey(id))
                                 OtherLib[gameName].Axis.Add(id, current);
+                            if (!OtherLib[gameName].Buttons.ContainsKey(id + "+"))
+                            {
+                                OtherGameInput currentAxisPlus = new OtherGameInput(id + "+", descriptor + " (BUTTON PLUS)", false, gameName);
+                                OtherGameInput currentAxisMinus = new OtherGameInput(id + "-", descriptor + " (BUTTON MINUS)", false, gameName);
+                                OtherLib[gameName].Buttons.Add(id + "+", currentAxisPlus);
+                                OtherLib[gameName].Buttons.Add(id + "-", currentAxisMinus);
+                            }
                         }
                         else
                         {
@@ -2689,6 +2801,7 @@ namespace JoyPro
                 StreamReader sr = new StreamReader(IL2Instance + "\\data\\input\\devices.txt");
                 string content = sr.ReadToEnd().Replace("\r", "").Replace("|", "");
                 string[] lines = content.Split('\n');
+                List<string> crSticks = LocalJoysticks.ToList();
                 for (int i = 1; i < lines.Length; ++i)
                 {
                     string[] parts = lines[i].Split(',');
@@ -2696,12 +2809,18 @@ namespace JoyPro
                     {
                         string joy = IL2JoyIdToDCSJoyId(parts[1], parts[2]);
                         Joysticks.Add(joy);
+                        if (!crSticks.Contains(joy))
+                        {
+                            crSticks.Add(joy);
+                        }
                         if (!IL2JoystickId.ContainsKey(joy) && !IL2JoystickId.ContainsValue(id))
                         {
                             IL2JoystickId.Add(joy, id);
                         }
+                        
                     }
                 }
+                LocalJoysticks = crSticks.ToArray();
             }
         }
 

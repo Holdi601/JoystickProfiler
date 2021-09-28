@@ -27,16 +27,6 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <ComboBox Height="30" Width="180" Name="DropDownGameSelection" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,18,10,12" Grid.Row="0" Grid.Column="0" >
-            <ComboBoxItem Name="DropDownGameSelectionElementDCS" >
-                <CheckBox Name="DCSSELECT">Digital Combat Simulator</CheckBox>
-            </ComboBoxItem>
-            <ComboBoxItem Name="DropDownGameSelectionElementIL2" >
-                <CheckBox Name="IL2SELECT">IL2 BoX</CheckBox>
-            </ComboBoxItem>
-        </ComboBox>
-
-
         <Button FontWeight="Bold" Name="NewFileBtn" Content="Clear" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="1" />
         <Button FontWeight="Bold" Name="LoadRelationsBtn" Content="Load Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="3" />
         <Button FontWeight="Bold" Name="SaveRelationsBtn" Content="Save Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,19,15,11" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="1" />
@@ -49,7 +39,7 @@
         <Button FontWeight="Bold" Name="SaveProfileBtn" Content="Save Profile" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,19,15,11" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="1" />
         <Button FontWeight="Bold" Name="AddRelationsBtn" Content="Add Relations" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="2" />
         <Button FontWeight="Bold" Name="IncludeRelationsBtn" Content="Include Relations" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" />
-        <Button FontWeight="Bold" Name="ImportProfileBtn" Content="Import DCS Bindings" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="1" />
+        <Button FontWeight="Bold" Name="ImportProfileBtn" Content="Import Bindings" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="1" />
 
         <Button FontWeight="Bold" Name="CEBAEBtn" Content="Clean Existing Binds and Export" Height="30" Width="190"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,18,2,12" Grid.Row="6" Grid.Column="0" />
         <Button FontWeight="Bold" Name="MEBWEAOEBtn" Content="Merge and Overwrite Existing Binds" Height="30" Width="227"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,18,0,12" Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="2" />
@@ -70,7 +60,7 @@
         <Label Content="Device Filter:" Foreground="White" Grid.Column="5" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Margin="10,12,10,10" Width="80"/>
         <ComboBox Name="DeviceDropdown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,12,0,10" Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2" Width="275" Height="31" ></ComboBox>
         
-        <Button FontWeight="Bold" Name="GroupManagerBtn" Content="Group Manager" Height="30" Width="180"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,19,0,11" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" />
+        <Button FontWeight="Bold" Name="GroupManagerBtn" Content="Group Manager" Height="30" Width="180"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,19,0,11" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
 
 
     </Grid>

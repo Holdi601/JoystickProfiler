@@ -55,6 +55,8 @@ namespace JoyPro
             athBox.LostFocus += new RoutedEventHandler(ChangeAxisThreshhold);
             installPathBox.LostFocus += new RoutedEventHandler(SetInstallPath);
             BackupDaysBox.LostFocus += new RoutedEventHandler(changeBackupDays);
+            IL2InstanceORBox.LostFocus += new RoutedEventHandler(ChangeIL2InstanceOverridePath);
+            DCSInstanceORBox.LostFocus += new RoutedEventHandler(ChangeDCSInstanceOverridePath);
         }
 
         void changeBackupDays(object sender, EventArgs e)
@@ -67,6 +69,47 @@ namespace JoyPro
                 BackupDaysBox.Text = MainStructure.msave.backupDays.ToString();
             }
             MainStructure.msave.backupDays = days;
+        }
+
+        void ChangeDCSInstanceOverridePath(object sender, EventArgs e)
+        {
+            if (Directory.Exists(DCSInstanceORBox.Text))
+            {
+                MainStructure.DCSInstanceOverride = DCSInstanceORBox.Text;
+                MainStructure.mainW.DropDownInstanceSelection.Items.Clear();
+                MainStructure.ReloadGameData();
+                MainStructure.mainW.DropDownInstanceSelection.SelectedIndex = 0;
+                MainStructure.DCSInstanceSelectionChanged(MainStructure.DCSInstanceOverride);
+
+            }
+            else if(DCSInstanceORBox.Text.Length>0)
+            {
+                MessageBox.Show("Invalid Path in DCS Instance");
+            }
+            else
+            {
+                MainStructure.DCSInstanceOverride = "";
+                MainStructure.ReloadGameData();
+            }
+        }
+
+        void ChangeIL2InstanceOverridePath(object sender, EventArgs e)
+        {
+            if (Directory.Exists(IL2InstanceORBox.Text))
+            {
+                MainStructure.IL2PathOverride = IL2InstanceORBox.Text;
+                MainStructure.IL2Instance = IL2InstanceORBox.Text;
+                MainStructure.ReloadGameData();
+            }
+            else if(IL2InstanceORBox.Text.Length>0)
+            {
+                MessageBox.Show("Invalid Path in IL2 Path");
+            }
+            else
+            {
+                MainStructure.IL2PathOverride = "";
+                MainStructure.ReloadGameData();
+            }
         }
 
         void CloseThis(object sender, EventArgs e)

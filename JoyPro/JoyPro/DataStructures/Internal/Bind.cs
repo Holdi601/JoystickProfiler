@@ -109,6 +109,7 @@ namespace JoyPro
                 r.AllReformers.Add(AllReformers[i]);
             }
             r.Rl = rl;
+            rl.bind = r;
             return r;
         }
 
@@ -128,6 +129,7 @@ namespace JoyPro
             Reformer_depr = "";
             AllReformers = new List<string>();
             additionalImportInfo = "";
+            r.bind = this;
         }
 
         public DCSAxisBind toDCSAxisBind()

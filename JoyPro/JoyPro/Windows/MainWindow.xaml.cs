@@ -51,10 +51,10 @@ namespace JoyPro
             InitializeComponent();
             gridCols = 15;
             CURRENTDISPLAYEDRELATION = new List<Relation>();
-            ButtonsIntoList();
-            SetupEventHandlers();
             ALLWINDOWS = new List<Window>();
             MainStructure.mainW = this;
+            ButtonsIntoList();
+            SetupEventHandlers();
             FirstStart();
             joyReader = null;
             buttonSetting = -1;
@@ -119,8 +119,6 @@ namespace JoyPro
 
         void SetupDropDownsEventHandlers()
         {
-            DCSSELECT.Click += new RoutedEventHandler(GameSelectionChanged);
-            IL2SELECT.Click += new RoutedEventHandler(GameSelectionChanged);
             DropDownInstanceSelection.SelectionChanged += new SelectionChangedEventHandler(InstanceSelectionChanged);
         }
         void SetupButtonsEventHandler()
@@ -220,13 +218,6 @@ namespace JoyPro
             setWindowPosSize(sender, e);
             if (MainStructure.msave != null)
             {
-                if (MainStructure.msave.lastGameSelected.Length > 0)
-                {
-                    if (MainStructure.msave.lastGameSelected == "Digital Combat Simulator")
-                    {
-                        DropDownGameSelection.SelectedIndex = 0;
-                    }
-                }
                 MainStructure.AfterLoad();
             }
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
@@ -281,12 +272,8 @@ namespace JoyPro
                 param = false;
             else
                 param = true;
-            List<string> games = new List<string>();
-            if (DCSSELECT.IsChecked == true)
-                games.Add("DCS");
-            if (IL2SELECT.IsChecked == true)
-                games.Add("IL2");
-            MainStructure.WriteProfileCleanNotOverwriteLocal(param,games);
+
+            MainStructure.WriteProfileCleanNotOverwriteLocal(param);
         }
         void LoadExistingExportOverwrite(object sender, EventArgs e)
         {
@@ -300,12 +287,7 @@ namespace JoyPro
                 param = false;
             else
                 param = true;
-            List<string> games = new List<string>();
-            if (DCSSELECT.IsChecked == true)
-                games.Add("DCS");
-            if (IL2SELECT.IsChecked == true)
-                games.Add("IL2");
-            MainStructure.WriteProfileCleanAndLoadedOverwritten(param, games);
+            MainStructure.WriteProfileCleanAndLoadedOverwritten(param);
         }
         void LoadExistingExportAndAdd(object sender, EventArgs e)
         {
@@ -319,12 +301,7 @@ namespace JoyPro
                 param = false;
             else
                 param = true;
-            List<string> games = new List<string>();
-            if (DCSSELECT.IsChecked == true)
-                games.Add("DCS");
-            if (IL2SELECT.IsChecked == true)
-                games.Add("IL2");
-            MainStructure.WriteProfileCleanAndLoadedOverwrittenAndAdd(param, games);
+            MainStructure.WriteProfileCleanAndLoadedOverwrittenAndAdd(param);
         }
         void CleanAndExport(object sender, EventArgs e)
         {
@@ -333,12 +310,7 @@ namespace JoyPro
             bool nukeDevices = false;
             if (CBNukeUnused.IsChecked == true)
                 nukeDevices = true;
-            List<string> games = new List<string>();
-            if (DCSSELECT.IsChecked == true)
-                games.Add("DCS");
-            if (IL2SELECT.IsChecked == true)
-                games.Add("IL2");
-            MainStructure.WriteProfileClean(nukeDevices, games);
+            MainStructure.WriteProfileClean(nukeDevices);
         }
         void OpenSaveProfile(object sender, EventArgs e)
         {
@@ -1036,6 +1008,7 @@ namespace JoyPro
                 joybtnin.VerticalAlignment = VerticalAlignment.Center;
                 joybtnin.Width = 100;
                 joybtnin.Click += new RoutedEventHandler(SetBtnOrAxisEvent);
+                joybtnin.MouseRightButtonUp += new MouseButtonEventHandler(ManualBtnAxSet);
                 setBtns[i] = joybtnin;
                 Grid.SetColumn(joybtnin, 7);
                 Grid.SetRow(joybtnin, i);
@@ -1295,6 +1268,16 @@ namespace JoyPro
 
         }
 
+        void ManualBtnAxSet(object sender, EventArgs e)
+        {
+            int indx = Convert.ToInt32(((Button)sender).Name.Replace("assignBtn", ""));
+            ManualJoystickAssign mja = new ManualJoystickAssign(CURRENTDISPLAYEDRELATION[indx]);
+            DisableInputs();
+            ALLWINDOWS.Add(mja);
+            mja.Closing += new CancelEventHandler(WindowClosing);
+            mja.Show();
+        }
+
         void OpenJoystickCreateAlias(object sender, EventArgs e)
         {
             DisableInputs();
@@ -1513,55 +1496,6 @@ namespace JoyPro
             svHeader.Content = grid;
         }
 
-        public void GameSelectionChanged(object sender, EventArgs e)
-        {
-            if (sender != null)
-            {
-                List<string> gamesInRel = MainStructure.GamesInRelations();
-                bool invalidChange = false;
-                if (gamesInRel.Contains("DCS")&&DCSSELECT.IsChecked==false)
-                {
-                    DCSSELECT.IsChecked = true;
-                    invalidChange = true;
-                    MessageBox.Show("You cannot, deselect DCS, when your Relations in the List still contains DCS items.");
-                }
-                if (gamesInRel.Contains("IL2") && IL2SELECT.IsChecked == false)
-                {
-                    IL2SELECT.IsChecked = true;
-                    invalidChange = true;
-                    MessageBox.Show("You cannot, deselect IL2, when your Relations in the List still contains IL2 items.");
-                }
-
-                if (invalidChange)
-                    return;
-            }
-
-            MainStructure.UnloadGameData();
-            if (DCSSELECT.IsChecked ==true)
-            {
-                MainStructure.InitDCSData();
-                
-                DropDownInstanceSelection.Items.Clear();
-                DropDownGameSelection.SelectedIndex = 0;
-                foreach (string inst in MainStructure.DCSInstances)
-                    DropDownInstanceSelection.Items.Add(inst);
-            }
-            if (IL2SELECT.IsChecked == true)
-            {
-                MainStructure.InitIL2Data();
-                DropDownGameSelection.SelectedIndex = 1;
-            }
-
-            if (DCSSELECT.IsChecked == false && IL2SELECT.IsChecked == false)
-            {
-                DisableInputs();
-            }
-            else
-            {
-                ActivateInputs();
-            }
-            
-        }
         void InvertAxisSelection(object sender, EventArgs e)
         {
             CheckBox cx = (CheckBox)sender;
@@ -1718,9 +1652,11 @@ namespace JoyPro
         void FirstStart()
         {
             MainStructure.InitProgram();
+            MainStructure.NewFile(true);
             for (int i = 0; i < ALLBUTTONS.Count; ++i)
                 ALLBUTTONS[i].IsEnabled = false;
             MainStructure.LoadMetaLast();
+            ActivateInputs();
 
         }
 
@@ -1744,8 +1680,6 @@ namespace JoyPro
         }
         void ActivateInputs()
         {
-
-            DropDownGameSelection.IsEnabled = true;
             for (int i = 0; i < ALLBUTTONS.Count; ++i)
                 ALLBUTTONS[i].IsEnabled = true;
             if (dltBtns != null)

@@ -1,0 +1,1699 @@
+// KOS GENERATED INPUT MAPFILE
+// IT IS NOT RECOMMENDED TO CHANGE ANYTHING HERE!
+// (Well, it is still possible, but on your own risk ;o))
+
+modifier("key_LCONTROL");
+modifier("key_RCONTROL");
+modifier("key_LSHIFT");
+modifier("key_RSHIFT");
+modifier("key_LMENU");
+modifier("key_RMENU");
+modifier("key_LWIN");
+modifier("key_RWIN");
+
+////////////////////////////////////
+KEYSET("keyset_main");
+use keyboard(1);
+use mouse(1.56,0.00,false);
+use joy(1000.00,0.00);
+use trackir(1);
+////////////////////////////////////
+//KEYSET ACTIONS:
+////////////////////////////////////
+
+action("gui_mouse_lb","State","mouse_b0");
+action("gui_mouse_rb","State","mouse_b1");
+action("console_on_off","State","key_GRAVE");
+action("resethmd","State","key_NUMPAD5");
+action("cam_rotate_hf_yaw_p","State","_trackir_axis_YAW");
+action("cam_rotate_hf_pitch_p","State","trackir_axis_PITCH");
+action("cam_rotate_hf_roll_p","State","trackir_axis_ROLL");
+action("cam_switch_mc_far","State","key_F4");
+action("cam_switch_mc_close","State","key_F1");
+action("cam_turret_yaw_p","State","_trackir_axis_YAW");
+action("cam_turret_pitch_p","State","trackir_axis_PITCH");
+action("engine_interconnect_turbo","State","key_LMENU+key_I");
+action("engine_interconnect_prop","State","key_LSHIFT+key_I");
+action("bc_head_trans_x_p","State","_trackir_axis_Z");
+action("bc_head_trans_y_p","State","trackir_axis_Y");
+action("bc_head_trans_z_p","State","_trackir_axis_X");
+action("bc_head_yaw_p","State","_trackir_axis_YAW");
+action("bc_head_pitch_p","State","trackir_axis_PITCH");
+action("bc_head_roll_p","State","trackir_axis_ROLL");
+action("bc_head_yaw_wrapped_p","State","_trackir_axis_YAW");
+action("vc_engine_switch","State","key_E");
+action("vc_brake","State","key_SPACE");
+action("rb_zoom","Event","key_LSHIFT+mouse_axis_Z");
+action("mc_zoom","Event","key_LSHIFT+mouse_axis_Z");
+action("bc_head_pos","Event","key_LCONTROL+mouse_axis_Z");
+action("bc_go_forward","State","key_UP");
+action("bc_go_backward","State","key_DOWN");
+action("bc_go_left","State","key_LEFT");
+action("bc_go_right","State","key_RIGHT");
+action("bc_run","State","key_SPACE");
+action("screenshot","State","key_sysrq");
+action("timepause","State","key_p");
+action("timefaster","State","key_rbracket");
+action("timeslower","State","key_lbracket");
+action("record","State","key_lcontrol+key_r");
+action("fps_counter","State","key_back");
+action("escape","State","key_escape");
+action("lobby","State","key_tab");
+action("missionbriefing","State","key_o");
+action("switchmap","State","key_m");
+action("switchgauges","State","key_i");
+action("aiminghelp","State","key_rcontrol+key_i");
+action("chattoall","State","key_return");
+action("chattofriendly","State","key_rcontrol+key_return");
+action("hidehud","State","key_h");
+action("commandmenu","State","key_grave");
+action("commandmenu","State","key_lmenu+key_grave");
+action("ipdinc","State","key_lshift+key_add");
+action("ipddec","State","key_lshift+key_numpadenter");
+action("cam_reset","State","key_numpad5");
+action("cam_ext_free_reset","State","key_c");
+action("cam_free_slow_mode","State","key_numpad0");
+action("cam_zoom_p","State","key_add");
+action("cam_zoom_n","State","key_subtract");
+action("cam_zoom_p","Event","mouse_axis_z");
+action("cam_zoom_n","State","joy1_axis_x");
+action("cam_rotate_pitch_p","State","key_numpad2");
+action("cam_rotate_pitch_n","State","key_numpad8");
+action("cam_rotate_pitch_p","Event","mouse_axis_y");
+action("cam_rotate_pitch_n","State","joy1_axis_y");
+action("cam_rotate_yaw_p","State","key_numpad6");
+action("cam_rotate_yaw_n","State","key_numpad4");
+action("cam_rotate_yaw_p","Event","mouse_axis_x");
+action("cam_rotate_yaw_p","State","joy0_pov0_90");
+action("cam_rotate_yaw_n","State","joy0_pov0_270");
+action("cam_rotate_ext_pitch_p","Event","key_lshift+mouse_axis_y");
+action("cam_rotate_ext_yaw_p","Event","key_lshift+mouse_axis_x");
+action("cam_trans_fb_p","State","key_w");
+action("cam_trans_fb_n","State","key_s");
+action("cam_trans_fb_p","Event","mouse_b1+mouse_axis_y");
+action("cam_trans_lr_p","State","key_d");
+action("cam_trans_lr_n","State","key_a");
+action("cam_trans_lr_p","Event","mouse_b1+mouse_axis_x");
+action("cam_trans_ud_p","State","key_r");
+action("cam_trans_ud_n","State","key_f");
+action("cam_trans_ud_p","Event","mouse_b1+mouse_axis_z");
+action("cam_switch_cockpitview_self","State","key_f1");
+action("cam_switch_default_opposite","State","key_lcontrol+key_f12");
+action("cam_switch_default_order","State","key_f12");
+action("cam_switch_ext_chase_allied_air","State","key_rshift+key_f8");
+action("cam_switch_ext_chase_enemy_air","State","key_f8");
+action("cam_switch_ext_chase_enemy_air_danger","State","key_rcontrol+key_f8");
+action("cam_switch_ext_chase_allied_land","State","key_rshift+key_f7");
+action("cam_switch_ext_chase_enemy_land","State","key_rcontrol+key_f7");
+action("cam_switch_sight_target","State","key_lcontrol+key_f4");
+action("cam_switch_sight_target","State","key_f4");
+action("cam_switch_ext_free_self","State","key_f2");
+action("cam_switch_ext_free_allied","State","key_lshift+key_f2");
+action("cam_switch_ext_free_enemy","State","key_lcontrol+key_f2");
+action("cam_switch_ext_free_land_all","State","key_f5");
+action("cam_switch_ext_free_land_allied","State","key_lshift+key_f5");
+action("cam_switch_ext_free_land_enemy","State","key_lcontrol+key_f5");
+action("cam_switch_ext_free_bomb_all","State","key_f6");
+action("cam_switch_ext_free_bomb_allied","State","key_lshift+key_f6");
+action("cam_switch_ext_free_bomb_enemy","State","key_lcontrol+key_f6");
+action("cam_switch_flyby_target","State","key_f3");
+action("cam_switch_free","State","key_f11");
+action("cam_switch_gopro","State","key_lmenu+key_f2");
+action("cam_switch_track","State","key_lcontrol+key_f1");
+action("cam_switch_head_free","State","key_lmenu+key_f1");
+action("freelook","State","mouse_b1");
+action("bc_head_zoom_p","Event","key_lshift+mouse_axis_z");
+action("bc_head_zoom_p","Event","mouse_axis_z");
+action("bc_head_cfovi","State","key_add");
+action("bc_head_cfovi","State","joy0_b5");
+action("bc_head_cfovo","State","key_subtract");
+action("bc_head_cfovo","State","joy0_b4");
+action("bc_head_cfovr","State","key_multiply");
+action("bc_head_fov0","State","key_rcontrol+key_decimal");
+action("bc_head_fov1","State","key_rcontrol+key_numpad1");
+action("bc_head_fov2","State","key_rcontrol+key_numpad2");
+action("bc_head_fov3","State","key_rcontrol+key_numpad3");
+action("bc_head_fov4","State","key_rcontrol+key_numpad0");
+action("rb_zoom","Event","key_lshift+mouse_axis_z");
+action("rb_zoom","State","key_add");
+action("rb_zoom","Event","mouse_axis_z");
+action("mc_zoom_p","Event","key_lshift+mouse_axis_z");
+action("mc_zoom_p","Event","key_rmenu+mouse_axis_z");
+action("mc_zoom_p","State","key_add");
+action("mc_zoom_n","State","key_subtract");
+action("bc_head_pitch_p","Event","mouse_axis_y");
+action("bc_head_pitch_p","Event","mouse_axis_y+mouse_b1");
+action("bc_head_yaw_p","Event","mouse_axis_x");
+action("bc_head_yaw_p","Event","mouse_axis_x+mouse_b1");
+action("bc_head_yaw_wrapped_p","Event","mouse_axis_x");
+action("bc_head_cvmodes","State","key_f9");
+action("bc_head_cvss","State","key_f10");
+action("bc_head_cvc","State","key_numpad5");
+action("bc_head_cvc","State","joy0_b1");
+action("bc_head_cvu","State","key_numpad0");
+action("bc_head_cvu","State","joy0_b6");
+action("bc_head_cvd","State","key_numpadenter");
+action("bc_head_cvd","State","joy0_b7");
+action("bc_head_cva","State","key_decimal");
+action("bc_head_cva","State","joy0_b10");
+action("bc_head_cv0","State","key_numpad8");
+action("bc_head_cv0","State","joy0_pov0_0");
+action("bc_head_cv45","State","key_numpad9");
+action("bc_head_cv45","State","joy0_pov0_45");
+action("bc_head_cv90","State","key_numpad6");
+action("bc_head_cv90","State","joy0_pov0_90");
+action("bc_head_cv135","State","key_numpad3");
+action("bc_head_cv135","State","joy0_pov0_135");
+action("bc_head_cv180","State","key_numpad2");
+action("bc_head_cv180","State","joy0_pov0_180");
+action("bc_head_cv225","State","key_numpad1");
+action("bc_head_cv225","State","joy0_pov0_225");
+action("bc_head_cv270","State","key_numpad4");
+action("bc_head_cv270","State","joy0_pov0_270");
+action("bc_head_cv315","State","key_numpad7");
+action("bc_head_cv315","State","joy0_pov0_315");
+action("bc_head_pos","Event","key_lcontrol+mouse_axis_z");
+action("bc_head_cvmf","State","key_insert");
+action("bc_head_cvmf","State","key_rshift+joy0_pov0_0");
+action("bc_head_cvmb","State","key_home");
+action("bc_head_cvmb","State","key_rshift+joy0_pov0_180");
+action("bc_head_cvml","State","key_delete");
+action("bc_head_cvml","State","key_rshift+joy0_pov0_270");
+action("bc_head_cvmr","State","key_end");
+action("bc_head_cvmr","State","key_rshift+joy0_pov0_90");
+action("bc_head_cvmu","State","key_prior");
+action("bc_head_cvmd","State","key_next");
+action("cam_turret_pitch_center","State","key_numpad5");
+action("cam_turret_pitch_p","Event","key_lshift+mouse_axis_y");
+action("cam_turret_yaw_center","State","key_numpad5");
+action("cam_turret_yaw_p","Event","key_lshift+mouse_axis_x");
+action("cam_rotate_hf_yaw_p","Event","mouse_axis_x");
+action("cam_rotate_hf_pitch_p","Event","mouse_axis_y");
+action("cam_rotate_hf_yaw_center","State","key_numpad5");
+action("cam_rotate_hf_pitch_center","State","key_numpad5");
+action("autopilot","State","key_a");
+action("autolevelflight","State","key_lshift+key_a");
+action("autolevelflight_to_left","State","key_lshift+key_z");
+action("autolevelflight_to_right","State","key_lshift+key_x");
+action("rpc_pitch_p","State","key_down");
+action("rpc_pitch_n","State","key_up");
+action("rpc_pitch_p","State","joy4_axis_y");
+action("rpc_roll_p","State","key_right");
+action("rpc_roll_n","State","key_left");
+action("rpc_roll_p","State","joy4_axis_x");
+action("rpc_yaw_p","State","key_x");
+action("rpc_yaw_n","State","key_z");
+action("rpc_yaw_n","State","joy2_axis_t");
+action("yaw_reset","State","key_d");
+action("rpc_yaw_trim_p","State","key_lcontrol+key_x");
+action("rpc_yaw_trim_n","State","key_lcontrol+key_z");
+action("yaw_trim_switch_left","State","key_lcontrol+key_z");
+action("yaw_trim_switch_right","State","key_lcontrol+key_x");
+action("rpc_pitch_trim_p","State","key_rcontrol+key_down");
+action("rpc_pitch_trim_n","State","key_rcontrol+key_up");
+action("pitch_trim_switch_up","State","key_rcontrol+key_down");
+action("pitch_trim_switch_dn","State","key_rcontrol+key_up");
+action("rpc_roll_trim_p","State","key_rcontrol+key_right");
+action("rpc_roll_trim_n","State","key_rcontrol+key_left");
+action("roll_trim_switch_left","State","key_rcontrol+key_left");
+action("roll_trim_switch_right","State","key_rcontrol+key_right");
+action("trims_reset","State","key_lcontrol+key_t");
+action("rpc_adjustable_stabilizer_p","State","key_rcontrol+key_down");
+action("rpc_adjustable_stabilizer_n","State","key_rcontrol+key_up");
+action("adjustable_stabilizer_up","State","key_rcontrol+key_down");
+action("adjustable_stabilizer_dn","State","key_rcontrol+key_up");
+action("flaps_up","State","key_lshift+key_f");
+action("flaps_dn","State","key_f");
+action("airbrakes","State","key_rmenu+key_b");
+action("attacksiren","State","key_lmenu+key_s");
+action("windscreenwipers","State","key_lmenu+key_w");
+action("divesystem","State","key_lcontrol+key_d");
+action("gear","State","key_g");
+action("gear_up","State","key_lmenu+key_g");
+action("gear_dn","State","key_lcontrol+key_g");
+action("tailwheel_lock","State","key_lshift+key_g");
+action("rpc_wheel_brakes_p","State","key_slash");
+action("rpc_wheel_brakes_left_p","State","key_comma");
+action("rpc_wheel_brakes_right_p","State","key_period");
+action("rpc_wheel_brakes_central_p","State","key_rwin+key_slash");
+action("parking_brakes","State","key_lshift+key_slash");
+action("canopy_open_close","State","key_rmenu+key_c");
+action("window_open_close","State","key_lwin+key_c");
+action("landing_lights","State","key_rshift+key_l");
+action("navigation_lights","State","key_rcontrol+key_l");
+action("cockpit_lights","State","key_l");
+action("formation_lights","State","key_rmenu+key_l");
+action("set_altimeter_reference_pressure","State","key_lmenu+key_a");
+action("contact_altimeter_target_altitude_increase","State","key_rshift+key_k");
+action("contact_altimeter_target_altitude_decrease","State","key_rcontrol+key_k");
+action("radio_volume_decrease","State","key_lmenu+key_subtract");
+action("radio_volume_increase","State","key_lmenu+key_add");
+action("switch_radio_channel","State","key_lmenu+key_c");
+action("bc_eject","State","key_lcontrol+key_e");
+action("autoaltitudinalcorrection","State","key_lshift+key_m");
+action("autoradiators","State","key_lshift+key_r");
+action("autorpmlimiter","State","key_lshift+key_n");
+action("all_engines_switch","State","key_e");
+action("all_engines_ignition","State","key_rshift+key_e");
+action("engine_blip_switch","State","key_lshift+key_e");
+action("rpc_all_engines_throttles_p","State","key_equals");
+action("rpc_all_engines_throttles_n","State","key_minus");
+action("rpc_all_engines_throttles_p","State","joy0_axis_z");
+action("rpc_all_engines_mixtures_p","State","key_rmenu+key_equals");
+action("rpc_all_engines_mixtures_n","State","key_rmenu+key_minus");
+action("rpc_all_engines_mixtures_p","State","joy1_axis_x");
+action("all_engines_superchargers","State","key_lshift+key_s");
+action("rpc_all_engines_turbosuperchargers_p","State","key_lshift+key_equals");
+action("rpc_all_engines_turbosuperchargers_n","State","key_lshift+key_minus");
+action("all_engines_boost","State","key_lshift+key_b");
+action("rpc_all_engines_props_pitch_p","State","key_rshift+key_equals");
+action("rpc_all_engines_props_pitch_n","State","key_rshift+key_minus");
+action("all_engines_props_pitch_control_mode","State","key_rshift+key_p");
+action("all_engines_props_pitch_increase","State","key_rshift+key_equals");
+action("all_engines_props_pitch_decrease","State","key_rshift+key_minus");
+action("all_engines_props_feathering","State","key_lcontrol+key_f");
+action("rpc_all_engines_oil_radiators_shutters_p","State","key_rwin+key_equals");
+action("rpc_all_engines_oil_radiators_shutters_n","State","key_rwin+key_minus");
+action("all_engines_oil_radiators_control_mode","State","key_rwin+key_r");
+action("all_engines_oil_radiators_open","State","key_rwin+key_equals");
+action("all_engines_oil_radiators_close","State","key_rwin+key_minus");
+action("rpc_all_engines_water_radiators_shutters_p","State","key_rcontrol+key_equals");
+action("rpc_all_engines_water_radiators_shutters_n","State","key_rcontrol+key_minus");
+action("all_engines_water_radiators_control_mode","State","key_rcontrol+key_r");
+action("all_engines_water_radiators_open","State","key_rcontrol+key_equals");
+action("all_engines_water_radiators_close","State","key_rcontrol+key_minus");
+action("rpc_all_engines_in_cowls_shutters_p","State","key_lcontrol+key_equals");
+action("rpc_all_engines_in_cowls_shutters_n","State","key_lcontrol+key_minus");
+action("rpc_all_engines_out_cowls_shutters_p","State","key_lmenu+key_equals");
+action("rpc_all_engines_out_cowls_shutters_n","State","key_lmenu+key_minus");
+action("select_all_engines","State","key_0");
+action("select_engine_1","State","key_1");
+action("select_engine_2","State","key_2");
+action("select_engine_3","State","key_3");
+action("engine_1_switch","State","key_rcontrol+key_1");
+action("engine_1_ignition","State","key_rshift+key_numpad1");
+action("rpc_engine_1_altitude_throttle_p","State","key_lshift+key_equals");
+action("rpc_engine_1_altitude_throttle_n","State","key_lshift+key_minus");
+action("engine_2_switch","State","key_rcontrol+key_2");
+action("engine_2_ignition","State","key_rshift+key_numpad2");
+action("engine_3_switch","State","key_rcontrol+key_3");
+action("engine_interconnect_prop","State","key_lshift+key_i");
+action("engine_interconnect_turbo","State","key_lmenu+key_i");
+action("toggle_refuel","State","key_rcontrol+key_f");
+action("all_guns_fire","State","key_space");
+action("all_guns_fire","State","joy4_b1");
+action("weapon_group_1_fire","State","key_rmenu+key_space");
+action("weapon_group_1_fire","State","key_rmenu+mouse_b0");
+action("weapon_group_2_fire","State","key_lmenu+key_space");
+action("weapon_group_2_fire","State","key_lmenu+mouse_b0");
+action("weapon_group_3_fire","State","key_rcontrol+key_space");
+action("weapon_group_3_fire","State","key_rcontrol+mouse_b0");
+action("cam_switch_bombaim","State","key_v");
+action("throw_bombs_mode","State","key_lwin+key_b");
+action("throw_bombs_delay","State","key_lcontrol+key_b");
+action("throw_bombs_command","State","key_b");
+action("throw_bombs_command","State","joy0_b3");
+action("launch_rockets_mode","State","key_lwin+key_r");
+action("launch_rockets_command","State","key_r");
+action("jettison_stores_command","State","key_lshift+key_d");
+action("bombdoors_toggle","State","key_n");
+action("bombsafety_toggle","State","key_lwin+key_s");
+action("all_guns_reload","State","key_lmenu+key_r");
+action("all_guns_reload","State","mouse_b2");
+action("all_guns_reload","State","joy0_b2");
+action("bc_gun0","State","key_lcontrol+key_grave");
+action("bc_gun1","State","key_lcontrol+key_1");
+action("bc_gun2","State","key_lcontrol+key_2");
+action("bc_gun3","State","key_lcontrol+key_3");
+action("bc_gun4","State","key_lcontrol+key_4");
+action("bc_gun5","State","key_lcontrol+key_5");
+action("bc_gunfire","State","key_lcontrol+key_space");
+action("bc_gunfire","State","mouse_b0");
+action("switchpilot","State","key_lcontrol+key_c");
+action("tc_guard","State","key_lshift+key_c");
+action("switchgunpos0","State","key_rshift+key_0");
+action("switchgunpos1","State","key_rshift+key_1");
+action("switchgunpos2","State","key_rshift+key_2");
+action("switchgunpos3","State","key_rshift+key_3");
+action("switchgunpos4","State","key_rshift+key_4");
+action("switchgunpos5","State","key_rshift+key_5");
+action("switchgunpos6","State","key_rshift+key_6");
+action("switchgunpos7","State","key_rshift+key_7");
+action("switchgunpos8","State","key_rshift+key_8");
+action("switchgunpos9","State","key_rshift+key_9");
+action("tc_aiming","State","key_t");
+action("cam_switch_turret","State","key_lshift+key_t");
+action("tc_fire","State","mouse_b0");
+action("tc_fire_secondary","State","mouse_b1");
+action("tc_reload","State","key_lmenu+key_r");
+action("tc_reload","State","mouse_b2");
+action("gunsight_filter","State","key_lmenu+key_f");
+action("gunsight_adjustment","State","key_rmenu+key_f");
+action("gunsight_mode","State","key_lmenu+key_m");
+action("gs_distance_p","State","key_rmenu+key_period");
+action("gs_distance_n","State","key_rmenu+key_semicolon");
+action("gs_yaw_p","State","key_rmenu+key_slash");
+action("gs_yaw_n","State","key_rmenu+key_comma");
+action("gs_reset","State","key_rmenu+key_apostrophe");
+action("tc_visor_pitch_p","State","key_rshift+key_period");
+action("tc_visor_pitch_n","State","key_rshift+key_semicolon");
+action("tc_visor_yaw_p","State","key_rshift+key_slash");
+action("tc_visor_yaw_n","State","key_rshift+key_comma");
+action("tc_visor_reset","State","key_rshift+key_apostrophe");
+action("tc_switchgun","State","key_rmenu+key_g");
+action("ai_turret_act_by_yourself","State","key_rmenu+key_1");
+action("ai_turret_back_fire","State","key_rmenu+key_2");
+action("ai_turret_cease_fire","State","key_rmenu+key_3");
+action("ai_turret_cease_heavy_fire","State","key_rmenu+key_4");
+action("ai_turret_attack_balloons","State","key_rmenu+key_5");
+action("ai_turret_attack_ground","State","key_rmenu+key_6");
+action("ai_turret_short_distance","State","key_rmenu+key_7");
+action("ai_turret_normal_distance","State","key_rmenu+key_8");
+action("ai_turret_medium_distance","State","key_rmenu+key_9");
+action("toggle_rearm","State","key_rcontrol+key_a");
+action("bc_signal_stay_here","State","key_lcontrol+key_0");
+action("bc_signal_attack_nearest_air_target","State","key_lmenu+key_1");
+action("bc_signal_attack_nearest_ground_target","State","key_lmenu+key_2");
+action("bc_signal_back_to_mission","State","key_lmenu+key_3");
+action("bc_signal_do_like_me","State","key_lmenu+key_4");
+action("bc_signal_formation_column","State","key_lcontrol+key_6");
+action("bc_signal_formation_left_arrow","State","key_lcontrol+key_7");
+action("bc_signal_formation_right_arrow","State","key_lcontrol+key_8");
+action("bc_signal_formation_v","State","key_lcontrol+key_9");
+action("bc_signal_hold_formation","State","key_lmenu+key_5");
+action("bc_signal_patrol","State","key_lmenu+key_6");
+action("bc_signal_patrol_air","State","key_lmenu+key_7");
+action("bc_signal_patrol_ground","State","key_lmenu+key_8");
+action("bc_signal_return_to_base","State","key_lmenu+key_0");
+action("bc_signal_attack","State","key_lshift+key_1");
+action("bc_signal_denote_enemy","State","key_lshift+key_2");
+action("bc_signal_flap_to_head","State","key_lshift+key_3");
+action("vc_gas_p","State","key_up");
+action("vc_gas_n","State","key_down");
+action("vc_turn_p","State","key_right");
+action("vc_turn_n","State","key_left");
+action("vc_gearup","State","key_x");
+action("vc_geardown","State","key_z");
+action("tc_aim_x_p","State","joy0_axis_x");
+action("tc_aim_x_p","State","key_d");
+action("tc_aim_x_n","State","key_a");
+action("tc_aim_y_p","State","joy0_axis_y");
+action("tc_aim_y_p","State","key_w");
+action("tc_aim_y_n","State","key_s");
+action("gunsight_power","State","key_lmenu+key_l");
+action("cam_switch_visor","State","key_lshift+key_v");
+action("rb_pitch_p","Event","mouse_axis_y");
+action("rb_yaw_p","Event","mouse_axis_x");
+action("mc_pitch_p","Event","mouse_axis_y");
+action("mc_yaw_p","Event","mouse_axis_x");
+action("mc_pitch_free_p","Event","mouse_axis_y+mouse_b1");
+action("mc_yaw_free_p","Event","mouse_axis_x+mouse_b1");
+action("vc_engine_switch_p","State","key_e");
+action("vc_brake_p","State","key_space");
+action("cam_switch_mc_far","State","key_f4");
+action("cam_switch_mc_close","State","key_f1");
+action("ext_action1","State","key_lwin+key_1");
+action("ext_action1","State","key_rwin+key_1");
+action("ext_action2","State","key_lwin+key_2");
+action("ext_action2","State","key_rwin+key_2");
+action("ext_action3","State","key_lwin+key_3");
+action("ext_action3","State","key_rwin+key_3");
+action("ext_action4","State","key_lwin+key_4");
+action("ext_action4","State","key_rwin+key_4");
+action("ext_action5","State","key_lwin+key_5");
+action("ext_action5","State","key_rwin+key_5");
+action("ext_action6","State","key_lwin+key_6");
+action("ext_action6","State","key_rwin+key_6");
+action("ext_action7","State","key_lwin+key_7");
+action("ext_action7","State","key_rwin+key_7");
+action("ext_action8","State","key_lwin+key_8");
+action("ext_action8","State","key_rwin+key_8");
+action("ext_action9","State","key_lwin+key_9");
+action("ext_action9","State","key_rwin+key_9");
+action("ext_action0","State","key_lwin+key_0");
+action("ext_action0","State","key_rwin+key_0");
+action("cam_rotate_gopro_yaw_p","Event","mouse_axis_x");
+action("cam_rotate_gopro_yaw_center","State","key_numpad5");
+action("gui_mouse_x_p","Event","mouse_axis_x");
+action("gui_mouse_y_p","Event","mouse_axis_y");
+action("gui_mouse_z_p","Event","mouse_axis_z");
+action("select_fuel_selector","State","key_rshift+key_s");
+action("turn_fuel_selector","State","key_lcontrol+key_s");
+action("select_fuel_pump","State","key_lshift+key_p");
+action("switch_fuel_pump","State","key_lcontrol+key_p");
+action("fuel_dumping","State","key_rshift+key_d");
+action("jettison_fueltank","State","key_rshift+key_f");
+action("switch_fuel_indicator","State","key_rshift+key_i");
+
+// KEYSET ACTIONS END;
+////////////////////////////////////
+
+
+
+////////////////////////////////////
+KEYSET("keyset_editor");
+use keyboard(1);
+use mouse(4.00,2.00,false);
+////////////////////////////////////
+//KEYSET ACTIONS:
+////////////////////////////////////
+action("escapepressed","State","key_ESCAPE");
+action("mainmenufileopen","State","key_O+key_LCONTROL");
+action("mainmenufileopen","State","key_O+key_RCONTROL");
+action("mainmenufilesave","State","key_S+key_LCONTROL");
+action("mainmenufilesave","State","key_S+key_RCONTROL");
+// KEYSET ACTIONS END;
+////////////////////////////////////
+
+
+
+
+[force_feedback]
+
+enabled = 1;
+force = 1.000000;
+amplitude = 1.000000;
+update_freq = 10.000000;
+
+[end]
+
+[axiscurves]
+
+
+[cam_zoom]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[bc_head_yaw]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[bc_head_pitch]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[bc_head_zoom]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[vc_gas]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[vc_turn]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[gs_distance]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[gs_yaw]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[tc_visor_pitch]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[tc_visor_yaw]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[tc_aim_x]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[tc_aim_y]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_yaw]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_pitch]
+
+data_row0 = -1.000000, -0.962920, -0.927141, -0.892576, -0.859147, -0.826785, -0.795427, -0.765015, -0.735499, -0.706832;
+data_row1 = -0.678969, -0.651871, -0.625500, -0.599829, -0.574820, -0.550446, -0.526680, -0.503498, -0.480875, -0.458791;
+data_row2 = -0.437225, -0.416157, -0.395569, -0.375445, -0.355769, -0.336525, -0.317699, -0.299278, -0.281249, -0.263600;
+data_row3 = -0.246319, -0.229395, -0.212818, -0.196578, -0.180666, -0.165072, -0.149789, -0.134800, -0.120118, -0.105716;
+data_row4 = -0.091594, -0.077743, -0.064158, -0.050831, -0.037758, -0.024932, -0.012348, 0.000000, 0.000000, 0.000000;
+data_row5 = 0.000000, 0.000000, 0.000000, 0.012348, 0.024932, 0.037758, 0.050831, 0.064158, 0.077743, 0.091594;
+data_row6 = 0.105716, 0.120118, 0.134800, 0.149789, 0.165072, 0.180666, 0.196578, 0.212818, 0.229395, 0.246319;
+data_row7 = 0.263600, 0.281249, 0.299278, 0.317699, 0.336525, 0.355769, 0.375445, 0.395569, 0.416157, 0.437225;
+data_row8 = 0.458791, 0.480875, 0.503498, 0.526680, 0.550446, 0.574820, 0.599829, 0.625500, 0.651871, 0.678969;
+data_row9 = 0.706832, 0.735499, 0.765015, 0.795427, 0.826785, 0.859147, 0.892576, 0.927141, 0.962920, 1.000000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_roll]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_yaw_trim]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_pitch_trim]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_roll_trim]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_adjustable_stabilizer]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_wheel_brakes]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_wheel_brakes_left]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_wheel_brakes_central]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_wheel_brakes_right]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_all_engines_throttles]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_1_throttle]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_2_throttle]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_3_throttle]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_4_throttle]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.940000, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.680000, -0.660000, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.440000, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.100000, -0.080000, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.940000, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 1;
+spline = 0;
+
+[end]
+
+[rpc_engine_1_altitude_throttle]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_all_engines_mixtures]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_1_mixture]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_2_mixture]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_3_mixture]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_4_mixture]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.940000, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.680000, -0.660000, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.440000, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.100000, -0.080000, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.940000, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 1;
+spline = 0;
+
+[end]
+
+[rpc_all_engines_turbosuperchargers]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_1_turbosupercharger]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_2_turbosupercharger]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_3_turbosupercharger]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.940000, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.680000, -0.660000, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.440000, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.100000, -0.080000, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.940000, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 1;
+spline = 0;
+
+[end]
+
+[rpc_engine_4_turbosupercharger]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.940000, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.680000, -0.660000, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.440000, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.100000, -0.080000, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.940000, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 1;
+spline = 0;
+
+[end]
+
+[rpc_all_engines_props_pitch]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_1_prop_pitch]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_2_prop_pitch]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_3_prop_pitch]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.940000, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.680000, -0.660000, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.440000, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.100000, -0.080000, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.940000, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 1;
+spline = 0;
+
+[end]
+
+[rpc_engine_4_prop_pitch]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.940000, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.680000, -0.660000, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.440000, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.100000, -0.080000, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.940000, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 1;
+spline = 0;
+
+[end]
+
+[rpc_all_engines_in_cowls_shutters]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_1_in_cowl_shutter]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_2_in_cowl_shutter]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_3_in_cowl_shutter]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_4_in_cowl_shutter]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.940000, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.680000, -0.660000, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.440000, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.100000, -0.080000, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.940000, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 1;
+spline = 0;
+
+[end]
+
+[rpc_all_engines_out_cowls_shutters]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_1_out_cowl_shutter]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_2_out_cowl_shutter]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_3_out_cowl_shutter]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.940000, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.680000, -0.660000, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.440000, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.100000, -0.080000, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.940000, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 1;
+spline = 0;
+
+[end]
+
+[rpc_engine_4_out_cowl_shutter]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.940000, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.680000, -0.660000, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.440000, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.100000, -0.080000, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.940000, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 1;
+spline = 0;
+
+[end]
+
+[rpc_all_engines_oil_radiators_shutters]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_1_oil_radiator_shutter]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_2_oil_radiator_shutter]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_3_oil_radiator_shutter]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_4_oil_radiator_shutter]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.940000, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.680000, -0.660000, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.440000, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.100000, -0.080000, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.940000, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 1;
+spline = 0;
+
+[end]
+
+[rpc_all_engines_water_radiators_shutters]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_1_water_radiator_shutter]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_2_water_radiator_shutter]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.939999, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.679999, -0.659999, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.439999, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.099999, -0.079999, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.139999, 0.159999, 0.179999;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.379999;
+data_row7 = 0.399999, 0.419999, 0.439999, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.639999, 0.659999, 0.679999, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.879999, 0.899999, 0.919999, 0.939999, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 0;
+spline = 0;
+
+[end]
+
+[rpc_engine_3_water_radiator_shutter]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.940000, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.680000, -0.660000, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.440000, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.100000, -0.080000, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.940000, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 1;
+spline = 0;
+
+[end]
+
+[rpc_engine_4_water_radiator_shutter]
+
+data_row0 = -1.000000, -0.980000, -0.960000, -0.940000, -0.920000, -0.900000, -0.880000, -0.860000, -0.840000, -0.820000;
+data_row1 = -0.800000, -0.780000, -0.760000, -0.740000, -0.720000, -0.700000, -0.680000, -0.660000, -0.640000, -0.620000;
+data_row2 = -0.600000, -0.580000, -0.560000, -0.540000, -0.520000, -0.500000, -0.480000, -0.460000, -0.440000, -0.420000;
+data_row3 = -0.400000, -0.380000, -0.360000, -0.340000, -0.320000, -0.300000, -0.280000, -0.260000, -0.240000, -0.220000;
+data_row4 = -0.200000, -0.180000, -0.160000, -0.140000, -0.120000, -0.100000, -0.080000, -0.060000, -0.040000, -0.020000;
+data_row5 = 0.000000, 0.020000, 0.040000, 0.060000, 0.080000, 0.100000, 0.120000, 0.140000, 0.160000, 0.180000;
+data_row6 = 0.200000, 0.220000, 0.240000, 0.260000, 0.280000, 0.300000, 0.320000, 0.340000, 0.360000, 0.380000;
+data_row7 = 0.400000, 0.420000, 0.440000, 0.460000, 0.480000, 0.500000, 0.520000, 0.540000, 0.560000, 0.580000;
+data_row8 = 0.600000, 0.620000, 0.640000, 0.660000, 0.680000, 0.700000, 0.720000, 0.740000, 0.760000, 0.780000;
+data_row9 = 0.800000, 0.820000, 0.840000, 0.860000, 0.880000, 0.900000, 0.920000, 0.940000, 0.960000, 0.980000;
+data_endrow = 1.000000
+
+symmetry = 1;
+spline = 0;
+
+[end]
+
+[end]

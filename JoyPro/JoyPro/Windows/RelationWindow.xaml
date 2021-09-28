@@ -26,6 +26,7 @@
         <Label Content="Relation Name: " Foreground="White" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="13,22" Height="26" Width="94" />
         <TextBox Name="RelationNameTF" Grid.Row="0" Grid.Column="1" Background="White" Margin="10,22" HorizontalAlignment="Center" VerticalAlignment="Center" Width="180" Height="26" ></TextBox>
         <Label Content="Search Query: " Foreground="White" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="37,22" Height="26" Width="88" />
+        <Label Content="Games: " Foreground="White" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="50" />
         <TextBox Name="SearchQueryTF" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="4" Background="White" Margin="136,22,39,22" HorizontalAlignment="Center" VerticalAlignment="Center" Width="347" Height="26" ></TextBox>
         <Rectangle Name="Test123"></Rectangle>
 
@@ -33,7 +34,7 @@
         <Button FontWeight="Bold" Name="CancelRelationBtn" Content="Close" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,23,10,17" Grid.Row="5" Grid.Column="4" />
 
         <Button FontWeight="Bold" Name="AddItemBtn" Content="Add Item" Height="32" Width="92"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,18,22" Grid.Row="2" Grid.Column="5" RenderTransformOrigin="0.38,-0.875" />
-        
+        <ComboBox Name="GamesFilterDropDown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,12,0,10" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Width="200" Height="31" ></ComboBox>
 
         <DataGrid Name="DGSource" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" IsReadOnly="True" />
         <ScrollViewer Name="svcCont"  ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"  Width="auto" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="6" Background="Transparent" ScrollViewer.CanContentScroll="True" >

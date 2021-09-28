@@ -73,23 +73,6 @@ namespace JoyPro
         {
             foreach (RelationItem r in NODES)
             {
-                if (MainStructure.mainW.DCSSELECT.IsChecked == false &&
-                    (r.Game == null ||
-                    r.Game == "" ||
-                    r.Game == "DCS"))
-                {
-                    MainStructure.mainW.DCSSELECT.IsChecked = true;
-                    MainStructure.mainW.GameSelectionChanged(null, null);
-                    if (r.Game == null || r.Game == "")
-                        r.Game = "DCS";
-                }
-                else if (MainStructure.mainW.IL2SELECT.IsChecked == false &&
-                   (r.Game != null &&
-                   r.Game == "IL2"))
-                {
-                    MainStructure.mainW.IL2SELECT.IsChecked = true;
-                    MainStructure.mainW.GameSelectionChanged(null, null);
-                }
                 r.CheckAgainstDB();
             }
         }

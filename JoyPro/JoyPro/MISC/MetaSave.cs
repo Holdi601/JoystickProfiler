@@ -30,6 +30,7 @@ namespace JoyPro
         public WindowPos UsrCvW = null;
         public WindowPos GrpMngr = null;
         public WindowPos AliasCr = null;
+        public WindowPos JoyManAs = null;
 
 
         public MetaSave()
@@ -55,6 +56,7 @@ namespace JoyPro
             UsrCvW = new WindowPos();
             GrpMngr = new WindowPos();
             AliasCr = new WindowPos();
+            JoyManAs = new WindowPos();
         }
     }
 }
