@@ -146,7 +146,7 @@ namespace JoyPro
         void OpenBackupWindow(object sender, EventArgs e)
         {
             DisableInputs();
-            ReinstateBackup ri = new ReinstateBackup(MainStructure.GetPossibleFallbacksForInstance(MainStructure.selectedInstancePath));
+            ReinstateBackup ri = new ReinstateBackup();
             ri.Closing += new CancelEventHandler(ActivateInputs);
             ri.Show();
         }

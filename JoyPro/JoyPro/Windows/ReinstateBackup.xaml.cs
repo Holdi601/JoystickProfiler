@@ -19,8 +19,8 @@ namespace JoyPro
     /// </summary>
     public partial class ReinstateBackup : Window
     {
-        List<string> possibleBackups;
-        public ReinstateBackup(List<string> possBackups)
+        Dictionary<string, List<string>> gameBUlist;
+        public ReinstateBackup()
         {
             InitializeComponent();
             if (MainStructure.msave != null && MainStructure.msave.BackupW != null)
@@ -34,12 +34,40 @@ namespace JoyPro
             {
                 MainStructure.msave = new MetaSave();
             }
-            possibleBackups = possBackups;
-            ExistBUCB.ItemsSource = possBackups;
+            gameBUlist = new Dictionary<string, List<string>>();
+            setupGames();
+            GameSelection.SelectionChanged += new SelectionChangedEventHandler(setDropDown);
             CancelBtn.Click += new RoutedEventHandler(closeThis);
             ReinstateBtn.Click += new RoutedEventHandler(reinstiate);
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
+        }
+
+        void setupGames()
+        {
+            foreach(string game in MainStructure.Games)
+            {
+                GameSelection.Items.Add(game);
+                if (!gameBUlist.ContainsKey(game))
+                {
+                    string path = "";
+                    if (game == "DCS")
+                    {
+                        path = MainStructure.selectedInstancePath;
+                    }
+                    else if (game == "IL2Game")
+                    {
+                        path = MainStructure.IL2Instance;
+                    }
+                    gameBUlist.Add(game, MainStructure.GetPossibleFallbacksForInstance(path, game));
+                }
+            }
+        }
+
+        void setDropDown(object sender, EventArgs e)
+        {
+            if (gameBUlist.ContainsKey((string)GameSelection.SelectedItem))
+                ExistBUCB.ItemsSource = gameBUlist[(string)GameSelection.SelectedItem];
         }
 
         void closeThis(object sender, EventArgs e)
@@ -54,7 +82,14 @@ namespace JoyPro
                 MessageBox.Show("Not a valid item selected");
                 return;
             }
-            MainStructure.RestoreInputsInInstance(MainStructure.selectedInstancePath, (string)ExistBUCB.SelectedItem);
+            string inst = "";
+            if ((string)GameSelection.SelectedItem == "DCS")
+                inst = MainStructure.selectedInstancePath;
+            else if ((string)GameSelection.SelectedItem == "IL2Game")
+                inst = MainStructure.IL2Instance;
+            else
+                inst = "";
+            MainStructure.RestoreInputsInInstance(inst, (string)ExistBUCB.SelectedItem, (string)GameSelection.SelectedItem);
             Close();
         }
     }

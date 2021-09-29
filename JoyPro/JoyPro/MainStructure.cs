@@ -31,7 +31,7 @@ namespace JoyPro
     public static class MainStructure
     {
         const string runningBackupFolder = "\\Config\\JP_Backup";
-        const string subInputPath = "\\Config\\Input";
+        const string subInputPath = "\\Config";
         const string inputFolderName = "\\Input";
         const string initialBackupFolder = "\\Config\\JP_InitBackup";
         const string externalWebUrl = "https://raw.githubusercontent.com/Holdi601/JoystickProfiler/master/JoyPro/JoyPro/ver.txt";
@@ -1687,7 +1687,8 @@ namespace JoyPro
         }
         public static void LoadProfile(string filePath)
         {
-            
+            if (filePath == null || filePath.Length < 1) return;
+            Pr0file pr = null;
             try
             {
                pr = ReadFromBinaryFile<Pr0file>(filePath);
@@ -2396,12 +2397,12 @@ namespace JoyPro
             {
                 Directory.CreateDirectory(instance + runningBackupFolder);
             }
-            if (!Directory.Exists(instance + initialBackupFolder) && Directory.Exists(instance + subInputPath))
+            if (!Directory.Exists(instance + initialBackupFolder) && Directory.Exists(instance + subInputPath + inputFolderName))
             {
                 Directory.CreateDirectory(instance + initialBackupFolder);
-                CopyFolderIntoFolder(instance + subInputPath, instance + initialBackupFolder);
+                CopyFolderIntoFolder(instance + subInputPath+inputFolderName, instance + initialBackupFolder);
             }
-            if (Directory.Exists(instance + subInputPath))
+            if (Directory.Exists(instance + subInputPath + inputFolderName))
             {
                 string now = DateTime.Now.ToString("yyyy-MM-dd");
                 if (!Directory.Exists(instance + runningBackupFolder))
@@ -2418,20 +2419,44 @@ namespace JoyPro
                 if (!Directory.Exists(instance + runningBackupFolder + "\\" + now))
                 {
                     Directory.CreateDirectory(instance + runningBackupFolder + "\\" + now);
-                    CopyFolderIntoFolder(instance + subInputPath, instance + runningBackupFolder + "\\" + now);
+                    CopyFolderIntoFolder(instance + subInputPath + inputFolderName, instance + runningBackupFolder + "\\" + now);
                 }
 
             }
         }
 
-        public static void RestoreInputsInInstance(string instance, string fallBack)
+        public static void RestoreInputsInInstance(string instance, string fallBack, string game)
         {
-            string dir;
-            if (fallBack == "initial")
+            string toCopy, dest, initFold, runBU, inputFo, subPath;
+            if (game == "DCS")
             {
-                if (Directory.Exists(instance + initialBackupFolder + inputFolderName))
+                initFold = initialBackupFolder;
+                inputFo = inputFolderName;
+                runBU = runningBackupFolder;
+                subPath = subInputPath;
+                
+            }
+            else if (game == "IL2Game")
+            {
+                initFold = "\\data\\JP_InitBackup";
+                inputFo = "\\input";
+                runBU = "\\data\\JP_Backup";
+                subPath = "\\data";
+            }
+            else
+            {
+                initFold = "";
+                inputFo = "";
+                runBU = "";
+                subPath = "";
+            }
+            dest = instance + subPath;
+            if (fallBack.ToLower() == "initial")
+            {
+                if (Directory.Exists(instance + initFold + inputFo))
                 {
-                    dir = instance + initialBackupFolder + inputFolderName;
+
+                    toCopy = instance + initFold + inputFo;
                 }
                 else
                 {
@@ -2441,9 +2466,9 @@ namespace JoyPro
             }
             else
             {
-                if (Directory.Exists(instance + runningBackupFolder + "\\" + fallBack + inputFolderName))
+                if (Directory.Exists(instance + runBU + "\\" + fallBack + inputFo))
                 {
-                    dir = instance + runningBackupFolder + "\\" + fallBack + inputFolderName;
+                    toCopy = instance + runBU + "\\" + fallBack + inputFo;
                 }
                 else
                 {
@@ -2451,26 +2476,43 @@ namespace JoyPro
                     return;
                 }
             }
-            if (!Directory.Exists(instance + subInputPath))
-                Directory.CreateDirectory(instance + subInputPath);
+            if (!Directory.Exists(instance + subPath))
+                Directory.CreateDirectory(instance + subPath);
 
-            DirectoryInfo dirin = new DirectoryInfo(dir);
-            DirectoryInfo[] toCopy = dirin.GetDirectories();
-            for (int i = 0; i < toCopy.Length; ++i)
-                CopyFolderIntoFolder(toCopy[i].FullName, dir);
+            CopyFolderIntoFolder(toCopy, dest);
+            MessageBox.Show("Backup has been reinstated: " + fallBack);
 
         }
 
-        public static List<string> GetPossibleFallbacksForInstance(string instance)
+        public static List<string> GetPossibleFallbacksForInstance(string instance, string game)
         {
             List<string> fallback = new List<string>();
-            if (Directory.Exists(instance + initialBackupFolder + inputFolderName))
+            string initBackup, inputFolder, runBU;
+            if (game == "DCS")
+            {
+                initBackup = initialBackupFolder;
+                inputFolder = inputFolderName + inputFolderName;
+                runBU = runningBackupFolder;
+            }
+            else if (game=="IL2Game")
+            {
+                initBackup = "\\data\\JP_InitBackup";
+                inputFolder = "\\input";
+                runBU = "\\data\\JP_Backup";
+            }
+            else
+            {
+                initBackup = "";
+                inputFolder = "";
+                runBU = "";
+            }
+            if (Directory.Exists(instance + initBackup + inputFolder))
             {
                 fallback.Add("Initial");
             }
-            if (Directory.Exists(instance + runningBackupFolder))
+            if (Directory.Exists(instance + runBU))
             {
-                DirectoryInfo pFolder = new DirectoryInfo(instance + runningBackupFolder);
+                DirectoryInfo pFolder = new DirectoryInfo(instance + runBU);
                 DirectoryInfo[] subs = pFolder.GetDirectories();
                 for (int i = 0; i < subs.Length; ++i)
                     fallback.Add(subs[i].Name);

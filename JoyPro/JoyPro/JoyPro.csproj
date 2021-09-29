@@ -86,6 +86,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataStructures\IL2Game\IL2actions.cs" />
+    <Compile Include="DataStructures\IL2Game\IL2Map.cs" />
     <Compile Include="DataStructures\Internal\Bind.cs" />
     <Compile Include="DataStructures\DCS\DCSAxisBind.cs" />
     <Compile Include="DataStructures\DCS\DCSAxisFilter.cs" />
@@ -472,6 +474,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DB\IL2\IL2.actions">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\IL2\IL2.map">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="TOOLS\Unzipper\UnzipMeHereWin.exe.config">

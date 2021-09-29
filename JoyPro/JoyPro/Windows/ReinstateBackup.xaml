@@ -16,7 +16,8 @@
             <RowDefinition Height="40*"/>
             <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
-        <Label Content="Please select which backup to reinstantiate:" Foreground="White" Grid.Column="0" Grid.Row="0"  HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Margin="15,5,0,5" Width="500" Grid.ColumnSpan="2"/>
+        <Label Content="Please select which backup to reinstantiate:" Foreground="White" Grid.Column="0" Grid.Row="0"  HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Margin="15,5,0,5" Width="240" Grid.ColumnSpan="1"/>
+        <ListBox Name="GameSelection" Grid.Row="0" Grid.Column="1"/>
         <Button FontWeight="Bold" Name="CancelBtn" Content="Cancel" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="9,9,0,7" Grid.Row="2" Grid.Column="0" Grid.RowSpan="1" />
         <Button FontWeight="Bold" Name="ReinstateBtn" Content="Reinstate" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="9,9,0,7" Grid.Row="2" Grid.Column="1" Grid.RowSpan="1" />
         <ComboBox Name="ExistBUCB"  Height="30" Width="590"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="9,9,0,7" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
