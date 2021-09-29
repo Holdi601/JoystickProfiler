@@ -38,12 +38,13 @@ namespace JoyPro
             return result;
         }
 
-        public Dictionary<string, int> GetPlaneSetState()
+        public Dictionary<string, int> GetPlaneSetState(string game)
         {
             Dictionary<string, int> results = new Dictionary<string, int>();
-            for (int i = 0; i < MainStructure.Planes.Length; ++i)
+            if (!MainStructure.Planes.ContainsKey(game)) return null;
+            for (int i = 0; i < MainStructure.Planes[game].Count; ++i)
             {
-                results.Add(MainStructure.Planes[i], GetPlaneRelationStateDCS(MainStructure.Planes[i]));
+                results.Add(MainStructure.Planes[game][i], GetPlaneRelationState(MainStructure.Planes[game][i], game));
             }
             return results;
         }
@@ -79,7 +80,8 @@ namespace JoyPro
 
         public void ActivateRestForID(string id)
         {
-            List<string> planesAll = MainStructure.Planes.ToList();
+            
+            string game=null;
             List<string> planesActiveInRel = new List<string>();
             for (int i = 0; i < NODES.Count; ++i)
             {
@@ -89,9 +91,12 @@ namespace JoyPro
                     if (!planesActiveInRel.Contains(planes[j]))
                     {
                         planesActiveInRel.Add(planes[j]);
+                        game = NODES[i].Game;
                     }
                 }
             }
+            if (game == null) game = "DCS";
+            List<string> planesAll = MainStructure.Planes[game].ToList();
             for (int i = 0; i < planesActiveInRel.Count; ++i)
             {
                 if (planesAll.Contains(planesActiveInRel[i]))
@@ -102,7 +107,7 @@ namespace JoyPro
             RelationItem node = GetRelationItem(id);
             for(int i=0; i<planesAll.Count; ++i)
             {
-                node.SetAircraftActivityDCS(planesAll[i], true);
+                node.SetAircraftActivity(planesAll[i], true);
             }
         }
 
@@ -112,44 +117,40 @@ namespace JoyPro
             List<string> planes = node.GetActiveAircraftList();
             for (int j = 0; j < planes.Count; ++j)
             {
-                node.SetAircraftActivityDCS(planes[j], false);
+                node.SetAircraftActivity(planes[j], false);
             }
         }
 
-        int GetPlaneRelationStateDCS(string plane)
+        int GetPlaneRelationState(string plane, string game)
         {
             int counter = 0;
             for (int i = 0; i < NODES.Count; ++i)
             {
-                PlaneState ps = NODES[i].GetStateAircraftDCS(plane);
+                PlaneState ps = NODES[i].GetStateAircraft(plane);
                 if (ps == PlaneState.ACTIVE) ++counter;
             }
             return counter;
         }
-        public bool AddNodeDCS(string id, string plane = "")
+        public bool AddNode(string id, string game, bool axis, string plane = "")
         {
             if (NodesContainId(id) && plane.Length < 1) return false;
             if (NODES.Count < 1)
             {
-                string axisID = id.Substring(0, 1);
-                if (axisID == "a") ISAXIS = true;
-                else ISAXIS = false;
+                ISAXIS = axis;
             }
             else
             {
-                string axisID = id.Substring(0, 1);
-                bool candidateAxis = axisID == "a";
-                if (ISAXIS != candidateAxis) return false;
+                if (ISAXIS != axis) return false;
             }
             if (plane.Length < 1)
-                NODES.Add(new RelationItem(id, "DCS"));
+                NODES.Add(new RelationItem(id, game));
             else
             {
                 bool found = false;
                 int oof = -1;
                 for (int i = 0; i < NODES.Count; ++i)
                 {
-                    PlaneState ps = NODES[i].GetStateAircraftDCS(plane);
+                    PlaneState ps = NODES[i].GetStateAircraft(plane);
                     if (NODES[i].ID == id && (ps == PlaneState.ACTIVE || ps == PlaneState.DISABLED))
                     {
                         found = true;
@@ -159,7 +160,7 @@ namespace JoyPro
                 }
                 if (found)
                 {
-                    NODES[oof].SetAircraftActivityDCS(plane, true);
+                    NODES[oof].SetAircraftActivity(plane, true);
                 }
                 else
                 {
@@ -182,7 +183,7 @@ namespace JoyPro
         {
             for (int i = 0; i < NODES.Count; ++i)
             {
-                PlaneState ps = NODES[i].GetStateAircraftDCS(plane);
+                PlaneState ps = NODES[i].GetStateAircraft(plane);
                 if (ps == PlaneState.ACTIVE) return NODES[i];
             }
             return null;

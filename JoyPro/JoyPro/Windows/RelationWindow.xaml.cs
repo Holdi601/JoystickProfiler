@@ -16,17 +16,20 @@ namespace JoyPro
     /// </summary>
     public partial class RelationWindow : Window
     {
-        DataTable InWorkTable = null;
         public Relation Current = null;
         bool editMode;
         List<ColumnDefinition> headerColumns;
+        List<ColumnDefinition> headerColumnsIds;
         List<ColumnDefinition> mainColumns;
+        List<ColumnDefinition> mainColumnsIds;
         List<RelationItem> ri;
 
         void init()
         {
             headerColumns = new List<ColumnDefinition>();
             mainColumns = new List<ColumnDefinition>();
+            headerColumnsIds = new List<ColumnDefinition>();
+            mainColumnsIds = new List<ColumnDefinition>();
             SearchQueryTF.TextChanged += new TextChangedEventHandler(SearchQueryChanged);
             RelationNameTF.TextChanged += new TextChangedEventHandler(NameChanged);
             AddItemBtn.Click += new RoutedEventHandler(AddItemBtnHit);
@@ -122,12 +125,20 @@ namespace JoyPro
         void scrollChanged(object sender, EventArgs e)
         {
             svcCont.UpdateLayout();
+            svcContIds.UpdateLayout();
             svHead.ScrollToHorizontalOffset(svcCont.HorizontalOffset);
+            svHeadId.ScrollToHorizontalOffset(svcContIds.HorizontalOffset);
+            svcContIds.ScrollToVerticalOffset(svcCont.VerticalOffset);
             for(int i=0; i<headerColumns.Count; ++i)
             {
                 headerColumns[i].MinWidth = mainColumns[i].ActualWidth;
             }
-            
+            for(int i=0; i<headerColumnsIds.Count; ++i)
+            {
+                headerColumnsIds[i].MinWidth = mainColumnsIds[i].ActualWidth;
+                headerColumnsIds[i].Width = mainColumnsIds[i].Width;
+            }
+
         }
 
         public void Refresh()
@@ -155,14 +166,18 @@ namespace JoyPro
                 MessageBox.Show("Relation with same Name already exists.");
                 return;
             }
-            foreach (KeyValuePair<string, int> kvp in Current.GetPlaneSetState())
+            foreach(string g in MainStructure.Games)
             {
-                if (kvp.Value > 1)
+                foreach (KeyValuePair<string, int> kvp in Current.GetPlaneSetState(g))
                 {
-                    MessageBox.Show("The Plane " + kvp.Key + " has multiple Bindings in this Relation. Either get completly get rid of binding by unchecking all checkboxes of it or reduce it so that the Aircraft has only one appearance");
-                    return;
+                    if (kvp.Value > 1)
+                    {
+                        MessageBox.Show("The Plane " + kvp.Key + " has multiple Bindings in this Relation. Either get completly get rid of binding by unchecking all checkboxes of it or reduce it so that the Aircraft has only one appearance");
+                        return;
+                    }
                 }
             }
+            
 
             if (!editMode)
             {
@@ -208,26 +223,19 @@ namespace JoyPro
                 MessageBox.Show("No Items Selected");
                 return;
             }
-            if (selected[0].AIRCRAFT == "IL2GAME")
+            bool axis = selected[0].AXIS;
+            for (int i = 1; i < selected.Count; i++)
             {
-
+                if (axis != (selected[i].AXIS))
+                {
+                    MessageBox.Show("Axis and Buttons mixed. One relation cannot have IDs that start with 'a' and 'd' mixed.");
+                    return;
+                }
             }
-            else
+            for (int i = 0; i < selected.Count; ++i)
             {
-                bool axis = selected[0].ID.Substring(0, 1) == "a";
-                for (int i = 1; i < selected.Count; i++)
-                {
-                    if (axis != (selected[i].ID.Substring(0, 1) == "a"))
-                    {
-                        MessageBox.Show("Axis and Buttons mixed. One relation cannot have IDs that start with 'a' and 'd' mixed.");
-                        return;
-                    }
-                }
-                for (int i = 0; i < selected.Count; ++i)
-                {
-                    Current.AddNodeDCS(selected[i].ID);
-                }
-            }            
+                Current.AddNode(selected[i].ID, selected[i].GAME, selected[i].AXIS);
+            }       
             RefreshDGSelected();
         }
 
@@ -236,7 +244,11 @@ namespace JoyPro
             headerColumns = new List<ColumnDefinition>();
             var converter = new GridLengthConverter();
             Grid grid = new Grid();
-            int columnsNeeded = MainStructure.Planes.Length + 4;
+            int columnsNeeded =  0;
+            foreach(KeyValuePair<string, List<string>> kvp in MainStructure.Planes)
+            {
+                if (kvp.Value != null) columnsNeeded += kvp.Value.Count;
+            }
             grid.RowDefinitions.Add(new RowDefinition());
             for (int i = 0; i < columnsNeeded; ++i)
             {
@@ -248,11 +260,32 @@ namespace JoyPro
             return grid;
         }
 
+        Grid createBaseGridHeaderId()
+        {
+            headerColumnsIds = new List<ColumnDefinition>();
+            var converter = new GridLengthConverter();
+            Grid grid = new Grid();
+            int columnsNeeded = 4;
+            grid.RowDefinitions.Add(new RowDefinition());
+            for (int i = 0; i < columnsNeeded; ++i)
+            {
+                ColumnDefinition c = new ColumnDefinition();
+                c.Width = (GridLength)converter.ConvertFromString("80");
+                grid.ColumnDefinitions.Add(c);
+                headerColumnsIds.Add(c);
+            }
+            return grid;
+        }
+
         Grid createMainGrid(int itemrows)
         {
             var converter = new GridLengthConverter();
             Grid grid = new Grid();
-            int columnsNeeded = MainStructure.Planes.Length + 4;
+            int columnsNeeded =  0;
+            foreach(KeyValuePair<string, List<string>> kvp in MainStructure.Planes)
+            {
+                if (kvp.Value != null) columnsNeeded += kvp.Value.Count;
+            }
             mainColumns = new List<ColumnDefinition>();
             for(int i=0; i<itemrows; ++i)
             {
@@ -263,7 +296,7 @@ namespace JoyPro
             for(int i=0; i<columnsNeeded; ++i)
             {
                 ColumnDefinition c = new ColumnDefinition();
-                c.MinWidth = 110;
+                c.MinWidth = 130;
                 grid.ColumnDefinitions.Add(c);
                 mainColumns.Add(c);
             }
@@ -271,164 +304,161 @@ namespace JoyPro
             return grid;
         }
 
+        Grid createMainGridId(int itemrows)
+        {
+            var converter = new GridLengthConverter();
+            Grid grid = new Grid();
+            int columnsNeeded = 4;
+            mainColumnsIds = new List<ColumnDefinition>();
+            for (int i = 0; i < itemrows; ++i)
+            {
+                RowDefinition r = new RowDefinition();
+                r.Height = (GridLength)converter.ConvertFromString("30");
+                grid.RowDefinitions.Add(r);
+            }
+            for (int i = 0; i < columnsNeeded; ++i)
+            {
+                ColumnDefinition c = new ColumnDefinition();
+                c.MinWidth = 30;
+                grid.ColumnDefinitions.Add(c);
+                mainColumnsIds.Add(c);
+            }
 
-        void RefreshDGSelected()
+            return grid;
+        }
+
+        void createLabelOnGrid(string Name, string Content, int column, int row, Grid g)
+        {
+            Label lbl = new Label();
+            lbl.Name = Name;
+            lbl.Foreground = Brushes.White;
+            lbl.Content = Content;
+            lbl.HorizontalAlignment = HorizontalAlignment.Center;
+            lbl.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(lbl, column);
+            Grid.SetRow(lbl, row);
+            g.Children.Add(lbl);
+        }
+
+        void setGridBordersLightGray()
         {
             var T = Type.GetType("System.Windows.Controls.Grid+GridLinesRenderer," + " PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35");
             var GLR = Activator.CreateInstance(T);
             GLR.GetType().GetField("s_oddDashPen", BindingFlags.Static | BindingFlags.NonPublic).SetValue(GLR, new Pen(Brushes.LightGray, 0.5));
             GLR.GetType().GetField("s_evenDashPen", BindingFlags.Static | BindingFlags.NonPublic).SetValue(GLR, new Pen(Brushes.LightGray, 0.5));
-           
+        }
 
+        void createButtonOnGrid(string Name, string Content, int column, int row, RoutedEventHandler evnt, Grid g)
+        {
+            Button Btn = new Button();
+            Btn.Name = Name;
+            Btn.Content = Content;
+            Btn.HorizontalAlignment = HorizontalAlignment.Center;
+            Btn.VerticalAlignment = VerticalAlignment.Center;
+            Btn.Width = 70;
+            Btn.Click += evnt;
+            Grid.SetColumn(Btn, column);
+            Grid.SetRow(Btn, row);
+            g.Children.Add(Btn);
+        }
+
+        void CreateCheckBoxOnGrid(string Name, string Content, bool isChecked, RoutedEventHandler evnt, int column, int row, Grid g)
+        {
+            CheckBox cbx = new CheckBox();
+            cbx.Name = Name;
+            cbx.Content = Content;
+            cbx.Foreground = Brushes.White;
+            cbx.HorizontalAlignment = HorizontalAlignment.Left;
+            cbx.VerticalAlignment = VerticalAlignment.Center;
+            cbx.IsChecked = isChecked;
+            cbx.Click += evnt;
+            Grid.SetColumn(cbx, column);
+            Grid.SetRow(cbx, row);
+            g.Children.Add(cbx);
+        }
+        void RefreshDGSelected()
+        {
+            setGridBordersLightGray();
             ri = Current.AllRelations();
             Grid grid = createMainGrid(ri.Count);
-            for(int i=0; i<ri.Count; ++i)
+            Grid gridId = createMainGridId(ri.Count);
+            for (int z=0; z<ri.Count; ++z)
             {
-                Label iditem = new Label();
-                iditem.Name = "id_"+i.ToString();
-                iditem.Foreground = Brushes.White;
-                iditem.Content = ri[i].ID;
-                iditem.HorizontalAlignment = HorizontalAlignment.Center;
-                iditem.VerticalAlignment = VerticalAlignment.Center;
-                Grid.SetColumn(iditem, 0);
-                Grid.SetRow(iditem, i);
-                grid.Children.Add(iditem);
+                createLabelOnGrid("id_" + z.ToString(), ri[z].ID, 0, z, gridId);
+                createButtonOnGrid("deleteBtn" + z.ToString(), "Delete", 1, z, new RoutedEventHandler(deleteItem), gridId);
+                createButtonOnGrid("selectAllBtn" + z.ToString(), "Select All", 2, z, new RoutedEventHandler(selectAll), gridId);
+                createButtonOnGrid("selectNoneBtn" + z.ToString(), "Select None", 3, z, new RoutedEventHandler(selectNone), gridId);
 
-                Button deleteBtn = new Button();
-                deleteBtn.Name = "deleteBtn" + i.ToString();
-                deleteBtn.Content = "Delete";
-                deleteBtn.HorizontalAlignment = HorizontalAlignment.Center;
-                deleteBtn.VerticalAlignment = VerticalAlignment.Center;
-                deleteBtn.Width = 100;
-                deleteBtn.Click += new RoutedEventHandler(deleteItem);
-                Grid.SetColumn(deleteBtn, 1);
-                Grid.SetRow(deleteBtn, i);
-                grid.Children.Add(deleteBtn);
-
-                Button selectAllBtn = new Button();
-                selectAllBtn.Name = "selectAllBtn" + i.ToString();
-                selectAllBtn.Content = "Select All";
-                selectAllBtn.HorizontalAlignment = HorizontalAlignment.Center;
-                selectAllBtn.VerticalAlignment = VerticalAlignment.Center;
-                selectAllBtn.Width = 100;
-                selectAllBtn.Click += new RoutedEventHandler(selectAll);
-                Grid.SetColumn(selectAllBtn, 2);
-                Grid.SetRow(selectAllBtn, i);
-                grid.Children.Add(selectAllBtn);
-
-                Button selectNoneBtn = new Button();
-                selectNoneBtn.Name = "selectNoneBtn" + i.ToString();
-                selectNoneBtn.Content = "Select None";
-                selectNoneBtn.HorizontalAlignment = HorizontalAlignment.Center;
-                selectNoneBtn.VerticalAlignment = VerticalAlignment.Center;
-                selectNoneBtn.Width = 100;
-                selectNoneBtn.Click += new RoutedEventHandler(selectNone);
-                Grid.SetColumn(selectNoneBtn, 3);
-                Grid.SetRow(selectNoneBtn, i);
-                grid.Children.Add(selectNoneBtn);
-
-                for(int j=0; j< MainStructure.Planes.Length; ++j)
+                int j = 0;
+                string game;
+                if(ri[z].Game == "DCS" || ri[z].Game == null)
                 {
-                    if (ri[i].Game == "DCS"||ri[i].Game==null)
+                    game = "DCS";
+                }
+                else
+                {
+                    game = ri[z].Game;
+                }
+                foreach(KeyValuePair<string, List<string>> kvp in MainStructure.Planes)
+                {
+                    if (kvp.Key == game&&kvp.Value!=null)
                     {
-                        PlaneState ps = ri[i].GetStateAircraftDCS(MainStructure.Planes[j]);
-                        if (ps == PlaneState.ACTIVE || ps == PlaneState.DISABLED)
+                        foreach (string aircraft in MainStructure.Planes[game])
                         {
-                            CheckBox cbx = new CheckBox();
-                            cbx.Name = "p" + j.ToString() + "r" + i.ToString();
-                            cbx.Content = ri[i].GetInputDescription(MainStructure.Planes[j]);
-                            cbx.Foreground = Brushes.White;
-                            cbx.HorizontalAlignment = HorizontalAlignment.Left;
-                            cbx.VerticalAlignment = VerticalAlignment.Center;
-                            if (ps == PlaneState.ACTIVE)
-                                cbx.IsChecked = true;
+                            PlaneState ps = ri[z].GetStateAircraft(aircraft);
+                            if (ps == PlaneState.ACTIVE || ps == PlaneState.DISABLED)
+                            {
+                                bool isChkd;
+                                if (ps == PlaneState.ACTIVE)
+                                    isChkd = true;
+                                else
+                                    isChkd = false;
+                                CreateCheckBoxOnGrid("p" + j.ToString() + "r" + z.ToString(), ri[z].GetInputDescription(aircraft), isChkd, new RoutedEventHandler(planeActiveStateChanged),j,z,grid);
+                            }
                             else
-                                cbx.IsChecked = false;
-                            cbx.Click += new RoutedEventHandler(planeActiveStateChanged);
-                            Grid.SetColumn(cbx, j + 4);
-                            Grid.SetRow(cbx, i);
-                            grid.Children.Add(cbx);
-                        }
-                        else
-                        {
-                            Label emptyItem = new Label();
-                            emptyItem.Name = "id_" + i.ToString();
-                            emptyItem.Foreground = Brushes.White;
-                            emptyItem.Content = "   ";
-                            emptyItem.HorizontalAlignment = HorizontalAlignment.Center;
-                            emptyItem.VerticalAlignment = VerticalAlignment.Center;
-                            Grid.SetColumn(emptyItem, j + 4);
-                            Grid.SetRow(emptyItem, i);
-                            grid.Children.Add(emptyItem);
+                            {
+                                createLabelOnGrid("id_" + z.ToString(), "   ", j, z, grid);
+                            }
+                            ++j;
                         }
                     }
-                    else if (ri[i].Game == "IL2")
+                    else if (kvp.Value == null)
                     {
-
+                        continue;
                     }
-                    
-                    
+                    else
+                    {
+                        j += kvp.Value.Count;
+                    }
                 }
             }
             
             grid.ShowGridLines = true;
+            gridId.ShowGridLines = true;
             svcCont.Content = grid;
+            svcContIds.Content = gridId;
 
             Grid headerGrid = createBaseGridHeader();
+            Grid headerGridId = createBaseGridHeaderId();
 
-            Label headerID = new Label();
-            headerID.Name = "headerID";
-            headerID.Foreground = Brushes.White;
-            headerID.Content = "ID";
-            headerID.HorizontalAlignment = HorizontalAlignment.Left;
-            headerID.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(headerID, 0);
-            Grid.SetRow(headerID, 0);
-            headerGrid.Children.Add(headerID);
-
-            Label deleteBtnLbl = new Label();
-            deleteBtnLbl.Name = "deleteBtns";
-            deleteBtnLbl.Foreground = Brushes.White;
-            deleteBtnLbl.Content = "Delete Buttons";
-            deleteBtnLbl.HorizontalAlignment = HorizontalAlignment.Left;
-            deleteBtnLbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(deleteBtnLbl, 1);
-            Grid.SetRow(deleteBtnLbl, 0);
-            headerGrid.Children.Add(deleteBtnLbl);
-
-            Label selectAllBtnLbl = new Label();
-            selectAllBtnLbl.Name = "selectAllBtns";
-            selectAllBtnLbl.Foreground = Brushes.White;
-            selectAllBtnLbl.Content = "Select All";
-            selectAllBtnLbl.HorizontalAlignment = HorizontalAlignment.Left;
-            selectAllBtnLbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(selectAllBtnLbl, 2);
-            Grid.SetRow(selectAllBtnLbl, 0);
-            headerGrid.Children.Add(selectAllBtnLbl);
-
-            Label selectNoneBtnLbl = new Label();
-            selectNoneBtnLbl.Name = "selectAllBtns";
-            selectNoneBtnLbl.Foreground = Brushes.White;
-            selectNoneBtnLbl.Content = "Select All";
-            selectNoneBtnLbl.HorizontalAlignment = HorizontalAlignment.Left;
-            selectNoneBtnLbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(selectNoneBtnLbl, 3);
-            Grid.SetRow(selectNoneBtnLbl, 0);
-            headerGrid.Children.Add(selectNoneBtnLbl);
-
-            for (int i = 0; i < MainStructure.Planes.Length; ++i)
+            createLabelOnGrid("headerID", "ID", 0, 0, headerGridId);
+            createLabelOnGrid("deleteBtns", "Delete", 1, 0, headerGridId);
+            createLabelOnGrid("selectAllBtns", "Select All", 2, 0, headerGridId);
+            createLabelOnGrid("selectNoneBtns", "Select None", 3, 0, headerGridId);
+            int i = 0;
+            foreach(KeyValuePair<string, List<string>> kvp in MainStructure.Planes)
             {
-                Label itemLbl = new Label();
-                itemLbl.Name = "Plane" + i.ToString();
-                itemLbl.Foreground = Brushes.White;
-                itemLbl.Content = MainStructure.Planes[i];
-                itemLbl.HorizontalAlignment = HorizontalAlignment.Left;
-                itemLbl.VerticalAlignment = VerticalAlignment.Center;
-                Grid.SetColumn(itemLbl, i + 4);
-                Grid.SetRow(itemLbl, 0);
-                headerGrid.Children.Add(itemLbl);
+                if(kvp.Value!=null)
+                    for(int j=0; j<kvp.Value.Count; ++j)
+                    {
+                        createLabelOnGrid("Plane" + i.ToString(), kvp.Key + "__" + kvp.Value[j], i, 0, headerGrid);
+                        ++i;
+                    }
             }
+
             headerGrid.ShowGridLines = true;
+            headerGridId.ShowGridLines = true;
+            svHeadId.Content = headerGridId;
             svHead.Content = headerGrid;
             scrollChanged(null, null);
         }
@@ -436,33 +466,68 @@ namespace JoyPro
         {
             CheckBox cbx = (CheckBox)sender;
             string[] idParts = cbx.Name.Split('r');
-            string plane = MainStructure.Planes[Convert.ToInt32(idParts[0].Replace("p",""))];
-            bool state;
+            int indx = Convert.ToInt32(idParts[1]);
+            string game = ri[indx].Game;
+            if (game == null) game = "DCS";
+            int planeWork = Convert.ToInt32(idParts[0].Replace("p", ""));
+            string plane = null;
+            foreach (KeyValuePair<string, List<string>> kvp in MainStructure.Planes)
+            {
+                if (kvp.Key == game)
+                {
+                    plane=kvp.Value[planeWork];
+                }
+                else if (kvp.Value == null)
+                {
+                    continue;
+                }
+                else
+                {
+                    planeWork = planeWork - kvp.Value.Count;
+                }
+            }
+            if (plane == null)
+            {
+                MessageBox.Show("Something went wrong assigning new state to aircraft");
+                RefreshDGSelected();
+                return;
+            }
             if (cbx.IsChecked == true) {
-                ri[Convert.ToInt32(idParts[1])].SetAircraftActivityDCS(plane, true);
+                ri[indx].SetAircraftActivity(plane, true);
             }
             else {
-                ri[Convert.ToInt32(idParts[1])].SetAircraftActivityDCS(plane, false);
+                ri[indx].SetAircraftActivity(plane, false);
             }
-            RefreshDGSelected();
+            
         }
         void selectNone(object sender, EventArgs e)
         {
             int indx = Convert.ToInt32(((Button)sender).Name.Replace("selectNoneBtn", ""));
-            for(int i=0; i<MainStructure.Planes.Length; ++i)
+            string game = ri[indx].Game;
+            if (game == null) game = "DCS";
+            if (MainStructure.Planes[game] != null)
             {
-                ri[indx].SetAircraftActivityDCS(MainStructure.Planes[i], false);
+                foreach(string aircraft in MainStructure.Planes[game])
+                {
+                    ri[indx].SetAircraftActivity(aircraft, false);
+                }
+                RefreshDGSelected();
             }
-            RefreshDGSelected();
         }
         void selectAll(object sender, EventArgs e)
         {
             int indx = Convert.ToInt32(((Button)sender).Name.Replace("selectAllBtn", ""));
-            for (int i = 0; i < MainStructure.Planes.Length; ++i)
+            string game = ri[indx].Game;
+            if (game == null) game = "DCS";
+            if (MainStructure.Planes[game] != null)
             {
-                ri[indx].SetAircraftActivityDCS(MainStructure.Planes[i], true);
+                foreach (string aircraft in MainStructure.Planes[game])
+                {
+                    ri[indx].SetAircraftActivity(aircraft, true);
+                }
+                RefreshDGSelected();
             }
-            RefreshDGSelected();
+                
         }
         void deleteItem(object sender, EventArgs e)
         {

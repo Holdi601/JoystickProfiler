@@ -43,11 +43,11 @@ namespace JoyPro
         public static bool showUnassignedRelations = true;
         public static bool showUnassignedGroups = true;
         public static Dictionary<string, DCSPlane> DCSLib = new Dictionary<string, DCSPlane>();
-        public static Dictionary<string, OtherGame> OtherLib = new Dictionary<string, OtherGame>();
+        public static Dictionary<string, Dictionary<string, OtherGame>> OtherLib = new Dictionary<string, Dictionary<string, OtherGame>>();
         public static string[] LocalJoysticks;
         public static string SaveGamesPath;
         public static string[] DCSInstances;
-        public static string[] Planes;
+        public static Dictionary<string, List<string>> Planes = new Dictionary<string, List<string>>();
         public static string IL2PathOverride = "";
         public static string DCSInstanceOverride = "";
         static Dictionary<string, Relation> AllRelations = new Dictionary<string, Relation>();
@@ -419,7 +419,7 @@ namespace JoyPro
                             }
                             else
                             {
-                                result[b.Rl.NAME].Rl.AddNodeDCS(kvpaxe.Key, plane);
+                                result[b.Rl.NAME].Rl.AddNode(kvpaxe.Key,"DCS", true, plane);
                                 if ((result[b.Rl.NAME].additionalImportInfo == null ||
                                    result[b.Rl.NAME].additionalImportInfo.Length < 1) &&
                                    (b.additionalImportInfo != null &&
@@ -449,7 +449,7 @@ namespace JoyPro
                             }
                             else
                             {
-                                result[b.Rl.NAME].Rl.AddNodeDCS(kvpbe.Key, plane);
+                                result[b.Rl.NAME].Rl.AddNode(kvpbe.Key,"DCS", false, plane);
                                 if ((result[b.Rl.NAME].additionalImportInfo == null ||
                                    result[b.Rl.NAME].additionalImportInfo.Length < 1) &&
                                    (b.additionalImportInfo != null &&
@@ -493,7 +493,7 @@ namespace JoyPro
                                         }
                                         else
                                         {
-                                            result[b.Rl.NAME].Rl.AddNodeDCS(idToCheck, planeToCheck);
+                                            result[b.Rl.NAME].Rl.AddNode(idToCheck,"DCS", true, planeToCheck);
                                         }
                                     }
                                 }
@@ -521,7 +521,7 @@ namespace JoyPro
                                         }
                                         else
                                         {
-                                            result[b.Rl.NAME].Rl.AddNodeDCS(idToCheck, planeToCheck);
+                                            result[b.Rl.NAME].Rl.AddNode(idToCheck,"DCS",false, planeToCheck);
                                         }
                                     }
                                 }
@@ -713,32 +713,39 @@ namespace JoyPro
         }
         static void NukeUnusedButConnectedDevicesToExport()
         {
-            string[] allPlanes = Planes;
-            List<string> connectedSticks = JoystickReader.GetConnectedJoysticks();
-            for (int i = 0; i < allPlanes.Length; ++i)
+            foreach(string g in Games)
             {
-                if (!ToExportDCS.ContainsKey(allPlanes[i]))
+                if (g == "DCS")
                 {
-                    ToExportDCS.Add(allPlanes[i], new DCSExportPlane());
-                    ToExportDCS[allPlanes[i]].plane = allPlanes[i];
-                }
-                DCSLuaInput empty = null;
-                if (EmptyOutputsDCS.ContainsKey(allPlanes[i]))
-                {
-                    empty = EmptyOutputsDCS[allPlanes[i]];
-                }
-                else
-                    continue;
-                for (int j = 0; j < connectedSticks.Count; j++)
-                {
-                    if (!ToExportDCS[allPlanes[i]].joystickConfig.ContainsKey(connectedSticks[j]))
+                    string[] allPlanes = Planes[g].ToArray();
+                    List<string> connectedSticks = JoystickReader.GetConnectedJoysticks();
+                    for (int i = 0; i < allPlanes.Length; ++i)
                     {
-                        ToExportDCS[allPlanes[i]].joystickConfig.Add(connectedSticks[j], empty.Copy());
-                        ToExportDCS[allPlanes[i]].joystickConfig[connectedSticks[j]].plane = allPlanes[i];
-                        ToExportDCS[allPlanes[i]].joystickConfig[connectedSticks[j]].JoystickName = connectedSticks[j];
+                        if (!ToExportDCS.ContainsKey(allPlanes[i]))
+                        {
+                            ToExportDCS.Add(allPlanes[i], new DCSExportPlane());
+                            ToExportDCS[allPlanes[i]].plane = allPlanes[i];
+                        }
+                        DCSLuaInput empty = null;
+                        if (EmptyOutputsDCS.ContainsKey(allPlanes[i]))
+                        {
+                            empty = EmptyOutputsDCS[allPlanes[i]];
+                        }
+                        else
+                            continue;
+                        for (int j = 0; j < connectedSticks.Count; j++)
+                        {
+                            if (!ToExportDCS[allPlanes[i]].joystickConfig.ContainsKey(connectedSticks[j]))
+                            {
+                                ToExportDCS[allPlanes[i]].joystickConfig.Add(connectedSticks[j], empty.Copy());
+                                ToExportDCS[allPlanes[i]].joystickConfig[connectedSticks[j]].plane = allPlanes[i];
+                                ToExportDCS[allPlanes[i]].joystickConfig[connectedSticks[j]].JoystickName = connectedSticks[j];
+                            }
+                        }
                     }
                 }
             }
+            
         }
         public static void PushAllDCSBindsToExport(bool oride, bool fillBeforeEmpty = true, bool overwriteAdd = false)
         {
@@ -752,7 +759,7 @@ namespace JoyPro
         }
         public static Dictionary<string, DCSExportPlane> BindToExportFormatDCS(Bind b)
         {
-            Dictionary<string, int> pstate = b.Rl.GetPlaneSetState();
+            Dictionary<string, int> pstate = b.Rl.GetPlaneSetState("DCS");
             Dictionary<string, DCSExportPlane> result = new Dictionary<string, DCSExportPlane>();
             foreach (KeyValuePair<string, int> kvpPS in pstate)
             {
@@ -1449,6 +1456,17 @@ namespace JoyPro
                     DownloadNewerVersion();
                 }
             }
+            if (!Games.Contains("DCS"))
+            {
+                Games.Add("DCS");
+                Planes.Add("DCS", new List<string>());
+            }
+            if (!Games.Contains("IL2Game"))
+            {
+                Games.Add("IL2Game");
+                Planes.Add("IL2Game", new List<string>());
+            }
+                
             DCSInstances = GetDCSUserFolders();
             for (int i = 0; i < DCSInstances.Length; ++i)
             {
@@ -1457,10 +1475,7 @@ namespace JoyPro
             //IL2 Backup needed
             LoadIL2Path();
             BackupConfigsOfIL2();
-            if (!Games.Contains("DCS"))
-                Games.Add("DCS");
-            if (!Games.Contains("IL2Game"))
-                Games.Add("IL2Game");
+            
         }
 
         public static void BackupConfigsOfIL2()
@@ -1672,27 +1687,26 @@ namespace JoyPro
         }
         public static void LoadProfile(string filePath)
         {
-            if (filePath == null || filePath.Length < 1) return;
-            Pr0file pr = null;
+            
             try
             {
-                pr = ReadFromBinaryFile<Pr0file>(filePath);
-                NewFile();
-                AllRelations = pr.Relations;
-                AllBinds = pr.Binds;
-                JoystickAliases = pr.JoystickAliases;
-                if (pr.LastSelectedDCSInstance != null && Directory.Exists(pr.LastSelectedDCSInstance))
-                {
-                    DCSInstanceSelectionChanged(pr.LastSelectedDCSInstance);
-                }
-                ResyncBindsToMods();
-                RecreateGroups();
-                foreach (KeyValuePair<string, Relation> kvp in AllRelations)
-                {
-                    kvp.Value.CheckNamesAgainstDB();
-                }
-                AddLoadedJoysticks();
-                CheckConnectedSticksToBinds();
+               pr = ReadFromBinaryFile<Pr0file>(filePath);
+               NewFile();
+               AllRelations = pr.Relations;
+               AllBinds = pr.Binds;
+               JoystickAliases = pr.JoystickAliases;
+               if (pr.LastSelectedDCSInstance != null && Directory.Exists(pr.LastSelectedDCSInstance))
+               {
+                   DCSInstanceSelectionChanged(pr.LastSelectedDCSInstance);
+               }
+               ResyncBindsToMods();
+               RecreateGroups();
+               foreach (KeyValuePair<string, Relation> kvp in AllRelations)
+               {
+                   kvp.Value.CheckNamesAgainstDB();
+               }
+               AddLoadedJoysticks();
+               CheckConnectedSticksToBinds();
             }
             catch
             {
@@ -2187,7 +2201,7 @@ namespace JoyPro
                             }
                         }
                         if (hit)
-                            results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Plane, DESCRIPTION = inp.Value.Title });
+                            results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Plane, DESCRIPTION = inp.Value.Title, AXIS=true, GAME="DCS" });
                     }
 
                     foreach (KeyValuePair<string, DCSInput> inp in kvp.Value.Buttons)
@@ -2202,48 +2216,65 @@ namespace JoyPro
                             }
                         }
                         if (hit)
-                            results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Plane, DESCRIPTION = inp.Value.Title });
+                            results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Plane, DESCRIPTION = inp.Value.Title, AXIS=false, GAME="DCS" });
                     }
                 }
             }
            
-            foreach(KeyValuePair<string, OtherGame> kvp in OtherLib)
+            foreach(KeyValuePair<string, Dictionary<string,OtherGame>> kvpOuter in OtherLib)
             {
-                if (GamesFilter.ContainsKey(kvp.Key) && GamesFilter[kvp.Key])
+                foreach (KeyValuePair<string, OtherGame> kvp in kvpOuter.Value)
                 {
-                    foreach (KeyValuePair<string, OtherGameInput> inp in kvp.Value.Axis)
+                    if (GamesFilter.ContainsKey(kvpOuter.Key) && GamesFilter[kvpOuter.Key])
                     {
-                        bool hit = true;
-                        foreach (string key in keywords)
+                        foreach (KeyValuePair<string, OtherGameInput> inp in kvp.Value.Axis)
                         {
-                            if (!inp.Value.Title.ToLower().Contains(key))
+                            bool hit = true;
+                            foreach (string key in keywords)
                             {
-                                hit = false;
-                                break;
+                                if (!inp.Value.Title.ToLower().Contains(key))
+                                {
+                                    hit = false;
+                                    break;
+                                }
                             }
+                            if (hit)
+                                results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Game, DESCRIPTION = inp.Value.Title, AXIS = true, GAME = kvp.Key });
                         }
-                        if (hit)
-                            results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Game, DESCRIPTION = inp.Value.Title });
-                    }
-                    foreach (KeyValuePair<string, OtherGameInput> inp in kvp.Value.Buttons)
-                    {
-                        bool hit = true;
-                        foreach (string key in keywords)
+                        foreach (KeyValuePair<string, OtherGameInput> inp in kvp.Value.Buttons)
                         {
-                            if (!inp.Value.Title.ToLower().Contains(key))
+                            bool hit = true;
+                            foreach (string key in keywords)
                             {
-                                hit = false;
-                                break;
+                                if (!inp.Value.Title.ToLower().Contains(key))
+                                {
+                                    hit = false;
+                                    break;
+                                }
                             }
+                            if (hit)
+                                results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Game, DESCRIPTION = inp.Value.Title, AXIS = false, GAME = kvp.Key });
                         }
-                        if (hit)
-                            results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Game, DESCRIPTION = inp.Value.Title });
                     }
-                }   
+                }
             }
             return results;
         }
-        public static DCSInput[] GetAllInputsWithId(string id)
+
+        public static OtherGameInput[] GetAllOtherGameInputsWithId(string id, string game)
+        {
+            List<OtherGameInput> result = new List<OtherGameInput>();
+            if (OtherLib.ContainsKey(game))
+            {
+                foreach(KeyValuePair<string, OtherGame> kvp in OtherLib[game])
+                {
+                    if (kvp.Value.Axis.ContainsKey(id)) result.Add(kvp.Value.Axis[id]);
+                    if (kvp.Value.Buttons.ContainsKey(id)) result.Add(kvp.Value.Buttons[id]);
+                }
+            }
+            return result.ToArray();
+        }
+        public static DCSInput[] GetAllDCSInputsWithId(string id)
         {
             List<DCSInput> results = new List<DCSInput>();
             foreach (KeyValuePair<string, DCSPlane> kvp in DCSLib)
@@ -2287,12 +2318,11 @@ namespace JoyPro
         public static void UnloadGameData()
         {
             DCSLib.Clear();
-            Planes = new string[0];
             installPathsDCS = new string[0];
             LocalJoysticks = new string[0];
             EmptyOutputsDCS = new Dictionary<string, DCSLuaInput>();
             IL2JoystickId = new Dictionary<string, int>();
-            OtherLib = new Dictionary<string, OtherGame>();
+            OtherLib = new Dictionary<string, Dictionary<string, OtherGame>>();
             IL2Instance = "";
 
         }
@@ -2536,12 +2566,11 @@ namespace JoyPro
             {
                 if (!OtherLib.ContainsKey(gameName))
                 {
-                    OtherLib.Add(gameName, new OtherGame(gameName));
+                    OtherLib.Add(gameName, new Dictionary<string, OtherGame>());
+                    OtherLib[gameName].Add(gameName, new OtherGame(gameName, "IL2Game", false));
                 }
-                List<string> tempPlanes = Planes.ToList();
-                if (!tempPlanes.Contains(gameName))
-                    tempPlanes.Add(gameName);
-                Planes = tempPlanes.ToArray();
+                if (!Planes["IL2Game"].Contains(gameName))
+                    Planes["IL2Game"].Add(gameName);
                 StreamReader sr = new StreamReader(fileActionPath);
                 while (!sr.EndOfStream)
                 {
@@ -2561,23 +2590,23 @@ namespace JoyPro
                         if (rawLine.Contains("//a"))
                             axis = true;
                         string descriptor = rawLine.Substring(4);
-                        OtherGameInput current = new OtherGameInput(id, descriptor, axis, gameName);
+                        OtherGameInput current = new OtherGameInput(id, descriptor, axis, gameName, gameName);
                         if (axis)
                         {
-                            if (!OtherLib[gameName].Axis.ContainsKey(id))
-                                OtherLib[gameName].Axis.Add(id, current);
-                            if (!OtherLib[gameName].Buttons.ContainsKey(id + "+"))
+                            if (!OtherLib[gameName][gameName].Axis.ContainsKey(id))
+                                OtherLib[gameName][gameName].Axis.Add(id, current);
+                            if (!OtherLib[gameName][gameName].Buttons.ContainsKey(id + "+"))
                             {
-                                OtherGameInput currentAxisPlus = new OtherGameInput(id + "+", descriptor + " (BUTTON PLUS)", false, gameName);
-                                OtherGameInput currentAxisMinus = new OtherGameInput(id + "-", descriptor + " (BUTTON MINUS)", false, gameName);
-                                OtherLib[gameName].Buttons.Add(id + "+", currentAxisPlus);
-                                OtherLib[gameName].Buttons.Add(id + "-", currentAxisMinus);
+                                OtherGameInput currentAxisPlus = new OtherGameInput(id + "+", descriptor + " (BUTTON PLUS)", false, gameName, gameName);
+                                OtherGameInput currentAxisMinus = new OtherGameInput(id + "-", descriptor + " (BUTTON MINUS)", false, gameName, gameName);
+                                OtherLib[gameName][gameName].Buttons.Add(id + "+", currentAxisPlus);
+                                OtherLib[gameName][gameName].Buttons.Add(id + "-", currentAxisMinus);
                             }
                         }
                         else
                         {
-                            if (!OtherLib[gameName].Buttons.ContainsKey(id))
-                                OtherLib[gameName].Buttons.Add(id, current);
+                            if (!OtherLib[gameName][gameName].Buttons.ContainsKey(id))
+                                OtherLib[gameName][gameName].Buttons.Add(id, current);
                         }
                     }
 
@@ -2593,8 +2622,7 @@ namespace JoyPro
                 DirectoryInfo[] allHtmlDirs = dirInfo.GetDirectories();
                 List<string> tempPlanes;
                 if (Planes == null) tempPlanes = new List<string>();
-                else tempPlanes = Planes.ToList();
-
+                else tempPlanes = Planes["DCS"];
                 for (int i = 0; i < allHtmlDirs.Length; ++i)
                 {
                     string currentPlane = allHtmlDirs[i].Name;
@@ -2620,7 +2648,7 @@ namespace JoyPro
                         }
                     }
                 }
-                Planes = tempPlanes.ToArray();
+                Planes["DCS"] = tempPlanes;
             }
             
         }
@@ -2673,16 +2701,18 @@ namespace JoyPro
                 }
             }
             if (Planes == null)
-                Planes = loadedPlanes.ToArray();
+            {
+                Planes["DCS"]= loadedPlanes;
+            }
             else
             {
-                List<string> pp = Planes.ToList<string>();
+                List<string> pp = Planes["DCS"];
                 for (int i = 0; i < loadedPlanes.Count; ++i)
                 {
                     if (!pp.Contains(loadedPlanes[i]))
                         pp.Add(loadedPlanes[i]);
                 }
-                Planes = pp.ToArray();
+                Planes["DCS"] = pp;
             }
         }
         static void PopulateDictionaryWithFile(string file, string overWrite = "")

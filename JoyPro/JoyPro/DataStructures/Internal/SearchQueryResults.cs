@@ -11,6 +11,9 @@ namespace JoyPro
         public string ID { get; set; }
         public string AIRCRAFT { get; set; }
         public string DESCRIPTION { get; set; }
+        public string GAME { get; set; }
+        public bool AXIS { get; set; }
+
 
     }
 }

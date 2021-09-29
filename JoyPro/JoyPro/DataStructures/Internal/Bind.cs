@@ -233,7 +233,7 @@ namespace JoyPro
             }
             
             r.NAME = relationName;
-            r.AddNodeDCS(id, plane);
+            r.AddNode(id, "DCS",true, plane);
             return b;
         }
 
@@ -313,7 +313,7 @@ namespace JoyPro
                 b.additionalImportInfo += dab.JPRelName;
             b.JButton = dab.key;
             b.Joystick = joystick;
-            r.AddNodeDCS(id, plane);
+            r.AddNode(id,"DCS",false, plane);
             return b;
         }
 
