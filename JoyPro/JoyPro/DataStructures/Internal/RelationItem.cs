@@ -24,7 +24,6 @@ namespace JoyPro
             else InitOtherGame();
 
         }
-
         public RelationItem(string id, string plane, string game)
         {
             AIRCRAFT = new Dictionary<string, bool>();
@@ -40,19 +39,16 @@ namespace JoyPro
             }
 
         }
-
         public RelationItem()
         {
             AIRCRAFT = new Dictionary<string, bool>();
         }
-
-
         //Confirming names because it has been saved against DB
         public void CheckAgainstDB()
         {
             if (Game == null || Game == "DCS" || Game == "")
             {
-                DCSInput[] dbItems = MainStructure.GetAllDCSInputsWithId(ID);
+                DCSInput[] dbItems = DBLogic.GetAllDCSInputsWithId(ID);
                 List<DCSInput> toRemove = new List<DCSInput>();
                 List<DCSInput> toKeep = new List<DCSInput>();
                 for (int i = 0; i < AllInputs.Length; ++i)
@@ -91,7 +87,7 @@ namespace JoyPro
             }
             else
             {
-                OtherGameInput[] dbItems = MainStructure.GetAllOtherGameInputsWithId(ID, Game);
+                OtherGameInput[] dbItems = DBLogic.GetAllOtherGameInputsWithId(ID, Game);
                 List<OtherGameInput> toRemove = new List<OtherGameInput>();
                 List<OtherGameInput> toKeep = new List<OtherGameInput>();
                 for (int i = 0; i < OtherInputs.Length; ++i)
@@ -129,7 +125,6 @@ namespace JoyPro
                 OtherInputs = toKeep.ToArray();
             }
         }
-
         public RelationItem Copy()
         {
             RelationItem ri = new RelationItem();
@@ -147,14 +142,12 @@ namespace JoyPro
             }
             return ri;
         }
-
         OtherGameInput InputsContainPlane(OtherGameInput[] inputs, string plane)
         {
             for (int i = 0; i < inputs.Length; ++i)
                 if (inputs[i].Plane == plane) return inputs[i];
             return null;
         }
-
         DCSInput InputsContainPlane(DCSInput[] inputs, string plane)
         {
             for (int i = 0; i < inputs.Length; ++i)
@@ -166,16 +159,15 @@ namespace JoyPro
         void InitDCS()
         {
             AIRCRAFT = new Dictionary<string, bool>();
-            AllInputs = MainStructure.GetAllDCSInputsWithId(ID);
+            AllInputs = DBLogic.GetAllDCSInputsWithId(ID);
             for (int i = 0; i < AllInputs.Length; ++i)
                 if (!AIRCRAFT.ContainsKey(AllInputs[i].Plane))
                     AIRCRAFT.Add(AllInputs[i].Plane, true);
         }
-
         void InitOtherGame()
         {
             AIRCRAFT = new Dictionary<string, bool>();
-            OtherInputs = MainStructure.GetAllOtherGameInputsWithId(ID, Game);
+            OtherInputs = DBLogic.GetAllOtherGameInputsWithId(ID, Game);
             for (int i = 0; i < OtherInputs.Length; ++i)
                 if (!AIRCRAFT.ContainsKey(Game))
                     AIRCRAFT.Add(Game, true);
@@ -183,7 +175,7 @@ namespace JoyPro
         void InitDCS(string plane)
         {
             AIRCRAFT = new Dictionary<string, bool>();
-            AllInputs = MainStructure.GetAllDCSInputsWithId(ID);
+            AllInputs = DBLogic.GetAllDCSInputsWithId(ID);
             for (int i = 0; i < AllInputs.Length; ++i)
                 if (!AIRCRAFT.ContainsKey(AllInputs[i].Plane))
                     if (AllInputs[i].Plane == plane)
@@ -191,7 +183,6 @@ namespace JoyPro
                     else
                         AIRCRAFT.Add(AllInputs[i].Plane, false);
         }
-
         public PlaneState GetStateAircraft(string plane)
         {
 
@@ -201,7 +192,6 @@ namespace JoyPro
             else return PlaneState.DISABLED;
 
         }
-
         public bool SwitchAircraftActivity(string plane)
         {
             if (AIRCRAFT.ContainsKey(plane))
@@ -211,14 +201,12 @@ namespace JoyPro
             }
             return false;
         }
-
         public bool SetAircraftActivity(string plane, bool activity)
         {
             if (!AIRCRAFT.ContainsKey(plane)) return false;
             AIRCRAFT[plane] = activity;
             return true;
         }
-
         public string GetInputDescription(string plane)
         {
             if (Game==null||Game==""||Game == "DCS")
@@ -235,7 +223,6 @@ namespace JoyPro
             
             return "";
         }
-
         public List<string> GetActiveAircraftList()
         {
             List<string> result = new List<string>();

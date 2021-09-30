@@ -55,7 +55,7 @@ namespace JoyPro
 
         void UpdateView()
         {
-            CURRENTDISPLAYEDMODS = MainStructure.GetAllModifiers();
+            CURRENTDISPLAYEDMODS = InternalDataMangement.GetAllModifiers();
             SetModsToView();
             sizeChanged(null, null);
         }
@@ -116,7 +116,7 @@ namespace JoyPro
         {
             Button pressed = (Button)sender;
             int indx = Convert.ToInt32(pressed.Name.Replace("deleteBtn", ""));
-            MainStructure.RemoveReformer(CURRENTDISPLAYEDMODS[indx].name);
+            InternalDataMangement.RemoveReformer(CURRENTDISPLAYEDMODS[indx].name);
             UpdateView();
         }
 
@@ -126,8 +126,8 @@ namespace JoyPro
             int indx = Convert.ToInt32(tb.Name.Replace("txname", ""));
             if (tb.Text.Length > 1)
             {
-                if (MainStructure.GetReformerStringFromMod(tb.Text) == null)
-                    MainStructure.ChangeReformerName(CURRENTDISPLAYEDMODS[indx].name, tb.Text);
+                if (InternalDataMangement.GetReformerStringFromMod(tb.Text) == null)
+                    InternalDataMangement.ChangeReformerName(CURRENTDISPLAYEDMODS[indx].name, tb.Text);
                 else
                     MessageBox.Show("Key already exists: " + tb.Text);
             }
@@ -195,10 +195,10 @@ namespace JoyPro
             string nameToShow = device + jr.result.AxisButton;
             string moddedDevice = Bind.JoystickGuidToModifierGuid(jr.result.Device);
             string toAdd = nameToShow + "§" + moddedDevice + "§" + jr.result.AxisButton;
-            ModExists existsAlready = MainStructure.DoesReformerExistInMods(toAdd);
+            ModExists existsAlready = InternalDataMangement.DoesReformerExistInMods(toAdd);
             if (existsAlready == ModExists.NOT_EXISTENT)
             {
-                MainStructure.AddReformerToMods(toAdd);
+                InternalDataMangement.AddReformerToMods(toAdd);
             }
 
             UpdateView();

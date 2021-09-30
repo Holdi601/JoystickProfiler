@@ -21,7 +21,6 @@ namespace JoyPro
             modifiers = new Dictionary<string, Modifier>();
             initDefaultModifiers();
         }
-
         public DCSExportPlane Copy()
         {
             DCSExportPlane dep = new DCSExportPlane();
@@ -38,10 +37,9 @@ namespace JoyPro
             }
             return dep;
         }
-
         public void AnalyzeRawModLua(string content)
         {
-            Dictionary<object, object> dct = MainStructure.CreateAttributeDictFromLua(content);
+            Dictionary<object, object> dct = LUADataRead.CreateAttributeDictFromLua(content);
             foreach(KeyValuePair<object, object> kvp in dct)
             {
                 string modName = (string)kvp.Key;
@@ -96,7 +94,6 @@ namespace JoyPro
             swr.Write(endFile);
             swr.Close();
         }
-
         public bool ContainsModifier(string device, string key)
         {
             foreach(KeyValuePair<string, Modifier> kvp in modifiers)
@@ -106,7 +103,6 @@ namespace JoyPro
             }
             return false;
         }
-
         void initDefaultModifiers()
         {
             string dev = "Keyboard";

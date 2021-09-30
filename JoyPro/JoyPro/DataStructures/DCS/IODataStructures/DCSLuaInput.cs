@@ -23,9 +23,9 @@ namespace JoyPro
             if (axisDiffs.Count > 0)
             {
                 string joyAl = "";
-                if (MainStructure.JoystickAliases.ContainsKey(JoystickName))
+                if (InternalDataMangement.JoystickAliases.ContainsKey(JoystickName))
                 {
-                    joyAl = MainStructure.JoystickAliases[JoystickName];
+                    joyAl = InternalDataMangement.JoystickAliases[JoystickName];
                 }
                 swr.Write("\t[\"JAL\"] = \"" + joyAl + "\",\n");
                 swr.Write("\t[\"axisDiffs\"] = {\n");
@@ -166,12 +166,11 @@ namespace JoyPro
             }
             return result;
         }
-
         public void AdditionalAnalyzationRawLuaInvert(string content)
         {
             if (!content.Contains('{')) return;
-            string cleaned = MainStructure.GetContentBetweenSymbols(content, "{", "}");
-            Dictionary<object, object> dct = MainStructure.CreateAttributeDictFromLua(content);
+            string cleaned = LUADataRead.GetContentBetweenSymbols(content, "{", "}");
+            Dictionary<object, object> dct = LUADataRead.CreateAttributeDictFromLua(content);
             if (dct.ContainsKey("axisDiffs"))
             {
                 foreach (KeyValuePair<object, object> kvp in (Dictionary<object, object>)dct["axisDiffs"])
@@ -285,25 +284,24 @@ namespace JoyPro
                 }
             }
         }
-
         public void AnalyzeRawLuaInput(string content,DCSExportPlane refMod = null)
         {
             if (!content.Contains('{')) return;
-            string cleaned = MainStructure.GetContentBetweenSymbols(content, "{", "}");
-            Dictionary<object, object> dct = MainStructure.CreateAttributeDictFromLua(content);
+            string cleaned = LUADataRead.GetContentBetweenSymbols(content, "{", "}");
+            Dictionary<object, object> dct = LUADataRead.CreateAttributeDictFromLua(content);
             string joyAlias = "";
             if (dct.ContainsKey("JAL"))
             {
                 joyAlias = (string)dct["JAL"];
                 if (JoystickName.Length > 0 && joyAlias.Length > 0)
                 {
-                    if (MainStructure.JoystickAliases.ContainsKey(JoystickName))
+                    if (InternalDataMangement.JoystickAliases.ContainsKey(JoystickName))
                     {
-                        MainStructure.JoystickAliases[JoystickName] = joyAlias;
+                        InternalDataMangement.JoystickAliases[JoystickName] = joyAlias;
                     }
                     else
                     {
-                        MainStructure.JoystickAliases.Add(JoystickName, joyAlias);
+                        InternalDataMangement.JoystickAliases.Add(JoystickName, joyAlias);
                     }
                 }
             }
@@ -335,9 +333,9 @@ namespace JoyPro
                                     foreach (KeyValuePair<object, object> kvpGroup in ((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["JGRP"]))
                                     {
                                         dab.Groups.Add((string)kvpGroup.Value);
-                                        if (!MainStructure.AllGroups.Contains((string)kvpGroup.Value))
+                                        if (!InternalDataMangement.AllGroups.Contains((string)kvpGroup.Value))
                                         {
-                                            MainStructure.AllGroups.Add((string)kvpGroup.Value);
+                                            InternalDataMangement.AllGroups.Add((string)kvpGroup.Value);
                                         }
                                     }
                                 }
@@ -381,9 +379,9 @@ namespace JoyPro
                                     foreach (KeyValuePair<object, object> kvpGroup in ((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["JGRP"]))
                                     {
                                         dab.Groups.Add((string)kvpGroup.Value);
-                                        if (!MainStructure.AllGroups.Contains((string)kvpGroup.Value))
+                                        if (!InternalDataMangement.AllGroups.Contains((string)kvpGroup.Value))
                                         {
-                                            MainStructure.AllGroups.Add((string)kvpGroup.Value);
+                                            InternalDataMangement.AllGroups.Add((string)kvpGroup.Value);
                                         }
                                     }
                                 }
@@ -456,9 +454,9 @@ namespace JoyPro
                                     foreach (KeyValuePair<object, object> kvpGroup in ((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["JGRP"]))
                                     {
                                         dab.Groups.Add((string)kvpGroup.Value);
-                                        if (!MainStructure.AllGroups.Contains((string)kvpGroup.Value))
+                                        if (!InternalDataMangement.AllGroups.Contains((string)kvpGroup.Value))
                                         {
-                                            MainStructure.AllGroups.Add((string)kvpGroup.Value);
+                                            InternalDataMangement.AllGroups.Add((string)kvpGroup.Value);
                                         }
                                     }
                                 }
@@ -524,7 +522,6 @@ namespace JoyPro
                 }
             }
         }
-
         public void FillUpWithDefaults()
         {
             DCSLuaInput def = getDefaultBinds();
@@ -562,7 +559,6 @@ namespace JoyPro
                 }
             }
         }
-
         string CheckIfButtonIsSet(string btn, string[] refs = null)
         {
             foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvp in keyDiffs)
@@ -600,7 +596,6 @@ namespace JoyPro
             }
             return null;
         }
-
         string CheckIfAxisIsSet(string axis)
         {
             foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in axisDiffs)
@@ -615,7 +610,6 @@ namespace JoyPro
             }
             return null;
         }
-
         public void InvertedHTMLAnalyzeAxis(HtmlInputElementDCS element)
         {
             DCSLuaDiffsAxisElement diff;
@@ -644,7 +638,6 @@ namespace JoyPro
                 }
             }
         }
-
         public void InvertedHTMLAnalyzeBtn(HtmlInputElementDCS element)
         {
             DCSLuaDiffsButtonElement diff;
@@ -658,7 +651,7 @@ namespace JoyPro
             {
                 diff = keyDiffs[element.id];
             }
-            List<HtmlBindElement> binds = MainStructure.GetBindElmentsFromCell(element.bind);
+            List<HtmlBindElement> binds = DBLogic.GetBindElmentsFromCell(element.bind);
             for(int i=0; i<binds.Count; ++i)
             {
                 List<string> refs = new List<string>();
@@ -679,17 +672,15 @@ namespace JoyPro
                 }
             }
         }
-
         DCSLuaInput getDefaultBinds()
         {
             DCSLuaInput result = null;
-            if (MainStructure.EmptyOutputsDCS.ContainsKey(plane))
+            if (DCSIOLogic.EmptyOutputsDCS.ContainsKey(plane))
             {
-                return MainStructure.EmptyOutputsDCS[plane].Copy();
+                return DCSIOLogic.EmptyOutputsDCS[plane].Copy();
             }
             return result;
         }
-
         public DCSLuaInput()
         {
             JoystickName = "";

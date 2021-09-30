@@ -27,7 +27,7 @@ namespace JoyPro
         public ImportWindow()
         {
             selectedSticks = new List<string>();
-            availableJoysticks = MainStructure.LocalJoysticks;
+            availableJoysticks = InternalDataMangement.LocalJoysticks;
             connectedSticks = JoystickReader.GetConnectedJoysticks();
             for (int i = 0; i < connectedSticks.Count; ++i)
                 connectedSticks[i] = connectedSticks[i].ToLower();
@@ -120,7 +120,7 @@ namespace JoyPro
                 importDefault = true;
             else
                 importDefault = false;
-            MainStructure.BindsFromLocal(selectedSticks ,importDefault, inv, slid, curv, dz, sx, sy);
+            DCSIOLogic.BindsFromLocal(selectedSticks ,importDefault, inv, slid, curv, dz, sx, sy);
             Close();
         }
 
@@ -146,7 +146,7 @@ namespace JoyPro
         {
             Grid grid = BaseSetupRelationGrid();
             if (grid == null) return;
-            if (MainStructure.JoystickAliases == null) MainStructure.JoystickAliases = new Dictionary<string, string>();
+            if (InternalDataMangement.JoystickAliases == null) InternalDataMangement.JoystickAliases = new Dictionary<string, string>();
             CheckBox cbxAll = new CheckBox();
             cbxAll.Name = "cbxjyAll";
             cbxAll.Content = "ALL";
@@ -184,9 +184,9 @@ namespace JoyPro
                 
 
 
-                if (MainStructure.JoystickAliases.ContainsKey(availableJoysticks[i]) && MainStructure.JoystickAliases[availableJoysticks[i]].Length > 0)
+                if (InternalDataMangement.JoystickAliases.ContainsKey(availableJoysticks[i]) && InternalDataMangement.JoystickAliases[availableJoysticks[i]].Length > 0)
                 {
-                    cbx.Content = MainStructure.JoystickAliases[availableJoysticks[i]];
+                    cbx.Content = InternalDataMangement.JoystickAliases[availableJoysticks[i]];
                 }
                 else
                 {
@@ -218,14 +218,14 @@ namespace JoyPro
         private void SetupGamesDropDown()
         {
             GamesFilterDropDown.Items.Clear();
-            if (MainStructure.GamesFilter == null || MainStructure.GamesFilter.Count == 0)
+            if (InternalDataMangement.GamesFilter == null || InternalDataMangement.GamesFilter.Count == 0)
             {
-                for (int i = 0; i < MainStructure.Games.Count; ++i)
+                for (int i = 0; i < MiscGames.Games.Count; ++i)
                 {
-                    MainStructure.GamesFilter.Add(MainStructure.Games[i], true);
+                    InternalDataMangement.GamesFilter.Add(MiscGames.Games[i], true);
                 }
             }
-            foreach (KeyValuePair<string, bool> kvp in MainStructure.GamesFilter)
+            foreach (KeyValuePair<string, bool> kvp in InternalDataMangement.GamesFilter)
             {
                 CheckBox cbx = new CheckBox();
                 cbx.Name = kvp.Key + "game";
@@ -244,11 +244,11 @@ namespace JoyPro
             CheckBox cb = (CheckBox)sender;
             if (cb.IsChecked == true)
             {
-                MainStructure.GamesFilter[(string)cb.Content] = true;
+                InternalDataMangement.GamesFilter[(string)cb.Content] = true;
             }
             else
             {
-                MainStructure.GamesFilter[(string)cb.Content] = false;
+                InternalDataMangement.GamesFilter[(string)cb.Content] = false;
             }
         }
 

@@ -41,10 +41,10 @@ namespace JoyPro
         public Dictionary<string, int> GetPlaneSetState(string game)
         {
             Dictionary<string, int> results = new Dictionary<string, int>();
-            if (!MainStructure.Planes.ContainsKey(game)) return null;
-            for (int i = 0; i < MainStructure.Planes[game].Count; ++i)
+            if (!DBLogic.Planes.ContainsKey(game)) return null;
+            for (int i = 0; i < DBLogic.Planes[game].Count; ++i)
             {
-                results.Add(MainStructure.Planes[game][i], GetPlaneRelationState(MainStructure.Planes[game][i], game));
+                results.Add(DBLogic.Planes[game][i], GetPlaneRelationState(DBLogic.Planes[game][i], game));
             }
             return results;
         }
@@ -96,7 +96,7 @@ namespace JoyPro
                 }
             }
             if (game == null) game = "DCS";
-            List<string> planesAll = MainStructure.Planes[game].ToList();
+            List<string> planesAll = DBLogic.Planes[game].ToList();
             for (int i = 0; i < planesActiveInRel.Count; ++i)
             {
                 if (planesAll.Contains(planesActiveInRel[i]))

@@ -73,7 +73,6 @@ namespace JoyPro
             InitializeComponent();
             init();
         }
-
         void setLastSizeAndPosition()
         {
             if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
@@ -82,19 +81,17 @@ namespace JoyPro
             MainStructure.msave.relationWindowLast.Top = this.Top;
             MainStructure.msave.relationWindowLast.Width = this.Width;
         }
-
-
         private void SetupGamesDropDown()
         {
             GamesFilterDropDown.Items.Clear();
-            if (MainStructure.GamesFilter == null || MainStructure.GamesFilter.Count == 0)
+            if (InternalDataMangement.GamesFilter == null || InternalDataMangement.GamesFilter.Count == 0)
             {
-                for(int i=0; i<MainStructure.Games.Count; ++i)
+                for(int i=0; i<MiscGames.Games.Count; ++i)
                 {
-                    MainStructure.GamesFilter.Add(MainStructure.Games[i], true);
+                    InternalDataMangement.GamesFilter.Add(MiscGames.Games[i], true);
                 }
             }
-            foreach(KeyValuePair<string, bool> kvp in MainStructure.GamesFilter)
+            foreach(KeyValuePair<string, bool> kvp in InternalDataMangement.GamesFilter)
             {
                 CheckBox cbx = new CheckBox();
                 cbx.Name = kvp.Key+"game";
@@ -107,21 +104,19 @@ namespace JoyPro
                 GamesFilterDropDown.Items.Add(cbx);
             }
         }
-
         void gameFilterChanged(object sender, EventArgs e)
         {
             CheckBox cb = (CheckBox)sender;
             if (cb.IsChecked == true)
             {
-                MainStructure.GamesFilter[(string)cb.Content] = true;
+                InternalDataMangement.GamesFilter[(string)cb.Content] = true;
             }
             else
             {
-                MainStructure.GamesFilter[(string)cb.Content] = false;
+                InternalDataMangement.GamesFilter[(string)cb.Content] = false;
             }
             SearchQueryChanged(null, null);
         }
-
         void scrollChanged(object sender, EventArgs e)
         {
             svcCont.UpdateLayout();
@@ -140,7 +135,6 @@ namespace JoyPro
             }
 
         }
-
         public void Refresh()
         {
             setLastSizeAndPosition();
@@ -148,7 +142,6 @@ namespace JoyPro
             RefreshDGSelected();
             RelationNameTF.Text = Current.NAME;
         }
-
         void FinishRelation(object sender, EventArgs e)
         {
             if (Current.NAME == null || Current.NAME.Length < 1)
@@ -161,12 +154,12 @@ namespace JoyPro
                 MessageBox.Show("Relation has no nodes.");
                 return;
             }
-            if (MainStructure.DoesRelationAlreadyExist(Current.NAME) && !MainStructure.RelationIsTheSame(Current.NAME, Current))
+            if (InternalDataMangement.DoesRelationAlreadyExist(Current.NAME) && !InternalDataMangement.RelationIsTheSame(Current.NAME, Current))
             {
                 MessageBox.Show("Relation with same Name already exists.");
                 return;
             }
-            foreach(string g in MainStructure.Games)
+            foreach(string g in MiscGames.Games)
             {
                 foreach (KeyValuePair<string, int> kvp in Current.GetPlaneSetState(g))
                 {
@@ -177,28 +170,24 @@ namespace JoyPro
                     }
                 }
             }
-            
-
             if (!editMode)
             {
-                MainStructure.AddRelation(Current);
+                InternalDataMangement.AddRelation(Current);
                 Console.WriteLine("Adds new relation " + Current.NAME);
             }
             else
             {
-                MainStructure.ResyncRelations();
+                InternalDataMangement.ResyncRelations();
                 Console.WriteLine("Finished Editing Relation " + Current.NAME);
             }
             setLastSizeAndPosition();
             Close();
         }
-
         void SearchQueryChanged(object sender, EventArgs e)
         {
             string[] searchwords = SearchQueryTF.Text.ToLower().Split(' ');
-            DGSource.ItemsSource = MainStructure.SearchBinds(searchwords);
+            DGSource.ItemsSource = DBLogic.SearchBinds(searchwords);
         }
-
         void NameChanged(object sender, EventArgs e)
         {
             Current.NAME = RelationNameTF.Text;
@@ -245,7 +234,7 @@ namespace JoyPro
             var converter = new GridLengthConverter();
             Grid grid = new Grid();
             int columnsNeeded =  0;
-            foreach(KeyValuePair<string, List<string>> kvp in MainStructure.Planes)
+            foreach(KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
             {
                 if (kvp.Value != null) columnsNeeded += kvp.Value.Count;
             }
@@ -282,7 +271,7 @@ namespace JoyPro
             var converter = new GridLengthConverter();
             Grid grid = new Grid();
             int columnsNeeded =  0;
-            foreach(KeyValuePair<string, List<string>> kvp in MainStructure.Planes)
+            foreach(KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
             {
                 if (kvp.Value != null) columnsNeeded += kvp.Value.Count;
             }
@@ -399,11 +388,11 @@ namespace JoyPro
                 {
                     game = ri[z].Game;
                 }
-                foreach(KeyValuePair<string, List<string>> kvp in MainStructure.Planes)
+                foreach(KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
                 {
                     if (kvp.Key == game&&kvp.Value!=null)
                     {
-                        foreach (string aircraft in MainStructure.Planes[game])
+                        foreach (string aircraft in DBLogic.Planes[game])
                         {
                             PlaneState ps = ri[z].GetStateAircraft(aircraft);
                             if (ps == PlaneState.ACTIVE || ps == PlaneState.DISABLED)
@@ -446,7 +435,7 @@ namespace JoyPro
             createLabelOnGrid("selectAllBtns", "Select All", 2, 0, headerGridId);
             createLabelOnGrid("selectNoneBtns", "Select None", 3, 0, headerGridId);
             int i = 0;
-            foreach(KeyValuePair<string, List<string>> kvp in MainStructure.Planes)
+            foreach(KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
             {
                 if(kvp.Value!=null)
                     for(int j=0; j<kvp.Value.Count; ++j)
@@ -471,7 +460,7 @@ namespace JoyPro
             if (game == null) game = "DCS";
             int planeWork = Convert.ToInt32(idParts[0].Replace("p", ""));
             string plane = null;
-            foreach (KeyValuePair<string, List<string>> kvp in MainStructure.Planes)
+            foreach (KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
             {
                 if (kvp.Key == game)
                 {
@@ -505,9 +494,9 @@ namespace JoyPro
             int indx = Convert.ToInt32(((Button)sender).Name.Replace("selectNoneBtn", ""));
             string game = ri[indx].Game;
             if (game == null) game = "DCS";
-            if (MainStructure.Planes[game] != null)
+            if (DBLogic.Planes[game] != null)
             {
-                foreach(string aircraft in MainStructure.Planes[game])
+                foreach(string aircraft in DBLogic.Planes[game])
                 {
                     ri[indx].SetAircraftActivity(aircraft, false);
                 }
@@ -519,9 +508,9 @@ namespace JoyPro
             int indx = Convert.ToInt32(((Button)sender).Name.Replace("selectAllBtn", ""));
             string game = ri[indx].Game;
             if (game == null) game = "DCS";
-            if (MainStructure.Planes[game] != null)
+            if (DBLogic.Planes[game] != null)
             {
-                foreach (string aircraft in MainStructure.Planes[game])
+                foreach (string aircraft in DBLogic.Planes[game])
                 {
                     ri[indx].SetAircraftActivity(aircraft, true);
                 }

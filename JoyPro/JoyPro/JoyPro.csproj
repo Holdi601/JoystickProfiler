@@ -86,20 +86,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataStructures\DCS\IOLogic\DBLogic.cs" />
+    <Compile Include="DataStructures\DCS\IOLogic\DCSIOLogic.cs" />
     <Compile Include="DataStructures\IL2Game\IL2actions.cs" />
     <Compile Include="DataStructures\IL2Game\IL2Map.cs" />
+    <Compile Include="DataStructures\InitGames.cs" />
     <Compile Include="DataStructures\Internal\Bind.cs" />
-    <Compile Include="DataStructures\DCS\DCSAxisBind.cs" />
-    <Compile Include="DataStructures\DCS\DCSAxisFilter.cs" />
-    <Compile Include="DataStructures\DCS\DCSButtonBind.cs" />
-    <Compile Include="DataStructures\DCS\DCSExportPlane.cs" />
-    <Compile Include="DataStructures\DCS\DCSLuaDiffsAxisElement.cs" />
-    <Compile Include="DataStructures\DCS\DCSLuaDiffsButtonElement.cs" />
-    <Compile Include="DataStructures\DCS\DCSLuaInput.cs" />
+    <Compile Include="DataStructures\DCS\IODataStructures\DCSAxisBind.cs" />
+    <Compile Include="DataStructures\DCS\IODataStructures\DCSAxisFilter.cs" />
+    <Compile Include="DataStructures\DCS\IODataStructures\DCSButtonBind.cs" />
+    <Compile Include="DataStructures\DCS\IODataStructures\DCSExportPlane.cs" />
+    <Compile Include="DataStructures\DCS\IODataStructures\DCSLuaDiffsAxisElement.cs" />
+    <Compile Include="DataStructures\DCS\IODataStructures\DCSLuaDiffsButtonElement.cs" />
+    <Compile Include="DataStructures\DCS\IODataStructures\DCSLuaInput.cs" />
+    <Compile Include="DataStructures\Internal\InternalDataMangement.cs" />
+    <Compile Include="DataStructures\MiscGames.cs" />
     <Compile Include="DataStructures\Other\OtherGame.cs" />
     <Compile Include="DataStructures\Other\OtherGameInput.cs" />
-    <Compile Include="MISC\HtmlBindElement.cs" />
-    <Compile Include="MISC\HtmlInputElementDCS.cs" />
+    <Compile Include="DataStructures\DCS\DBDCSDataStructure\HtmlBindElement.cs" />
+    <Compile Include="DataStructures\DCS\DBDCSDataStructure\HtmlInputElementDCS.cs" />
+    <Compile Include="General\LUADataRead.cs" />
+    <Compile Include="General\Updater.cs" />
     <Compile Include="Windows\CreateJoystickAlias.xaml.cs">
       <DependentUpon>CreateJoystickAlias.xaml</DependentUpon>
     </Compile>
@@ -168,9 +175,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataStructures\DCS\DCSInput.cs" />
-    <Compile Include="DataStructures\DCS\DCSPlane.cs" />
-    <Compile Include="MainStructure.cs" />
+    <Compile Include="DataStructures\DCS\DBDCSDataStructure\DCSInput.cs" />
+    <Compile Include="DataStructures\DCS\DBDCSDataStructure\DCSPlane.cs" />
+    <Compile Include="General\MainStructure.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -42,10 +42,9 @@ namespace JoyPro
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
         }
-
         void setupGames()
         {
-            foreach(string game in MainStructure.Games)
+            foreach(string game in MiscGames.Games)
             {
                 GameSelection.Items.Add(game);
                 if (!gameBUlist.ContainsKey(game))
@@ -53,17 +52,16 @@ namespace JoyPro
                     string path = "";
                     if (game == "DCS")
                     {
-                        path = MainStructure.selectedInstancePath;
+                        path = MiscGames.DCSselectedInstancePath;
                     }
                     else if (game == "IL2Game")
                     {
-                        path = MainStructure.IL2Instance;
+                        path = MiscGames.IL2Instance;
                     }
-                    gameBUlist.Add(game, MainStructure.GetPossibleFallbacksForInstance(path, game));
+                    gameBUlist.Add(game, MiscGames.GetPossibleFallbacksForInstance(path, game));
                 }
             }
         }
-
         void setDropDown(object sender, EventArgs e)
         {
             if (gameBUlist.ContainsKey((string)GameSelection.SelectedItem))
@@ -84,12 +82,12 @@ namespace JoyPro
             }
             string inst = "";
             if ((string)GameSelection.SelectedItem == "DCS")
-                inst = MainStructure.selectedInstancePath;
+                inst = MiscGames.DCSselectedInstancePath;
             else if ((string)GameSelection.SelectedItem == "IL2Game")
-                inst = MainStructure.IL2Instance;
+                inst = MiscGames.IL2Instance;
             else
                 inst = "";
-            MainStructure.RestoreInputsInInstance(inst, (string)ExistBUCB.SelectedItem, (string)GameSelection.SelectedItem);
+            MiscGames.RestoreInputsInInstance(inst, (string)ExistBUCB.SelectedItem, (string)GameSelection.SelectedItem);
             Close();
         }
     }

@@ -43,7 +43,7 @@ namespace JoyPro
             itBox.Text = MainStructure.msave.warmupTime.ToString();
             athBox.Text = MainStructure.msave.axisThreshold.ToString();
             BackupDaysBox.Text = MainStructure.msave.backupDays.ToString();
-            string installPath = MainStructure.GetDCSInstallationPath();
+            string installPath = InitGames.GetDCSInstallationPath();
             if (installPath != null)
             {
                 installPathBox.Text = installPath;
@@ -58,7 +58,6 @@ namespace JoyPro
             IL2InstanceORBox.LostFocus += new RoutedEventHandler(ChangeIL2InstanceOverridePath);
             DCSInstanceORBox.LostFocus += new RoutedEventHandler(ChangeDCSInstanceOverridePath);
         }
-
         void changeBackupDays(object sender, EventArgs e)
         {
             int days = 90;
@@ -70,16 +69,15 @@ namespace JoyPro
             }
             MainStructure.msave.backupDays = days;
         }
-
         void ChangeDCSInstanceOverridePath(object sender, EventArgs e)
         {
             if (Directory.Exists(DCSInstanceORBox.Text))
             {
-                MainStructure.DCSInstanceOverride = DCSInstanceORBox.Text;
+                MiscGames.DCSInstanceOverride = DCSInstanceORBox.Text;
                 MainStructure.mainW.DropDownInstanceSelection.Items.Clear();
-                MainStructure.ReloadGameData();
+                InitGames.ReloadGameData();
                 MainStructure.mainW.DropDownInstanceSelection.SelectedIndex = 0;
-                MainStructure.DCSInstanceSelectionChanged(MainStructure.DCSInstanceOverride);
+                MiscGames.DCSInstanceSelectionChanged(MiscGames.DCSInstanceOverride);
 
             }
             else if(DCSInstanceORBox.Text.Length>0)
@@ -88,18 +86,17 @@ namespace JoyPro
             }
             else
             {
-                MainStructure.DCSInstanceOverride = "";
-                MainStructure.ReloadGameData();
+                MiscGames.DCSInstanceOverride = "";
+                InitGames.ReloadGameData();
             }
         }
-
         void ChangeIL2InstanceOverridePath(object sender, EventArgs e)
         {
             if (Directory.Exists(IL2InstanceORBox.Text))
             {
-                MainStructure.IL2PathOverride = IL2InstanceORBox.Text;
-                MainStructure.IL2Instance = IL2InstanceORBox.Text;
-                MainStructure.ReloadGameData();
+                MiscGames.IL2PathOverride = IL2InstanceORBox.Text;
+                MiscGames.IL2Instance = IL2InstanceORBox.Text;
+                InitGames.ReloadGameData();
             }
             else if(IL2InstanceORBox.Text.Length>0)
             {
@@ -107,29 +104,26 @@ namespace JoyPro
             }
             else
             {
-                MainStructure.IL2PathOverride = "";
-                MainStructure.ReloadGameData();
+                MiscGames.IL2PathOverride = "";
+                InitGames.ReloadGameData();
             }
         }
-
         void CloseThis(object sender, EventArgs e)
         {
             Close();
         }
-
         void SetInstallPath(object sender, EventArgs e)
         {
             if (Directory.Exists(installPathBox.Text))
             {
-                MainStructure.installPathsDCS = new string[1];
-                MainStructure.installPathsDCS[0] = installPathBox.Text;
+                MiscGames.installPathsDCS = new string[1];
+                MiscGames.installPathsDCS[0] = installPathBox.Text;
             }
             else
             {
                 MessageBox.Show("Folder doesn't exist");
             }
         }
-
         void ChangeTimeToSet(object sender, EventArgs e)
         {
             int val;
@@ -144,7 +138,6 @@ namespace JoyPro
                 ttsBox.Text = MainStructure.msave.timeToSet.ToString();
             }
         }
-
         void ChangePollTime(object sender, EventArgs e)
         {
             int val;
@@ -159,7 +152,6 @@ namespace JoyPro
                 pollitBox.Text = MainStructure.msave.pollWaitTime.ToString();
             }
         }
-
         void ChangeWarmUp(object sender, EventArgs e)
         {
             int val;

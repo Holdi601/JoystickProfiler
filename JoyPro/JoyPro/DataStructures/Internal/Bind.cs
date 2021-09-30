@@ -280,20 +280,20 @@ namespace JoyPro
                     if (!b.AllReformers.Contains(toAdd))
                     {
                         
-                        ModExists alreadyExists = MainStructure.DoesReformerExistInMods(toAdd);
+                        ModExists alreadyExists = InternalDataMangement.DoesReformerExistInMods(toAdd);
                         if (alreadyExists == ModExists.NOT_EXISTENT)
                         {
-                            MainStructure.AddReformerToMods(toAdd);
+                            InternalDataMangement.AddReformerToMods(toAdd);
                             b.AllReformers.Add(toAdd);
                         }
                         else if (alreadyExists == ModExists.BINDNAME_EXISTS||alreadyExists== ModExists.ALL_EXISTS)
                         {
                             Modifier mf = Modifier.ReformerToMod(toAdd);
-                            toAdd = MainStructure.GetReformerStringFromMod(mf.name);
+                            toAdd = InternalDataMangement.GetReformerStringFromMod(mf.name);
                             if (!b.AllReformers.Contains(toAdd)) b.AllReformers.Add(toAdd);
                         }else if (alreadyExists == ModExists.KEYBIND_EXISTS)
                         {
-                            Modifier mnew = MainStructure.GetModifierWithKeyCombo(m.device, m.key);
+                            Modifier mnew = InternalDataMangement.GetModifierWithKeyCombo(m.device, m.key);
                             if (mnew != null)
                             {
                                 toAdd = mnew.toReformerString();

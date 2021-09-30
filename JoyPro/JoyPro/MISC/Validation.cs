@@ -30,7 +30,7 @@ namespace JoyPro
         void CheckRelationErrors()
         {
             Dictionary<string, List<string>> AllKeys = new Dictionary<string, List<string>>();
-            List<Relation> AllRel = MainStructure.GetAllRelations();
+            List<Relation> AllRel = InternalDataMangement.GetAllRelations();
             for(int i=0; i<AllRel.Count; ++i)
             {
                 List<RelationItem> AllRelIt = AllRel[i].AllRelations();
@@ -65,7 +65,7 @@ namespace JoyPro
         void CheckButtonErrors()
         {
             Dictionary<string, List<string>> AllKeys = new Dictionary<string, List<string>>();
-            List<Bind> binds = MainStructure.GetAllBinds();
+            List<Bind> binds = InternalDataMangement.GetAllBinds();
 
             for(int i=0; i<binds.Count; ++i)
             {
@@ -112,8 +112,8 @@ namespace JoyPro
 
         void CheckModifierError()
         {
-            List<Bind> binds = MainStructure.GetAllBinds();
-            List<Modifier> mods = MainStructure.GetAllModifiers();
+            List<Bind> binds = InternalDataMangement.GetAllBinds();
+            List<Modifier> mods = InternalDataMangement.GetAllModifiers();
             Dictionary<Modifier, List<string>> ModifierUsedOnCraft = new Dictionary<Modifier, List<string>>();
             for(int i=0; i<binds.Count; ++i)
             {

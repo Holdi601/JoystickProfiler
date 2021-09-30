@@ -28,9 +28,9 @@ namespace JoyPro
             InitializeComponent();
             sticks = new List<string>();
             rel = r;
-            for(int i=0; i<MainStructure.LocalJoysticks.Length; ++i)
+            for(int i=0; i< InternalDataMangement.LocalJoysticks.Length; ++i)
             {
-                sticks.Add(MainStructure.LocalJoysticks[i]);
+                sticks.Add(InternalDataMangement.LocalJoysticks[i]);
             }
             if (MainStructure.msave != null && MainStructure.msave.JoyManAs != null)
             {
@@ -85,20 +85,20 @@ namespace JoyPro
                 MessageBox.Show("No joystick selected");
                 return;
             }
-            MainStructure.LocalJoysticks = sticks.ToArray();
-            Bind cr = MainStructure.GetBindForRelation(rel.NAME);
+            InternalDataMangement.LocalJoysticks = sticks.ToArray();
+            Bind cr = InternalDataMangement.GetBindForRelation(rel.NAME);
             if (e == null)
             {
                 if (cr != null)
                 {
-                    MainStructure.RemoveBind(cr);
+                    InternalDataMangement.RemoveBind(cr);
                 }
                 return;
             }
             if (cr == null)
             {
                 cr = new Bind(rel);
-                MainStructure.AddBind(cr.Rl.NAME, cr);
+                InternalDataMangement.AddBind(cr.Rl.NAME, cr);
             }
             cr.Joystick = (string)JoystickLB.SelectedItem;
             if (rel.ISAXIS)
