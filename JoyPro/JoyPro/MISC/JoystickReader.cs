@@ -77,6 +77,12 @@ namespace JoyPro
             foreach (var device in dil)
             {
                 string deviceToAdd = ToDeviceString(new Joystick(di, device.InstanceGuid));
+                Console.WriteLine("Instance Name: " + device.InstanceName);
+                Console.WriteLine("Instance GUID: " + device.InstanceGuid);
+                Console.WriteLine("Product Name: " + device.ProductName);
+                Console.WriteLine("Product GUID: " + device.ProductGuid);
+                Console.WriteLine();
+                Console.WriteLine();
                 if (!MainStructure.ListContainsCaseInsensitive(result, deviceToAdd))
                     result.Add(deviceToAdd);
             }

@@ -54,6 +54,21 @@ namespace JoyPro
             output += "}";
 
             return output;
+        } 
+        public static string DCSJoyIdToIL2JoyId(string DCSJoyId, int id)
+        {
+            if (id < 0 || DCSJoyId == null || DCSJoyId.Length < 12||!DCSJoyId.Contains("{")) return null;
+            string result = id.ToString()+",%22";
+            string guid = DCSJoyId.Split('{')[1].Replace("}", "");
+            string name = DCSJoyId.Split('{')[0].Trim().Replace(" ", "%20");
+            string[] guidCells = guid.Split('-');
+            result = result + guidCells[0].ToLower() + "-" +
+                guidCells[1].ToLower() + "-" + 
+                guidCells[2].ToLower() + "-000054534544"+
+                guidCells[3].Substring(2, 2).ToLower() +
+                guidCells[3].Substring(0, 2).ToLower() +
+                "%22,"+ name;
+            return result;
         }
         public static List<string> GetPossibleFallbacksForInstance(string instance, string game)
         {

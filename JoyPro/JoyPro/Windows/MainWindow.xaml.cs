@@ -1326,9 +1326,6 @@ namespace JoyPro
                 InternalDataMangement.AddBind(nw.NAME, nw.bind);
             }
             InternalDataMangement.AddRelation(nw);
-            
-                
-            
         }
         public void CleanText(object sender, EventArgs e)
         {
