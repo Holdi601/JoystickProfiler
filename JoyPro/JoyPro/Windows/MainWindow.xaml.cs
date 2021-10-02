@@ -101,7 +101,6 @@ namespace JoyPro
             ALLBUTTONS.Add(ExchStickBtn);
             ALLBUTTONS.Add(SettingsBtn);
         }
-
         void SetupEventHandlers()
         {
             SearchQueryRelationName.AcceptsReturn = true;
@@ -116,7 +115,6 @@ namespace JoyPro
             SearchQueryRelationName.KeyUp += new KeyEventHandler(FilterSearchConfirm);
             CBNukeUnused.Click += new RoutedEventHandler(MainStructure.SaveWindowState);
         }
-
         void SetupDropDownsEventHandlers()
         {
             DropDownInstanceSelection.SelectionChanged += new SelectionChangedEventHandler(InstanceSelectionChanged);
@@ -142,7 +140,6 @@ namespace JoyPro
             ReinstateBUBtn.Click += new RoutedEventHandler(OpenBackupWindow);
             GroupManagerBtn.Click += new RoutedEventHandler(OpenGroupManager);
         }
-
         void OpenBackupWindow(object sender, EventArgs e)
         {
             DisableInputs();
@@ -150,7 +147,6 @@ namespace JoyPro
             ri.Closing += new CancelEventHandler(ActivateInputs);
             ri.Show();
         }
-
         void OpenChangeJoystickSettings(object sender, EventArgs e)
         {
             DisableInputs();
@@ -192,14 +188,12 @@ namespace JoyPro
             ste.Show();
             ste.Closing += new CancelEventHandler(ActivateInputs);
         }
-
         void OpenValidation(object sender, EventArgs e)
         {
             Validation validate = new Validation();
             ValidationErrors win = new ValidationErrors(validate);
             win.Show();
         }
-
         void OpenModifierManager(object sender, EventArgs e)
         {
             DisableInputs();
@@ -208,7 +202,6 @@ namespace JoyPro
             rw.Show();
             rw.Closed += new EventHandler(WindowClosing);
         }
-
         void NewFileEvent(object sender, EventArgs e)
         {
             InternalDataMangement.NewFile();
@@ -238,7 +231,6 @@ namespace JoyPro
                 svHeader.ScrollToHorizontalOffset(sv.HorizontalOffset);
             }
         }
-
         void OpenGroupManager(object sender, EventArgs e)
         {
             GroupManagerW gmw = new GroupManagerW();
@@ -273,7 +265,7 @@ namespace JoyPro
             else
                 param = true;
 
-            DCSIOLogic.WriteProfileCleanNotOverwriteLocal(param);
+            InternalDataMangement.WriteProfileCleanNotOverwriteLocal(param);
         }
         void LoadExistingExportOverwrite(object sender, EventArgs e)
         {
@@ -287,7 +279,7 @@ namespace JoyPro
                 param = false;
             else
                 param = true;
-            DCSIOLogic.WriteProfileCleanAndLoadedOverwritten(param);
+            InternalDataMangement.WriteProfileCleanAndLoadedOverwritten(param);
         }
         void LoadExistingExportAndAdd(object sender, EventArgs e)
         {
@@ -301,7 +293,7 @@ namespace JoyPro
                 param = false;
             else
                 param = true;
-            DCSIOLogic.WriteProfileCleanAndLoadedOverwrittenAndAdd(param);
+            InternalDataMangement.WriteProfileCleanAndLoadedOverwrittenAndAdd(param);
         }
         void CleanAndExport(object sender, EventArgs e)
         {
@@ -310,7 +302,7 @@ namespace JoyPro
             bool nukeDevices = false;
             if (CBNukeUnused.IsChecked == true)
                 nukeDevices = true;
-            DCSIOLogic.WriteProfileClean(nukeDevices);
+            InternalDataMangement.WriteProfileClean(nukeDevices);
         }
         void OpenSaveProfile(object sender, EventArgs e)
         {
@@ -553,7 +545,6 @@ namespace JoyPro
             }
             bw.RunWorkerAsync();
         }
-
         void listenButton(object sender, EventArgs e)
         {
             joyReader = new JoystickReader(false);
@@ -666,7 +657,6 @@ namespace JoyPro
             }
             InternalDataMangement.ResyncRelations();
         }
-
         void changeCurveToUserCurve(object sender, EventArgs e)
         {
             CheckBox cx = (CheckBox)sender;
@@ -694,7 +684,6 @@ namespace JoyPro
             }
             InternalDataMangement.ResyncRelations();
         }
-
         void changeUserCurve(object sender, EventArgs e)
         {
             Button cx = (Button)sender;
@@ -710,7 +699,6 @@ namespace JoyPro
             DisableInputs();
             uc.Closing += new CancelEventHandler(ActivateInputs);
         }
-
         void DeviceFilterChanged(object sender, EventArgs e)
         {
             CheckBox cb = (CheckBox)sender;
@@ -751,7 +739,6 @@ namespace JoyPro
 
             InternalDataMangement.ResyncRelations();
         }
-
         void GroupFilterChanged(object sender, EventArgs e)
         {
             CheckBox cb = (CheckBox)sender;
@@ -794,7 +781,6 @@ namespace JoyPro
 
             InternalDataMangement.ResyncRelations();
         }
-
         void RefreshRelationsToShow()
         {
             DeviceDropdown.Items.Clear();
@@ -1265,9 +1251,7 @@ namespace JoyPro
                 }
             }
             sv.Content = grid;
-
         }
-
         void ManualBtnAxSet(object sender, EventArgs e)
         {
             int indx = Convert.ToInt32(((Button)sender).Name.Replace("assignBtn", ""));
@@ -1277,7 +1261,6 @@ namespace JoyPro
             mja.Closing += new CancelEventHandler(WindowClosing);
             mja.Show();
         }
-
         void OpenJoystickCreateAlias(object sender, EventArgs e)
         {
             DisableInputs();
@@ -1291,7 +1274,6 @@ namespace JoyPro
             
             cja.Closing += new CancelEventHandler(WindowClosing);
         }
-
         void GroupManagementCheckboxChange(object sender, EventArgs e)
         {
             string name = ((CheckBox)sender).Name;
@@ -1309,7 +1291,6 @@ namespace JoyPro
                 InternalDataMangement.RemoveGroupFromSpecificRelation(CURRENTDISPLAYEDRELATION[relIndex].NAME, InternalDataMangement.AllGroups[grpIndex]);
             }
         }
-
         void duplicateRelation(object sender, EventArgs e)
         {
             int indx= Convert.ToInt32(((Button)sender).Name.Replace("dupBtn", ""));
@@ -1346,7 +1327,6 @@ namespace JoyPro
             SetHeadersForScrollView();
             sizeChanged(null,null);
         }
-
         void sortName(object o, EventArgs e)
         {
             if (selectedSort == "NAME_NORM")
@@ -1359,7 +1339,6 @@ namespace JoyPro
             }
             InternalDataMangement.ResyncRelations();
         }
-
         void sortStick(object o, EventArgs e)
         {
             if (selectedSort == "STICK_NORM")
@@ -1372,7 +1351,6 @@ namespace JoyPro
             }
             InternalDataMangement.ResyncRelations();
         }
-
         void sortBtn(object o, EventArgs e)
         {
             if (selectedSort == "BTN_NORM")
@@ -1492,7 +1470,6 @@ namespace JoyPro
 
             svHeader.Content = grid;
         }
-
         void InvertAxisSelection(object sender, EventArgs e)
         {
             CheckBox cx = (CheckBox)sender;
@@ -1645,7 +1622,6 @@ namespace JoyPro
             rw.Show();
             rw.Closed += new EventHandler(WindowClosing);
         }
-
         void FirstStart()
         {
             MainStructure.InitProgram();
@@ -1656,7 +1632,6 @@ namespace JoyPro
             ActivateInputs();
 
         }
-
         void setWindowPosSize(object sender, EventArgs e)
         {
             Console.WriteLine("Should set");
@@ -1745,8 +1720,6 @@ namespace JoyPro
             Console.WriteLine(sender.GetType().ToString());
             if (((ComboBox)sender).SelectedIndex < 0) return;
             MiscGames.DCSInstanceSelectionChanged((string)DropDownInstanceSelection.SelectedItem);
-        }
-
-        
+        }    
     }
 }

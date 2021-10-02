@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JoyPro
 {
-    public enum OutputType { Clean, Add, Merge};
+    public enum OutputType { Clean, Add, Merge, MergeOverwrite};
     public static class IL2IOLogic
     {
         static string ActionsPreFile = 
@@ -18,6 +18,7 @@ namespace JoyPro
             "\r\n"+
             "&actions = action, command, invert|\r\n";
 
+        //Map file gets recreated everytime you go into the options so its worthless to manipulate.
         static string MapPreFile = 
             "// KOS GENERATED INPUT MAPFILE\r\n"+
             "// IT IS NOT RECOMMENDED TO CHANGE ANYTHING HERE!\r\n"+
@@ -32,10 +33,9 @@ namespace JoyPro
             "type1Devices=actionId%2CcenterDeadZone%2CsensitivityBallance%2CsideDeadZone";
 
         static string DevicesPreFile = "configId,guid,model|\r\r\n";
-        public static List<string> ActionsFileKeyContent = new List<string>();
+        public static List<string> ActionsFileContentOutput = new List<string>();
         public static List<string> ActionsFileKeyboardContent = new List<string>();
-        public static List<string> MapFileKeyboardModifier = new List<string>();
-        public static List<string> MapFileContentModifier = new List<string>();
+        public static Dictionary<string, string> ActionsFileJoystickContent = new Dictionary<string, string>();
         public static List<string> MapActionKeyboard = new List<string>();
         public static List<string> MapActionContent = new List<string>();
         public static List<string> MapEndOfFile = new List<string>();
@@ -44,37 +44,73 @@ namespace JoyPro
         static string InputPath = "\\data\\input\\";
         static List<string> Modifier = new List<string>();
         static Dictionary<string, IL2AxisReplacementButtons> axesButtonCommandOtherHalfMissing = new Dictionary<string, IL2AxisReplacementButtons>();
-        public static void FillBindsIntoOutput(List<Bind> toExport)
+        public static void WriteOut(List<Bind> toExport, OutputType ot)
         {
             if (((MiscGames.IL2PathOverride == null || !Directory.Exists(MiscGames.IL2PathOverride)) &&
                 (MiscGames.IL2Instance == null || !Directory.Exists(MiscGames.IL2Instance))|| toExport==null))
                 return;
             clearAll();
             createDeviceFile();
-            for(int i=0; i<toExport.Count; ++i)
+            ReadActionsFromActions();
+            foreach(string s in ActionsFileKeyboardContent)
             {
-                List<string> lines = BindToActionString(toExport[i]);
-                for(int j=0; j<lines.Count; ++j)
+                ActionsFileContentOutput.Add(s);
+            }
+
+            Dictionary<string, string> generatedOutputFromBinds = new Dictionary<string, string>();
+            for (int i=0; i<toExport.Count; ++i)
+            {
+                Dictionary<string, string> lines = BindToActionString(toExport[i]);
+                foreach(KeyValuePair<string, string> kvp in lines)
                 {
-                    ActionsFileKeyContent.Add(lines[j]);
+                    if (!generatedOutputFromBinds.ContainsKey(kvp.Key))
+                        generatedOutputFromBinds.Add(kvp.Key, kvp.Value);
+                    else
+                        generatedOutputFromBinds[kvp.Key] = kvp.Value;
                 }
             }
-            ReadKeyboardActions();
-
-
+            switch (ot)
+            {
+                case OutputType.Add:
+                    foreach (KeyValuePair<string, string> kvp in ActionsFileJoystickContent)
+                        ActionsFileContentOutput.Add(kvp.Value);
+                    foreach (KeyValuePair<string, string> kvp in generatedOutputFromBinds)
+                        ActionsFileContentOutput.Add(kvp.Value);
+                    break;
+                case OutputType.Clean:
+                    foreach (KeyValuePair<string, string> kvp in generatedOutputFromBinds)
+                        ActionsFileContentOutput.Add(kvp.Value);
+                    break;
+                case OutputType.Merge:
+                    foreach (KeyValuePair<string, string> kvp in ActionsFileJoystickContent)
+                        ActionsFileContentOutput.Add(kvp.Value);
+                    foreach (KeyValuePair<string, string> kvp in generatedOutputFromBinds)
+                        if(!ActionsFileJoystickContent.ContainsKey(kvp.Key))
+                            ActionsFileContentOutput.Add(kvp.Value);
+                    break;
+                case OutputType.MergeOverwrite:
+                    foreach (KeyValuePair<string, string> kvp in generatedOutputFromBinds)
+                        ActionsFileContentOutput.Add(kvp.Value);
+                    foreach (KeyValuePair<string, string> kvp in ActionsFileJoystickContent)
+                        if(!generatedOutputFromBinds.ContainsKey(kvp.Key))
+                            ActionsFileContentOutput.Add(kvp.Value);
+                    break;
+            }
+            createActionsFile();
+            createActionsFile("jp");
             createResponsesFile();
+
         }
         static void clearAll()
         {
-            ActionsFileKeyContent = new List<string>();
+            ActionsFileContentOutput = new List<string>();
             ActionsFileKeyboardContent = new List<string>();
-            MapFileKeyboardModifier = new List<string>();
-            MapFileContentModifier = new List<string>();
             MapActionKeyboard = new List<string>();
             MapActionContent = new List<string>();
             MapEndOfFile = new List<string>();
             usedCommands = new List<string>();
             axisSettings = new Dictionary<string, Bind>();
+            ActionsFileJoystickContent = new Dictionary<string, string>();
         }
         static void AddModifierToOutput(string joystick, string btn, string modName)
         {
@@ -90,7 +126,7 @@ namespace JoyPro
             if (!Modifier.Contains(result))
                 Modifier.Add(result);
         }
-        static void ReadKeyboardActions()
+        static void ReadActionsFromActions()
         {
             string path = GetInputPath();
             StreamReader sr = new StreamReader(path + InputPath + "current.actions");
@@ -119,13 +155,25 @@ namespace JoyPro
                 {
                     ActionsFileKeyboardContent.Add(currentLine);
                 }
+                else
+                {
+                    string command = currentLine.Split(',')[0];
+                    if (ActionsFileJoystickContent.ContainsKey(command))
+                    {
+                        ActionsFileJoystickContent[command] = currentLine;
+                    }
+                    else
+                    {
+                        ActionsFileJoystickContent.Add(command, currentLine);
+                    }
+                }
             }
             sr.Close();
             sr.Dispose();
         }
-        static List<string> BindToActionString(Bind b)
+        static Dictionary<string, string> BindToActionString(Bind b)
         {
-            List<string> result = new List<string>();
+            Dictionary<string, string> result = new Dictionary<string, string>();
             List<RelationItem> ri = b.Rl.AllRelations();
             for(int i=0; i<ri.Count; ++i)
             {
@@ -250,7 +298,11 @@ namespace JoyPro
                         }
                     }
                     id = id + "\r\n";
-                    result.Add(id);
+                    if (!result.ContainsKey(newId))
+                        result.Add(newId, id);
+                    else
+                        result[newId] = id;
+
                 }
             }
             return result;
@@ -455,10 +507,10 @@ namespace JoyPro
                 return mainBind;
             }
         }
-        public static void createDeviceFile()
+        public static void createDeviceFile(string name= "devices")
         {
             string path = GetInputPath();
-            StreamWriter swr = new StreamWriter(path + InputPath + "devices.txt");
+            StreamWriter swr = new StreamWriter(path + InputPath + name + ".txt");
             swr.Write(DevicesPreFile);
             for(int i=0; i<InternalDataMangement.LocalJoysticks.Length-1; ++i)
             {
@@ -471,10 +523,10 @@ namespace JoyPro
             swr.Close();
             swr.Dispose();
         }
-        public static void createResponsesFile()
+        public static void createResponsesFile(string name="current")
         {
             string path = GetInputPath();
-            StreamWriter swr = new StreamWriter(path + InputPath + "current.responses");
+            StreamWriter swr = new StreamWriter(path + InputPath + name+ ".responses");
             swr.Write(ResponsesPreFile);
             foreach(KeyValuePair<string, Bind> kvp in axisSettings)
             {
@@ -520,6 +572,17 @@ namespace JoyPro
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
             return path;
+        }
+        public static void createActionsFile(string name = "current")
+        {
+            string path = GetInputPath();
+            StreamWriter swr = new StreamWriter(path + InputPath + name + ".actions");
+            swr.Write(ActionsPreFile);
+            for(int i=0; i<ActionsFileContentOutput.Count; ++i)
+            {
+                swr.Write(ActionsFileContentOutput[i] + "\r\n");
+            }
+
         }
     }
 }

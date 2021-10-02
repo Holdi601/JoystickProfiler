@@ -845,5 +845,52 @@ namespace JoyPro
                 result.Add(kvp.Value);
             return result;
         }
+        public static void WriteProfileClean(bool nukeDevices)
+        {
+            DCSIOLogic.WriteProfileClean(nukeDevices);
+            List<Bind> Il2Binds = new List<Bind>();
+            foreach(KeyValuePair<string, Bind> kvp in AllBinds) {
+                if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
+                    Il2Binds.Add(kvp.Value);
+            }
+            IL2IOLogic.WriteOut(Il2Binds, OutputType.Clean);
+            MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
+        }
+        public static void WriteProfileCleanAndLoadedOverwrittenAndAdd(bool fillBeforeEmpty)
+        {
+            DCSIOLogic.WriteProfileCleanAndLoadedOverwrittenAndAdd(fillBeforeEmpty);
+            List<Bind> Il2Binds = new List<Bind>();
+            foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
+                    Il2Binds.Add(kvp.Value);
+            }
+            IL2IOLogic.WriteOut(Il2Binds, OutputType.Add);
+            MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
+        }
+        public static void WriteProfileCleanNotOverwriteLocal(bool fillBeforeEmpty)
+        {
+            DCSIOLogic.WriteProfileCleanNotOverwriteLocal(fillBeforeEmpty);
+            List<Bind> Il2Binds = new List<Bind>();
+            foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
+                    Il2Binds.Add(kvp.Value);
+            }
+            IL2IOLogic.WriteOut(Il2Binds, OutputType.Merge);
+            MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
+        }
+        public static void WriteProfileCleanAndLoadedOverwritten(bool fillBeforeEmpty)
+        {
+            DCSIOLogic.WriteProfileCleanAndLoadedOverwritten(fillBeforeEmpty);
+            List<Bind> Il2Binds = new List<Bind>();
+            foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
+                    Il2Binds.Add(kvp.Value);
+            }
+            IL2IOLogic.WriteOut(Il2Binds, OutputType.MergeOverwrite);
+            MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
+        }
     }
 }

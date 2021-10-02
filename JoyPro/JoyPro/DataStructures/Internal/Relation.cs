@@ -21,7 +21,6 @@ namespace JoyPro
             NODES = new List<RelationItem>();
             Groups = new List<string>();
         }
-
         public List<string> GamesInRelation()
         {
             List<string> result = new List<string>();
@@ -37,7 +36,6 @@ namespace JoyPro
             }
             return result;
         }
-
         public Dictionary<string, int> GetPlaneSetState(string game)
         {
             Dictionary<string, int> results = new Dictionary<string, int>();
@@ -48,7 +46,6 @@ namespace JoyPro
             }
             return results;
         }
-
         public Relation Copy()
         {
             Relation r = new Relation();
@@ -69,7 +66,6 @@ namespace JoyPro
             }
             return r;
         }
-
         public void CheckNamesAgainstDB()
         {
             foreach (RelationItem r in NODES)
@@ -77,7 +73,6 @@ namespace JoyPro
                 r.CheckAgainstDB();
             }
         }
-
         public void ActivateRestForID(string id)
         {
             
@@ -110,7 +105,6 @@ namespace JoyPro
                 node.SetAircraftActivity(planesAll[i], true);
             }
         }
-
         public void DeactivateAllID(string id)
         {
             RelationItem node = GetRelationItem(id);
@@ -120,7 +114,6 @@ namespace JoyPro
                 node.SetAircraftActivity(planes[j], false);
             }
         }
-
         int GetPlaneRelationState(string plane, string game)
         {
             int counter = 0;
@@ -170,7 +163,6 @@ namespace JoyPro
             Console.WriteLine("Relation Item Added");
             return true;
         }
-
         public bool RemoveNode(string id)
         {
             if (!NodesContainId(id)) return false;
@@ -178,7 +170,6 @@ namespace JoyPro
             NODES.Remove(ri);
             return true;
         }
-
         public RelationItem GetRelationItemForPlaneDCS(string plane)
         {
             for (int i = 0; i < NODES.Count; ++i)
@@ -188,7 +179,6 @@ namespace JoyPro
             }
             return null;
         }
-
         public RelationItem GetRelationItem(string id)
         {
             for (int i = 0; i < NODES.Count; i++)
@@ -205,13 +195,11 @@ namespace JoyPro
             }
             return false;
         }
-
         public bool IsEmpty()
         {
             if (NODES.Count > 0) return false;
             return true;
         }
-
         public List<RelationItem> AllRelations()
         {
             return NODES;

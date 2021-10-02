@@ -431,7 +431,6 @@ namespace JoyPro
             PushAllDCSBindsToExport(true, fillBeforeEmpty, true);
             WriteFilesDCS();
             WriteFilesDCS(".jp");
-            MainStructure.mainW.ShowMessageBox("Binds exported successfully ☺");
         }
         public static void WriteProfileClean(bool nukeDevices)
         {
@@ -442,7 +441,6 @@ namespace JoyPro
                 NukeUnusedButConnectedDevicesToExport();
             WriteFilesDCS();
             WriteFilesDCS(".jp");
-            MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
         public static void LoadLocalBinds(string localPath, bool fillWithDefaults = false, string ending = ".diff.lua", Dictionary<string, DCSExportPlane> resultsDict = null)
         {
@@ -538,7 +536,6 @@ namespace JoyPro
             PushAllDCSBindsToExport(false, fillBeforeEmpty, false);
             WriteFilesDCS();
             WriteFilesDCS(".jp");
-            MainStructure.mainW.ShowMessageBox("Binds exported successfully ☺");
         }
         public static void WriteProfileCleanAndLoadedOverwritten(bool fillBeforeEmpty)
         {
@@ -550,7 +547,6 @@ namespace JoyPro
             PushAllDCSBindsToExport(true, fillBeforeEmpty, false);
             WriteFilesDCS();
             WriteFilesDCS(".jp");
-            MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
         public static void BindsFromLocal(List<string> sticks, bool loadDefaults, bool inv = false, bool slid = false, bool curv = false, bool dz = false, bool sx = false, bool sy = false)
         {

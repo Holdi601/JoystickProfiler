@@ -46,7 +46,6 @@ namespace JoyPro
 
             }
         }
-
         public string[] PovHeads = new string[]
         {
             "POV1_D"
@@ -82,7 +81,6 @@ namespace JoyPro
             ,"POV4_DR"
             ,"POV4_UR"
         };
-
         public Bind Copy(Relation rl)
         {
             Bind r = new Bind(rl);
@@ -112,7 +110,6 @@ namespace JoyPro
             rl.bind = r;
             return r;
         }
-
         public Bind(Relation r)
         {
             Joystick = "";
@@ -131,7 +128,6 @@ namespace JoyPro
             additionalImportInfo = "";
             r.bind = this;
         }
-
         public DCSAxisBind toDCSAxisBind()
         {
             DCSAxisBind result = new DCSAxisBind();
@@ -153,8 +149,6 @@ namespace JoyPro
             result.relatedBind = this;
             return result;
         }
-
-        
         public static Bind GetBindFromAxisElement(DCSAxisBind dab,string id, string joystick, string plane, bool inv=false, bool slid=false, bool curv=false, bool dz=false, bool sx=false, bool sy=false)
         {
             Relation r = new Relation();
@@ -236,7 +230,6 @@ namespace JoyPro
             r.AddNode(id, "DCS",true, plane);
             return b;
         }
-
         public static Bind GetBindFromButtonElement(DCSButtonBind dab, string id, string joystick, string plane)
         {
             Relation r = new Relation();
@@ -316,7 +309,6 @@ namespace JoyPro
             r.AddNode(id,"DCS",false, plane);
             return b;
         }
-
         public DCSButtonBind toDCSButtonBind()
         {
             DCSButtonBind dbb = new DCSButtonBind();
@@ -377,7 +369,6 @@ namespace JoyPro
                 }
             }
         }
-
         public static string JoystickGuidToModifierGuid(string id)
         {
             if (id == "Keyboard") return "Keyboard";
@@ -406,6 +397,5 @@ namespace JoyPro
             }
             return "";
         }
-
     }
 }
