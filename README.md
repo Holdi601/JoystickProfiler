@@ -79,19 +79,27 @@ Contact me, I will try to fix it asap. Join the discord or create an Issue. Disc
 
 -Maybe other games come like star citizen, as that game is in its joystick mapping a mess inside the game. But if so, thats far out. 
 (Right now im in the testing state how easy it is outside the game like IL2 or FS2020 or SC to change inputs)
+
 -Refactoring at some point, prolly too much spaghetti for some :-D 
 
 
 Discord for more direct question answer or concerns: https://discord.gg/SeCTXJHhJf
 
-# To Do, Features I want to work on
+# To Do, Features I want to work on in that order
 
+-IL2 Import
 
--Import update Database
+-Include Profile
+
+-Mainview to CSV
+
+-Generate Layout Pictures/SVG
+
+-Autogenerate HTMLs
+
+-Autogenerate Cleans
 
 -Asynchronus download and update
-
--Local DB Diffs if users want to exclude stuff from their DB
 
 -cancel an edit of a relation
 
@@ -100,9 +108,7 @@ Discord for more direct question answer or concerns: https://discord.gg/SeCTXJHh
 -Keyboard support (lowest Priority for me, as after all this is the joystick profiler not input profiler. I see the use of this feature, but after all you dont exchange your keyboard and if you do you dont have IDs you need to work around, you got a fairly big different set of inputs in DCS of inputs for keyboard than the ones for joysticks. And other fairly big adjusmtents that need to be made for a feature which was originally not intendet. I see the benefit of it, but its low prio, just to be clear.)
 
 
-Other Games i want to support:
-
-IL2 (WIP right now)
+#Other Games i want to support:
 
 Star Citizen
 
