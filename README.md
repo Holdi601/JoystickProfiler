@@ -56,6 +56,10 @@ You have a template or profile you want to share with others or see here? No Pro
 
 -The Program does not start at all? You are probably lacking then .Net
 
+# IL2 Caveats
+-the Map file gets recreated everytime the game starts and goes into options, so any Modifier or Custom curve created in JP will be ignored. If you reimport that data your relation will be on the bind without modifiers.
+-Also IL2 doesn't allow outside the map file for Saturation changes, and the map file always gets recreated so it can't be changed.
+
 # FAQ:
 I have mods installed, but they do not show up in relations?
 
