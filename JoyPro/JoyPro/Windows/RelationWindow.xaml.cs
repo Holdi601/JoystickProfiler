@@ -329,13 +329,7 @@ namespace JoyPro
             g.Children.Add(lbl);
         }
 
-        void setGridBordersLightGray()
-        {
-            var T = Type.GetType("System.Windows.Controls.Grid+GridLinesRenderer," + " PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35");
-            var GLR = Activator.CreateInstance(T);
-            GLR.GetType().GetField("s_oddDashPen", BindingFlags.Static | BindingFlags.NonPublic).SetValue(GLR, new Pen(Brushes.LightGray, 0.5));
-            GLR.GetType().GetField("s_evenDashPen", BindingFlags.Static | BindingFlags.NonPublic).SetValue(GLR, new Pen(Brushes.LightGray, 0.5));
-        }
+        
 
         void createButtonOnGrid(string Name, string Content, int column, int row, RoutedEventHandler evnt, Grid g)
         {
@@ -367,7 +361,6 @@ namespace JoyPro
         }
         void RefreshDGSelected()
         {
-            setGridBordersLightGray();
             ri = Current.AllRelations();
             Grid grid = createMainGrid(ri.Count);
             Grid gridId = createMainGridId(ri.Count);

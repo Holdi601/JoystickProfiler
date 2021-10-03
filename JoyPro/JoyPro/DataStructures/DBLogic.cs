@@ -122,7 +122,6 @@ namespace JoyPro
                                 OtherLib[gameName][gameName].Buttons.Add(id, current);
                         }
                     }
-
                 }
                 sr.Close();
             }

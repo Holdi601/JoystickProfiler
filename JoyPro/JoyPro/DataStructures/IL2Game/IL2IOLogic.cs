@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 namespace JoyPro
 {
     public enum OutputType { Clean, Add, Merge, MergeOverwrite};
+    public enum IL2ActionComponent { ID, Input, Inverted, Description, JRelationName, JAlias, JGroups}
     public static class IL2IOLogic
     {
         static string ActionsPreFile = 
@@ -19,12 +21,12 @@ namespace JoyPro
             "&actions = action, command, invert|\r\n";
 
         //Map file gets recreated everytime you go into the options so its worthless to manipulate.
-        static string MapPreFile = 
-            "// KOS GENERATED INPUT MAPFILE\r\n"+
-            "// IT IS NOT RECOMMENDED TO CHANGE ANYTHING HERE!\r\n"+
-            "// (Well, it is still possible, but on your own risk ;o))\r\n"+
-            "// Well I am trying shoutout to the IL Devs, cheers the JoyPro devs ;) , Btw please explain what State and Event is for in the action argument functions below kthxbye\r\n"+
-            "\r\n";
+        //static string MapPreFile = 
+        //    "// KOS GENERATED INPUT MAPFILE\r\n"+
+        //    "// IT IS NOT RECOMMENDED TO CHANGE ANYTHING HERE!\r\n"+
+        //    "// (Well, it is still possible, but on your own risk ;o))\r\n"+
+        //    "// Well I am trying shoutout to the IL Devs, cheers the JoyPro devs ;) , Btw please explain what State and Event is for in the action argument functions below kthxbye\r\n"+
+        //    "\r\n";
 
         static string ResponsesPreFile = 
             "type4Devices=actionId%2ChighValuesDeadZone%2ClowValuesDeadZone&" +
@@ -35,23 +37,25 @@ namespace JoyPro
         static string DevicesPreFile = "configId,guid,model|\r\r\n";
         public static List<string> ActionsFileContentOutput = new List<string>();
         public static List<string> ActionsFileKeyboardContent = new List<string>();
-        public static Dictionary<string, string> ActionsFileJoystickContent = new Dictionary<string, string>();
+        public static Dictionary<string, List<string>> ActionsFileJoystickContent = new Dictionary<string, List<string>>();
         public static List<string> MapActionKeyboard = new List<string>();
         public static List<string> MapActionContent = new List<string>();
         public static List<string> MapEndOfFile = new List<string>();
         public static List<string> usedCommands = new List<string>();
         public static Dictionary<string, Bind> axisSettings = new Dictionary<string, Bind>();
+        public static Dictionary<string, IL2AxisSetting> axisSettingRead = new Dictionary<string, IL2AxisSetting>();
         static string InputPath = "\\data\\input\\";
         static List<string> Modifier = new List<string>();
         static Dictionary<string, IL2AxisReplacementButtons> axesButtonCommandOtherHalfMissing = new Dictionary<string, IL2AxisReplacementButtons>();
+        static Dictionary<string, IL2AxisSetting> axisResponsedRead = new Dictionary<string, IL2AxisSetting>();
         public static void WriteOut(List<Bind> toExport, OutputType ot)
         {
             if (((MiscGames.IL2PathOverride == null || !Directory.Exists(MiscGames.IL2PathOverride)) &&
                 (MiscGames.IL2Instance == null || !Directory.Exists(MiscGames.IL2Instance))|| toExport==null))
                 return;
             clearAll();
-            createDeviceFile();
-            ReadActionsFromActions();
+            CreateDeviceFile();
+            ReadActionsFromActions(ActionsFileKeyboardContent, ActionsFileJoystickContent);
             foreach(string s in ActionsFileKeyboardContent)
             {
                 ActionsFileContentOutput.Add(s);
@@ -72,8 +76,11 @@ namespace JoyPro
             switch (ot)
             {
                 case OutputType.Add:
-                    foreach (KeyValuePair<string, string> kvp in ActionsFileJoystickContent)
-                        ActionsFileContentOutput.Add(kvp.Value);
+                    foreach (KeyValuePair<string, List<string>> kvp in ActionsFileJoystickContent)
+                    {
+                        for(int i=0; i<kvp.Value.Count; ++i)
+                            ActionsFileContentOutput.Add(kvp.Value[i]);
+                    }
                     foreach (KeyValuePair<string, string> kvp in generatedOutputFromBinds)
                         ActionsFileContentOutput.Add(kvp.Value);
                     break;
@@ -82,8 +89,11 @@ namespace JoyPro
                         ActionsFileContentOutput.Add(kvp.Value);
                     break;
                 case OutputType.Merge:
-                    foreach (KeyValuePair<string, string> kvp in ActionsFileJoystickContent)
-                        ActionsFileContentOutput.Add(kvp.Value);
+                    foreach (KeyValuePair<string, List<string>> kvp in ActionsFileJoystickContent)
+                    {
+                        for (int i = 0; i < kvp.Value.Count; ++i)
+                            ActionsFileContentOutput.Add(kvp.Value[i]);
+                    }
                     foreach (KeyValuePair<string, string> kvp in generatedOutputFromBinds)
                         if(!ActionsFileJoystickContent.ContainsKey(kvp.Key))
                             ActionsFileContentOutput.Add(kvp.Value);
@@ -91,14 +101,20 @@ namespace JoyPro
                 case OutputType.MergeOverwrite:
                     foreach (KeyValuePair<string, string> kvp in generatedOutputFromBinds)
                         ActionsFileContentOutput.Add(kvp.Value);
-                    foreach (KeyValuePair<string, string> kvp in ActionsFileJoystickContent)
-                        if(!generatedOutputFromBinds.ContainsKey(kvp.Key))
-                            ActionsFileContentOutput.Add(kvp.Value);
+                    foreach (KeyValuePair<string, List<string>> kvp in ActionsFileJoystickContent)
+                    {
+                        if (!generatedOutputFromBinds.ContainsKey(kvp.Key))
+                        {
+                            for(int i=0; i<kvp.Value.Count; ++i)
+                                ActionsFileContentOutput.Add(kvp.Value[i]);
+                        }
+                            
+                    }  
                     break;
             }
-            createActionsFile();
-            createActionsFile("jp");
-            createResponsesFile();
+            CreateActionsFile();
+            CreateActionsFile("jp");
+            CreateResponsesFile();
 
         }
         static void clearAll()
@@ -110,7 +126,7 @@ namespace JoyPro
             MapEndOfFile = new List<string>();
             usedCommands = new List<string>();
             axisSettings = new Dictionary<string, Bind>();
-            ActionsFileJoystickContent = new Dictionary<string, string>();
+            ActionsFileJoystickContent = new Dictionary<string, List<string>>();
         }
         static void AddModifierToOutput(string joystick, string btn, string modName)
         {
@@ -126,10 +142,10 @@ namespace JoyPro
             if (!Modifier.Contains(result))
                 Modifier.Add(result);
         }
-        static void ReadActionsFromActions()
+        static void ReadActionsFromActions(List<string> KeyboardOutput, Dictionary<string, List<string>> JoystickOutput, string name="current")
         {
             string path = GetInputPath();
-            StreamReader sr = new StreamReader(path + InputPath + "current.actions");
+            StreamReader sr = new StreamReader(path + InputPath + name+".actions");
             bool commandsStart = false;
             while (!commandsStart)
             {
@@ -153,19 +169,17 @@ namespace JoyPro
                     currentLine.Contains("joy10") ||
                     currentLine.Contains("joy11")))
                 {
-                    ActionsFileKeyboardContent.Add(currentLine);
+                    KeyboardOutput.Add(currentLine);
                 }
                 else
                 {
                     string command = currentLine.Split(',')[0];
-                    if (ActionsFileJoystickContent.ContainsKey(command))
+                    if (!ActionsFileJoystickContent.ContainsKey(command))
                     {
-                        ActionsFileJoystickContent[command] = currentLine;
+                        JoystickOutput.Add(command, new List<string>());
                     }
-                    else
-                    {
-                        ActionsFileJoystickContent.Add(command, currentLine);
-                    }
+                    JoystickOutput[command].Add(currentLine);
+
                 }
             }
             sr.Close();
@@ -195,12 +209,12 @@ namespace JoyPro
                         if (positive)
                         {
                             axesButtonCommandOtherHalfMissing[newId].bp = b;
-                            axesButtonCommandOtherHalfMissing[newId].positive = toIL2JoystickKeyAxisString(b);
+                            axesButtonCommandOtherHalfMissing[newId].positive = ToIL2JoystickKeyAxisString(b);
                         }
                         else
                         {
                             axesButtonCommandOtherHalfMissing[newId].bn = b;
-                            axesButtonCommandOtherHalfMissing[newId].negative = toIL2JoystickKeyAxisString(b);
+                            axesButtonCommandOtherHalfMissing[newId].negative = ToIL2JoystickKeyAxisString(b);
                         }
                         axesButtonCommandOtherHalfMissing[newId].id = newId;
                         dualSetNeeded = true;
@@ -228,7 +242,7 @@ namespace JoyPro
                     }
                     else
                     {
-                        id=id+ toIL2JoystickKeyAxisString(b)+",";
+                        id=id+ ToIL2JoystickKeyAxisString(b)+",";
                     }
                     if (!usedCommands.Contains(newId))
                         usedCommands.Add(newId);
@@ -244,38 +258,117 @@ namespace JoyPro
                         }
                         if (b.Inverted == true)
                         {
-                            id = id + "1| //JP:" + b.Rl.NAME + ";";
-                            if (b.Rl.Groups != null && b.Rl.Groups.Count > 0)
+                    
+                            if (axesButtonCommandOtherHalfMissing.ContainsKey(newId))
                             {
-                                id = id + b.Rl.Groups[0];
-                                for (int z = 1; z < b.Rl.Groups.Count; ++z)
+                                id = id + "1| //JP:" + axesButtonCommandOtherHalfMissing[newId].bp.Rl.NAME + ";";
+                                if (axesButtonCommandOtherHalfMissing[newId].bp.Rl.Groups != null &&
+                                    axesButtonCommandOtherHalfMissing[newId].bp.Rl.Groups.Count > 0)
                                 {
-                                    id = id + "," + b.Rl.Groups[z];
+                                    id = id + axesButtonCommandOtherHalfMissing[newId].bp.Rl.Groups[0];
+                                    for (int z = 1; z < axesButtonCommandOtherHalfMissing[newId].bp.Rl.Groups.Count; ++z)
+                                    {
+                                        id = id + "," + axesButtonCommandOtherHalfMissing[newId].bp.Rl.Groups[z];
+                                    }
+                                }
+                                id = id + ";";
+                                if (InternalDataMangement.JoystickAliases.ContainsKey(axesButtonCommandOtherHalfMissing[newId].bp.Joystick) &&
+                                    InternalDataMangement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bp.Joystick].Length > 2)
+                                {
+                                    id = id + InternalDataMangement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bp.Joystick];
+                                }
+
+                                id = id + "//JP:" + axesButtonCommandOtherHalfMissing[newId].bn.Rl.NAME + ";";
+                                if (axesButtonCommandOtherHalfMissing[newId].bn.Rl.Groups != null &&
+                                    axesButtonCommandOtherHalfMissing[newId].bn.Rl.Groups.Count > 0)
+                                {
+                                    id = id + axesButtonCommandOtherHalfMissing[newId].bn.Rl.Groups[0];
+                                    for (int z = 1; z < axesButtonCommandOtherHalfMissing[newId].bn.Rl.Groups.Count; ++z)
+                                    {
+                                        id = id + "," + axesButtonCommandOtherHalfMissing[newId].bn.Rl.Groups[z];
+                                    }
+                                }
+                                id = id + ";";
+                                if (InternalDataMangement.JoystickAliases.ContainsKey(axesButtonCommandOtherHalfMissing[newId].bn.Joystick) &&
+                                    InternalDataMangement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bn.Joystick].Length > 2)
+                                {
+                                    id = id + InternalDataMangement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bn.Joystick];
                                 }
                             }
-                            id = id + ";";
-                            if (InternalDataMangement.JoystickAliases.ContainsKey(b.Joystick) &&
-                                InternalDataMangement.JoystickAliases[b.Joystick].Length > 2)
+                            else
                             {
-                                id = id + InternalDataMangement.JoystickAliases[b.Joystick];
+                                id = id + "1| //JP:" + b.Rl.NAME + ";";
+                                if (b.Rl.Groups != null && b.Rl.Groups.Count > 0)
+                                {
+                                    id = id + b.Rl.Groups[0];
+                                    for (int z = 1; z < b.Rl.Groups.Count; ++z)
+                                    {
+                                        id = id + "," + b.Rl.Groups[z];
+                                    }
+                                }
+                                id = id + ";";
+                                if (InternalDataMangement.JoystickAliases.ContainsKey(b.Joystick) &&
+                                    InternalDataMangement.JoystickAliases[b.Joystick].Length > 2)
+                                {
+                                    id = id + InternalDataMangement.JoystickAliases[b.Joystick];
+                                }
                             }
                         }
                         else
                         {
-                            id = id + "0| //JP:" + b.Rl.NAME + ";";
-                            if (b.Rl.Groups != null && b.Rl.Groups.Count > 0)
+                            if (axesButtonCommandOtherHalfMissing.ContainsKey(newId))
                             {
-                                id = id + b.Rl.Groups[0];
-                                for (int z = 1; z < b.Rl.Groups.Count; ++z)
+                                id = id + "0| //JP:" + axesButtonCommandOtherHalfMissing[newId].bp.Rl.NAME + ";";
+                                if (axesButtonCommandOtherHalfMissing[newId].bp.Rl.Groups != null &&
+                                    axesButtonCommandOtherHalfMissing[newId].bp.Rl.Groups.Count > 0)
                                 {
-                                    id = id + "," + b.Rl.Groups[z];
+                                    id = id + axesButtonCommandOtherHalfMissing[newId].bp.Rl.Groups[0];
+                                    for (int z = 1; z < axesButtonCommandOtherHalfMissing[newId].bp.Rl.Groups.Count; ++z)
+                                    {
+                                        id = id + "," + axesButtonCommandOtherHalfMissing[newId].bp.Rl.Groups[z];
+                                    }
+                                }
+                                id = id + ";";
+                                if (InternalDataMangement.JoystickAliases.ContainsKey(axesButtonCommandOtherHalfMissing[newId].bp.Joystick) &&
+                                    InternalDataMangement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bp.Joystick].Length > 2)
+                                {
+                                    id = id + InternalDataMangement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bp.Joystick];
+                                }
+
+                                id = id + "//JP:" + axesButtonCommandOtherHalfMissing[newId].bn.Rl.NAME + ";";
+                                if (axesButtonCommandOtherHalfMissing[newId].bn.Rl.Groups != null &&
+                                    axesButtonCommandOtherHalfMissing[newId].bn.Rl.Groups.Count > 0)
+                                {
+                                    id = id + axesButtonCommandOtherHalfMissing[newId].bn.Rl.Groups[0];
+                                    for (int z = 1; z < axesButtonCommandOtherHalfMissing[newId].bn.Rl.Groups.Count; ++z)
+                                    {
+                                        id = id + "," + axesButtonCommandOtherHalfMissing[newId].bn.Rl.Groups[z];
+                                    }
+                                }
+                                id = id + ";";
+                                if (InternalDataMangement.JoystickAliases.ContainsKey(axesButtonCommandOtherHalfMissing[newId].bn.Joystick) &&
+                                    InternalDataMangement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bn.Joystick].Length > 2)
+                                {
+                                    id = id + InternalDataMangement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bn.Joystick];
                                 }
                             }
-                            id = id + ";";
-                            if (InternalDataMangement.JoystickAliases.ContainsKey(b.Joystick) &&
-                                InternalDataMangement.JoystickAliases[b.Joystick].Length > 2)
+                            else
                             {
-                                id = id + InternalDataMangement.JoystickAliases[b.Joystick];
+                                id = id + "0| //JP:" + b.Rl.NAME + ";";
+                                if (b.Rl.Groups != null && b.Rl.Groups.Count > 0)
+                                {
+                                    id = id + b.Rl.Groups[0];
+                                    for (int z = 1; z < b.Rl.Groups.Count; ++z)
+                                    {
+                                        id = id + "," + b.Rl.Groups[z];
+                                    }
+                                }
+                                id = id + ";";
+                                if (InternalDataMangement.JoystickAliases.ContainsKey(b.Joystick) &&
+                                    InternalDataMangement.JoystickAliases[b.Joystick].Length > 2)
+                                {
+                                    id = id + InternalDataMangement.JoystickAliases[b.Joystick];
+                                }
                             }
                         }
                     }
@@ -302,7 +395,6 @@ namespace JoyPro
                         result.Add(newId, id);
                     else
                         result[newId] = id;
-
                 }
             }
             return result;
@@ -486,7 +578,7 @@ namespace JoyPro
             }
             return result;
         }
-        static string toIL2JoystickKeyAxisString(Bind b)
+        static string ToIL2JoystickKeyAxisString(Bind b)
         {
             string mainBind = DCStoIL2String(b.Joystick, b.Rl.ISAXIS ? b.JAxis : b.JButton, b.Rl.ISAXIS);
             //Modifier work here
@@ -507,7 +599,7 @@ namespace JoyPro
                 return mainBind;
             }
         }
-        public static void createDeviceFile(string name= "devices")
+        public static void CreateDeviceFile(string name= "devices")
         {
             string path = GetInputPath();
             StreamWriter swr = new StreamWriter(path + InputPath + name + ".txt");
@@ -523,7 +615,7 @@ namespace JoyPro
             swr.Close();
             swr.Dispose();
         }
-        public static void createResponsesFile(string name="current")
+        public static void CreateResponsesFile(string name="current")
         {
             string path = GetInputPath();
             StreamWriter swr = new StreamWriter(path + InputPath + name+ ".responses");
@@ -573,16 +665,330 @@ namespace JoyPro
                 Directory.CreateDirectory(path);
             return path;
         }
-        public static void createActionsFile(string name = "current")
+        public static void CreateActionsFile(string name = "current")
         {
             string path = GetInputPath();
             StreamWriter swr = new StreamWriter(path + InputPath + name + ".actions");
             swr.Write(ActionsPreFile);
             for(int i=0; i<ActionsFileContentOutput.Count; ++i)
             {
-                swr.Write(ActionsFileContentOutput[i] + "\r\n");
+                swr.Write(ActionsFileContentOutput[i]);
             }
 
+        } 
+        static void ReadResponsesFile()
+        {
+            string path = GetInputPath();
+            axisResponsedRead = new Dictionary<string, IL2AxisSetting>();
+            StreamReader sr = new StreamReader(path + InputPath + "current" + ".responses");
+            const string cursor= "type1Devices=actionId%2CcenterDeadZone%2CsensitivityBallance%2CsideDeadZone";
+            string responsesContent = sr.ReadToEnd();
+            sr.Close();
+            sr.Dispose();
+            int index = responsesContent.IndexOf(cursor);
+            if (index < 0) return;
+            string toAnalyze = responsesContent.Substring(index + cursor.Length);
+            string[] parts = MainStructure.SplitBy(toAnalyze, "%7C%0D%0A");
+            foreach(string aSettingString in parts)
+            {
+                if (aSettingString == null || aSettingString.Length < 4) continue;
+                string[] innerParts = MainStructure.SplitBy(aSettingString, "%2C");
+                IL2AxisSetting AxSetting = new IL2AxisSetting();
+                AxSetting.Name = innerParts[0];
+                AxSetting.DeadZoneCenter = Convert.ToDouble(innerParts[1], new CultureInfo("en-US"));
+                AxSetting.DeadZoneSide = Convert.ToDouble(innerParts[2], new CultureInfo("en-US"));
+                axisResponsedRead.Add(innerParts[0], AxSetting);
+            }
+        }
+        static string ConvertIL2ToDCSButtonAxis(string button)
+        {
+            string IL2Button = button.Substring(button.IndexOf("_") + 1);
+            if (IL2Button.Substring(0, 1) == "b"&&IL2Button!= "b63_povnu")
+            {
+                return "JOY_BTN" + (Convert.ToInt32(IL2Button.Substring(1)) + 1).ToString();
+            }else if(IL2Button== "b63_povnu")
+            {
+                return "JOY_BTN64";
+            }
+            else if (IL2Button.Substring(0,4)=="pov0")
+            {
+                string result = "JOY_BTN_POV0_";
+                IL2Button = IL2Button.Substring(4);
+                string direction = IL2Button.Substring(IL2Button.IndexOf("_") + 1);
+                switch (direction)
+                {
+                    case "0": result = result + "U";break;
+                    case "45": result = result + "UR"; break;
+                    case "90": result = result + "R"; break;
+                    case "135": result = result + "DR"; break;
+                    case "180": result = result + "D"; break;
+                    case "225": result = result + "DL"; break;
+                    case "270": result = result + "L"; break;
+                    case "315": result = result + "UL"; break;
+                }
+                return result;
+            }
+            else if (IL2Button.Substring(0, 3) == "pov")
+            {
+                int povHead = Convert.ToInt32(IL2Button.Substring(3, 1));
+                //(pov-1)*8+80+direction
+                string direction = IL2Button.Substring(IL2Button.IndexOf("_") + 1);
+                int addition = -1;
+                switch (direction)
+                {
+                    case "0": addition = 0; break;
+                    case "45": addition = 1; break;
+                    case "90": addition = 2; break;
+                    case "135": addition = 3; break;
+                    case "180": addition = 4; break;
+                    case "225": addition = 5; break;
+                    case "270": addition = 6; break;
+                    case "315": addition = 7; break;
+                }
+                int finalButton = (povHead - 1) * 8 + 80 + addition;
+                return "JOY_BTN" + finalButton.ToString();
+            }
+            else if (IL2Button.Substring(0, 4) == "axis")
+            {
+                string result = "JOY_";
+                IL2Button = IL2Button.Substring(5);
+                switch (IL2Button)
+                {
+                    case "x":  result=result+"X"; break;
+                    case "y":  result = result + "Y"; break;
+                    case "z":   result = result + "Z"; break;
+                    case "w":  result = result + "RX"; break;
+                    case "s":  result = result + "RY"; break;
+                    case "t":  result = result + "RZ"; break;
+                    case "p": result = result + "SLIDER1"; break;
+                    case "q": result = result + "SLIDER2"; break;
+                }
+                return result;
+            }
+            return null;
+        }
+
+        public static void ImportInputs()
+        {
+            if (((MiscGames.IL2PathOverride == null || !Directory.Exists(MiscGames.IL2PathOverride)) &&
+                (MiscGames.IL2Instance == null || !Directory.Exists(MiscGames.IL2Instance))))
+                return;
+            List<string> KeyboardInputs = new List<string>();
+            Dictionary<string, List<string>> JoystickInputs = new Dictionary<string, List<string>>();
+            List<string> JPKeyboardInputs = new List<string>();
+            Dictionary<string, List<string>> JPJoystickInputs = new Dictionary<string, List<string>>();
+            ReadActionsFromActions(JPKeyboardInputs, JPJoystickInputs, "jp");
+            ReadActionsFromActions(KeyboardInputs, JoystickInputs);
+            ReadResponsesFile();
+            Dictionary<int, string> IL2Sticks= new Dictionary<int, string>();
+            LoadIL2Joysticks(IL2Sticks);
+            foreach(KeyValuePair<string, List<string>> kvp in JoystickInputs)
+            {
+                for(int i=0; i<kvp.Value.Count; ++i)
+                {
+                    string input = GetComponentFromActionLine(kvp.Value[i], IL2ActionComponent.Input);
+                    string positive, negative, mod_positive=null, mod_negative=null;
+                    Bind bpos = null;
+                    Bind bneg = null;
+                    if (input.Contains('/'))
+                    {
+                        string[] splitted = input.Split('/');
+                        positive = splitted[0];
+                        negative = splitted[1];
+                    }
+                    else
+                    {
+                        positive = input;
+                        negative = "";
+                    }
+                    if (positive.Contains('+'))
+                    {
+                        string[] splitted = positive.Split('+');
+                        mod_positive = splitted[0];
+                        positive = splitted[1];
+                    }
+                    if (negative.Contains('+'))
+                    {
+                        string[] splitted = negative.Split('+');
+                        mod_negative = splitted[0];
+                        negative = splitted[1];
+                    }
+                    if (JPJoystickInputs.ContainsKey(kvp.Key))
+                    {
+                        for(int j=0; j< JPJoystickInputs[kvp.Key].Count; ++j)
+                        {
+                            string jpInput = GetComponentFromActionLine(JPJoystickInputs[kvp.Key][j], IL2ActionComponent.Input);
+                            string jpName = GetComponentFromActionLine(JPJoystickInputs[kvp.Key][j], IL2ActionComponent.JRelationName);
+
+                            string jppositive, jpnegative=null, jpmod_positive = null, jpmod_negative = null;
+                            if (jpInput.Contains('/'))
+                            {
+                                string[] splitted = jpInput.Split('/');
+                                jppositive = splitted[0];
+                                jpnegative = splitted[1];
+                            }
+                            else
+                            {
+                                jppositive = jpInput;
+
+                            }
+                            if (positive.Contains('+'))
+                            {
+                                string[] splitted = jppositive.Split('+');
+                                jpmod_positive = splitted[0];
+                                jppositive = splitted[1];
+                            }
+                            if (negative.Contains('+'))
+                            {
+                                string[] splitted = negative.Split('+');
+                                mod_negative = splitted[0];
+                                negative = splitted[1];
+                            }
+                            if (jpName.Length > 1&&positive== jppositive&&mod_positive==jpmod_positive)
+                            {
+                                bpos = InternalDataMangement.GetBindForRelation(jpName);
+                                if (bpos != null)
+                                {
+                                    int pv = Convert.ToInt32(positive.Split('_')[0].Replace("joy", ""));
+                                    string stick = IL2Sticks[pv];
+                                    string DCSstick = InternalDataMangement.GetJoystickByIL2GUID(stick.Substring(stick.IndexOf("{") + 1).Replace("}", ""));
+                                    string btnInput = ConvertIL2ToDCSButtonAxis(positive);
+                                    if (DCSstick==bpos.Joystick&&((bpos.Rl.ISAXIS && bpos.JAxis == btnInput) || (!bpos.Rl.ISAXIS && bpos.JButton == btnInput)))
+                                    {
+                                        OtherGameInput[] found = DBLogic.GetAllOtherGameInputsWithId(kvp.Key, "ILGame");
+                                        if (negative == null)
+                                        {
+                                            //Do i need to check for the +- here as well?!
+                                            //GetAllOtherGameInputsWithId
+                                        }
+                                        
+                                    }
+                                    else
+                                    {
+                                        //Create new Relation with different name
+                                    }
+                                }
+                                else
+                                {
+                                    //Create new
+                                }
+                            }
+                            
+                        }
+                    }
+                    else
+                    {
+                        //Create new
+                    }
+                }
+                
+            }
+        }
+        static string GetComponentFromActionLine(string line, IL2ActionComponent comp)
+        {
+            if(comp== IL2ActionComponent.ID)
+            {
+                return line.Split(',')[0];
+            }else if (comp == IL2ActionComponent.Input)
+            {
+                return line.Split(',')[1].TrimStart();
+            }else if(comp == IL2ActionComponent.Inverted)
+            {
+                return line.Substring(line.IndexOf("|") - 1, 1);
+            }else if(comp == IL2ActionComponent.JRelationName)
+            {
+                string cmp = "//JP:";
+                int fst = line.IndexOf(cmp);
+                if (fst < 0) return "";
+                string j1 = line.Substring(fst + cmp.Length);
+                string jp1 = j1.Substring(0, j1.IndexOf(';'));
+                string rest = j1.Substring(j1.IndexOf(';') + 1);
+                int scnd = rest.IndexOf(cmp);
+                if (scnd > -1)
+                {
+                    string j2 = rest.Substring(rest.IndexOf(cmp) + cmp.Length);
+                    string jp2 = j2.Substring(0, j2.IndexOf(';'));
+                    return jp1 + "/" + jp2;
+                }
+                else
+                {
+                    return jp1;
+                }
+            }else if(comp == IL2ActionComponent.JGroups)
+            {
+                string cmp = "//JP:";
+                int fst = line.IndexOf(cmp);
+                if (fst < 0) return "";
+                string j1 = line.Substring(fst + cmp.Length);
+                string rest = j1.Substring(j1.IndexOf(';') + 1);
+                string g1 = rest.Substring(0, rest.IndexOf(';'));
+                rest = rest.Substring(rest.IndexOf(';') + 1);
+                int scnd = rest.IndexOf(cmp);
+                if (scnd > -1)
+                {
+                    string j2 = rest.Substring(rest.IndexOf(cmp) + cmp.Length);
+                    rest = j2.Substring(j2.IndexOf(';')+1);
+                    string g2 = rest.Substring(0, rest.IndexOf(';'));
+                    return g1 + "/" + g2;
+                }
+                else
+                {
+                    return g1;
+                }
+            }else if(comp == IL2ActionComponent.JAlias)
+            {
+                string cmp = "//JP:";
+                int fst = line.IndexOf(cmp);
+                if (fst < 0) return "";
+                string j1 = line.Substring(fst + cmp.Length);
+                string rest = j1.Substring(j1.IndexOf(';') + 1);
+                string jal1 = rest.Substring(rest.IndexOf(';') + 1);
+                int scnd = rest.IndexOf(cmp);
+                if (scnd < 0)
+                {
+                    return jal1;
+                }
+                else
+                {
+                    rest = jal1.Substring(jal1.IndexOf(cmp) + cmp.Length);
+                    jal1 = jal1.Substring(0, jal1.IndexOf(cmp));
+                    rest = rest.Substring(rest.IndexOf(';') + 1);
+                    string jal2 = rest.Substring(rest.IndexOf(';') + 1);
+                    return jal1 + "/" + jal2;
+                }
+            }
+            else
+            {
+                string cmp = "//";
+                int fst = line.IndexOf(cmp);
+                if (fst < 0) return "";
+                string rest = line.Substring(line.IndexOf(cmp) + cmp.Length);
+                int scnd = rest.IndexOf("//JP:");
+                if (scnd < 0) return rest;
+                else return rest.Substring(0, scnd);
+            }
+        }
+        public static void LoadIL2Joysticks(Dictionary<int, string> output)
+        {
+            string path = GetInputPath();
+            if (File.Exists(path +InputPath+"devices.txt"))
+            {
+                StreamReader sr = new StreamReader(MiscGames.IL2Instance + "\\data\\input\\devices.txt");
+                string content = sr.ReadToEnd().Replace("\r", "").Replace("|", "");
+                string[] lines = content.Split('\n');
+                for (int i = 1; i < lines.Length; ++i)
+                {
+                    string[] parts = lines[i].Split(',');
+                    if (parts.Length > 2 && int.TryParse(parts[0], out int id) == true)
+                    {
+                        string joy = MiscGames.IL2JoyIdToDCSJoyId(parts[1], parts[2]);
+                        if (!output.ContainsKey(id) && !output.ContainsValue(joy))
+                        {
+                            output.Add(id, joy);
+                        }
+                    }
+                }
+            }
         }
     }
 }

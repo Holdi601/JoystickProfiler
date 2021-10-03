@@ -32,7 +32,6 @@ namespace JoyPro
         public static string[] installPathsDCS;
         public static List<string> Games = new List<string>();
         public static string IL2Instance = "";
-        public static Dictionary<string, int> IL2JoystickId = new Dictionary<string, int>();
 
         public static string IL2JoyIdToDCSJoyId(string guid, string device)
         {

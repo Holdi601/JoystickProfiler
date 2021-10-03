@@ -24,6 +24,12 @@ namespace JoyPro
         public List<string> AllReformers;
         public string additionalImportInfo;
         public string aliasJoystick;
+        public static bool Inverted_Default = false;
+        public static bool Slider_Default = false;
+        public static List<double> Curvature_Default = new List<double>() { 0.0 };
+        public static double SaturationX_Default = 1.0;
+        public static double SaturationY_Default = 1.0;
+        public static double Deadzone_Default = 0.0;
 
         public void CorrectJoystickName()
         {
@@ -115,14 +121,15 @@ namespace JoyPro
             Joystick = "";
             JAxis = "";
             JButton = "";
-            Inverted = false;
-            Slider = false;
+            Inverted = Inverted_Default;
+            Slider = Slider_Default;
             Curvature = new List<double>();
-            Curvature.Add(0.0);
-            SaturationX = 1.0;
-            SaturationY = 1.0;
+            for (int i = 0; i < Curvature_Default.Count; ++i)
+                Curvature.Add(Curvature_Default[i]);
+            SaturationX = SaturationX_Default;
+            SaturationY = SaturationY_Default;
             Rl = r;
-            Deadzone = 0;
+            Deadzone = Deadzone_Default;
             Reformer_depr = "";
             AllReformers = new List<string>();
             additionalImportInfo = "";
@@ -396,6 +403,7 @@ namespace JoyPro
                 return result;
             }
             return "";
-        }
+        } 
+
     }
 }

@@ -56,7 +56,6 @@ namespace JoyPro
             sw = false;
             JPN = "";
         }
-
         public Modifier Copy()
         {
             Modifier m = new Modifier();
@@ -67,12 +66,10 @@ namespace JoyPro
             m.JPN = JPN;
             return m;
         }
-
         public string toReformerString()
         {
             return name + "§" + device + "§" + key;
         }
-
         public static Modifier ReformerToMod(string reformer)
         {
             string[] parts = reformer.Split('§');
@@ -89,6 +86,19 @@ namespace JoyPro
             {
                 return null;
             }
+        } 
+        public static bool ButtonComboInReformerList(string Joystick, string Button, List<string> reformers)
+        {
+            if (reformers == null || Button == null || Joystick == null) return false;
+            for(int i=0; i<reformers.Count; ++i)
+            {
+                string[] parts = reformers[i].Split('§');
+                if (parts.Length < 3) continue;
+                if (parts[1].ToLower() == Joystick.ToLower() &&
+                    parts[2].ToLower() == Button.ToLower())
+                    return true;
+            }
+            return false;
         }
     }
 }

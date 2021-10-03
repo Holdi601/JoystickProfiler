@@ -275,5 +275,22 @@ namespace JoyPro
             }
             return false;
         }
+        public static string[] SplitBy(string toSplit, string splitValue)
+        {
+            List<string> result = new List<string>();
+            string temp="";
+            int startIndex = 0;
+            while (startIndex >= 0)
+            {
+                int length = toSplit.IndexOf(splitValue);
+                temp = toSplit.Substring(0, length);
+                toSplit = toSplit.Substring(temp.Length + splitValue.Length);
+                result.Add(temp);
+                startIndex = toSplit.IndexOf(splitValue);
+            }
+            result.Add(toSplit);
+
+            return result.ToArray();
+        }
     }
 }

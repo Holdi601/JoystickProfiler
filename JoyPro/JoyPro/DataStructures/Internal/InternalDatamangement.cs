@@ -892,5 +892,61 @@ namespace JoyPro
             IL2IOLogic.WriteOut(Il2Binds, OutputType.MergeOverwrite);
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
+        public static List<Bind> GetBindsByJoystickAndKey(string Joystick, string Button, bool axis, bool Inverted, bool Slider, double SaturationX, double SaturationY, double Deadzone, List<string> modifier= null)
+        {
+            List<Bind> result = new List<Bind>();
+            foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if ((kvp.Value.Joystick.ToLower() == Joystick.ToLower() &&
+                   kvp.Value.Inverted == Inverted &&
+                   kvp.Value.Deadzone ==Deadzone &&
+                   kvp.Value.SaturationX == SaturationX &&
+                   kvp.Value.SaturationY == SaturationY &&
+                   kvp.Value.Slider == Slider)&&
+                   ((axis&& kvp.Value.JAxis.ToLower() == Button.ToLower())||
+                   (!axis&&kvp.Value.JButton.ToLower() == Button.ToLower() )))
+                {
+                    if(((modifier==null||modifier.Count==0)&&(kvp.Value.AllReformers!=null&&kvp.Value.AllReformers.Count>0))||
+                        ((modifier != null && modifier.Count > 0) && (kvp.Value.AllReformers == null || kvp.Value.AllReformers.Count == 0))||
+                        modifier.Count!=kvp.Value.AllReformers.Count)
+                    {
+                        continue;
+                    }else if (modifier.Count == kvp.Value.AllReformers.Count && modifier.Count > 0)
+                    {
+                        bool mismatch = false;
+                        for(int i=0; i<modifier.Count; ++i)
+                        {
+                            string[] parts = modifier[i].Split('§');
+                            if (parts.Length < 3 ||
+                                !Modifier.ButtonComboInReformerList(parts[1], parts[2], kvp.Value.AllReformers))
+                            {
+                                mismatch = true;
+                                break;
+                            }                            
+                        }
+                        if (mismatch)
+                            continue;
+                    }
+                    result.Add(kvp.Value);
+                }
+            }
+            return result;
+        }
+        public static string GetJoystickByIL2GUID(string guid)
+        {
+            for( int i=0; i<LocalJoysticks.Length; ++i)
+            {
+                string guidPart = LocalJoysticks[i].Split('{')[1].Replace("}", "");
+                string[] guidCells = guidPart.Split('-');
+                string[] parameterCells = guid.Split('-');
+                if(guidCells[0].ToLower() == parameterCells[0].ToLower()&&
+                    guidCells[1].ToLower()== parameterCells[1].ToLower()&&
+                    guidCells[2].ToLower() == parameterCells[2].ToLower())
+                {
+                    return LocalJoysticks[i];
+                }
+            }
+            return null;
+        }
     }
 }

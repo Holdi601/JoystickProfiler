@@ -68,36 +68,6 @@ namespace JoyPro
                 InternalDataMangement.LocalJoysticks = pp.ToArray();
             }
         }
-        public static void InitIL2Joysticks()
-        {
-            List<string> Joysticks = new List<string>();
-            if (File.Exists(MiscGames.IL2Instance + "\\data\\input\\devices.txt"))
-            {
-                StreamReader sr = new StreamReader(MiscGames.IL2Instance + "\\data\\input\\devices.txt");
-                string content = sr.ReadToEnd().Replace("\r", "").Replace("|", "");
-                string[] lines = content.Split('\n');
-                List<string> crSticks = InternalDataMangement.LocalJoysticks.ToList();
-                for (int i = 1; i < lines.Length; ++i)
-                {
-                    string[] parts = lines[i].Split(',');
-                    if (parts.Length > 2 && int.TryParse(parts[0], out int id) == true)
-                    {
-                        string joy = MiscGames.IL2JoyIdToDCSJoyId(parts[1], parts[2]);
-                        Joysticks.Add(joy);
-                        if (!crSticks.Contains(joy))
-                        {
-                            crSticks.Add(joy);
-                        }
-                        if (!MiscGames.IL2JoystickId.ContainsKey(joy) && !MiscGames.IL2JoystickId.ContainsValue(id))
-                        {
-                            MiscGames.IL2JoystickId.Add(joy, id);
-                        }
-
-                    }
-                }
-                InternalDataMangement.LocalJoysticks = crSticks.ToArray();
-            }
-        }
         public static string GetDCSInstallationPath()
         {
             if (MiscGames.installPathsDCS.Length > 0)
@@ -169,7 +139,6 @@ namespace JoyPro
             {
                 MiscGames.IL2Instance = MiscGames.IL2PathOverride;
             }
-            InitIL2Joysticks();
             DBLogic.PopulateIL2Dictionary();
             Console.WriteLine(MiscGames.IL2Instance);
         }
@@ -203,7 +172,6 @@ namespace JoyPro
             MiscGames.installPathsDCS = new string[0];
             InternalDataMangement.LocalJoysticks = new string[0];
             DCSIOLogic.EmptyOutputsDCS = new Dictionary<string, DCSLuaInput>();
-            MiscGames.IL2JoystickId = new Dictionary<string, int>();
             DBLogic.OtherLib = new Dictionary<string, Dictionary<string, OtherGame>>();
             MiscGames.IL2Instance = "";
 

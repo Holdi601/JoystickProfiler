@@ -89,6 +89,7 @@
     <Compile Include="DataStructures\DBLogic.cs" />
     <Compile Include="DataStructures\DCS\IOLogic\DCSIOLogic.cs" />
     <Compile Include="DataStructures\IL2Game\IL2AxisReplacementButtons.cs" />
+    <Compile Include="DataStructures\IL2Game\IL2AxisSetting.cs" />
     <Compile Include="DataStructures\IL2Game\IL2IOLogic.cs" />
     <Compile Include="DataStructures\InitGames.cs" />
     <Compile Include="DataStructures\Internal\Bind.cs" />
