@@ -514,7 +514,7 @@ namespace JoyPro
         void deleteItem(object sender, EventArgs e)
         {
             int indx = Convert.ToInt32(((Button)sender).Name.Replace("deleteBtn", ""));
-            Current.RemoveNode(ri[indx].ID);
+            Current.RemoveNode(ri[indx].ID, ri[indx].Game);
             RefreshDGSelected();
         }
         

@@ -99,15 +99,16 @@ namespace JoyPro
                     planesAll.Remove(planesActiveInRel[i]);
                 }
             }
-            RelationItem node = GetRelationItem(id);
+            RelationItem node = GetRelationItem(id, game);
+            if (node == null) return;
             for(int i=0; i<planesAll.Count; ++i)
             {
                 node.SetAircraftActivity(planesAll[i], true);
             }
         }
-        public void DeactivateAllID(string id)
+        public void DeactivateAllID(string id, string game)
         {
-            RelationItem node = GetRelationItem(id);
+            RelationItem node = GetRelationItem(id, game);
             List<string> planes = node.GetActiveAircraftList();
             for (int j = 0; j < planes.Count; ++j)
             {
@@ -126,6 +127,7 @@ namespace JoyPro
         }
         public bool AddNode(string id, string game, bool axis, string plane = "")
         {
+            if (game == null || game.Length < 1) game = "DCS";
             if (NodesContainId(id) && plane.Length < 1) return false;
             if (NODES.Count < 1)
             {
@@ -157,16 +159,16 @@ namespace JoyPro
                 }
                 else
                 {
-                    NODES.Add(new RelationItem(id, plane, "DCS"));
+                    NODES.Add(new RelationItem(id, plane, game));
                 }
             }
             Console.WriteLine("Relation Item Added");
             return true;
         }
-        public bool RemoveNode(string id)
+        public bool RemoveNode(string id, string game)
         {
             if (!NodesContainId(id)) return false;
-            RelationItem ri = GetRelationItem(id);
+            RelationItem ri = GetRelationItem(id, game);
             NODES.Remove(ri);
             return true;
         }
@@ -179,11 +181,12 @@ namespace JoyPro
             }
             return null;
         }
-        public RelationItem GetRelationItem(string id)
+        public RelationItem GetRelationItem(string id, string game)
         {
             for (int i = 0; i < NODES.Count; i++)
             {
-                if (id.ToUpper() == NODES[i].ID.ToUpper()) return NODES[i];
+                if (id.ToUpper() == NODES[i].ID.ToUpper()&&
+                    game.ToUpper()==NODES[i].Game) return NODES[i];
             }
             return null;
         }
