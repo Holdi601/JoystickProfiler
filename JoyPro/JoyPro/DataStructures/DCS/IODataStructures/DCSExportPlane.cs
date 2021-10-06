@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,6 +74,7 @@ namespace JoyPro
         public void WriteModifiers(string path)
         {
             if (path == null || path.Length < 1 || !System.IO.Directory.Exists(path) || modifiers.Count < 1) return;
+
             System.IO.StreamWriter swr = new System.IO.StreamWriter(path+ "\\modifiers.lua");
             swr.Write(startFile);
             foreach(KeyValuePair<string, Modifier> kvp in modifiers)

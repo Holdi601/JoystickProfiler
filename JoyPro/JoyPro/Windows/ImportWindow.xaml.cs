@@ -49,14 +49,12 @@ namespace JoyPro
             CBselNone.Click += new RoutedEventHandler(SelectNone);
 
         }
-
         void CancelImport(object sender, EventArgs e)
         {
             MainStructure.msave.importWindowLast = MainStructure.GetWindowPosFrom(this);
             MainStructure.SaveMetaLast();
             Close();
         }
-
         void SelectNone(object sender, EventArgs e)
         {
             if (CBselNone.IsChecked == true)
@@ -71,7 +69,6 @@ namespace JoyPro
                 CBslid.IsChecked = false;
             }
         }
-
         void SelectAll(object sender, EventArgs e)
         {
             if (CBselAll.IsChecked == true)
@@ -86,7 +83,6 @@ namespace JoyPro
                 CBslid.IsChecked = true;
             }
         }
-
         void Import(object sender, EventArgs e)
         {
             MainStructure.msave.importWindowLast = MainStructure.GetWindowPosFrom(this);
@@ -120,10 +116,13 @@ namespace JoyPro
                 importDefault = true;
             else
                 importDefault = false;
-            DCSIOLogic.BindsFromLocal(selectedSticks ,importDefault, inv, slid, curv, dz, sx, sy);
+            if(InternalDataMangement.GamesFilter["DCS"])
+                DCSIOLogic.BindsFromLocal(selectedSticks ,importDefault, inv, slid, curv, dz, sx, sy);
+            if (InternalDataMangement.GamesFilter["IL2Game"])
+                IL2IOLogic.ImportInputs(curv, dz);
+            
             Close();
         }
-
         Grid BaseSetupRelationGrid()
         {
             var converter = new GridLengthConverter();
@@ -141,7 +140,6 @@ namespace JoyPro
 
             return grid;
         }
-
         void ListSticks()
         {
             Grid grid = BaseSetupRelationGrid();
@@ -181,9 +179,6 @@ namespace JoyPro
             {
                 CheckBox cbx = new CheckBox();
                 cbx.Name = "cbxjy" + i.ToString();
-                
-
-
                 if (InternalDataMangement.JoystickAliases.ContainsKey(availableJoysticks[i]) && InternalDataMangement.JoystickAliases[availableJoysticks[i]].Length > 0)
                 {
                     cbx.Content = InternalDataMangement.JoystickAliases[availableJoysticks[i]];
@@ -191,8 +186,7 @@ namespace JoyPro
                 else
                 {
                     cbx.Content = availableJoysticks[i];
-                }
-                               
+                }        
                 if (connectedSticks.Contains(availableJoysticks[i].ToLower()))
                 {
                     cbx.Foreground = Brushes.GreenYellow;
@@ -214,7 +208,6 @@ namespace JoyPro
             }
             sv.Content = grid;
         }
-
         private void SetupGamesDropDown()
         {
             GamesFilterDropDown.Items.Clear();
@@ -238,7 +231,6 @@ namespace JoyPro
                 GamesFilterDropDown.Items.Add(cbx);
             }
         }
-
         private void gameFilterChanged(object sender, EventArgs e)
         {
             CheckBox cb = (CheckBox)sender;
@@ -251,7 +243,6 @@ namespace JoyPro
                 InternalDataMangement.GamesFilter[(string)cb.Content] = false;
             }
         }
-
         void JoystickSetChanged(object sender, EventArgs e)
         {
             MainStructure.msave.importWindowLast = MainStructure.GetWindowPosFrom(this);
