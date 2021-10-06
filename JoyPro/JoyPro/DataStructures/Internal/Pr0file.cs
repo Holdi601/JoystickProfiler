@@ -13,6 +13,9 @@ namespace JoyPro
         public Dictionary<string, Bind> Binds;
         public string LastSelectedDCSInstance;
         public Dictionary<string, string> JoystickAliases;
+        public Dictionary<string, string> JoystickFileImages;
+        public Dictionary<string, int> JoystickTextSize;
+        public Dictionary<string, Dictionary<string, Coordinates>> JoystickTextPosition; 
 
         public Pr0file(Dictionary<string, Relation> Rel, Dictionary<string, Bind> Bnds, string DCSInstance, Dictionary<string, string> JAlias)
         {

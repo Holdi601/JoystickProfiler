@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,9 @@ namespace JoyPro
         public static string[] LocalJoysticks;
         public static Dictionary<string, Modifier> AllModifiers = new Dictionary<string, Modifier>();
         public static Dictionary<string, bool> GamesFilter = new Dictionary<string, bool>();
-
+        public static Dictionary<string, string> JoystickFileImages = new Dictionary<string, string>();
+        public static Dictionary<string, int> JoystickTextSize = new Dictionary<string, int>();
+        public static Dictionary<string, Dictionary<string, Coordinates>> JoystickTextPosition= new Dictionary<string, Dictionary<string, Coordinates>>();
         public static void CorrectModifiersInBinds()
         {
             foreach (KeyValuePair<string, Bind> kvp in AllBinds)
@@ -385,6 +388,9 @@ namespace JoyPro
                 AllRelations = pr.Relations;
                 AllBinds = pr.Binds;
                 JoystickAliases = pr.JoystickAliases;
+                JoystickTextPosition = pr.JoystickTextPosition;
+                JoystickTextSize = pr.JoystickTextSize;
+                JoystickFileImages = pr.JoystickFileImages;
                 if (pr.LastSelectedDCSInstance != null && Directory.Exists(pr.LastSelectedDCSInstance))
                 {
                     MiscGames.DCSInstanceSelectionChanged(pr.LastSelectedDCSInstance);
@@ -523,6 +529,9 @@ namespace JoyPro
         public static void SaveProfileTo(string filePath)
         {
             Pr0file pr = new Pr0file(AllRelations, AllBinds, MiscGames.DCSselectedInstancePath, JoystickAliases);
+            pr.JoystickFileImages = JoystickFileImages;
+            pr.JoystickTextPosition = JoystickTextPosition;
+            pr.JoystickTextSize = JoystickTextSize;
             MainStructure.WriteToBinaryFile<Pr0file>(filePath, pr);
         }
         public static List<Relation> SyncRelations()
@@ -947,6 +956,73 @@ namespace JoyPro
                 }
             }
             return null;
+        }
+        public static void PrintOverviewToCsv(List<Relation> toPrint, string file)
+        {
+            StreamWriter swr = new StreamWriter(file);
+            for(int i=0; i<toPrint.Count; ++i)
+            {
+                string line = toPrint[i].NAME+";";
+                if (toPrint[i].Groups.Count > 0)
+                {
+                    line = line + toPrint[i].Groups[0];
+                    for (int j = 1; j < toPrint[i].Groups.Count; ++j)
+                    {
+                        line = line + "," + toPrint[i].Groups[j];
+                    }
+                    line = line + ";";
+                }
+                Bind b=null;
+                if (AllBinds.ContainsKey(toPrint[i].NAME))
+                {
+                    b = AllBinds[toPrint[i].NAME];
+                }
+                if (b == null)
+                {
+                    line = line + "None;";
+                }
+                else
+                {
+                    if (JoystickAliases.ContainsKey(b.Joystick))
+                    {
+                        line = line + JoystickAliases[b.Joystick] + ";";
+                    }
+                    else
+                    {
+                        line = line + b.Joystick + ";";
+                    }
+                }
+                if (b == null)
+                {
+                    line = line + "None;";
+                }
+                else
+                {
+                    if (toPrint[i].ISAXIS)
+                    {
+                        string curvature=b.Curvature[0].ToString(new CultureInfo("en-US"));
+                        if (b.Curvature.Count > 1)
+                        {
+                            for (int z = 0; z < b.Curvature.Count; ++z)
+                                curvature = curvature + "," + b.Curvature[z].ToString(new CultureInfo("en-US"));
+                        }
+                        line = line + b.JAxis + ";" + b.Inverted.ToString() + ";" + b.Slider.ToString() + ";" + (b.Curvature.Count > 1 ? true : false).ToString() + ";" + b.Deadzone.ToString(new CultureInfo("en-US")+";"+b.SaturationX.ToString(new CultureInfo("en-US"))+";"+ b.SaturationY.ToString(new CultureInfo("en-US"))+";"+curvature);
+                    }
+                    else
+                    {
+                        string[] mod = new string[4];
+                        for (int u = 0; u < 4; u++) mod[u] = "None";
+                        if (b.AllReformers.Count > 0) mod[0] = b.AllReformers[0].Substring(b.AllReformers[0].IndexOf('§'));
+                        if (b.AllReformers.Count > 1) mod[1] = b.AllReformers[1].Substring(b.AllReformers[1].IndexOf('§'));
+                        if (b.AllReformers.Count > 2) mod[2] = b.AllReformers[2].Substring(b.AllReformers[2].IndexOf('§'));
+                        if (b.AllReformers.Count > 3) mod[3] = b.AllReformers[3].Substring(b.AllReformers[3].IndexOf('§'));
+                        line = line + b.JButton + ";null;null;null;"+mod[0]+";"+mod[1]+";"+mod[2]+";"+mod[3];
+                    }
+                }
+                swr.WriteLine(line);
+            }
+            swr.Close();
+            swr.Dispose();
         }
     }
 }

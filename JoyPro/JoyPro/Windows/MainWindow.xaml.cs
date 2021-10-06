@@ -156,6 +156,7 @@ namespace JoyPro
             SettingsBtn.Click += new RoutedEventHandler(OpenChangeJoystickSettings);
             ReinstateBUBtn.Click += new RoutedEventHandler(OpenBackupWindow);
             GroupManagerBtn.Click += new RoutedEventHandler(OpenGroupManager);
+            OTCBtn.Click += new RoutedEventHandler(OpenSaveCSV);
         }
         void OpenBackupWindow(object sender, EventArgs e)
         {
@@ -354,6 +355,39 @@ namespace JoyPro
                     }
                 }
                 InternalDataMangement.SaveProfileTo(filePath);
+            }
+        }
+        void OpenSaveCSV(object sender, EventArgs e)
+        {
+            if (CURRENTDISPLAYEDRELATION.Count < 1) return;
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Comma seperated values (*.csv)|*.csv|All filed (*.*)|*.*";
+            saveFileDialog1.Title = "Save Overview";
+            if (Directory.Exists(MainStructure.msave.lastOpenedLocation))
+            {
+                saveFileDialog1.InitialDirectory = MainStructure.msave.lastOpenedLocation;
+            }
+            else
+            {
+                saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            }
+            string filePath;
+            saveFileDialog1.ShowDialog();
+            filePath = saveFileDialog1.FileName;
+            if (filePath.Length > 4)
+            {
+                string[] pathParts = filePath.Split('\\');
+                if (pathParts.Length > 0)
+                {
+                    MainStructure.msave.lastOpenedLocation = pathParts[0];
+                    for (int i = 1; i < pathParts.Length - 1; ++i)
+                    {
+                        MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
+                    }
+                }
+
+                InternalDataMangement.PrintOverviewToCsv(CURRENTDISPLAYEDRELATION, filePath);
+                //InternalDataMangement.SaveProfileTo(filePath);
             }
         }
         void OpenSaveReleations(object sender, EventArgs e)
