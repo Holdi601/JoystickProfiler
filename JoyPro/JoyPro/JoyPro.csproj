@@ -67,7 +67,12 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.5.0.2\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -101,6 +106,7 @@
     <Compile Include="DataStructures\DCS\IODataStructures\DCSLuaDiffsButtonElement.cs" />
     <Compile Include="DataStructures\DCS\IODataStructures\DCSLuaInput.cs" />
     <Compile Include="DataStructures\Internal\InternalDataMangement.cs" />
+    <Compile Include="DataStructures\Internal\LayoutFile.cs" />
     <Compile Include="DataStructures\MiscGames.cs" />
     <Compile Include="DataStructures\Other\OtherGame.cs" />
     <Compile Include="DataStructures\Other\OtherGameInput.cs" />
@@ -108,8 +114,14 @@
     <Compile Include="DataStructures\DCS\DBDCSDataStructure\HtmlInputElementDCS.cs" />
     <Compile Include="General\LUADataRead.cs" />
     <Compile Include="General\Updater.cs" />
+    <Compile Include="Windows\CollectJoystickImages.xaml.cs">
+      <DependentUpon>CollectJoystickImages.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\CreateJoystickAlias.xaml.cs">
       <DependentUpon>CreateJoystickAlias.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EditJoystickLayoutImage.xaml.cs">
+      <DependentUpon>EditJoystickLayoutImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ExchangeStick.xaml.cs">
       <DependentUpon>ExchangeStick.xaml</DependentUpon>
@@ -152,7 +164,15 @@
       <DependentUpon>ValidationErrors.xaml</DependentUpon>
     </Compile>
     <Compile Include="MISC\WindowPos.cs" />
+    <Page Include="Windows\CollectJoystickImages.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\CreateJoystickAlias.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\EditJoystickLayoutImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

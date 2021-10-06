@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace JoyPro
 {
@@ -13,9 +16,11 @@ namespace JoyPro
         public Dictionary<string, Bind> Binds;
         public string LastSelectedDCSInstance;
         public Dictionary<string, string> JoystickAliases;
-        public Dictionary<string, string> JoystickFileImages;
-        public Dictionary<string, int> JoystickTextSize;
-        public Dictionary<string, Dictionary<string, Coordinates>> JoystickTextPosition; 
+        //public Dictionary<string, string> JoystickFileImages;
+        //public Dictionary<string, int> JoystickTextSize;
+        //public Dictionary<string, string> JoystickTextFont;
+        //public Dictionary<string, SolidColorBrush> JoystickTextColor;
+        //public Dictionary<string, Dictionary<string, Point>> JoystickTextPosition; 
 
         public Pr0file(Dictionary<string, Relation> Rel, Dictionary<string, Bind> Bnds, string DCSInstance, Dictionary<string, string> JAlias)
         {

@@ -117,6 +117,8 @@ namespace JoyPro
             ALLBUTTONS.Add(GroupManagerBtn);
             ALLBUTTONS.Add(ExchStickBtn);
             ALLBUTTONS.Add(SettingsBtn);
+            ALLBUTTONS.Add(PrintBtn);
+            ALLBUTTONS.Add(OTCBtn);
         }
         void SetupEventHandlers()
         {
@@ -157,6 +159,7 @@ namespace JoyPro
             ReinstateBUBtn.Click += new RoutedEventHandler(OpenBackupWindow);
             GroupManagerBtn.Click += new RoutedEventHandler(OpenGroupManager);
             OTCBtn.Click += new RoutedEventHandler(OpenSaveCSV);
+            PrintBtn.Click += new RoutedEventHandler(PrintLayout);
         }
         void OpenBackupWindow(object sender, EventArgs e)
         {
@@ -2101,5 +2104,13 @@ namespace JoyPro
             if (((ComboBox)sender).SelectedIndex < 0) return;
             MiscGames.DCSInstanceSelectionChanged((string)DropDownInstanceSelection.SelectedItem);
         }    
+        void PrintLayout(object sender, EventArgs e)
+        {
+            if (CURRENTDISPLAYEDRELATION.Count < 1) return;
+            DisableInputs();
+            CollectJoystickImages cjii = new CollectJoystickImages();
+            cjii.Show();
+            cjii.Closing += new CancelEventHandler(ActivateInputs);
+        }
     }
 }

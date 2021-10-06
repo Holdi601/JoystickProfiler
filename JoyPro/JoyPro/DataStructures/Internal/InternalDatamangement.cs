@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace JoyPro
 {
@@ -23,9 +24,7 @@ namespace JoyPro
         public static string[] LocalJoysticks;
         public static Dictionary<string, Modifier> AllModifiers = new Dictionary<string, Modifier>();
         public static Dictionary<string, bool> GamesFilter = new Dictionary<string, bool>();
-        public static Dictionary<string, string> JoystickFileImages = new Dictionary<string, string>();
-        public static Dictionary<string, int> JoystickTextSize = new Dictionary<string, int>();
-        public static Dictionary<string, Dictionary<string, Coordinates>> JoystickTextPosition= new Dictionary<string, Dictionary<string, Coordinates>>();
+
         public static void CorrectModifiersInBinds()
         {
             foreach (KeyValuePair<string, Bind> kvp in AllBinds)
@@ -388,9 +387,6 @@ namespace JoyPro
                 AllRelations = pr.Relations;
                 AllBinds = pr.Binds;
                 JoystickAliases = pr.JoystickAliases;
-                JoystickTextPosition = pr.JoystickTextPosition;
-                JoystickTextSize = pr.JoystickTextSize;
-                JoystickFileImages = pr.JoystickFileImages;
                 if (pr.LastSelectedDCSInstance != null && Directory.Exists(pr.LastSelectedDCSInstance))
                 {
                     MiscGames.DCSInstanceSelectionChanged(pr.LastSelectedDCSInstance);
@@ -529,9 +525,7 @@ namespace JoyPro
         public static void SaveProfileTo(string filePath)
         {
             Pr0file pr = new Pr0file(AllRelations, AllBinds, MiscGames.DCSselectedInstancePath, JoystickAliases);
-            pr.JoystickFileImages = JoystickFileImages;
-            pr.JoystickTextPosition = JoystickTextPosition;
-            pr.JoystickTextSize = JoystickTextSize;
+            pr.JoystickAliases= JoystickAliases;
             MainStructure.WriteToBinaryFile<Pr0file>(filePath, pr);
         }
         public static List<Relation> SyncRelations()
@@ -1023,6 +1017,47 @@ namespace JoyPro
             }
             swr.Close();
             swr.Dispose();
+        }
+        public static List<string> GetJoysticksActiveInBinds()
+        {
+            List<string> result = new List<string>();
+            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (!result.Contains(kvp.Value.Joystick))
+                    result.Add(kvp.Value.Joystick);
+            }
+            return result;
+        }
+        public static List<string> GetButtonsAxisInUseForStick(string Joystick)
+        {
+            List<string> result = new List<string>();
+            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (Joystick.ToLower() == kvp.Value.Joystick.ToLower())
+                {
+                    string toCompare;
+                    if (kvp.Value.Rl.ISAXIS)
+                    {
+                        toCompare = kvp.Value.JAxis;
+                    }
+                    else
+                    {
+                        toCompare = kvp.Value.JButton;
+                    }
+                    string prefix = "";
+                    if (kvp.Value.AllReformers.Count > 0)
+                    {
+                        prefix = kvp.Value.AllReformers[0].Substring(0, kvp.Value.AllReformers[0].IndexOf('§'));
+                        for(int i=1; i<kvp.Value.AllReformers.Count; ++i)
+                        {
+                            prefix=prefix+"+" + kvp.Value.AllReformers[i].Substring(0, kvp.Value.AllReformers[i].IndexOf('§'));
+                        }
+                    }
+                    toCompare = prefix + toCompare;
+                    if (!result.Contains(toCompare)) result.Add(toCompare);
+                }
+            }
+            return result;
         }
     }
 }
