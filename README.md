@@ -87,14 +87,6 @@ Discord for more direct question answer or concerns: https://discord.gg/SeCTXJHh
 
 # To Do, Features I want to work on in that order
 
--IL2 Import
-
--Include Profile
-
--Mainview to CSV
-
--Generate Layout Pictures/SVG
-
 -Autogenerate HTMLs
 
 -Autogenerate Cleans
