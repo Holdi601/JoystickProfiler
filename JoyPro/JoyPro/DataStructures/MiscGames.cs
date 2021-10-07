@@ -30,6 +30,7 @@ namespace JoyPro
         
         public static string DCSselectedInstancePath = "";
         public static string[] installPathsDCS;
+        public static string installPathDCSOR;
         public static List<string> Games = new List<string>();
         public static string IL2Instance = "";
 

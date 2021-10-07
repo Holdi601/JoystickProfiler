@@ -18,6 +18,7 @@
             <RowDefinition Height="80*"/>
             <RowDefinition Height="80*"/>
             <RowDefinition Height="80*"/>
+            <RowDefinition Height="80*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="298"/>
@@ -32,9 +33,10 @@
         <Label Content="Backup Days:" Foreground="White" Grid.Column="0" Grid.Row="5"  HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Margin="0,5,0,5" Width="80"/>
         <Label Content="DCS Instance Override:" Foreground="White" Grid.Column="0" Grid.Row="6"  HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Margin="0,5,0,5" Width="135"/>
         <Label Content="IL2 Instance Override:" Foreground="White" Grid.Column="0" Grid.Row="7"  HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Margin="0,5,0,5" Width="135"/>
-        <Button FontWeight="Bold" Name="CloseBtn" Content="Close" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,30,0" Grid.Row="9" Grid.Column="1" Grid.RowSpan="1" />
-        <Button FontWeight="Bold" Name="RefreshDCSCleanBtn" Content="Refresh DCS Clean DB" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="9" Grid.Column="0" Grid.RowSpan="1" />
-        <Button FontWeight="Bold" Name="RefreshDCSIdBtn" Content="Refresh DCS ID DB" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="8" Grid.Column="0" Grid.RowSpan="1" />
+        <Label Content="Additional Modues to Scan on Refresh:" Foreground="White" Grid.Column="0" Grid.Row="8"  HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Margin="0,5,0,5" Width="220"/>
+        <Button FontWeight="Bold" Name="CloseBtn" Content="Close" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,30,0" Grid.Row="10" Grid.Column="1" Grid.RowSpan="1" />
+        <Button FontWeight="Bold" Name="RefreshDCSCleanBtn" Content="Refresh DCS Clean DB" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="10" Grid.Column="0" Grid.RowSpan="1" />
+        <Button FontWeight="Bold" Name="RefreshDCSIdBtn" Content="Refresh DCS ID DB" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="9" Grid.Column="0" Grid.RowSpan="1" />
         
 
         <TextBox Name="ttsBox" Grid.Column="1" Grid.Row="0" Width="431" HorizontalAlignment="Left" Margin="10,15,0,15"/>
@@ -45,5 +47,6 @@
         <TextBox Name="BackupDaysBox" Grid.Column="1" Grid.Row="5" Width="431" HorizontalAlignment="Left" Margin="10,15,0,15"/>
         <TextBox Name="DCSInstanceORBox" Grid.Column="1" Grid.Row="6" Width="431" HorizontalAlignment="Left" Margin="10,15,0,15"/>
         <TextBox Name="IL2InstanceORBox" Grid.Column="1" Grid.Row="7" Width="431" HorizontalAlignment="Left" Margin="10,15,0,15"/>
+        <TextBox Name="ModulesToScanBox" Grid.Column="1" Grid.Row="8" Width="431" HorizontalAlignment="Left" Margin="10,15,0,15"/>
     </Grid>
 </Window>

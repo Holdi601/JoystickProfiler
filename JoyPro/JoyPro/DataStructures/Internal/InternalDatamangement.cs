@@ -381,9 +381,10 @@ namespace JoyPro
         public static void LoadProfile(string filePath)
         {
             if (filePath == null || filePath.Length < 1) return;
-            Pr0file pr = null;
+            
             try
             {
+                Pr0file pr = null;
                 pr = MainStructure.ReadFromBinaryFile<Pr0file>(filePath);
                 NewFile();
                 AllRelations = pr.Relations;

@@ -70,6 +70,8 @@ namespace JoyPro
         }
         public static string GetDCSInstallationPath()
         {
+            if (MiscGames.installPathDCSOR != null && Directory.Exists(MiscGames.installPathDCSOR))
+                return MiscGames.installPathDCSOR;
             if (MiscGames.installPathsDCS.Length > 0)
             {
                 if (MiscGames.installPathsDCS.Length == 1 && Directory.Exists(MiscGames.installPathsDCS[0]))
@@ -80,11 +82,14 @@ namespace JoyPro
                 {
                     for (int i = 0; i < MiscGames.installPathsDCS.Length; ++i)
                     {
-                        if (MiscGames.DCSselectedInstancePath.ToLower().Contains("openbeta") && MiscGames.installPathsDCS[i].ToLower().Contains("beta") && Directory.Exists(MiscGames.installPathsDCS[i]))
+                        string instanceToCompare;
+                        if (MiscGames.DCSInstanceOverride != null && Directory.Exists(MiscGames.DCSInstanceOverride)) instanceToCompare = MiscGames.DCSInstanceOverride;
+                        else instanceToCompare = MiscGames.DCSselectedInstancePath;
+                        if (instanceToCompare.ToLower().Contains("openbeta") && MiscGames.installPathsDCS[i].ToLower().Contains("beta") && Directory.Exists(MiscGames.installPathsDCS[i]))
                         {
                             return MiscGames.installPathsDCS[i];
                         }
-                        else if (!MiscGames.DCSselectedInstancePath.ToLower().Contains("openbeta") && !MiscGames.installPathsDCS[i].ToLower().Contains("beta") && Directory.Exists(MiscGames.installPathsDCS[i]))
+                        else if (!instanceToCompare.ToLower().Contains("openbeta") && !MiscGames.installPathsDCS[i].ToLower().Contains("beta") && Directory.Exists(MiscGames.installPathsDCS[i]))
                         {
                             return MiscGames.installPathsDCS[i];
                         }

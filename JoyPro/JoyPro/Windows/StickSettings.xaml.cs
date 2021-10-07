@@ -24,10 +24,10 @@ namespace JoyPro
     /// </summary>
     public partial class StickSettings : Window
     {
-        public double DCSScreenWidth;
-        public double DCSScreenHeight;
         public double DCSGuiScale;
         public Point DCSScreenpos;
+        public bool OriginalFullscreen;
+        int modulesToScan = 35;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr FindWindow(string strClassName, string strWindowName);
@@ -91,7 +91,7 @@ namespace JoyPro
             {
                 installPathBox.Text = installPath;
             }
-
+            ModulesToScanBox.Text = modulesToScan.ToString();
             ttsBox.LostFocus += new RoutedEventHandler(ChangeTimeToSet);
             pollitBox.LostFocus += new RoutedEventHandler(ChangePollTime);
             itBox.LostFocus += new RoutedEventHandler(ChangeWarmUp);
@@ -102,7 +102,20 @@ namespace JoyPro
             DCSInstanceORBox.LostFocus += new RoutedEventHandler(ChangeDCSInstanceOverridePath);
             RefreshDCSCleanBtn.Click += new RoutedEventHandler(RefreshCleanDB);
             RefreshDCSIdBtn.Click += new RoutedEventHandler(RefreshIDDB);
+            ModulesToScanBox.LostFocus += new RoutedEventHandler(objectsToScanChanged);
             readDCSConfigData();
+        }
+        void objectsToScanChanged(object sender, EventArgs e)
+        {
+            if (int.TryParse((string)ModulesToScanBox.Text, out modulesToScan))
+            {
+
+            }
+            else
+            {
+                MessageBox.Show("Not a valid integer");
+                ModulesToScanBox.Text = modulesToScan.ToString();
+            }
         }
         void readDCSConfigData()
         {
@@ -115,21 +128,50 @@ namespace JoyPro
             while (!sr.EndOfStream)
             {
                 string line = sr.ReadLine();
-                if (line.Contains("[\"height\"]"))
-                {
-                    DCSScreenHeight = Convert.ToDouble(line.Substring(line.IndexOf('=') + 1).Replace(",", ""), new CultureInfo("en-US"));
-                }else if (line.Contains("[\"width\"]"))
-                {
-                    DCSScreenWidth = Convert.ToDouble(line.Substring(line.IndexOf('=') + 1).Replace(",", ""), new CultureInfo("en-US"));
-                }
-                else if (line.Contains("[\"scaleGui\"]"))
+                if (line.Contains("[\"scaleGui\"]"))
                 {
                     DCSGuiScale = Convert.ToDouble(line.Substring(line.IndexOf('=') + 1).Replace(",", ""), new CultureInfo("en-US"));
+                }
+                else if (line.Contains("[\"fullScreen\"]"))
+                {
+                    string content = line.Substring(line.IndexOf("=") + 1).Replace(",", "").Trim();
+                    if (content == "false") OriginalFullscreen = false;
+                    else OriginalFullscreen = true;
                 }
             }
             sr.Close();
             sr.Dispose();
 
+        }
+        void turnFullScreen(bool val)
+        {
+            string path;
+            if (MiscGames.DCSInstanceOverride.Length > 0&&Directory.Exists((MiscGames.DCSInstanceOverride))) path = MiscGames.DCSInstanceOverride;
+            else path = MiscGames.DCSselectedInstancePath;
+            string output = "";
+            path = path + "\\Config\\options.lua";
+            if (!File.Exists(path)) return;
+            StreamReader sr = new StreamReader(path);
+            while (!sr.EndOfStream)
+            {
+                string line = sr.ReadLine();
+                if (line.Contains("[\"fullScreen\"]"))
+                {
+                    string currentline = line.Substring(0, line.IndexOf('=') + 1);
+                    if (val) currentline = currentline + " true,\n";
+                    else currentline = currentline + " false,\n";
+                }
+                else
+                {
+                    output = output + line + "\n";
+                }
+            }
+            sr.Close();
+            sr.Dispose();
+            StreamWriter swr = new StreamWriter(path);
+            swr.Write(output);
+            swr.Flush();
+            swr.Dispose();
         }
         void changeBackupDays(object sender, EventArgs e)
         {
@@ -153,7 +195,7 @@ namespace JoyPro
                 MiscGames.DCSInstanceSelectionChanged(MiscGames.DCSInstanceOverride);
 
             }
-            else if(DCSInstanceORBox.Text.Length>0)
+            else if (DCSInstanceORBox.Text.Length > 0)
             {
                 MessageBox.Show("Invalid Path in DCS Instance");
                 MiscGames.DCSInstanceOverride = "";
@@ -173,7 +215,7 @@ namespace JoyPro
                 MiscGames.IL2Instance = IL2InstanceORBox.Text;
                 InitGames.ReloadGameData();
             }
-            else if(IL2InstanceORBox.Text.Length>0)
+            else if (IL2InstanceORBox.Text.Length > 0)
             {
                 MessageBox.Show("Invalid Path in IL2 Path");
             }
@@ -191,11 +233,12 @@ namespace JoyPro
         {
             if (Directory.Exists(installPathBox.Text))
             {
-                MiscGames.installPathsDCS = new string[1];
-                MiscGames.installPathsDCS[0] = installPathBox.Text;
+                MiscGames.installPathDCSOR = installPathBox.Text;
             }
             else
             {
+                MiscGames.installPathDCSOR = "";
+                installPathBox.Text = InitGames.GetDCSInstallationPath();
                 MessageBox.Show("Folder doesn't exist");
             }
         }
@@ -203,7 +246,7 @@ namespace JoyPro
         {
             int val;
             bool succ = int.TryParse(ttsBox.Text, out val);
-            if (succ&&val>=0)
+            if (succ && val >= 0)
             {
                 MainStructure.msave.timeToSet = val;
             }
@@ -245,7 +288,7 @@ namespace JoyPro
         {
             int val;
             bool succ = int.TryParse(athBox.Text, out val);
-            if (succ && val >= 0&& val<65536)
+            if (succ && val >= 0 && val < 65536)
             {
                 MainStructure.msave.axisThreshold = val;
             }
@@ -261,7 +304,8 @@ namespace JoyPro
             if (MiscGames.DCSInstanceOverride != null && Directory.Exists(MiscGames.DCSInstanceOverride))
             {
                 path = MiscGames.DCSInstanceOverride;
-            }else if (Directory.Exists(MiscGames.DCSselectedInstancePath))
+            }
+            else if (Directory.Exists(MiscGames.DCSselectedInstancePath))
             {
                 path = MiscGames.DCSselectedInstancePath;
             }
@@ -271,12 +315,26 @@ namespace JoyPro
                 path = "";
                 return;
             }
+
             MessageBoxResult mr = MessageBox.Show("Are you sure that you want to refresh the clean DB?" +
-                "In Order to get the clean Profiles, all your current bindings will be deleted!!! If you still want to Proceed, please start DCS and go into the Main Menu. Only once you are ready please press Yes." +
+                "In Order to get the clean Profiles, all your current bindings will be deleted!!! If you still want to Proceed, press yes. Another Window opens which asks you whether the Main menu has loaded. Once the Mainmenu has loaded press yes." +
                 "DCS does not allow for CLI command communication, thus the programm will take over your mouse and will do some automated clicks. Your selected instance must match with the DCS that you run otherwise this will lead to corrupt Data. Please dont touch your mouse and keyboard in the meantime." +
-                "Once the process is done, you will be notified. For the affects to take change, please restart JoyPro.This Operation will take 1-2 Minutes Thanks. ", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                "DCS can't be in Fullscreen mode! Once the process is done, you will be notified. For the affects to take change, please restart JoyPro.This Operation will take 1-2 Minutes Thanks. ", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
             if (mr == MessageBoxResult.Yes)
             {
+                turnFullScreen(false);
+                string executeDCS = InitGames.GetDCSInstallationPath() + "\\bin\\DCS_updater.exe";
+                StartProgram(executeDCS);
+                bool inMenu = false;
+                while (!inMenu)
+                {
+                    MessageBoxResult mrop = MessageBox.Show("Is it in the Menu?", "Is it in the Menu?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                    if (mrop == MessageBoxResult.Yes)
+                    {
+                        inMenu = true;
+                    }
+                }
+
                 Process[] processes = Process.GetProcessesByName("DCS");
                 if (processes == null || processes.Length < 1)
                 {
@@ -299,6 +357,7 @@ namespace JoyPro
                 Thread.Sleep(30000);
                 DCSproc.Kill();
                 recreateCleanFile(path);
+                turnFullScreen(OriginalFullscreen);
                 MessageBox.Show("Done. Please restart JoyPro now.");
             }
         }
@@ -320,11 +379,24 @@ namespace JoyPro
                 return;
             }
             MessageBoxResult mr = MessageBox.Show("Are you sure that you want to refresh the ID DB?" +
-                " If you still want to Proceed, please start DCS and go into the Main Menu. Only once you are ready please press Yes." +
+                " If you still want to Proceed Press yes. DCS will start and another pop up of the program will open asking you if the Main menu has loaded. Once its loaded press yes." +
                 "DCS does not allow for CLI command communication, thus the programm will take over your mouse and will do some automated clicks.Your selected instance must match with the DCS that you run otherwise this will lead to corrupt Data. Please dont touch your mouse and keyboard in the meantime." +
-                "Once the process is done, you will be notified. For the affects to take change, please restart JoyPro. This Operation will take 5-10 Minutes. Thanks. ", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                " Once the process is done, you will be notified. For the affects to take change, please restart JoyPro. This Operation will take 5-10 Minutes. Thanks. ", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
             if (mr == MessageBoxResult.Yes)
             {
+                turnFullScreen(false);
+                string executeDCS = InitGames.GetDCSInstallationPath() + "\\bin\\DCS_updater.exe";
+                StartProgram(executeDCS);
+                bool inMenu = false;
+                while (!inMenu)
+                {
+                    MessageBoxResult mrop = MessageBox.Show("Is it in the Menu?", "Is it in the Menu?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                    if (mrop == MessageBoxResult.Yes)
+                    {
+                        inMenu = true;
+                    }
+                }
+
                 Process[] processes = Process.GetProcessesByName("DCS");
                 if (processes == null || processes.Length < 1)
                 {
@@ -338,7 +410,93 @@ namespace JoyPro
                 BringProcessToFront(DCSproc);
                 Thread.Sleep(200);
                 ClickIntoControlsDCS(DCSRect);
+                Thread.Sleep(1000);
+                ClickCenterAnchored(DCSRect, -554, -280);
+                int planesNeeded = CountInstalledCrafts();
+                for (int i = 0; i < planesNeeded*2; ++i)
+                {
+                    ArrowUp();
+                    Thread.Sleep(50);
+                }
+                Thread.Sleep(5000);
+                for (int i = 0; i < planesNeeded; ++i)
+                {
+                    ClickCenterAnchored(DCSRect, 310, 313);
+                    Thread.Sleep(2000);
+                    BringProcessToFront(DCSproc);
+                    Thread.Sleep(500);
+                    ClickCenterAnchored(DCSRect, -554, -280);
+                    Thread.Sleep(500);
+                    ArrowDown();
+                }
+                DCSproc.Kill();
+                Thread.Sleep(5000);
+                PostWorkExportedIDs();
+                turnFullScreen(OriginalFullscreen);
+                MessageBox.Show("Done. Please restart JoyPro now");
             }
+        }
+        void PostWorkExportedIDs()
+        {
+            string path;
+            if (MiscGames.DCSInstanceOverride.Length > 0 && Directory.Exists((MiscGames.DCSInstanceOverride))) path = MiscGames.DCSInstanceOverride;
+            else path = MiscGames.DCSselectedInstancePath;
+            path = path + "\\InputLayoutsTxt";
+            if (!Directory.Exists(path))
+            {
+                MessageBox.Show("Something went very wrong, the htmls are not in the selected Instance");
+                return;
+            }
+            string transferTo = MainStructure.PROGPATH + "\\DB\\DCS\\";
+            DirectoryInfo dirParent = new DirectoryInfo(path);
+            DirectoryInfo[] planes = dirParent.GetDirectories();
+            for(int i=0; i<planes.Length; ++i)
+            {
+                FileInfo[] allFiles = planes[i].GetFiles();
+                string planeName = planes[i].Name;
+                FileInfo largest = null;
+                for(int j=0; j<allFiles.Length; ++j)
+                {
+                    if ((largest == null &&allFiles[j].Name.ToLower()!="keyboard.html"&& allFiles[j].Name.ToLower() != "mouse.html"&& allFiles[j].Name.ToLower() != "trackir.html") ||
+                        (largest!=null&&largest.Length<allFiles[j].Length&& allFiles[j].Name.ToLower() != "keyboard.html" && allFiles[j].Name.ToLower() != "mouse.html" && allFiles[j].Name.ToLower() != "trackir.html"))
+                    {
+                        largest = allFiles[j];
+                    }
+                }
+                if (largest != null)
+                {
+                    File.Copy(largest.FullName, transferTo + planeName + ".html",true);
+                }
+            }
+            try
+            {
+                MainStructure.DeleteFolder(path);
+            }
+            catch
+            {
+
+            }
+            
+        }
+        int CountInstalledCrafts()
+        {
+            int number = modulesToScan;
+            string installedCrafts = InitGames.GetDCSInstallationPath() + "\\Mods\\aircraft";
+            string modCrafts;
+            if (MiscGames.DCSInstanceOverride.Length > 0 && Directory.Exists((MiscGames.DCSInstanceOverride))) modCrafts = MiscGames.DCSInstanceOverride;
+            else modCrafts = MiscGames.DCSselectedInstancePath;
+            modCrafts = modCrafts + "\\Mods\\aircraft";
+            if (Directory.Exists(installedCrafts))
+            {
+                DirectoryInfo dir = new DirectoryInfo(installedCrafts);
+                number = number + dir.GetDirectories().Length;
+            }
+            if (Directory.Exists(modCrafts))
+            {
+                DirectoryInfo dir = new DirectoryInfo(modCrafts);
+                number = number + dir.GetDirectories().Length;
+            }
+            return number;
         }
         void ClickCenterAnchored(Rect DCSRect, int xOffset, int yOffset)
         {
@@ -376,31 +534,47 @@ namespace JoyPro
         void MouseClickThere(int x, int y)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo(MainStructure.PROGPATH + "\\TOOLS\\AHK\\GoToMouseAndClick.exe");
-            startInfo.Arguments = x.ToString()+" "+y.ToString();
+            startInfo.Arguments = x.ToString() + " " + y.ToString();
+            Process.Start(startInfo);
+        }
+        void ArrowUp()
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo(MainStructure.PROGPATH + "\\TOOLS\\AHK\\ArrowKeyUp.exe");
+            Process.Start(startInfo);
+        }
+        void ArrowDown()
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo(MainStructure.PROGPATH + "\\TOOLS\\AHK\\ArrowKeyDown.exe");
+            Process.Start(startInfo);
+        }
+        void StartProgram(string prog)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo(prog);
             Process.Start(startInfo);
         }
         void recreateCleanFile(string instance)
         {
             instance = instance + "\\Config\\Input";
             string fileToWrite = MainStructure.PROGPATH + "\\CleanProfile\\DCS\\clean.cf";
-            if (File.Exists(fileToWrite)&&!File.Exists(MainStructure.PROGPATH + "\\CleanProfile\\DCS\\backup.cf"))
+            if (File.Exists(fileToWrite) && !File.Exists(MainStructure.PROGPATH + "\\CleanProfile\\DCS\\backup.cf"))
             {
                 File.Move(fileToWrite, MainStructure.PROGPATH + "\\CleanProfile\\DCS\\backup.cf");
             }
             StreamWriter writer = new StreamWriter(fileToWrite);
             DirectoryInfo dirInf = new DirectoryInfo(instance);
             DirectoryInfo[] allSubs = dirInf.GetDirectories();
-            for(int i=0; i< allSubs.Length; ++i)
+            for (int i = 0; i < allSubs.Length; ++i)
             {
                 writer.WriteLine("####################" + allSubs[i].Name);
-                if (Directory.Exists(allSubs[i].FullName+ "\\joystick"))
+                if (Directory.Exists(allSubs[i].FullName + "\\joystick"))
                 {
                     DirectoryInfo planeFolder = new DirectoryInfo(allSubs[i].FullName + "\\joystick");
                     FileInfo[] allFiles = planeFolder.GetFiles();
                     FileInfo largest = null;
-                    for(int j=0; j<allFiles.Length; ++j)
+                    for (int j = 0; j < allFiles.Length; ++j)
                     {
-                        if (largest == null || (largest.Length < allFiles[j].Length && allFiles[j].Name.EndsWith(".diff.lua")))
+                        if ((largest == null&& allFiles[j].Name.EndsWith(".diff.lua")) ||
+                            (largest.Length < allFiles[j].Length && allFiles[j].Name.EndsWith(".diff.lua")))
                         {
                             largest = allFiles[j];
                         }
@@ -421,6 +595,5 @@ namespace JoyPro
             writer.Close();
             writer.Dispose();
         }
-
     }
 }
