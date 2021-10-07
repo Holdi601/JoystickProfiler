@@ -24,6 +24,8 @@ namespace JoyPro
         public static string[] LocalJoysticks;
         public static Dictionary<string, Modifier> AllModifiers = new Dictionary<string, Modifier>();
         public static Dictionary<string, bool> GamesFilter = new Dictionary<string, bool>();
+        public static Dictionary<string, string> JoystickFileImages = new Dictionary<string, string>();
+        public static string JoystickLayoutExport=null;
 
         public static void CorrectModifiersInBinds()
         {
@@ -387,6 +389,8 @@ namespace JoyPro
                 AllRelations = pr.Relations;
                 AllBinds = pr.Binds;
                 JoystickAliases = pr.JoystickAliases;
+                JoystickFileImages = pr.JoystickFileImages;
+                JoystickLayoutExport = pr.JoystickLayoutExport;
                 if (pr.LastSelectedDCSInstance != null && Directory.Exists(pr.LastSelectedDCSInstance))
                 {
                     MiscGames.DCSInstanceSelectionChanged(pr.LastSelectedDCSInstance);
@@ -526,6 +530,8 @@ namespace JoyPro
         {
             Pr0file pr = new Pr0file(AllRelations, AllBinds, MiscGames.DCSselectedInstancePath, JoystickAliases);
             pr.JoystickAliases= JoystickAliases;
+            pr.JoystickFileImages = JoystickFileImages;
+            pr.JoystickLayoutExport = JoystickLayoutExport;
             MainStructure.WriteToBinaryFile<Pr0file>(filePath, pr);
         }
         public static List<Relation> SyncRelations()
@@ -1058,6 +1064,91 @@ namespace JoyPro
                 }
             }
             return result;
+        }
+        public static string GetDescriptionForJoystickButtonGamePlane(string Joystick, string ModBtn, string Game, string Plane)
+        {
+            bool isAxis;
+            string realBtn;
+            string[] modSplit = null;
+            if (ModBtn.Contains('+'))
+            {
+                modSplit = ModBtn.Split('+');
+                realBtn = modSplit[modSplit.Length - 1];
+                string[] shortend = new string[modSplit.Length - 1];
+                for (int i = 0; i < shortend.Length; ++i)
+                    shortend[i] = modSplit[i];
+                modSplit = shortend;
+            }
+            else
+            {
+                realBtn = ModBtn;
+            }
+            if (realBtn.ToLower().Contains("btn") || realBtn.ToLower().Contains("pov")) isAxis = false;
+            else isAxis = true;
+            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (kvp.Value.Joystick == Joystick&&((isAxis&&realBtn==kvp.Value.JAxis)||(!isAxis&&realBtn==kvp.Value.JButton)))
+                {
+                    if (modSplit != null)
+                    {
+                        bool notFound = false;
+                        for(int i=0; i<modSplit.Length; ++i)
+                        {
+                            if (!kvp.Value.ReformerInBind(modSplit[i]))
+                            {
+                                notFound = true;
+                                break;
+                            }
+                        }
+                        if (notFound) continue;
+                    }
+                    string result = kvp.Value.Rl.GetDescriptionForGamePlane(Game, Plane);
+                    if (result.Length > 1) return result;
+                }
+            }
+            return "";
+        }
+        public static string GetRelationNameForJostickButton(string Joystick, string ModBtn)
+        {
+            bool isAxis;
+            string realBtn;
+            string[] modSplit = null;
+            if (ModBtn.Contains('+'))
+            {
+                modSplit = ModBtn.Split('+');
+                realBtn = modSplit[modSplit.Length - 1];
+                string[] shortend = new string[modSplit.Length - 1];
+                for (int i = 0; i < shortend.Length; ++i)
+                    shortend[i] = modSplit[i];
+                modSplit = shortend;
+            }
+            else
+            {
+                realBtn = ModBtn;
+            }
+            if (realBtn.ToLower().Contains("btn") || realBtn.ToLower().Contains("pov")) isAxis = false;
+            else isAxis = true;
+            foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (kvp.Value.Joystick == Joystick && ((isAxis && realBtn == kvp.Value.JAxis) || (!isAxis && realBtn == kvp.Value.JButton)))
+                {
+                    if (modSplit != null)
+                    {
+                        bool notFound = false;
+                        for (int i = 0; i < modSplit.Length; ++i)
+                        {
+                            if (!kvp.Value.ReformerInBind(modSplit[i]))
+                            {
+                                notFound = true;
+                                break;
+                            }
+                        }
+                        if (notFound) continue;
+                    }
+                    return kvp.Key;
+                }
+            }
+            return "";
         }
     }
 }

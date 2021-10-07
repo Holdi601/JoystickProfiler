@@ -16,7 +16,8 @@ namespace JoyPro
         public Dictionary<string, Bind> Binds;
         public string LastSelectedDCSInstance;
         public Dictionary<string, string> JoystickAliases;
-        //public Dictionary<string, string> JoystickFileImages;
+        public Dictionary<string, string> JoystickFileImages;
+        public string JoystickLayoutExport;
         //public Dictionary<string, int> JoystickTextSize;
         //public Dictionary<string, string> JoystickTextFont;
         //public Dictionary<string, SolidColorBrush> JoystickTextColor;

@@ -969,8 +969,8 @@ namespace JoyPro
                 Grid.SetRow(lblName, i);
                 grid.Children.Add(lblName);
                 relationLabels[i] = lblName;
-                lblName.MouseEnter += new MouseEventHandler(OnHoverRelationLabel);
-                lblName.MouseLeave += new MouseEventHandler(OnLeaveRelationLabel);
+                lblName.MouseEnter += new MouseEventHandler(OnHover);
+                lblName.MouseLeave += new MouseEventHandler(OnLeave);
 
                 Button editBtn = new Button();
                 editBtns[i] = editBtn;
@@ -983,8 +983,8 @@ namespace JoyPro
                 Grid.SetColumn(editBtn, 2);
                 Grid.SetRow(editBtn, i);
                 grid.Children.Add(editBtn);
-                editBtn.MouseEnter += new MouseEventHandler(OnHoverRelationEdit);
-                editBtn.MouseLeave += new MouseEventHandler(OnLeaveRelationEdit);
+                editBtn.MouseEnter += new MouseEventHandler(OnHover);
+                editBtn.MouseLeave += new MouseEventHandler(OnLeave);
 
                 Button dupBtn = new Button();
                 dupBtns[i] = dupBtn;
@@ -997,8 +997,8 @@ namespace JoyPro
                 Grid.SetColumn(dupBtn, 3);
                 Grid.SetRow(dupBtn, i);
                 grid.Children.Add(dupBtn);
-                dupBtn.MouseEnter += new MouseEventHandler(OnHoverRelationDup);
-                dupBtn.MouseLeave += new MouseEventHandler(OnLeaveRelationDup);
+                dupBtn.MouseEnter += new MouseEventHandler(OnHover);
+                dupBtn.MouseLeave += new MouseEventHandler(OnLeave);
 
                 Button deleteBtn = new Button();
                 dltBtns[i] = deleteBtn;
@@ -1011,8 +1011,8 @@ namespace JoyPro
                 Grid.SetColumn(deleteBtn, 4);
                 Grid.SetRow(deleteBtn, i);
                 grid.Children.Add(deleteBtn);
-                deleteBtn.MouseEnter += new MouseEventHandler(OnHoverRelationDel);
-                deleteBtn.MouseLeave += new MouseEventHandler(OnLeaveRelationDel);
+                deleteBtn.MouseEnter += new MouseEventHandler(OnHover);
+                deleteBtn.MouseLeave += new MouseEventHandler(OnLeave);
 
                 ComboBox groupDropdown = new ComboBox();
                 groupDropdown.Name = "GroupDropDown" + i.ToString();
@@ -1035,8 +1035,8 @@ namespace JoyPro
                 Grid.SetColumn(groupDropdown, 5);
                 Grid.SetRow(groupDropdown, i);
                 grid.Children.Add(groupDropdown);
-                groupDropdown.MouseEnter += new MouseEventHandler(OnHoverRelationGrp);
-                groupDropdown.MouseLeave += new MouseEventHandler(OnLeaveRelationGrp);
+                groupDropdown.MouseEnter += new MouseEventHandler(OnHover);
+                groupDropdown.MouseLeave += new MouseEventHandler(OnLeave);
 
                 Bind currentBind = InternalDataMangement.GetBindForRelation(CURRENTDISPLAYEDRELATION[i].NAME);
 
@@ -1063,8 +1063,8 @@ namespace JoyPro
                 Grid.SetColumn(joystickPick, 6);
                 Grid.SetRow(joystickPick, i);
                 grid.Children.Add(joystickPick);
-                joystickPick.MouseEnter += new MouseEventHandler(OnHoverRelationStick);
-                joystickPick.MouseLeave += new MouseEventHandler(OnLeaveRelationStick);
+                joystickPick.MouseEnter += new MouseEventHandler(OnHover);
+                joystickPick.MouseLeave += new MouseEventHandler(OnLeave);
 
                 Button joybtnin = new Button();
                 joybtnin.Name = "assignBtn" + i.ToString();
@@ -1078,8 +1078,8 @@ namespace JoyPro
                 Grid.SetColumn(joybtnin, 7);
                 Grid.SetRow(joybtnin, i);
                 grid.Children.Add(joybtnin);
-                joybtnin.MouseEnter += new MouseEventHandler(OnHoverRelationAssign);
-                joybtnin.MouseLeave += new MouseEventHandler(OnLeaveRelationAssign);
+                joybtnin.MouseEnter += new MouseEventHandler(OnHover);
+                joybtnin.MouseLeave += new MouseEventHandler(OnLeave);
 
                 if (CURRENTDISPLAYEDRELATION[i].ISAXIS)
                 {
@@ -1094,8 +1094,8 @@ namespace JoyPro
                     Grid.SetColumn(cbx, 8);
                     Grid.SetRow(cbx, i);
                     grid.Children.Add(cbx);
-                    cbx.MouseEnter += new MouseEventHandler(OnHoverRelationInvCB);
-                    cbx.MouseLeave += new MouseEventHandler(OnLeaveRelationInvCB);
+                    cbx.MouseEnter += new MouseEventHandler(OnHover);
+                    cbx.MouseLeave += new MouseEventHandler(OnLeave);
 
                     CheckBox cbxs = new CheckBox();
                     cbxs.Name = "cbxsrel" + i.ToString();
@@ -1107,8 +1107,8 @@ namespace JoyPro
                     Grid.SetColumn(cbxs, 9);
                     Grid.SetRow(cbxs, i);
                     grid.Children.Add(cbxs);
-                    cbxs.MouseEnter += new MouseEventHandler(OnHoverRelationSliderCB);
-                    cbxs.MouseLeave += new MouseEventHandler(OnLeaveRelationSliderCB);
+                    cbxs.MouseEnter += new MouseEventHandler(OnHover);
+                    cbxs.MouseLeave += new MouseEventHandler(OnLeave);
 
                     CheckBox cbxu = new CheckBox();
                     cbxu.Name = "cbxsrel" + i.ToString();
@@ -1121,8 +1121,8 @@ namespace JoyPro
                     Grid.SetColumn(cbxu, 10);
                     Grid.SetRow(cbxu, i);
                     grid.Children.Add(cbxu);
-                    cbxu.MouseEnter += new MouseEventHandler(OnHoverRelationUserCCB);
-                    cbxu.MouseLeave += new MouseEventHandler(OnLeaveRelationUserCCB);
+                    cbxu.MouseEnter += new MouseEventHandler(OnHover);
+                    cbxu.MouseLeave += new MouseEventHandler(OnLeave);
 
                     TextBox txrl = new TextBox();
                     txrl.Name = "txrldz" + i.ToString();
@@ -1132,8 +1132,8 @@ namespace JoyPro
                     Grid.SetRow(txrl, i);
                     tboxes[i, 0] = txrl;
                     grid.Children.Add(txrl);
-                    txrl.MouseEnter += new MouseEventHandler(OnHoverRelationTB1);
-                    txrl.MouseLeave += new MouseEventHandler(OnLeaveRelationTB1);
+                    txrl.MouseEnter += new MouseEventHandler(OnHover);
+                    txrl.MouseLeave += new MouseEventHandler(OnLeave);
 
                     TextBox txrlsx = new TextBox();
                     txrlsx.Name = "txrlsatx" + i.ToString();
@@ -1143,8 +1143,8 @@ namespace JoyPro
                     Grid.SetRow(txrlsx, i);
                     tboxes[i, 1] = txrlsx;
                     grid.Children.Add(txrlsx);
-                    txrlsx.MouseEnter += new MouseEventHandler(OnHoverRelationTB2);
-                    txrlsx.MouseLeave += new MouseEventHandler(OnLeaveRelationTB2);
+                    txrlsx.MouseEnter += new MouseEventHandler(OnHover);
+                    txrlsx.MouseLeave += new MouseEventHandler(OnLeave);
 
                     TextBox txrlsy = new TextBox();
                     txrlsy.Name = "txrlsaty" + i.ToString();
@@ -1154,8 +1154,8 @@ namespace JoyPro
                     Grid.SetRow(txrlsy, i);
                     tboxes[i, 2] = txrlsy;
                     grid.Children.Add(txrlsy);
-                    txrlsy.MouseEnter += new MouseEventHandler(OnHoverRelationTB3);
-                    txrlsy.MouseLeave += new MouseEventHandler(OnLeaveRelationTB3);
+                    txrlsy.MouseEnter += new MouseEventHandler(OnHover);
+                    txrlsy.MouseLeave += new MouseEventHandler(OnLeave);
 
                     TextBox txrlcv = new TextBox();
                     txrlcv.Name = "txrlsacv" + i.ToString();
@@ -1164,8 +1164,8 @@ namespace JoyPro
                     Grid.SetColumn(txrlcv, 14);
                     Grid.SetRow(txrlcv, i);
                     tboxes[i, 3] = txrlcv;
-                    txrlcv.MouseEnter += new MouseEventHandler(OnHoverRelationTB4);
-                    txrlcv.MouseLeave += new MouseEventHandler(OnLeaveRelationTB4);
+                    txrlcv.MouseEnter += new MouseEventHandler(OnHover);
+                    txrlcv.MouseLeave += new MouseEventHandler(OnLeave);
 
                     Button userCurvBtn = new Button();
                     userCurvBtn.Name = "UsrcvBtn" + i.ToString();
@@ -1178,8 +1178,8 @@ namespace JoyPro
                     Grid.SetColumn(userCurvBtn, 14);
                     Grid.SetRow(userCurvBtn, i);
                     userCurveBtn[i] = userCurvBtn;
-                    userCurvBtn.MouseEnter += new MouseEventHandler(OnHoverRelationUCB);
-                    userCurvBtn.MouseLeave += new MouseEventHandler(OnLeaveRelationUCB);
+                    userCurvBtn.MouseEnter += new MouseEventHandler(OnHover);
+                    userCurvBtn.MouseLeave += new MouseEventHandler(OnLeave);
 
                     if (currentBind != null)
                     {
@@ -1292,8 +1292,8 @@ namespace JoyPro
                     Grid.SetColumn(modCbx1, 11);
                     Grid.SetRow(modCbx1, i);
                     grid.Children.Add(modCbx1);
-                    modCbx1.MouseEnter += new MouseEventHandler(OnHoverRelationMod1);
-                    modCbx1.MouseLeave += new MouseEventHandler(OnLeaveRelationMod1);
+                    modCbx1.MouseEnter += new MouseEventHandler(OnHover);
+                    modCbx1.MouseLeave += new MouseEventHandler(OnLeave);
 
                     ComboBox modCbx2 = new ComboBox();
                     modCbx2.Name = "mod2cbx" + i.ToString();
@@ -1305,8 +1305,8 @@ namespace JoyPro
                     Grid.SetColumn(modCbx2, 12);
                     Grid.SetRow(modCbx2, i);
                     grid.Children.Add(modCbx2);
-                    modCbx2.MouseEnter += new MouseEventHandler(OnHoverRelationMod2);
-                    modCbx2.MouseLeave += new MouseEventHandler(OnLeaveRelationMod2);
+                    modCbx2.MouseEnter += new MouseEventHandler(OnHover);
+                    modCbx2.MouseLeave += new MouseEventHandler(OnLeave);
 
                     ComboBox modCbx3 = new ComboBox();
                     modCbx3.Name = "mod3cbx" + i.ToString();
@@ -1318,8 +1318,8 @@ namespace JoyPro
                     Grid.SetColumn(modCbx3, 13);
                     Grid.SetRow(modCbx3, i);
                     grid.Children.Add(modCbx3);
-                    modCbx3.MouseEnter += new MouseEventHandler(OnHoverRelationMod3);
-                    modCbx3.MouseLeave += new MouseEventHandler(OnLeaveRelationMod3);
+                    modCbx3.MouseEnter += new MouseEventHandler(OnHover);
+                    modCbx3.MouseLeave += new MouseEventHandler(OnLeave);
 
                     ComboBox modCbx4 = new ComboBox();
                     modCbx4.Name = "mod4cbx" + i.ToString();
@@ -1331,8 +1331,8 @@ namespace JoyPro
                     Grid.SetColumn(modCbx4, 14);
                     Grid.SetRow(modCbx4, i);
                     grid.Children.Add(modCbx4);
-                    modCbx4.MouseEnter += new MouseEventHandler(OnHoverRelationMod4);
-                    modCbx4.MouseLeave += new MouseEventHandler(OnLeaveRelationMod4);
+                    modCbx4.MouseEnter += new MouseEventHandler(OnHover);
+                    modCbx4.MouseLeave += new MouseEventHandler(OnLeave);
 
 
                     //Check against mod buttons needed
@@ -1366,233 +1366,39 @@ namespace JoyPro
             grid.ShowGridLines = true;
             sv.Content = grid;
         }
-        void OnHoverRelationLabel(object sender, EventArgs e)
+        void OnHover(object sender, EventArgs e)
         {
-            Label l = (Label)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("lblname", ""));
-            ColorRowOrange(indx);
+            Control c = (Control)sender;
+            int id = Convert.ToInt32(removeIDAdditionalPartsFromControls(c.Name));
+            ColorRowOrange(id);
         }
-        void OnLeaveRelationLabel(object sender, EventArgs e)
+        void OnLeave(object sender, EventArgs e)
         {
-            Label l = (Label)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("lblname", ""));
-            UncolorRow(indx);
+            Control c = (Control)sender;
+            int id = Convert.ToInt32(removeIDAdditionalPartsFromControls(c.Name));
+            UncolorRow(id);
         }
-        void OnHoverRelationEdit(object sender, EventArgs e)
+        string removeIDAdditionalPartsFromControls(string cntrl)
         {
-            Button l = (Button)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("editBtn", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationEdit(object sender, EventArgs e)
-        {
-            Button l = (Button)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("editBtn", ""));
-            UncolorRow(indx);
-        }
-        void OnHoverRelationDup(object sender, EventArgs e)
-        {
-            Button l = (Button)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("dupBtn", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationDup(object sender, EventArgs e)
-        {
-            Button l = (Button)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("dupBtn", ""));
-            UncolorRow(indx);
-        }
-        void OnHoverRelationDel(object sender, EventArgs e)
-        {
-            Button l = (Button)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("deleteBtn", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationDel(object sender, EventArgs e)
-        {
-            Button l = (Button)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("deleteBtn", ""));
-            UncolorRow(indx);
-        }
-        void OnHoverRelationGrp(object sender, EventArgs e)
-        {
-            ComboBox l = (ComboBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("GroupDropDown", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationGrp(object sender, EventArgs e)
-        {
-            ComboBox l = (ComboBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("GroupDropDown", ""));
-            UncolorRow(indx);
-        }
-        void OnHoverRelationStick(object sender, EventArgs e)
-        {
-            Label l = (Label)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("joyLbl", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationStick(object sender, EventArgs e)
-        {
-            Label l = (Label)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("joyLbl", ""));
-            UncolorRow(indx);
-        }
-        void OnHoverRelationAssign(object sender, EventArgs e)
-        {
-            Button l = (Button)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("assignBtn", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationAssign(object sender, EventArgs e)
-        {
-            Button l = (Button)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("assignBtn", ""));
-            UncolorRow(indx);
-        }
-        void OnHoverRelationInvCB(object sender, EventArgs e)
-        {
-            CheckBox l = (CheckBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("cbxrel", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationInvCB(object sender, EventArgs e)
-        {
-            CheckBox l = (CheckBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("cbxrel", ""));
-            UncolorRow(indx);
-        }
-        void OnHoverRelationSliderCB(object sender, EventArgs e)
-        {
-            CheckBox l = (CheckBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("cbxsrel", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationSliderCB(object sender, EventArgs e)
-        {
-            CheckBox l = (CheckBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("cbxsrel", ""));
-            UncolorRow(indx);
-        }
-        void OnHoverRelationUserCCB(object sender, EventArgs e)
-        {
-            CheckBox l = (CheckBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("cbxsrel", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationUserCCB(object sender, EventArgs e)
-        {
-            CheckBox l = (CheckBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("cbxsrel", ""));
-            UncolorRow(indx);
-        }
-        void OnHoverRelationMod1(object sender, EventArgs e)
-        {
-            ComboBox l = (ComboBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("mod1cbx", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationMod1(object sender, EventArgs e)
-        {
-            ComboBox l = (ComboBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("mod1cbx", ""));
-            UncolorRow(indx);
-        }
-        void OnHoverRelationMod2(object sender, EventArgs e)
-        {
-            ComboBox l = (ComboBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("mod2cbx", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationMod2(object sender, EventArgs e)
-        {
-            ComboBox l = (ComboBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("mod2cbx", ""));
-            UncolorRow(indx);
-        }
-        void OnHoverRelationMod3(object sender, EventArgs e)
-        {
-            ComboBox l = (ComboBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("mod3cbx", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationMod3(object sender, EventArgs e)
-        {
-            ComboBox l = (ComboBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("mod3cbx", ""));
-            UncolorRow(indx);
-        }
-        void OnHoverRelationMod4(object sender, EventArgs e)
-        {
-            ComboBox l = (ComboBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("mod4cbx", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationMod4(object sender, EventArgs e)
-        {
-            ComboBox l = (ComboBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("mod4cbx", ""));
-            UncolorRow(indx);
-        }
-        void OnHoverRelationTB1(object sender, EventArgs e)
-        {
-            TextBox l = (TextBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("txrldz", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationTB1(object sender, EventArgs e)
-        {
-            TextBox l = (TextBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("txrldz", ""));
-            UncolorRow(indx);
-        }
-        void OnHoverRelationTB2(object sender, EventArgs e)
-        {
-            TextBox l = (TextBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("txrlsatx", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationTB2(object sender, EventArgs e)
-        {
-            TextBox l = (TextBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("txrlsatx", ""));
-            UncolorRow(indx);
-        }
-        void OnHoverRelationTB3(object sender, EventArgs e)
-        {
-            TextBox l = (TextBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("txrlsaty", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationTB3(object sender, EventArgs e)
-        {
-            TextBox l = (TextBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("txrlsaty", ""));
-            UncolorRow(indx);
-        }
-        void OnHoverRelationTB4(object sender, EventArgs e)
-        {
-            TextBox l = (TextBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("txrlsacv", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationTB4(object sender, EventArgs e)
-        {
-            TextBox l = (TextBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("txrlsacv", ""));
-            UncolorRow(indx);
-        }
-        void OnHoverRelationUCB(object sender, EventArgs e)
-        {
-            TextBox l = (TextBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("UsrcvBtn", ""));
-            ColorRowOrange(indx);
-        }
-        void OnLeaveRelationUCB(object sender, EventArgs e)
-        {
-            TextBox l = (TextBox)sender;
-            int indx = Convert.ToInt32(l.Name.Replace("UsrcvBtn", ""));
-            UncolorRow(indx);
+            cntrl = cntrl.Replace("lblname", "")
+                .Replace("editBtn", "")
+                .Replace("dupBtn", "")
+                .Replace("deleteBtn", "")
+                .Replace("GroupDropDown", "")
+                .Replace("joyLbl", "")
+                .Replace("assignBtn", "")
+                .Replace("cbxrel", "")
+                .Replace("cbxsrel", "")
+                .Replace("mod1cbx", "")
+                .Replace("mod2cbx", "")
+                .Replace("mod3cbx", "")
+                .Replace("mod4cbx", "")
+                .Replace("txrldz", "")
+                .Replace("txrlsatx", "")
+                .Replace("txrlsaty", "")
+                .Replace("txrlsacv", "")
+                .Replace("UsrcvBtn", "");
+            return cntrl;
         }
         void ColorRowOrange(int row)
         {

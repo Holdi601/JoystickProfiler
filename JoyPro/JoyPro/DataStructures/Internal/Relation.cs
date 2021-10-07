@@ -207,5 +207,17 @@ namespace JoyPro
         {
             return NODES;
         }
+        public string GetDescriptionForGamePlane(string Game, string Plane)
+        {
+            for(int i=0; i<NODES.Count; ++i)
+            {
+                if (NODES[i].Game.ToLower() == Game.ToLower())
+                {
+                    return NODES[i].GetInputDescription(Plane);
+                }
+            }
+            return "";
+        }
+
     }
 }

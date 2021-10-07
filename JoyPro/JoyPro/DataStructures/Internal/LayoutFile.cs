@@ -9,7 +9,7 @@ using System.Drawing.Imaging;
 using Brushes = System.Drawing.Brushes;
 using System.Windows.Media.Imaging;
 
-namespace JoyPro.Internal
+namespace JoyPro
 {
     [Serializable]
     public class LayoutFile
@@ -17,13 +17,13 @@ namespace JoyPro.Internal
         public string Joystick { get; set; }
         public string Font { get; set; }
         public SolidColorBrush Color { get; set; }
-        public Dictionary<string, Point> Positions;
+        public Dictionary<string, System.Windows.Point> Positions;
         public int Size { get; set; }
         public System.Drawing.Bitmap backup;
 
         public LayoutFile()
         {
-            Positions = new Dictionary<string, Point>();
+            Positions = new Dictionary<string, System.Windows.Point>();
         }
     }
 }

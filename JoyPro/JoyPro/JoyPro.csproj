@@ -489,6 +489,9 @@
     <Content Include="SlimDX.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TOOLS\AHK\GoToMouseAndClick.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="TOOLS\Unzipper\DotNetZip.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -507,6 +510,7 @@
     <Content Include="DB\IL2\IL2.map">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="TOOLS\AHK\GoToMouseAndClick.ahk" />
     <None Include="TOOLS\Unzipper\UnzipMeHereWin.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

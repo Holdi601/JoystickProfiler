@@ -404,6 +404,15 @@ namespace JoyPro
             }
             return "";
         } 
+        public bool ReformerInBind(string reformerName)
+        {
+            for(int i=0; i<AllReformers.Count; ++i)
+            {
+                if (AllReformers[i].Split('§')[0].ToLower() == reformerName.ToLower())
+                    return true;
+            }
+            return false;
+        }
 
     }
 }

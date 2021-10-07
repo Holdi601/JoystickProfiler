@@ -212,12 +212,12 @@ namespace JoyPro
             if (Game==null||Game==""||Game == "DCS")
             {
                 for (int i = 0; i < AllInputs.Length; ++i)
-                    if (AllInputs[i].Plane == plane)
+                    if (AllInputs[i].Plane.ToLower() == plane.ToLower())
                         return AllInputs[i].Title;
             }else 
             {
                 for (int i = 0; i < OtherInputs.Length; ++i)
-                    if (OtherInputs[i].Plane == plane)
+                    if (OtherInputs[i].Plane.ToLower() == plane.ToLower())
                         return OtherInputs[i].Title;
             }
             

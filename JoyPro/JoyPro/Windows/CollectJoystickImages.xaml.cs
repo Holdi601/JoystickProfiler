@@ -40,9 +40,16 @@ namespace JoyPro
             CloseBtn.Click += new RoutedEventHandler(CloseThis);
             SearchExportBtn.Click += new RoutedEventHandler(searchExport);
             ContinueBtn.Click += new RoutedEventHandler(ContinueToNext);
+            if (InternalDataMangement.JoystickFileImages != null && InternalDataMangement.JoystickFileImages.Count > 0)
+            {
+                JoyPaths = InternalDataMangement.JoystickFileImages;
+            }
+            if (InternalDataMangement.JoystickLayoutExport != null)
+            {
+                PathToShowLbl.Content = InternalDataMangement.JoystickLayoutExport;
+            }
             SetupScrollView();
         }
-
         void SetupScrollView()
         {
             Grid g = SetupBaseGrid();
@@ -61,7 +68,14 @@ namespace JoyPro
                 Label lblout = new Label();
                 lblout.Name = "lblj" + i.ToString();
                 lblout.Foreground = Brushes.White;
-                lblout.Content = "None";
+                if (JoyPaths.ContainsKey(JoysticksActiveInBinds[i]))
+                {
+                    lblout.Content = JoyPaths[JoysticksActiveInBinds[i]];
+                }
+                else
+                {
+                    lblout.Content = "None";
+                }
                 lblout.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
                 lblout.VerticalAlignment = VerticalAlignment.Center;
                 Grid.SetColumn(lblout, 2);
@@ -138,7 +152,6 @@ namespace JoyPro
             }
 
         }
-
         Grid SetupBaseGrid()
         {
             var converter = new GridLengthConverter();
@@ -158,7 +171,6 @@ namespace JoyPro
             allLabel = new Label[JoysticksActiveInBinds.Count];
             return grid;
         }
-
         void ContinueToNext(object sender, EventArgs e)
         {
             string exportFolder = (string)PathToShowLbl.Content;
@@ -178,6 +190,17 @@ namespace JoyPro
             ContinueBtn.IsEnabled = false;
             foreach(KeyValuePair<string, string> kvp in JoyPaths)
             {
+                if (InternalDataMangement.JoystickFileImages == null)
+                    InternalDataMangement.JoystickFileImages = new Dictionary<string, string>();
+                if (InternalDataMangement.JoystickFileImages.ContainsKey(kvp.Key))
+                {
+                    InternalDataMangement.JoystickFileImages[kvp.Key] = kvp.Value;
+                }
+                else
+                {
+                    InternalDataMangement.JoystickFileImages.Add(kvp.Key, kvp.Value);
+                }
+                InternalDataMangement.JoystickLayoutExport = exportFolder;
                 EditJoystickLayoutImage ejli = new EditJoystickLayoutImage(kvp.Key, kvp.Value, (string)PathToShowLbl.Content);
                 openedWindows++;
                 ejli.Closing += new System.ComponentModel.CancelEventHandler(EditWindowClosed);
@@ -195,7 +218,6 @@ namespace JoyPro
                 Close();
             }
         }
-
         void CloseThis(object sender, EventArgs e)
         {
             Close();
