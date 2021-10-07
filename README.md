@@ -89,10 +89,6 @@ Discord for more direct question answer or concerns: https://discord.gg/SeCTXJHh
 
 # To Do, Features I want to work on in that order
 
--Autogenerate HTMLs
-
--Autogenerate Cleans
-
 -Asynchronus download and update
 
 -cancel an edit of a relation
