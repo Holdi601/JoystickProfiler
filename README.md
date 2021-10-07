@@ -1,6 +1,8 @@
 # JoystickProfiler
 ***WARNING USING AT YOUR OWN RISK***
 
+***Please see V43 as a Beta. Use 42 for stable. Backup your Joypro saves and DCS saves and IL2 saves before using V43***
+
 # Joystick Profiler Utility
 
 This utility is there in the current state to help, to quickly make the basic joystick Mappings for DCS world (Digital Combat Simulator).
