@@ -159,6 +159,8 @@ namespace JoyPro
             if (pth != null) installs.Add(pth);
             pth = MainStructure.GetRegistryValue("SOFTWARE\\Eagle Dynamics\\DCS World OpenBeta", "Path", "CurrentUser");
             if (pth != null) installs.Add(pth);
+            pth = MainStructure.GetRegistryValue("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 223750", "InstallLocation", "LocalMachine");
+            if (pth != null) installs.Add(pth);
             MiscGames.installPathsDCS = installs.ToArray();
             MainStructure.mainW.DropDownInstanceSelection.Items.Clear();
             if (MiscGames.DCSInstanceOverride.Length > 0)

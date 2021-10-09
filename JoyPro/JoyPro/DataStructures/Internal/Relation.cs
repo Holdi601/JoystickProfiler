@@ -186,7 +186,7 @@ namespace JoyPro
             for (int i = 0; i < NODES.Count; i++)
             {
                 if (id.ToUpper() == NODES[i].ID.ToUpper()&&
-                    game.ToUpper()==NODES[i].Game) return NODES[i];
+                    game.ToUpper()==NODES[i].Game.ToUpper()) return NODES[i];
             }
             return null;
         }

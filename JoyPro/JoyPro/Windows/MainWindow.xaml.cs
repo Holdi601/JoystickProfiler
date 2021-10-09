@@ -1265,10 +1265,10 @@ namespace JoyPro
                         cbxu.IsChecked = false;
                         grid.Children.Add(txrlcv);
                     }
-                    txrlcv.TextChanged += new TextChangedEventHandler(CurvitureSelectionChanged);
-                    txrlsy.TextChanged += new TextChangedEventHandler(SaturationYSelectionChanged);
-                    txrlsx.TextChanged += new TextChangedEventHandler(SaturationXSelectionChanged);
-                    txrl.TextChanged += new TextChangedEventHandler(DeadzoneSelectionChanged);
+                    txrlcv.LostFocus += new RoutedEventHandler(CurvitureSelectionChanged);
+                    txrlsy.LostFocus += new RoutedEventHandler(SaturationYSelectionChanged);
+                    txrlsx.LostFocus += new RoutedEventHandler(SaturationXSelectionChanged);
+                    txrl.LostFocus += new RoutedEventHandler(DeadzoneSelectionChanged);
                     cbxs.Click += new RoutedEventHandler(SliderAxisSelection);
                     cbx.Click += new RoutedEventHandler(InvertAxisSelection);
 

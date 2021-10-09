@@ -103,7 +103,87 @@ namespace JoyPro
             RefreshDCSCleanBtn.Click += new RoutedEventHandler(RefreshCleanDB);
             RefreshDCSIdBtn.Click += new RoutedEventHandler(RefreshIDDB);
             ModulesToScanBox.LostFocus += new RoutedEventHandler(objectsToScanChanged);
+            CutStickSpecificDefsBtn.Click += new RoutedEventHandler(CutStickDefaults);
+            RestoreSpecificDefsBtn.Click += new RoutedEventHandler(RestoreStickDefaults);
             readDCSConfigData();
+        }
+        void CutStickDefaults(object sender, EventArgs e)
+        {
+            string dcsInstallPath = InitGames.GetDCSInstallationPath();
+            string savedGames;
+            if (MiscGames.DCSInstanceOverride != null && Directory.Exists(MiscGames.DCSInstanceOverride)) savedGames = MiscGames.DCSInstanceOverride;
+            else savedGames = MiscGames.DCSselectedInstancePath;
+            if (!Directory.Exists(savedGames + "\\BACKUP_JOYSTICK_DEFAULTS"))
+            {
+                Directory.CreateDirectory(savedGames + "\\BACKUP_JOYSTICK_DEFAULTS");
+            }
+            savedGames = savedGames + "\\BACKUP_JOYSTICK_DEFAULTS\\";
+            if (!Directory.Exists(dcsInstallPath+ "\\Mods\\aircraft"))
+            {
+                MessageBox.Show("Couldn't find DCS Install Path");
+            }
+            DirectoryInfo dir = new DirectoryInfo(dcsInstallPath + "\\Mods\\aircraft");
+            foreach(DirectoryInfo d in dir.GetDirectories())
+            {
+                if (!Directory.Exists(savedGames + d.Name))
+                    Directory.CreateDirectory(savedGames + d.Name);
+
+                if (Directory.Exists(d.FullName + "\\Input"))
+                {
+                    if (!Directory.Exists(savedGames + d.Name+"\\Input"))
+                        Directory.CreateDirectory(savedGames + d.Name + "\\Input");
+
+                    DirectoryInfo dirInner = new DirectoryInfo(d.FullName + "\\Input");
+                    foreach(DirectoryInfo dInner in dirInner.GetDirectories())
+                    {
+                        if (!Directory.Exists(savedGames + d.Name + "\\Input\\"+dInner.Name))
+                            Directory.CreateDirectory(savedGames + d.Name + "\\Input\\" + dInner.Name);
+                        if (!Directory.Exists(savedGames + d.Name + "\\Input\\" + dInner.Name+"\\joystick"))
+                            Directory.CreateDirectory(savedGames + d.Name + "\\Input\\" + dInner.Name+"\\joystick");
+                        if(Directory.Exists(dInner.FullName + "\\joystick"))
+                        {
+                            foreach (FileInfo f in new DirectoryInfo(dInner.FullName + "\\joystick").GetFiles())
+                            {
+                                if (f.Name == "default.lua")
+                                {
+                                    File.Copy(f.FullName, savedGames + d.Name + "\\Input\\" + dInner.Name + "\\joystick\\" + f.Name, true);
+                                }
+                                else
+                                {
+                                    if (File.Exists(savedGames + d.Name + "\\Input\\" + dInner.Name + "\\joystick\\" + f.Name))
+                                    {
+                                        File.Delete(savedGames + d.Name + "\\Input\\" + dInner.Name + "\\joystick\\" + f.Name);
+                                    }
+                                    File.Move(f.FullName, savedGames + d.Name + "\\Input\\" + dInner.Name + "\\joystick\\" + f.Name);
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
+            MessageBox.Show("Configs are now cut and backed up");
+        }
+        void RestoreStickDefaults(object sender, EventArgs e)
+        {
+            string dcsInstallPath = InitGames.GetDCSInstallationPath();
+            string savedGames;
+            if (MiscGames.DCSInstanceOverride != null && Directory.Exists(MiscGames.DCSInstanceOverride)) savedGames = MiscGames.DCSInstanceOverride;
+            else savedGames = MiscGames.DCSselectedInstancePath;
+            if(!Directory.Exists(savedGames + "\\BACKUP_JOYSTICK_DEFAULTS"))
+            {
+                MessageBox.Show("No backup folder found");
+                return;
+            }
+            if (!Directory.Exists(dcsInstallPath + "\\Mods\\aircraft"))
+            {
+                MessageBox.Show("Couldn't find DCS Install Path");
+            }
+            foreach (DirectoryInfo d in new DirectoryInfo(savedGames + "\\BACKUP_JOYSTICK_DEFAULTS").GetDirectories())
+            {
+                MainStructure.CopyFolderIntoFolder(d.FullName, dcsInstallPath + "\\Mods\\aircraft");
+            }
+            MessageBox.Show("Configs are now back in place.");
         }
         void objectsToScanChanged(object sender, EventArgs e)
         {

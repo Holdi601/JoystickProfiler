@@ -55,7 +55,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>app.ico</ApplicationIcon>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NBug, Version=1.2.0.0, Culture=neutral, PublicKeyToken=a4292a325f69b123, processorArchitecture=MSIL">
@@ -91,27 +91,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DataStructures\DBLogic.cs" />
-    <Compile Include="DataStructures\DCS\IOLogic\DCSIOLogic.cs" />
+    <Compile Include="DataStructures\DB\DBLogic.cs" />
+    <Compile Include="DataStructures\DCS\DCSIOLogic.cs" />
     <Compile Include="DataStructures\IL2Game\IL2AxisReplacementButtons.cs" />
     <Compile Include="DataStructures\IL2Game\IL2AxisSetting.cs" />
     <Compile Include="DataStructures\IL2Game\IL2IOLogic.cs" />
     <Compile Include="DataStructures\InitGames.cs" />
     <Compile Include="DataStructures\Internal\Bind.cs" />
-    <Compile Include="DataStructures\DCS\IODataStructures\DCSAxisBind.cs" />
-    <Compile Include="DataStructures\DCS\IODataStructures\DCSAxisFilter.cs" />
-    <Compile Include="DataStructures\DCS\IODataStructures\DCSButtonBind.cs" />
-    <Compile Include="DataStructures\DCS\IODataStructures\DCSExportPlane.cs" />
-    <Compile Include="DataStructures\DCS\IODataStructures\DCSLuaDiffsAxisElement.cs" />
-    <Compile Include="DataStructures\DCS\IODataStructures\DCSLuaDiffsButtonElement.cs" />
-    <Compile Include="DataStructures\DCS\IODataStructures\DCSLuaInput.cs" />
+    <Compile Include="DataStructures\DCS\DCSAxisBind.cs" />
+    <Compile Include="DataStructures\DCS\DCSAxisFilter.cs" />
+    <Compile Include="DataStructures\DCS\DCSButtonBind.cs" />
+    <Compile Include="DataStructures\DCS\DCSExportPlane.cs" />
+    <Compile Include="DataStructures\DCS\DCSLuaDiffsAxisElement.cs" />
+    <Compile Include="DataStructures\DCS\DCSLuaDiffsButtonElement.cs" />
+    <Compile Include="DataStructures\DCS\DCSLuaInput.cs" />
     <Compile Include="DataStructures\Internal\InternalDataMangement.cs" />
     <Compile Include="DataStructures\Internal\LayoutFile.cs" />
     <Compile Include="DataStructures\MiscGames.cs" />
     <Compile Include="DataStructures\Other\OtherGame.cs" />
     <Compile Include="DataStructures\Other\OtherGameInput.cs" />
-    <Compile Include="DataStructures\DCS\DBDCSDataStructure\HtmlBindElement.cs" />
-    <Compile Include="DataStructures\DCS\DBDCSDataStructure\HtmlInputElementDCS.cs" />
+    <Compile Include="DataStructures\DB\DBDCSDataStructure\HtmlBindElement.cs" />
+    <Compile Include="DataStructures\DB\DBDCSDataStructure\HtmlInputElementDCS.cs" />
     <Compile Include="General\LUADataRead.cs" />
     <Compile Include="General\Updater.cs" />
     <Compile Include="Windows\CollectJoystickImages.xaml.cs">
@@ -196,8 +196,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataStructures\DCS\DBDCSDataStructure\DCSInput.cs" />
-    <Compile Include="DataStructures\DCS\DBDCSDataStructure\DCSPlane.cs" />
+    <Compile Include="DataStructures\DB\DBDCSDataStructure\DCSInput.cs" />
+    <Compile Include="DataStructures\DB\DBDCSDataStructure\DCSPlane.cs" />
     <Compile Include="General\MainStructure.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -486,6 +486,7 @@
     <Content Include="DB\DCS\Yak-52_easy.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="logo.ico" />
     <Content Include="SlimDX.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

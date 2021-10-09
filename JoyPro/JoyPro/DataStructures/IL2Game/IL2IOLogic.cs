@@ -183,7 +183,7 @@ namespace JoyPro
                 else
                 {
                     string command = currentLine.Split(',')[0];
-                    if (!ActionsFileJoystickContent.ContainsKey(command))
+                    if (!JoystickOutput.ContainsKey(command))
                     {
                         JoystickOutput.Add(command, new List<string>());
                     }
@@ -231,7 +231,7 @@ namespace JoyPro
                     }
                     newId = id;
                     id = id + ",";
-                    for (int j = id.Length; j <= 50; ++j)
+                    for (int j = id.Length; j <= 49; ++j)
                     {
                         id = id + " ";
                     }
@@ -255,11 +255,11 @@ namespace JoyPro
                     }
                     if (!usedCommands.Contains(newId))
                         usedCommands.Add(newId);
-                    for (int j = id.Length; j <= 100; ++j)
+                    for (int j = id.Length; j <= 99; ++j)
                     {
                         id = id + " ";
                     }
-                    if (b.Rl.ISAXIS)
+                    if (b.Rl.ISAXIS||dualSetNeeded)
                     {
                         if (!axisSettings.ContainsKey(newId))
                         {
@@ -399,7 +399,6 @@ namespace JoyPro
                             id = id + InternalDataMangement.JoystickAliases[b.Joystick];
                         }
                     }
-                    id = id + "\r\n";
                     if (!result.ContainsKey(newId))
                         result.Add(newId, id);
                     else
@@ -637,13 +636,14 @@ namespace JoyPro
                     swr.Write("0.0%2C");
                     if (kvp.Value.Curvature.Count == 1)
                     {
-                        swr.Write(Math.Round(kvp.Value.Curvature[1] * 0.5, 2).ToString() + "%2C" +
+                        
+                        swr.Write(Math.Round(kvp.Value.Curvature[0] * 0.5, 2).ToString() + "%2C" +
                             Math.Round(kvp.Value.Deadzone * 0.25, 2).ToString());
                     }
                     else
                     {
                         //Custom curves implementation needed here if they dont get overwritten
-                        swr.Write("0.2" + "%2C" +
+                        swr.Write(Math.Round(Bind.Curvature_Default[0]*0.5).ToString() + "%2C" +
                             Math.Round(kvp.Value.Deadzone * 0.25, 2).ToString());
                     }
                 }
@@ -652,12 +652,12 @@ namespace JoyPro
                     swr.Write(Math.Round(kvp.Value.Deadzone * 0.25, 2).ToString() + "%2C");
                     if (kvp.Value.Curvature.Count == 1)
                     {
-                        swr.Write(Math.Round(kvp.Value.Curvature[1] * 0.5, 2).ToString() + "%2C0.0");
+                        swr.Write(Math.Round(kvp.Value.Curvature[0] * 0.5, 2).ToString() + "%2C0.0");
                     }
                     else
                     {
                         //Custom curves implementation needed here if they dont get overwritten
-                        swr.Write("0.2" + "%2C0.0");
+                        swr.Write(Math.Round(Bind.Curvature_Default[0] * 0.5).ToString() + "%2C0.0");
                     }
                 }
             }
@@ -679,10 +679,14 @@ namespace JoyPro
             string path = GetInputPath();
             StreamWriter swr = new StreamWriter(path + InputPath + name + ".actions");
             swr.Write(ActionsPreFile);
-            for(int i=0; i<ActionsFileContentOutput.Count; ++i)
+            for(int i=0; i<ActionsFileContentOutput.Count-1; ++i)
             {
                 swr.Write(ActionsFileContentOutput[i]+"\r\n");
             }
+            swr.Write(ActionsFileContentOutput[ActionsFileContentOutput.Count - 1]);
+            swr.Flush();
+            swr.Close();
+            swr.Dispose();
 
         } 
         static void ReadResponsesFile()
@@ -704,8 +708,9 @@ namespace JoyPro
                 string[] innerParts = MainStructure.SplitBy(aSettingString, "%2C");
                 IL2AxisSetting AxSetting = new IL2AxisSetting();
                 AxSetting.Name = innerParts[0];
+                AxSetting.Sensitivity = Convert.ToDouble(innerParts[2], new CultureInfo("en-US"));
                 AxSetting.DeadZoneCenter = Convert.ToDouble(innerParts[1], new CultureInfo("en-US"));
-                AxSetting.DeadZoneSide = Convert.ToDouble(innerParts[2], new CultureInfo("en-US"));
+                AxSetting.DeadZoneSide = Convert.ToDouble(innerParts[3], new CultureInfo("en-US"));
                 axisResponsedRead.Add(innerParts[0], AxSetting);
             }
         }
@@ -776,7 +781,7 @@ namespace JoyPro
             }
             return null;
         }
-        public static void ImportInputs(bool sensitivity, bool deadzone)
+        public static void ImportInputs(bool sensitivity, bool deadzone, bool inverted)
         {
             if (((MiscGames.IL2PathOverride == null || !Directory.Exists(MiscGames.IL2PathOverride)) &&
                 (MiscGames.IL2Instance == null || !Directory.Exists(MiscGames.IL2Instance))))
@@ -795,7 +800,11 @@ namespace JoyPro
                 for(int i=0; i<kvp.Value.Count; ++i)
                 {
                     string input = GetComponentFromActionLine(kvp.Value[i], IL2ActionComponent.Input);
-                    string positive, negative=null, mod_positive=null, mod_negative=null;
+                    string invertRaw = GetComponentFromActionLine(kvp.Value[i], IL2ActionComponent.Inverted);
+                    string positive, negative=null, mod_positive=null, mod_negative=null, rawPositive=null, rawNegative=null;
+                    bool invert;
+                    if (invertRaw == "0") invert = false;
+                    else invert = true;
                     bool noMatchPos = true;
                     bool noMatchNeg = true;
                     Bind bpos = null;
@@ -806,10 +815,13 @@ namespace JoyPro
                         string[] splitted = input.Split('/');
                         positive = splitted[0];
                         negative = splitted[1];
+                        rawPositive = positive;
+                        rawNegative = negative;
                     }
                     else
                     {
                         positive = input;
+                        rawPositive = positive;
                     }
                     if (positive.Contains('+'))
                     {
@@ -817,7 +829,7 @@ namespace JoyPro
                         mod_positive = splitted[0];
                         positive = splitted[1];
                     }
-                    if (negative.Contains('+'))
+                    if (negative!=null&&negative.Contains('+'))
                     {
                         string[] splitted = negative.Split('+');
                         mod_negative = splitted[0];
@@ -872,7 +884,7 @@ namespace JoyPro
                         sid += "+";
                         sidneg += "-";
                     }
-                    OtherGameInput[] found = DBLogic.GetAllOtherGameInputsWithId(sid, "ILGame");
+                    OtherGameInput[] found = DBLogic.GetAllOtherGameInputsWithId(sid, "IL2Game");
                     bool axis;
                     string rawGroupsNeg = null;
                     if (found == null && found.Length < 1) axis = false;
@@ -910,7 +922,7 @@ namespace JoyPro
                                 jpmod_positive = splitted[0];
                                 jppositive = splitted[1];
                             }
-                            if (negative.Contains('+'))
+                            if (negative!=null&&negative.Contains('+'))
                             {
                                 string[] splitted = negative.Split('+');
                                 mod_negative = splitted[0];
@@ -932,7 +944,8 @@ namespace JoyPro
                                     if (DCSstick == bpos.Joystick && ((bpos.Rl.ISAXIS && bpos.JAxis == btnInput) || (!bpos.Rl.ISAXIS && bpos.JButton == btnInput)) &&
                                         (!sensitivity || (axisResponsedRead.ContainsKey(kvp.Key) && bpos.Curvature[0] == axisResponsedRead[kvp.Key].Sensitivity * 2)) &&
                                         (!deadzone || (axisResponsedRead.ContainsKey(kvp.Key) && ((bpos.Slider == true && bpos.Deadzone == axisResponsedRead[kvp.Key].DeadZoneSide * 4) ||
-                                        ((bpos.Slider == false || bpos.Slider == null) && bpos.Deadzone == axisResponsedRead[kvp.Key].DeadZoneCenter * 4)))))
+                                        ((bpos.Slider == false || bpos.Slider == null) && bpos.Deadzone == axisResponsedRead[kvp.Key].DeadZoneCenter * 4))))&&
+                                        ((!inverted || !bpos.Rl.ISAXIS)||(bpos.Rl.ISAXIS&&bpos.Inverted==invert)))
                                     {
                                         if (bpos.Rl.GetRelationItem(sid, "IL2Game") == null)
                                         {
@@ -1038,6 +1051,10 @@ namespace JoyPro
                                         }
                                     }
                                     string name = jpName;
+                                    while (InternalDataMangement.GetBindForRelation(name) != null)
+                                    {
+                                        name = name + "1";
+                                    }
                                     r.NAME = name;
                                     Bind b = new Bind(r);
                                     r.bind = b;
@@ -1093,7 +1110,8 @@ namespace JoyPro
                                     if (DCSstickneg == bneg.Joystick && ((bneg.Rl.ISAXIS && bneg.JAxis == btnInputneg) || (!bneg.Rl.ISAXIS && bneg.JButton == btnInputneg)) &&
                                         (!sensitivity || (axisResponsedRead.ContainsKey(kvp.Key) && bneg.Curvature[0] == axisResponsedRead[kvp.Key].Sensitivity * 2)) &&
                                         (!deadzone || (axisResponsedRead.ContainsKey(kvp.Key) && ((bneg.Slider == true && bneg.Deadzone == axisResponsedRead[kvp.Key].DeadZoneSide * 4) ||
-                                        ((bneg.Slider == false || bneg.Slider == null) && bneg.Deadzone == axisResponsedRead[kvp.Key].DeadZoneCenter * 4)))))
+                                        ((bneg.Slider == false || bneg.Slider == null) && bneg.Deadzone == axisResponsedRead[kvp.Key].DeadZoneCenter * 4)))) &&
+                                        ((!inverted || !bneg.Rl.ISAXIS) || (bneg.Rl.ISAXIS && bneg.Inverted == invert)))
                                     {
                                         if (bneg.Rl.GetRelationItem(sidneg, "IL2Game") == null)
                                         {
@@ -1246,100 +1264,155 @@ namespace JoyPro
                             }
                         }
                     }
+                    bool toSendInv, sliderToSend;
+                    double deadZoneToSet = double.NaN;
+                    if (axis && inverted) toSendInv = invert;
+                    else toSendInv = Bind.Inverted_Default;
+                    if (axis && deadzone)
+                    {
+                        if (axisResponsedRead.ContainsKey(kvp.Key))
+                        {
+                            if (axisResponsedRead[kvp.Key].DeadZoneCenter > 0.00)
+                            {
+                                sliderToSend = false;
+                                deadZoneToSet = axisResponsedRead[kvp.Key].DeadZoneCenter * 4;
+                            }
+                            else
+                            {
+                                sliderToSend = true;
+                                deadZoneToSet = axisResponsedRead[kvp.Key].DeadZoneSide * 4;
+                            }
+                        }
+                        else
+                        {
+                            sliderToSend = Bind.Slider_Default;
+                            deadZoneToSet = Bind.Deadzone_Default;
+                        }
+                    }
+                    else
+                    {
+                        sliderToSend = Bind.Slider_Default;
+                        deadZoneToSet = Bind.Deadzone_Default;
+                    }
                     if (noMatchPos)
                     {
-                        Relation r = new Relation();
-                        r.AddNode(sid, "IL2Game", axis, "IL2Game");
-                        r.ISAXIS = axis;
-                        string shorten = MainStructure.ShortenDeviceName(DCSstick);
-                        shorten = shorten + btnInput;
-                        while (InternalDataMangement.AllRelations.ContainsKey(shorten))
-                        {
-                            shorten += "1";
-                        }
-                        string name = shorten;
-                        r.NAME = name;
-                        Bind b = new Bind(r);
-                        r.bind = b;
+                        Bind bT = null;
                         if (axis)
                         {
-                            b.JAxis = btnInput;
+                            List<Bind> matchingb = InternalDataMangement.GetBindsByJoystickAndKey(DCSstick, btnInput, axis, toSendInv, sliderToSend, Bind.SaturationX_Default, Bind.SaturationY_Default, deadZoneToSet);
+                            if (matchingb.Count > 0) bT = matchingb[0];
                         }
                         else
                         {
-                            b.JButton = btnInput;
+                            string rlname= InternalDataMangement.GetRelationNameForJostickButton(DCSstick, rawPositive);
+                            if (rlname != null)
+                                bT = InternalDataMangement.GetBindForRelation(rlname);
                         }
-                        b.Joystick = DCSstick;
-                        if (axisResponsedRead.ContainsKey(kvp.Key))
+                        
+                        if (bT != null)
                         {
-                            b.Curvature[0] = axisResponsedRead[kvp.Key].Sensitivity * 2;
-                            if (axisResponsedRead[kvp.Key].DeadZoneCenter > 0.00)
+                            bT.Rl.AddNode(sid, "IL2Game", axis, "IL2Game");
+                        }
+                        else
+                        {
+                            Relation r = new Relation();
+                            r.AddNode(sid, "IL2Game", axis, "IL2Game");
+                            r.ISAXIS = axis;
+                            string shorten = MainStructure.ShortenDeviceName(DCSstick);
+                            shorten = shorten + btnInput;
+                            while (InternalDataMangement.AllRelations.ContainsKey(shorten))
                             {
-                                b.Slider = false;
-                                b.Deadzone = axisResponsedRead[kvp.Key].DeadZoneCenter * 4;
+                                shorten += "1";
+                            }
+                            string name = shorten;
+                            r.NAME = name;
+                            Bind b = new Bind(r);
+                            r.bind = b;
+                            if (axis)
+                            {
+                                b.JAxis = btnInput;
                             }
                             else
                             {
-                                b.Slider = true;
-                                b.Deadzone = axisResponsedRead[kvp.Key].DeadZoneSide * 4;
+                                b.JButton = btnInput;
                             }
-                        }
-                        if (mod_positive != null)
-                        {
-                            string reformer = mod_pos_btn + "§" + mod_pos_stick + "§" + mod_pos_btn;
-                            if (!b.AllReformers.Contains(reformer))
-                                b.AllReformers.Add(reformer);
-                        }
+                            b.Joystick = DCSstick;
+                            if (axisResponsedRead.ContainsKey(kvp.Key))
+                            {
+                                b.Curvature[0] = axisResponsedRead[kvp.Key].Sensitivity * 2;
+                                b.Slider = sliderToSend;
+                                b.Deadzone = deadZoneToSet;
+                            }
+                            if (mod_positive != null)
+                            {
+                                string reformer = mod_pos_btn + "§" + mod_pos_stick + "§" + mod_pos_btn;
+                                if (!b.AllReformers.Contains(reformer))
+                                    b.AllReformers.Add(reformer);
+                            }
 
-                        InternalDataMangement.AllBinds.Add(r.NAME, b);
-                        InternalDataMangement.AllRelations.Add(r.NAME, r);
-                    }
-                    if (noMatchNeg)
-                    {
-                        Relation r = new Relation();
-                        r.AddNode(sid, "IL2Game", axis, "IL2Game");
-                        r.ISAXIS = axis;
-                        string shorten = MainStructure.ShortenDeviceName(DCSstickneg);
-                        shorten = shorten + btnInputneg;
-                        while (InternalDataMangement.AllRelations.ContainsKey(shorten))
-                        {
-                            shorten += "1";
+                            InternalDataMangement.AllBinds.Add(r.NAME, b);
+                            InternalDataMangement.AllRelations.Add(r.NAME, r);
                         }
-                        string name = shorten;
-                        r.NAME = name;
-                        Bind b = new Bind(r);
-                        r.bind = b;
+                        InternalDataMangement.ResyncRelations();
+                    }
+                    if (noMatchNeg&&negative!=null)
+                    {
+                        Bind bT = null;
                         if (axis)
                         {
-                            b.JAxis = btnInputneg;
+                            List<Bind> matchingb = InternalDataMangement.GetBindsByJoystickAndKey(DCSstickneg, btnInputneg, axis, toSendInv, sliderToSend, Bind.SaturationX_Default, Bind.SaturationY_Default, deadZoneToSet);
+                            if (matchingb.Count > 0) bT = matchingb[0];
                         }
                         else
                         {
-                            b.JButton = btnInputneg;
+                            string rlname = InternalDataMangement.GetRelationNameForJostickButton(DCSstick, rawNegative);
+                            if (rlname != null)
+                                bT = InternalDataMangement.GetBindForRelation(rlname);
                         }
-                        b.Joystick = DCSstickneg;
-                        if (axisResponsedRead.ContainsKey(kvp.Key))
+                        if (bT != null)
                         {
-                            b.Curvature[0] = axisResponsedRead[kvp.Key].Sensitivity * 2;
-                            if (axisResponsedRead[kvp.Key].DeadZoneCenter > 0.00)
+                            bT.Rl.AddNode(sid, "IL2Game", axis, "IL2Game");
+                        }
+                        else
+                        {
+                            Relation r = new Relation();
+                            r.AddNode(sid, "IL2Game", axis, "IL2Game");
+                            r.ISAXIS = axis;
+                            string shorten = MainStructure.ShortenDeviceName(DCSstickneg);
+                            shorten = shorten + btnInputneg;
+                            while (InternalDataMangement.AllRelations.ContainsKey(shorten))
                             {
-                                b.Slider = false;
-                                b.Deadzone = axisResponsedRead[kvp.Key].DeadZoneCenter * 4;
+                                shorten += "1";
+                            }
+                            string name = shorten;
+                            r.NAME = name;
+                            Bind b = new Bind(r);
+                            r.bind = b;
+                            if (axis)
+                            {
+                                b.JAxis = btnInputneg;
                             }
                             else
                             {
-                                b.Slider = true;
-                                b.Deadzone = axisResponsedRead[kvp.Key].DeadZoneSide * 4;
+                                b.JButton = btnInputneg;
                             }
+                            b.Joystick = DCSstickneg;
+                            if (axisResponsedRead.ContainsKey(kvp.Key))
+                            {
+                                b.Curvature[0] = axisResponsedRead[kvp.Key].Sensitivity * 2;
+                                b.Slider = sliderToSend;
+                                b.Deadzone = deadZoneToSet;
+                            }
+                            if (mod_negative != null)
+                            {
+                                string reformer = mod_pos_btn + "§" + mod_pos_stick + "§" + mod_pos_btn;
+                                if (!b.AllReformers.Contains(reformer))
+                                    b.AllReformers.Add(reformer);
+                            }
+                            InternalDataMangement.AllBinds.Add(r.NAME, b);
+                            InternalDataMangement.AllRelations.Add(r.NAME, r);
                         }
-                        if (mod_negative != null)
-                        {
-                            string reformer = mod_pos_btn + "§" + mod_pos_stick + "§" + mod_pos_btn;
-                            if (!b.AllReformers.Contains(reformer))
-                                b.AllReformers.Add(reformer);
-                        }
-                        InternalDataMangement.AllBinds.Add(r.NAME, b);
-                        InternalDataMangement.AllRelations.Add(r.NAME, r);
+                        InternalDataMangement.ResyncRelations();
                     }
                 }
                 

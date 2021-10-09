@@ -119,7 +119,7 @@ namespace JoyPro
             if(InternalDataMangement.GamesFilter["DCS"])
                 DCSIOLogic.BindsFromLocal(selectedSticks ,importDefault, inv, slid, curv, dz, sx, sy);
             if (InternalDataMangement.GamesFilter["IL2Game"])
-                IL2IOLogic.ImportInputs(curv, dz);
+                IL2IOLogic.ImportInputs(curv, dz, inv);
             
             Close();
         }

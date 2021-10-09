@@ -170,10 +170,10 @@ gear,                                             key_g,                        
 gear_up,                                          key_lmenu+key_g,                                  0| //b Gear up
 gear_dn,                                          key_lcontrol+key_g,                               0| //b Gear down
 tailwheel_lock,                                   key_lshift+key_g,                                 0| //b Tail wheel lock/unlock
-rpc_wheel_brakes,                                 key_slash,                                        0| //b Wheel brakes
-rpc_wheel_brakes_left,                            key_comma,                                        0| //b Left wheel brakes
-rpc_wheel_brakes_right,                           key_period,                                       0| //b Right wheel brakes
-rpc_wheel_brakes_central,                         key_rwin+key_slash,                               0| //b Nose/tail wheel brakes
+rpc_wheel_brakes,                                 key_slash,                                        0| //a Wheel brakes
+rpc_wheel_brakes_left,                            key_comma,                                        0| //a Left wheel brakes
+rpc_wheel_brakes_right,                           key_period,                                       0| //a Right wheel brakes
+rpc_wheel_brakes_central,                         key_rwin+key_slash,                               0| //a Nose/tail wheel brakes
 parking_brakes,                                   key_lshift+key_slash,                             0| //b Wheels parking brakes on/off
 canopy_open_close,                                key_rmenu+key_c,                                  0| //b Canopy open/close
 window_open_close,                                key_lwin+key_c,                                   0| //b Window open/close

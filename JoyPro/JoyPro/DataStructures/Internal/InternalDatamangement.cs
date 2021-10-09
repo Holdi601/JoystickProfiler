@@ -796,7 +796,14 @@ namespace JoyPro
                 {
                     if (showUnassignedGroups)
                     {
-                        toReturn = temp;
+                        for(int i=0; i<temp.Count; ++i)
+                        {
+                            if (temp[i].Groups == null || (temp[i].Groups != null && temp[i].Groups.Count < 1))
+                            {
+                                groupresult.Add(temp[i]);
+                            }
+                        }
+                        toReturn = groupresult;
                     }
                     else
                     {
@@ -814,7 +821,6 @@ namespace JoyPro
                         }
                         toReturn = groupresult;
                     }
-
                 }
             }
             else
@@ -1149,7 +1155,7 @@ namespace JoyPro
                     return kvp.Key;
                 }
             }
-            return "";
+            return null;
         }
     }
 }
