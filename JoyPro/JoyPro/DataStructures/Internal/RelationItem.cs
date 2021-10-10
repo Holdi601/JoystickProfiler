@@ -207,6 +207,10 @@ namespace JoyPro
             AIRCRAFT[plane] = activity;
             return true;
         }
+        public void DeleteAircraftFromActivity(string plane)
+        {
+            if (AIRCRAFT.ContainsKey(plane)) AIRCRAFT.Remove(plane);
+        }
         public string GetInputDescription(string plane)
         {
             if (Game==null||Game==""||Game == "DCS")

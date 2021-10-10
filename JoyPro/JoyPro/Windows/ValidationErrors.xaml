@@ -19,7 +19,7 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Label Content="Relation Items found on multiple Relations (None to low critical, just don't bind the 2 relations to the same Device):" Foreground="White" Grid.Column="0" Grid.Row="0"  HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Margin="0,0,0,0" Width="auto"/>
-        <Label Content="Bind Errors:" Foreground="White" Grid.Column="0" Grid.Row="2"  HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Margin="0,0,0,0" Width="auto"/>
+        <Label Content="Bind Errors (Critical Errors, if you ignore these you will have multi binds in Games):" Foreground="White" Grid.Column="0" Grid.Row="2"  HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Margin="0,0,0,0" Width="auto"/>
         <Label Content="Modifier Errors:" Foreground="White" Grid.Column="0" Grid.Row="4"  HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Margin="0,0,0,0" Width="auto"/>
         <!-- <Label Content="Modifier Errors:" Foreground="White" Grid.Column="0" Grid.Row="6"  HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Margin="0,0,0,0" Width="auto"/>-->
         <Button FontWeight="Bold" Name="CloseBtn" Content="Close" Height="25" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="9,2,9,2" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" />

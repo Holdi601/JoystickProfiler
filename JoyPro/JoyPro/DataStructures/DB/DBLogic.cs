@@ -287,10 +287,12 @@ namespace JoyPro
             }
             return results.ToArray();
         }
-        public static List<SearchQueryResults> SearchBinds(string[] keywords)
+
+
+        public static List<SearchQueryResults> SearchBinds(string[] keywords, bool searchDescription=true, bool filteredSearch=true)
         {
             List<SearchQueryResults> results = new List<SearchQueryResults>();
-            if (InternalDataMangement.GamesFilter["DCS"])
+            if ((filteredSearch&&InternalDataMangement.GamesFilter["DCS"])||!filteredSearch)
             {
                 foreach (KeyValuePair<string, DCSPlane> kvp in DCSLib)
                 {
@@ -299,7 +301,11 @@ namespace JoyPro
                         bool hit = true;
                         foreach (string key in keywords)
                         {
-                            if (!inp.Value.Title.ToLower().Contains(key))
+                            if (searchDescription && !inp.Value.Title.ToLower().Contains(key))
+                            {
+                                hit = false;
+                                break;
+                            }else if (!searchDescription&& inp.Value.ID.ToLower() != key.ToLower())
                             {
                                 hit = false;
                                 break;
@@ -314,7 +320,11 @@ namespace JoyPro
                         bool hit = true;
                         foreach (string key in keywords)
                         {
-                            if (!inp.Value.Title.ToLower().Contains(key))
+                            if (searchDescription && !inp.Value.Title.ToLower().Contains(key))
+                            {
+                                hit = false;
+                                break;
+                            }else if (!searchDescription && inp.Value.ID.ToLower() != key.ToLower())
                             {
                                 hit = false;
                                 break;
@@ -330,14 +340,19 @@ namespace JoyPro
             {
                 foreach (KeyValuePair<string, OtherGame> kvp in kvpOuter.Value)
                 {
-                    if (InternalDataMangement.GamesFilter.ContainsKey(kvpOuter.Key) && InternalDataMangement.GamesFilter[kvpOuter.Key])
+                    if ((filteredSearch&& InternalDataMangement.GamesFilter.ContainsKey(kvpOuter.Key) && InternalDataMangement.GamesFilter[kvpOuter.Key])|| !filteredSearch)
                     {
                         foreach (KeyValuePair<string, OtherGameInput> inp in kvp.Value.Axis)
                         {
                             bool hit = true;
                             foreach (string key in keywords)
                             {
-                                if (!inp.Value.Title.ToLower().Contains(key))
+                                if (searchDescription && !inp.Value.Title.ToLower().Contains(key))
+                                {
+                                    hit = false;
+                                    break;
+                                }
+                                else if (!searchDescription && inp.Value.ID.ToLower() != key.ToLower())
                                 {
                                     hit = false;
                                     break;
@@ -351,7 +366,12 @@ namespace JoyPro
                             bool hit = true;
                             foreach (string key in keywords)
                             {
-                                if (!inp.Value.Title.ToLower().Contains(key))
+                                if (searchDescription && !inp.Value.Title.ToLower().Contains(key))
+                                {
+                                    hit = false;
+                                    break;
+                                }
+                                else if (!searchDescription && inp.Value.ID.ToLower() != key.ToLower())
                                 {
                                     hit = false;
                                     break;
@@ -365,8 +385,5 @@ namespace JoyPro
             }
             return results;
         }
-
-
-
     }
 }

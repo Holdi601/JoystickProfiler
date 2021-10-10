@@ -1229,5 +1229,17 @@ namespace JoyPro
             }
             return null;
         }
+        public static KeyValuePair<int, int> CleanAllRelations()
+        {
+            int relationDeleted = 0;
+            int aircraftRemoved = 0;
+            foreach (KeyValuePair<string, Relation> kvp in AllRelations)
+            {
+                var result = kvp.Value.CleanRelation();
+                relationDeleted += result.Key;
+                aircraftRemoved += result.Value;
+            }
+            return new KeyValuePair<int, int>(relationDeleted, aircraftRemoved);
+        }
     }
 }

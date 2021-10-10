@@ -105,7 +105,14 @@ namespace JoyPro
             ModulesToScanBox.LostFocus += new RoutedEventHandler(objectsToScanChanged);
             CutStickSpecificDefsBtn.Click += new RoutedEventHandler(CutStickDefaults);
             RestoreSpecificDefsBtn.Click += new RoutedEventHandler(RestoreStickDefaults);
+            CleanRelationsBtn.Click += new RoutedEventHandler(CleanRelations);
             readDCSConfigData();
+        }
+
+        void CleanRelations(object sender, EventArgs e)
+        {
+            var result = InternalDataMangement.CleanAllRelations();
+            MessageBox.Show("Relations have been cleaned. Relation Items Removed: "+result.Key.ToString()+"      Aircraft Removed: "+result.Value.ToString());
         }
         void CutStickDefaults(object sender, EventArgs e)
         {

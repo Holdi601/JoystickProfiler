@@ -218,6 +218,52 @@ namespace JoyPro
             }
             return "";
         }
-
+        public KeyValuePair<int, int> CleanRelation()
+        {
+            List<RelationItem> toDelete = new List<RelationItem>();
+            int itemsToDelete = 0;
+            int aircraftToDelete = 0;
+            for(int i=0; i<NODES.Count; ++i)
+            {
+                List<SearchQueryResults> results = DBLogic.SearchBinds(new string[] { NODES[i].ID }, false, false);
+                if (results.Count == 0)
+                {
+                    toDelete.Add(NODES[i]);
+                    break;
+                }
+                bool found = false;
+                List<string> planes = NODES[i].GetActiveAircraftList();
+                Dictionary<string, bool> planesStillExist = new Dictionary<string, bool>();
+                foreach (string p in planes) if (!planesStillExist.ContainsKey(p)) planesStillExist.Add(p, false);
+                for(int j=0; j<results.Count; ++j)
+                {
+                    if (NODES[i].Game == null) NODES[i].Game = "DCS";
+                    if (results[j].GAME.ToLower() == NODES[i].Game.ToLower())
+                    {
+                        found = true;
+                        if (planesStillExist.ContainsKey(results[j].AIRCRAFT)) planesStillExist[results[j].AIRCRAFT] = true;
+                    } 
+                }
+                if(!found)
+                    toDelete.Add(NODES[i]);
+                else
+                {
+                    foreach(KeyValuePair<string, bool> kvp in planesStillExist)
+                    {
+                        if (!kvp.Value)
+                        {
+                            NODES[i].DeleteAircraftFromActivity(kvp.Key);
+                            aircraftToDelete++;
+                        }
+                    }
+                }
+            }
+            for(int i=0; i<toDelete.Count; ++i)
+            {
+                NODES.Remove(toDelete[i]);
+            }
+            itemsToDelete = toDelete.Count;
+            return new KeyValuePair<int, int>(itemsToDelete, aircraftToDelete);
+        }
     }
 }

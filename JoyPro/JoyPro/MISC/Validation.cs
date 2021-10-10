@@ -92,7 +92,8 @@ namespace JoyPro
                         {
                             AllKeys.Add(toAdd, new List<string>());
                         }
-                        AllKeys[toAdd].Add(binds[i].Rl.NAME);
+                        if(!AllKeys[toAdd].Contains(binds[i].Rl.NAME))
+                            AllKeys[toAdd].Add(binds[i].Rl.NAME);
                     }
                 }
             }
