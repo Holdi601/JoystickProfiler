@@ -550,6 +550,11 @@ namespace JoyPro
         {
             ResyncRelations();
         }
+        static string BtnToSortString(Bind b)
+        {
+            string result = (b.JAxis + b.JButton).Replace("JOY_BTN", "").Length < 3 ? ((("0" +b.JAxis +b.JButton).Replace("JOY_BTN", "")).Length < 3 ? ("00" + (b.JAxis + b.JButton).Replace("JOY_BTN", "")) : "0" + (b.JAxis + b.JButton).Replace("JOY_BTN", "")) : (b.JAxis + b.JButton).Replace("JOY_BTN", "");
+            return result;
+        }
         public static void ResyncRelations()
         {
             List<Relation> li = SyncRelations();
@@ -577,12 +582,20 @@ namespace JoyPro
                 }
             }
             List<Relation> RelWOBinds = new List<Relation>();
-            string sortType = "NAME";
-            string sortOrder = "NORM";
-            if (MainStructure.mainW.selectedSort != null && MainStructure.mainW.selectedSort.Contains('_'))
+            string sortType1 = "NAME";
+            string sortOrder1 = "NORM";
+            string sortType2 = "STICK";
+            string sortOrder2 = "NORM";
+            string sortType3 = "BTN";
+            string sortOrder3 = "NORM";
+            if (MainStructure.mainW.selectedSort1 != null && MainStructure.mainW.selectedSort1.Contains('_'))
             {
-                sortType = MainStructure.mainW.selectedSort.Split('_')[0];
-                sortOrder = MainStructure.mainW.selectedSort.Split('_')[1];
+                sortType1 = MainStructure.mainW.selectedSort1.Split('_')[0];
+                sortOrder1 = MainStructure.mainW.selectedSort1.Split('_')[1];
+                sortType2 = MainStructure.mainW.selectedSort2.Split('_')[0];
+                sortOrder2 = MainStructure.mainW.selectedSort2.Split('_')[1];
+                sortType3 = MainStructure.mainW.selectedSort3.Split('_')[0];
+                sortOrder3 = MainStructure.mainW.selectedSort3.Split('_')[1];
             }
 
             for (int i = 0; i < li.Count; ++i)
@@ -590,47 +603,106 @@ namespace JoyPro
                 if (!RelWOBinds.Contains(li[i]) && !relWithBinds.Contains(li[i]))
                     RelWOBinds.Add(li[i]);
             }
-            switch (sortType)
+            Dictionary<string, List<Relation>> dictLevel1 = new Dictionary<string, List<Relation>>();
+            Dictionary<string, List<Relation>> dictLevel2 = new Dictionary<string, List<Relation>>();
+            Dictionary<string, List<Relation>> dictLevel3 = new Dictionary<string, List<Relation>>();
+
+            switch (sortType1)
             {
                 case "NAME":
-                    li = li.OrderBy(o => o.NAME).ToList();
+                    for(int a=0; a<li.Count; ++a)
+                    {
+                        if (dictLevel1.ContainsKey(li[a].NAME)) dictLevel1[li[a].NAME].Add(li[a]);
+                        else dictLevel1.Add(li[a].NAME, new List<Relation>() { li[a] });
+                    }
                     break;
                 case "STICK":
-                    relWithBinds = relWithBinds.OrderBy(o => o.NAME).ToList();
-                    relWithBinds = relWithBinds.OrderBy(o => AllBinds[o.NAME].Joystick).ToList();
-                    RelWOBinds = RelWOBinds.OrderBy(o => o.NAME).ToList();
-                    for (int i = 0; i < RelWOBinds.Count; ++i)
+                    for (int a = 0; a < relWithBinds.Count; ++a)
                     {
-                        relWithBinds.Add(RelWOBinds[i]);
+                        if (dictLevel1.ContainsKey(AllBinds[relWithBinds[a].NAME].Joystick)) dictLevel1[AllBinds[relWithBinds[a].NAME].Joystick].Add(relWithBinds[a]);
+                        else dictLevel1.Add(AllBinds[relWithBinds[a].NAME].Joystick, new List<Relation>() { relWithBinds[a] });
                     }
-                    li = relWithBinds;
+                    for (int a = 0; a < RelWOBinds.Count; ++a)
+                    {
+                        if (dictLevel1.ContainsKey(" ")) dictLevel1[" "].Add(RelWOBinds[a]);
+                        else dictLevel1.Add(" ", new List<Relation>() { RelWOBinds[a] });
+                    }
                     break;
                 case "BTN":
-                    relWithBinds = relWithBinds.OrderBy(o => o.NAME).ToList();
-                    relWithBinds = relWithBinds.OrderBy(o => AllBinds[o.NAME].Joystick).ToList();
-                    relWithBinds = relWithBinds.OrderBy(o => (AllBinds[o.NAME].JAxis + AllBinds[o.NAME].JButton).Replace("JOY_BTN", "").Length < 3 ?
-                        (("0" + (AllBinds[o.NAME].JAxis + AllBinds[o.NAME].JButton).Replace("JOY_BTN", "")).Length < 3 ?
-                            ("00" + (AllBinds[o.NAME].JAxis + AllBinds[o.NAME].JButton).Replace("JOY_BTN", "")) :
-                            "0" + (AllBinds[o.NAME].JAxis + AllBinds[o.NAME].JButton).Replace("JOY_BTN", "")) :
-                        (AllBinds[o.NAME].JAxis + AllBinds[o.NAME].JButton).Replace("JOY_BTN", "")
-                    ).ToList();
-                    RelWOBinds = RelWOBinds.OrderBy(o => o.NAME).ToList();
-                    for (int i = 0; i < RelWOBinds.Count; ++i)
+                    for (int a = 0; a < relWithBinds.Count; ++a)
                     {
-                        relWithBinds.Add(RelWOBinds[i]);
+                        if (dictLevel1.ContainsKey(BtnToSortString(AllBinds[relWithBinds[a].NAME]))) dictLevel1[BtnToSortString(AllBinds[relWithBinds[a].NAME])].Add(relWithBinds[a]);
+                        else dictLevel1.Add(BtnToSortString(AllBinds[relWithBinds[a].NAME]), new List<Relation>() { relWithBinds[a] });
                     }
-                    li = relWithBinds;
+                    for (int a = 0; a < RelWOBinds.Count; ++a)
+                    {
+                        if (dictLevel1.ContainsKey(" ")) dictLevel1[" "].Add(RelWOBinds[a]);
+                        else dictLevel1.Add(" ", new List<Relation>() { RelWOBinds[a] });
+                    }
                     break;
             }
-            if (sortOrder == "DESC")
+            for(int i=0; i<dictLevel1.Count; ++i)
             {
-                List<Relation> fi = new List<Relation>();
-                for (int i = li.Count - 1; i >= 0; i--)
+                for(int j=0; j<dictLevel1.ElementAt(i).Value.Count; ++j)
                 {
-                    fi.Add(li[i]);
+                    string key = dictLevel1.ElementAt(i).Key + "§";
+                    switch (sortType2)
+                    {
+                        case "NAME":key = key + dictLevel1.ElementAt(i).Value[j].NAME;break;
+                        case "STICK":
+                            if (AllBinds.ContainsKey(dictLevel1.ElementAt(i).Value[j].NAME)) key = key + AllBinds[dictLevel1.ElementAt(i).Value[j].NAME].Joystick;
+                            else key = key + " "; break;
+                        case "BTN":
+                            if (AllBinds.ContainsKey(dictLevel1.ElementAt(i).Value[j].NAME)) key = key + BtnToSortString(AllBinds[dictLevel1.ElementAt(i).Value[j].NAME]);
+                            else key = key + " "; break;
+                    }
+                    if (dictLevel2.ContainsKey(key)) dictLevel2[key].Add(dictLevel1.ElementAt(i).Value[j]);
+                    else dictLevel2.Add(key, new List<Relation>() { dictLevel1.ElementAt(i).Value[j] });
                 }
-                li = fi;
             }
+            for(int i=0; i<dictLevel2.Count; ++i)
+            {
+                for (int j = 0; j < dictLevel2.ElementAt(i).Value.Count; ++j)
+                {
+                    string key = dictLevel2.ElementAt(i).Key + "§";
+                    switch (sortType3)
+                    {
+                        case "NAME": key = key + dictLevel2.ElementAt(i).Value[j].NAME; break;
+                        case "STICK":
+                            if (AllBinds.ContainsKey(dictLevel2.ElementAt(i).Value[j].NAME)) key = key + AllBinds[dictLevel2.ElementAt(i).Value[j].NAME].Joystick;
+                            else key = key + " "; break;
+                        case "BTN":
+                            if (AllBinds.ContainsKey(dictLevel2.ElementAt(i).Value[j].NAME)) key = key + BtnToSortString(AllBinds[dictLevel2.ElementAt(i).Value[j].NAME]);
+                            else key = key + " "; break;
+                    }
+                    if (dictLevel3.ContainsKey(key)) dictLevel3[key].Add(dictLevel2.ElementAt(i).Value[j]);
+                    else dictLevel3.Add(key, new List<Relation>() { dictLevel2.ElementAt(i).Value[j] });
+                }
+            }
+            var listsorted = dictLevel3.ToList();
+            listsorted = listsorted.OrderBy(x => x.Key).ToList();
+            li.Clear();
+            if (sortOrder1 == "DESC")
+            {
+                for (int i = listsorted.Count-1; i >= 0; i-=1)
+                {
+                    for(int j=0; j<listsorted[i].Value.Count; ++j)
+                    {
+                        li.Add(listsorted[i].Value[j]);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < listsorted.Count; ++i)
+                {
+                    for (int j = 0; j < listsorted[i].Value.Count; ++j)
+                    {
+                        li.Add(listsorted[i].Value[j]);
+                    }
+                }
+            }
+            
             MainStructure.SaveMetaLast();
             li = FilterGroups(li);
             li = FilterDevices(li);
@@ -794,7 +866,7 @@ namespace JoyPro
                 }
                 else
                 {
-                    if (showUnassignedGroups)
+                    if (!toCompare&&showUnassignedGroups)
                     {
                         for(int i=0; i<temp.Count; ++i)
                         {

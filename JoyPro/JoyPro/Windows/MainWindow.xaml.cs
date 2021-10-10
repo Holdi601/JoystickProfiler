@@ -44,7 +44,9 @@ namespace JoyPro
         TextBox[,] tboxes; 
         int buttonSetting;
         JoystickReader joyReader;
-        public string selectedSort;
+        public string selectedSort1;
+        public string selectedSort2;
+        public string selectedSort3;
         List<ColumnDefinition> colDefs = null;
         List<ColumnDefinition> colHds = null;
         Control[] controls = null;
@@ -54,8 +56,8 @@ namespace JoyPro
 
         public MainWindow()
         {
-            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
-            Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
+            //AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
+            //Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
             gridCols = 15;
             CURRENTDISPLAYEDRELATION = new List<Relation>();
@@ -67,8 +69,11 @@ namespace JoyPro
             FirstStart();
             joyReader = null;
             buttonSetting = -1;
-            selectedSort = "Relation";
-            
+            selectedSort1 = "NAME_NORM";
+            selectedSort2 = "STICK_NORM";
+            selectedSort3 = "BTN_NORM";
+
+
         }
         void setGridBordersLightGray()
         {
@@ -1518,37 +1523,44 @@ namespace JoyPro
         }
         void sortName(object o, EventArgs e)
         {
-            if (selectedSort == "NAME_NORM")
+            if (selectedSort1 == "NAME_NORM")
             {
-                selectedSort = "NAME_DESC";
+                selectedSort1 = "NAME_DESC";
             }
             else
             {
-                selectedSort = "NAME_NORM";
+                selectedSort3 = selectedSort2;
+                selectedSort2 = selectedSort1;
+                selectedSort1 = "NAME_NORM";
             }
             InternalDataMangement.ResyncRelations();
         }
         void sortStick(object o, EventArgs e)
         {
-            if (selectedSort == "STICK_NORM")
+            if (selectedSort1 == "STICK_NORM")
             {
-                selectedSort = "STICK_DESC";
+                selectedSort1 = "STICK_DESC";
             }
             else
             {
-                selectedSort = "STICK_NORM";
+                selectedSort3 = selectedSort2;
+                selectedSort2 = selectedSort1;
+                selectedSort1 = "STICK_NORM";
             }
             InternalDataMangement.ResyncRelations();
         }
         void sortBtn(object o, EventArgs e)
         {
-            if (selectedSort == "BTN_NORM")
+            if (selectedSort1 == "BTN_NORM")
             {
-                selectedSort = "BTN_DESC";
+
+                selectedSort1 = "BTN_DESC";
             }
             else
             {
-                selectedSort = "BTN_NORM";
+                selectedSort3 = selectedSort2;
+                selectedSort2 = selectedSort1;
+                selectedSort1 = "BTN_NORM";
             }
             InternalDataMangement.ResyncRelations();
         }
