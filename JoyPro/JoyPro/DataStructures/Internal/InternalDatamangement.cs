@@ -1042,7 +1042,7 @@ namespace JoyPro
             for(int i=0; i<toPrint.Count; ++i)
             {
                 string line = toPrint[i].NAME+";";
-                if (toPrint[i].Groups.Count > 0)
+                if (toPrint[i].Groups!=null&&toPrint[i].Groups.Count > 0)
                 {
                     line = line + toPrint[i].Groups[0];
                     for (int j = 1; j < toPrint[i].Groups.Count; ++j)

@@ -56,8 +56,8 @@ namespace JoyPro
 
         public MainWindow()
         {
-            //AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
-            //Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
+            Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
             gridCols = 15;
             CURRENTDISPLAYEDRELATION = new List<Relation>();
@@ -72,8 +72,6 @@ namespace JoyPro
             selectedSort1 = "NAME_NORM";
             selectedSort2 = "STICK_NORM";
             selectedSort3 = "BTN_NORM";
-
-
         }
         void setGridBordersLightGray()
         {
@@ -395,7 +393,6 @@ namespace JoyPro
                 }
 
                 InternalDataMangement.PrintOverviewToCsv(CURRENTDISPLAYEDRELATION, filePath);
-                //InternalDataMangement.SaveProfileTo(filePath);
             }
         }
         void OpenSaveReleations(object sender, EventArgs e)

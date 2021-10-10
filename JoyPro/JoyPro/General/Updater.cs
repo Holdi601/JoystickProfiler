@@ -8,6 +8,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Security.Principal;
+
 
 namespace JoyPro
 {
@@ -18,6 +20,8 @@ namespace JoyPro
         static string newestAvailableVersion;
         const string externalWebUrl = "https://raw.githubusercontent.com/Holdi601/JoystickProfiler/master/JoyPro/JoyPro/ver.txt";
         const string buildPath = "https://github.com/Holdi601/JoystickProfiler/raw/master/Builds/JoyPro_WinX64_v";
+
+
         public static async Task DownloadAsync(Uri requestUri, string filename)
         {
             if (filename == null)
@@ -61,6 +65,18 @@ namespace JoyPro
         }
         public static void DownloadCompleted(object o, EventArgs e)
         {
+
+            bool isElevated;
+            using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
+            {
+                WindowsPrincipal principal = new WindowsPrincipal(identity);
+                isElevated = principal.IsInRole(WindowsBuiltInRole.Administrator);
+            }
+            if (!isElevated)
+            {
+                MessageBox.Show("User does not run the program with admin priviledges, it might not be able to overwrite itself. Please rerun with admin priviledges");
+                return;
+            }
             Console.WriteLine(MainStructure.PROGPATH);
             ProcessStartInfo startInfo = new ProcessStartInfo(MainStructure.PROGPATH + "\\TOOLS\\Unzipper\\UnzipMeHereWin.exe");
             startInfo.Arguments = "\"" + MainStructure.PROGPATH + "\\NewerVersion.zip\" \"" + MainStructure.PROGPATH + "\" \"" + MainStructure.PROGPATH + "\\JoyPro.exe\"";
