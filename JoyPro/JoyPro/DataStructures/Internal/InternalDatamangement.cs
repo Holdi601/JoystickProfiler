@@ -886,12 +886,8 @@ namespace JoyPro
                                 temp[i].Groups = new List<string>();
                                 break;
                             }
-                            else if (temp[i].Groups.Count > 0)
-                            {
-                                groupresult.Add(temp[i]);
-                            }
                         }
-                        toReturn = groupresult;
+                        toReturn = temp;
                     }
                 }
             }

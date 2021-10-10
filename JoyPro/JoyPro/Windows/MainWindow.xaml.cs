@@ -1031,7 +1031,7 @@ namespace JoyPro
                         cbxGroup.IsChecked = true;
                     else
                         cbxGroup.IsChecked = false;
-                    cbxGroup.Checked += new RoutedEventHandler(GroupManagementCheckboxChange);
+                    cbxGroup.Click += new RoutedEventHandler(GroupManagementCheckboxChange);
                     groupDropdown.Items.Add(cbxGroup);
                 }
                 Grid.SetColumn(groupDropdown, 5);
