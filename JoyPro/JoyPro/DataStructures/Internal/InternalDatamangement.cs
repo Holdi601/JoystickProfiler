@@ -1058,7 +1058,7 @@ namespace JoyPro
                 }
                 else
                 {
-                    if (JoystickAliases.ContainsKey(b.Joystick))
+                    if (JoystickAliases.ContainsKey(b.Joystick)&&JoystickAliases[b.Joystick].Length>1)
                     {
                         line = line + JoystickAliases[b.Joystick] + ";";
                     }

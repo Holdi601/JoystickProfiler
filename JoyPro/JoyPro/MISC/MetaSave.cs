@@ -31,6 +31,7 @@ namespace JoyPro
         public WindowPos GrpMngr = null;
         public WindowPos AliasCr = null;
         public WindowPos JoyManAs = null;
+        public bool? importLocals = null; 
 
 
         public MetaSave()

@@ -106,9 +106,24 @@ namespace JoyPro
             CutStickSpecificDefsBtn.Click += new RoutedEventHandler(CutStickDefaults);
             RestoreSpecificDefsBtn.Click += new RoutedEventHandler(RestoreStickDefaults);
             CleanRelationsBtn.Click += new RoutedEventHandler(CleanRelations);
+            ImportLocalsFromInstanceCB.Click += new RoutedEventHandler(ImportLocalsChanged);
+            if (MainStructure.msave.importLocals == null || MainStructure.msave.importLocals == true)
+                ImportLocalsFromInstanceCB.IsChecked = true;
+            else
+                ImportLocalsFromInstanceCB.IsChecked = false;
             readDCSConfigData();
         }
-
+        void ImportLocalsChanged(object sender, EventArgs e)
+        {
+            if (ImportLocalsFromInstanceCB.IsChecked == true)
+            {
+                MainStructure.msave.importLocals = true;
+            }
+            else
+            {
+                MainStructure.msave.importLocals = false;
+            }
+        }
         void CleanRelations(object sender, EventArgs e)
         {
             var result = InternalDataMangement.CleanAllRelations();

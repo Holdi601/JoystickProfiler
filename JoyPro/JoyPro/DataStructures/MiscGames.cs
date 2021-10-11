@@ -230,7 +230,8 @@ namespace JoyPro
             {
                 MainStructure.msave.lastInstanceSelected = DCSselectedInstancePath;
             }
-            DBLogic.PopulateDCSDictionaryWithLocal(DCSselectedInstancePath);
+            if (MainStructure.msave.importLocals == null) MainStructure.msave.importLocals = true;
+            if(MainStructure.msave.importLocals==true)DBLogic.PopulateDCSDictionaryWithLocal(DCSselectedInstancePath);
             int indx = -1;
             for (int i = 0; i < DCSInstances.Length; ++i)
             {
