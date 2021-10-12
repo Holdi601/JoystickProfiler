@@ -33,9 +33,14 @@ https://dotnet.microsoft.com/download/dotnet-framework .NET 4.5 or higher (newes
 DirectX11
 Windows 10
 
-# Tutorials
+# Documentation / Tutorials
 
-How to create and edit Binds:
+My own Video Short and Condense Series:
+
+1. An Introduction https://www.youtube.com/watch?v=WY3UCZiRwro
+
+
+Older Video from me: How to create and edit Binds:
 
 https://youtu.be/XxzfEFHpWxI
 
@@ -52,7 +57,7 @@ You have a template or profile you want to share with others or see here? No Pro
 # Common Issues:
 -You see it in the task bar open but no windows? Then, when it tried to save its window state last time it got corrupted. To fix it, delete the Documents\JoyPro folder to fix.
 
--You crash on Binding ? You are missing c++ Redists.
+-You crash on Binding or get an error? You are missing c++ Redists. Or other requirements of slimdx.dll. Try Installing the C++ Redist for x64bit Systems for 2010, 2011 and 2015 and if that doesn't work try to download the full slimdx sdk here: https://code.google.com/archive/p/slimdx/downloads . Linking to the c++ redist won't work as the download links always become depracated after a few days. What you might also want to try is installing Simple Radio as they also rely on c++ redist if i am not mistaken and possibly could fix it.
 
 -The Program does not start at all? You are probably lacking then .Net
 
