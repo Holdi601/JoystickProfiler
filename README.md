@@ -25,8 +25,7 @@ https://github.com/Holdi601/JoystickProfiler/tree/master/Builds
 
 
 # Requirements:
-https://www.microsoft.com/en-us/download/confirmation.aspx?id=5555 - Microsoft Visual C++ 2010 Redistributable Package (x86)
-https://www.microsoft.com/en-US/Download/confirmation.aspx?id=14632 Redist x64
+Microsoft C++ Redist 2010, 2011 and 2015 x64. I can't put a link here as they become deprecated after a few days. Google it yourself. Sorry.
 
 https://dotnet.microsoft.com/download/dotnet-framework .NET 4.5 or higher (newest always best)
 
@@ -83,7 +82,7 @@ Contact me, I will try to fix it asap. Join the discord or create an Issue. Disc
 # What features might come?
 
 -Maybe other games come like star citizen, as that game is in its joystick mapping a mess inside the game. But if so, thats far out. 
-(Right now im in the testing state how easy it is outside the game like IL2 or FS2020 or SC to change inputs)
+(Right now im in the testing state how easy it is outside the game like  FS2020 or SC to change inputs)
 
 -Refactoring at some point, prolly too much spaghetti for some :-D 
 
