@@ -40,16 +40,17 @@ My own Video Short and Condense Series:
 2. Download & Create Relations https://youtu.be/CckEQUG7YGU
 3. Bind an Button or Axis https://youtu.be/4zMcYzhgv7E
 4. Create Modifier https://youtu.be/eG0npyq0gUo
-5. Import Inputs
-6. Manage your Relations
-7. Validate your Relations
-8. Export your Controls
-9. Mod Support & Refresh DCS Input DB
-10. Troubleshoot - Exported but default Profile binds still exist
+5. Import Inputs https://youtu.be/EZGPryuIWMM
+6. Manage your Relations https://youtu.be/BqnDsQjF6Fw
+7. Validate your Relations https://youtu.be/X3dzaRcWWZo
+8. Export & Save your Controls https://youtu.be/aviKpu6Y6ks
+9. Mod Support & Refresh DCS Input DB https://youtu.be/r-kyHykQCrs
+10. Troubleshoot - Exported but default Profile binds still exist 
 11. Export Joystick Graphical Layouts
 12. Exchange a device
 13. Quick start guide
 14. JoyPro doesn't start anymore
+15. Im unhappy with JoyPro, give me my old controls back!
 
 The entire playlist:
 https://www.youtube.com/watch?v=WY3UCZiRwro&list=PLlzaQN7UpUfh3b98GOSMe3LHgXxLziFca
