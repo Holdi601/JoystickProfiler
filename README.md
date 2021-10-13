@@ -38,8 +38,8 @@ My own Video Short and Condense Series:
 
 1. An Introduction https://www.youtube.com/watch?v=WY3UCZiRwro
 2. Download & Create Relations https://youtu.be/CckEQUG7YGU
-3. Bind an Button or Axis
-4. Create Modifier
+3. Bind an Button or Axis https://youtu.be/4zMcYzhgv7E
+4. Create Modifier 
 5. Import Inputs
 6. Manage your Relations
 7. Validate your Relations
