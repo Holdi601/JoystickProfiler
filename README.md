@@ -49,6 +49,7 @@ My own Video Short and Condense Series:
 11. Export Joystick Graphical Layouts
 12. Exchange a device
 13. Quick start guide
+14. JoyPro doesn't start anymore
 
 The entire playlist:
 https://www.youtube.com/watch?v=WY3UCZiRwro&list=PLlzaQN7UpUfh3b98GOSMe3LHgXxLziFca
