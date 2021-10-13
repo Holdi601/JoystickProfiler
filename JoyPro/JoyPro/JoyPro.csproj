@@ -490,7 +490,9 @@
     <Content Include="SlimDX.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TOOLS\AHK\ALTF4.exe" />
+    <Content Include="TOOLS\AHK\ALTF4.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="TOOLS\AHK\ArrowKeyDown.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -29,6 +29,8 @@ namespace JoyPro
         public bool OriginalFullscreen;
         int modulesToScan = 35;
 
+
+
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr FindWindow(string strClassName, string strWindowName);
 
@@ -524,7 +526,7 @@ namespace JoyPro
                 for (int i = 0; i < planesNeeded; ++i)
                 {
                     ClickCenterAnchored(DCSRect, 310, 313);
-                    Thread.Sleep(2000);
+                    Thread.Sleep(1500);
                     CloseCurrentWindow();
                     Thread.Sleep(500);
                     DCSproc.Refresh();
@@ -689,7 +691,7 @@ namespace JoyPro
                     for (int j = 0; j < allFiles.Length; ++j)
                     {
                         if ((largest == null&& allFiles[j].Name.EndsWith(".diff.lua")) ||
-                            (largest.Length < allFiles[j].Length && allFiles[j].Name.EndsWith(".diff.lua")))
+                            (largest!=null&&largest.Length < allFiles[j].Length && allFiles[j].Name.EndsWith(".diff.lua")))
                         {
                             largest = allFiles[j];
                         }
