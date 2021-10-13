@@ -37,7 +37,21 @@ Windows 10
 My own Video Short and Condense Series:
 
 1. An Introduction https://www.youtube.com/watch?v=WY3UCZiRwro
+2. Download & Create Relations https://youtu.be/CckEQUG7YGU
+3. Bind an Button or Axis
+4. Create Modifier
+5. Import Inputs
+6. Manage your Relations
+7. Validate your Relations
+8. Export your Controls
+9. Mod Support & Refresh DCS Input DB
+10. Troubleshoot - Exported but default Profile binds still exist
+11. Export Joystick Graphical Layouts
+12. Exchange a device
+13. Quick start guide
 
+The entire playlist:
+https://www.youtube.com/watch?v=WY3UCZiRwro&list=PLlzaQN7UpUfh3b98GOSMe3LHgXxLziFca
 
 Older Video from me: How to create and edit Binds:
 
