@@ -525,6 +525,14 @@ namespace JoyPro
                 {
                     ClickCenterAnchored(DCSRect, 310, 313);
                     Thread.Sleep(2000);
+                    CloseCurrentWindow();
+                    Thread.Sleep(500);
+                    DCSproc.Refresh();
+                    if (DCSproc.HasExited)
+                    {
+                        MessageBox.Show("Oops Joypro accidently closed the wrong window >.< sorry");
+                        return;
+                    }
                     BringProcessToFront(DCSproc);
                     Thread.Sleep(500);
                     ClickCenterAnchored(DCSRect, -554, -280);
@@ -637,6 +645,11 @@ namespace JoyPro
         {
             ProcessStartInfo startInfo = new ProcessStartInfo(MainStructure.PROGPATH + "\\TOOLS\\AHK\\GoToMouseAndClick.exe");
             startInfo.Arguments = x.ToString() + " " + y.ToString();
+            Process.Start(startInfo);
+        }
+        void CloseCurrentWindow()
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo(MainStructure.PROGPATH + "\\TOOLS\\AHK\\ALTF4.exe");
             Process.Start(startInfo);
         }
         void ArrowUp()

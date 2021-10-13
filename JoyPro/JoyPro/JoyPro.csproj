@@ -490,6 +490,7 @@
     <Content Include="SlimDX.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TOOLS\AHK\ALTF4.exe" />
     <Content Include="TOOLS\AHK\ArrowKeyDown.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -517,6 +518,7 @@
     <Content Include="DB\IL2\IL2.map">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="TOOLS\AHK\ALTF4.ahk" />
     <None Include="TOOLS\AHK\ArrowKeyDown.ahk" />
     <None Include="TOOLS\AHK\ArrowKeyUp.ahk" />
     <None Include="TOOLS\AHK\GoToMouseAndClick.ahk" />
