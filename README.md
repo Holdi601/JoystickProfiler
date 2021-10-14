@@ -46,9 +46,9 @@ My own Video Short and Condense Series:
 8. Export & Save your Controls https://youtu.be/aviKpu6Y6ks
 9. Mod Support & Refresh DCS Input DB https://youtu.be/r-kyHykQCrs
 10. Troubleshoot - Exported but default Profile binds still exist https://youtu.be/KkGLdN2cglU
-11. Export Joystick Graphical Layouts
-12. Exchange a device
-13. Quick start guide
+11. Export Joystick Graphical Layouts https://youtu.be/kAWnWB3HDQ4
+12. Exchange a device https://youtu.be/Y8H9D9UX8KQ
+13. Quick start guide 
 14. JoyPro doesn't start anymore
 15. Im unhappy with JoyPro, give me my old controls back!
 
