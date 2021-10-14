@@ -194,7 +194,7 @@ namespace JoyPro
                     InternalDataMangement.JoystickFileImages = new Dictionary<string, string>();
                 if (InternalDataMangement.JoystickFileImages.ContainsKey(kvp.Key))
                 {
-                    InternalDataMangement.JoystickFileImages[kvp.Key] = kvp.Value;
+                    //InternalDataMangement.JoystickFileImages[kvp.Key] = kvp.Value;
                 }
                 else
                 {

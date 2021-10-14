@@ -30,7 +30,7 @@ namespace JoyPro
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
     public static class MainStructure
     {
-        const int version = 47;
+        const int version = 48;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;
@@ -165,9 +165,12 @@ namespace JoyPro
                     binaryFormatter.Serialize(stream, objectToWrite);
                 }
             }
-            catch
+            catch(Exception e)
             {
-
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+                Console.WriteLine(e.Source);
+                Console.WriteLine(e.HelpLink);
             }
         }
         public static void InitProgram()

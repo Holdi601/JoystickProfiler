@@ -32,7 +32,8 @@ namespace JoyPro
     {
         string currentSelectedBtnAxis;
         string stick;
-        string export;
+        string alias;
+        string exportP;
         System.Drawing.Bitmap backup;
         System.Drawing.Bitmap mainImg;
         Image uiElementImage;
@@ -44,8 +45,18 @@ namespace JoyPro
             InitializeComponent();
             currentSelectedBtnAxis = "";
             LabelLocations = new Dictionary<string, Point>();
+            if(InternalDataMangement.JoystickAliases!=null&&
+                InternalDataMangement.JoystickAliases.ContainsKey(joystick)&&
+                InternalDataMangement.JoystickAliases[joystick].Length > 1)
+            {
+                alias = InternalDataMangement.JoystickAliases[joystick];
+            }
+            else
+            {
+                alias = joystick;
+            }
             stick = joystick;
-            export = exportpath;
+            exportP = exportpath;
             fontColor = BrushFromHex("#FF000000");
             CloseBtn.Click += new RoutedEventHandler(CloseThis);
             ColorBtn.Click += new RoutedEventHandler(OpenColorPicker);
@@ -60,7 +71,8 @@ namespace JoyPro
                 initBitMaps(filepath);
             }
             textSize = Convert.ToInt32(TextSizeTB.Text);
-            FontDropDown.SelectedIndex = 0;
+            if(FontDropDown.SelectedIndex<0)
+                FontDropDown.SelectedIndex = 0;
             ButtonsLB.SelectionChanged += new SelectionChangedEventHandler(SelectedButtonChanged);
             TextSizeTB.LostFocus += new RoutedEventHandler(textSizeChanged);
             TextSizeTB.KeyUp += new KeyEventHandler(textSizeEnterChange);
@@ -185,7 +197,7 @@ namespace JoyPro
             stick = lf.Joystick;
             backup = (System.Drawing.Bitmap)lf.backup.Clone();
             mainImg = (System.Drawing.Bitmap)lf.backup.Clone();
-            fontColor = lf.Color;
+            fontColor = lf.ColorSCB;
             LabelLocations = lf.Positions;
             textSize = lf.Size;
             TextSizeTB.Text = textSize.ToString();
@@ -201,7 +213,7 @@ namespace JoyPro
             if (LabelLocations.Count < 1) return;
             LayoutFile lf = new LayoutFile();
             lf.backup = backup;
-            lf.Color = fontColor;
+            lf.ColorSCB = fontColor;
             lf.Font = (string)FontDropDown.SelectedItem;
             lf.Joystick = stick;
             lf.Positions = LabelLocations;
@@ -243,8 +255,8 @@ namespace JoyPro
             }
             foreach(KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
             {
-                if (!Directory.Exists(export + "\\" + kvp.Key))
-                    Directory.CreateDirectory(export + "\\" + kvp.Key);
+                if (!Directory.Exists(exportP + "\\" + kvp.Key))
+                    Directory.CreateDirectory(exportP + "\\" + kvp.Key);
                 for(int i=0; i < kvp.Value.Count; ++i)
                 {
                     System.Drawing.Bitmap export = (System.Drawing.Bitmap)backup.Clone();
@@ -265,7 +277,7 @@ namespace JoyPro
                         }
                         else if (keys.Key == "Joystick")
                         {
-                            descriptor = stick;
+                            descriptor = alias;
                         }
                         else
                         {
@@ -274,7 +286,7 @@ namespace JoyPro
                         g.DrawString(descriptor, new System.Drawing.Font((string)FontDropDown.SelectedItem, textSize), b, Convert.ToSingle(keys.Value.X), Convert.ToSingle(keys.Value.Y));
                     }
                     g.Flush();
-                    export.Save(export + "\\" + kvp.Key + "\\" + kvp.Value[i] +"_"+stick+".png", ImageFormat.Png);
+                    export.Save(exportP + "\\" + kvp.Key + "\\" + kvp.Value[i] +"_"+ alias + ".png", ImageFormat.Png);
                 }
             }
             //One General Overview
@@ -297,7 +309,7 @@ namespace JoyPro
                 }
                 else if (keys.Key == "Joystick")
                 {
-                    descriptor = stick;
+                    descriptor = alias;
                 }
                 else
                 {
@@ -306,7 +318,7 @@ namespace JoyPro
                 gr.DrawString(descriptor, new System.Drawing.Font((string)FontDropDown.SelectedItem, textSize), br, Convert.ToSingle(keys.Value.X), Convert.ToSingle(keys.Value.Y));
             }
             gr.Flush();
-            expMain.Save(export + "\\"+stick+".png", ImageFormat.Png);
+            expMain.Save(exportP + "\\"+ alias + ".png", ImageFormat.Png);
             MessageBox.Show("Export looks successful.");
         }
     }
