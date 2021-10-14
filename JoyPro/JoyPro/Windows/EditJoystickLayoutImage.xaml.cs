@@ -257,8 +257,11 @@ namespace JoyPro
             {
                 if (!Directory.Exists(exportP + "\\" + kvp.Key))
                     Directory.CreateDirectory(exportP + "\\" + kvp.Key);
+
                 for(int i=0; i < kvp.Value.Count; ++i)
                 {
+                    if (!Directory.Exists(exportP + "\\" + kvp.Key+"\\"+kvp.Value[i]))
+                        Directory.CreateDirectory(exportP + "\\" + kvp.Key + "\\" + kvp.Value[i]);
                     System.Drawing.Bitmap export = (System.Drawing.Bitmap)backup.Clone();
                     System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(export);
                     g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
@@ -286,7 +289,7 @@ namespace JoyPro
                         g.DrawString(descriptor, new System.Drawing.Font((string)FontDropDown.SelectedItem, textSize), b, Convert.ToSingle(keys.Value.X), Convert.ToSingle(keys.Value.Y));
                     }
                     g.Flush();
-                    export.Save(exportP + "\\" + kvp.Key + "\\" + kvp.Value[i] +"_"+ alias + ".png", ImageFormat.Png);
+                    export.Save(exportP + "\\" + kvp.Key + "\\" + kvp.Value[i]+"\\"+ kvp.Value[i] + "_"+ alias + ".png", ImageFormat.Png);
                 }
             }
             //One General Overview

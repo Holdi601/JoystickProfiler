@@ -213,7 +213,9 @@ namespace JoyPro
             {
                 if (NODES[i].Game.ToLower() == Game.ToLower())
                 {
-                    return NODES[i].GetInputDescription(Plane);
+                    string desc= NODES[i].GetInputDescription(Plane);
+                    if (NODES[i].GetStateAircraft(Plane) == PlaneState.ACTIVE && desc.Length > 1)
+                        return desc;
                 }
             }
             return "";
