@@ -30,6 +30,7 @@ namespace JoyPro
     /// </summary>
     public partial class EditJoystickLayoutImage : Window
     {
+        List<string> assignedButtons;
         string currentSelectedBtnAxis;
         string stick;
         string alias;
@@ -60,7 +61,6 @@ namespace JoyPro
             fontColor = BrushFromHex("#FF000000");
             CloseBtn.Click += new RoutedEventHandler(CloseThis);
             ColorBtn.Click += new RoutedEventHandler(OpenColorPicker);
-            PopulateButtonAxisList();
             PopulateFontDropDown();
             if (filepath.EndsWith(".layout"))
             {
@@ -70,6 +70,12 @@ namespace JoyPro
             {
                 initBitMaps(filepath);
             }
+            assignedButtons = InternalDataMangement.GetButtonsAxisInUseForStick(stick);
+            assignedButtons.Sort();
+            assignedButtons.Add("Game");
+            assignedButtons.Add("Plane");
+            assignedButtons.Add("Joystick");
+            PopulateButtonAxisList();
             textSize = Convert.ToInt32(TextSizeTB.Text);
             if(FontDropDown.SelectedIndex<0)
                 FontDropDown.SelectedIndex = 0;
@@ -114,18 +120,30 @@ namespace JoyPro
         }
         void SelectedButtonChanged(object sender, EventArgs e)
         {
-            currentSelectedBtnAxis = (string)ButtonsLB.SelectedItem;
+            if((System.Windows.Controls.Label)ButtonsLB.SelectedItem!=null)
+                currentSelectedBtnAxis = (string)((System.Windows.Controls.Label)ButtonsLB.SelectedItem).Content;
         }
         void PopulateButtonAxisList()
         {
-            List<string> assignedButtons = InternalDataMangement.GetButtonsAxisInUseForStick(stick);
-            assignedButtons.Sort();
-            assignedButtons.Add("Game");
-            assignedButtons.Add("Plane");
-            assignedButtons.Add("Joystick");
-            ButtonsLB.ItemsSource = assignedButtons;
-            ButtonsLB.SelectedIndex = 0;
-            currentSelectedBtnAxis = (string)ButtonsLB.SelectedItem;
+            ButtonsLB.Items.Clear();
+            for(int i=0; i<assignedButtons.Count; ++i)
+            {
+                System.Windows.Controls.Label btnLabel = new System.Windows.Controls.Label();
+                btnLabel.Name = "btn";
+                btnLabel.Content = assignedButtons[i];
+                if (LabelLocations.ContainsKey(assignedButtons[i]))
+                {
+                    btnLabel.Foreground = Brushes.Black;
+                }
+                else
+                {
+                    btnLabel.Foreground = Brushes.Red;
+                }
+                ButtonsLB.Items.Add(btnLabel);
+
+            }
+            if(assignedButtons!=null&&assignedButtons.Count>0&&(currentSelectedBtnAxis==null||currentSelectedBtnAxis.Length<1))
+                currentSelectedBtnAxis =assignedButtons[0];
         }
         void PopulateFontDropDown()
         {
@@ -190,6 +208,7 @@ namespace JoyPro
             else
                 LabelLocations.Add(currentSelectedBtnAxis, newPos);
             refreshImageToShow();
+            PopulateButtonAxisList();
         }
         void openLayout(string filePath)
         {

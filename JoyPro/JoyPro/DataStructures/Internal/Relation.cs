@@ -211,6 +211,7 @@ namespace JoyPro
         {
             for(int i=0; i<NODES.Count; ++i)
             {
+                if (NODES[i].Game == null) NODES[i].Game = "DCS";
                 if (NODES[i].Game.ToLower() == Game.ToLower())
                 {
                     string desc= NODES[i].GetInputDescription(Plane);
