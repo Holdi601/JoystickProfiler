@@ -135,11 +135,24 @@ namespace JoyPro
             {
                 ri.AIRCRAFT.Add(kvp.Key, kvp.Value);
             }
-            ri.AllInputs = new DCSInput[AllInputs.Length];
-            for (int i = 0; i < AllInputs.Length; ++i)
+            if (AllInputs != null)
             {
-                ri.AllInputs[i] = AllInputs[i].Copy();
+                ri.AllInputs = new DCSInput[AllInputs.Length];
+                for (int i = 0; i < AllInputs.Length; ++i)
+                {
+                    ri.AllInputs[i] = AllInputs[i].Copy();
+                }
             }
+            else
+            {
+                ri.OtherInputs = new OtherGameInput[OtherInputs.Length];
+                for (int i = 0; i < OtherInputs.Length; ++i)
+                {
+                    ri.OtherInputs[i] = OtherInputs[i].Copy();
+                }
+            }
+                
+            
             return ri;
         }
         OtherGameInput InputsContainPlane(OtherGameInput[] inputs, string plane)
