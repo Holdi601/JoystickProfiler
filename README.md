@@ -80,15 +80,6 @@ You have a template or profile you want to share with others or see here? No Pro
 -the Map file gets recreated everytime the game starts and goes into options, so any Modifier or Custom curve created in JP will be ignored. If you reimport that data your relation will be on the bind without modifiers.
 -Also IL2 doesn't allow outside the map file for Saturation changes, and the map file always gets recreated so it can't be changed.
 
-# FAQ:
-I have mods installed, but they do not show up in relations?
-
-and
-
-DCS got updated Keybinds but it is not showing them?
-
-Go into DCS, Go into Controls for the Mod plane, click on make html. Restart joypro.
-
 
 # I have a bug?!
 
@@ -97,8 +88,7 @@ Contact me, I will try to fix it asap. Join the discord or create an Issue. Disc
 
 # What features might come?
 
--Maybe other games come like star citizen, as that game is in its joystick mapping a mess inside the game. But if so, thats far out. 
-(Right now im in the testing state how easy it is outside the game like  FS2020 or SC to change inputs)
+-Other Games. However I would need help by others as some games like MSFS2020 a lot of stuff looks like questionmarks to me.
 
 -Refactoring at some point, prolly too much spaghetti for some :-D 
 
@@ -106,8 +96,6 @@ Contact me, I will try to fix it asap. Join the discord or create an Issue. Disc
 Discord for more direct question answer or concerns: https://discord.gg/SeCTXJHhJf
 
 # To Do, Features I want to work on in that order
-
--Asynchronus download and update
 
 -cancel an edit of a relation
 
@@ -118,4 +106,4 @@ Discord for more direct question answer or concerns: https://discord.gg/SeCTXJHh
 
 Star Citizen
 
-MSFS2020
+MSFS2020 (Someone please explain me the structure)
