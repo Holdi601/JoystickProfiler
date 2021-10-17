@@ -588,7 +588,6 @@ namespace JoyPro
             {
 
             }
-            
         }
         int CountInstalledCrafts()
         {

@@ -30,7 +30,7 @@ namespace JoyPro
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
     public static class MainStructure
     {
-        const int version = 49;
+        public const int version = 50;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;
@@ -177,7 +177,7 @@ namespace JoyPro
         {
             if (Updater.GetNewestVersionNumber() > version)
             {
-                MessageBoxResult mr = MessageBox.Show("A newer version is available, if you press yes, it will download in the background (Dont close the program please), it will close itself once its done.", "Newer Version Available", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                MessageBoxResult mr = MessageBox.Show("A newer version is available, if you press yes, it will download in the background (Dont close the program please), You will be notified once its done.", "Newer Version Available", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (mr == MessageBoxResult.Yes)
                 {
                     Updater.DownloadNewerVersion();

@@ -60,6 +60,7 @@ namespace JoyPro
             //Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
             gridCols = 15;
+            VersionLabel.Content = "v" + MainStructure.version.ToString();
             CURRENTDISPLAYEDRELATION = new List<Relation>();
             ALLWINDOWS = new List<Window>();
             setGridBordersLightGray();

@@ -48,6 +48,7 @@
         <Button FontWeight="Bold" Name="MEBWEAKEBtn" Content="Merge and Keep Existing Binds" Height="30" Width="231"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,18,0,12" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" />
         <Button FontWeight="Bold" Name="MEBWEAABBtn" Content="Merge, Keep Existing and Add to" Height="30" Width="231"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,18,0,12" Grid.Row="6" Grid.Column="5" Grid.ColumnSpan="2" />
 
+        <Label Content="vxxxx" Name="VersionLabel" Foreground="White" Grid.Column="7" Grid.Row="0"  HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Margin="10,12,10,10" />
         <Label Content="DCS Instance:" Foreground="White" Grid.Column="0" Grid.Row="5"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Margin="10,12,10,10" Width="100"/>
         <ComboBox Name="DropDownInstanceSelection" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,12,0,10" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="6" Width="720" Height="31" ></ComboBox>
         <ScrollViewer Name="sv" ScrollViewer.HorizontalScrollBarVisibility="Auto"  Width="auto" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="8" Grid.RowSpan="1"/>
