@@ -31,6 +31,7 @@ namespace JoyPro
     public partial class EditJoystickLayoutImage : Window
     {
         List<string> assignedButtons;
+        List<string> possibleAxBtn;
         string currentSelectedBtnAxis;
         string stick;
         string alias;
@@ -70,6 +71,29 @@ namespace JoyPro
             {
                 initBitMaps(filepath);
             }
+            List<string> rawPossibleBtns = JoystickReader.GetAllPossibleStickInputs();
+            possibleAxBtn = new List<string>();
+            possibleAxBtn.Add("Game");
+            possibleAxBtn.Add("Plane");
+            possibleAxBtn.Add("Joystick");
+            for (int i = 0; i < rawPossibleBtns.Count; ++i) possibleAxBtn.Add(rawPossibleBtns[i]);
+            List<string> modNames = new List<string>();
+            foreach (KeyValuePair<string, Modifier> kvp in InternalDataMangement.AllModifiers) modNames.Add(kvp.Key);
+            modNames.Sort();
+            List<string> modNamesC = new List<string>();
+            for(int i=0; i<modNames.Count; ++i)
+            {
+                if (i > 3) break;
+                List<string> ModNamesCombined = getAllPossibleCombinationWithLength(modNames, i + 1);
+                foreach (string s in ModNamesCombined) modNamesC.Add(s);
+            }
+            for(int i=0; i<modNamesC.Count; ++i)
+            {
+                for(int j=0; j<rawPossibleBtns.Count; ++j)
+                {
+                    possibleAxBtn.Add(modNamesC[i] + "+" + rawPossibleBtns[j]);
+                }
+            }
             assignedButtons = InternalDataMangement.GetButtonsAxisInUseForStick(stick);
             assignedButtons.Sort();
             assignedButtons.Add("Game");
@@ -86,6 +110,61 @@ namespace JoyPro
             SaveLayoutBtn.Click += new RoutedEventHandler(saveLayout);
             ExportBtn.Click += new RoutedEventHandler(exportInputs);
             refreshImageToShow();
+        }
+        List<string> getAllPossibleCombinationWithLength(List<string> li, int leng)
+        {
+            if (leng > li.Count) return null;
+            else if (leng == 0) return new List<string>();
+            List<string> res = new List<string>();
+            UInt16 max = (UInt16)Math.Pow(2, li.Count);
+            for(UInt16 groups=1; groups<max; ++groups)
+            {
+                if (countSetBits(groups) == (UInt16)leng)
+                {
+                    string tempResult = "";
+                    for(int i=0; i<16; ++i)
+                    {
+                        if ((groups & (1 << i)) != 0)
+                        {
+                            if (tempResult.Length == 0)
+                            {
+                                tempResult = li[i];
+                            }
+                            else
+                            {
+                                tempResult+="+"+li[i];
+                            }
+                        }
+                    }
+                    res.Add(tempResult);
+                }
+            }
+            return res;
+        }
+
+        UInt16 countSetBits(UInt16 tester)
+        {
+            UInt16 j = 0;
+            for (UInt16 i = 0; i < 16; ++i)
+            {
+                if ((tester & (1 << i))!=0)
+                    ++j;
+            }
+            return j;
+        }
+
+        List<string> recursiveSetupNameList(List<string> li)
+        {
+            List<string> result = new List<string>();
+            for(int i=0; i<li.Count; ++i)
+            {
+                string pref = li[i];
+                for(int j=0; j<i; ++j)
+                {
+                    
+                }
+            }
+            return result;
         }
         void textSizeEnterChange(object sender, KeyEventArgs e)
         {
@@ -126,24 +205,28 @@ namespace JoyPro
         void PopulateButtonAxisList()
         {
             ButtonsLB.Items.Clear();
-            for(int i=0; i<assignedButtons.Count; ++i)
+            for(int i=0; i< possibleAxBtn.Count; ++i)
             {
                 System.Windows.Controls.Label btnLabel = new System.Windows.Controls.Label();
                 btnLabel.Name = "btn";
-                btnLabel.Content = assignedButtons[i];
-                if (LabelLocations.ContainsKey(assignedButtons[i]))
+                btnLabel.Content = possibleAxBtn[i];
+                if (LabelLocations.ContainsKey(possibleAxBtn[i]))
                 {
                     btnLabel.Foreground = Brushes.Black;
                 }
-                else
+                else if(assignedButtons.Contains(possibleAxBtn[i]))
                 {
                     btnLabel.Foreground = Brushes.Red;
+                }
+                else
+                {
+                    btnLabel.Foreground = Brushes.Violet;
                 }
                 ButtonsLB.Items.Add(btnLabel);
 
             }
-            if(assignedButtons!=null&&assignedButtons.Count>0&&(currentSelectedBtnAxis==null||currentSelectedBtnAxis.Length<1))
-                currentSelectedBtnAxis =assignedButtons[0];
+            if(possibleAxBtn != null&& possibleAxBtn.Count>0&&(currentSelectedBtnAxis==null||currentSelectedBtnAxis.Length<1))
+                currentSelectedBtnAxis = possibleAxBtn[0];
         }
         void PopulateFontDropDown()
         {
@@ -187,9 +270,21 @@ namespace JoyPro
             uiElementImage.Source = ConverBitmapToBitmapImage(mainImg);
             uiElementImage.Stretch = Stretch.Uniform;
             uiElementImage.MouseLeftButtonUp += new MouseButtonEventHandler(image_MouseLeftButtonUp);
+            uiElementImage.MouseRightButtonUp += new MouseButtonEventHandler(image_MouseRightButtonUp);
             sv.Content = uiElementImage;
         }
-        private void image_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+
+        void image_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (LabelLocations.ContainsKey(currentSelectedBtnAxis))
+            {
+                LabelLocations.Remove(currentSelectedBtnAxis);
+                refreshImageToShow();
+                PopulateButtonAxisList();
+            }
+        }
+
+        void image_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Point pos = e.GetPosition(uiElementImage);
             AddLabelToImage(pos);

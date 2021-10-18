@@ -46,7 +46,8 @@ namespace JoyPro
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
             updateJoystickList();
-            populateButtonList();
+            ButtonsLB.Items.Clear();
+            ButtonsLB.ItemsSource = JoystickReader.GetAllPossibleStickInputs();
             AddJoystickBtn.Click += new RoutedEventHandler(EnterNewJoystick);
             AddJoystickTF.KeyUp += new KeyEventHandler(EnterNewJoystickEnter);
             CloseBtn.Click += new RoutedEventHandler(CloseThis);
@@ -112,61 +113,7 @@ namespace JoyPro
             Close();            
         }
 
-        void populateButtonList()
-        {
-            if (rel.ISAXIS)
-            {
-                ButtonsLB.Items.Clear();
-                ButtonsLB.Items.Add("JOY_X");
-                ButtonsLB.Items.Add("JOY_Y");
-                ButtonsLB.Items.Add("JOY_Z");
-                ButtonsLB.Items.Add("JOY_RX");
-                ButtonsLB.Items.Add("JOY_RY");
-                ButtonsLB.Items.Add("JOY_RZ");
-                ButtonsLB.Items.Add("JOY_SLIDER1");
-                ButtonsLB.Items.Add("JOY_SLIDER2");
-            }
-            else
-            {
-                ButtonsLB.Items.Clear();
-                ButtonsLB.Items.Add("JOY_BTN_POV1_U");
-                ButtonsLB.Items.Add("JOY_BTN_POV1_UR");
-                ButtonsLB.Items.Add("JOY_BTN_POV1_R");
-                ButtonsLB.Items.Add("JOY_BTN_POV1_DR");
-                ButtonsLB.Items.Add("JOY_BTN_POV1_D");
-                ButtonsLB.Items.Add("JOY_BTN_POV1_DL");
-                ButtonsLB.Items.Add("JOY_BTN_POV1_L");
-                ButtonsLB.Items.Add("JOY_BTN_POV1_UL");
-                ButtonsLB.Items.Add("JOY_BTN_POV2_U");
-                ButtonsLB.Items.Add("JOY_BTN_POV2_UR");
-                ButtonsLB.Items.Add("JOY_BTN_POV2_R");
-                ButtonsLB.Items.Add("JOY_BTN_POV2_DR");
-                ButtonsLB.Items.Add("JOY_BTN_POV2_D");
-                ButtonsLB.Items.Add("JOY_BTN_POV2_DL");
-                ButtonsLB.Items.Add("JOY_BTN_POV2_L");
-                ButtonsLB.Items.Add("JOY_BTN_POV2_UL");
-                ButtonsLB.Items.Add("JOY_BTN_POV3_U");
-                ButtonsLB.Items.Add("JOY_BTN_POV3_UR");
-                ButtonsLB.Items.Add("JOY_BTN_POV3_R");
-                ButtonsLB.Items.Add("JOY_BTN_POV3_DR");
-                ButtonsLB.Items.Add("JOY_BTN_POV3_D");
-                ButtonsLB.Items.Add("JOY_BTN_POV3_DL");
-                ButtonsLB.Items.Add("JOY_BTN_POV3_L");
-                ButtonsLB.Items.Add("JOY_BTN_POV3_UL");
-                ButtonsLB.Items.Add("JOY_BTN_POV4_U");
-                ButtonsLB.Items.Add("JOY_BTN_POV4_UR");
-                ButtonsLB.Items.Add("JOY_BTN_POV4_R");
-                ButtonsLB.Items.Add("JOY_BTN_POV4_DR");
-                ButtonsLB.Items.Add("JOY_BTN_POV4_D");
-                ButtonsLB.Items.Add("JOY_BTN_POV4_DL");
-                ButtonsLB.Items.Add("JOY_BTN_POV4_L");
-                ButtonsLB.Items.Add("JOY_BTN_POV4_UL");
-                for(int i=1; i<129; ++i)
-                {
-                    ButtonsLB.Items.Add("JOY_BTN" + i.ToString());
-                }
-            }
-        }
+        
 
         void EnterNewJoystick(object sender, EventArgs e)
         {

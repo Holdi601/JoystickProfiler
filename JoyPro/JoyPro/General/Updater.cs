@@ -97,7 +97,7 @@ namespace JoyPro
                 }
                 try
                 {
-                    MainStructure.CopyFolderIntoFolder(MainStructure.PROGPATH + "\\TOOLS\\Unzipper\\", MainStructure.PROGPATH + "\\TOOLS\\temp\\");
+                    MainStructure.CopyFolderIntoFolder(MainStructure.PROGPATH + "\\TOOLS\\Unzip\\", MainStructure.PROGPATH + "\\TOOLS\\temp\\");
                 }
                 catch (Exception ex)
                 {

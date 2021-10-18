@@ -1928,5 +1928,6 @@ namespace JoyPro
             cjii.Show();
             cjii.Closing += new CancelEventHandler(ActivateInputs);
         }
+
     }
 }

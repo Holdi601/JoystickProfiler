@@ -1128,6 +1128,7 @@ namespace JoyPro
                     string prefix = "";
                     if (kvp.Value.AllReformers.Count > 0)
                     {
+                        kvp.Value.AllReformers.Sort();
                         prefix = kvp.Value.AllReformers[0].Substring(0, kvp.Value.AllReformers[0].IndexOf('§'));
                         for(int i=1; i<kvp.Value.AllReformers.Count; ++i)
                         {

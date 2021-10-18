@@ -502,16 +502,16 @@
     <Content Include="TOOLS\AHK\GoToMouseAndClick.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TOOLS\Unzipper\DotNetZip.dll">
+    <Content Include="TOOLS\Unzip\DotNetZip.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="TOOLS\Unzipper\DotNetZip.xml">
+    <Resource Include="TOOLS\Unzip\DotNetZip.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Content Include="TOOLS\ExtractCleanInput.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TOOLS\Unzipper\UnzipMeHereWin.exe">
+    <Content Include="TOOLS\Unzip\UnzipMeHereWin.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DB\IL2\IL2.actions">
@@ -524,7 +524,7 @@
     <None Include="TOOLS\AHK\ArrowKeyDown.ahk" />
     <None Include="TOOLS\AHK\ArrowKeyUp.ahk" />
     <None Include="TOOLS\AHK\GoToMouseAndClick.ahk" />
-    <None Include="TOOLS\Unzipper\UnzipMeHereWin.exe.config">
+    <None Include="TOOLS\Unzip\UnzipMeHereWin.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Resource Include="ver.txt" />

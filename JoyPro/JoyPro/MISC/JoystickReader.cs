@@ -67,6 +67,94 @@ namespace JoyPro
         int pollWaitTime;
         Keyboard kb;
 
+        public static List<string> GetAllPossibleStickInputs(Relation rel = null)
+        {
+            List<string> result = new List<string>();
+            if ((rel != null && rel.ISAXIS) || rel == null)
+            {
+                result.Add("JOY_X");
+                result.Add("JOY_Y");
+                result.Add("JOY_Z");
+                result.Add("JOY_RX");
+                result.Add("JOY_RY");
+                result.Add("JOY_RZ");
+                result.Add("JOY_SLIDER1");
+                result.Add("JOY_SLIDER2");
+            }
+            if ((rel != null && !rel.ISAXIS) || rel == null)
+            {
+                result.Add("JOY_BTN_POV1_U");
+                result.Add("JOY_BTN_POV1_UR");
+                result.Add("JOY_BTN_POV1_R");
+                result.Add("JOY_BTN_POV1_DR");
+                result.Add("JOY_BTN_POV1_D");
+                result.Add("JOY_BTN_POV1_DL");
+                result.Add("JOY_BTN_POV1_L");
+                result.Add("JOY_BTN_POV1_UL");
+                result.Add("JOY_BTN_POV2_U");
+                result.Add("JOY_BTN_POV2_UR");
+                result.Add("JOY_BTN_POV2_R");
+                result.Add("JOY_BTN_POV2_DR");
+                result.Add("JOY_BTN_POV2_D");
+                result.Add("JOY_BTN_POV2_DL");
+                result.Add("JOY_BTN_POV2_L");
+                result.Add("JOY_BTN_POV2_UL");
+                result.Add("JOY_BTN_POV3_U");
+                result.Add("JOY_BTN_POV3_UR");
+                result.Add("JOY_BTN_POV3_R");
+                result.Add("JOY_BTN_POV3_DR");
+                result.Add("JOY_BTN_POV3_D");
+                result.Add("JOY_BTN_POV3_DL");
+                result.Add("JOY_BTN_POV3_L");
+                result.Add("JOY_BTN_POV3_UL");
+                result.Add("JOY_BTN_POV4_U");
+                result.Add("JOY_BTN_POV4_UR");
+                result.Add("JOY_BTN_POV4_R");
+                result.Add("JOY_BTN_POV4_DR");
+                result.Add("JOY_BTN_POV4_D");
+                result.Add("JOY_BTN_POV4_DL");
+                result.Add("JOY_BTN_POV4_L");
+                result.Add("JOY_BTN_POV4_UL");
+                result.Add("JOY_BTN_POV5_U");
+                result.Add("JOY_BTN_POV5_UR");
+                result.Add("JOY_BTN_POV5_R");
+                result.Add("JOY_BTN_POV5_DR");
+                result.Add("JOY_BTN_POV5_D");
+                result.Add("JOY_BTN_POV5_DL");
+                result.Add("JOY_BTN_POV5_L");
+                result.Add("JOY_BTN_POV5_UL");
+                result.Add("JOY_BTN_POV6_U");
+                result.Add("JOY_BTN_POV6_UR");
+                result.Add("JOY_BTN_POV6_R");
+                result.Add("JOY_BTN_POV6_DR");
+                result.Add("JOY_BTN_POV6_D");
+                result.Add("JOY_BTN_POV6_DL");
+                result.Add("JOY_BTN_POV6_L");
+                result.Add("JOY_BTN_POV6_UL");
+                result.Add("JOY_BTN_POV7_U");
+                result.Add("JOY_BTN_POV7_UR");
+                result.Add("JOY_BTN_POV7_R");
+                result.Add("JOY_BTN_POV7_DR");
+                result.Add("JOY_BTN_POV7_D");
+                result.Add("JOY_BTN_POV7_DL");
+                result.Add("JOY_BTN_POV7_L");
+                result.Add("JOY_BTN_POV7_UL");
+                result.Add("JOY_BTN_POV8_U");
+                result.Add("JOY_BTN_POV8_UR");
+                result.Add("JOY_BTN_POV8_R");
+                result.Add("JOY_BTN_POV8_DR");
+                result.Add("JOY_BTN_POV8_D");
+                result.Add("JOY_BTN_POV8_DL");
+                result.Add("JOY_BTN_POV8_L");
+                result.Add("JOY_BTN_POV8_UL");
+                for (int i = 1; i < 129; ++i)
+                {
+                    result.Add("JOY_BTN" + i.ToString());
+                }
+            }
+            return result;
+        }
+
         public static List<string> GetConnectedJoysticks()
         {
             List<string> result = new List<string>();
