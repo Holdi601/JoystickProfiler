@@ -144,14 +144,12 @@ namespace JoyPro
             {
                 MiscGames.IL2Instance = MiscGames.IL2PathOverride;
             }
-            DBLogic.PopulateIL2Dictionary();
             Console.WriteLine(MiscGames.IL2Instance);
         }
         public static void InitDCSData()
         {
             MainStructure.PROGPATH = Environment.CurrentDirectory;
             Console.WriteLine(MainStructure.PROGPATH);
-            LoadDcsData();
             DCSIOLogic.LoadCleanLuasDCS();
             DCSIOLogic.LoadLocalDefaultsDCS();
             List<string> installs = new List<string>();
@@ -188,6 +186,7 @@ namespace JoyPro
             UnloadGameData();
             InitDCSData();
             InitIL2Data();
+            ReloadDatabase();
             try
             {
                 List<string> connectedSticks = JoystickReader.GetConnectedJoysticks();
@@ -204,9 +203,13 @@ namespace JoyPro
 
             }
         }
-        public static void LoadDcsData()
+        public static void ReloadDatabase()
         {
+            DBLogic.OtherLib.Clear();
+            DBLogic.DCSLib.Clear();
             DBLogic.PopulateDCSDictionaryWithProgram();
+            DBLogic.PopulateIL2Dictionary();
+            DBLogic.PopulateManualDictionary();
         }
 
     }

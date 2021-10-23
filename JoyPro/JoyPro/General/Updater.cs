@@ -21,7 +21,6 @@ namespace JoyPro
         const string externalWebUrl = "https://raw.githubusercontent.com/Holdi601/JoystickProfiler/master/JoyPro/JoyPro/ver.txt";
         const string buildPath = "https://github.com/Holdi601/JoystickProfiler/raw/master/Builds/JoyPro_WinX64_v";
         static object _Lock= new object();
-        static int _consolePosition;
         static readonly CancellationTokenSource source = new CancellationTokenSource();
 
 

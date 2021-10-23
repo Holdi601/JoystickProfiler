@@ -109,6 +109,7 @@ namespace JoyPro
             RestoreSpecificDefsBtn.Click += new RoutedEventHandler(RestoreStickDefaults);
             CleanRelationsBtn.Click += new RoutedEventHandler(CleanRelations);
             ImportLocalsFromInstanceCB.Click += new RoutedEventHandler(ImportLocalsChanged);
+            ManualDBBtn.Click += new RoutedEventHandler(OpenIDManualManagement);
             if (MainStructure.msave.importLocals == null || MainStructure.msave.importLocals == true)
                 ImportLocalsFromInstanceCB.IsChecked = true;
             else
@@ -464,6 +465,11 @@ namespace JoyPro
                 turnFullScreen(OriginalFullscreen);
                 MessageBox.Show("Done. Please restart JoyPro now.");
             }
+        }
+        void OpenIDManualManagement(object sender, EventArgs e)
+        {
+            ManualDBManager mdb = new ManualDBManager();
+            mdb.Show();
         }
         void RefreshIDDB(object sender, EventArgs e)
         {

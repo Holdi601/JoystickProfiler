@@ -17,6 +17,7 @@ namespace JoyPro
     public partial class RelationWindow : Window
     {
         public Relation Current = null;
+        public Relation Original = null;
         bool editMode;
         List<ColumnDefinition> headerColumns;
         List<ColumnDefinition> headerColumnsIds;
@@ -55,7 +56,6 @@ namespace JoyPro
             {
                 editMode = true;
                 this.Title = "Edit Relation";
-                FinishRelationBtn.Visibility = Visibility.Hidden;
                 RefreshDGSelected();
                 RelationNameTF.Text = Current.NAME;
             }
@@ -65,7 +65,8 @@ namespace JoyPro
         public RelationWindow(Relation r)
         {
             InitializeComponent();
-            Current = r;
+            Current = r.Copy();
+            Original = r;
             init();
         }
         public RelationWindow()
@@ -177,7 +178,13 @@ namespace JoyPro
             }
             else
             {
-                InternalDataMangement.ResyncRelations();
+                //Here replace logic
+                if (InternalDataMangement.AllRelations.ContainsKey(Current.NAME) && Original.NAME != Current.NAME)
+                {
+                    MessageBox.Show("RelationName already taken. Please take a new one");
+                    return;
+                }
+                InternalDataMangement.ReplaceRelation(Original, Current);
                 Console.WriteLine("Finished Editing Relation " + Current.NAME);
             }
             setLastSizeAndPosition();
@@ -192,18 +199,15 @@ namespace JoyPro
         {
             Current.NAME = RelationNameTF.Text;
         }
-
         void CloseThis(object sender, EventArgs e)
         {
             setLastSizeAndPosition();
             Close();
         }
-
         void OnClosing(object sender, EventArgs e)
         {
             setLastSizeAndPosition();
         }
-       
         void AddItemBtnHit(object sender, EventArgs e)
         {
             List<SearchQueryResults> selected = DGSource.SelectedItems.Cast<SearchQueryResults>().ToList();
@@ -227,7 +231,6 @@ namespace JoyPro
             }       
             RefreshDGSelected();
         }
-
         Grid createBaseGridHeader()
         {
             headerColumns = new List<ColumnDefinition>();
@@ -248,7 +251,6 @@ namespace JoyPro
             }
             return grid;
         }
-
         Grid createBaseGridHeaderId()
         {
             headerColumnsIds = new List<ColumnDefinition>();
@@ -265,7 +267,6 @@ namespace JoyPro
             }
             return grid;
         }
-
         Grid createMainGrid(int itemrows)
         {
             var converter = new GridLengthConverter();
@@ -292,7 +293,6 @@ namespace JoyPro
             
             return grid;
         }
-
         Grid createMainGridId(int itemrows)
         {
             var converter = new GridLengthConverter();
@@ -315,7 +315,6 @@ namespace JoyPro
 
             return grid;
         }
-
         void createLabelOnGrid(string Name, string Content, int column, int row, Grid g)
         {
             Label lbl = new Label();
@@ -328,9 +327,6 @@ namespace JoyPro
             Grid.SetRow(lbl, row);
             g.Children.Add(lbl);
         }
-
-        
-
         void createButtonOnGrid(string Name, string Content, int column, int row, RoutedEventHandler evnt, Grid g)
         {
             Button Btn = new Button();
@@ -344,7 +340,6 @@ namespace JoyPro
             Grid.SetRow(Btn, row);
             g.Children.Add(Btn);
         }
-
         void CreateCheckBoxOnGrid(string Name, string Content, bool isChecked, RoutedEventHandler evnt, int column, int row, Grid g)
         {
             CheckBox cbx = new CheckBox();
@@ -414,7 +409,6 @@ namespace JoyPro
                     }
                 }
             }
-            
             grid.ShowGridLines = true;
             gridId.ShowGridLines = true;
             svcCont.Content = grid;

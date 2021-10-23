@@ -70,7 +70,7 @@ namespace JoyPro
         {
             foreach (RelationItem r in NODES)
             {
-                r.CheckAgainstDB();
+                r.CheckAgainstDB(this);
             }
         }
         public void ActivateRestForID(string id)

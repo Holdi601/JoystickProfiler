@@ -21,6 +21,20 @@ namespace JoyPro
             Buttons = new Dictionary<string, DCSInput>();
         }
 
+        public DCSPlane Copy()
+        {
+            DCSPlane dp = new DCSPlane(Name);
+            foreach(KeyValuePair<string, DCSInput> kvp in Axis)
+            {
+                dp.Axis.Add(kvp.Key, kvp.Value.Copy());
+            }
+            foreach (KeyValuePair<string, DCSInput> kvp in Buttons)
+            {
+                dp.Buttons.Add(kvp.Key, kvp.Value.Copy());
+            }
+            return dp;
+        }
+
 
     }
 }

@@ -234,6 +234,25 @@ namespace JoyPro
                 }
             }
         }
+
+        public static void ReplaceRelation(Relation old, Relation rNew)
+        {
+            Bind b = null;
+            if (AllBinds.ContainsKey(old.NAME))
+            {
+                b = AllBinds[old.NAME];
+                AllBinds.Remove(old.NAME);
+                AllBinds.Add(rNew.NAME, b);
+            }
+            if (b != null)
+            {
+                rNew.bind = b;
+                b.Rl = rNew;
+            }
+            AllRelations.Add(rNew.NAME, rNew);
+            ResyncRelations();
+        }
+
         public static void AddRelation(Relation r)
         {
             if (!AllRelations.ContainsKey(r.NAME))

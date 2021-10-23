@@ -92,6 +92,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DataStructures\DB\DBLogic.cs" />
+    <Compile Include="DataStructures\DB\ManualDatabaseAdditions.cs" />
     <Compile Include="DataStructures\DCS\DCSIOLogic.cs" />
     <Compile Include="DataStructures\IL2Game\IL2AxisReplacementButtons.cs" />
     <Compile Include="DataStructures\IL2Game\IL2AxisSetting.cs" />
@@ -136,6 +137,9 @@
     <Compile Include="MISC\KnownFolders.cs" />
     <Compile Include="MISC\MetaSave.cs" />
     <Compile Include="DataStructures\Internal\Modifier.cs" />
+    <Compile Include="Windows\ManualDBManager.xaml.cs">
+      <DependentUpon>ManualDBManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ManualJoystickAssign.xaml.cs">
       <DependentUpon>ManualJoystickAssign.xaml</DependentUpon>
     </Compile>
@@ -203,6 +207,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\ManualDBManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\ManualJoystickAssign.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

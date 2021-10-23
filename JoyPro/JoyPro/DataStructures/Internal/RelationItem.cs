@@ -44,12 +44,12 @@ namespace JoyPro
             AIRCRAFT = new Dictionary<string, bool>();
         }
         //Confirming names because it has been saved against DB
-        public void CheckAgainstDB()
+        public void CheckAgainstDB(Relation r)
         {
             if (Game == null || Game == "DCS" || Game == "")
             {
                 DCSInput[] dbItems = DBLogic.GetAllDCSInputsWithId(ID);
-                List<DCSInput> toRemove = new List<DCSInput>();
+                Dictionary<DCSInput, bool> toRemove = new Dictionary<DCSInput, bool>();
                 List<DCSInput> toKeep = new List<DCSInput>();
                 for (int i = 0; i < AllInputs.Length; ++i)
                 {
@@ -67,7 +67,18 @@ namespace JoyPro
                     }
                     else
                     {
-                        toRemove.Add(AllInputs[i]);
+                        //does item exist under a different id and plane
+                        DCSInput[] replacements = DBLogic.GetAllDCSInputWithTitleAndPlane(AllInputs[i].Title, AllInputs[i].Plane, AllInputs[i].IsAxis);
+                        if (replacements.Length > 0)
+                        {
+                            r.AddNode(replacements[0].ID, "DCS", replacements[0].IsAxis, replacements[0].Plane);
+                            toRemove.Add(AllInputs[i], true);
+                        }
+                        else
+                        {
+                            toRemove.Add(AllInputs[i], false);
+                        }
+                        
                     }
                 }
                 for (int i = 0; i < dbItems.Length; ++i)
@@ -75,20 +86,24 @@ namespace JoyPro
                     DCSInput di = InputsContainPlane(AllInputs, dbItems[i].Plane);
                     if (di == null)
                     {
-                        toKeep.Add(dbItems[i]);
-                        AIRCRAFT.Add(dbItems[i].Plane, true);
+                        DCSInput da = InputsContainPlane(toKeep.ToArray(), dbItems[i].Plane);
+                        if (da == null)
+                        {
+                            toKeep.Add(dbItems[i]);
+                            AIRCRAFT.Add(dbItems[i].Plane, true);
+                        }
                     }
                 }
                 for (int i = 0; i < toRemove.Count; ++i)
                 {
-                    AIRCRAFT.Remove(toRemove[i].Plane);
+                    AIRCRAFT.Remove(toRemove.ElementAt(i).Key.Plane);
                 }
                 AllInputs = toKeep.ToArray();
             }
             else
             {
                 OtherGameInput[] dbItems = DBLogic.GetAllOtherGameInputsWithId(ID, Game);
-                List<OtherGameInput> toRemove = new List<OtherGameInput>();
+                Dictionary<OtherGameInput, bool> toRemove = new Dictionary<OtherGameInput, bool>();
                 List<OtherGameInput> toKeep = new List<OtherGameInput>();
                 for (int i = 0; i < OtherInputs.Length; ++i)
                 {
@@ -106,7 +121,17 @@ namespace JoyPro
                     }
                     else
                     {
-                        toRemove.Add(OtherInputs[i]);
+                        OtherGameInput[] replacements = DBLogic.GetAllOtherGameInputWithTitleAndPlane(OtherInputs[i].Title, OtherInputs[i].Plane, OtherInputs[i].Game, OtherInputs[i].IsAxis);
+                        //does item exist under a different id and plane
+                        if (replacements.Length > 0)
+                        {
+                            r.AddNode(replacements[0].ID, replacements[0].Game, replacements[0].IsAxis, replacements[0].Plane);
+                            toRemove.Add(OtherInputs[i], true);
+                        }
+                        else
+                        {
+                            toRemove.Add(OtherInputs[i], false);
+                        }     
                     }
                 }
                 for (int i = 0; i < dbItems.Length; ++i)
@@ -114,13 +139,17 @@ namespace JoyPro
                     OtherGameInput di = InputsContainPlane(OtherInputs, dbItems[i].Plane);
                     if (di == null)
                     {
-                        toKeep.Add(dbItems[i]);
-                        AIRCRAFT.Add(dbItems[i].Plane, true);
+                        OtherGameInput da = InputsContainPlane(toKeep.ToArray(), dbItems[i].Plane);
+                        if (da == null)
+                        {
+                            toKeep.Add(dbItems[i]);
+                            AIRCRAFT.Add(dbItems[i].Plane, true);
+                        }
                     }
                 }
                 for (int i = 0; i < toRemove.Count; ++i)
                 {
-                    AIRCRAFT.Remove(toRemove[i].Plane);
+                    AIRCRAFT.Remove(toRemove.ElementAt(i).Key.Plane);
                 }
                 OtherInputs = toKeep.ToArray();
             }

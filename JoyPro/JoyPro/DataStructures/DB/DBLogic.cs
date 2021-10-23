@@ -12,6 +12,7 @@ namespace JoyPro
         public static Dictionary<string, DCSPlane> DCSLib = new Dictionary<string, DCSPlane>();
         public static Dictionary<string, Dictionary<string, OtherGame>> OtherLib = new Dictionary<string, Dictionary<string, OtherGame>>();
         public static Dictionary<string, List<string>> Planes = new Dictionary<string, List<string>>();
+        public static ManualDatabaseAdditions ManualDatabase=null;
         public static List<HtmlBindElement> GetBindElmentsFromCell(string cellContent)
         {
             List<HtmlBindElement> result = new List<HtmlBindElement>();
@@ -80,7 +81,7 @@ namespace JoyPro
                 if (!OtherLib.ContainsKey(gameName))
                 {
                     OtherLib.Add(gameName, new Dictionary<string, OtherGame>());
-                    OtherLib[gameName].Add(gameName, new OtherGame(gameName, "IL2Game", false));
+                    OtherLib[gameName].Add(gameName, new OtherGame(gameName, gameName));
                 }
                 if (!Planes["IL2Game"].Contains(gameName))
                     Planes["IL2Game"].Add(gameName);
@@ -164,6 +165,66 @@ namespace JoyPro
             }
 
         }
+        public static void PopulateManualDictionary()
+        {
+            string pth = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\JoyPro";
+            string manualPath = pth + "\\ManualAdditions.bin";
+            if (!File.Exists(manualPath))
+            {
+                ManualDatabase = new ManualDatabaseAdditions();
+                return;
+            }
+            ManualDatabase = MainStructure.ReadFromBinaryFile<ManualDatabaseAdditions>(manualPath);
+            if (ManualDatabase == null || ManualDatabase.DCSLib == null || ManualDatabase.OtherLib == null)
+            {
+                ManualDatabase = new ManualDatabaseAdditions();
+                return;
+            }
+            foreach(KeyValuePair<string, DCSPlane> kvp in ManualDatabase.DCSLib)
+            {
+                if (!DCSLib.ContainsKey(kvp.Key))
+                {
+                    DCSLib.Add(kvp.Key, kvp.Value.Copy());
+                    continue;
+                }
+                foreach (KeyValuePair<string, DCSInput> kvpInPlane in kvp.Value.Axis)
+                {
+                    if(!DCSLib[kvp.Key].Axis.ContainsKey(kvpInPlane.Key))
+                        DCSLib[kvp.Key].Axis.Add(kvpInPlane.Key, kvpInPlane.Value.Copy());          
+                }
+                foreach (KeyValuePair<string, DCSInput> kvpInPlane in kvp.Value.Buttons)
+                {
+                    if (!DCSLib[kvp.Key].Buttons.ContainsKey(kvpInPlane.Key))
+                        DCSLib[kvp.Key].Buttons.Add(kvpInPlane.Key, kvpInPlane.Value.Copy());
+                }
+            }
+            foreach (KeyValuePair<string, Dictionary<string, OtherGame>> kvp in ManualDatabase.OtherLib)
+            {
+                if (!OtherLib.ContainsKey(kvp.Key))
+                {
+                    OtherLib.Add(kvp.Key, new Dictionary<string, OtherGame>());
+                }
+                foreach(KeyValuePair<string, OtherGame> kvpInner in kvp.Value)
+                {
+                    if (!OtherLib[kvp.Key].ContainsKey(kvpInner.Key))
+                    {
+                        OtherLib[kvp.Key].Add(kvpInner.Key, kvpInner.Value.Copy());
+                        continue;
+                    }
+                    foreach (KeyValuePair<string, OtherGameInput> kvpInPlane in kvpInner.Value.Axis)
+                    {
+                        if(!OtherLib[kvp.Key][kvpInner.Key].Axis.ContainsKey(kvpInPlane.Key))
+                            OtherLib[kvp.Key][kvpInner.Key].Axis.Add(kvpInPlane.Key, kvpInPlane.Value.Copy());
+                    }
+                    foreach (KeyValuePair<string, OtherGameInput> kvpInPlane in kvpInner.Value.Buttons)
+                    {
+                        if (!OtherLib[kvp.Key][kvpInner.Key].Buttons.ContainsKey(kvpInPlane.Key))
+                            OtherLib[kvp.Key][kvpInner.Key].Buttons.Add(kvpInPlane.Key, kvpInPlane.Value.Copy());
+                    }
+                }
+            }
+        }
+
         public static void ReadDefaultsFromHTML(string plane, string file)
         {
             DCSLuaInput def;
@@ -267,6 +328,66 @@ namespace JoyPro
                 {
                     if (kvp.Value.Axis.ContainsKey(id)) result.Add(kvp.Value.Axis[id]);
                     if (kvp.Value.Buttons.ContainsKey(id)) result.Add(kvp.Value.Buttons[id]);
+                }
+            }
+            return result.ToArray();
+        }
+        public static OtherGameInput[] GetAllOtherGameInputWithTitleAndPlane(string title,string plane, string game, bool axis)
+        {
+            List<OtherGameInput> result = new List<OtherGameInput>();
+            if (OtherLib.ContainsKey(game))
+            {
+                if (OtherLib[game].ContainsKey(plane))
+                {
+                    if (axis)
+                    {
+                        foreach (KeyValuePair<string, OtherGameInput> kvp in OtherLib[game][plane].Axis)
+                        {
+                            if (title.ToLower().Trim() == kvp.Value.Title.ToLower().Trim())
+                            {
+                                result.Add(kvp.Value);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (KeyValuePair<string, OtherGameInput> kvp in OtherLib[game][plane].Axis)
+                        {
+                            if (title.ToLower().Trim() == kvp.Value.Title.ToLower().Trim())
+                            {
+                                result.Add(kvp.Value);
+                            }
+                        }
+                    }
+                    
+                }
+            }
+            return result.ToArray();
+        }
+        public static DCSInput[] GetAllDCSInputWithTitleAndPlane(string title, string plane, bool axis)
+        {
+            List<DCSInput> result = new List<DCSInput>();
+            if (DCSLib.ContainsKey(plane))
+            {
+                if (axis)
+                {
+                    foreach(KeyValuePair<string, DCSInput> kvp in DCSLib[plane].Axis)
+                    {
+                        if (title.ToLower().Trim() == kvp.Value.Title.ToLower().Trim())
+                        {
+                            result.Add(kvp.Value);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (KeyValuePair<string, DCSInput> kvp in DCSLib[plane].Buttons)
+                    {
+                        if (title.ToLower().Trim() == kvp.Value.Title.ToLower().Trim())
+                        {
+                            result.Add(kvp.Value);
+                        }
+                    }
                 }
             }
             return result.ToArray();
