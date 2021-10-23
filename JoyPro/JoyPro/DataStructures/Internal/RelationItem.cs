@@ -44,8 +44,9 @@ namespace JoyPro
             AIRCRAFT = new Dictionary<string, bool>();
         }
         //Confirming names because it has been saved against DB
-        public void CheckAgainstDB(Relation r)
+        public List<object> CheckAgainstDB(Relation r)
         {
+            List<object> toReturn = new List<object>();
             if (Game == null || Game == "DCS" || Game == "")
             {
                 DCSInput[] dbItems = DBLogic.GetAllDCSInputsWithId(ID);
@@ -71,7 +72,7 @@ namespace JoyPro
                         DCSInput[] replacements = DBLogic.GetAllDCSInputWithTitleAndPlane(AllInputs[i].Title, AllInputs[i].Plane, AllInputs[i].IsAxis);
                         if (replacements.Length > 0)
                         {
-                            r.AddNode(replacements[0].ID, "DCS", replacements[0].IsAxis, replacements[0].Plane);
+                            toReturn.Add(replacements[0]);
                             toRemove.Add(AllInputs[i], true);
                         }
                         else
@@ -125,7 +126,7 @@ namespace JoyPro
                         //does item exist under a different id and plane
                         if (replacements.Length > 0)
                         {
-                            r.AddNode(replacements[0].ID, replacements[0].Game, replacements[0].IsAxis, replacements[0].Plane);
+                            toReturn.Add(replacements[0]);
                             toRemove.Add(OtherInputs[i], true);
                         }
                         else
@@ -153,6 +154,7 @@ namespace JoyPro
                 }
                 OtherInputs = toKeep.ToArray();
             }
+            return toReturn;
         }
         public RelationItem Copy()
         {

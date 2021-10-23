@@ -402,7 +402,7 @@ namespace JoyPro
         public static void LoadProfile(string filePath)
         {
             if (filePath == null || filePath.Length < 1) return;
-            
+
             try
             {
                 Pr0file pr = null;

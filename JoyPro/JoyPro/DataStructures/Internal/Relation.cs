@@ -68,10 +68,31 @@ namespace JoyPro
         }
         public void CheckNamesAgainstDB()
         {
+            List<DCSInput> toAdd = new List<DCSInput>();
+            List<OtherGameInput> oToAdd = new List<OtherGameInput>();
             foreach (RelationItem r in NODES)
             {
-                r.CheckAgainstDB(this);
+                List<object> toAddInner = r.CheckAgainstDB(this);
+                for(int i=0; i<toAddInner.Count; ++i)
+                {
+                    if(toAddInner[i] is DCSInput)
+                    {
+                        toAdd.Add((DCSInput)toAddInner[i]);
+                    }else if(toAddInner[i] is OtherGameInput)
+                    {
+                        oToAdd.Add((OtherGameInput)toAddInner[i]);
+                    }
+                }
             }
+            for(int i=0; i<toAdd.Count; ++i)
+            {
+                AddNode(toAdd[i].ID, "DCS", toAdd[i].IsAxis, toAdd[i].Plane);
+            }
+            for(int i=0; i<oToAdd.Count; ++i)
+            {
+                AddNode(oToAdd[i].ID, oToAdd[i].Game, oToAdd[i].IsAxis, oToAdd[i].Plane);
+            }
+
         }
         public void ActivateRestForID(string id)
         {
