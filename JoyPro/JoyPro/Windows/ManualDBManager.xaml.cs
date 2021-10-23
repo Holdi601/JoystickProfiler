@@ -213,7 +213,7 @@ namespace JoyPro
                 if (!DBLogic.ManualDatabase.OtherLib.ContainsKey((string)GamesDropDown.SelectedItem))
                     DBLogic.ManualDatabase.OtherLib.Add((string)GamesDropDown.SelectedItem, new Dictionary<string, OtherGame>());
                 if (!DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem].ContainsKey((string)PlaneDropDown.SelectedItem))
-                    DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem].Add((string)PlaneDropDown.SelectedItem, new OtherGame((string)PlaneDropDown.SelectedItem, (string)GamesDropDown.SelectedItem));
+                    DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem].Add((string)PlaneDropDown.SelectedItem, new OtherGame((string)PlaneDropDown.SelectedItem, (string)GamesDropDown.SelectedItem, true));
                 if (ax)
                 {
                     if (!DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem][(string)PlaneDropDown.SelectedItem].Axis.ContainsKey(ogi.ID))

@@ -155,7 +155,7 @@ namespace JoyPro
                 MessageBox.Show("Relation has no nodes.");
                 return;
             }
-            if (InternalDataMangement.DoesRelationAlreadyExist(Current.NAME) && !InternalDataMangement.RelationIsTheSame(Current.NAME, Current))
+            if (!editMode&&InternalDataMangement.DoesRelationAlreadyExist(Current.NAME) && !InternalDataMangement.RelationIsTheSame(Current.NAME, Current))
             {
                 MessageBox.Show("Relation with same Name already exists.");
                 return;

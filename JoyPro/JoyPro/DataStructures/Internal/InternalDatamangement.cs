@@ -249,6 +249,8 @@ namespace JoyPro
                 rNew.bind = b;
                 b.Rl = rNew;
             }
+            if (AllRelations.ContainsKey(rNew.NAME))
+                AllRelations.Remove(rNew.NAME);
             AllRelations.Add(rNew.NAME, rNew);
             ResyncRelations();
         }

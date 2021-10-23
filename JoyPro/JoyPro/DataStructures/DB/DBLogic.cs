@@ -81,7 +81,7 @@ namespace JoyPro
                 if (!OtherLib.ContainsKey(gameName))
                 {
                     OtherLib.Add(gameName, new Dictionary<string, OtherGame>());
-                    OtherLib[gameName].Add(gameName, new OtherGame(gameName, gameName));
+                    OtherLib[gameName].Add(gameName, new OtherGame(gameName, gameName, true));
                 }
                 if (!Planes["IL2Game"].Contains(gameName))
                     Planes["IL2Game"].Add(gameName);

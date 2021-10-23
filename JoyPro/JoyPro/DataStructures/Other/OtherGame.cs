@@ -13,20 +13,20 @@ namespace JoyPro
         public Dictionary<string, OtherGameInput> Axis;
         public Dictionary<string, OtherGameInput> Buttons;
         public string Game;
-        //public bool HasDifferentControlsForDifferentPlanes;
+        public bool HasDifferentControlsForDifferentPlanes;
 
-        public OtherGame(string name, string game)
+        public OtherGame(string name, string game, bool hasDifferentPlaneControls)
         {
             this.Name = name;
             Axis = new Dictionary<string, OtherGameInput>();
             Buttons = new Dictionary<string, OtherGameInput>();
             Game = game;
-            //HasDifferentControlsForDifferentPlanes = hasDifferentPlaneControls;
+            HasDifferentControlsForDifferentPlanes = hasDifferentPlaneControls;
         }
 
         public OtherGame Copy()
         {
-            OtherGame og = new OtherGame(Name, Game);
+            OtherGame og = new OtherGame(Name, Game, HasDifferentControlsForDifferentPlanes);
             foreach(KeyValuePair<string, OtherGameInput> kvp in Axis)
             {
                 og.Axis.Add(kvp.Key, kvp.Value.Copy());
