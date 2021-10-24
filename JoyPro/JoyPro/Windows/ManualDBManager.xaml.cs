@@ -333,7 +333,9 @@ namespace JoyPro
         }
         void CloseThis(object sender, EventArgs e)
         {
+            MainStructure.SaveMetaLast();
             InitGames.ReloadGameData();
+            InitGames.ReloadDatabase();
             MainStructure.SaveMetaLast();
             Close();
         }
