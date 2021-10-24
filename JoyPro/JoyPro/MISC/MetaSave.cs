@@ -31,7 +31,19 @@ namespace JoyPro
         public WindowPos GrpMngr = null;
         public WindowPos AliasCr = null;
         public WindowPos JoyManAs = null;
-        public bool? importLocals = null; 
+        public bool? importLocals = null;
+        public string DCSInstaceOverride = "";
+        public string DCSInstallPathOR = "";
+        public string IL2OR = "";
+        public int additionModulesToScan;
+
+        public const int default_modulesToScan = 40;
+        public const int default_timeToSet = 5000;
+        public const int default_axisThreshold = 10000;
+        public const int default_warmupTime = 300;
+        public const int default_pollWaitTime = 10;
+        public const int default_backupDays = 90;
+        public const bool default_nukeSticks = false;
 
 
         public MetaSave()
@@ -47,17 +59,21 @@ namespace JoyPro
             ValidW = new WindowPos();
             SettingsW = new WindowPos();
             stick2ExW = new WindowPos();
-            timeToSet = 5000;
-            axisThreshold = 10000;
-            warmupTime = 300;
-            pollWaitTime = 10;
+            timeToSet = default_timeToSet;
+            axisThreshold = default_axisThreshold;
+            warmupTime = default_warmupTime;
+            pollWaitTime = default_pollWaitTime;
             NukeSticks = false;
-            backupDays = 90;
+            backupDays = default_backupDays;
             BackupW = new WindowPos();
             UsrCvW = new WindowPos();
             GrpMngr = new WindowPos();
             AliasCr = new WindowPos();
             JoyManAs = new WindowPos();
+            DCSInstaceOverride = "";
+            DCSInstallPathOR = "";
+            IL2OR = "";
+            additionModulesToScan = default_modulesToScan;
         }
     }
 }

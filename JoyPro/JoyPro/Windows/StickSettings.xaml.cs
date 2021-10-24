@@ -27,7 +27,7 @@ namespace JoyPro
         public double DCSGuiScale;
         public Point DCSScreenpos;
         public bool OriginalFullscreen;
-        int modulesToScan = 35;
+        int modulesToScan;
 
 
 
@@ -73,11 +73,12 @@ namespace JoyPro
                 if (MainStructure.msave.SettingsW.Top > 0) this.Top = MainStructure.msave.SettingsW.Top;
                 if (MainStructure.msave.SettingsW.Left > 0) this.Left = MainStructure.msave.SettingsW.Left;
                 if (MainStructure.msave.SettingsW.Width > 0) this.Width = MainStructure.msave.SettingsW.Width;
-                if (MainStructure.msave.SettingsW.Height > 0) this.Height = MainStructure.msave.SettingsW.Height;
+                if (MainStructure.msave.SettingsW.Height > 0) this.Height = MainStructure.msave.SettingsW.Height;   
             }
             else
             {
                 MainStructure.msave = new MetaSave();
+                modulesToScan = MainStructure.msave.additionModulesToScan;
             }
 
             CloseBtn.Click += new RoutedEventHandler(CloseThis);
@@ -88,11 +89,14 @@ namespace JoyPro
             itBox.Text = MainStructure.msave.warmupTime.ToString();
             athBox.Text = MainStructure.msave.axisThreshold.ToString();
             BackupDaysBox.Text = MainStructure.msave.backupDays.ToString();
+            if (MainStructure.msave.DCSInstaceOverride != null) DCSInstanceORBox.Text = MainStructure.msave.DCSInstaceOverride;
+            if (MainStructure.msave.IL2OR != null) IL2InstanceORBox.Text = MainStructure.msave.IL2OR;
             string installPath = InitGames.GetDCSInstallationPath();
             if (installPath != null)
             {
                 installPathBox.Text = installPath;
             }
+            modulesToScan = MainStructure.msave.additionModulesToScan;
             ModulesToScanBox.Text = modulesToScan.ToString();
             ttsBox.LostFocus += new RoutedEventHandler(ChangeTimeToSet);
             pollitBox.LostFocus += new RoutedEventHandler(ChangePollTime);
@@ -136,7 +140,9 @@ namespace JoyPro
         {
             string dcsInstallPath = InitGames.GetDCSInstallationPath();
             string savedGames;
-            if (MiscGames.DCSInstanceOverride != null && Directory.Exists(MiscGames.DCSInstanceOverride)) savedGames = MiscGames.DCSInstanceOverride;
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            if (MainStructure.msave.DCSInstaceOverride == null) MainStructure.msave.DCSInstaceOverride = "";
+            if (MainStructure.msave.DCSInstaceOverride != null && Directory.Exists(MainStructure.msave.DCSInstaceOverride)) savedGames = MainStructure.msave.DCSInstaceOverride;
             else savedGames = MiscGames.DCSselectedInstancePath;
             if (!Directory.Exists(savedGames + "\\BACKUP_JOYSTICK_DEFAULTS"))
             {
@@ -193,7 +199,9 @@ namespace JoyPro
         {
             string dcsInstallPath = InitGames.GetDCSInstallationPath();
             string savedGames;
-            if (MiscGames.DCSInstanceOverride != null && Directory.Exists(MiscGames.DCSInstanceOverride)) savedGames = MiscGames.DCSInstanceOverride;
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            if (MainStructure.msave.DCSInstaceOverride == null) MainStructure.msave.DCSInstaceOverride = "";
+            if (MainStructure.msave.DCSInstaceOverride != null && Directory.Exists(MainStructure.msave.DCSInstaceOverride)) savedGames = MainStructure.msave.DCSInstaceOverride;
             else savedGames = MiscGames.DCSselectedInstancePath;
             if(!Directory.Exists(savedGames + "\\BACKUP_JOYSTICK_DEFAULTS"))
             {
@@ -214,7 +222,7 @@ namespace JoyPro
         {
             if (int.TryParse((string)ModulesToScanBox.Text, out modulesToScan))
             {
-
+                MainStructure.msave.additionModulesToScan = modulesToScan;
             }
             else
             {
@@ -225,7 +233,9 @@ namespace JoyPro
         void readDCSConfigData()
         {
             string path;
-            if (MiscGames.DCSInstanceOverride.Length > 0) path = MiscGames.DCSInstanceOverride;
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            if (MainStructure.msave.DCSInstaceOverride == null) MainStructure.msave.DCSInstaceOverride = "";
+            if (MainStructure.msave.DCSInstaceOverride.Length > 0) path = MainStructure.msave.DCSInstaceOverride;
             else path = MiscGames.DCSselectedInstancePath;
             path = path + "\\Config\\options.lua";
             if (!File.Exists(path)) return;
@@ -251,7 +261,9 @@ namespace JoyPro
         void turnFullScreen(bool val)
         {
             string path;
-            if (MiscGames.DCSInstanceOverride.Length > 0&&Directory.Exists((MiscGames.DCSInstanceOverride))) path = MiscGames.DCSInstanceOverride;
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            if (MainStructure.msave.DCSInstaceOverride == null) MainStructure.msave.DCSInstaceOverride = "";
+            if (MainStructure.msave.DCSInstaceOverride.Length > 0&&Directory.Exists((MainStructure.msave.DCSInstaceOverride))) path = MainStructure.msave.DCSInstaceOverride;
             else path = MiscGames.DCSselectedInstancePath;
             string output = "";
             path = path + "\\Config\\options.lua";
@@ -293,21 +305,23 @@ namespace JoyPro
         {
             if (Directory.Exists(DCSInstanceORBox.Text))
             {
-                MiscGames.DCSInstanceOverride = DCSInstanceORBox.Text;
+                if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+                if (MainStructure.msave.DCSInstaceOverride == null) MainStructure.msave.DCSInstaceOverride = "";
+                MainStructure.msave.DCSInstaceOverride = DCSInstanceORBox.Text;
                 MainStructure.mainW.DropDownInstanceSelection.Items.Clear();
                 InitGames.ReloadGameData();
                 MainStructure.mainW.DropDownInstanceSelection.SelectedIndex = 0;
-                MiscGames.DCSInstanceSelectionChanged(MiscGames.DCSInstanceOverride);
+                MiscGames.DCSInstanceSelectionChanged(MainStructure.msave.DCSInstaceOverride);
 
             }
             else if (DCSInstanceORBox.Text.Length > 0)
             {
                 MessageBox.Show("Invalid Path in DCS Instance");
-                MiscGames.DCSInstanceOverride = "";
+                MainStructure.msave.DCSInstaceOverride = "";
             }
             else
             {
-                MiscGames.DCSInstanceOverride = "";
+                MainStructure.msave.DCSInstaceOverride = "";
                 InitGames.ReloadGameData();
             }
             readDCSConfigData();
@@ -316,7 +330,8 @@ namespace JoyPro
         {
             if (Directory.Exists(IL2InstanceORBox.Text))
             {
-                MiscGames.IL2PathOverride = IL2InstanceORBox.Text;
+                if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+                MainStructure.msave.IL2OR = IL2InstanceORBox.Text;
                 MiscGames.IL2Instance = IL2InstanceORBox.Text;
                 InitGames.ReloadGameData();
             }
@@ -326,7 +341,8 @@ namespace JoyPro
             }
             else
             {
-                MiscGames.IL2PathOverride = "";
+                if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+                MainStructure.msave.IL2OR = "";
                 InitGames.ReloadGameData();
             }
         }
@@ -338,11 +354,13 @@ namespace JoyPro
         {
             if (Directory.Exists(installPathBox.Text))
             {
-                MiscGames.installPathDCSOR = installPathBox.Text;
+                if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+                    MainStructure.msave.DCSInstallPathOR = installPathBox.Text;
             }
             else
             {
-                MiscGames.installPathDCSOR = "";
+                if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+                MainStructure.msave.DCSInstallPathOR = "";
                 installPathBox.Text = InitGames.GetDCSInstallationPath();
                 MessageBox.Show("Folder doesn't exist");
             }
@@ -406,9 +424,11 @@ namespace JoyPro
         void RefreshCleanDB(object sender, EventArgs e)
         {
             string path;
-            if (MiscGames.DCSInstanceOverride != null && Directory.Exists(MiscGames.DCSInstanceOverride))
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            if (MainStructure.msave.DCSInstaceOverride == null) MainStructure.msave.DCSInstaceOverride = "";
+            if (MainStructure.msave.DCSInstaceOverride != null && Directory.Exists(MainStructure.msave.DCSInstaceOverride))
             {
-                path = MiscGames.DCSInstanceOverride;
+                path = MainStructure.msave.DCSInstaceOverride;
             }
             else if (Directory.Exists(MiscGames.DCSselectedInstancePath))
             {
@@ -474,9 +494,11 @@ namespace JoyPro
         void RefreshIDDB(object sender, EventArgs e)
         {
             string path;
-            if (MiscGames.DCSInstanceOverride != null && Directory.Exists(MiscGames.DCSInstanceOverride))
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            if (MainStructure.msave.DCSInstaceOverride == null) MainStructure.msave.DCSInstaceOverride = "";
+            if (MainStructure.msave.DCSInstaceOverride != null && Directory.Exists(MainStructure.msave.DCSInstaceOverride))
             {
-                path = MiscGames.DCSInstanceOverride;
+                path = MainStructure.msave.DCSInstaceOverride;
             }
             else if (Directory.Exists(MiscGames.DCSselectedInstancePath))
             {
@@ -557,7 +579,9 @@ namespace JoyPro
         void PostWorkExportedIDs()
         {
             string path;
-            if (MiscGames.DCSInstanceOverride.Length > 0 && Directory.Exists((MiscGames.DCSInstanceOverride))) path = MiscGames.DCSInstanceOverride;
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            if (MainStructure.msave.DCSInstaceOverride == null) MainStructure.msave.DCSInstaceOverride = "";
+            if (MainStructure.msave.DCSInstaceOverride.Length > 0 && Directory.Exists((MainStructure.msave.DCSInstaceOverride))) path = MainStructure.msave.DCSInstaceOverride;
             else path = MiscGames.DCSselectedInstancePath;
             path = path + "\\InputLayoutsTxt";
             if (!Directory.Exists(path))
@@ -600,7 +624,9 @@ namespace JoyPro
             int number = modulesToScan;
             string installedCrafts = InitGames.GetDCSInstallationPath() + "\\Mods\\aircraft";
             string modCrafts;
-            if (MiscGames.DCSInstanceOverride.Length > 0 && Directory.Exists((MiscGames.DCSInstanceOverride))) modCrafts = MiscGames.DCSInstanceOverride;
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            if (MainStructure.msave.DCSInstaceOverride == null) MainStructure.msave.DCSInstaceOverride = "";
+            if (MainStructure.msave.DCSInstaceOverride.Length > 0 && Directory.Exists((MainStructure.msave.DCSInstaceOverride))) modCrafts = MainStructure.msave.DCSInstaceOverride;
             else modCrafts = MiscGames.DCSselectedInstancePath;
             modCrafts = modCrafts + "\\Mods\\aircraft";
             if (Directory.Exists(installedCrafts))

@@ -70,8 +70,8 @@ namespace JoyPro
         }
         public static string GetDCSInstallationPath()
         {
-            if (MiscGames.installPathDCSOR != null && Directory.Exists(MiscGames.installPathDCSOR))
-                return MiscGames.installPathDCSOR;
+            if (MainStructure.msave.DCSInstallPathOR != null && Directory.Exists(MainStructure.msave.DCSInstallPathOR))
+                return MainStructure.msave.DCSInstallPathOR;
             if (MiscGames.installPathsDCS.Length > 0)
             {
                 if (MiscGames.installPathsDCS.Length == 1 && Directory.Exists(MiscGames.installPathsDCS[0]))
@@ -83,7 +83,7 @@ namespace JoyPro
                     for (int i = 0; i < MiscGames.installPathsDCS.Length; ++i)
                     {
                         string instanceToCompare;
-                        if (MiscGames.DCSInstanceOverride != null && Directory.Exists(MiscGames.DCSInstanceOverride)) instanceToCompare = MiscGames.DCSInstanceOverride;
+                        if (MainStructure.msave.DCSInstaceOverride != null && Directory.Exists(MainStructure.msave.DCSInstaceOverride)) instanceToCompare = MainStructure.msave.DCSInstaceOverride;
                         else instanceToCompare = MiscGames.DCSselectedInstancePath;
                         if (instanceToCompare.ToLower().Contains("openbeta") && MiscGames.installPathsDCS[i].ToLower().Contains("beta") && Directory.Exists(MiscGames.installPathsDCS[i]))
                         {
@@ -140,9 +140,10 @@ namespace JoyPro
             MainStructure.PROGPATH = Environment.CurrentDirectory;
             Console.WriteLine(MainStructure.PROGPATH);
             LoadIL2Path();
-            if (MiscGames.IL2PathOverride.Length > 0)
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            if (MainStructure.msave.IL2OR!=null&&MainStructure.msave.IL2OR.Length > 0)
             {
-                MiscGames.IL2Instance = MiscGames.IL2PathOverride;
+                MiscGames.IL2Instance = MainStructure.msave.IL2OR;
             }
             Console.WriteLine(MiscGames.IL2Instance);
         }
@@ -160,10 +161,11 @@ namespace JoyPro
             pth = MainStructure.GetRegistryValue("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 223750", "InstallLocation", "LocalMachine");
             if (pth != null) installs.Add(pth);
             MiscGames.installPathsDCS = installs.ToArray();
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
             MainStructure.mainW.DropDownInstanceSelection.Items.Clear();
-            if (MiscGames.DCSInstanceOverride.Length > 0)
+            if (MainStructure.msave.DCSInstaceOverride!=null && MainStructure.msave.DCSInstaceOverride.Length > 0)
             {
-                MainStructure.mainW.DropDownInstanceSelection.Items.Add(MiscGames.DCSInstanceOverride);
+                MainStructure.mainW.DropDownInstanceSelection.Items.Add(MainStructure.msave.DCSInstaceOverride);
             }
             else
             {

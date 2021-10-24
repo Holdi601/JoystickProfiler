@@ -25,12 +25,8 @@ namespace JoyPro
         const string initialBackupFolder = "\\Config\\JP_InitBackup";
         public static string SaveGamesPath;
         public static string[] DCSInstances;
-        public static string IL2PathOverride = "";
-        public static string DCSInstanceOverride = "";
-        
         public static string DCSselectedInstancePath = "";
         public static string[] installPathsDCS;
-        public static string installPathDCSOR;
         public static List<string> Games = new List<string>();
         public static string IL2Instance = "";
 

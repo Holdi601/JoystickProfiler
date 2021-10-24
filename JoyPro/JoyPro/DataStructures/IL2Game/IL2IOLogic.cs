@@ -50,7 +50,9 @@ namespace JoyPro
         static Dictionary<string, IL2AxisSetting> axisResponsedRead = new Dictionary<string, IL2AxisSetting>();
         public static void WriteOut(List<Bind> toExport, OutputType ot)
         {
-            if (((MiscGames.IL2PathOverride == null || !Directory.Exists(MiscGames.IL2PathOverride)) &&
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            if (MainStructure.msave.IL2OR == null) MainStructure.msave.IL2OR = "";
+            if (((MainStructure.msave.IL2OR == null || !Directory.Exists(MainStructure.msave.IL2OR)) &&
                 (MiscGames.IL2Instance == null || !Directory.Exists(MiscGames.IL2Instance))|| toExport==null|| toExport.Count<1))
                 return;
             clearAll();
@@ -668,7 +670,9 @@ namespace JoyPro
         static string GetInputPath()
         {
             string path = "";
-            if (MiscGames.IL2PathOverride.Length > 2) path = MiscGames.IL2PathOverride;
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            if (MainStructure.msave.IL2OR == null) MainStructure.msave.IL2OR = "";
+            if (MainStructure.msave.IL2OR.Length > 2) path = MainStructure.msave.IL2OR;
             else path = MiscGames.IL2Instance;
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
@@ -693,6 +697,7 @@ namespace JoyPro
         {
             string path = GetInputPath();
             axisResponsedRead = new Dictionary<string, IL2AxisSetting>();
+            if (!File.Exists(path + InputPath + "current" + ".responses")) return;
             StreamReader sr = new StreamReader(path + InputPath + "current" + ".responses");
             const string cursor= "type1Devices=actionId%2CcenterDeadZone%2CsensitivityBallance%2CsideDeadZone";
             string responsesContent = sr.ReadToEnd();
@@ -783,7 +788,9 @@ namespace JoyPro
         }
         public static void ImportInputs(bool sensitivity, bool deadzone, bool inverted)
         {
-            if (((MiscGames.IL2PathOverride == null || !Directory.Exists(MiscGames.IL2PathOverride)) &&
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            if (MainStructure.msave.IL2OR == null) MainStructure.msave.IL2OR = "";
+            if (((MainStructure.msave.IL2OR == null || !Directory.Exists(MainStructure.msave.IL2OR)) &&
                 (MiscGames.IL2Instance == null || !Directory.Exists(MiscGames.IL2Instance))))
                 return;
             List<string> KeyboardInputs = new List<string>();

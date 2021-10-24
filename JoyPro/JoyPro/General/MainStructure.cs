@@ -30,7 +30,7 @@ namespace JoyPro
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
     public static class MainStructure
     {
-        public const int version = 53;
+        public const int version = 54;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;
@@ -204,6 +204,7 @@ namespace JoyPro
             //IL2 Backup needed
             InitGames.LoadIL2Path();
             MiscGames.BackupConfigsOfIL2();
+            LoadMetaLast();
         }
         public static T ReadFromBinaryFile<T>(string filePath)
         {
