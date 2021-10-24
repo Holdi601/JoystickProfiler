@@ -98,9 +98,7 @@ Discord for more direct question answer or concerns: https://discord.gg/SeCTXJHh
 
 # To Do, Features I want to work on in that order
 
--cancel an edit of a relation
-
--relation critical check
+-visual relation assigning mode
 
 -Keyboard support (lowest Priority for me, as after all this is the joystick profiler not input profiler. I see the use of this feature, but after all you dont exchange your keyboard and if you do you dont have IDs you need to work around, you got a fairly big different set of inputs in DCS of inputs for keyboard than the ones for joysticks. And other fairly big adjusmtents that need to be made for a feature which was originally not intendet. I see the benefit of it, but its low prio, just to be clear.)
 
