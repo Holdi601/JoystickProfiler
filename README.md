@@ -51,6 +51,7 @@ My own Video Short and Condense Series:
 13. Quick start guide https://youtu.be/Z030AiaJwg4
 14. JoyPro doesn't start anymore https://youtu.be/EM1Ou2USzL0
 15. Im unhappy with JoyPro, give me my old controls back! https://youtu.be/Kl-lvnkyeqU
+16. Manually Adding Input Entries into Database https://youtu.be/L-bivat1-gU
 
 The entire playlist:
 https://www.youtube.com/watch?v=WY3UCZiRwro&list=PLlzaQN7UpUfh3b98GOSMe3LHgXxLziFca
