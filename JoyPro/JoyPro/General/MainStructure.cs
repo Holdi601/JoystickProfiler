@@ -30,7 +30,7 @@ namespace JoyPro
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
     public static class MainStructure
     {
-        public const int version = 54;
+        public const int version = 55;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;

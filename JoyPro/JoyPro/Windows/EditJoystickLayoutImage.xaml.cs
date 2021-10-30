@@ -308,7 +308,6 @@ namespace JoyPro
         void openLayout(string filePath)
         {
             LayoutFile lf = MainStructure.ReadFromBinaryFile<LayoutFile>(filePath);
-            stick = lf.Joystick;
             backup = (System.Drawing.Bitmap)lf.backup.Clone();
             mainImg = (System.Drawing.Bitmap)lf.backup.Clone();
             fontColor = lf.ColorSCB;

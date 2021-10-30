@@ -49,6 +49,7 @@ namespace JoyPro
                 PathToShowLbl.Content = InternalDataMangement.JoystickLayoutExport;
             }
             SetupScrollView();
+            InternalDataMangement.CleanJoystickNodes();
         }
         void SetupScrollView()
         {

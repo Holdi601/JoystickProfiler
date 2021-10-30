@@ -403,10 +403,10 @@ namespace JoyPro
         }
         public static void LoadProfile(string filePath)
         {
-            if (filePath == null || filePath.Length < 1) return;
-
+            
             try
             {
+                if (filePath == null || filePath.Length < 1) return;
                 Pr0file pr = null;
                 pr = MainStructure.ReadFromBinaryFile<Pr0file>(filePath);
                 NewFile();
@@ -427,6 +427,7 @@ namespace JoyPro
                 }
                 AddLoadedJoysticks();
                 CheckConnectedSticksToBinds();
+                CleanJoystickNodes();
             }
             catch
             {
@@ -999,6 +1000,14 @@ namespace JoyPro
             IL2IOLogic.WriteOut(Il2Binds, OutputType.MergeOverwrite);
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
+        static bool modifiersMetaUnqueal(List<string> listA, List<string> listB)
+        {
+            if (listA == null) listA = new List<string>();
+            if(listB==null) listB = new List<string>();
+            if (listA.Count == listB.Count)
+                return false;
+            return true;
+        }
         public static List<Bind> GetBindsByJoystickAndKey(string Joystick, string Button, bool axis, bool Inverted, bool Slider, double SaturationX, double SaturationY, double Deadzone, List<string> modifier= null)
         {
             List<Bind> result = new List<Bind>();
@@ -1013,12 +1022,10 @@ namespace JoyPro
                    ((axis&& kvp.Value.JAxis.ToLower() == Button.ToLower())||
                    (!axis&&kvp.Value.JButton.ToLower() == Button.ToLower() )))
                 {
-                    if(((modifier==null||modifier.Count==0)&&(kvp.Value.AllReformers!=null&&kvp.Value.AllReformers.Count>0))||
-                        ((modifier != null && modifier.Count > 0) && (kvp.Value.AllReformers == null || kvp.Value.AllReformers.Count == 0))||
-                        modifier.Count!=kvp.Value.AllReformers.Count)
+                    if(modifiersMetaUnqueal(modifier, kvp.Value.AllReformers))
                     {
                         continue;
-                    }else if (modifier.Count == kvp.Value.AllReformers.Count && modifier.Count > 0)
+                    }else if(modifier.Count>0)
                     {
                         bool mismatch = false;
                         for(int i=0; i<modifier.Count; ++i)
@@ -1121,6 +1128,37 @@ namespace JoyPro
             }
             swr.Close();
             swr.Dispose();
+        }
+        public static void CleanJoystickNodes()
+        {
+            List<string> jActive = GetJoysticksActiveInBinds();
+            List<string> toRemove = new List<string>();
+            foreach(KeyValuePair<string, bool> kvp in JoystickActivity)
+            {
+                if(!jActive.Contains(kvp.Key))toRemove.Add(kvp.Key);
+            }
+            for(int i=0; i < toRemove.Count; i++)
+            {
+                JoystickActivity.Remove(toRemove[i]);
+            }
+            toRemove.Clear();
+            foreach(KeyValuePair<string, string> kvp in JoystickAliases)
+            {
+                if (!jActive.Contains(kvp.Key)) toRemove.Add(kvp.Key);
+            }
+            for(int i=0; i<toRemove.Count; i++)
+            {
+                JoystickAliases.Remove(toRemove[i]);
+            }
+            toRemove.Clear();
+            foreach (KeyValuePair<string, string> kvp in JoystickFileImages)
+            {
+                if (!jActive.Contains(kvp.Key)) toRemove.Add(kvp.Key);
+            }
+            for (int i = 0; i < toRemove.Count; i++)
+            {
+                JoystickFileImages.Remove(toRemove[i]);
+            }
         }
         public static List<string> GetJoysticksActiveInBinds()
         {

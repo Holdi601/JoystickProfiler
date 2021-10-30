@@ -1830,6 +1830,7 @@ namespace JoyPro
             MainStructure.LoadMetaLast();
             ActivateInputs();
 
+
         }
         void setWindowPosSize(object sender, EventArgs e)
         {

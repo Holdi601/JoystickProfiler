@@ -174,7 +174,16 @@ namespace JoyPro
                 ManualDatabase = new ManualDatabaseAdditions();
                 return;
             }
-            ManualDatabase = MainStructure.ReadFromBinaryFile<ManualDatabaseAdditions>(manualPath);
+            try
+            {
+                ManualDatabase = MainStructure.ReadFromBinaryFile<ManualDatabaseAdditions>(manualPath);
+            }
+            catch
+            {
+                System.Windows.MessageBox.Show("Error loading manual database");
+                return;
+            }
+            
             if (ManualDatabase == null || ManualDatabase.DCSLib == null || ManualDatabase.OtherLib == null)
             {
                 ManualDatabase = new ManualDatabaseAdditions();
