@@ -24,13 +24,11 @@ namespace JoyPro
     public enum Game { DCS, StarCitizen }
     public enum JoystickAxis { JOY_X, JOY_Y, JOY_Z, JOY_RX, JOY_RY, JOY_RZ, JOY_SLIDER1, JOY_SLIDER2, NONE }
     public enum LuaDataType { String, Number, Dict, Bool, Error };
-
     public enum SortType { NAME_NORM, NAME_DESC, STICK_NORM, STICK_DESC, BTN_NORM, BTN_DESC }
-
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
     public static class MainStructure
     {
-        public const int version = 55;
+        public const int version = 56;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;

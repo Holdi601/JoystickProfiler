@@ -403,7 +403,6 @@ namespace JoyPro
         }
         public static void LoadProfile(string filePath)
         {
-            
             try
             {
                 if (filePath == null || filePath.Length < 1) return;
@@ -419,6 +418,10 @@ namespace JoyPro
                 {
                     MiscGames.DCSInstanceSelectionChanged(pr.LastSelectedDCSInstance);
                 }
+                if (AllRelations == null) AllRelations = new Dictionary<string, Relation>();
+                if (AllBinds == null) AllBinds = new Dictionary<string, Bind>();
+                if (JoystickAliases == null) JoystickAliases = new Dictionary<string, string>();
+                if (JoystickFileImages == null) JoystickFileImages = new Dictionary<string, string>();
                 ResyncBindsToMods();
                 RecreateGroups();
                 foreach (KeyValuePair<string, Relation> kvp in AllRelations)
