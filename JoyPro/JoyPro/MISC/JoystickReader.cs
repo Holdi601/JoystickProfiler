@@ -464,7 +464,7 @@ namespace JoyPro
                 for (int i = 3; i < idParts.Length; ++i)
                     id += "-" + idParts[i].ToUpper();
             }
-            return pad.Information.InstanceName + " {" + id + "}";
+            return pad.Information.InstanceName.Replace("/","_").Replace("\"","_") + " {" + id + "}";
         }
         void Tick()
         {
