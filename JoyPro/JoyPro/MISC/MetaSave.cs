@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace JoyPro
 {
@@ -36,6 +37,31 @@ namespace JoyPro
         public string DCSInstallPathOR = "";
         public string IL2OR = "";
         public int additionModulesToScan;
+        public WindowPos OverlaySW = null;
+        public WindowPos OverlayW=null;
+        public int OvlH;
+        public int OvlW;
+        public string Font { get; set; }
+        private byte r, g, b, a;
+        public SolidColorBrush ColorSCB
+        {
+            get
+            {
+                return new SolidColorBrush(Color.FromArgb(a, r, g, b));
+            }
+            set
+            {
+                a = value.Color.A;
+                r = value.Color.R;
+                g = value.Color.G;
+                b = value.Color.B;
+            }
+        }
+        public int OvlTxtS;
+        public int OvlElementsToShow;
+        public int OvlPollTime;
+        public bool OvlFade;
+        public int TextTimeAlive;
 
         public const int default_modulesToScan = 40;
         public const int default_timeToSet = 5000;
@@ -44,8 +70,18 @@ namespace JoyPro
         public const int default_pollWaitTime = 10;
         public const int default_backupDays = 90;
         public const bool default_nukeSticks = false;
-
-
+        public const int default_OvlH = 600;
+        public const int default_OvlW = 600;
+        public const string default_Font = "Arial";
+        public const byte default_r = 255;
+        public const byte default_g = 255;
+        public const byte default_b = 255;
+        public const byte default_a = 255;
+        public const int default_OvlTxtS = 32;
+        public const int default_OvlElementsToShow = 16;
+        public const int default_OvlPollTime = 16;
+        public const bool default_OvlFade = false;
+        public const int default_TextAlive = 5000;
         public MetaSave()
         {
             lastGameSelected = "";
@@ -74,6 +110,20 @@ namespace JoyPro
             DCSInstallPathOR = "";
             IL2OR = "";
             additionModulesToScan = default_modulesToScan;
+            OverlaySW = new WindowPos();
+            OverlayW = new WindowPos();
+            OvlH = default_OvlH;
+            OvlW = default_OvlW;
+            Font = default_Font;
+            r = default_r;
+            g = default_g;
+            b = default_b;
+            a = default_a;
+            OvlTxtS = default_OvlTxtS;
+            OvlElementsToShow = default_OvlElementsToShow;
+            OvlPollTime = default_OvlPollTime;
+            OvlFade= default_OvlFade;
+            TextTimeAlive = default_TextAlive;
         }
     }
 }

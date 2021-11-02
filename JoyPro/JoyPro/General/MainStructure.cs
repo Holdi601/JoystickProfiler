@@ -14,6 +14,7 @@ using Microsoft.Win32;
 using System.Net.Http;
 using System.Web.Hosting;
 using System.Diagnostics;
+using System.Threading;
 
 namespace JoyPro
 {
@@ -32,6 +33,9 @@ namespace JoyPro
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;
+        public static Thread runningGameCheck = null;
+        public static Thread joystickInputRead = null;
+
         
         public static void LoadMetaLast()
         {
@@ -141,6 +145,9 @@ namespace JoyPro
                 }else if(sender is ManualJoystickAssign)
                 {
                     msave.JoyManAs = p;
+                }else if(sender is OverlaySettings)
+                {
+                    msave.OverlaySW = p;
                 }
             }
             if (mainW.CBNukeUnused.IsChecked == true)

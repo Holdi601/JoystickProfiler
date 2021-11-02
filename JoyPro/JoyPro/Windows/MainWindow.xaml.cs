@@ -123,6 +123,9 @@ namespace JoyPro
             ALLBUTTONS.Add(SettingsBtn);
             ALLBUTTONS.Add(PrintBtn);
             ALLBUTTONS.Add(OTCBtn);
+            ALLBUTTONS.Add(OverlayBtn);
+            ALLBUTTONS.Add(SettingsOverlayBtn);
+            ALLBUTTONS.Add(VisualAssigningModeBtn);
         }
         void SetupEventHandlers()
         {
@@ -164,6 +167,7 @@ namespace JoyPro
             GroupManagerBtn.Click += new RoutedEventHandler(OpenGroupManager);
             OTCBtn.Click += new RoutedEventHandler(OpenSaveCSV);
             PrintBtn.Click += new RoutedEventHandler(PrintLayout);
+            SettingsOverlayBtn.Click += new RoutedEventHandler(OpenOverlaySettings);
         }
         void OpenBackupWindow(object sender, EventArgs e)
         {
@@ -1929,6 +1933,12 @@ namespace JoyPro
             cjii.Show();
             cjii.Closing += new CancelEventHandler(ActivateInputs);
         }
-
+        void OpenOverlaySettings(object sender, EventArgs e)
+        {
+            DisableInputs();
+            OverlaySettings os = new OverlaySettings();
+            os.Show();
+            os.Closing += new CancelEventHandler(ActivateInputs);
+        }
     }
 }
