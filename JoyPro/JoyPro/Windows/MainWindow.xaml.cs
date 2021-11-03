@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -53,9 +55,12 @@ namespace JoyPro
         List<Button> additional;
         int gridCols;
         List<string> possibleSticks;
+        Grid BackupGrid;
 
         public MainWindow()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
             Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
@@ -73,6 +78,9 @@ namespace JoyPro
             selectedSort1 = "NAME_NORM";
             selectedSort2 = "STICK_NORM";
             selectedSort3 = "BTN_NORM";
+            stopwatch.Stop();
+            Console.WriteLine("Startup Time: "+stopwatch.ElapsedMilliseconds.ToString() + "ms");
+            this.Closing += new CancelEventHandler(ShutThreads);
         }
         void setGridBordersLightGray()
         {
@@ -168,6 +176,7 @@ namespace JoyPro
             OTCBtn.Click += new RoutedEventHandler(OpenSaveCSV);
             PrintBtn.Click += new RoutedEventHandler(PrintLayout);
             SettingsOverlayBtn.Click += new RoutedEventHandler(OpenOverlaySettings);
+            OverlayBtn.Click += new RoutedEventHandler(OpenOverlay);
         }
         void OpenBackupWindow(object sender, EventArgs e)
         {
@@ -857,6 +866,18 @@ namespace JoyPro
 
             InternalDataMangement.ResyncRelations();
         }
+        void RefreshVisualRelations()
+        {
+            TabControl tc = new TabControl();
+            tc.Name = "TabControllerVisual";
+            for(int i = 0; i< InternalDataMangement.LocalJoysticks.Length; ++i)
+            {
+                TabItem tabItem = new TabItem();
+                tabItem.Header=InternalDataMangement.LocalJoysticks[i];
+                tc.Items.Add(tabItem);
+            }
+            sv.Content = tc;
+        }
         void RefreshRelationsToShow()
         {
             DeviceDropdown.Items.Clear();
@@ -964,6 +985,7 @@ namespace JoyPro
             List<string> allMods = InternalDataMangement.GetAllModsAsString();
             allMods.Add("Delete");
             Grid grid = BaseSetupRelationGrid();
+            BackupGrid=grid;
             for (int i = 0; i < CURRENTDISPLAYEDRELATION.Count; i++)
             {
                 Label lblName = new Label();
@@ -1519,8 +1541,15 @@ namespace JoyPro
         public void SetRelationsToView(List<Relation> li)
         {
             CURRENTDISPLAYEDRELATION = li;
-            RefreshRelationsToShow();
-            SetHeadersForScrollView();
+            if (!MainStructure.VisualMode)
+            {
+                RefreshRelationsToShow();
+                SetHeadersForScrollView();
+            }
+            else
+            {
+
+            }
             sizeChanged(null,null);
         }
         void sortName(object o, EventArgs e)
@@ -1834,7 +1863,6 @@ namespace JoyPro
             MainStructure.LoadMetaLast();
             ActivateInputs();
 
-
         }
         void setWindowPosSize(object sender, EventArgs e)
         {
@@ -1939,6 +1967,46 @@ namespace JoyPro
             OverlaySettings os = new OverlaySettings();
             os.Show();
             os.Closing += new CancelEventHandler(ActivateInputs);
+        }
+
+        void OpenOverlay(object sender, EventArgs e)
+        {
+            OverlayWindow ow = new OverlayWindow();
+            ow.Show();
+            ow.Closing += new CancelEventHandler(CloseOverlay);
+            MainStructure.OverlayWorker.overlay = ow;
+            if (MainStructure.msave.OvlBtnChangeMode)
+            {
+                MainStructure.joystickInputRead = new Thread(MainStructure.JrContReading.StartReadingInputsChangeMode);
+            }
+            else
+            {
+                MainStructure.joystickInputRead = new Thread(MainStructure.JrContReading.StartReadingInputsCurrentMode);
+            }
+            MainStructure.joystickInputRead.Name = "InputReader";
+            MainStructure.joystickInputRead.Start();
+            MainStructure.DisplayBackgroundWorker = new System.Threading.Thread(MainStructure.OverlayWorker.StartDisplayBackgroundWorker);
+            MainStructure.DisplayBackgroundWorker.Name = "DisplayBackgroundWorker";
+            MainStructure.DisplayBackgroundWorker.Start();
+            MainStructure.DisplayDispatcherWorker = new System.Threading.Thread(MainStructure.OverlayWorker.StartDisplayDispatcher);
+            MainStructure.DisplayDispatcherWorker.Name = "DisplayDispatcher";
+            MainStructure.DisplayDispatcherWorker.Start();
+        }
+
+        void CloseOverlay(object sender, EventArgs e)
+        {
+            MainStructure.DisplayDispatcherWorker.Abort();
+            MainStructure.DisplayBackgroundWorker.Abort();
+        }
+
+        void ShutThreads(object sender, EventArgs e)
+        {
+            Application.Current.Shutdown();
+            if(MainStructure.DisplayBackgroundWorker!=null)MainStructure.DisplayBackgroundWorker.Abort();
+            if (MainStructure.DisplayDispatcherWorker != null) MainStructure.DisplayDispatcherWorker.Abort();
+            if(MainStructure.DCSServerSocket!=null)MainStructure.DCSServerSocket.Abort();
+            if(MainStructure.joystickInputRead!=null)MainStructure.joystickInputRead.Abort();
+            if(MainStructure.runningGameCheck!=null)MainStructure.runningGameCheck.Abort();
         }
     }
 }

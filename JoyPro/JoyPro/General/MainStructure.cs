@@ -33,9 +33,14 @@ namespace JoyPro
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;
+        public static JoystickReader JrContReading = null;
         public static Thread runningGameCheck = null;
         public static Thread joystickInputRead = null;
-
+        public static Thread DCSServerSocket = null;
+        public static Thread DisplayBackgroundWorker = null;
+        public static Thread DisplayDispatcherWorker = null;
+        public static OverlayBackGroundWorker OverlayWorker = null;
+        public static bool VisualMode = false;
         
         public static void LoadMetaLast()
         {
@@ -149,6 +154,10 @@ namespace JoyPro
                 {
                     msave.OverlaySW = p;
                 }
+                else if (sender is OverlayWindow)
+                {
+                    msave.OverlayW = p;
+                }
             }
             if (mainW.CBNukeUnused.IsChecked == true)
                 msave.NukeSticks = true;
@@ -180,6 +189,20 @@ namespace JoyPro
                 Console.WriteLine(e.HelpLink);
             }
         }
+        public static void StartThreads()
+        {
+            OverlayWorker = new OverlayBackGroundWorker();
+            runningGameCheck = new Thread(OverlayWorker.GameRunningCheck);
+            DCSServerSocket = new Thread(OverlayWorker.StartDCSListener);
+            JrContReading = new JoystickReader();
+            JrContReading.KeepDaemonRunning = true;
+            if (msave == null || msave.OverlaySW == null) msave = new MetaSave();
+            
+            runningGameCheck.Name = "GameRunCheck";
+            DCSServerSocket.Name = "DCSServerSocket";
+            runningGameCheck.Start();
+            DCSServerSocket.Start();
+        }
         public static void InitProgram()
         {
             if (Updater.GetNewestVersionNumber() > version)
@@ -206,6 +229,7 @@ namespace JoyPro
             {
                 MiscGames.BackupConfigsOfDCSInstance(MiscGames.DCSInstances[i]);
             }
+            StartThreads();
             //IL2 Backup needed
             InitGames.LoadIL2Path();
             MiscGames.BackupConfigsOfIL2();

@@ -152,6 +152,9 @@
     <Compile Include="Windows\OverlaySettings.xaml.cs">
       <DependentUpon>OverlaySettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\OverlayWindow.xaml.cs">
+      <DependentUpon>OverlayWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ReinstateBackup.xaml.cs">
       <DependentUpon>ReinstateBackup.xaml</DependentUpon>
     </Compile>
@@ -225,6 +228,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\OverlaySettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\OverlayWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -541,6 +548,9 @@
     <None Include="TOOLS\AHK\ArrowKeyDown.ahk" />
     <None Include="TOOLS\AHK\ArrowKeyUp.ahk" />
     <None Include="TOOLS\AHK\GoToMouseAndClick.ahk" />
+    <Content Include="TOOLS\DCSLuaSocket\Addative.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="TOOLS\Unzip\UnzipMeHereWin.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

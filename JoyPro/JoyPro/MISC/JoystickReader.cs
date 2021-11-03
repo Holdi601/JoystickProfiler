@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-
+using System.Collections.Concurrent;
+using System.Diagnostics;
 
 namespace JoyPro
 {
@@ -66,6 +67,7 @@ namespace JoyPro
         public JoystickResults result;
         int pollWaitTime;
         Keyboard kb;
+        public bool KeepDaemonRunning = false;
 
         public static List<string> GetAllPossibleStickInputs(Relation rel = null)
         {
@@ -155,6 +157,8 @@ namespace JoyPro
             return result;
         }
 
+        
+
         public static List<string> GetConnectedJoysticks()
         {
             List<string> result = new List<string>();
@@ -176,8 +180,181 @@ namespace JoyPro
             }
             return result;
         }
+
+        public JoystickReader()
+        {
+            //Background Deamon
+            directInputList = new List<DeviceInstance>();
+            directInput = new DirectInput();
+            contrl = new SlimDX.XInput.Controller(SlimDX.XInput.UserIndex.Any);
+            gamepads = new List<Joystick>();
+            state = new Dictionary<Joystick, JoyAxisState>();
+            lastState = new Dictionary<Joystick, JoystickState>();
+            InitJoystick();
+            foreach (var gamepad in gamepads)
+            {
+                if (gamepad.Acquire().IsFailure) continue;
+            }
+            KeepDaemonRunning = true;
+
+        }
+        //Only to use with Background Daemon
+        public void StartReadingInputsCurrentMode()
+        {
+            bool[] curBtns = new bool[128];
+            int[] povs = new int[10];
+            string dir = "";
+            ConcurrentDictionary<string, List<string>> currentResults = new ConcurrentDictionary<string, List<string>>();
+            JoystickState currentState;
+            string curDevice;
+            while (KeepDaemonRunning)
+            {
+                Thread.Sleep(MainStructure.msave.OvlPollTime);
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+                currentResults = new ConcurrentDictionary<string, List<string>>();
+                foreach (var gamepad in gamepads)
+                {
+                    if (gamepad.Poll().IsFailure)
+                        continue;
+                    if (SlimDX.Result.Last.IsFailure)
+                        continue;
+                    curDevice = ToDeviceString(gamepad);
+                    currentResults.TryAdd(curDevice, new List<string>());
+                    currentState = gamepad.GetCurrentState();
+                    curBtns = currentState.GetButtons();
+                    for(int i = 0; i < curBtns.Length; i++)
+                    {
+                        if (curBtns[i]) currentResults[curDevice].Add("JOY_BTN" + (i + 1).ToString());
+                    }
+                    povs = currentState.GetPointOfViewControllers();
+                    for (int i = 0; i < povs.Length; ++i)
+                    {
+                        if (povs[i] > -1)
+                        {
+                            dir = "JOY_BTN_POV" + (i + 1).ToString() + "_";
+                            switch (povs[i])
+                            {
+                                case 0:
+                                    dir += "U";
+                                    break;
+                                case 4500:
+                                    dir += "UR";
+                                    break;
+                                case 9000:
+                                    dir += "R";
+                                    break;
+                                case 13500:
+                                    dir += "DR";
+                                    break;
+                                case 18000:
+                                    dir += "D";
+                                    break;
+                                case 22500:
+                                    dir += "DL";
+                                    break;
+                                case 27000:
+                                    dir += "L";
+                                    break;
+                                case 31500:
+                                    dir += "UL";
+                                    break;
+                            }
+                            currentResults[curDevice].Add(dir);
+                        }
+                    }
+                }
+                OverlayBackGroundWorker.currentPressed = currentResults;
+                sw.Stop();
+                //Console.WriteLine("Joystick poll takes: " + sw.ElapsedMilliseconds + "ms");
+            }
+        }
+        //Only to use with Background Daemon
+        public void StartReadingInputsChangeMode()
+        {
+            bool[] curBtns = new bool[128];
+            bool[] lastBtns = new bool[128];
+            int[] povs = new int[10];
+            string dir = "";
+            ConcurrentDictionary<string, List<string>> currentResults = new ConcurrentDictionary<string, List<string>>();
+            JoystickState currentState;
+            string curDevice;
+            foreach (var gamepad in gamepads)
+            {
+                if (gamepad.Poll().IsFailure)
+                    continue;
+                if (SlimDX.Result.Last.IsFailure)
+                    continue;
+                if (lastState.ContainsKey(gamepad)) lastState[gamepad] = gamepad.GetCurrentState();
+                else lastState.Add(gamepad, gamepad.GetCurrentState());
+            }
+            while (KeepDaemonRunning)
+            {
+                Thread.Sleep(MainStructure.msave.OvlPollTime);
+                currentResults = new ConcurrentDictionary<string, List<string>>();
+                foreach(var gamepad in gamepads)
+                {
+                    if (gamepad.Poll().IsFailure)
+                        continue;
+                    if (SlimDX.Result.Last.IsFailure)
+                        continue;
+                    curDevice = ToDeviceString(gamepad);
+                    currentResults.TryAdd(curDevice, new List<string>());
+                    currentState = gamepad.GetCurrentState();
+                    curBtns = currentState.GetButtons();
+                    lastBtns = lastState[gamepad].GetButtons();
+                    for (int i = 0; i < curBtns.Length; ++i)
+                    {
+                        if (curBtns[i] != lastBtns[i])
+                        {
+                            currentResults[curDevice].Add("JOY_BTN" + (i + 1).ToString());
+                        }
+                    }
+                    povs = currentState.GetPointOfViewControllers();
+                    for (int i = 0; i < povs.Length; ++i)
+                    {
+                        if (povs[i] > -1)
+                        {
+                            dir = "JOY_BTN_POV" + (i + 1).ToString() + "_";
+                            switch (povs[i])
+                            {
+                                case 0:
+                                    dir += "U";
+                                    break;
+                                case 4500:
+                                    dir += "UR";
+                                    break;
+                                case 9000:
+                                    dir += "R";
+                                    break;
+                                case 13500:
+                                    dir += "DR";
+                                    break;
+                                case 18000:
+                                    dir += "D";
+                                    break;
+                                case 22500:
+                                    dir += "DL";
+                                    break;
+                                case 27000:
+                                    dir += "L";
+                                    break;
+                                case 31500:
+                                    dir += "UL";
+                                    break;
+                            }
+                            currentResults[curDevice].Add(dir);
+                        }
+                    }
+                    if (lastState.ContainsKey(gamepad)) lastState[gamepad] = currentState;
+                    else lastState.Add(gamepad, currentState);
+                }
+                OverlayBackGroundWorker.currentPressed = currentResults;
+            }
+        }
         public JoystickReader(bool axis, bool includeKeyboard = false)
         {
+            //Single Button or Axis Read
             timeToSet = 5000;
             axisThreshold = 10000;
             warmupTime = 300;

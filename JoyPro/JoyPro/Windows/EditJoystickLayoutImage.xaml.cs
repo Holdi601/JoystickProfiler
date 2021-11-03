@@ -152,20 +152,6 @@ namespace JoyPro
             }
             return j;
         }
-
-        List<string> recursiveSetupNameList(List<string> li)
-        {
-            List<string> result = new List<string>();
-            for(int i=0; i<li.Count; ++i)
-            {
-                string pref = li[i];
-                for(int j=0; j<i; ++j)
-                {
-                    
-                }
-            }
-            return result;
-        }
         void textSizeEnterChange(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)

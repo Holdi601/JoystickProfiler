@@ -4,6 +4,7 @@ using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,7 +26,7 @@ namespace JoyPro
         public OverlaySettings()
         {
             InitializeComponent();
-            if (MainStructure.msave != null && MainStructure.msave.SettingsW != null)
+            if (MainStructure.msave != null && MainStructure.msave.OverlaySW != null)
             {
                 if (MainStructure.msave.OverlaySW.Top > 0) this.Top = MainStructure.msave.OverlaySW.Top;
                 if (MainStructure.msave.OverlaySW.Left > 0) this.Left = MainStructure.msave.OverlaySW.Left;
@@ -41,6 +42,7 @@ namespace JoyPro
             TextSizeTF.Text = MainStructure.msave.OvlTxtS.ToString();
             ElementsToShowTF.Text = MainStructure.msave.OvlElementsToShow.ToString();
             PollTimeTF.Text = MainStructure.msave.OvlPollTime.ToString();
+            TimeAliveTF.Text = MainStructure.msave.TextTimeAlive.ToString();
             List<string> fonts = new List<string>();
             InstalledFontCollection installedFonts = new InstalledFontCollection();
             int fontSelectIndex = -1;
@@ -52,6 +54,8 @@ namespace JoyPro
                 i++;
             }
             FontDropdown.ItemsSource = fonts;
+            FadeButtonsCB.IsChecked = MainStructure.msave.OvlFade;
+            ChangeButtonModeCB.IsChecked = MainStructure.msave.OvlBtnChangeMode;
             if(fontSelectIndex>=0)FontDropdown.SelectedIndex = fontSelectIndex;
             ColorPickerBtn.Click += new RoutedEventHandler(OpenColorPicker);
             WidthTF.LostFocus += new RoutedEventHandler(WidthLostFocus);
@@ -61,6 +65,7 @@ namespace JoyPro
             PollTimeTF.LostFocus += new RoutedEventHandler(PollTimeLostFocus);
             FontDropdown.SelectionChanged += new SelectionChangedEventHandler(FontSelectionChanged);
             FadeButtonsCB.Click += new RoutedEventHandler(FadeButtonsChanged);
+            ChangeButtonModeCB.Click += new RoutedEventHandler(ButtonnModeChanged);
             CloseBtn.Click += new RoutedEventHandler(CloseThis);
             InstallScriptBtn.Click += new RoutedEventHandler(InstallDCSScript);
             TimeAliveTF.LostFocus += new RoutedEventHandler(TimeAliveLostFocus);
@@ -187,6 +192,13 @@ namespace JoyPro
             else MainStructure.msave.OvlFade = false;
         }
 
+        void ButtonnModeChanged(object sender, EventArgs e)
+        {
+            if (ChangeButtonModeCB.IsChecked == true) MainStructure.msave.OvlBtnChangeMode = true;
+            else MainStructure.msave.OvlBtnChangeMode = false;
+            
+        }
+
         void CloseThis(object sender, EventArgs e)
         {
             Close();
@@ -196,6 +208,8 @@ namespace JoyPro
         {
             StreamReader sr = new StreamReader(MainStructure.PROGPATH + "\\Tools\\DCSLuaSocket\\Addative.lua");
             string contentAddative = sr.ReadToEnd();
+            sr.Close();
+            sr.Dispose();
             string selectedPath;
             if (MainStructure.msave.DCSInstaceOverride != null && Directory.Exists(MainStructure.msave.DCSInstaceOverride))
             {
@@ -210,15 +224,24 @@ namespace JoyPro
             {
                 StreamReader srExp = new StreamReader(selectedPath + "\\Scripts\\Export.lua");
                 luaContent = srExp.ReadToEnd();
+                srExp.Close();
+                srExp.Dispose();
             }
             if (!luaContent.Contains(contentAddative))
             {
-                luaContent = luaContent + "\r\n" + contentAddative;
-                StreamWriter sw = new StreamWriter(selectedPath + "\\Scripts\\Export.lua");
-                sw.WriteLine(luaContent);
-                sw.Close();
-                sw.Dispose();
-                System.Windows.MessageBox.Show("Script was installed successfully");
+                try
+                {
+                    luaContent = luaContent + "\r\n" + contentAddative;
+                    StreamWriter sw = new StreamWriter(selectedPath + "\\Scripts\\Export.lua");
+                    sw.WriteLine(luaContent);
+                    sw.Close();
+                    sw.Dispose();
+                    System.Windows.MessageBox.Show("Script was installed successfully");
+                }catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show(ex.Message);
+                }
+                
             }
             else
             {

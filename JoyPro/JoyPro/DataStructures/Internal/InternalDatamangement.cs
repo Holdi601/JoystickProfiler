@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -153,6 +154,39 @@ namespace JoyPro
             Modifier m = Modifier.ReformerToMod(reformer);
             AllModifiers.Add(m.name, m);
         }
+
+        public static ConcurrentDictionary<string, ConcurrentDictionary<string,string>> GetAirCraftLayout(string Game, string Plane)
+        {
+            ConcurrentDictionary<string, ConcurrentDictionary<string,string>> map = new ConcurrentDictionary<string, ConcurrentDictionary<string,string>>();
+            List<string> connectedSticks = JoystickReader.GetConnectedJoysticks();
+            for(int i=0; i<connectedSticks.Count;i++)
+            {
+                map.TryAdd(connectedSticks[i], new ConcurrentDictionary<string,string>());
+                List<string> ButtonsInUse = GetButtonsAxisInUseForStick(connectedSticks[i]);
+                if (Game == "" || Plane == "")
+                {
+                    for(int j=0; j < ButtonsInUse.Count; j++)
+                    {
+                        map[connectedSticks[i]].TryAdd(ButtonsInUse[j], ButtonsInUse[j]);
+                    }
+                }
+                else
+                {
+                    for (int j = 0; j < ButtonsInUse.Count; j++)
+                    {
+                        string desc = GetDescriptionForJoystickButtonGamePlane(connectedSticks[i], ButtonsInUse[j], Game, Plane);
+                        if (desc.Length > 0)
+                        {
+                            map[connectedSticks[i]].TryAdd(ButtonsInUse[j], desc);
+                        }
+                    }
+                }
+            }
+            return map;
+        }
+
+
+
         public static void CorrectBindNames(Dictionary<string, Bind> lib, Bind b)
         {
             if (b == null || lib == null) return;
@@ -1198,6 +1232,7 @@ namespace JoyPro
                         {
                             prefix=prefix+"+" + kvp.Value.AllReformers[i].Substring(0, kvp.Value.AllReformers[i].IndexOf('§'));
                         }
+                        prefix=prefix+"+";
                     }
                     toCompare = prefix + toCompare;
                     if (!result.Contains(toCompare)) result.Add(toCompare);

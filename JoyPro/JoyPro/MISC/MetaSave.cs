@@ -62,6 +62,7 @@ namespace JoyPro
         public int OvlPollTime;
         public bool OvlFade;
         public int TextTimeAlive;
+        public bool OvlBtnChangeMode;
 
         public const int default_modulesToScan = 40;
         public const int default_timeToSet = 5000;
@@ -82,6 +83,7 @@ namespace JoyPro
         public const int default_OvlPollTime = 16;
         public const bool default_OvlFade = false;
         public const int default_TextAlive = 5000;
+        public const bool default_OvlBtnChangeMode = false;
         public MetaSave()
         {
             lastGameSelected = "";
@@ -124,6 +126,7 @@ namespace JoyPro
             OvlPollTime = default_OvlPollTime;
             OvlFade= default_OvlFade;
             TextTimeAlive = default_TextAlive;
+            OvlBtnChangeMode = default_OvlBtnChangeMode;
         }
     }
 }
