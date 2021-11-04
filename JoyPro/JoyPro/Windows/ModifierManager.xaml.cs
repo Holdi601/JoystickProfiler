@@ -26,17 +26,23 @@ namespace JoyPro
         Button[] dltBtns;
         Button addBtn;
         JoystickReader jr;
+        public static double DEFAULT_WIDTH;
+        public static double DEFAULT_HEIGHT;
+
         public ModifierManager()
         {
             
             InitializeComponent();
+            DEFAULT_HEIGHT = this.Height;
+            DEFAULT_WIDTH = this.Width;
+
             UpdateView();
-            if (MainStructure.msave.ModifierW != null)
+            if (MainStructure.msave._ModifierWindow != null)
             {
-                if (MainStructure.msave.ModifierW.Top != -1) this.Top = MainStructure.msave.ModifierW.Top;
-                if (MainStructure.msave.ModifierW.Left != -1) this.Left = MainStructure.msave.ModifierW.Left;
-                if (MainStructure.msave.ModifierW.Width != -1) this.Width = MainStructure.msave.ModifierW.Width;
-                if (MainStructure.msave.ModifierW.Height != -1) this.Height = MainStructure.msave.ModifierW.Height;
+                if (MainStructure.msave._ModifierWindow.Top != -1) this.Top = MainStructure.msave._ModifierWindow.Top;
+                if (MainStructure.msave._ModifierWindow.Left != -1) this.Left = MainStructure.msave._ModifierWindow.Left;
+                if (MainStructure.msave._ModifierWindow.Width != -1) this.Width = MainStructure.msave._ModifierWindow.Width;
+                if (MainStructure.msave._ModifierWindow.Height != -1) this.Height = MainStructure.msave._ModifierWindow.Height;
             }
 
             svC.ScrollChanged += new ScrollChangedEventHandler(syncScrolls);

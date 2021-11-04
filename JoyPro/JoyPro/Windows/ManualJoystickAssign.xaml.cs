@@ -22,22 +22,29 @@ namespace JoyPro
     {
         List<string> sticks;
         Relation rel;
+        public static double DEFAULT_WIDTH;
+        public static double DEFAULT_HEIGHT;
+
         const string joystickRegexPattern = ".+\\{([a-z]|[A-Z]|[0-9]){8}\\-([a-z]|[A-Z]|[0-9]){4}\\-([a-z]|[A-Z]|[0-9]){4}\\-([a-z]|[A-Z]|[0-9]){4}\\-([a-z]|[A-Z]|[0-9]){12}\\}";
         public ManualJoystickAssign(Relation r)
         {
             InitializeComponent();
+
+            DEFAULT_HEIGHT = this.Height;
+            DEFAULT_WIDTH = this.Width;
+
             sticks = new List<string>();
             rel = r;
             for(int i=0; i< InternalDataMangement.LocalJoysticks.Length; ++i)
             {
                 sticks.Add(InternalDataMangement.LocalJoysticks[i]);
             }
-            if (MainStructure.msave != null && MainStructure.msave.JoyManAs != null)
+            if (MainStructure.msave != null && MainStructure.msave._JoystickManualAssignWindow != null)
             {
-                if (MainStructure.msave.JoyManAs.Top > 0) this.Top = MainStructure.msave.JoyManAs.Top;
-                if (MainStructure.msave.JoyManAs.Left > 0) this.Left = MainStructure.msave.JoyManAs.Left;
-                if (MainStructure.msave.JoyManAs.Width > 0) this.Width = MainStructure.msave.JoyManAs.Width;
-                if (MainStructure.msave.JoyManAs.Height > 0) this.Height = MainStructure.msave.JoyManAs.Height;
+                if (MainStructure.msave._JoystickManualAssignWindow.Top > 0) this.Top = MainStructure.msave._JoystickManualAssignWindow.Top;
+                if (MainStructure.msave._JoystickManualAssignWindow.Left > 0) this.Left = MainStructure.msave._JoystickManualAssignWindow.Left;
+                if (MainStructure.msave._JoystickManualAssignWindow.Width > 0) this.Width = MainStructure.msave._JoystickManualAssignWindow.Width;
+                if (MainStructure.msave._JoystickManualAssignWindow.Height > 0) this.Height = MainStructure.msave._JoystickManualAssignWindow.Height;
             }
             else
             {

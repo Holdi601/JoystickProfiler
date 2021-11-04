@@ -237,6 +237,16 @@ namespace JoyPro
             r.AddNode(id, "DCS",true, plane);
             return b;
         }
+        public void GenerateDefaultUserCurve()
+        {
+            Curvature.Clear();
+            double val = 0.0;
+            while (val <= 1.0)
+            {
+                Curvature.Add(val);
+                val = val + 0.1;
+            }
+        }
         public static Bind GetBindFromButtonElement(DCSButtonBind dab, string id, string joystick, string plane)
         {
             Relation r = new Relation();

@@ -65,15 +65,22 @@ namespace JoyPro
             public int Bottom { get; set; }
         }
 
+        public static double DEFAULT_WIDTH;
+        public static double DEFAULT_HEIGHT;
+
+
         public StickSettings()
         {
             InitializeComponent();
-            if (MainStructure.msave != null && MainStructure.msave.SettingsW != null)
+            DEFAULT_HEIGHT = this.Height;
+            DEFAULT_WIDTH = this.Width;
+
+            if (MainStructure.msave != null && MainStructure.msave._SettingsWindow != null)
             {
-                if (MainStructure.msave.SettingsW.Top > 0) this.Top = MainStructure.msave.SettingsW.Top;
-                if (MainStructure.msave.SettingsW.Left > 0) this.Left = MainStructure.msave.SettingsW.Left;
-                if (MainStructure.msave.SettingsW.Width > 0) this.Width = MainStructure.msave.SettingsW.Width;
-                if (MainStructure.msave.SettingsW.Height > 0) this.Height = MainStructure.msave.SettingsW.Height;   
+                if (MainStructure.msave._SettingsWindow.Top > 0) this.Top = MainStructure.msave._SettingsWindow.Top;
+                if (MainStructure.msave._SettingsWindow.Left > 0) this.Left = MainStructure.msave._SettingsWindow.Left;
+                if (MainStructure.msave._SettingsWindow.Width > 0) this.Width = MainStructure.msave._SettingsWindow.Width;
+                if (MainStructure.msave._SettingsWindow.Height > 0) this.Height = MainStructure.msave._SettingsWindow.Height;   
             }
             else
             {
@@ -89,6 +96,7 @@ namespace JoyPro
             itBox.Text = MainStructure.msave.warmupTime.ToString();
             athBox.Text = MainStructure.msave.axisThreshold.ToString();
             BackupDaysBox.Text = MainStructure.msave.backupDays.ToString();
+            VisualLayersBox.Text = (MainStructure.msave.maxVisualLayers - 1).ToString();
             if (MainStructure.msave.DCSInstaceOverride != null) DCSInstanceORBox.Text = MainStructure.msave.DCSInstaceOverride;
             if (MainStructure.msave.IL2OR != null) IL2InstanceORBox.Text = MainStructure.msave.IL2OR;
             string installPath = InitGames.GetDCSInstallationPath();
@@ -114,6 +122,7 @@ namespace JoyPro
             CleanRelationsBtn.Click += new RoutedEventHandler(CleanRelations);
             ImportLocalsFromInstanceCB.Click += new RoutedEventHandler(ImportLocalsChanged);
             ManualDBBtn.Click += new RoutedEventHandler(OpenIDManualManagement);
+            VisualLayersBox.LostFocus += new RoutedEventHandler(changeMaxLayerCount);
             if (MainStructure.msave.importLocals == null || MainStructure.msave.importLocals == true)
                 ImportLocalsFromInstanceCB.IsChecked = true;
             else
@@ -298,8 +307,22 @@ namespace JoyPro
             {
                 MessageBox.Show("Not a valid integer for backup days");
                 BackupDaysBox.Text = MainStructure.msave.backupDays.ToString();
+                return;
             }
             MainStructure.msave.backupDays = days;
+        }
+        void changeMaxLayerCount(object sender, EventArgs e)
+        {
+            int mxly;
+            bool? succ = int.TryParse(VisualLayersBox.Text, out mxly);
+            if (succ == false || succ == null)
+            {
+                MessageBox.Show("Not a valid integer for layer count");
+                VisualLayersBox.Text = (MainStructure.msave.maxVisualLayers - 1).ToString();
+                return;
+            }
+            MainStructure.msave.maxVisualLayers = mxly+1;
+            InternalDataMangement.ResyncRelations();
         }
         void ChangeDCSInstanceOverridePath(object sender, EventArgs e)
         {

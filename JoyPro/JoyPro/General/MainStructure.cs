@@ -29,7 +29,7 @@ namespace JoyPro
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
     public static class MainStructure
     {
-        public const int version = 56;
+        public const int version = 57;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;
@@ -41,6 +41,7 @@ namespace JoyPro
         public static Thread DisplayDispatcherWorker = null;
         public static OverlayBackGroundWorker OverlayWorker = null;
         public static bool VisualMode = false;
+        public static int VisualLayer = 0;
         
         public static void LoadMetaLast()
         {
@@ -103,60 +104,60 @@ namespace JoyPro
                 WindowPos p = GetWindowPosFrom((Window)sender);
                 if (sender is MainWindow)
                 {
-                    msave.mainWLast = p;
+                    msave._MainWindow = p;
                 }
                 else if (sender is RelationWindow)
                 {
-                    msave.relationWindowLast = p;
+                    msave._RelationWindow = p;
                 }
                 else if (sender is ExchangeStick)
                 {
-                    msave.exchangeW = p;
+                    msave._ExchangeWindow = p;
                 }
                 else if (sender is ImportWindow)
                 {
-                    msave.importWindowLast = p;
+                    msave._ImportWindow = p;
                 }
                 else if (sender is ModifierManager)
                 {
-                    msave.ModifierW = p;
+                    msave._ModifierWindow = p;
                 }
                 else if (sender is StickToExchange)
                 {
-                    msave.stick2ExW = p;
+                    msave._StickExchangeWindow = p;
                 }
                 else if (sender is StickSettings)
                 {
-                    msave.SettingsW = p;
+                    msave._SettingsWindow = p;
                 }
                 else if (sender is ValidationErrors)
                 {
-                    msave.ValidW = p;
+                    msave._ValidationWindow = p;
                 }
                 else if (sender is ReinstateBackup)
                 {
-                    msave.BackupW = p;
+                    msave._BackupWindow = p;
                 }
                 else if (sender is UserCurveDCS)
                 {
-                    msave.UsrCvW = p;
+                    msave._UserCurveWindow = p;
                 }
                 else if(sender is GroupManagerW)
                 {
-                    msave.GrpMngr = p;
+                    msave._GroupManagerWindow = p;
                 }else if(sender is CreateJoystickAlias)
                 {
-                    msave.AliasCr = p;
+                    msave._AliasWindow = p;
                 }else if(sender is ManualJoystickAssign)
                 {
-                    msave.JoyManAs = p;
+                    msave._JoystickManualAssignWindow = p;
                 }else if(sender is OverlaySettings)
                 {
-                    msave.OverlaySW = p;
+                    msave._OverlaySettingsWindow = p;
                 }
                 else if (sender is OverlayWindow)
                 {
-                    msave.OverlayW = p;
+                    msave._OverlayWindow = p;
                 }
             }
             if (mainW.CBNukeUnused.IsChecked == true)
@@ -196,7 +197,7 @@ namespace JoyPro
             DCSServerSocket = new Thread(OverlayWorker.StartDCSListener);
             JrContReading = new JoystickReader();
             JrContReading.KeepDaemonRunning = true;
-            if (msave == null || msave.OverlaySW == null) msave = new MetaSave();
+            if (msave == null || msave._OverlaySettingsWindow == null) msave = new MetaSave();
             
             runningGameCheck.Name = "GameRunCheck";
             DCSServerSocket.Name = "DCSServerSocket";
@@ -315,6 +316,7 @@ namespace JoyPro
             List<string> result = new List<string>();
             string temp="";
             int startIndex = 0;
+            if (toSplit.IndexOf(splitValue) < 0) return new string[1] { toSplit };
             while (startIndex >= 0)
             {
                 int length = toSplit.IndexOf(splitValue);

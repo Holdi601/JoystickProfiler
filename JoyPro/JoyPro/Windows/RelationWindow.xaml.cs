@@ -24,6 +24,9 @@ namespace JoyPro
         List<ColumnDefinition> mainColumns;
         List<ColumnDefinition> mainColumnsIds;
         List<RelationItem> ri;
+        public static double DEFAULT_WIDTH;
+        public static double DEFAULT_HEIGHT;
+
 
         void init()
         {
@@ -37,12 +40,12 @@ namespace JoyPro
             CancelRelationBtn.Click += new RoutedEventHandler(CloseThis);
             FinishRelationBtn.Click += new RoutedEventHandler(FinishRelation);
             this.Closing += new System.ComponentModel.CancelEventHandler(OnClosing);
-            if (MainStructure.msave.relationWindowLast != null)
+            if (MainStructure.msave._RelationWindow != null)
             {
-                if (MainStructure.msave.relationWindowLast.Top != -1) this.Top = MainStructure.msave.relationWindowLast.Top;
-                if (MainStructure.msave.relationWindowLast.Left != -1) this.Left = MainStructure.msave.relationWindowLast.Left;
-                if (MainStructure.msave.relationWindowLast.Width != -1) this.Width = MainStructure.msave.relationWindowLast.Width;
-                if (MainStructure.msave.relationWindowLast.Height != -1) this.Height = MainStructure.msave.relationWindowLast.Height;
+                if (MainStructure.msave._RelationWindow.Top != -1) this.Top = MainStructure.msave._RelationWindow.Top;
+                if (MainStructure.msave._RelationWindow.Left != -1) this.Left = MainStructure.msave._RelationWindow.Left;
+                if (MainStructure.msave._RelationWindow.Width != -1) this.Width = MainStructure.msave._RelationWindow.Width;
+                if (MainStructure.msave._RelationWindow.Height != -1) this.Height = MainStructure.msave._RelationWindow.Height;
             }
             svcCont.ScrollChanged += new ScrollChangedEventHandler(scrollChanged);
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
@@ -65,6 +68,9 @@ namespace JoyPro
         public RelationWindow(Relation r)
         {
             InitializeComponent();
+            DEFAULT_HEIGHT = this.Height;
+            DEFAULT_WIDTH = this.Width;
+
             Current = r.Copy();
             Original = r;
             init();
@@ -77,10 +83,10 @@ namespace JoyPro
         void setLastSizeAndPosition()
         {
             if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
-            MainStructure.msave.relationWindowLast.Height = this.Height;
-            MainStructure.msave.relationWindowLast.Left = this.Left;
-            MainStructure.msave.relationWindowLast.Top = this.Top;
-            MainStructure.msave.relationWindowLast.Width = this.Width;
+            MainStructure.msave._RelationWindow.Height = this.Height;
+            MainStructure.msave._RelationWindow.Left = this.Left;
+            MainStructure.msave._RelationWindow.Top = this.Top;
+            MainStructure.msave._RelationWindow.Width = this.Width;
         }
         private void SetupGamesDropDown()
         {

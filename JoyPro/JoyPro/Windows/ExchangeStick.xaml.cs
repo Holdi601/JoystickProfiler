@@ -21,9 +21,15 @@ namespace JoyPro
     {
         string stickToReplace;
         List<string> Joysticks;
+        public static double DEFAULT_WIDTH;
+        public static double DEFAULT_HEIGHT;
+
         public ExchangeStick(string toReplace)
         {
             InitializeComponent();
+            DEFAULT_HEIGHT = this.Height;
+            DEFAULT_WIDTH = this.Width;
+
             List<string> sticks = JoystickReader.GetConnectedJoysticks();
             Joysticks = sticks;
             if (InternalDataMangement.JoystickAliases == null) InternalDataMangement.JoystickAliases = new Dictionary<string, string>();
@@ -43,12 +49,12 @@ namespace JoyPro
             CancelJoyExchange.Click += new RoutedEventHandler(CancelJoystick);
             OKJoyExchange.Click += new RoutedEventHandler(OKNewJoystick);
 
-            if (MainStructure.msave != null&&MainStructure.msave.exchangeW!=null)
+            if (MainStructure.msave != null&&MainStructure.msave._ExchangeWindow!=null)
             {
-                if (MainStructure.msave.exchangeW.Top > 0) this.Top = MainStructure.msave.exchangeW.Top;
-                if (MainStructure.msave.exchangeW.Left > 0) this.Left = MainStructure.msave.exchangeW.Left;
-                if (MainStructure.msave.exchangeW.Width > 0) this.Width = MainStructure.msave.exchangeW.Width;
-                if (MainStructure.msave.exchangeW.Height > 0) this.Height = MainStructure.msave.exchangeW.Height;
+                if (MainStructure.msave._ExchangeWindow.Top > 0) this.Top = MainStructure.msave._ExchangeWindow.Top;
+                if (MainStructure.msave._ExchangeWindow.Left > 0) this.Left = MainStructure.msave._ExchangeWindow.Left;
+                if (MainStructure.msave._ExchangeWindow.Width > 0) this.Width = MainStructure.msave._ExchangeWindow.Width;
+                if (MainStructure.msave._ExchangeWindow.Height > 0) this.Height = MainStructure.msave._ExchangeWindow.Height;
             }
             else
             {

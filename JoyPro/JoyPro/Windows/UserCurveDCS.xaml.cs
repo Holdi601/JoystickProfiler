@@ -20,15 +20,20 @@ namespace JoyPro
     public partial class UserCurveDCS : Window
     {
         List<double> curve;
+        public static double DEFAULT_WIDTH;
+        public static double DEFAULT_HEIGHT;
+
         public UserCurveDCS(Bind b)
         {
             InitializeComponent();
-            if (MainStructure.msave != null && MainStructure.msave.UsrCvW != null)
+            DEFAULT_HEIGHT = this.Height;
+            DEFAULT_WIDTH = this.Width;
+            if (MainStructure.msave != null && MainStructure.msave._UserCurveWindow != null)
             {
-                if (MainStructure.msave.UsrCvW.Top > 0) this.Top = MainStructure.msave.UsrCvW.Top;
-                if (MainStructure.msave.UsrCvW.Left > 0) this.Left = MainStructure.msave.UsrCvW.Left;
-                if (MainStructure.msave.UsrCvW.Width > 0) this.Width = MainStructure.msave.UsrCvW.Width;
-                if (MainStructure.msave.UsrCvW.Height > 0) this.Height = MainStructure.msave.UsrCvW.Height;
+                if (MainStructure.msave._UserCurveWindow.Top > 0) this.Top = MainStructure.msave._UserCurveWindow.Top;
+                if (MainStructure.msave._UserCurveWindow.Left > 0) this.Left = MainStructure.msave._UserCurveWindow.Left;
+                if (MainStructure.msave._UserCurveWindow.Width > 0) this.Width = MainStructure.msave._UserCurveWindow.Width;
+                if (MainStructure.msave._UserCurveWindow.Height > 0) this.Height = MainStructure.msave._UserCurveWindow.Height;
             }
             else
             {
@@ -65,6 +70,8 @@ namespace JoyPro
             tbcv11.Text = curve[10].ToString();
             SubmitBtn.Click += new RoutedEventHandler(submitCurve);
             this.Title = b.Rl.NAME + " - " + "Set User Curve";
+            this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
+            this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
         }
 
         void closeThis(object sender, EventArgs e)

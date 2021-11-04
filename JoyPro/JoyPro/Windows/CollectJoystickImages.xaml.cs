@@ -28,6 +28,7 @@ namespace JoyPro
     {
         Dictionary<string, string> JoyPaths;
         List<string> JoysticksActiveInBinds;
+        List<string> connectedSticks;
         Label[] allLabel;
         int openedWindows;
         
@@ -36,7 +37,8 @@ namespace JoyPro
             InitializeComponent();
             openedWindows = 0;
             JoyPaths = new Dictionary<string, string>();
-            JoysticksActiveInBinds = InternalDataMangement.GetJoysticksActiveInBinds();
+            connectedSticks = JoystickReader.GetConnectedJoysticks();
+            JoysticksActiveInBinds = InternalDataMangement.LocalJoysticks.ToList();
             CloseBtn.Click += new RoutedEventHandler(CloseThis);
             SearchExportBtn.Click += new RoutedEventHandler(searchExport);
             ContinueBtn.Click += new RoutedEventHandler(ContinueToNext);
@@ -58,7 +60,15 @@ namespace JoyPro
             {
                 Label lblName = new Label();
                 lblName.Name = "lblj" + i.ToString();
-                lblName.Foreground = Brushes.White;
+                if (connectedSticks.Contains(JoysticksActiveInBinds[i]))
+                {
+                    lblName.Foreground = Brushes.GreenYellow;
+                }
+                else
+                {
+                    lblName.Foreground = Brushes.White;
+                }
+                
                 lblName.Content = JoysticksActiveInBinds[i];
                 lblName.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
                 lblName.VerticalAlignment = VerticalAlignment.Center;
@@ -79,6 +89,7 @@ namespace JoyPro
                 }
                 lblout.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
                 lblout.VerticalAlignment = VerticalAlignment.Center;
+                lblout.MouseRightButtonUp += new MouseButtonEventHandler(deleteStickReference);
                 Grid.SetColumn(lblout, 2);
                 Grid.SetRow(lblout, i);
                 g.Children.Add(lblout);
@@ -98,6 +109,26 @@ namespace JoyPro
 
             g.ShowGridLines = true;
             sv.Content = g;
+        }
+
+        void deleteStickReference(object sender, EventArgs e)
+        {
+            Label l = (Label)sender;
+            string cont = (string)l.Content;
+            if (cont != "None")
+            {
+                string toRemove = "";
+                for(int i=0; i< JoyPaths.Count; i++)
+                {
+                    if (cont == JoyPaths.ElementAt(i).Value)
+                    {
+                        toRemove = JoyPaths.ElementAt(i).Key;
+                        break;
+                    }
+                }
+                JoyPaths.Remove(toRemove);
+                l.Content = "None";
+            }
         }
 
         void searchExport(object sender, EventArgs e)

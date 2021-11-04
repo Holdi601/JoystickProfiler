@@ -20,15 +20,22 @@ namespace JoyPro
     public partial class StickToExchange : Window
     {
         List<string> Joysticks = new List<string>();
+        public static double DEFAULT_WIDTH;
+        public static double DEFAULT_HEIGHT;
+
+
         public StickToExchange(List<string> sticks)
         {
             InitializeComponent();
-            if (MainStructure.msave != null&&MainStructure.msave.stick2ExW!=null)
+            DEFAULT_HEIGHT = this.Height;
+            DEFAULT_WIDTH = this.Width;
+
+            if (MainStructure.msave != null&&MainStructure.msave._StickExchangeWindow!=null)
             {
-                if(MainStructure.msave.stick2ExW.Top>0) this.Top = MainStructure.msave.stick2ExW.Top;
-                if (MainStructure.msave.stick2ExW.Left > 0) this.Left = MainStructure.msave.stick2ExW.Left;
-                if(MainStructure.msave.stick2ExW.Width > 0)this.Width = MainStructure.msave.stick2ExW.Width;
-                if(MainStructure.msave.stick2ExW.Height > 0)this.Height = MainStructure.msave.stick2ExW.Height;
+                if(MainStructure.msave._StickExchangeWindow.Top>0) this.Top = MainStructure.msave._StickExchangeWindow.Top;
+                if(MainStructure.msave._StickExchangeWindow.Left > 0) this.Left = MainStructure.msave._StickExchangeWindow.Left;
+                if(MainStructure.msave._StickExchangeWindow.Width > 0)this.Width = MainStructure.msave._StickExchangeWindow.Width;
+                if(MainStructure.msave._StickExchangeWindow.Height > 0)this.Height = MainStructure.msave._StickExchangeWindow.Height;
             }
 
             CancelJoyExchange.Click += new RoutedEventHandler(CancelButton);

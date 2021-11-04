@@ -1325,6 +1325,50 @@ namespace JoyPro
             }
             return null;
         }
+
+        public static List<string> GetAllRelationNamesForJoystickButton(string Joystick, string ModBtn)
+        {
+            List<string> results = new List<string>();
+            bool isAxis;
+            string realBtn;
+            string[] modSplit = null;
+            if (ModBtn.Contains('+'))
+            {
+                modSplit = ModBtn.Split('+');
+                realBtn = modSplit[modSplit.Length - 1];
+                string[] shortend = new string[modSplit.Length - 1];
+                for (int i = 0; i < shortend.Length; ++i)
+                    shortend[i] = modSplit[i];
+                modSplit = shortend;
+            }
+            else
+            {
+                realBtn = ModBtn;
+            }
+            if (realBtn.ToLower().Contains("btn") || realBtn.ToLower().Contains("pov")) isAxis = false;
+            else isAxis = true;
+            foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (kvp.Value.Joystick == Joystick && ((isAxis && realBtn == kvp.Value.JAxis) || (!isAxis && realBtn == kvp.Value.JButton)))
+                {
+                    if (modSplit != null)
+                    {
+                        bool notFound = false;
+                        for (int i = 0; i < modSplit.Length; ++i)
+                        {
+                            if (!kvp.Value.ReformerInBind(modSplit[i]))
+                            {
+                                notFound = true;
+                                break;
+                            }
+                        }
+                        if (notFound) continue;
+                    }
+                    results.Add(kvp.Key);
+                }
+            }
+            return results;
+        }
         public static KeyValuePair<int, int> CleanAllRelations()
         {
             int relationDeleted = 0;

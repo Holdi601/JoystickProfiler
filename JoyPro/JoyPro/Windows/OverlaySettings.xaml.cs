@@ -23,15 +23,20 @@ namespace JoyPro
     /// </summary>
     public partial class OverlaySettings : Window
     {
+        public static double DEFAULT_WIDTH;
+        public static double DEFAULT_HEIGHT;
         public OverlaySettings()
         {
             InitializeComponent();
-            if (MainStructure.msave != null && MainStructure.msave.OverlaySW != null)
+            DEFAULT_HEIGHT = this.Height;
+            DEFAULT_WIDTH = this.Width;
+
+            if (MainStructure.msave != null && MainStructure.msave._OverlaySettingsWindow != null)
             {
-                if (MainStructure.msave.OverlaySW.Top > 0) this.Top = MainStructure.msave.OverlaySW.Top;
-                if (MainStructure.msave.OverlaySW.Left > 0) this.Left = MainStructure.msave.OverlaySW.Left;
-                if (MainStructure.msave.OverlaySW.Width > 0) this.Width = MainStructure.msave.OverlaySW.Width;
-                if (MainStructure.msave.OverlaySW.Height > 0) this.Height = MainStructure.msave.OverlaySW.Height;
+                if (MainStructure.msave._OverlaySettingsWindow.Top > 0) this.Top = MainStructure.msave._OverlaySettingsWindow.Top;
+                if (MainStructure.msave._OverlaySettingsWindow.Left > 0) this.Left = MainStructure.msave._OverlaySettingsWindow.Left;
+                if (MainStructure.msave._OverlaySettingsWindow.Width > 0) this.Width = MainStructure.msave._OverlaySettingsWindow.Width;
+                if (MainStructure.msave._OverlaySettingsWindow.Height > 0) this.Height = MainStructure.msave._OverlaySettingsWindow.Height;
             }
             else
             {
@@ -69,6 +74,8 @@ namespace JoyPro
             CloseBtn.Click += new RoutedEventHandler(CloseThis);
             InstallScriptBtn.Click += new RoutedEventHandler(InstallDCSScript);
             TimeAliveTF.LostFocus += new RoutedEventHandler(TimeAliveLostFocus);
+            this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
+            this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
         }
         void OpenColorPicker(object sender, EventArgs e)
         {

@@ -20,15 +20,22 @@ namespace JoyPro
     public partial class ReinstateBackup : Window
     {
         Dictionary<string, List<string>> gameBUlist;
+        public static double DEFAULT_WIDTH;
+        public static double DEFAULT_HEIGHT;
+
+
         public ReinstateBackup()
         {
             InitializeComponent();
-            if (MainStructure.msave != null && MainStructure.msave.BackupW != null)
+            DEFAULT_HEIGHT = this.Height;
+            DEFAULT_WIDTH = this.Width;
+
+            if (MainStructure.msave != null && MainStructure.msave._BackupWindow != null)
             {
-                if (MainStructure.msave.BackupW.Top > 0) this.Top = MainStructure.msave.BackupW.Top;
-                if (MainStructure.msave.BackupW.Left > 0) this.Left = MainStructure.msave.BackupW.Left;
-                if (MainStructure.msave.BackupW.Width > 0) this.Width = MainStructure.msave.BackupW.Width;
-                if (MainStructure.msave.BackupW.Height > 0) this.Height = MainStructure.msave.BackupW.Height;
+                if (MainStructure.msave._BackupWindow.Top > 0) this.Top = MainStructure.msave._BackupWindow.Top;
+                if (MainStructure.msave._BackupWindow.Left > 0) this.Left = MainStructure.msave._BackupWindow.Left;
+                if (MainStructure.msave._BackupWindow.Width > 0) this.Width = MainStructure.msave._BackupWindow.Width;
+                if (MainStructure.msave._BackupWindow.Height > 0) this.Height = MainStructure.msave._BackupWindow.Height;
             }
             else
             {

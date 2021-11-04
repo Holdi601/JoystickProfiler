@@ -1,0 +1,25 @@
+﻿<Window x:Class="JoyPro.BindButtonSetting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JoyPro"
+        mc:Ignorable="d"
+        Title="Bind Button Setting" Height="250" Width="800">
+    <Grid Background="#FF191919">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            
+        </Grid.RowDefinitions>
+        <Button FontWeight="Bold" Name="CloseBtn" Content="Close" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" Grid.Row="1" Grid.Column="2" />
+        <Button FontWeight="Bold" Name="EditBtn" Content="Edit" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" Grid.Row="0" Grid.Column="0" />
+        <Button FontWeight="Bold" Name="DuplicateBtn" Content="Duplicate" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" Grid.Row="0" Grid.Column="1" />
+        <Button FontWeight="Bold" Name="DeleteBtn" Content="Duplicate" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" Grid.Row="0" Grid.Column="2" />
+    </Grid>
+</Window>

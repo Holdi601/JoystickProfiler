@@ -20,15 +20,21 @@ namespace JoyPro
     public partial class GroupManagerW : Window
     {
         List<Button> GroupDeleteBtn;
+        public static double DEFAULT_WIDTH;
+        public static double DEFAULT_HEIGHT;
+
         public GroupManagerW()
         {
             InitializeComponent();
-            if (MainStructure.msave != null && MainStructure.msave.GrpMngr != null)
+            DEFAULT_HEIGHT = this.Height;
+            DEFAULT_WIDTH = this.Width;
+
+            if (MainStructure.msave != null && MainStructure.msave._GroupManagerWindow != null)
             {
-                if (MainStructure.msave.GrpMngr.Top > 0) this.Top = MainStructure.msave.GrpMngr.Top;
-                if (MainStructure.msave.GrpMngr.Left > 0) this.Left = MainStructure.msave.GrpMngr.Left;
-                if (MainStructure.msave.GrpMngr.Width > 0) this.Width = MainStructure.msave.GrpMngr.Width;
-                if (MainStructure.msave.GrpMngr.Height > 0) this.Height = MainStructure.msave.GrpMngr.Height;
+                if (MainStructure.msave._GroupManagerWindow.Top > 0) this.Top = MainStructure.msave._GroupManagerWindow.Top;
+                if (MainStructure.msave._GroupManagerWindow.Left > 0) this.Left = MainStructure.msave._GroupManagerWindow.Left;
+                if (MainStructure.msave._GroupManagerWindow.Width > 0) this.Width = MainStructure.msave._GroupManagerWindow.Width;
+                if (MainStructure.msave._GroupManagerWindow.Height > 0) this.Height = MainStructure.msave._GroupManagerWindow.Height;
             }
             else
             {

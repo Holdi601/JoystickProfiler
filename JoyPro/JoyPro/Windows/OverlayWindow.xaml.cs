@@ -21,15 +21,20 @@ namespace JoyPro
     {
         public Label[] shownLabels;
         public Grid mGrid;
+        public static double DEFAULT_WIDTH;
+        public static double DEFAULT_HEIGHT;
+
         public OverlayWindow()
         {
             InitializeComponent();
-            if (MainStructure.msave != null && MainStructure.msave.OverlayW != null)
+            DEFAULT_HEIGHT = this.Height;
+            DEFAULT_WIDTH = this.Width;
+            if (MainStructure.msave != null && MainStructure.msave._OverlayWindow != null)
             {
-                if (MainStructure.msave.OverlaySW.Top > 0) this.Top = MainStructure.msave.OverlayW.Top;
-                if (MainStructure.msave.OverlaySW.Left > 0) this.Left = MainStructure.msave.OverlayW.Left;
-                if (MainStructure.msave.OverlaySW.Width > 0) this.Width = Convert.ToDouble(MainStructure.msave.OvlW);
-                if (MainStructure.msave.OverlaySW.Height > 0) this.Height = Convert.ToDouble(MainStructure.msave.OvlH);
+                if (MainStructure.msave._OverlayWindow.Top > 0) this.Top = MainStructure.msave._OverlayWindow.Top;
+                if (MainStructure.msave._OverlayWindow.Left > 0) this.Left = MainStructure.msave._OverlayWindow.Left;
+                if (MainStructure.msave._OverlayWindow.Width > 0) this.Width = Convert.ToDouble(MainStructure.msave.OvlW);
+                if (MainStructure.msave._OverlayWindow.Height > 0) this.Height = Convert.ToDouble(MainStructure.msave.OvlH);
             }
             else
             {
@@ -40,6 +45,8 @@ namespace JoyPro
             this.MouseLeftButtonDown += new MouseButtonEventHandler(LMBDown);
             this.PreviewKeyUp += new KeyEventHandler(KBHandler);
             sv.MouseLeftButtonDown += new MouseButtonEventHandler(LMBDown);
+            this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
+            this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
             mGrid = setupMainGrid();
             setupLabels();
             sv.Content= mGrid;

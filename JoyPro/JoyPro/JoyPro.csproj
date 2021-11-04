@@ -117,8 +117,17 @@
     <Compile Include="General\LUADataRead.cs" />
     <Compile Include="General\Updater.cs" />
     <Compile Include="MISC\OverlayBackGroundWorker.cs" />
+    <Compile Include="Windows\BindAxisSetting.xaml.cs">
+      <DependentUpon>BindAxisSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\BindButtonSetting.xaml.cs">
+      <DependentUpon>BindButtonSetting.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\CollectJoystickImages.xaml.cs">
       <DependentUpon>CollectJoystickImages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\CollectSticksForVisual.xaml.cs">
+      <DependentUpon>CollectSticksForVisual.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\CreateJoystickAlias.xaml.cs">
       <DependentUpon>CreateJoystickAlias.xaml</DependentUpon>
@@ -176,7 +185,19 @@
       <DependentUpon>ValidationErrors.xaml</DependentUpon>
     </Compile>
     <Compile Include="MISC\WindowPos.cs" />
+    <Page Include="Windows\BindAxisSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\BindButtonSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\CollectJoystickImages.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\CollectSticksForVisual.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

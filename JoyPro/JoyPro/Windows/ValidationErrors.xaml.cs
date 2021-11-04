@@ -20,16 +20,22 @@ namespace JoyPro
     public partial class ValidationErrors : Window
     {
         public Validation data;
+        public static double DEFAULT_WIDTH;
+        public static double DEFAULT_HEIGHT;
+
         public ValidationErrors(Validation error)
         {
             data = error;
             InitializeComponent();
-            if (MainStructure.msave != null && MainStructure.msave.ValidW != null)
+            DEFAULT_HEIGHT = this.Height;
+            DEFAULT_WIDTH = this.Width;
+
+            if (MainStructure.msave != null && MainStructure.msave._ValidationWindow != null)
             {
-                if (MainStructure.msave.ValidW.Top > 0) this.Top = MainStructure.msave.ValidW.Top;
-                if (MainStructure.msave.ValidW.Left > 0) this.Left = MainStructure.msave.ValidW.Left;
-                if (MainStructure.msave.ValidW.Width > 0) this.Width = MainStructure.msave.ValidW.Width;
-                if (MainStructure.msave.ValidW.Height > 0) this.Height = MainStructure.msave.ValidW.Height;
+                if (MainStructure.msave._ValidationWindow.Top > 0) this.Top = MainStructure.msave._ValidationWindow.Top;
+                if (MainStructure.msave._ValidationWindow.Left > 0) this.Left = MainStructure.msave._ValidationWindow.Left;
+                if (MainStructure.msave._ValidationWindow.Width > 0) this.Width = MainStructure.msave._ValidationWindow.Width;
+                if (MainStructure.msave._ValidationWindow.Height > 0) this.Height = MainStructure.msave._ValidationWindow.Height;
             }
 
             CloseBtn.Click += new RoutedEventHandler(CloseThis);

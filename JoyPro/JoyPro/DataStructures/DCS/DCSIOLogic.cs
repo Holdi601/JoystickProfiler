@@ -436,7 +436,7 @@ namespace JoyPro
         {
             if (!Directory.Exists(MiscGames.DCSselectedInstancePath)) return;
             ToExportDCS.Clear();
-            PushAllDCSBindsToExport(true, true, false);
+            PushAllDCSBindsToExport(true, true, true);
             if (nukeDevices)
                 NukeUnusedButConnectedDevicesToExport();
             WriteFilesDCS();

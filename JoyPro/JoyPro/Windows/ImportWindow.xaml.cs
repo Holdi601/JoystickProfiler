@@ -23,6 +23,9 @@ namespace JoyPro
         public string[] availableJoysticks;
         public List<string> connectedSticks;
         List<CheckBox> joystickCheckboxes;
+        public static double DEFAULT_WIDTH;
+        public static double DEFAULT_HEIGHT;
+
         //check for null
         public ImportWindow()
         {
@@ -32,15 +35,18 @@ namespace JoyPro
             for (int i = 0; i < connectedSticks.Count; ++i)
                 connectedSticks[i] = connectedSticks[i].ToLower();
             InitializeComponent();
+            DEFAULT_HEIGHT = this.Height;
+            DEFAULT_WIDTH = this.Width;
+
             CancelBtn.Click += new RoutedEventHandler(CancelImport);
             ImportBtn.Click += new RoutedEventHandler(Import);
             ListSticks();
-            if (MainStructure.msave != null&&MainStructure.msave.importWindowLast.Height>0 && MainStructure.msave.importWindowLast.Width > 0)
+            if (MainStructure.msave != null&&MainStructure.msave._ImportWindow.Height>0 && MainStructure.msave._ImportWindow.Width > 0)
             {
-                this.Top = MainStructure.msave.importWindowLast.Top;
-                this.Left = MainStructure.msave.importWindowLast.Left;
-                this.Width = MainStructure.msave.importWindowLast.Width;
-                this.Height = MainStructure.msave.importWindowLast.Height;
+                this.Top = MainStructure.msave._ImportWindow.Top;
+                this.Left = MainStructure.msave._ImportWindow.Left;
+                this.Width = MainStructure.msave._ImportWindow.Width;
+                this.Height = MainStructure.msave._ImportWindow.Height;
             }
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
@@ -51,7 +57,7 @@ namespace JoyPro
         }
         void CancelImport(object sender, EventArgs e)
         {
-            MainStructure.msave.importWindowLast = MainStructure.GetWindowPosFrom(this);
+            MainStructure.msave._ImportWindow = MainStructure.GetWindowPosFrom(this);
             MainStructure.SaveMetaLast();
             Close();
         }
@@ -85,7 +91,7 @@ namespace JoyPro
         }
         void Import(object sender, EventArgs e)
         {
-            MainStructure.msave.importWindowLast = MainStructure.GetWindowPosFrom(this);
+            MainStructure.msave._ImportWindow = MainStructure.GetWindowPosFrom(this);
             MainStructure.SaveMetaLast();
             bool inv, slid, curv, dz, sx, sy, importDefault;
             if (CBinv.IsChecked == true)
@@ -245,7 +251,7 @@ namespace JoyPro
         }
         void JoystickSetChanged(object sender, EventArgs e)
         {
-            MainStructure.msave.importWindowLast = MainStructure.GetWindowPosFrom(this);
+            MainStructure.msave._ImportWindow = MainStructure.GetWindowPosFrom(this);
             MainStructure.SaveMetaLast();
             CheckBox cx = (CheckBox)sender;
             if ((string)cx.Content == "ALL")

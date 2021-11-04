@@ -28,6 +28,8 @@ namespace JoyPro
 
     public partial class MainWindow : Window
     {
+        public static double DEFAULT_WIDTH;
+        public static double DEFAULT_HEIGHT;
         List<Button> ALLBUTTONS;
         List<Window> ALLWINDOWS;
         List<Relation> CURRENTDISPLAYEDRELATION;
@@ -56,14 +58,22 @@ namespace JoyPro
         int gridCols;
         List<string> possibleSticks;
         Grid BackupGrid;
+        Dictionary<string, LayoutFile> usedImages;
+        Dictionary<string, Dictionary<string, ComboBox>> renderedComboBoxes;
+        Dictionary<ComboBox, string> deviceLookup;
 
         public MainWindow()
         {
             Stopwatch stopwatch = new Stopwatch();
+            usedImages = new Dictionary<string, LayoutFile>();
+            renderedComboBoxes = new Dictionary<string, Dictionary<string, ComboBox>>();
+            deviceLookup = new Dictionary<ComboBox, string>();
             stopwatch.Start();
             AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
             Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
+            DEFAULT_HEIGHT = this.Height;
+            DEFAULT_WIDTH = this.Width;
             gridCols = 15;
             VersionLabel.Content = "v" + MainStructure.version.ToString();
             CURRENTDISPLAYEDRELATION = new List<Relation>();
@@ -177,6 +187,7 @@ namespace JoyPro
             PrintBtn.Click += new RoutedEventHandler(PrintLayout);
             SettingsOverlayBtn.Click += new RoutedEventHandler(OpenOverlaySettings);
             OverlayBtn.Click += new RoutedEventHandler(OpenOverlay);
+            VisualAssigningModeBtn.Click += new RoutedEventHandler(SwitchVisualMode);
         }
         void OpenBackupWindow(object sender, EventArgs e)
         {
@@ -194,18 +205,8 @@ namespace JoyPro
         }
         void OpenExchangeStick(object sender, EventArgs e)
         {
-            List<string> sticksInBind = new List<string>();
-            List<Bind> allBinds = InternalDataMangement.GetAllBinds();
-            for (int i = 0; i < allBinds.Count; ++i)
-            {
-                if (allBinds[i].Joystick.Length > 0)
-                {
-                    if (!sticksInBind.Contains(allBinds[i].Joystick))
-                    {
-                        sticksInBind.Add(allBinds[i].Joystick);
-                    }
-                }
-            }
+            List<string> sticksInBind = InternalDataMangement.LocalJoysticks.ToList();
+            
             List<Modifier> mods = InternalDataMangement.GetAllModifiers();
             for (int i = 0; i < mods.Count; ++i)
             {
@@ -219,7 +220,6 @@ namespace JoyPro
                 {
                     sticksInBind.Add(otherId);
                 }
-
             }
             DisableInputs();
             StickToExchange ste = new StickToExchange(sticksInBind);
@@ -546,10 +546,14 @@ namespace JoyPro
         {
             Button b = (Button)sender;
             int indx = Convert.ToInt32(b.Name.Replace("deleteBtn", ""));
-            MessageBoxResult mr=  MessageBox.Show("Are you sure that you want to delete the Relation: "+CURRENTDISPLAYEDRELATION[indx].NAME, "Joy Pro Relation Deletion", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-            if(mr== MessageBoxResult.Yes)
+            Relation r = CURRENTDISPLAYEDRELATION[indx];
+            DeleteRelationButton(r);
+        }
+        public void DeleteRelationButton(Relation r)
+        {
+            MessageBoxResult mr = MessageBox.Show("Are you sure that you want to delete the Relation: " + r.NAME, "Joy Pro Relation Deletion", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+            if (mr == MessageBoxResult.Yes)
             {
-                Relation r = CURRENTDISPLAYEDRELATION[indx];
                 InternalDataMangement.RemoveRelation(r);
             }
         }
@@ -559,6 +563,10 @@ namespace JoyPro
             Console.WriteLine(b.Name);
             int indx = Convert.ToInt32(b.Name.Replace("editBtn", ""));
             Relation r = CURRENTDISPLAYEDRELATION[indx];
+            EditRelationButton(r);
+        }
+        public void EditRelationButton(Relation r)
+        {
             DisableInputs();
             RelationWindow rw = new RelationWindow(r);
             ALLWINDOWS.Add(rw);
@@ -774,6 +782,10 @@ namespace JoyPro
             Button cx = (Button)sender;
             int indx = Convert.ToInt32(cx.Name.Split('n')[1]);
             Bind currentBind = InternalDataMangement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            changeUserCurve(currentBind);
+        }
+        public void changeUserCurve(Bind currentBind)
+        {
             if (currentBind == null)
             {
                 MessageBox.Show("Please bind the main key first and then the User Curve");
@@ -868,15 +880,242 @@ namespace JoyPro
         }
         void RefreshVisualRelations()
         {
+            SetupLayerController();
             TabControl tc = new TabControl();
             tc.Name = "TabControllerVisual";
-            for(int i = 0; i< InternalDataMangement.LocalJoysticks.Length; ++i)
+            
+            for(int i = 0; i< InternalDataMangement.JoystickFileImages.Count; ++i)
             {
+                string stick = InternalDataMangement.JoystickFileImages.ElementAt(i).Key;
+                string pth = InternalDataMangement.JoystickFileImages.ElementAt(i).Value;
+                if (!pth.EndsWith(".layout")) continue;
                 TabItem tabItem = new TabItem();
                 tabItem.Header=InternalDataMangement.LocalJoysticks[i];
+                ScrollViewer sver = new ScrollViewer();
+                tabItem.Content = sver;
                 tc.Items.Add(tabItem);
+
+                if (!renderedComboBoxes.ContainsKey(stick))
+                {
+                    renderedComboBoxes.Add(stick, new Dictionary<string, ComboBox>());
+                }
+                ImageBrush bgImg;
+                LayoutFile lf;
+                if (usedImages.ContainsKey(pth))
+                {
+                    lf= usedImages[pth];
+                }
+                else
+                {
+                    lf = MainStructure.ReadFromBinaryFile<LayoutFile>(pth);
+                }
+                bgImg = new ImageBrush(CreateBitMapSourceFromBitmap(lf.backup));
+                Grid grid = new Grid();
+                ColumnDefinition colDef = new ColumnDefinition();
+                RowDefinition rowDef = new RowDefinition();
+                colDef.MinWidth=lf.backup.Width;
+                rowDef.MinHeight=lf.backup.Height;
+                grid.ColumnDefinitions.Add(colDef);
+                grid.RowDefinitions.Add(rowDef);
+                bgImg.Stretch = Stretch.None;
+                bgImg.AlignmentX = AlignmentX.Left;
+                bgImg.AlignmentY = AlignmentY.Top;
+                grid.Background = bgImg;
+
+                List<Label> axisRelations = new List<Label>();
+                List<Label> buttonRelations = new List<Label>();
+                foreach (KeyValuePair<string, Relation> kvpRel in InternalDataMangement.AllRelations)
+                {
+                    if (kvpRel.Value.ISAXIS)
+                    {
+                        Label lbl = new Label();
+                        lbl.FontSize = lf.Size;
+                        lbl.Foreground = lf.ColorSCB;
+                        lbl.FontFamily = new FontFamily(lf.Font);
+                        lbl.HorizontalAlignment = HorizontalAlignment.Left;
+                        lbl.VerticalAlignment = VerticalAlignment.Center;
+                        lbl.Content = kvpRel.Key;
+                        axisRelations.Add(lbl);
+                    }
+                    else
+                    {
+                        Label lbl = new Label();
+                        lbl.FontSize = lf.Size;
+                        lbl.Foreground = lf.ColorSCB;
+                        lbl.FontFamily = new FontFamily(lf.Font);
+                        lbl.HorizontalAlignment = HorizontalAlignment.Left;
+                        lbl.VerticalAlignment = VerticalAlignment.Center;
+                        lbl.Content = kvpRel.Key;
+                        buttonRelations.Add(lbl);
+                    }
+                }
+                axisRelations.Sort((x,y) => ((string)x.Content).CompareTo((string)y.Content));
+                buttonRelations.Sort((x, y) => ((string)x.Content).CompareTo((string)y.Content));
+
+                foreach (KeyValuePair<string, Point> kvp in lf.Positions)
+                {
+                    if (kvp.Key == "Joystick" || kvp.Key == "Game" || kvp.Key == "Plane") continue;
+                    ComboBox cb;
+                    if (renderedComboBoxes[stick].ContainsKey(kvp.Key))
+                    {
+                        cb=renderedComboBoxes[stick][kvp.Key];
+                        cb.SelectionChanged -= new SelectionChangedEventHandler(selectionChanged);
+                        cb.MouseRightButtonUp -= new MouseButtonEventHandler(OpenBindSettings);
+                    }
+                    else
+                    {
+                        cb = new ComboBox();
+                        deviceLookup.Add(cb, stick);                        
+                    }
+                    if (kvp.Key.Contains("JOY_BTN"))
+                    {
+                        cb.ItemsSource = buttonRelations;
+                    }
+                    else
+                    {
+                        cb.ItemsSource = axisRelations;
+                    }
+                    List<string> setRelation = InternalDataMangement.GetAllRelationNamesForJoystickButton(stick, kvp.Key);
+                    int itemToSelect = -1;
+                    if(setRelation.Count>MainStructure.VisualLayer)
+                    {
+                        for(int j=0; j<cb.Items.Count; ++j)
+                        {
+                            if (setRelation[MainStructure.VisualLayer] == (string)((Label)cb.Items[j]).Content)
+                            {
+                                itemToSelect = j;
+                                break;
+                            }
+                        }
+                        if (itemToSelect >= 0)
+                            cb.SelectedIndex = itemToSelect;
+                    }
+                    if (deviceLookup.ContainsKey(cb)) deviceLookup[cb] = stick;
+                    else deviceLookup.Add(cb, stick);
+                    cb.Name = kvp.Key;
+                    cb.Width = lf.Size * 10;
+                    cb.Height = lf.Size + 10;
+                    cb.HorizontalAlignment = HorizontalAlignment.Left;
+                    cb.VerticalAlignment = VerticalAlignment.Top;
+                    cb.Margin = new Thickness(kvp.Value.X, kvp.Value.Y, 0, 0);
+                    Grid.SetColumn(cb, 0);
+                    Grid.SetRow(cb, 0);
+                    cb.SelectionChanged += new SelectionChangedEventHandler(selectionChanged);
+                    cb.MouseRightButtonUp += new MouseButtonEventHandler(OpenBindSettings);
+                    grid.Children.Add(cb);
+                }
+                sver.Content = grid;
             }
             sv.Content = tc;
+        }
+        void selectionChanged(object sender, EventArgs e)
+        {
+            ComboBox cb =(ComboBox)sender;
+            string stick = deviceLookup[cb];
+            string relation = (string)((Label)cb.SelectedItem).Content;
+            
+            string rawBtn = cb.Name;
+            string[] parts = rawBtn.Split('+');
+            string realBtn = parts[parts.Length - 1];
+            List<string> reformers = new List<string>();
+            for(int i=0; i<parts.Length-1; ++i)
+            {
+                if (InternalDataMangement.AllModifiers.ContainsKey(parts[i]))
+                {
+                    reformers.Add(InternalDataMangement.AllModifiers[parts[i]].toReformerString());
+                }
+                else
+                {
+                    MessageBox.Show("The Modifier in the selected place does not exist anymore. Create a new layout file.");
+                    return;
+                }
+            }
+            Bind b = null;
+            if (InternalDataMangement.AllBinds.ContainsKey(relation))
+            {
+                b = InternalDataMangement.AllBinds[relation];
+            }
+            else
+            {
+                b = new Bind(InternalDataMangement.AllRelations[relation]);
+            }
+            b.Joystick = stick;
+            if (InternalDataMangement.JoystickAliases.ContainsKey(stick)) b.aliasJoystick = InternalDataMangement.JoystickAliases[stick];
+            if (b.Rl.ISAXIS) b.JAxis = realBtn;
+            else b.JButton = realBtn;
+            b.AllReformers = reformers;
+        }
+        void OpenBindSettings(object sender, EventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            if (cb.SelectedIndex < 0) return;
+            string stick = deviceLookup[cb];
+            string relation = (string)((Label)cb.SelectedItem).Content;
+            Bind b = InternalDataMangement.AllBinds[relation];
+            if (b.Rl.ISAXIS)
+            {
+                BindAxisSetting bas = new BindAxisSetting(b, this);
+                DisableInputs();
+                bas.Show();
+                bas.Closing += new CancelEventHandler(ActivateInputs);
+            }
+            else
+            {
+                BindButtonSetting bbs = new BindButtonSetting(b, this);
+                DisableInputs();
+                bbs.Show();
+                bbs.Closing += new CancelEventHandler(ActivateInputs);
+            }
+        }
+        BitmapSource CreateBitMapSourceFromBitmap(System.Drawing.Bitmap map)
+        {
+            return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+            map.GetHbitmap(),
+            IntPtr.Zero,
+            Int32Rect.Empty,
+            BitmapSizeOptions.FromEmptyOptions());
+        }
+        void SetupLayerController()
+        {
+            Grid g = new Grid();
+            g.RowDefinitions.Add(new RowDefinition());
+            for(int i = 0; i< MainStructure.msave.maxVisualLayers; ++i)
+            {
+                g.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+
+            Label LayerLabel = new Label();
+            LayerLabel.Name = "LayerLabel";
+            LayerLabel.Content = "Layer";
+            LayerLabel.Foreground = Brushes.White;
+            LayerLabel.HorizontalAlignment = HorizontalAlignment.Center;
+            LayerLabel.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(LayerLabel, 0);
+            Grid.SetRow(LayerLabel, 0);
+            g.Children.Add(LayerLabel);
+
+            for(int i=1; i<MainStructure.msave.maxVisualLayers; ++i)
+            {
+                Button layerButton = new Button();
+                layerButton.Name = "LayerBtn" + i.ToString();
+                layerButton.Content = i.ToString();
+                layerButton.HorizontalAlignment = HorizontalAlignment.Center;
+                layerButton.VerticalAlignment = VerticalAlignment.Center;
+                if (MainStructure.VisualLayer + 1 == i)
+                {
+                    layerButton.Background = Brushes.Orange;
+                }
+                else
+                {
+                    layerButton.Background = Brushes.White;
+                }
+                layerButton.Width = 100;
+                layerButton.Click += new RoutedEventHandler(SetLayer);
+                Grid.SetColumn(layerButton, i);
+                Grid.SetRow(layerButton, 0);
+                g.Children.Add(layerButton);
+            }
+            svHeader.Content = g;
         }
         void RefreshRelationsToShow()
         {
@@ -1513,6 +1752,10 @@ namespace JoyPro
         {
             int indx= Convert.ToInt32(((Button)sender).Name.Replace("dupBtn", ""));
             Relation r = CURRENTDISPLAYEDRELATION[indx];
+            duplicateRelation(r);
+        }
+        public void duplicateRelation(Relation r)
+        {
             string name = r.NAME;
             while (InternalDataMangement.DoesRelationAlreadyExist(name))
             {
@@ -1548,7 +1791,7 @@ namespace JoyPro
             }
             else
             {
-
+                RefreshVisualRelations();
             }
             sizeChanged(null,null);
         }
@@ -1867,13 +2110,12 @@ namespace JoyPro
         void setWindowPosSize(object sender, EventArgs e)
         {
             Console.WriteLine("Should set");
-            MainStructure.LoadMetaLast();
-            if (MainStructure.msave != null && MainStructure.msave.mainWLast.Width > 0)
+            if (MainStructure.msave != null && MainStructure.msave._MainWindow.Width > 0)
             {
-                this.Top = MainStructure.msave.mainWLast.Top;
-                this.Left = MainStructure.msave.mainWLast.Left;
-                this.Width = MainStructure.msave.mainWLast.Width;
-                this.Height = MainStructure.msave.mainWLast.Height;
+                this.Top = MainStructure.msave._MainWindow.Top;
+                this.Left = MainStructure.msave._MainWindow.Left;
+                this.Width = MainStructure.msave._MainWindow.Width;
+                this.Height = MainStructure.msave._MainWindow.Height;
                 Console.WriteLine("Done set");
                 CBNukeUnused.IsChecked = MainStructure.msave.NukeSticks;
             }
@@ -1913,6 +2155,10 @@ namespace JoyPro
                         additional[i].IsEnabled = true;
                 }
             }
+            foreach (KeyValuePair<ComboBox, string> kvp in deviceLookup)
+            {
+                kvp.Key.IsEnabled = true;
+            }
         }
         void DisableInputs()
         {
@@ -1945,7 +2191,10 @@ namespace JoyPro
                         additional[i].IsEnabled = false;
                 }
             }
-
+            foreach(KeyValuePair<ComboBox, string> kvp in deviceLookup)
+            {
+                kvp.Key.IsEnabled = false;
+            }
         }
         private void InstanceSelectionChanged(object sender, EventArgs e)
         {
@@ -1968,7 +2217,6 @@ namespace JoyPro
             os.Show();
             os.Closing += new CancelEventHandler(ActivateInputs);
         }
-
         void OpenOverlay(object sender, EventArgs e)
         {
             OverlayWindow ow = new OverlayWindow();
@@ -1992,21 +2240,40 @@ namespace JoyPro
             MainStructure.DisplayDispatcherWorker.Name = "DisplayDispatcher";
             MainStructure.DisplayDispatcherWorker.Start();
         }
-
         void CloseOverlay(object sender, EventArgs e)
         {
             MainStructure.DisplayDispatcherWorker.Abort();
             MainStructure.DisplayBackgroundWorker.Abort();
         }
-
         void ShutThreads(object sender, EventArgs e)
         {
-            Application.Current.Shutdown();
+            
             if(MainStructure.DisplayBackgroundWorker!=null)MainStructure.DisplayBackgroundWorker.Abort();
-            if (MainStructure.DisplayDispatcherWorker != null) MainStructure.DisplayDispatcherWorker.Abort();
+            if(MainStructure.DisplayDispatcherWorker != null) MainStructure.DisplayDispatcherWorker.Abort();
             if(MainStructure.DCSServerSocket!=null)MainStructure.DCSServerSocket.Abort();
             if(MainStructure.joystickInputRead!=null)MainStructure.joystickInputRead.Abort();
             if(MainStructure.runningGameCheck!=null)MainStructure.runningGameCheck.Abort();
+            Application.Current.Shutdown();
+            Process.GetCurrentProcess().Kill();
+        }
+        void SwitchVisualMode(object sender, EventArgs e)
+        {
+            if (MainStructure.VisualMode)
+            {
+                MainStructure.VisualMode = false;
+                InternalDataMangement.ResyncRelations();
+            }
+            else
+            {
+                CollectSticksForVisual csfv = new CollectSticksForVisual();
+                csfv.Show();
+            }
+        }
+        void SetLayer(object sender, EventArgs e)
+        {
+            int indx = Convert.ToInt32(((Button)sender).Name.Replace("LayerBtn", ""));
+            MainStructure.VisualLayer = indx - 1;
+            InternalDataMangement.ResyncRelations();
         }
     }
 }
