@@ -23,7 +23,7 @@
         <Button FontWeight="Bold" Name="CloseBtn" Content="Close" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="00,0,0,0" Grid.Row="4" Grid.Column="2" />
         <Button FontWeight="Bold" Name="EditBtn" Content="Edit" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="00,0,0,0" Grid.Row="0" Grid.Column="0" />
         <Button FontWeight="Bold" Name="DuplicateBtn" Content="Duplicate" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="00,0,0,0" Grid.Row="0" Grid.Column="1" />
-        <Button FontWeight="Bold" Name="DeleteBtn" Content="Duplicate" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="00,0,0,0" Grid.Row="0" Grid.Column="2" />
+        <Button FontWeight="Bold" Name="DeleteBtn" Content="Delete" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="00,0,0,0" Grid.Row="0" Grid.Column="2" />
         <Button FontWeight="Bold" Name="UserCurveBtn" Content="User Curve" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="00,0,0,0" Grid.Row="3" Grid.Column="1" />
         <CheckBox Name="InvertedCB" Content="Inverted" Foreground="White" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
         <CheckBox Name="SliderCB" Content="Slider" Foreground="White" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
