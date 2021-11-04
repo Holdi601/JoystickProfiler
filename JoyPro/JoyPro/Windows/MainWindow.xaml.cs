@@ -924,6 +924,15 @@ namespace JoyPro
 
                 List<Label> axisRelations = new List<Label>();
                 List<Label> buttonRelations = new List<Label>();
+                Label lb = new Label();
+                lb.FontSize = lf.Size;
+                lb.Foreground = lf.ColorSCB;
+                lb.FontFamily = new FontFamily(lf.Font);
+                lb.HorizontalAlignment = HorizontalAlignment.Left;
+                lb.VerticalAlignment = VerticalAlignment.Center;
+                lb.Content = "REMOVE BINDING";
+                axisRelations.Add(lb);
+                buttonRelations.Add(lb);
                 foreach (KeyValuePair<string, Relation> kvpRel in InternalDataMangement.AllRelations)
                 {
                     if (kvpRel.Value.ISAXIS)
@@ -1008,42 +1017,56 @@ namespace JoyPro
             }
             sv.Content = tc;
         }
-        void selectionChanged(object sender, EventArgs e)
+        void selectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cb =(ComboBox)sender;
             string stick = deviceLookup[cb];
             string relation = (string)((Label)cb.SelectedItem).Content;
-            
-            string rawBtn = cb.Name;
-            string[] parts = rawBtn.Split('+');
-            string realBtn = parts[parts.Length - 1];
-            List<string> reformers = new List<string>();
-            for(int i=0; i<parts.Length-1; ++i)
+
+            if (relation != "REMOVE BINDING")
             {
-                if (InternalDataMangement.AllModifiers.ContainsKey(parts[i]))
+                string rawBtn = cb.Name;
+                string[] parts = rawBtn.Split('+');
+                string realBtn = parts[parts.Length - 1];
+                List<string> reformers = new List<string>();
+                for (int i = 0; i < parts.Length - 1; ++i)
                 {
-                    reformers.Add(InternalDataMangement.AllModifiers[parts[i]].toReformerString());
+                    if (InternalDataMangement.AllModifiers.ContainsKey(parts[i]))
+                    {
+                        reformers.Add(InternalDataMangement.AllModifiers[parts[i]].toReformerString());
+                    }
+                    else
+                    {
+                        MessageBox.Show("The Modifier in the selected place does not exist anymore. Create a new layout file.");
+                        return;
+                    }
+                }
+                Bind b = null;
+                if (InternalDataMangement.AllBinds.ContainsKey(relation))
+                {
+                    b = InternalDataMangement.AllBinds[relation];
                 }
                 else
                 {
-                    MessageBox.Show("The Modifier in the selected place does not exist anymore. Create a new layout file.");
-                    return;
+                    b = new Bind(InternalDataMangement.AllRelations[relation]);
                 }
-            }
-            Bind b = null;
-            if (InternalDataMangement.AllBinds.ContainsKey(relation))
-            {
-                b = InternalDataMangement.AllBinds[relation];
+                b.Joystick = stick;
+                if (InternalDataMangement.JoystickAliases.ContainsKey(stick)) b.aliasJoystick = InternalDataMangement.JoystickAliases[stick];
+                if (b.Rl.ISAXIS) b.JAxis = realBtn;
+                else b.JButton = realBtn;
+                b.AllReformers = reformers;
+                InternalDataMangement.AddBind(relation,b);
             }
             else
             {
-                b = new Bind(InternalDataMangement.AllRelations[relation]);
+                List<string> toRemove = new List<string>();
+                foreach (var item in e.RemovedItems)
+                {
+                    Label l = (Label)item;
+                    InternalDataMangement.RemoveBind(InternalDataMangement.AllBinds[(string)l.Content]);
+                }
             }
-            b.Joystick = stick;
-            if (InternalDataMangement.JoystickAliases.ContainsKey(stick)) b.aliasJoystick = InternalDataMangement.JoystickAliases[stick];
-            if (b.Rl.ISAXIS) b.JAxis = realBtn;
-            else b.JButton = realBtn;
-            b.AllReformers = reformers;
+            InternalDataMangement.ResyncRelations();
         }
         void OpenBindSettings(object sender, EventArgs e)
         {
@@ -2261,12 +2284,14 @@ namespace JoyPro
             if (MainStructure.VisualMode)
             {
                 MainStructure.VisualMode = false;
+                VisualAssigningModeBtn.Content = "Visual Mode";
                 InternalDataMangement.ResyncRelations();
             }
             else
             {
                 CollectSticksForVisual csfv = new CollectSticksForVisual();
                 csfv.Show();
+                VisualAssigningModeBtn.Content = "Table Mode";
             }
         }
         void SetLayer(object sender, EventArgs e)
