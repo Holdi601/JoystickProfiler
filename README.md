@@ -52,6 +52,8 @@ My own Video Short and Condense Series:
 14. JoyPro doesn't start anymore https://youtu.be/EM1Ou2USzL0
 15. Im unhappy with JoyPro, give me my old controls back! https://youtu.be/Kl-lvnkyeqU
 16. Manually Adding Input Entries into Database https://youtu.be/L-bivat1-gU
+17. Visual Assign Mode https://youtu.be/7LtPkeC2dL4
+18. Ingame Overlay https://youtu.be/fDksVg-TnyU
 
 The entire playlist:
 https://www.youtube.com/watch?v=WY3UCZiRwro&list=PLlzaQN7UpUfh3b98GOSMe3LHgXxLziFca
