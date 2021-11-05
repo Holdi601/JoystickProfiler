@@ -106,6 +106,8 @@ namespace JoyPro
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
+            CurrentButtonMapping.Clear();
+            Console.WriteLine("ButtonSet called: " + CurrentGame + " " + CurrentPlane);
             if (CurrentGame == "DCS")
             {
                 CurrentButtonMapping = InternalDataMangement.GetAirCraftLayout(CurrentGame, CurrentPlane);

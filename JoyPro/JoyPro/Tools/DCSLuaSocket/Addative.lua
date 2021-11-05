@@ -1,6 +1,6 @@
 local lfs = require('lfs')
 LUA_PATH = "?;?.lua;"..lfs.currentdir().."/Scripts/?.lua"
-local aircraft  = LoGetSelfData()["Name"]
+local aircraft  = ''
 local aircraft_old  = ''
 function LuaExportStart()
 	package.path  = package.path..";"..lfs.currentdir().."/LuaSocket/?.lua"
@@ -16,6 +16,11 @@ function LuaExportStop()
   	c:close()
 end
 function LuaExportAfterNextFrame()
+    rawSelfData=LoGetSelfData()
+    if(rawSelfData==nil)
+    then
+        return;
+    end
     aircraft = LoGetSelfData()["Name"]
     if(aircraft ~= aircraft_old)
     then
