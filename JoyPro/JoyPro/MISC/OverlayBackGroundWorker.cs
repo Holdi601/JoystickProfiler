@@ -28,6 +28,7 @@ namespace JoyPro
         public string CurrentPlane = "";
         public ConcurrentDictionary<string, int> TextTimeAlive = new ConcurrentDictionary<string, int>();
         public static ConcurrentDictionary<string, List<string>> currentPressed = new ConcurrentDictionary<string, List<string>>();
+        public static ConcurrentDictionary<string, List<string>> currentPressedNonSwitched = new ConcurrentDictionary<string, List<string>>();
         public void GameRunningCheck()
         {
             while (true)
@@ -181,6 +182,48 @@ namespace JoyPro
             }
         }
 
+        List<string> getListOfAllButtonUses(string stick, string btn)
+        {
+            List<string> result = new List<string>();
+            if(!CurrentButtonMapping.ContainsKey(stick))return result;
+            foreach(KeyValuePair<string, string> kvp in CurrentButtonMapping[stick])
+            {
+                if (kvp.Key.Contains(btn)) result.Add(kvp.Key);
+            }
+            return result;
+        }
+
+        string IsModifiedBtnPressed(string stick, string btn)
+        {
+            List<string> modifyoptions = getListOfAllButtonUses(stick, btn);
+            if (modifyoptions.Count < 2) return null;
+            else
+            {
+                
+                for(int i = 0;i < modifyoptions.Count; ++i)
+                {
+                    bool allModified = true;
+                    if (!modifyoptions[i].Contains('+')) continue;
+                    string[] parts = modifyoptions[i].Split('+');
+                    for(int j=0;j<parts.Length-1; ++j)
+                    {
+                        string modDevice = InternalDataMangement.AllModifiers[parts[j]].device;
+                        string modbtn = InternalDataMangement.AllModifiers[parts[j]].key;
+                        if (!(currentPressedNonSwitched.ContainsKey(modDevice) && currentPressedNonSwitched[modDevice].Contains(modbtn)))
+                        {
+                            allModified = false;
+                            break;
+                        }
+                    }
+                    if (allModified)
+                    {
+                        return CurrentButtonMapping[stick][modifyoptions[i]];
+                    }
+                }
+            }
+            return null;
+        }
+
         public void StartDisplayBackgroundWorker()
         {
             SetupModifierDict();
@@ -199,27 +242,12 @@ namespace JoyPro
                         for(int i=0; i<kvp.Value.Count; i++)
                         {
                             bool found = false;
-                            string text = "";
-                            if (CurrentButtonMapping.ContainsKey(kvp.Key) && CurrentButtonMapping[kvp.Key].ContainsKey(kvp.Value[i]))
+                            string text=IsModifiedBtnPressed(kvp.Key, kvp.Value[i]);
+                            if (CurrentButtonMapping.ContainsKey(kvp.Key) && CurrentButtonMapping[kvp.Key].ContainsKey(kvp.Value[i])&&text==null)
                             {
                                 text = CurrentButtonMapping[kvp.Key][kvp.Value[i]];
-                                found = true;
-                            } else if (CurrentButtonMapping.ContainsKey(kvp.Key) && Modifier.ContainsKey(kvp.Key) &&Modifier[kvp.Key].ContainsKey(kvp.Value[i]))
-                            {
-                                string modName = Modifier[kvp.Key][kvp.Value[i]];
-                                List<DeviceButtonName> possibilities = getDescWithModifiers(modName);
-                                for(int j=0; j<possibilities.Count; j++)
-                                {
-                                    text = possibilities[j].Name;
-                                    string[] parts = possibilities[j].Btn.Split('+');
-                                    if (checkIfModsIsPressed(parts))
-                                    {
-                                        found = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (found&&text.Length>1)
+                            } 
+                            if (text!=null)
                             {
                                 if (TextTimeAlive.ContainsKey(text))
                                 {

@@ -265,6 +265,7 @@ namespace JoyPro
                     }
                 }
                 OverlayBackGroundWorker.currentPressed = currentResults;
+                OverlayBackGroundWorker.currentPressedNonSwitched = currentResults;
                 sw.Stop();
                 //Console.WriteLine("Joystick poll takes: " + sw.ElapsedMilliseconds + "ms");
             }
@@ -277,6 +278,8 @@ namespace JoyPro
             int[] povs = new int[10];
             string dir = "";
             ConcurrentDictionary<string, List<string>> currentResults = new ConcurrentDictionary<string, List<string>>();
+            ConcurrentDictionary<string, List<string>> currentResultsConcurrent = new ConcurrentDictionary<string, List<string>>();
+
             JoystickState currentState;
             string curDevice;
             foreach (var gamepad in gamepads)
@@ -292,7 +295,8 @@ namespace JoyPro
             {
                 Thread.Sleep(MainStructure.msave.OvlPollTime);
                 currentResults = new ConcurrentDictionary<string, List<string>>();
-                foreach(var gamepad in gamepads)
+                currentResultsConcurrent = new ConcurrentDictionary<string, List<string>>();
+                foreach (var gamepad in gamepads)
                 {
                     if (gamepad.Poll().IsFailure)
                         continue;
@@ -300,11 +304,16 @@ namespace JoyPro
                         continue;
                     curDevice = ToDeviceString(gamepad);
                     currentResults.TryAdd(curDevice, new List<string>());
+                    currentResultsConcurrent.TryAdd(curDevice, new List<string>());
                     currentState = gamepad.GetCurrentState();
                     curBtns = currentState.GetButtons();
                     lastBtns = lastState[gamepad].GetButtons();
                     for (int i = 0; i < curBtns.Length; ++i)
                     {
+                        if (curBtns[i])
+                        {
+                            currentResultsConcurrent[curDevice].Add("JOY_BTN" + (i + 1).ToString());
+                        }
                         if (curBtns[i] != lastBtns[i])
                         {
                             currentResults[curDevice].Add("JOY_BTN" + (i + 1).ToString());
@@ -344,12 +353,14 @@ namespace JoyPro
                                     break;
                             }
                             currentResults[curDevice].Add(dir);
+                            currentResultsConcurrent[curDevice].Add(dir);
                         }
                     }
                     if (lastState.ContainsKey(gamepad)) lastState[gamepad] = currentState;
                     else lastState.Add(gamepad, currentState);
                 }
                 OverlayBackGroundWorker.currentPressed = currentResults;
+                OverlayBackGroundWorker.currentPressedNonSwitched = currentResultsConcurrent;
             }
         }
         public JoystickReader(bool axis, bool includeKeyboard = false)

@@ -29,7 +29,7 @@ namespace JoyPro
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
     public static class MainStructure
     {
-        public const int version = 58;
+        public const int version = 59;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;
@@ -224,6 +224,11 @@ namespace JoyPro
                 MiscGames.Games.Add("IL2Game");
                 DBLogic.Planes.Add("IL2Game", new List<string>());
             }
+            if (!MiscGames.Games.Contains("StarCitizen"))
+            {
+                MiscGames.Games.Add("StarCitizen");
+                DBLogic.Planes.Add("StarCitizen", new List<string>());
+            }
                 
             MiscGames.DCSInstances = InitGames.GetDCSUserFolders();
             for (int i = 0; i < MiscGames.DCSInstances.Length; ++i)
@@ -233,6 +238,7 @@ namespace JoyPro
             StartThreads();
             //IL2 Backup needed
             InitGames.LoadIL2Path();
+            InitGames.LoadStarCitizenPath();
             MiscGames.BackupConfigsOfIL2();
             LoadMetaLast();
         }
@@ -243,6 +249,34 @@ namespace JoyPro
                 var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                 return (T)binaryFormatter.Deserialize(stream);
             }
+        }
+
+        public static string SearchKey(string Locality, string keyname, string data, string valueToFind)
+        {
+            RegistryKey key = null;
+            switch (Locality)
+            {
+                case "CurrentUser":
+                    key = Registry.CurrentUser.OpenSubKey(keyname);
+                    break;
+                case "LocalMachine":
+                    key = Registry.LocalMachine.OpenSubKey(keyname);
+                    break;
+                case "ClassesRoot":
+                    key = Registry.ClassesRoot.OpenSubKey(keyname);
+                    break;
+            }
+            var programs = key.GetSubKeyNames();
+            if (programs == null || programs.Length < 1) return null;
+            foreach (var program in programs)
+            {
+                RegistryKey subkey = key.OpenSubKey(program);
+                string val = (string)subkey.GetValue(data);
+                if(val == null||!val.Contains(valueToFind)) continue;
+                return val;
+            }
+
+            return null;
         }
         public static string GetRegistryValue(string Path, string Value, string Locality)
         {
@@ -256,6 +290,9 @@ namespace JoyPro
                         break;
                     case "LocalMachine":
                         key = Registry.LocalMachine.OpenSubKey(Path);
+                        break;
+                    case "ClassesRoot":
+                        key =Registry.ClassesRoot.OpenSubKey(Path);
                         break;
                 }
                 if (key != null)

@@ -135,6 +135,21 @@ namespace JoyPro
             string pth = MainStructure.GetRegistryValue("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 307960", "InstallLocation", "LocalMachine");
             if (pth != null) MiscGames.IL2Instance = pth;
         }
+
+        public static void LoadStarCitizenPath()
+        {
+            string pth = MainStructure.SearchKey("CurrentUser", "System\\GameConfigStore\\Children", "MatchedExeFullPath", "StarCitizen.exe");
+            if (pth != null)
+            {
+                string[] parts = pth.Split('\\');
+                pth = parts[0];
+                for(int i=1; i < parts.Length - 3; ++i)
+                {
+                    pth=pth+"\\"+parts[i];
+                }
+                MiscGames.StarCitizen = pth;
+            }
+        }
         public static void InitIL2Data()
         {
             MainStructure.PROGPATH = Environment.CurrentDirectory;

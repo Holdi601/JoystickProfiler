@@ -601,6 +601,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="DataStructures\StarCitizen\" />
     <Folder Include="DB\StarCitizen\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
