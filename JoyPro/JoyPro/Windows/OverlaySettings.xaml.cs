@@ -61,6 +61,7 @@ namespace JoyPro
             FontDropdown.ItemsSource = fonts;
             FadeButtonsCB.IsChecked = MainStructure.msave.OvlFade;
             ChangeButtonModeCB.IsChecked = MainStructure.msave.OvlBtnChangeMode;
+            StackedModeCB.IsChecked = MainStructure.msave.stackedMode;
             if(fontSelectIndex>=0)FontDropdown.SelectedIndex = fontSelectIndex;
             ColorPickerBtn.Click += new RoutedEventHandler(OpenColorPicker);
             WidthTF.LostFocus += new RoutedEventHandler(WidthLostFocus);
@@ -71,6 +72,7 @@ namespace JoyPro
             FontDropdown.SelectionChanged += new SelectionChangedEventHandler(FontSelectionChanged);
             FadeButtonsCB.Click += new RoutedEventHandler(FadeButtonsChanged);
             ChangeButtonModeCB.Click += new RoutedEventHandler(ButtonnModeChanged);
+            StackedModeCB.Click += new RoutedEventHandler(StackedModeChange);
             CloseBtn.Click += new RoutedEventHandler(CloseThis);
             InstallScriptBtn.Click += new RoutedEventHandler(InstallDCSScript);
             TimeAliveTF.LostFocus += new RoutedEventHandler(TimeAliveLostFocus);
@@ -203,7 +205,12 @@ namespace JoyPro
         {
             if (ChangeButtonModeCB.IsChecked == true) MainStructure.msave.OvlBtnChangeMode = true;
             else MainStructure.msave.OvlBtnChangeMode = false;
-            
+        }
+
+        void StackedModeChange(object sender, EventArgs e)
+        {
+            if (StackedModeCB.IsChecked == true) MainStructure.msave.stackedMode = true;
+            else MainStructure.msave.stackedMode = false;
         }
 
         void CloseThis(object sender, EventArgs e)

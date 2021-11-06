@@ -276,6 +276,7 @@ namespace JoyPro
             bool[] curBtns = new bool[128];
             bool[] lastBtns = new bool[128];
             int[] povs = new int[10];
+            int[] lastPovs = new int[10];
             string dir = "";
             ConcurrentDictionary<string, List<string>> currentResults = new ConcurrentDictionary<string, List<string>>();
             ConcurrentDictionary<string, List<string>> currentResultsConcurrent = new ConcurrentDictionary<string, List<string>>();
@@ -314,15 +315,16 @@ namespace JoyPro
                         {
                             currentResultsConcurrent[curDevice].Add("JOY_BTN" + (i + 1).ToString());
                         }
-                        if (curBtns[i] != lastBtns[i])
+                        if (curBtns[i] != lastBtns[i]&&!lastBtns[i]&&curBtns[i])
                         {
                             currentResults[curDevice].Add("JOY_BTN" + (i + 1).ToString());
                         }
                     }
                     povs = currentState.GetPointOfViewControllers();
+                    lastPovs= lastState[gamepad].GetPointOfViewControllers();
                     for (int i = 0; i < povs.Length; ++i)
                     {
-                        if (povs[i] > -1)
+                        if (povs[i] > -1&&lastPovs[i]!=povs[i])
                         {
                             dir = "JOY_BTN_POV" + (i + 1).ToString() + "_";
                             switch (povs[i])
@@ -353,6 +355,37 @@ namespace JoyPro
                                     break;
                             }
                             currentResults[curDevice].Add(dir);
+                        }
+                        if(povs[i] > -1)
+                        {
+                            dir = "JOY_BTN_POV" + (i + 1).ToString() + "_";
+                            switch (povs[i])
+                            {
+                                case 0:
+                                    dir += "U";
+                                    break;
+                                case 4500:
+                                    dir += "UR";
+                                    break;
+                                case 9000:
+                                    dir += "R";
+                                    break;
+                                case 13500:
+                                    dir += "DR";
+                                    break;
+                                case 18000:
+                                    dir += "D";
+                                    break;
+                                case 22500:
+                                    dir += "DL";
+                                    break;
+                                case 27000:
+                                    dir += "L";
+                                    break;
+                                case 31500:
+                                    dir += "UL";
+                                    break;
+                            }
                             currentResultsConcurrent[curDevice].Add(dir);
                         }
                     }

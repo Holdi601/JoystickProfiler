@@ -45,6 +45,7 @@ namespace JoyPro
         private byte r, g, b, a;
         WindowPos collectSticks=null;
         public int maxVisualLayers;
+        
 
         public WindowPos _RelationWindow
         {
@@ -418,6 +419,7 @@ namespace JoyPro
         public bool OvlFade;
         public int TextTimeAlive;
         public bool OvlBtnChangeMode;
+        public bool stackedMode;
 
         public const int default_modulesToScan = 40;
         public const int default_timeToSet = 5000;
@@ -440,6 +442,7 @@ namespace JoyPro
         public const int default_TextAlive = 5000;
         public const bool default_OvlBtnChangeMode = false;
         public const int default_maxVisualLayers = 11;
+        public const bool default_stackedMode = false;
         public MetaSave()
         {
             lastGameSelected = "";

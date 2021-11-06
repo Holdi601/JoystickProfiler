@@ -13,6 +13,12 @@ using System.Windows.Threading;
 
 namespace JoyPro
 {
+    public class TextAliveField
+    {
+        public string Text { get; set; }
+        public int Time { get; set; }
+    }
+
     public struct DeviceButtonName
     {
         public string Name;
@@ -26,7 +32,7 @@ namespace JoyPro
         public ConcurrentDictionary<string, ConcurrentDictionary<string, string>> CurrentButtonMapping = new ConcurrentDictionary<string, ConcurrentDictionary<string, string>>();
         public string CurrentGame = "";
         public string CurrentPlane = "";
-        public ConcurrentDictionary<string, int> TextTimeAlive = new ConcurrentDictionary<string, int>();
+        public ConcurrentDictionary<TextAliveField, object> TextTimeAlive = new ConcurrentDictionary<TextAliveField,object>();
         public static ConcurrentDictionary<string, List<string>> currentPressed = new ConcurrentDictionary<string, List<string>>();
         public static ConcurrentDictionary<string, List<string>> currentPressedNonSwitched = new ConcurrentDictionary<string, List<string>>();
         public void GameRunningCheck()
@@ -124,22 +130,6 @@ namespace JoyPro
             Console.WriteLine("Assigning new ButtonLayout took: " + stopwatch.ElapsedMilliseconds + "ms");
         }
 
-        List<DeviceButtonName> getDescWithModifiers(string modName)
-        {
-            List<DeviceButtonName> result = new List<DeviceButtonName>();
-            foreach(KeyValuePair<string, ConcurrentDictionary<string, string>> kvp in CurrentButtonMapping)
-            {
-                foreach(KeyValuePair<string, string> kvpInner in kvp.Value)
-                {
-                    if (kvpInner.Value.ToLower().Contains(modName.ToLower()))
-                    {
-                        result.Add(new DeviceButtonName() { Device=kvp.Key,Btn=kvpInner.Key, Name=kvpInner.Value});
-                    }
-                }
-            }
-            return result;
-        }
-
         void SetupModifierDict()
         {
             Modifier = new ConcurrentDictionary<string, ConcurrentDictionary<string, string>>();
@@ -150,19 +140,6 @@ namespace JoyPro
             }
         }
 
-        bool checkIfModsIsPressed(string[] mods)
-        {
-            for(int i=0; i<mods.Length-1; i++)
-            {
-                if(!(CurrentButtonMapping.ContainsKey(InternalDataMangement.AllModifiers[mods[i]].device) &&
-                    CurrentButtonMapping[InternalDataMangement.AllModifiers[mods[i]].device]
-                    .ContainsKey(InternalDataMangement.AllModifiers[mods[i]].key)))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
         public void StartDisplayDispatcher()
         {
             while (true)
@@ -171,7 +148,7 @@ namespace JoyPro
                     int last=0;
                     for (int i = 0; i < TextTimeAlive.Count; ++i)
                     {
-                        overlay.shownLabels[i].Content = TextTimeAlive.ElementAt(i).Key;
+                        overlay.shownLabels[i].Content = TextTimeAlive.ElementAt(i).Key.Text;
                         last = i;
                     }
                     last=TextTimeAlive.Count;
@@ -190,7 +167,7 @@ namespace JoyPro
             if(!CurrentButtonMapping.ContainsKey(stick))return result;
             foreach(KeyValuePair<string, string> kvp in CurrentButtonMapping[stick])
             {
-                if (kvp.Key.Contains(btn)) result.Add(kvp.Key);
+                if (kvp.Key.EndsWith(btn)) result.Add(kvp.Key);
             }
             return result;
         }
@@ -198,14 +175,13 @@ namespace JoyPro
         string IsModifiedBtnPressed(string stick, string btn)
         {
             List<string> modifyoptions = getListOfAllButtonUses(stick, btn);
-            if (modifyoptions.Count < 2) return null;
+            modifyoptions.Sort((x,y) => x.Length.CompareTo(y.Length));
+            if (modifyoptions.Count < 1) return null;
             else
             {
-                
-                for(int i = 0;i < modifyoptions.Count; ++i)
+                for(int i = modifyoptions.Count-1; i >=0; i=i-1)
                 {
                     bool allModified = true;
-                    if (!modifyoptions[i].Contains('+')) continue;
                     string[] parts = modifyoptions[i].Split('+');
                     for(int j=0;j<parts.Length-1; ++j)
                     {
@@ -226,6 +202,19 @@ namespace JoyPro
             return null;
         }
 
+        int TimeAliveContains(string oof)
+        {
+            int found = -1;
+            for(int i = 0; i < TextTimeAlive.Count; ++i)
+            {
+                if (TextTimeAlive.ElementAt(i).Key.Text == oof)
+                {
+                    return found;
+                }
+            }
+            return found;
+        }
+
         public void StartDisplayBackgroundWorker()
         {
             SetupModifierDict();
@@ -235,9 +224,8 @@ namespace JoyPro
                 {
                     for(int i=0; i<TextTimeAlive.Count; i++)
                     {
-                        int rest = TextTimeAlive.ElementAt(i).Value - MainStructure.msave.OvlPollTime;
-                        string elem = TextTimeAlive.ElementAt(i).Key;
-                        TextTimeAlive[elem] = rest;
+                        TextAliveField old = TextTimeAlive.ElementAt(i).Key;
+                        old.Time = old.Time - MainStructure.msave.OvlPollTime;
                     }
                     foreach(KeyValuePair<string, List<string>> kvp in currentPressed)
                     {
@@ -245,36 +233,48 @@ namespace JoyPro
                         {
                             bool found = false;
                             string text=IsModifiedBtnPressed(kvp.Key, kvp.Value[i]);
-                            if (CurrentButtonMapping.ContainsKey(kvp.Key) && CurrentButtonMapping[kvp.Key].ContainsKey(kvp.Value[i])&&text==null)
-                            {
-                                text = CurrentButtonMapping[kvp.Key][kvp.Value[i]];
-                            } 
                             if (text!=null)
                             {
-                                if (TextTimeAlive.ContainsKey(text))
+                                if (MainStructure.msave.stackedMode)
                                 {
-                                    TextTimeAlive[text] = MainStructure.msave.TextTimeAlive;
+                                    while (TimeAliveContains(text)>=0)
+                                    {
+                                        text = text + " ";
+                                    }
+                                    TextAliveField taf = new TextAliveField() { Text = text, Time=MainStructure.msave.TextTimeAlive };
+                                    TextTimeAlive.TryAdd(taf,null);
                                 }
                                 else
                                 {
-                                    TextTimeAlive.TryAdd(text, MainStructure.msave.TextTimeAlive);
+                                    int index = TimeAliveContains(text);
+                                    if (index>=0)
+                                    {
+                                        TextTimeAlive.ElementAt(index).Key.Time = MainStructure.msave.TextTimeAlive;
+                                    }
+                                    else
+                                    {
+                                        TextAliveField taf = new TextAliveField() { Text=text, Time=MainStructure.msave.TextTimeAlive};
+                                        TextTimeAlive.TryAdd(taf, null);
+                                    }
                                 }
+                                
                             }
                         }
                     }
 
-                    for (int i = 0; i < TextTimeAlive.Count; i++)
+
+                    for (int i = TextTimeAlive.Count-1; i >=0; i=i-1)
                     {
-                        string key = TextTimeAlive.ElementAt(i).Key;
-                        if ((TextTimeAlive[key] != MainStructure.msave.TextTimeAlive&&!MainStructure.msave.OvlFade)||
-                            (MainStructure.msave.OvlFade&&TextTimeAlive[key]<0))
+                        if((TextTimeAlive.ElementAt(i).Key.Time!=MainStructure.msave.TextTimeAlive&&!MainStructure.msave.OvlFade)||TextTimeAlive.ElementAt(i).Key.Time<0)
                         {
-                            int test;
-                            while (!TextTimeAlive.TryRemove(key, out test))
+                            TextAliveField taf = TextTimeAlive.ElementAt(i).Key;
+                            object todel=null;
+                            while(!TextTimeAlive.TryRemove(taf, out todel))
                             {
 
                             }
                         }
+                        
                     }
                     Thread.Sleep(MainStructure.msave.OvlPollTime);
                 }
