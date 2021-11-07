@@ -30,6 +30,8 @@ namespace JoyPro
         public OverlayWindow overlay;    
         public string CurrentGame = "";
         public string CurrentPlane = "";
+        public bool keepDisplayBackgroundWorkerRunning = true;
+        public bool keepDisplayDispatcherRunning = true;
         public TextAliveField[] TextTimeAlive = null;
         public static ConcurrentDictionary<string, List<string>> currentPressed = new ConcurrentDictionary<string, List<string>>();
         public static ConcurrentDictionary<string, List<string>> currentPressedNonSwitched = new ConcurrentDictionary<string, List<string>>();
@@ -96,7 +98,6 @@ namespace JoyPro
                     reader.Close();
                     writer.Close();
                     client.Close();
-
                 }
             }
             catch (Exception ex)
@@ -131,7 +132,7 @@ namespace JoyPro
 
         public void StartDisplayDispatcher()
         {
-            while (true)
+            while (keepDisplayDispatcherRunning)
             {
                 if (TextTimeAlive != null)
                     overlay.Dispatcher.Invoke(new Action(() =>
@@ -217,7 +218,7 @@ namespace JoyPro
         {
             try
             {
-                while (true)
+                while (keepDisplayBackgroundWorkerRunning)
                 {
                     if (TextTimeAlive != null)
                     {

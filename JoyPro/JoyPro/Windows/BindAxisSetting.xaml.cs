@@ -157,6 +157,7 @@ namespace JoyPro
         }
         void rfsh(object sender, EventArgs e)
         {
+            MainStructure.OverlayWorker.SetButtonMapping();
             InternalDataManagement.ResyncRelations();
         }
     }

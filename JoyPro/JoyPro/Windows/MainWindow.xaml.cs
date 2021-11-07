@@ -61,6 +61,11 @@ namespace JoyPro
         Dictionary<string, LayoutFile> usedImages;
         Dictionary<string, Dictionary<string, ComboBox>> renderedComboBoxes;
         Dictionary<ComboBox, string> deviceLookup;
+        bool overlay_opened = false;
+        OverlayWindow ow = null;
+        string visualLastJoystickSelected = "";
+        double visualVerticalLastScroll = 0.0;
+        double visualHorizontalLastScroll = 0.0;
 
         public MainWindow()
         {
@@ -685,6 +690,7 @@ namespace JoyPro
             setBtns[indx].Content = joyReader.result.AxisButton.Replace("JOY_", "Axis-");
             stickLabels[indx].Content = joyReader.result.Device;
             joyReader = null;
+            MainStructure.OverlayWorker.SetButtonMapping();
             Console.WriteLine(setBtns[indx].Content);
         }
         void ButtonSet(object sender, EventArgs e)
@@ -715,6 +721,7 @@ namespace JoyPro
             Console.WriteLine(setBtns[indx].Content);
             stickLabels[indx].Content = joyReader.result.Device;
             joyReader = null;
+            MainStructure.OverlayWorker.SetButtonMapping();
         }
         void modSelectionChanged(object sender, EventArgs e)
         {
@@ -748,6 +755,7 @@ namespace JoyPro
                     currentBind.AllReformers.Add(m.toReformerString());
                 }
             }
+            MainStructure.OverlayWorker.SetButtonMapping();
             InternalDataManagement.ResyncRelations();
         }
         void changeCurveToUserCurve(object sender, EventArgs e)
@@ -894,6 +902,8 @@ namespace JoyPro
                 ScrollViewer sver = new ScrollViewer();
                 tabItem.Content = sver;
                 tc.Items.Add(tabItem);
+                sver.ScrollChanged += new ScrollChangedEventHandler(VisualScrollChanged);
+                tc.SelectionChanged += new SelectionChangedEventHandler(VisualTabSelectionChanged);
 
                 if (!renderedComboBoxes.ContainsKey(stick))
                 {
@@ -1015,8 +1025,36 @@ namespace JoyPro
                 }
                 sver.Content = grid;
             }
+            if (visualLastJoystickSelected != null && visualLastJoystickSelected.Length > 0)
+            {
+                for(int i=0; i<tc.Items.Count; ++i)
+                {
+                    if (((string)((TabItem)tc.Items[i]).Header) == visualLastJoystickSelected)
+                    {
+                        tc.SelectedIndex = i;
+                        ScrollViewer sv = (ScrollViewer)(((TabItem)tc.Items[i]).Content);
+                        sv.ScrollToHorizontalOffset(visualHorizontalLastScroll);
+                        sv.ScrollToVerticalOffset(visualVerticalLastScroll);
+                        break;
+                    }
+                }
+            }
             sv.Content = tc;
         }
+
+        void VisualTabSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            TabControl tc = (TabControl)sender;
+            visualLastJoystickSelected =(string) ((TabItem)tc.SelectedItem).Header;
+        }
+
+        void VisualScrollChanged(object sender, EventArgs e)
+        {
+            ScrollViewer scrollViewer  = (ScrollViewer)sender;
+            visualHorizontalLastScroll = scrollViewer.HorizontalOffset;
+            visualVerticalLastScroll = scrollViewer.VerticalOffset;
+        }
+
         void selectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cb =(ComboBox)sender;
@@ -1066,6 +1104,7 @@ namespace JoyPro
                     InternalDataManagement.RemoveBind(InternalDataManagement.AllBinds[(string)l.Content]);
                 }
             }
+            MainStructure.OverlayWorker.SetButtonMapping();
             InternalDataManagement.ResyncRelations();
         }
         void OpenBindSettings(object sender, EventArgs e)
@@ -2242,31 +2281,48 @@ namespace JoyPro
         }
         void OpenOverlay(object sender, EventArgs e)
         {
-            OverlayWindow ow = new OverlayWindow();
-            ow.Show();
-            ow.Closing += new CancelEventHandler(CloseOverlay);
-            MainStructure.OverlayWorker.overlay = ow;
-            if (MainStructure.msave.OvlBtnChangeMode)
+            if (!overlay_opened)
             {
-                MainStructure.joystickInputRead = new Thread(MainStructure.JrContReading.StartReadingInputsChangeMode);
+                OverlayWindow ow = new OverlayWindow();
+                ow.Show();
+                ow.Closing += new CancelEventHandler(CloseOverlay);
+                MainStructure.OverlayWorker.overlay = ow;
+                if (MainStructure.msave.OvlBtnChangeMode)
+                {
+                    MainStructure.joystickInputRead = new Thread(MainStructure.JrContReading.StartReadingInputsChangeMode);
+                }
+                else
+                {
+                    MainStructure.joystickInputRead = new Thread(MainStructure.JrContReading.StartReadingInputsCurrentMode);
+                }
+                MainStructure.joystickInputRead.Name = "InputReader";
+                MainStructure.JrContReading.KeepDaemonRunning = true;
+                MainStructure.OverlayWorker.keepDisplayBackgroundWorkerRunning = true;
+                MainStructure.OverlayWorker.keepDisplayDispatcherRunning = true;
+                MainStructure.joystickInputRead.Start();
+                MainStructure.DisplayBackgroundWorker = new System.Threading.Thread(MainStructure.OverlayWorker.StartDisplayBackgroundWorker);
+                MainStructure.DisplayBackgroundWorker.Name = "DisplayBackgroundWorker";
+                MainStructure.DisplayBackgroundWorker.Start();
+                MainStructure.DisplayDispatcherWorker = new System.Threading.Thread(MainStructure.OverlayWorker.StartDisplayDispatcher);
+                MainStructure.DisplayDispatcherWorker.Name = "DisplayDispatcher";
+                MainStructure.DisplayDispatcherWorker.Start();
+                overlay_opened = true;
             }
             else
             {
-                MainStructure.joystickInputRead = new Thread(MainStructure.JrContReading.StartReadingInputsCurrentMode);
+                overlay_opened = false;
+                ow.Close();
             }
-            MainStructure.joystickInputRead.Name = "InputReader";
-            MainStructure.joystickInputRead.Start();
-            MainStructure.DisplayBackgroundWorker = new System.Threading.Thread(MainStructure.OverlayWorker.StartDisplayBackgroundWorker);
-            MainStructure.DisplayBackgroundWorker.Name = "DisplayBackgroundWorker";
-            MainStructure.DisplayBackgroundWorker.Start();
-            MainStructure.DisplayDispatcherWorker = new System.Threading.Thread(MainStructure.OverlayWorker.StartDisplayDispatcher);
-            MainStructure.DisplayDispatcherWorker.Name = "DisplayDispatcher";
-            MainStructure.DisplayDispatcherWorker.Start();
+            
         }
         void CloseOverlay(object sender, EventArgs e)
         {
+            MainStructure.JrContReading.KeepDaemonRunning = false;
+            MainStructure.OverlayWorker.keepDisplayBackgroundWorkerRunning = false;
+            MainStructure.OverlayWorker.keepDisplayDispatcherRunning = false;
             MainStructure.DisplayDispatcherWorker.Abort();
             MainStructure.DisplayBackgroundWorker.Abort();
+            MainStructure.joystickInputRead.Abort();
         }
         void ShutThreads(object sender, EventArgs e)
         {

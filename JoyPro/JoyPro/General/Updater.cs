@@ -88,7 +88,7 @@ namespace JoyPro
                 return;
             }
             Console.WriteLine(MainStructure.PROGPATH);
-            if (Directory.Exists(MainStructure.PROGPATH + "\\TOOLS\\Unzipper\\"))
+            if (Directory.Exists(MainStructure.PROGPATH + "\\TOOLS\\Unzip\\"))
             {
                 if (!Directory.Exists(MainStructure.PROGPATH + "\\TOOLS\\temp\\"))
                 {

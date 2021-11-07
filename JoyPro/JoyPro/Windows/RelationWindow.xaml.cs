@@ -213,6 +213,7 @@ namespace JoyPro
         void OnClosing(object sender, EventArgs e)
         {
             setLastSizeAndPosition();
+            MainStructure.OverlayWorker.SetButtonMapping();
         }
         void AddItemBtnHit(object sender, EventArgs e)
         {
