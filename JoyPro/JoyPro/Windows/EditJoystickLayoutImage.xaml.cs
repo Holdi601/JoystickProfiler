@@ -47,11 +47,11 @@ namespace JoyPro
             InitializeComponent();
             currentSelectedBtnAxis = "";
             LabelLocations = new Dictionary<string, Point>();
-            if(InternalDataMangement.JoystickAliases!=null&&
-                InternalDataMangement.JoystickAliases.ContainsKey(joystick)&&
-                InternalDataMangement.JoystickAliases[joystick].Length > 1)
+            if(InternalDataManagement.JoystickAliases!=null&&
+                InternalDataManagement.JoystickAliases.ContainsKey(joystick)&&
+                InternalDataManagement.JoystickAliases[joystick].Length > 1)
             {
-                alias = InternalDataMangement.JoystickAliases[joystick];
+                alias = InternalDataManagement.JoystickAliases[joystick];
             }
             else
             {
@@ -78,7 +78,7 @@ namespace JoyPro
             possibleAxBtn.Add("Joystick");
             for (int i = 0; i < rawPossibleBtns.Count; ++i) possibleAxBtn.Add(rawPossibleBtns[i]);
             List<string> modNames = new List<string>();
-            foreach (KeyValuePair<string, Modifier> kvp in InternalDataMangement.AllModifiers) modNames.Add(kvp.Key);
+            foreach (KeyValuePair<string, Modifier> kvp in InternalDataManagement.AllModifiers) modNames.Add(kvp.Key);
             modNames.Sort();
             List<string> modNamesC = new List<string>();
             for(int i=0; i<modNames.Count; ++i)
@@ -94,7 +94,7 @@ namespace JoyPro
                     possibleAxBtn.Add(modNamesC[i] + "+" + rawPossibleBtns[j]);
                 }
             }
-            assignedButtons = InternalDataMangement.GetButtonsAxisInUseForStick(stick);
+            assignedButtons = InternalDataManagement.GetButtonsAxisInUseForStick(stick);
             assignedButtons.Sort();
             assignedButtons.Add("Game");
             assignedButtons.Add("Plane");
@@ -361,6 +361,7 @@ namespace JoyPro
                 {
                     if (!Directory.Exists(exportP + "\\" + kvp.Key+"\\"+kvp.Value[i]))
                         Directory.CreateDirectory(exportP + "\\" + kvp.Key + "\\" + kvp.Value[i]);
+                    InternalDataManagement.CurrentButtonMapping = InternalDataManagement.GetAirCraftLayout(kvp.Key, kvp.Value[i]);
                     System.Drawing.Bitmap export = (System.Drawing.Bitmap)backup.Clone();
                     System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(export);
                     g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
@@ -383,12 +384,12 @@ namespace JoyPro
                         }
                         else
                         {
-                            descriptor = InternalDataMangement.GetDescriptionForJoystickButtonGamePlane(stick, keys.Key, kvp.Key, kvp.Value[i]);
+                            descriptor= InternalDataManagement.GetTextForButton(stick, keys.Key);
                         }
                         g.DrawString(descriptor, new System.Drawing.Font((string)FontDropDown.SelectedItem, textSize), b, Convert.ToSingle(keys.Value.X), Convert.ToSingle(keys.Value.Y));
                     }
                     g.Flush();
-                    export.Save(exportP + "\\" + kvp.Key + "\\" + kvp.Value[i]+"\\"+ kvp.Value[i] + "_"+ alias + ".png", ImageFormat.Png);
+                    exportBitmap(export, exportP + "\\" + kvp.Key + "\\" + kvp.Value[i] + "\\" + kvp.Value[i] + "_" + alias + ".png", ImageFormat.Png);
                 }
             }
             //One General Overview
@@ -415,13 +416,35 @@ namespace JoyPro
                 }
                 else
                 {
-                    descriptor = InternalDataMangement.GetRelationNameForJostickButton(stick, keys.Key);
+                    descriptor = InternalDataManagement.GetRelationNameForJostickButton(stick, keys.Key);
                 }
                 gr.DrawString(descriptor, new System.Drawing.Font((string)FontDropDown.SelectedItem, textSize), br, Convert.ToSingle(keys.Value.X), Convert.ToSingle(keys.Value.Y));
             }
             gr.Flush();
-            expMain.Save(exportP + "\\"+ alias + ".png", ImageFormat.Png);
+            exportBitmap(expMain, exportP + "\\" + alias + ".png", ImageFormat.Png);
             MessageBox.Show("Export looks successful.");
+        }
+
+        void exportBitmap(System.Drawing.Bitmap bmp, string path, ImageFormat format)
+        {
+            int attemps = 0;
+            while (true)
+            {
+                try
+                {
+                    bmp.Save(path, format);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    if (attemps > 10)
+                    {
+                        MessageBox.Show("Failed to export: " + path + " with message: " + ex.Message);
+                    }
+                    attemps++;
+                }
+                
+            }
         }
     }
 }

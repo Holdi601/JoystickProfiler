@@ -40,12 +40,12 @@ namespace JoyPro
 
             CancelJoyExchange.Click += new RoutedEventHandler(CancelButton);
             Joysticks = sticks;
-            if (InternalDataMangement.JoystickAliases == null) InternalDataMangement.JoystickAliases = new Dictionary<string, string>();
+            if (InternalDataManagement.JoystickAliases == null) InternalDataManagement.JoystickAliases = new Dictionary<string, string>();
             for (int i=0; i<sticks.Count; ++i)
             {
-                if (InternalDataMangement.JoystickAliases.ContainsKey(sticks[i]) && InternalDataMangement.JoystickAliases[sticks[i]].Length > 0)
+                if (InternalDataManagement.JoystickAliases.ContainsKey(sticks[i]) && InternalDataManagement.JoystickAliases[sticks[i]].Length > 0)
                 {
-                    DDJoysticks.Items.Add(InternalDataMangement.JoystickAliases[sticks[i]]);
+                    DDJoysticks.Items.Add(InternalDataManagement.JoystickAliases[sticks[i]]);
                 }
                 else
                 {

@@ -377,7 +377,7 @@ namespace JoyPro
         }
         public static void PushAllDCSBindsToExport(bool oride, bool fillBeforeEmpty = true, bool overwriteAdd = false)
         {
-            foreach (KeyValuePair<string, Bind> kvp in InternalDataMangement.AllBinds)
+            foreach (KeyValuePair<string, Bind> kvp in InternalDataManagement.AllBinds)
             {
                 if (kvp.Value.Joystick.Length > 0 &&
                     ((kvp.Value.Rl.ISAXIS && kvp.Value.JAxis.Length > 0) ||
@@ -516,15 +516,15 @@ namespace JoyPro
                     name = kvp.Value.additionalImportInfo.Split('§')[kvp.Value.additionalImportInfo.Split('§').Length - 1];
                 else
                     name = kvp.Value.Rl.NAME;
-                while (InternalDataMangement.AllRelations.ContainsKey(name))
+                while (InternalDataManagement.AllRelations.ContainsKey(name))
                 {
                     name += "i";
                 }
                 kvp.Value.Rl.NAME = name;
-                InternalDataMangement.AllRelations.Add(name, kvp.Value.Rl);
-                InternalDataMangement.AllBinds.Add(name, kvp.Value);
+                InternalDataManagement.AllRelations.Add(name, kvp.Value.Rl);
+                InternalDataManagement.AllBinds.Add(name, kvp.Value);
             }
-            InternalDataMangement.ResyncRelations();
+            InternalDataManagement.ResyncRelations();
         }
         public static void WriteProfileCleanNotOverwriteLocal(bool fillBeforeEmpty)
         {
@@ -557,10 +557,10 @@ namespace JoyPro
             Dictionary<string, Bind> result = LibraryFromLocalDict(LocalBindsDCS, sticks, loadDefaults, inv, slid, curv, dz, sx, sy);
             foreach (KeyValuePair<string, Bind> kvp in checkRes)
             {
-                InternalDataMangement.CorrectBindNames(result, kvp.Value);
+                InternalDataManagement.CorrectBindNames(result, kvp.Value);
             }
             MergeImport(result);
-            InternalDataMangement.CorrectModifiersInBinds();
+            InternalDataManagement.CorrectModifiersInBinds();
         }
         public static Dictionary<string, Bind> LibraryFromLocalDict(Dictionary<string, DCSExportPlane> lib, List<string> sticks, bool loadDefaults, bool inv = false, bool slid = false, bool curv = false, bool dz = false, bool sx = false, bool sy = false)
         {

@@ -35,19 +35,19 @@ namespace JoyPro
             InitializeComponent();
             connectedSticks = JoystickReader.GetConnectedJoysticks();
             JoyPaths = new Dictionary<string, string>();
-            AllJoysticks = InternalDataMangement.LocalJoysticks.ToList();
+            AllJoysticks = InternalDataManagement.LocalJoysticks.ToList();
             CloseBtn.Click += new RoutedEventHandler(CloseThis);
-            if (InternalDataMangement.JoystickFileImages != null && InternalDataMangement.JoystickFileImages.Count > 0)
+            if (InternalDataManagement.JoystickFileImages != null && InternalDataManagement.JoystickFileImages.Count > 0)
             {
-                JoyPaths = InternalDataMangement.JoystickFileImages;
+                JoyPaths = InternalDataManagement.JoystickFileImages;
             }
             else
             {
-                InternalDataMangement.JoystickFileImages = new Dictionary<string, string>();
-                JoyPaths = InternalDataMangement.JoystickFileImages;
+                InternalDataManagement.JoystickFileImages = new Dictionary<string, string>();
+                JoyPaths = InternalDataManagement.JoystickFileImages;
             }
             SetupScrollView();
-            InternalDataMangement.CleanJoystickNodes();
+            InternalDataManagement.CleanJoystickNodes();
             this.Closing += new System.ComponentModel.CancelEventHandler(Finalising);
         }
 
@@ -193,7 +193,7 @@ namespace JoyPro
         void Finalising(object sender, EventArgs e)
         {
             MainStructure.VisualMode = true;
-            InternalDataMangement.ResyncRelations();
+            InternalDataManagement.ResyncRelations();
         }
 
         void CloseThis(object sender, EventArgs e)

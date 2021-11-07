@@ -43,17 +43,17 @@ namespace JoyPro
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
             CloseBtn.Click += new RoutedEventHandler(CloseCreateJoystickAlias);
             DeviceOriginalNameLabel.Content = original;
-            if (InternalDataMangement.JoystickAliases == null) InternalDataMangement.JoystickAliases = new Dictionary<string, string>();
-            if (InternalDataMangement.JoystickAliases.ContainsKey(original)) NewAliasTF.Text = InternalDataMangement.JoystickAliases[original];
+            if (InternalDataManagement.JoystickAliases == null) InternalDataManagement.JoystickAliases = new Dictionary<string, string>();
+            if (InternalDataManagement.JoystickAliases.ContainsKey(original)) NewAliasTF.Text = InternalDataManagement.JoystickAliases[original];
             RestoreBtn.Click += new RoutedEventHandler(RestoreOriginal);
             ApplyBtn.Click += new RoutedEventHandler(ApplyChange);
         }
 
         void RestoreOriginal(object sender, EventArgs e)
         {
-            if (InternalDataMangement.JoystickAliases.ContainsKey(originalName))
+            if (InternalDataManagement.JoystickAliases.ContainsKey(originalName))
             {
-                InternalDataMangement.JoystickAliases[originalName] = "";
+                InternalDataManagement.JoystickAliases[originalName] = "";
             }
             CloseCreateJoystickAlias(sender, e);
         }
@@ -68,18 +68,18 @@ namespace JoyPro
                 NewAliasTF.Text.Replace(" ", "").Contains("\"") ||
                 NewAliasTF.Text.Replace(" ", "").Contains("\\") ||
                 NewAliasTF.Text.Replace(" ", "").Contains(",") ||
-                InternalDataMangement.DoesJoystickAliasExist(NewAliasTF.Text))
+                InternalDataManagement.DoesJoystickAliasExist(NewAliasTF.Text))
             {
                 MessageBox.Show("Name to short, or reserved name or symbol or already exists");
                 return;
             }
-            if (InternalDataMangement.JoystickAliases.ContainsKey(originalName))
+            if (InternalDataManagement.JoystickAliases.ContainsKey(originalName))
             {
-                InternalDataMangement.JoystickAliases[originalName] = NewAliasTF.Text;
+                InternalDataManagement.JoystickAliases[originalName] = NewAliasTF.Text;
             }
             else
             {
-                InternalDataMangement.JoystickAliases.Add(originalName, NewAliasTF.Text);
+                InternalDataManagement.JoystickAliases.Add(originalName, NewAliasTF.Text);
             }
             CloseCreateJoystickAlias(sender, e);
         }

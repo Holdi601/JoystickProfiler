@@ -91,14 +91,14 @@ namespace JoyPro
         private void SetupGamesDropDown()
         {
             GamesFilterDropDown.Items.Clear();
-            if (InternalDataMangement.GamesFilter == null || InternalDataMangement.GamesFilter.Count == 0)
+            if (InternalDataManagement.GamesFilter == null || InternalDataManagement.GamesFilter.Count == 0)
             {
                 for(int i=0; i<MiscGames.Games.Count; ++i)
                 {
-                    InternalDataMangement.GamesFilter.Add(MiscGames.Games[i], true);
+                    InternalDataManagement.GamesFilter.Add(MiscGames.Games[i], true);
                 }
             }
-            foreach(KeyValuePair<string, bool> kvp in InternalDataMangement.GamesFilter)
+            foreach(KeyValuePair<string, bool> kvp in InternalDataManagement.GamesFilter)
             {
                 CheckBox cbx = new CheckBox();
                 cbx.Name = kvp.Key+"game";
@@ -116,11 +116,11 @@ namespace JoyPro
             CheckBox cb = (CheckBox)sender;
             if (cb.IsChecked == true)
             {
-                InternalDataMangement.GamesFilter[(string)cb.Content] = true;
+                InternalDataManagement.GamesFilter[(string)cb.Content] = true;
             }
             else
             {
-                InternalDataMangement.GamesFilter[(string)cb.Content] = false;
+                InternalDataManagement.GamesFilter[(string)cb.Content] = false;
             }
             SearchQueryChanged(null, null);
         }
@@ -161,7 +161,7 @@ namespace JoyPro
                 MessageBox.Show("Relation has no nodes.");
                 return;
             }
-            if (!editMode&&InternalDataMangement.DoesRelationAlreadyExist(Current.NAME) && !InternalDataMangement.RelationIsTheSame(Current.NAME, Current))
+            if (!editMode&& InternalDataManagement.DoesRelationAlreadyExist(Current.NAME) && !InternalDataManagement.RelationIsTheSame(Current.NAME, Current))
             {
                 MessageBox.Show("Relation with same Name already exists.");
                 return;
@@ -179,18 +179,18 @@ namespace JoyPro
             }
             if (!editMode)
             {
-                InternalDataMangement.AddRelation(Current);
+                InternalDataManagement.AddRelation(Current);
                 Console.WriteLine("Adds new relation " + Current.NAME);
             }
             else
             {
                 //Here replace logic
-                if (InternalDataMangement.AllRelations.ContainsKey(Current.NAME) && Original.NAME != Current.NAME)
+                if (InternalDataManagement.AllRelations.ContainsKey(Current.NAME) && Original.NAME != Current.NAME)
                 {
                     MessageBox.Show("RelationName already taken. Please take a new one");
                     return;
                 }
-                InternalDataMangement.ReplaceRelation(Original, Current);
+                InternalDataManagement.ReplaceRelation(Original, Current);
                 Console.WriteLine("Finished Editing Relation " + Current.NAME);
             }
             setLastSizeAndPosition();

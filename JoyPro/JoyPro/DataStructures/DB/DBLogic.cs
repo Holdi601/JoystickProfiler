@@ -422,7 +422,7 @@ namespace JoyPro
         public static List<SearchQueryResults> SearchBinds(string[] keywords, bool searchDescription=true, bool filteredSearch=true)
         {
             List<SearchQueryResults> results = new List<SearchQueryResults>();
-            if ((filteredSearch&&InternalDataMangement.GamesFilter["DCS"])||!filteredSearch)
+            if ((filteredSearch&&InternalDataManagement.GamesFilter["DCS"])||!filteredSearch)
             {
                 foreach (KeyValuePair<string, DCSPlane> kvp in DCSLib)
                 {
@@ -470,7 +470,7 @@ namespace JoyPro
             {
                 foreach (KeyValuePair<string, OtherGame> kvp in kvpOuter.Value)
                 {
-                    if ((filteredSearch&& InternalDataMangement.GamesFilter.ContainsKey(kvpOuter.Key) && InternalDataMangement.GamesFilter[kvpOuter.Key])|| !filteredSearch)
+                    if ((filteredSearch&& InternalDataManagement.GamesFilter.ContainsKey(kvpOuter.Key) && InternalDataManagement.GamesFilter[kvpOuter.Key])|| !filteredSearch)
                     {
                         foreach (KeyValuePair<string, OtherGameInput> inp in kvp.Value.Axis)
                         {

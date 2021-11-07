@@ -66,9 +66,9 @@ namespace JoyPro
             grid.ColumnDefinitions.Add(cd);
             grid.ColumnDefinitions.Add(new ColumnDefinition());
             
-            if (InternalDataMangement.AllGroups == null) return null;
+            if (InternalDataManagement.AllGroups == null) return null;
 
-            for (int i = 0; i < InternalDataMangement.AllGroups.Count; i++)
+            for (int i = 0; i < InternalDataManagement.AllGroups.Count; i++)
             {
                 RowDefinition r = new RowDefinition();
                 r.Height = (GridLength)converter.ConvertFromString("30");
@@ -89,10 +89,10 @@ namespace JoyPro
                 !NewGroupTF.Text.Contains("\\") &&
                 !NewGroupTF.Text.Contains(","))
             {
-                if (!InternalDataMangement.AllGroups.Contains(NewGroupTF.Text))
+                if (!InternalDataManagement.AllGroups.Contains(NewGroupTF.Text))
                 {
-                    InternalDataMangement.AllGroups.Add(NewGroupTF.Text);
-                    InternalDataMangement.GroupActivity.Add(NewGroupTF.Text, true);
+                    InternalDataManagement.AllGroups.Add(NewGroupTF.Text);
+                    InternalDataManagement.GroupActivity.Add(NewGroupTF.Text, true);
                 }
                     
                 NewGroupTF.Text = "";
@@ -102,7 +102,7 @@ namespace JoyPro
             {
                 MessageBox.Show("Name invalid - either to short or reserved name");
             }
-            InternalDataMangement.AllGroups.Sort();
+            InternalDataManagement.AllGroups.Sort();
             ListExistingGroups();
             
         }
@@ -110,14 +110,14 @@ namespace JoyPro
         void DeleteGroup(object sender, EventArgs e)
         {
             int indx = Convert.ToInt32(((Button)sender).Name.Replace("GrpDeleteName", ""));
-            if (indx < 0||indx>= InternalDataMangement.AllGroups.Count) return;
-            string groupToDelete = InternalDataMangement.AllGroups[indx];
-            InternalDataMangement.RemoveGroupFromRelation(groupToDelete);
-            InternalDataMangement.AllGroups.Remove(groupToDelete);
-            InternalDataMangement.AllGroups.Sort();
-            if (InternalDataMangement.GroupActivity.ContainsKey(groupToDelete))
+            if (indx < 0||indx>= InternalDataManagement.AllGroups.Count) return;
+            string groupToDelete = InternalDataManagement.AllGroups[indx];
+            InternalDataManagement.RemoveGroupFromRelation(groupToDelete);
+            InternalDataManagement.AllGroups.Remove(groupToDelete);
+            InternalDataManagement.AllGroups.Sort();
+            if (InternalDataManagement.GroupActivity.ContainsKey(groupToDelete))
             {
-                InternalDataMangement.GroupActivity.Remove(groupToDelete);
+                InternalDataManagement.GroupActivity.Remove(groupToDelete);
             }
             ListExistingGroups();
         }
@@ -127,11 +127,11 @@ namespace JoyPro
             GroupDeleteBtn.Clear();
             Grid grid = BaseSetupRelationGrid();
             if (grid == null) return;
-            for (int i = 0; i < InternalDataMangement.AllGroups.Count; ++i)
+            for (int i = 0; i < InternalDataManagement.AllGroups.Count; ++i)
             {
                 Label cbx = new Label();
                 cbx.Name = "cbxjy" + i.ToString();
-                cbx.Content = InternalDataMangement.AllGroups[i];
+                cbx.Content = InternalDataManagement.AllGroups[i];
                 cbx.Foreground = Brushes.White;
                 cbx.HorizontalAlignment = HorizontalAlignment.Left;
                 cbx.VerticalAlignment = VerticalAlignment.Center;

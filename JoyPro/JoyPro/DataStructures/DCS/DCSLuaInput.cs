@@ -23,9 +23,9 @@ namespace JoyPro
             if (axisDiffs.Count > 0)
             {
                 string joyAl = "";
-                if (InternalDataMangement.JoystickAliases.ContainsKey(JoystickName))
+                if (InternalDataManagement.JoystickAliases.ContainsKey(JoystickName))
                 {
-                    joyAl = InternalDataMangement.JoystickAliases[JoystickName];
+                    joyAl = InternalDataManagement.JoystickAliases[JoystickName];
                 }
                 swr.Write("\t[\"JAL\"] = \"" + joyAl + "\",\n");
                 swr.Write("\t[\"axisDiffs\"] = {\n");
@@ -295,13 +295,13 @@ namespace JoyPro
                 joyAlias = (string)dct["JAL"];
                 if (JoystickName.Length > 0 && joyAlias.Length > 0)
                 {
-                    if (InternalDataMangement.JoystickAliases.ContainsKey(JoystickName))
+                    if (InternalDataManagement.JoystickAliases.ContainsKey(JoystickName))
                     {
-                        InternalDataMangement.JoystickAliases[JoystickName] = joyAlias;
+                        InternalDataManagement.JoystickAliases[JoystickName] = joyAlias;
                     }
                     else
                     {
-                        InternalDataMangement.JoystickAliases.Add(JoystickName, joyAlias);
+                        InternalDataManagement.JoystickAliases.Add(JoystickName, joyAlias);
                     }
                 }
             }
@@ -333,9 +333,9 @@ namespace JoyPro
                                     foreach (KeyValuePair<object, object> kvpGroup in ((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["JGRP"]))
                                     {
                                         dab.Groups.Add((string)kvpGroup.Value);
-                                        if (!InternalDataMangement.AllGroups.Contains((string)kvpGroup.Value))
+                                        if (!InternalDataManagement.AllGroups.Contains((string)kvpGroup.Value))
                                         {
-                                            InternalDataMangement.AllGroups.Add((string)kvpGroup.Value);
+                                            InternalDataManagement.AllGroups.Add((string)kvpGroup.Value);
                                         }
                                     }
                                 }
@@ -379,9 +379,9 @@ namespace JoyPro
                                     foreach (KeyValuePair<object, object> kvpGroup in ((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["JGRP"]))
                                     {
                                         dab.Groups.Add((string)kvpGroup.Value);
-                                        if (!InternalDataMangement.AllGroups.Contains((string)kvpGroup.Value))
+                                        if (!InternalDataManagement.AllGroups.Contains((string)kvpGroup.Value))
                                         {
-                                            InternalDataMangement.AllGroups.Add((string)kvpGroup.Value);
+                                            InternalDataManagement.AllGroups.Add((string)kvpGroup.Value);
                                         }
                                     }
                                 }
@@ -454,9 +454,9 @@ namespace JoyPro
                                     foreach (KeyValuePair<object, object> kvpGroup in ((Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["JGRP"]))
                                     {
                                         dab.Groups.Add((string)kvpGroup.Value);
-                                        if (!InternalDataMangement.AllGroups.Contains((string)kvpGroup.Value))
+                                        if (!InternalDataManagement.AllGroups.Contains((string)kvpGroup.Value))
                                         {
-                                            InternalDataMangement.AllGroups.Add((string)kvpGroup.Value);
+                                            InternalDataManagement.AllGroups.Add((string)kvpGroup.Value);
                                         }
                                     }
                                 }

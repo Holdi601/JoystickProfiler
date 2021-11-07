@@ -38,20 +38,20 @@ namespace JoyPro
             openedWindows = 0;
             JoyPaths = new Dictionary<string, string>();
             connectedSticks = JoystickReader.GetConnectedJoysticks();
-            JoysticksActiveInBinds = InternalDataMangement.LocalJoysticks.ToList();
+            JoysticksActiveInBinds = InternalDataManagement.LocalJoysticks.ToList();
             CloseBtn.Click += new RoutedEventHandler(CloseThis);
             SearchExportBtn.Click += new RoutedEventHandler(searchExport);
             ContinueBtn.Click += new RoutedEventHandler(ContinueToNext);
-            if (InternalDataMangement.JoystickFileImages != null && InternalDataMangement.JoystickFileImages.Count > 0)
+            if (InternalDataManagement.JoystickFileImages != null && InternalDataManagement.JoystickFileImages.Count > 0)
             {
-                JoyPaths = InternalDataMangement.JoystickFileImages;
+                JoyPaths = InternalDataManagement.JoystickFileImages;
             }
-            if (InternalDataMangement.JoystickLayoutExport != null)
+            if (InternalDataManagement.JoystickLayoutExport != null)
             {
-                PathToShowLbl.Content = InternalDataMangement.JoystickLayoutExport;
+                PathToShowLbl.Content = InternalDataManagement.JoystickLayoutExport;
             }
             SetupScrollView();
-            InternalDataMangement.CleanJoystickNodes();
+            InternalDataManagement.CleanJoystickNodes();
         }
         void SetupScrollView()
         {
@@ -222,17 +222,17 @@ namespace JoyPro
             ContinueBtn.IsEnabled = false;
             foreach(KeyValuePair<string, string> kvp in JoyPaths)
             {
-                if (InternalDataMangement.JoystickFileImages == null)
-                    InternalDataMangement.JoystickFileImages = new Dictionary<string, string>();
-                if (InternalDataMangement.JoystickFileImages.ContainsKey(kvp.Key))
+                if (InternalDataManagement.JoystickFileImages == null)
+                    InternalDataManagement.JoystickFileImages = new Dictionary<string, string>();
+                if (InternalDataManagement.JoystickFileImages.ContainsKey(kvp.Key))
                 {
                     //InternalDataMangement.JoystickFileImages[kvp.Key] = kvp.Value;
                 }
                 else
                 {
-                    InternalDataMangement.JoystickFileImages.Add(kvp.Key, kvp.Value);
+                    InternalDataManagement.JoystickFileImages.Add(kvp.Key, kvp.Value);
                 }
-                InternalDataMangement.JoystickLayoutExport = exportFolder;
+                InternalDataManagement.JoystickLayoutExport = exportFolder;
                 EditJoystickLayoutImage ejli = new EditJoystickLayoutImage(kvp.Key, kvp.Value, (string)PathToShowLbl.Content);
                 openedWindows++;
                 ejli.Closing += new System.ComponentModel.CancelEventHandler(EditWindowClosed);

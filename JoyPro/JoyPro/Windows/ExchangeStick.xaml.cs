@@ -32,12 +32,12 @@ namespace JoyPro
 
             List<string> sticks = JoystickReader.GetConnectedJoysticks();
             Joysticks = sticks;
-            if (InternalDataMangement.JoystickAliases == null) InternalDataMangement.JoystickAliases = new Dictionary<string, string>();
+            if (InternalDataManagement.JoystickAliases == null) InternalDataManagement.JoystickAliases = new Dictionary<string, string>();
             for (int i = 0; i < sticks.Count; ++i)
             {
-                if (InternalDataMangement.JoystickAliases.ContainsKey(sticks[i]) && InternalDataMangement.JoystickAliases[sticks[i]].Length > 0)
+                if (InternalDataManagement.JoystickAliases.ContainsKey(sticks[i]) && InternalDataManagement.JoystickAliases[sticks[i]].Length > 0)
                 {
-                    DropDownSticks.Items.Add(InternalDataMangement.JoystickAliases[sticks[i]]);
+                    DropDownSticks.Items.Add(InternalDataManagement.JoystickAliases[sticks[i]]);
                 }
                 else
                 {
@@ -78,7 +78,7 @@ namespace JoyPro
             string selItem = Joysticks[DropDownSticks.SelectedIndex];
             if (selItem == null || selItem.Length < 1)
                 MessageBox.Show("No Stick selected");
-            InternalDataMangement.ExchangeSticksInBind(stickToReplace, selItem);
+            InternalDataManagement.ExchangeSticksInBind(stickToReplace, selItem);
             Close();
         }
 

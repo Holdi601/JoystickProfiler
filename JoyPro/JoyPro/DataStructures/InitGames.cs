@@ -55,17 +55,17 @@ namespace JoyPro
                     }
                 }
             }
-            if (InternalDataMangement.LocalJoysticks == null)
-                InternalDataMangement.LocalJoysticks = Joysticks.ToArray();
+            if (InternalDataManagement.LocalJoysticks == null)
+                InternalDataManagement.LocalJoysticks = Joysticks.ToArray();
             else
             {
-                List<string> pp = InternalDataMangement.LocalJoysticks.ToList();
+                List<string> pp = InternalDataManagement.LocalJoysticks.ToList();
                 for (int i = 0; i < Joysticks.Count; ++i)
                 {
                     if (!pp.Contains(Joysticks[i]))
                         pp.Add(Joysticks[i]);
                 }
-                InternalDataMangement.LocalJoysticks = pp.ToArray();
+                InternalDataManagement.LocalJoysticks = pp.ToArray();
             }
         }
         public static string GetDCSInstallationPath()
@@ -192,7 +192,7 @@ namespace JoyPro
         {
             DBLogic.DCSLib.Clear();
             MiscGames.installPathsDCS = new string[0];
-            InternalDataMangement.LocalJoysticks = new string[0];
+            InternalDataManagement.LocalJoysticks = new string[0];
             DCSIOLogic.EmptyOutputsDCS = new Dictionary<string, DCSLuaInput>();
             DBLogic.OtherLib = new Dictionary<string, Dictionary<string, OtherGame>>();
             MiscGames.IL2Instance = "";
@@ -207,13 +207,13 @@ namespace JoyPro
             try
             {
                 List<string> connectedSticks = JoystickReader.GetConnectedJoysticks();
-                List<string> crSticks = InternalDataMangement.LocalJoysticks.ToList();
+                List<string> crSticks = InternalDataManagement.LocalJoysticks.ToList();
                 for (int i = 0; i < connectedSticks.Count; ++i)
                 {
                     if (!crSticks.Contains(connectedSticks[i]))
                         crSticks.Add(connectedSticks[i]);
                 }
-                InternalDataMangement.LocalJoysticks = crSticks.ToArray();
+                InternalDataManagement.LocalJoysticks = crSticks.ToArray();
             }
             catch
             {

@@ -43,6 +43,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -107,7 +108,7 @@
     <Compile Include="DataStructures\DCS\DCSLuaDiffsAxisElement.cs" />
     <Compile Include="DataStructures\DCS\DCSLuaDiffsButtonElement.cs" />
     <Compile Include="DataStructures\DCS\DCSLuaInput.cs" />
-    <Compile Include="DataStructures\Internal\InternalDataMangement.cs" />
+    <Compile Include="DataStructures\Internal\InternalDataManagement.cs" />
     <Compile Include="DataStructures\Internal\LayoutFile.cs" />
     <Compile Include="DataStructures\MiscGames.cs" />
     <Compile Include="DataStructures\Other\OtherGame.cs" />

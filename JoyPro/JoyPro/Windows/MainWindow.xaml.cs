@@ -110,13 +110,13 @@ namespace JoyPro
         {
             string rawQry = SearchQueryRelationName.Text;
             if (rawQry.Replace(" ", "").Length < 1)
-                InternalDataMangement.RelationWordFilter = null;
+                InternalDataManagement.RelationWordFilter = null;
             else
             {
                 rawQry = rawQry.Trim();
-                InternalDataMangement.RelationWordFilter = rawQry.Split(' ');
+                InternalDataManagement.RelationWordFilter = rawQry.Split(' ');
             }
-            InternalDataMangement.ResyncRelations();
+            InternalDataManagement.ResyncRelations();
         }
         void ButtonsIntoList()
         {
@@ -205,9 +205,9 @@ namespace JoyPro
         }
         void OpenExchangeStick(object sender, EventArgs e)
         {
-            List<string> sticksInBind = InternalDataMangement.LocalJoysticks.ToList();
+            List<string> sticksInBind = InternalDataManagement.LocalJoysticks.ToList();
             
-            List<Modifier> mods = InternalDataMangement.GetAllModifiers();
+            List<Modifier> mods = InternalDataManagement.GetAllModifiers();
             for (int i = 0; i < mods.Count; ++i)
             {
                 string otherId = mods[i].device;
@@ -242,7 +242,7 @@ namespace JoyPro
         }
         void NewFileEvent(object sender, EventArgs e)
         {
-            InternalDataMangement.NewFile();
+            InternalDataManagement.NewFile();
         }
         void AfterLoading(object sender, EventArgs e)
         {
@@ -278,7 +278,7 @@ namespace JoyPro
             GroupManagerW gmw = new GroupManagerW();
             DisableInputs();
             gmw.Show();
-            gmw.Closing += new CancelEventHandler(InternalDataMangement.ResyncRelations);
+            gmw.Closing += new CancelEventHandler(InternalDataManagement.ResyncRelations);
             gmw.Closing += new CancelEventHandler(ActivateInputs);            
         }
         void OpenImportProf(object sender, EventArgs e)
@@ -307,7 +307,7 @@ namespace JoyPro
             else
                 param = true;
 
-            InternalDataMangement.WriteProfileCleanNotOverwriteLocal(param);
+            InternalDataManagement.WriteProfileCleanNotOverwriteLocal(param);
         }
         void LoadExistingExportOverwrite(object sender, EventArgs e)
         {
@@ -321,7 +321,7 @@ namespace JoyPro
                 param = false;
             else
                 param = true;
-            InternalDataMangement.WriteProfileCleanAndLoadedOverwritten(param);
+            InternalDataManagement.WriteProfileCleanAndLoadedOverwritten(param);
         }
         void LoadExistingExportAndAdd(object sender, EventArgs e)
         {
@@ -335,7 +335,7 @@ namespace JoyPro
                 param = false;
             else
                 param = true;
-            InternalDataMangement.WriteProfileCleanAndLoadedOverwrittenAndAdd(param);
+            InternalDataManagement.WriteProfileCleanAndLoadedOverwrittenAndAdd(param);
         }
         void CleanAndExport(object sender, EventArgs e)
         {
@@ -344,7 +344,7 @@ namespace JoyPro
             bool nukeDevices = false;
             if (CBNukeUnused.IsChecked == true)
                 nukeDevices = true;
-            InternalDataMangement.WriteProfileClean(nukeDevices);
+            InternalDataManagement.WriteProfileClean(nukeDevices);
         }
         void OpenSaveProfile(object sender, EventArgs e)
         {
@@ -374,7 +374,7 @@ namespace JoyPro
                         MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
                     }
                 }
-                InternalDataMangement.SaveProfileTo(filePath);
+                InternalDataManagement.SaveProfileTo(filePath);
             }
         }
         void OpenSaveCSV(object sender, EventArgs e)
@@ -406,7 +406,7 @@ namespace JoyPro
                     }
                 }
 
-                InternalDataMangement.PrintOverviewToCsv(CURRENTDISPLAYEDRELATION, filePath);
+                InternalDataManagement.PrintOverviewToCsv(CURRENTDISPLAYEDRELATION, filePath);
             }
         }
         void OpenSaveReleations(object sender, EventArgs e)
@@ -435,7 +435,7 @@ namespace JoyPro
                     MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
                 }
             }
-            InternalDataMangement.SaveRelationsTo(filePath);
+            InternalDataManagement.SaveRelationsTo(filePath);
 
         }
         public bool? RelationAlreadyExists(string relName)
@@ -476,7 +476,7 @@ namespace JoyPro
                         MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
                     }
                 }
-                InternalDataMangement.LoadRelations(fileToOpen);
+                InternalDataManagement.LoadRelations(fileToOpen);
             }
         }
         void OpenIncludeRelations(object sender, EventArgs e)
@@ -507,7 +507,7 @@ namespace JoyPro
                         MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
                     }
                 }
-                InternalDataMangement.InsertRelations(filesToInclude);
+                InternalDataManagement.InsertRelations(filesToInclude);
             }
         }
         void OpenLoadProfile(object sendder, EventArgs e)
@@ -539,7 +539,7 @@ namespace JoyPro
                         MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
                     }
                 }
-                InternalDataMangement.LoadProfile(fileToOpen);
+                InternalDataManagement.LoadProfile(fileToOpen);
             }
         }
         void DeleteRelationButton(object sender, EventArgs e)
@@ -554,7 +554,7 @@ namespace JoyPro
             MessageBoxResult mr = MessageBox.Show("Are you sure that you want to delete the Relation: " + r.NAME, "Joy Pro Relation Deletion", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
             if (mr == MessageBoxResult.Yes)
             {
-                InternalDataMangement.RemoveRelation(r);
+                InternalDataManagement.RemoveRelation(r);
             }
         }
         void EditRelationButton(object sender, EventArgs e)
@@ -652,21 +652,21 @@ namespace JoyPro
             int indx = buttonSetting;
             buttonSetting = -1;
             setBtns[indx].Background = Brushes.White;
-            Bind cr = InternalDataMangement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            Bind cr = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (e == null)
             {
                 setBtns[indx].Content = "None";
                 stickLabels[indx].Content = "None";
                 if (cr != null)
                 {
-                    InternalDataMangement.RemoveBind(cr);
+                    InternalDataManagement.RemoveBind(cr);
                 }
                 return;
             }
             if (cr == null)
             {
                 cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
-                InternalDataMangement.AddBind(cr.Rl.NAME, cr);
+                InternalDataManagement.AddBind(cr.Rl.NAME, cr);
             }
             if (joyReader == null)
             {
@@ -676,8 +676,8 @@ namespace JoyPro
             if (joyReader.result == null)
             {
                 //Delete Bind
-                InternalDataMangement.DeleteBind(cr.Rl.NAME);
-                InternalDataMangement.ResyncRelations();
+                InternalDataManagement.DeleteBind(cr.Rl.NAME);
+                InternalDataManagement.ResyncRelations();
                 return;
             }
             cr.Joystick = joyReader.result.Device;
@@ -693,21 +693,21 @@ namespace JoyPro
             int indx = buttonSetting;
             buttonSetting = -1;
             setBtns[indx].Background = Brushes.White;
-            Bind cr = InternalDataMangement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            Bind cr = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (joyReader==null||joyReader.result == null)
             {
                 setBtns[indx].Content = "None";
                 stickLabels[indx].Content = "None";
                 if (cr != null)
                 {
-                    InternalDataMangement.RemoveBind(cr);
+                    InternalDataManagement.RemoveBind(cr);
                 }
                 return;
             }
             if (cr == null)
             {
                 cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
-                InternalDataMangement.AddBind(cr.Rl.NAME, cr);
+                InternalDataManagement.AddBind(cr.Rl.NAME, cr);
             }
             cr.Joystick = joyReader.result.Device;
             cr.JButton = joyReader.result.AxisButton;
@@ -720,7 +720,7 @@ namespace JoyPro
         {
             ComboBox cx = (ComboBox)sender;
             int indx = Convert.ToInt32(cx.Name.Split('x')[1]);
-            Bind currentBind = InternalDataMangement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            Bind currentBind = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             int modint = Convert.ToInt32(cx.Name.Split('c')[0].Replace("mod", ""))-1;
             if (currentBind == null)
             {
@@ -737,7 +737,7 @@ namespace JoyPro
             }
             else
             {
-                Modifier m = InternalDataMangement.ModifierByName(element);
+                Modifier m = InternalDataManagement.ModifierByName(element);
                 if (m == null)
                 {
                     MessageBox.Show("Something went wrong when trying to assing modifier please report with accurate repro steps or simply retry");
@@ -748,13 +748,13 @@ namespace JoyPro
                     currentBind.AllReformers.Add(m.toReformerString());
                 }
             }
-            InternalDataMangement.ResyncRelations();
+            InternalDataManagement.ResyncRelations();
         }
         void changeCurveToUserCurve(object sender, EventArgs e)
         {
             CheckBox cx = (CheckBox)sender;
             int indx = Convert.ToInt32(cx.Name.Split('l')[1]);
-            Bind currentBind = InternalDataMangement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            Bind currentBind = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (currentBind == null)
             {
                 MessageBox.Show("Please bind the main key first and then the User Curve");
@@ -775,13 +775,13 @@ namespace JoyPro
                 currentBind.Curvature.Add(0.9);
                 currentBind.Curvature.Add(1.0);
             }
-            InternalDataMangement.ResyncRelations();
+            InternalDataManagement.ResyncRelations();
         }
         void changeUserCurve(object sender, EventArgs e)
         {
             Button cx = (Button)sender;
             int indx = Convert.ToInt32(cx.Name.Split('n')[1]);
-            Bind currentBind = InternalDataMangement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            Bind currentBind = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             changeUserCurve(currentBind);
         }
         public void changeUserCurve(Bind currentBind)
@@ -801,19 +801,19 @@ namespace JoyPro
             CheckBox cb = (CheckBox)sender;
             if (cb.Name == "ALL" && cb.IsChecked == true)
             {
-                for (int i = InternalDataMangement.JoystickActivity.Count - 1; i >= 0; i--)
+                for (int i = InternalDataManagement.JoystickActivity.Count - 1; i >= 0; i--)
                 {
-                    string toChange = InternalDataMangement.JoystickActivity.ElementAt(i).Key;
-                    InternalDataMangement.JoystickActivity[toChange] = true;
+                    string toChange = InternalDataManagement.JoystickActivity.ElementAt(i).Key;
+                    InternalDataManagement.JoystickActivity[toChange] = true;
                 }
                 cb.IsChecked = false;
             }
             else if (cb.Name == "NONE" && cb.IsChecked == true)
             {
-                for (int i = InternalDataMangement.JoystickActivity.Count - 1; i >= 0; i--)
+                for (int i = InternalDataManagement.JoystickActivity.Count - 1; i >= 0; i--)
                 {
-                    string toChange = InternalDataMangement.JoystickActivity.ElementAt(i).Key;
-                    InternalDataMangement.JoystickActivity[toChange] = false;
+                    string toChange = InternalDataManagement.JoystickActivity.ElementAt(i).Key;
+                    InternalDataManagement.JoystickActivity[toChange] = false;
                 }
 
                 cb.IsChecked = false;
@@ -821,38 +821,38 @@ namespace JoyPro
             else if(cb.Name== "UNASSIGNED")
             {
                 if (cb.IsChecked == true)
-                    InternalDataMangement.showUnassignedRelations = true;
+                    InternalDataManagement.showUnassignedRelations = true;
                 else
-                    InternalDataMangement.showUnassignedRelations = false;
+                    InternalDataManagement.showUnassignedRelations = false;
             }
             else
             {
                 int indx = Convert.ToInt32(cb.Name.Replace("d", ""));
                 if (cb.IsChecked == true)
-                    InternalDataMangement.JoystickActivity[possibleSticks[indx]] = true;
+                    InternalDataManagement.JoystickActivity[possibleSticks[indx]] = true;
                 else
-                    InternalDataMangement.JoystickActivity[possibleSticks[indx]] = false;
+                    InternalDataManagement.JoystickActivity[possibleSticks[indx]] = false;
             }
 
-            InternalDataMangement.ResyncRelations();
+            InternalDataManagement.ResyncRelations();
         }
         void GroupFilterChanged(object sender, EventArgs e)
         {
             CheckBox cb = (CheckBox)sender;
             if (cb.Name == "ALL"&&cb.IsChecked==true)
             {
-                for (int i = InternalDataMangement.GroupActivity.Count - 1; i >= 0; i--)
+                for (int i = InternalDataManagement.GroupActivity.Count - 1; i >= 0; i--)
                 {
-                    string toChange = InternalDataMangement.GroupActivity.ElementAt(i).Key;
-                    InternalDataMangement.GroupActivity[toChange] = true;
+                    string toChange = InternalDataManagement.GroupActivity.ElementAt(i).Key;
+                    InternalDataManagement.GroupActivity[toChange] = true;
                 }
                 cb.IsChecked = false;
             }else if(cb.Name == "NONE"&&cb.IsChecked==true)
             {
-                for (int i = InternalDataMangement.GroupActivity.Count - 1; i >= 0; i--)
+                for (int i = InternalDataManagement.GroupActivity.Count - 1; i >= 0; i--)
                 {
-                    string toChange= InternalDataMangement.GroupActivity.ElementAt(i).Key;
-                    InternalDataMangement.GroupActivity[toChange] = false;
+                    string toChange= InternalDataManagement.GroupActivity.ElementAt(i).Key;
+                    InternalDataManagement.GroupActivity[toChange] = false;
                 }
                 
                 cb.IsChecked = false;
@@ -860,23 +860,23 @@ namespace JoyPro
             {
                 if (cb.IsChecked == true)
                 {
-                    InternalDataMangement.showUnassignedGroups = true;
+                    InternalDataManagement.showUnassignedGroups = true;
                 }
                 else
                 {
-                    InternalDataMangement.showUnassignedGroups = false;
+                    InternalDataManagement.showUnassignedGroups = false;
                 }
             }
             else
             {
                 int indx = Convert.ToInt32(cb.Name.Replace("g",""));
                 if (cb.IsChecked == true)
-                    InternalDataMangement.GroupActivity[InternalDataMangement.AllGroups[indx]] = true;
+                    InternalDataManagement.GroupActivity[InternalDataManagement.AllGroups[indx]] = true;
                 else
-                    InternalDataMangement.GroupActivity[InternalDataMangement.AllGroups[indx]] = false;
+                    InternalDataManagement.GroupActivity[InternalDataManagement.AllGroups[indx]] = false;
             }
 
-            InternalDataMangement.ResyncRelations();
+            InternalDataManagement.ResyncRelations();
         }
         void RefreshVisualRelations()
         {
@@ -884,13 +884,13 @@ namespace JoyPro
             TabControl tc = new TabControl();
             tc.Name = "TabControllerVisual";
             
-            for(int i = 0; i< InternalDataMangement.JoystickFileImages.Count; ++i)
+            for(int i = 0; i< InternalDataManagement.JoystickFileImages.Count; ++i)
             {
-                string stick = InternalDataMangement.JoystickFileImages.ElementAt(i).Key;
-                string pth = InternalDataMangement.JoystickFileImages.ElementAt(i).Value;
+                string stick = InternalDataManagement.JoystickFileImages.ElementAt(i).Key;
+                string pth = InternalDataManagement.JoystickFileImages.ElementAt(i).Value;
                 if (!pth.EndsWith(".layout")) continue;
                 TabItem tabItem = new TabItem();
-                tabItem.Header=InternalDataMangement.LocalJoysticks[i];
+                tabItem.Header=stick;
                 ScrollViewer sver = new ScrollViewer();
                 tabItem.Content = sver;
                 tc.Items.Add(tabItem);
@@ -933,7 +933,7 @@ namespace JoyPro
                 lb.Content = "REMOVE BINDING";
                 axisRelations.Add(lb);
                 buttonRelations.Add(lb);
-                foreach (KeyValuePair<string, Relation> kvpRel in InternalDataMangement.AllRelations)
+                foreach (KeyValuePair<string, Relation> kvpRel in InternalDataManagement.AllRelations)
                 {
                     if (kvpRel.Value.ISAXIS)
                     {
@@ -984,7 +984,7 @@ namespace JoyPro
                     {
                         cb.ItemsSource = axisRelations;
                     }
-                    List<string> setRelation = InternalDataMangement.GetAllRelationNamesForJoystickButton(stick, kvp.Key);
+                    List<string> setRelation = InternalDataManagement.GetAllRelationNamesForJoystickButton(stick, kvp.Key);
                     int itemToSelect = -1;
                     if(setRelation.Count>MainStructure.VisualLayer)
                     {
@@ -1031,9 +1031,9 @@ namespace JoyPro
                 List<string> reformers = new List<string>();
                 for (int i = 0; i < parts.Length - 1; ++i)
                 {
-                    if (InternalDataMangement.AllModifiers.ContainsKey(parts[i]))
+                    if (InternalDataManagement.AllModifiers.ContainsKey(parts[i]))
                     {
-                        reformers.Add(InternalDataMangement.AllModifiers[parts[i]].toReformerString());
+                        reformers.Add(InternalDataManagement.AllModifiers[parts[i]].toReformerString());
                     }
                     else
                     {
@@ -1042,20 +1042,20 @@ namespace JoyPro
                     }
                 }
                 Bind b = null;
-                if (InternalDataMangement.AllBinds.ContainsKey(relation))
+                if (InternalDataManagement.AllBinds.ContainsKey(relation))
                 {
-                    b = InternalDataMangement.AllBinds[relation];
+                    b = InternalDataManagement.AllBinds[relation];
                 }
                 else
                 {
-                    b = new Bind(InternalDataMangement.AllRelations[relation]);
+                    b = new Bind(InternalDataManagement.AllRelations[relation]);
                 }
                 b.Joystick = stick;
-                if (InternalDataMangement.JoystickAliases.ContainsKey(stick)) b.aliasJoystick = InternalDataMangement.JoystickAliases[stick];
+                if (InternalDataManagement.JoystickAliases.ContainsKey(stick)) b.aliasJoystick = InternalDataManagement.JoystickAliases[stick];
                 if (b.Rl.ISAXIS) b.JAxis = realBtn;
                 else b.JButton = realBtn;
                 b.AllReformers = reformers;
-                InternalDataMangement.AddBind(relation,b);
+                InternalDataManagement.AddBind(relation,b);
             }
             else
             {
@@ -1063,10 +1063,10 @@ namespace JoyPro
                 foreach (var item in e.RemovedItems)
                 {
                     Label l = (Label)item;
-                    InternalDataMangement.RemoveBind(InternalDataMangement.AllBinds[(string)l.Content]);
+                    InternalDataManagement.RemoveBind(InternalDataManagement.AllBinds[(string)l.Content]);
                 }
             }
-            InternalDataMangement.ResyncRelations();
+            InternalDataManagement.ResyncRelations();
         }
         void OpenBindSettings(object sender, EventArgs e)
         {
@@ -1074,7 +1074,7 @@ namespace JoyPro
             if (cb.SelectedIndex < 0) return;
             string stick = deviceLookup[cb];
             string relation = (string)((Label)cb.SelectedItem).Content;
-            Bind b = InternalDataMangement.AllBinds[relation];
+            Bind b = InternalDataManagement.AllBinds[relation];
             if (b.Rl.ISAXIS)
             {
                 BindAxisSetting bas = new BindAxisSetting(b, this);
@@ -1160,33 +1160,33 @@ namespace JoyPro
             CheckBox dvcbUnassigned = new CheckBox();
             dvcbUnassigned.Name = "UNASSIGNED";
             dvcbUnassigned.Content = "UNASSIGNED";
-            dvcbUnassigned.IsChecked = InternalDataMangement.showUnassignedRelations;
+            dvcbUnassigned.IsChecked = InternalDataManagement.showUnassignedRelations;
             dvcbUnassigned.Click += new RoutedEventHandler(DeviceFilterChanged);
             DeviceDropdown.Items.Add(dvcbUnassigned);
 
-            possibleSticks = InternalDataMangement.GetAllPossibleJoysticks();
+            possibleSticks = InternalDataManagement.GetAllPossibleJoysticks();
             possibleSticks.Sort();
-            if (possibleSticks.Count != InternalDataMangement.JoystickActivity.Count)
+            if (possibleSticks.Count != InternalDataManagement.JoystickActivity.Count)
             {
-                InternalDataMangement.JoystickActivity.Clear();
+                InternalDataManagement.JoystickActivity.Clear();
                 for(int i=0; i<possibleSticks.Count; ++i)
                 {
-                    InternalDataMangement.JoystickActivity.Add(possibleSticks[i], true);
+                    InternalDataManagement.JoystickActivity.Add(possibleSticks[i], true);
                 }
             }
-            if (InternalDataMangement.JoystickAliases == null)
-                InternalDataMangement.JoystickAliases = new Dictionary<string, string>();
-            for (int i=0; i< InternalDataMangement.JoystickActivity.Count; ++i)
+            if (InternalDataManagement.JoystickAliases == null)
+                InternalDataManagement.JoystickAliases = new Dictionary<string, string>();
+            for (int i=0; i< InternalDataManagement.JoystickActivity.Count; ++i)
             {
                 CheckBox dvcbItem = new CheckBox();
                 dvcbItem.Name = "d" + i.ToString();
-                string deviceNameToShow = InternalDataMangement.JoystickActivity.ElementAt(i).Key;
-                if (InternalDataMangement.JoystickAliases.ContainsKey(deviceNameToShow) && InternalDataMangement.JoystickAliases[deviceNameToShow].Length > 0)
+                string deviceNameToShow = InternalDataManagement.JoystickActivity.ElementAt(i).Key;
+                if (InternalDataManagement.JoystickAliases.ContainsKey(deviceNameToShow) && InternalDataManagement.JoystickAliases[deviceNameToShow].Length > 0)
                 {
-                    deviceNameToShow = InternalDataMangement.JoystickAliases[deviceNameToShow];
+                    deviceNameToShow = InternalDataManagement.JoystickAliases[deviceNameToShow];
                 }
                 dvcbItem.Content = deviceNameToShow;
-                if (InternalDataMangement.JoystickActivity.ElementAt(i).Value == true)
+                if (InternalDataManagement.JoystickActivity.ElementAt(i).Value == true)
                 {
                     dvcbItem.IsChecked = true;
                 }
@@ -1216,25 +1216,25 @@ namespace JoyPro
             CheckBox cbUnass = new CheckBox();
             cbUnass.Name = "UNASSIGNED";
             cbUnass.Content = "UNASSIGNED";
-            cbUnass.IsChecked = InternalDataMangement.showUnassignedGroups;
+            cbUnass.IsChecked = InternalDataManagement.showUnassignedGroups;
             cbUnass.Click += new RoutedEventHandler(GroupFilterChanged);
             GroupFilterDropdown.Items.Add(cbUnass);
 
-            if (InternalDataMangement.AllGroups.Count != InternalDataMangement.GroupActivity.Count)
+            if (InternalDataManagement.AllGroups.Count != InternalDataManagement.GroupActivity.Count)
             {
-                InternalDataMangement.GroupActivity.Clear();
-                for (int b = 0; b < InternalDataMangement.AllGroups.Count; ++b)
+                InternalDataManagement.GroupActivity.Clear();
+                for (int b = 0; b < InternalDataManagement.AllGroups.Count; ++b)
                 {
-                    InternalDataMangement.GroupActivity.Add(InternalDataMangement.AllGroups[b], true);
+                    InternalDataManagement.GroupActivity.Add(InternalDataManagement.AllGroups[b], true);
                 }
             }
-            if (InternalDataMangement.JoystickAliases == null) InternalDataMangement.JoystickAliases = new Dictionary<string, string>();
-            for (int b=0; b< InternalDataMangement.AllGroups.Count; ++b)
+            if (InternalDataManagement.JoystickAliases == null) InternalDataManagement.JoystickAliases = new Dictionary<string, string>();
+            for (int b=0; b< InternalDataManagement.AllGroups.Count; ++b)
             {
                 CheckBox cbItem = new CheckBox();
                 cbItem.Name = "g" + b.ToString();
-                cbItem.Content = InternalDataMangement.AllGroups[b];
-                if (InternalDataMangement.GroupActivity[InternalDataMangement.AllGroups[b]] == true)
+                cbItem.Content = InternalDataManagement.AllGroups[b];
+                if (InternalDataManagement.GroupActivity[InternalDataManagement.AllGroups[b]] == true)
                     cbItem.IsChecked = true;
                 else
                     cbItem.IsChecked = false;
@@ -1244,7 +1244,7 @@ namespace JoyPro
             
 
             additional = new List<Button>();
-            List<string> allMods = InternalDataMangement.GetAllModsAsString();
+            List<string> allMods = InternalDataManagement.GetAllModsAsString();
             allMods.Add("Delete");
             Grid grid = BaseSetupRelationGrid();
             BackupGrid=grid;
@@ -1311,12 +1311,12 @@ namespace JoyPro
                 groupComboboxes[i] = groupDropdown;
                 groupDropdown.VerticalAlignment = VerticalAlignment.Center;
                 groupDropdown.Width = 150;
-                for(int a=0; a< InternalDataMangement.AllGroups.Count; ++a)
+                for(int a=0; a< InternalDataManagement.AllGroups.Count; ++a)
                 {
                     CheckBox cbxGroup = new CheckBox();
                     cbxGroup.Name = "r" + i.ToString() + "g" + a.ToString();
-                    cbxGroup.Content = InternalDataMangement.AllGroups[a];
-                    if (CURRENTDISPLAYEDRELATION[i].Groups!=null&&CURRENTDISPLAYEDRELATION[i].Groups.Contains(InternalDataMangement.AllGroups[a]))
+                    cbxGroup.Content = InternalDataManagement.AllGroups[a];
+                    if (CURRENTDISPLAYEDRELATION[i].Groups!=null&&CURRENTDISPLAYEDRELATION[i].Groups.Contains(InternalDataManagement.AllGroups[a]))
                         cbxGroup.IsChecked = true;
                     else
                         cbxGroup.IsChecked = false;
@@ -1329,7 +1329,7 @@ namespace JoyPro
                 groupDropdown.MouseEnter += new MouseEventHandler(OnHover);
                 groupDropdown.MouseLeave += new MouseEventHandler(OnLeave);
 
-                Bind currentBind = InternalDataMangement.GetBindForRelation(CURRENTDISPLAYEDRELATION[i].NAME);
+                Bind currentBind = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[i].NAME);
 
                 Label joystickPick = new Label();
                 joystickPick.Name = "joyLbl" + i.ToString();
@@ -1339,9 +1339,9 @@ namespace JoyPro
                 if (currentBind != null)
                 {                 
 
-                     if (InternalDataMangement.JoystickAliases.ContainsKey(currentBind.Joystick) && InternalDataMangement.JoystickAliases[currentBind.Joystick].Length > 0)
+                     if (InternalDataManagement.JoystickAliases.ContainsKey(currentBind.Joystick) && InternalDataManagement.JoystickAliases[currentBind.Joystick].Length > 0)
                      {
-                         joystickPick.Content = InternalDataMangement.JoystickAliases[currentBind.Joystick];
+                         joystickPick.Content = InternalDataManagement.JoystickAliases[currentBind.Joystick];
                      }
                      else
                      {
@@ -1763,12 +1763,12 @@ namespace JoyPro
             if (CURRENTDISPLAYEDRELATION[relIndex].Groups == null) CURRENTDISPLAYEDRELATION[relIndex].Groups = new List<string>();
             if (((CheckBox)sender).IsChecked == true)
             {
-                if(!CURRENTDISPLAYEDRELATION[relIndex].Groups.Contains(InternalDataMangement.AllGroups[grpIndex]))
-                CURRENTDISPLAYEDRELATION[relIndex].Groups.Add(InternalDataMangement.AllGroups[grpIndex]);
+                if(!CURRENTDISPLAYEDRELATION[relIndex].Groups.Contains(InternalDataManagement.AllGroups[grpIndex]))
+                CURRENTDISPLAYEDRELATION[relIndex].Groups.Add(InternalDataManagement.AllGroups[grpIndex]);
             }
             else
             {
-                InternalDataMangement.RemoveGroupFromSpecificRelation(CURRENTDISPLAYEDRELATION[relIndex].NAME, InternalDataMangement.AllGroups[grpIndex]);
+                InternalDataManagement.RemoveGroupFromSpecificRelation(CURRENTDISPLAYEDRELATION[relIndex].NAME, InternalDataManagement.AllGroups[grpIndex]);
             }
         }
         void duplicateRelation(object sender, EventArgs e)
@@ -1780,7 +1780,7 @@ namespace JoyPro
         public void duplicateRelation(Relation r)
         {
             string name = r.NAME;
-            while (InternalDataMangement.DoesRelationAlreadyExist(name))
+            while (InternalDataManagement.DoesRelationAlreadyExist(name))
             {
                 name = name + "1";
             }
@@ -1788,9 +1788,9 @@ namespace JoyPro
             nw.NAME = name;
             if (nw.bind != null)
             {
-                InternalDataMangement.AddBind(nw.NAME, nw.bind);
+                InternalDataManagement.AddBind(nw.NAME, nw.bind);
             }
-            InternalDataMangement.AddRelation(nw);
+            InternalDataManagement.AddRelation(nw);
         }
         public void CleanText(object sender, EventArgs e)
         {
@@ -1830,7 +1830,7 @@ namespace JoyPro
                 selectedSort2 = selectedSort1;
                 selectedSort1 = "NAME_NORM";
             }
-            InternalDataMangement.ResyncRelations();
+            InternalDataManagement.ResyncRelations();
         }
         void sortStick(object o, EventArgs e)
         {
@@ -1844,7 +1844,7 @@ namespace JoyPro
                 selectedSort2 = selectedSort1;
                 selectedSort1 = "STICK_NORM";
             }
-            InternalDataMangement.ResyncRelations();
+            InternalDataManagement.ResyncRelations();
         }
         void sortBtn(object o, EventArgs e)
         {
@@ -1859,7 +1859,7 @@ namespace JoyPro
                 selectedSort2 = selectedSort1;
                 selectedSort1 = "BTN_NORM";
             }
-            InternalDataMangement.ResyncRelations();
+            InternalDataManagement.ResyncRelations();
         }
         void SetHeadersForScrollView()
         {
@@ -1972,11 +1972,11 @@ namespace JoyPro
         {
             CheckBox cx = (CheckBox)sender;
             int indx = Convert.ToInt32(cx.Name.Replace("cbxrel", ""));
-            Bind cr = InternalDataMangement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            Bind cr = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (cr == null)
             {
                 cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
-                InternalDataMangement.AddBind(cr.Rl.NAME, cr);
+                InternalDataManagement.AddBind(cr.Rl.NAME, cr);
             }
             cr.Inverted = cx.IsChecked;
         }
@@ -1984,11 +1984,11 @@ namespace JoyPro
         {
             CheckBox cx = (CheckBox)sender;
             int indx = Convert.ToInt32(cx.Name.Replace("cbxsrel", ""));
-            Bind cr = InternalDataMangement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            Bind cr = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (cr == null)
             {
                 cr = new Bind(CURRENTDISPLAYEDRELATION[indx]);
-                InternalDataMangement.AddBind(cr.Rl.NAME, cr);
+                InternalDataManagement.AddBind(cr.Rl.NAME, cr);
             }
             cr.Slider = cx.IsChecked;
         }
@@ -1996,7 +1996,7 @@ namespace JoyPro
         {
             TextBox cx = (TextBox)sender;
             int indx = Convert.ToInt32(cx.Name.Replace("txrlsatx", ""));
-            Bind cr = InternalDataMangement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            Bind cr = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (cr == null)
             {
                 if (cx.Text.Length > 0)
@@ -2005,7 +2005,7 @@ namespace JoyPro
                 }
                 else
                 {
-                    InternalDataMangement.ResyncRelations();
+                    InternalDataManagement.ResyncRelations();
                 }
 
                 return;
@@ -2025,13 +2025,13 @@ namespace JoyPro
         {
             TextBox cx = (TextBox)sender;
             int indx = Convert.ToInt32(cx.Name.Replace("txrlsaty", ""));
-            Bind cr = InternalDataMangement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            Bind cr = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (cr == null)
             {
                 if (cx.Text.Length > 0)
                     MessageBox.Show("Please set first the button or the axis.");
                 else
-                    InternalDataMangement.ResyncRelations();
+                    InternalDataManagement.ResyncRelations();
                 return;
             }
             if (cx.Text.Length < 1 || cx.Text.Replace(" ", "") == ".") return;
@@ -2049,13 +2049,13 @@ namespace JoyPro
         {
             TextBox cx = (TextBox)sender;
             int indx = Convert.ToInt32(cx.Name.Replace("txrlsacv", ""));
-            Bind cr = InternalDataMangement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            Bind cr = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (cr == null)
             {
                 if (cx.Text.Length > 0)
                     MessageBox.Show("Please set first the button or the axis.");
                 else
-                    InternalDataMangement.ResyncRelations();
+                    InternalDataManagement.ResyncRelations();
                 return;
             }
             if (cx.Text.Length < 1 || cx.Text.Replace(" ", "") == ".") return;
@@ -2081,13 +2081,13 @@ namespace JoyPro
         {
             TextBox cx = (TextBox)sender;
             int indx = Convert.ToInt32(cx.Name.Replace("txrldz", ""));
-            Bind cr = InternalDataMangement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
+            Bind cr = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
             if (cr == null)
             {
                 if (cx.Text.Length > 0)
                     MessageBox.Show("Please set first the button or the axis.");
                 else
-                    InternalDataMangement.ResyncRelations();
+                    InternalDataManagement.ResyncRelations();
                 return;
             }
             if (cx.Text.Length < 1 || cx.Text.Replace(" ", "") == ".") return;
@@ -2110,7 +2110,7 @@ namespace JoyPro
             Window s = (Window)sender;
             ALLWINDOWS.Remove((Window)sender);
             ActivateInputs();
-            InternalDataMangement.ResyncRelations();
+            InternalDataManagement.ResyncRelations();
         }
         void OpenRelation(object sender, EventArgs e)
         {
@@ -2123,7 +2123,7 @@ namespace JoyPro
         void FirstStart()
         {
             MainStructure.InitProgram();
-            InternalDataMangement.NewFile(true);
+            InternalDataManagement.NewFile(true);
             for (int i = 0; i < ALLBUTTONS.Count; ++i)
                 ALLBUTTONS[i].IsEnabled = false;
             MainStructure.LoadMetaLast();
@@ -2285,7 +2285,7 @@ namespace JoyPro
             {
                 MainStructure.VisualMode = false;
                 VisualAssigningModeBtn.Content = "Visual Mode";
-                InternalDataMangement.ResyncRelations();
+                InternalDataManagement.ResyncRelations();
             }
             else
             {
@@ -2298,7 +2298,7 @@ namespace JoyPro
         {
             int indx = Convert.ToInt32(((Button)sender).Name.Replace("LayerBtn", ""));
             MainStructure.VisualLayer = indx - 1;
-            InternalDataMangement.ResyncRelations();
+            InternalDataManagement.ResyncRelations();
         }
     }
 }

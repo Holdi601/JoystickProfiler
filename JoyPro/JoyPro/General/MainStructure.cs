@@ -29,7 +29,7 @@ namespace JoyPro
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
     public static class MainStructure
     {
-        public const int version = 60;
+        public const int version = 61;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;
@@ -67,7 +67,7 @@ namespace JoyPro
             string pth = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\JoyPro";
             if (File.Exists(pth + "\\last.pr0file"))
             {
-                InternalDataMangement.LoadProfile(pth + "\\last.pr0file");
+                InternalDataManagement.LoadProfile(pth + "\\last.pr0file");
             }
         }
         public static WindowPos GetWindowPosFrom(Window w)
@@ -92,7 +92,7 @@ namespace JoyPro
                 Directory.CreateDirectory(pth);
             }
             WriteToBinaryFile<MetaSave>(pth + "\\meta.info", msave);
-            InternalDataMangement.SaveProfileTo(pth + "\\last.pr0file");
+            InternalDataManagement.SaveProfileTo(pth + "\\last.pr0file");
             WriteToBinaryFile<ManualDatabaseAdditions>(pth + "\\ManualAdditions.bin", DBLogic.ManualDatabase);
 
         }

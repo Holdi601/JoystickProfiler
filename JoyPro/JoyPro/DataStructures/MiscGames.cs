@@ -221,7 +221,7 @@ namespace JoyPro
         {
             if (DCSselectedInstancePath == newInstance) return;
             DCSselectedInstancePath = newInstance;
-            InternalDataMangement.LocalJoysticks = null;
+            InternalDataManagement.LocalJoysticks = null;
             InitGames.InitDCSJoysticks();
             if (MainStructure.msave != null)
             {

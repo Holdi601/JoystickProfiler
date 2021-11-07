@@ -142,7 +142,7 @@ namespace JoyPro
         }
         void CleanRelations(object sender, EventArgs e)
         {
-            var result = InternalDataMangement.CleanAllRelations();
+            var result = InternalDataManagement.CleanAllRelations();
             MessageBox.Show("Relations have been cleaned. Relation Items Removed: "+result.Key.ToString()+"      Aircraft Removed: "+result.Value.ToString());
         }
         void CutStickDefaults(object sender, EventArgs e)
@@ -322,7 +322,7 @@ namespace JoyPro
                 return;
             }
             MainStructure.msave.maxVisualLayers = mxly+1;
-            InternalDataMangement.ResyncRelations();
+            InternalDataManagement.ResyncRelations();
         }
         void ChangeDCSInstanceOverridePath(object sender, EventArgs e)
         {

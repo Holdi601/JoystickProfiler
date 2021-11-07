@@ -283,10 +283,10 @@ namespace JoyPro
                                     }
                                 }
                                 id = id + ";";
-                                if (InternalDataMangement.JoystickAliases.ContainsKey(axesButtonCommandOtherHalfMissing[newId].bp.Joystick) &&
-                                    InternalDataMangement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bp.Joystick].Length > 2)
+                                if (InternalDataManagement.JoystickAliases.ContainsKey(axesButtonCommandOtherHalfMissing[newId].bp.Joystick) &&
+                                    InternalDataManagement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bp.Joystick].Length > 2)
                                 {
-                                    id = id + InternalDataMangement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bp.Joystick];
+                                    id = id + InternalDataManagement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bp.Joystick];
                                 }
 
                                 id = id + "//JP:" + axesButtonCommandOtherHalfMissing[newId].bn.Rl.NAME + ";";
@@ -300,10 +300,10 @@ namespace JoyPro
                                     }
                                 }
                                 id = id + ";";
-                                if (InternalDataMangement.JoystickAliases.ContainsKey(axesButtonCommandOtherHalfMissing[newId].bn.Joystick) &&
-                                    InternalDataMangement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bn.Joystick].Length > 2)
+                                if (InternalDataManagement.JoystickAliases.ContainsKey(axesButtonCommandOtherHalfMissing[newId].bn.Joystick) &&
+                                    InternalDataManagement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bn.Joystick].Length > 2)
                                 {
-                                    id = id + InternalDataMangement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bn.Joystick];
+                                    id = id + InternalDataManagement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bn.Joystick];
                                 }
                             }
                             else
@@ -318,10 +318,10 @@ namespace JoyPro
                                     }
                                 }
                                 id = id + ";";
-                                if (InternalDataMangement.JoystickAliases.ContainsKey(b.Joystick) &&
-                                    InternalDataMangement.JoystickAliases[b.Joystick].Length > 2)
+                                if (InternalDataManagement.JoystickAliases.ContainsKey(b.Joystick) &&
+                                    InternalDataManagement.JoystickAliases[b.Joystick].Length > 2)
                                 {
-                                    id = id + InternalDataMangement.JoystickAliases[b.Joystick];
+                                    id = id + InternalDataManagement.JoystickAliases[b.Joystick];
                                 }
                             }
                         }
@@ -340,10 +340,10 @@ namespace JoyPro
                                     }
                                 }
                                 id = id + ";";
-                                if (InternalDataMangement.JoystickAliases.ContainsKey(axesButtonCommandOtherHalfMissing[newId].bp.Joystick) &&
-                                    InternalDataMangement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bp.Joystick].Length > 2)
+                                if (InternalDataManagement.JoystickAliases.ContainsKey(axesButtonCommandOtherHalfMissing[newId].bp.Joystick) &&
+                                    InternalDataManagement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bp.Joystick].Length > 2)
                                 {
-                                    id = id + InternalDataMangement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bp.Joystick];
+                                    id = id + InternalDataManagement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bp.Joystick];
                                 }
 
                                 id = id + "//JP:" + axesButtonCommandOtherHalfMissing[newId].bn.Rl.NAME + ";";
@@ -357,10 +357,10 @@ namespace JoyPro
                                     }
                                 }
                                 id = id + ";";
-                                if (InternalDataMangement.JoystickAliases.ContainsKey(axesButtonCommandOtherHalfMissing[newId].bn.Joystick) &&
-                                    InternalDataMangement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bn.Joystick].Length > 2)
+                                if (InternalDataManagement.JoystickAliases.ContainsKey(axesButtonCommandOtherHalfMissing[newId].bn.Joystick) &&
+                                    InternalDataManagement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bn.Joystick].Length > 2)
                                 {
-                                    id = id + InternalDataMangement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bn.Joystick];
+                                    id = id + InternalDataManagement.JoystickAliases[axesButtonCommandOtherHalfMissing[newId].bn.Joystick];
                                 }
                             }
                             else
@@ -375,10 +375,10 @@ namespace JoyPro
                                     }
                                 }
                                 id = id + ";";
-                                if (InternalDataMangement.JoystickAliases.ContainsKey(b.Joystick) &&
-                                    InternalDataMangement.JoystickAliases[b.Joystick].Length > 2)
+                                if (InternalDataManagement.JoystickAliases.ContainsKey(b.Joystick) &&
+                                    InternalDataManagement.JoystickAliases[b.Joystick].Length > 2)
                                 {
-                                    id = id + InternalDataMangement.JoystickAliases[b.Joystick];
+                                    id = id + InternalDataManagement.JoystickAliases[b.Joystick];
                                 }
                             }
                         }
@@ -395,10 +395,10 @@ namespace JoyPro
                             }
                         }
                         id = id + ";";
-                        if(InternalDataMangement.JoystickAliases.ContainsKey(b.Joystick)&&
-                            InternalDataMangement.JoystickAliases[b.Joystick].Length > 2)
+                        if(InternalDataManagement.JoystickAliases.ContainsKey(b.Joystick)&&
+                            InternalDataManagement.JoystickAliases[b.Joystick].Length > 2)
                         {
-                            id = id + InternalDataMangement.JoystickAliases[b.Joystick];
+                            id = id + InternalDataManagement.JoystickAliases[b.Joystick];
                         }
                     }
                     if (!result.ContainsKey(newId))
@@ -440,9 +440,9 @@ namespace JoyPro
             else
             {
                 result = "joy";
-                for (int j = 0; j < InternalDataMangement.LocalJoysticks.Length; ++j)
+                for (int j = 0; j < InternalDataManagement.LocalJoysticks.Length; ++j)
                 {
-                    if (joystick == InternalDataMangement.LocalJoysticks[j])
+                    if (joystick == InternalDataManagement.LocalJoysticks[j])
                     {
                         i = j;
                         break;
@@ -614,13 +614,13 @@ namespace JoyPro
             string path = GetInputPath();
             StreamWriter swr = new StreamWriter(path + InputPath + name + ".txt");
             swr.Write(DevicesPreFile);
-            for(int i=0; i<InternalDataMangement.LocalJoysticks.Length-1; ++i)
+            for(int i=0; i< InternalDataManagement.LocalJoysticks.Length-1; ++i)
             {
-                swr.Write(MiscGames.DCSJoyIdToIL2JoyId(InternalDataMangement.LocalJoysticks[i], i)+"|\r\r\n");
+                swr.Write(MiscGames.DCSJoyIdToIL2JoyId(InternalDataManagement.LocalJoysticks[i], i)+"|\r\r\n");
             }
             swr.Write(MiscGames.DCSJoyIdToIL2JoyId(
-                InternalDataMangement.LocalJoysticks[InternalDataMangement.LocalJoysticks.Length-1],
-                InternalDataMangement.LocalJoysticks.Length - 1) + "\r\r");
+                InternalDataManagement.LocalJoysticks[InternalDataManagement.LocalJoysticks.Length-1],
+                InternalDataManagement.LocalJoysticks.Length - 1) + "\r\r");
             swr.Flush();
             swr.Close();
             swr.Dispose();
@@ -844,7 +844,7 @@ namespace JoyPro
                     }
                     int pv = Convert.ToInt32(positive.Split('_')[0].Replace("joy", ""));
                     string stick = IL2Sticks[pv];
-                    string DCSstick = InternalDataMangement.GetJoystickByIL2GUID(stick.Substring(stick.IndexOf("{") + 1).Replace("}", ""));
+                    string DCSstick = InternalDataManagement.GetJoystickByIL2GUID(stick.Substring(stick.IndexOf("{") + 1).Replace("}", ""));
                     string btnInput = ConvertIL2ToDCSButtonAxis(positive);
                     string mod_pos_stick = null, mod_pos_btn = null, mod_neg_stick = null, mod_neg_btn = null, DCSstickneg=null, btnInputneg=null;
                     if (mod_positive != null)
@@ -857,7 +857,7 @@ namespace JoyPro
                         {
                             int mpv = Convert.ToInt32(mod_positive.Split('_')[0].Replace("joy", ""));
                             string tempstick = IL2Sticks[mpv];
-                            mod_pos_stick = InternalDataMangement.GetJoystickByIL2GUID(tempstick.Substring(tempstick.IndexOf("{") + 1).Replace("}", ""));
+                            mod_pos_stick = InternalDataManagement.GetJoystickByIL2GUID(tempstick.Substring(tempstick.IndexOf("{") + 1).Replace("}", ""));
                         }
                         
                         mod_pos_btn = ConvertIL2ToDCSButtonAxis(mod_positive);
@@ -866,7 +866,7 @@ namespace JoyPro
                     {
                         int mpv = Convert.ToInt32(negative.Split('_')[0].Replace("joy", ""));
                         string tempstick = IL2Sticks[mpv];
-                        DCSstickneg = InternalDataMangement.GetJoystickByIL2GUID(tempstick.Substring(tempstick.IndexOf("{") + 1).Replace("}", ""));
+                        DCSstickneg = InternalDataManagement.GetJoystickByIL2GUID(tempstick.Substring(tempstick.IndexOf("{") + 1).Replace("}", ""));
                         btnInputneg = ConvertIL2ToDCSButtonAxis(negative);
                         if (mod_negative != null)
                         {
@@ -874,7 +874,7 @@ namespace JoyPro
                             {
                                 int mpvn = Convert.ToInt32(mod_negative.Split('_')[0].Replace("joy", ""));
                                 tempstick = IL2Sticks[mpvn];
-                                mod_neg_stick = InternalDataMangement.GetJoystickByIL2GUID(tempstick.Substring(tempstick.IndexOf("{") + 1).Replace("}", ""));
+                                mod_neg_stick = InternalDataManagement.GetJoystickByIL2GUID(tempstick.Substring(tempstick.IndexOf("{") + 1).Replace("}", ""));
                             }
                             else
                             {
@@ -944,7 +944,7 @@ namespace JoyPro
                             
                             if (jpName.Length>1&&positive==jppositive&&mod_positive==jpmod_positive)
                             {
-                                bpos = InternalDataMangement.GetBindForRelation(jpName);
+                                bpos = InternalDataManagement.GetBindForRelation(jpName);
                                 if (bpos != null)
                                 {
 
@@ -976,14 +976,14 @@ namespace JoyPro
                                             for (int k = 0; k < groupsp.Length; ++k)
                                             {
                                                 r.Groups.Add(groupsp[k]);
-                                                if (!InternalDataMangement.AllGroups.Contains(groupsp[k]))
+                                                if (!InternalDataManagement.AllGroups.Contains(groupsp[k]))
                                                 {
-                                                    InternalDataMangement.AllGroups.Add(groupsp[k]);
+                                                    InternalDataManagement.AllGroups.Add(groupsp[k]);
                                                 }
                                             }
                                         }
                                         string name = bpos.Rl.NAME;
-                                        while (InternalDataMangement.AllRelations.ContainsKey(name))
+                                        while (InternalDataManagement.AllRelations.ContainsKey(name))
                                         {
                                             name += "ILGAME(COPY)";
                                         }
@@ -1022,14 +1022,14 @@ namespace JoyPro
                                         if (jAlias.Length > 1)
                                         {
                                             b.aliasJoystick = jAlias;
-                                            if (!InternalDataMangement.JoystickAliases.ContainsKey(DCSstick))
-                                                InternalDataMangement.JoystickAliases.Add(DCSstick, jAlias);
+                                            if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstick))
+                                                InternalDataManagement.JoystickAliases.Add(DCSstick, jAlias);
                                             else
-                                                b.aliasJoystick = InternalDataMangement.JoystickAliases[DCSstick];
+                                                b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstick];
                                         }
 
-                                        InternalDataMangement.AllBinds.Add(r.NAME, b);
-                                        InternalDataMangement.AllRelations.Add(r.NAME, r);
+                                        InternalDataManagement.AllBinds.Add(r.NAME, b);
+                                        InternalDataManagement.AllRelations.Add(r.NAME, r);
                                         //Create new Relation with different name
                                     }
                                 }
@@ -1051,14 +1051,14 @@ namespace JoyPro
                                         for (int k = 0; k < groupsp.Length; ++k)
                                         {
                                             r.Groups.Add(groupsp[k]);
-                                            if (!InternalDataMangement.AllGroups.Contains(groupsp[k]))
+                                            if (!InternalDataManagement.AllGroups.Contains(groupsp[k]))
                                             {
-                                                InternalDataMangement.AllGroups.Add(groupsp[k]);
+                                                InternalDataManagement.AllGroups.Add(groupsp[k]);
                                             }
                                         }
                                     }
                                     string name = jpName;
-                                    while (InternalDataMangement.GetBindForRelation(name) != null)
+                                    while (InternalDataManagement.GetBindForRelation(name) != null)
                                     {
                                         name = name + "1";
                                     }
@@ -1097,20 +1097,20 @@ namespace JoyPro
                                     if (jAlias.Length > 1)
                                     {
                                         b.aliasJoystick = jAlias;
-                                        if (!InternalDataMangement.JoystickAliases.ContainsKey(DCSstick))
-                                            InternalDataMangement.JoystickAliases.Add(DCSstick, jAlias);
+                                        if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstick))
+                                            InternalDataManagement.JoystickAliases.Add(DCSstick, jAlias);
                                         else
-                                            b.aliasJoystick = InternalDataMangement.JoystickAliases[DCSstick];
+                                            b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstick];
                                     }
 
-                                    InternalDataMangement.AllBinds.Add(r.NAME, b);
-                                    InternalDataMangement.AllRelations.Add(r.NAME, r);
+                                    InternalDataManagement.AllBinds.Add(r.NAME, b);
+                                    InternalDataManagement.AllRelations.Add(r.NAME, r);
                                 }
                                 noMatchPos = false;
                             }
                             if ((jp2Name!=null&&jp2Name.Length > 1 && negative == jpnegative && mod_negative == jpmod_negative))
                             {
-                                bneg = InternalDataMangement.GetBindForRelation(jp2Name);
+                                bneg = InternalDataManagement.GetBindForRelation(jp2Name);
                                 if (bneg != null)
                                 {
 
@@ -1142,14 +1142,14 @@ namespace JoyPro
                                             for (int k = 0; k < groupsp.Length; ++k)
                                             {
                                                 r.Groups.Add(groupsp[k]);
-                                                if (!InternalDataMangement.AllGroups.Contains(groupsp[k]))
+                                                if (!InternalDataManagement.AllGroups.Contains(groupsp[k]))
                                                 {
-                                                    InternalDataMangement.AllGroups.Add(groupsp[k]);
+                                                    InternalDataManagement.AllGroups.Add(groupsp[k]);
                                                 }
                                             }
                                         }
                                         string name = bneg.Rl.NAME;
-                                        while (InternalDataMangement.AllRelations.ContainsKey(name))
+                                        while (InternalDataManagement.AllRelations.ContainsKey(name))
                                         {
                                             name += "ILGAME(COPY)";
                                         }
@@ -1188,14 +1188,14 @@ namespace JoyPro
                                         if (alias_neg.Length > 1)
                                         {
                                             b.aliasJoystick = alias_neg;
-                                            if (!InternalDataMangement.JoystickAliases.ContainsKey(DCSstickneg))
-                                                InternalDataMangement.JoystickAliases.Add(DCSstickneg, alias_neg);
+                                            if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstickneg))
+                                                InternalDataManagement.JoystickAliases.Add(DCSstickneg, alias_neg);
                                             else
-                                                b.aliasJoystick = InternalDataMangement.JoystickAliases[DCSstickneg];
+                                                b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstickneg];
                                         }
 
-                                        InternalDataMangement.AllBinds.Add(r.NAME, b);
-                                        InternalDataMangement.AllRelations.Add(r.NAME, r);
+                                        InternalDataManagement.AllBinds.Add(r.NAME, b);
+                                        InternalDataManagement.AllRelations.Add(r.NAME, r);
                                         //Create new Relation with different name
                                     }
                                 }
@@ -1217,9 +1217,9 @@ namespace JoyPro
                                         for (int k = 0; k < groupsp.Length; ++k)
                                         {
                                             r.Groups.Add(groupsp[k]);
-                                            if (!InternalDataMangement.AllGroups.Contains(groupsp[k]))
+                                            if (!InternalDataManagement.AllGroups.Contains(groupsp[k]))
                                             {
-                                                InternalDataMangement.AllGroups.Add(groupsp[k]);
+                                                InternalDataManagement.AllGroups.Add(groupsp[k]);
                                             }
                                         }
                                     }
@@ -1259,13 +1259,13 @@ namespace JoyPro
                                     if (alias_neg.Length > 1)
                                     {
                                         b.aliasJoystick = alias_neg;
-                                        if (!InternalDataMangement.JoystickAliases.ContainsKey(DCSstickneg))
-                                            InternalDataMangement.JoystickAliases.Add(DCSstickneg, alias_neg);
+                                        if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstickneg))
+                                            InternalDataManagement.JoystickAliases.Add(DCSstickneg, alias_neg);
                                         else
-                                            b.aliasJoystick = InternalDataMangement.JoystickAliases[DCSstickneg];
+                                            b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstickneg];
                                     }
-                                    InternalDataMangement.AllBinds.Add(r.NAME, b);
-                                    InternalDataMangement.AllRelations.Add(r.NAME, r);
+                                    InternalDataManagement.AllBinds.Add(r.NAME, b);
+                                    InternalDataManagement.AllRelations.Add(r.NAME, r);
                                 }
                                 noMatchNeg = false;
                             }
@@ -1306,14 +1306,14 @@ namespace JoyPro
                         Bind bT = null;
                         if (axis)
                         {
-                            List<Bind> matchingb = InternalDataMangement.GetBindsByJoystickAndKey(DCSstick, btnInput, axis, toSendInv, sliderToSend, Bind.SaturationX_Default, Bind.SaturationY_Default, deadZoneToSet);
+                            List<Bind> matchingb = InternalDataManagement.GetBindsByJoystickAndKey(DCSstick, btnInput, axis, toSendInv, sliderToSend, Bind.SaturationX_Default, Bind.SaturationY_Default, deadZoneToSet);
                             if (matchingb.Count > 0) bT = matchingb[0];
                         }
                         else
                         {
-                            string rlname= InternalDataMangement.GetRelationNameForJostickButton(DCSstick, rawPositive);
+                            string rlname= InternalDataManagement.GetRelationNameForJostickButton(DCSstick, rawPositive);
                             if (rlname != null)
-                                bT = InternalDataMangement.GetBindForRelation(rlname);
+                                bT = InternalDataManagement.GetBindForRelation(rlname);
                         }
                         
                         if (bT != null)
@@ -1327,7 +1327,7 @@ namespace JoyPro
                             r.ISAXIS = axis;
                             string shorten = MainStructure.ShortenDeviceName(DCSstick);
                             shorten = shorten + btnInput;
-                            while (InternalDataMangement.AllRelations.ContainsKey(shorten))
+                            while (InternalDataManagement.AllRelations.ContainsKey(shorten))
                             {
                                 shorten += "1";
                             }
@@ -1357,24 +1357,24 @@ namespace JoyPro
                                     b.AllReformers.Add(reformer);
                             }
 
-                            InternalDataMangement.AllBinds.Add(r.NAME, b);
-                            InternalDataMangement.AllRelations.Add(r.NAME, r);
+                            InternalDataManagement.AllBinds.Add(r.NAME, b);
+                            InternalDataManagement.AllRelations.Add(r.NAME, r);
                         }
-                        InternalDataMangement.ResyncRelations();
+                        InternalDataManagement.ResyncRelations();
                     }
                     if (noMatchNeg&&negative!=null)
                     {
                         Bind bT = null;
                         if (axis)
                         {
-                            List<Bind> matchingb = InternalDataMangement.GetBindsByJoystickAndKey(DCSstickneg, btnInputneg, axis, toSendInv, sliderToSend, Bind.SaturationX_Default, Bind.SaturationY_Default, deadZoneToSet);
+                            List<Bind> matchingb = InternalDataManagement.GetBindsByJoystickAndKey(DCSstickneg, btnInputneg, axis, toSendInv, sliderToSend, Bind.SaturationX_Default, Bind.SaturationY_Default, deadZoneToSet);
                             if (matchingb.Count > 0) bT = matchingb[0];
                         }
                         else
                         {
-                            string rlname = InternalDataMangement.GetRelationNameForJostickButton(DCSstick, rawNegative);
+                            string rlname = InternalDataManagement.GetRelationNameForJostickButton(DCSstick, rawNegative);
                             if (rlname != null)
-                                bT = InternalDataMangement.GetBindForRelation(rlname);
+                                bT = InternalDataManagement.GetBindForRelation(rlname);
                         }
                         if (bT != null)
                         {
@@ -1387,7 +1387,7 @@ namespace JoyPro
                             r.ISAXIS = axis;
                             string shorten = MainStructure.ShortenDeviceName(DCSstickneg);
                             shorten = shorten + btnInputneg;
-                            while (InternalDataMangement.AllRelations.ContainsKey(shorten))
+                            while (InternalDataManagement.AllRelations.ContainsKey(shorten))
                             {
                                 shorten += "1";
                             }
@@ -1416,10 +1416,10 @@ namespace JoyPro
                                 if (!b.AllReformers.Contains(reformer))
                                     b.AllReformers.Add(reformer);
                             }
-                            InternalDataMangement.AllBinds.Add(r.NAME, b);
-                            InternalDataMangement.AllRelations.Add(r.NAME, r);
+                            InternalDataManagement.AllBinds.Add(r.NAME, b);
+                            InternalDataManagement.AllRelations.Add(r.NAME, r);
                         }
-                        InternalDataMangement.ResyncRelations();
+                        InternalDataManagement.ResyncRelations();
                     }
                 }
                 

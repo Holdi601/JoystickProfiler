@@ -59,7 +59,7 @@ namespace JoyPro
 
         void rfsh(object sender, EventArgs e)
         {
-            InternalDataMangement.ResyncRelations();
+            InternalDataManagement.ResyncRelations();
         }
     }
 }
