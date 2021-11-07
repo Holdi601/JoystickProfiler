@@ -2283,7 +2283,7 @@ namespace JoyPro
         {
             if (!overlay_opened)
             {
-                OverlayWindow ow = new OverlayWindow();
+                ow = new OverlayWindow();
                 ow.Show();
                 ow.Closing += new CancelEventHandler(CloseOverlay);
                 MainStructure.OverlayWorker.overlay = ow;
