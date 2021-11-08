@@ -139,17 +139,22 @@ namespace JoyPro
                     {
                         if (MainStructure.msave.OvldebugMode)
                         {
-                            overlay.shownLabels[0].Content = "Current Game: " + CurrentGame + "\t\tCurrent Plane: " + CurrentPlane;
+                            if (overlay.shownLabels[0] != null)
+                                overlay.shownLabels[0].Content = "Current Game: " + CurrentGame + "             Current Plane: " + CurrentPlane;
                         }
                         for (int i = 0; i < TextTimeAlive.Length; ++i)
                         {
-                            if (TextTimeAlive[i] != null)
+                            if (overlay.shownLabels[i + 1] != null)
                             {
-                                overlay.shownLabels[i+1].Content = TextTimeAlive[i].Text;
-                            }
-                            else
-                            {
-                                overlay.shownLabels[i+1].Content = "";
+
+                                if (TextTimeAlive[i] != null)
+                                {
+                                    overlay.shownLabels[i + 1].Content = TextTimeAlive[i].Text;
+                                }
+                                else
+                                {
+                                    overlay.shownLabels[i + 1].Content = "";
+                                }
                             }
                         }
                     }));

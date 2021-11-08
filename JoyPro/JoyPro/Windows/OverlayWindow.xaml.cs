@@ -40,14 +40,14 @@ namespace JoyPro
             {
                 MainStructure.msave = new MetaSave();
             }
-            shownLabels = new Label[MainStructure.msave.OvlElementsToShow+1];
+            shownLabels = new Label[MainStructure.msave.OvlElementsToShow+2];
             this.Deactivated += new EventHandler(Window_Deactivated);
             this.MouseLeftButtonDown += new MouseButtonEventHandler(LMBDown);
             this.PreviewKeyUp += new KeyEventHandler(KBHandler);
             sv.MouseLeftButtonDown += new MouseButtonEventHandler(LMBDown);
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
-            ClosingLabel.MouseLeftButtonUp += new MouseButtonEventHandler(CloseThis);
+            CloseBtn.Click += new RoutedEventHandler(CloseThis);
             MoveLabel.MouseLeftButtonDown += new MouseButtonEventHandler(LMBDown);
             mGrid = setupMainGrid();
             setupLabels();
@@ -69,7 +69,7 @@ namespace JoyPro
                 Grid.SetRow(shownLabels[0], 0);
                 mGrid.Children.Add(shownLabels[0]);
             }
-            for(int i=1; i< MainStructure.msave.OvlElementsToShow; i++)
+            for(int i=1; i< MainStructure.msave.OvlElementsToShow+1; i++)
             {
                 shownLabels[i] = new Label();
                 shownLabels[i].FontSize = MainStructure.msave.OvlTxtS;
@@ -102,12 +102,21 @@ namespace JoyPro
 
         void LMBDown(object sender, MouseButtonEventArgs e)
         {
-            this.DragMove();
+            try
+            {
+                this.DragMove();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
         }
 
         void CloseThis(object sender, EventArgs e)
         {
             Close();
+            
         }
 
         void KBHandler(object sender, KeyEventArgs e)
