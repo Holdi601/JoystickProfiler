@@ -39,8 +39,8 @@ namespace JoyPro
         public int additionModulesToScan;
         WindowPos overlaySW = null;
         WindowPos overlayW=null;
-        public int OvlH;
-        public int OvlW;
+        public double OvlH;
+        public double OvlW;
         public string Font { get; set; }
         private byte r, g, b, a;
         WindowPos collectSticks=null;
@@ -419,7 +419,7 @@ namespace JoyPro
         public bool OvlFade;
         public int TextTimeAlive;
         public bool OvlBtnChangeMode;
-        public bool stackedMode;
+        public bool OvldebugMode;
 
         public const int default_modulesToScan = 40;
         public const int default_timeToSet = 5000;

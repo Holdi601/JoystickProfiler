@@ -42,8 +42,8 @@ namespace JoyPro
             {
                 MainStructure.msave = new MetaSave();
             }
-            HeighTF.Text = MainStructure.msave.OvlH.ToString();
-            WidthTF.Text = MainStructure.msave.OvlW.ToString();
+            HeighTF.Text = MainStructure.msave._OverlayWindow.Height.ToString();
+            WidthTF.Text = MainStructure.msave._OverlayWindow.Width.ToString();
             TextSizeTF.Text = MainStructure.msave.OvlTxtS.ToString();
             ElementsToShowTF.Text = MainStructure.msave.OvlElementsToShow.ToString();
             PollTimeTF.Text = MainStructure.msave.OvlPollTime.ToString();
@@ -61,7 +61,7 @@ namespace JoyPro
             FontDropdown.ItemsSource = fonts;
             FadeButtonsCB.IsChecked = MainStructure.msave.OvlFade;
             ChangeButtonModeCB.IsChecked = MainStructure.msave.OvlBtnChangeMode;
-            StackedModeCB.IsChecked = MainStructure.msave.stackedMode;
+            StackedModeCB.IsChecked = MainStructure.msave.OvldebugMode;
             if(fontSelectIndex>=0)FontDropdown.SelectedIndex = fontSelectIndex;
             ColorPickerBtn.Click += new RoutedEventHandler(OpenColorPicker);
             WidthTF.LostFocus += new RoutedEventHandler(WidthLostFocus);
@@ -78,6 +78,7 @@ namespace JoyPro
             TimeAliveTF.LostFocus += new RoutedEventHandler(TimeAliveLostFocus);
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
+            UninstallScriptBtn.Click += new RoutedEventHandler(UninstallScript);
         }
         void OpenColorPicker(object sender, EventArgs e)
         {
@@ -90,7 +91,7 @@ namespace JoyPro
 
         void WidthLostFocus(object sender, EventArgs e)
         {
-            if(!int.TryParse(WidthTF.Text, out MainStructure.msave.OvlW))
+            if(!double.TryParse(WidthTF.Text, out MainStructure.msave._OverlayWindow.Width))
             {
                 System.Windows.MessageBox.Show("Not a Valid integer for Width");
             }
@@ -107,7 +108,7 @@ namespace JoyPro
 
         void HeightLostFocus(object sender, EventArgs e)
         {
-            if (!int.TryParse(HeighTF.Text, out MainStructure.msave.OvlH))
+            if (!double.TryParse(HeighTF.Text, out MainStructure.msave._OverlayWindow.Height))
             {
                 System.Windows.MessageBox.Show("Not a Valid integer for Height");
             }
@@ -209,13 +210,59 @@ namespace JoyPro
 
         void StackedModeChange(object sender, EventArgs e)
         {
-            if (StackedModeCB.IsChecked == true) MainStructure.msave.stackedMode = true;
-            else MainStructure.msave.stackedMode = false;
+            if (StackedModeCB.IsChecked == true) MainStructure.msave.OvldebugMode = true;
+            else MainStructure.msave.OvldebugMode = false;
         }
 
         void CloseThis(object sender, EventArgs e)
         {
             Close();
+        }
+
+        void UninstallScript(object sender, EventArgs e)
+        {
+            StreamReader sr = new StreamReader(MainStructure.PROGPATH + "\\Tools\\DCSLuaSocket\\Addative.lua");
+            string contentAddative = sr.ReadToEnd();
+            sr.Close();
+            sr.Dispose();
+            string selectedPath;
+            if (MainStructure.msave.DCSInstaceOverride != null && Directory.Exists(MainStructure.msave.DCSInstaceOverride))
+            {
+                selectedPath = MainStructure.msave.DCSInstaceOverride;
+            }
+            else
+            {
+                selectedPath = MiscGames.DCSselectedInstancePath;
+            }
+            string luaContent = "";
+            if (File.Exists(selectedPath + "\\Scripts\\Export.lua"))
+            {
+                StreamReader srExp = new StreamReader(selectedPath + "\\Scripts\\Export.lua");
+                luaContent = srExp.ReadToEnd();
+                srExp.Close();
+                srExp.Dispose();
+            }
+            if (luaContent.Contains(contentAddative))
+            {
+                try
+                {
+                    luaContent = luaContent.Replace(contentAddative, "");
+                    StreamWriter sw = new StreamWriter(selectedPath + "\\Scripts\\Export.lua");
+                    sw.WriteLine(luaContent);
+                    sw.Close();
+                    sw.Dispose();
+                    System.Windows.MessageBox.Show("Script was installed successfully");
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show(ex.Message);
+                }
+
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Script was already uninstalled");
+            }
         }
 
         void InstallDCSScript(object sender, EventArgs e)

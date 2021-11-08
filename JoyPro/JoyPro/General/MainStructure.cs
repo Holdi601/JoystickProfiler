@@ -18,10 +18,6 @@ using System.Threading;
 
 namespace JoyPro
 {
-
-    //IL2 steam path registry 
-    //Computer\HKEY_CURRENT_USER\System\GameConfigStore\Children\92e042fb-d93a-46df-8872-04039ab6d802
-    //Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 307960
     public enum Game { DCS, StarCitizen }
     public enum JoystickAxis { JOY_X, JOY_Y, JOY_Z, JOY_RX, JOY_RY, JOY_RZ, JOY_SLIDER1, JOY_SLIDER2, NONE }
     public enum LuaDataType { String, Number, Dict, Bool, Error };
@@ -29,7 +25,7 @@ namespace JoyPro
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
     public static class MainStructure
     {
-        public const int version = 63;
+        public const int version = 64;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;
@@ -91,14 +87,13 @@ namespace JoyPro
             {
                 Directory.CreateDirectory(pth);
             }
-            WriteToBinaryFile<MetaSave>(pth + "\\meta.info", msave);
+            WriteToBinaryFile(pth + "\\meta.info", msave);
             InternalDataManagement.SaveProfileTo(pth + "\\last.pr0file");
-            WriteToBinaryFile<ManualDatabaseAdditions>(pth + "\\ManualAdditions.bin", DBLogic.ManualDatabase);
-
+            WriteToBinaryFile(pth + "\\ManualAdditions.bin", DBLogic.ManualDatabase);
         }
         public static void SaveWindowState(object sender, EventArgs e)
         {
-            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            if (msave == null) msave = new MetaSave();
             if (sender != null && sender is Window)
             {
                 WindowPos p = GetWindowPosFrom((Window)sender);

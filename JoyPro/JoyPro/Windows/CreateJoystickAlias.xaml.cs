@@ -47,6 +47,7 @@ namespace JoyPro
             if (InternalDataManagement.JoystickAliases.ContainsKey(original)) NewAliasTF.Text = InternalDataManagement.JoystickAliases[original];
             RestoreBtn.Click += new RoutedEventHandler(RestoreOriginal);
             ApplyBtn.Click += new RoutedEventHandler(ApplyChange);
+            this.Closing += new System.ComponentModel.CancelEventHandler(ActionsOnClosing);
         }
 
         void RestoreOriginal(object sender, EventArgs e)
@@ -82,6 +83,11 @@ namespace JoyPro
                 InternalDataManagement.JoystickAliases.Add(originalName, NewAliasTF.Text);
             }
             CloseCreateJoystickAlias(sender, e);
+        }
+
+        void ActionsOnClosing(object sender, EventArgs e)
+        {
+            InternalDataManagement.ResyncRelations();
         }
 
         void CloseCreateJoystickAlias(object sender, EventArgs e)

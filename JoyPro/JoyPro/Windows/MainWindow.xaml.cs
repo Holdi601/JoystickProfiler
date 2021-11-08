@@ -898,9 +898,18 @@ namespace JoyPro
                 string pth = InternalDataManagement.JoystickFileImages.ElementAt(i).Value;
                 if (!pth.EndsWith(".layout")) continue;
                 TabItem tabItem = new TabItem();
-                tabItem.Header=stick;
+                
                 ScrollViewer sver = new ScrollViewer();
+                if (InternalDataManagement.JoystickAliases.ContainsKey(stick))
+                {
+                    tabItem.Header = InternalDataManagement.JoystickAliases[stick];
+                }
+                else
+                {
+                    tabItem.Header = stick;
+                }
                 tabItem.Content = sver;
+                tabItem.MouseRightButtonUp += new MouseButtonEventHandler(OpenJoystickCreateAliasVisual);
                 tc.Items.Add(tabItem);
                 sver.ScrollChanged += new ScrollChangedEventHandler(VisualScrollChanged);
                 tc.SelectionChanged += new SelectionChangedEventHandler(VisualTabSelectionChanged);
@@ -1041,6 +1050,8 @@ namespace JoyPro
             }
             sv.Content = tc;
         }
+
+        
 
         void VisualTabSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -1780,6 +1791,17 @@ namespace JoyPro
             mja.Closing += new CancelEventHandler(WindowClosing);
             mja.Show();
         }
+
+        void OpenJoystickCreateAliasVisual(object sender, MouseButtonEventArgs e)
+        {
+            DisableInputs();
+            CreateJoystickAlias cja = new CreateJoystickAlias(visualLastJoystickSelected);
+            ALLWINDOWS.Add(cja);
+            cja.Show();
+
+            cja.Closing += new CancelEventHandler(WindowClosing);
+        }
+
         void OpenJoystickCreateAlias(object sender, EventArgs e)
         {
             DisableInputs();
@@ -2307,13 +2329,12 @@ namespace JoyPro
                 MainStructure.DisplayDispatcherWorker.Name = "DisplayDispatcher";
                 MainStructure.DisplayDispatcherWorker.Start();
                 overlay_opened = true;
+                OverlayBtn.Background = Brushes.Orange;
             }
             else
             {
-                overlay_opened = false;
-                ow.Close();
+                ow.Close();   
             }
-            
         }
         void CloseOverlay(object sender, EventArgs e)
         {
@@ -2323,6 +2344,8 @@ namespace JoyPro
             MainStructure.DisplayDispatcherWorker.Abort();
             MainStructure.DisplayBackgroundWorker.Abort();
             MainStructure.joystickInputRead.Abort();
+            OverlayBtn.Background = Brushes.White;
+            overlay_opened = false;
         }
         void ShutThreads(object sender, EventArgs e)
         {

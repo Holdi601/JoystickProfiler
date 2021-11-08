@@ -11,6 +11,12 @@
         <SolidColorBrush Opacity="0.0" Color="White"/>
     </Window.Background>
     <Grid >
-        <ScrollViewer Name="sv" ScrollViewer.HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Name="sv" ScrollViewer.HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Grid.RowSpan="1" Grid.Row="1"/>
+        <Label Name="ClosingLabel" Content="X" Foreground="OrangeRed" Grid.Row="0" HorizontalAlignment="Left" FontSize="30"/>
+        <Label Name="MoveLabel" Content="☻" Foreground="White" Grid.Row="0" HorizontalAlignment="Left" FontSize="30" Margin="30,0,0,0"/>
     </Grid>
 </Window>

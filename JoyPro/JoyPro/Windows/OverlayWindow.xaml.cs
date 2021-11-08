@@ -33,27 +33,43 @@ namespace JoyPro
             {
                 if (MainStructure.msave._OverlayWindow.Top > 0) this.Top = MainStructure.msave._OverlayWindow.Top;
                 if (MainStructure.msave._OverlayWindow.Left > 0) this.Left = MainStructure.msave._OverlayWindow.Left;
-                if (MainStructure.msave._OverlayWindow.Width > 0) this.Width = Convert.ToDouble(MainStructure.msave.OvlW);
-                if (MainStructure.msave._OverlayWindow.Height > 0) this.Height = Convert.ToDouble(MainStructure.msave.OvlH);
+                if (MainStructure.msave._OverlayWindow.Width > 0) this.Width = MainStructure.msave._OverlayWindow.Width;
+                if (MainStructure.msave._OverlayWindow.Height > 0) this.Height = MainStructure.msave._OverlayWindow.Height;
             }
             else
             {
                 MainStructure.msave = new MetaSave();
             }
-            shownLabels = new Label[MainStructure.msave.OvlElementsToShow];
+            shownLabels = new Label[MainStructure.msave.OvlElementsToShow+1];
             this.Deactivated += new EventHandler(Window_Deactivated);
             this.MouseLeftButtonDown += new MouseButtonEventHandler(LMBDown);
             this.PreviewKeyUp += new KeyEventHandler(KBHandler);
             sv.MouseLeftButtonDown += new MouseButtonEventHandler(LMBDown);
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
+            ClosingLabel.MouseLeftButtonUp += new MouseButtonEventHandler(CloseThis);
+            MoveLabel.MouseLeftButtonDown += new MouseButtonEventHandler(LMBDown);
             mGrid = setupMainGrid();
             setupLabels();
             sv.Content= mGrid;
         }
         void setupLabels()
         {
-            for(int i=0; i< MainStructure.msave.OvlElementsToShow; i++)
+            if (MainStructure.msave.OvldebugMode)
+            {
+                shownLabels[0] = new Label();
+                shownLabels[0].FontSize = MainStructure.msave.OvlTxtS;
+                shownLabels[0].Foreground = MainStructure.msave.ColorSCB;
+                shownLabels[0].FontFamily = new FontFamily(MainStructure.msave.Font);
+                shownLabels[0].HorizontalAlignment = HorizontalAlignment.Left;
+                shownLabels[0].VerticalAlignment = VerticalAlignment.Center;
+                shownLabels[0].Content = "Current Game: \tCurrent Plane: ";
+                shownLabels[0].MouseLeftButtonDown += new MouseButtonEventHandler(LMBDown);
+                Grid.SetColumn(shownLabels[0], 0);
+                Grid.SetRow(shownLabels[0], 0);
+                mGrid.Children.Add(shownLabels[0]);
+            }
+            for(int i=1; i< MainStructure.msave.OvlElementsToShow; i++)
             {
                 shownLabels[i] = new Label();
                 shownLabels[i].FontSize = MainStructure.msave.OvlTxtS;
@@ -87,6 +103,11 @@ namespace JoyPro
         void LMBDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
+        }
+
+        void CloseThis(object sender, EventArgs e)
+        {
+            Close();
         }
 
         void KBHandler(object sender, KeyEventArgs e)

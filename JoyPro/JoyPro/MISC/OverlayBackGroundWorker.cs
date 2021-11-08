@@ -137,15 +137,19 @@ namespace JoyPro
                 if (TextTimeAlive != null)
                     overlay.Dispatcher.Invoke(new Action(() =>
                     {
+                        if (MainStructure.msave.OvldebugMode)
+                        {
+                            overlay.shownLabels[0].Content = "Current Game: " + CurrentGame + "\t\tCurrent Plane: " + CurrentPlane;
+                        }
                         for (int i = 0; i < TextTimeAlive.Length; ++i)
                         {
                             if (TextTimeAlive[i] != null)
                             {
-                                overlay.shownLabels[i].Content = TextTimeAlive[i].Text;
+                                overlay.shownLabels[i+1].Content = TextTimeAlive[i].Text;
                             }
                             else
                             {
-                                overlay.shownLabels[i].Content = "";
+                                overlay.shownLabels[i+1].Content = "";
                             }
                         }
                     }));
@@ -234,7 +238,7 @@ namespace JoyPro
                                 string text = InternalDataManagement.GetTextForPressedButton(kvp.Key, kvp.Value[i], currentPressed, currentPressedNonSwitched);
                                 if (text != null)
                                 {
-                                    if (MainStructure.msave.stackedMode)
+                                    if (MainStructure.msave.OvldebugMode)
                                     {
                                         while (TimeAliveContains(text) >= 0)
                                         {

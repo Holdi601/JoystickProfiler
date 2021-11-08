@@ -30,6 +30,7 @@ namespace JoyPro
 
         void init()
         {
+            this.Deactivated += new EventHandler(Window_Deactivated);
             headerColumns = new List<ColumnDefinition>();
             mainColumns = new List<ColumnDefinition>();
             headerColumnsIds = new List<ColumnDefinition>();
@@ -40,12 +41,22 @@ namespace JoyPro
             CancelRelationBtn.Click += new RoutedEventHandler(CloseThis);
             FinishRelationBtn.Click += new RoutedEventHandler(FinishRelation);
             this.Closing += new System.ComponentModel.CancelEventHandler(OnClosing);
-            if (MainStructure.msave._RelationWindow != null)
+            
+            if (MainStructure.msave._RelationWindow != null && InternalDataManagement.AllRelations.Count>1)
             {
                 if (MainStructure.msave._RelationWindow.Top != -1) this.Top = MainStructure.msave._RelationWindow.Top;
                 if (MainStructure.msave._RelationWindow.Left != -1) this.Left = MainStructure.msave._RelationWindow.Left;
                 if (MainStructure.msave._RelationWindow.Width != -1) this.Width = MainStructure.msave._RelationWindow.Width;
                 if (MainStructure.msave._RelationWindow.Height != -1) this.Height = MainStructure.msave._RelationWindow.Height;
+            }
+            else
+            {
+                MainStructure.msave = new MetaSave();
+            }
+            if (InternalDataManagement.AllRelations.Count < 2)
+            {
+                this.WindowState= WindowState.Maximized;
+                this.Topmost = true;
             }
             svcCont.ScrollChanged += new ScrollChangedEventHandler(scrollChanged);
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
@@ -79,6 +90,11 @@ namespace JoyPro
         {
             InitializeComponent();
             init();
+        }
+        private void Window_Deactivated(object sender, EventArgs e)
+        {
+            Window window = (Window)sender;
+            window.Topmost = true;
         }
         void setLastSizeAndPosition()
         {
