@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -57,7 +58,6 @@ namespace JoyPro
         List<Button> additional;
         int gridCols;
         List<string> possibleSticks;
-        Grid BackupGrid;
         Dictionary<string, LayoutFile> usedImages;
         Dictionary<string, Dictionary<string, ComboBox>> renderedComboBoxes;
         Dictionary<ComboBox, string> deviceLookup;
@@ -69,13 +69,14 @@ namespace JoyPro
 
         public MainWindow()
         {
+            
             Stopwatch stopwatch = new Stopwatch();
             usedImages = new Dictionary<string, LayoutFile>();
             renderedComboBoxes = new Dictionary<string, Dictionary<string, ComboBox>>();
             deviceLookup = new Dictionary<ComboBox, string>();
             stopwatch.Start();
-            //AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
-            //Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
+            Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
             InitializeComponent();
             DEFAULT_HEIGHT = this.Height;
             DEFAULT_WIDTH = this.Width;
@@ -93,6 +94,10 @@ namespace JoyPro
             selectedSort1 = "NAME_NORM";
             selectedSort2 = "STICK_NORM";
             selectedSort3 = "BTN_NORM";
+            scaleTBox.Text = MainStructure.ScaleFactor.ToString();
+            scaleLbl.Visibility = Visibility.Hidden;
+            scaleTBox.Visibility = Visibility.Hidden;
+            
             stopwatch.Stop();
             Console.WriteLine("Startup Time: "+stopwatch.ElapsedMilliseconds.ToString() + "ms");
             this.Closing += new CancelEventHandler(ShutThreads);
@@ -163,6 +168,7 @@ namespace JoyPro
             SearchQueryRelationName.LostFocus += new RoutedEventHandler(FilterSearchResult);
             SearchQueryRelationName.KeyUp += new KeyEventHandler(FilterSearchConfirm);
             CBNukeUnused.Click += new RoutedEventHandler(MainStructure.SaveWindowState);
+            scaleTBox.LostFocus += new RoutedEventHandler(SetNewScaleFactor);
         }
         void SetupDropDownsEventHandlers()
         {
@@ -312,7 +318,10 @@ namespace JoyPro
             else
                 param = true;
 
-            InternalDataManagement.WriteProfileCleanNotOverwriteLocal(param);
+            PlanesToExport pex = new PlanesToExport(ExportMode.WriteCleanNotOverride, param);
+            pex.Show();
+            DisableInputs();
+            pex.Closing+= new CancelEventHandler(ActivateInputs);
         }
         void LoadExistingExportOverwrite(object sender, EventArgs e)
         {
@@ -326,7 +335,11 @@ namespace JoyPro
                 param = false;
             else
                 param = true;
-            InternalDataManagement.WriteProfileCleanAndLoadedOverwritten(param);
+
+            PlanesToExport pex = new PlanesToExport(ExportMode.WriteCleanOverride, param);
+            pex.Show();
+            DisableInputs();
+            pex.Closing += new CancelEventHandler(ActivateInputs);
         }
         void LoadExistingExportAndAdd(object sender, EventArgs e)
         {
@@ -340,7 +353,12 @@ namespace JoyPro
                 param = false;
             else
                 param = true;
-            InternalDataManagement.WriteProfileCleanAndLoadedOverwrittenAndAdd(param);
+
+            PlanesToExport pex = new PlanesToExport(ExportMode.WriteCleanAdd, param);
+            pex.Show();
+            DisableInputs();
+            pex.Closing += new CancelEventHandler(ActivateInputs);
+            
         }
         void CleanAndExport(object sender, EventArgs e)
         {
@@ -349,7 +367,12 @@ namespace JoyPro
             bool nukeDevices = false;
             if (CBNukeUnused.IsChecked == true)
                 nukeDevices = true;
-            InternalDataManagement.WriteProfileClean(nukeDevices);
+
+            PlanesToExport pex = new PlanesToExport(ExportMode.WriteClean, nukeDevices);
+            pex.Show();
+            DisableInputs();
+            pex.Closing += new CancelEventHandler(ActivateInputs);
+            
         }
         void OpenSaveProfile(object sender, EventArgs e)
         {
@@ -886,6 +909,17 @@ namespace JoyPro
 
             InternalDataManagement.ResyncRelations();
         }
+
+        public System.Drawing.Bitmap ResizeBitmap(System.Drawing.Bitmap bmp, int width, int height)
+        {
+            System.Drawing.Bitmap result = new System.Drawing.Bitmap(width, height);
+            using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(result))
+            {
+                g.DrawImage(bmp, 0, 0, width, height);
+            }
+
+            return result;
+        }
         void RefreshVisualRelations()
         {
             SetupLayerController();
@@ -928,12 +962,13 @@ namespace JoyPro
                 {
                     lf = MainStructure.ReadFromBinaryFile<LayoutFile>(pth);
                 }
-                bgImg = new ImageBrush(CreateBitMapSourceFromBitmap(lf.backup));
+                System.Drawing.Bitmap scaled = ResizeBitmap(lf.backup, Convert.ToInt32(lf.backup.Width * MainStructure.ScaleFactor), Convert.ToInt32(lf.backup.Height * MainStructure.ScaleFactor));
+                bgImg = new ImageBrush(CreateBitMapSourceFromBitmap(scaled));
                 Grid grid = new Grid();
                 ColumnDefinition colDef = new ColumnDefinition();
                 RowDefinition rowDef = new RowDefinition();
-                colDef.MinWidth=lf.backup.Width;
-                rowDef.MinHeight=lf.backup.Height;
+                colDef.MinWidth= scaled.Width;
+                rowDef.MinHeight= scaled.Height;
                 grid.ColumnDefinitions.Add(colDef);
                 grid.RowDefinitions.Add(rowDef);
                 bgImg.Stretch = Stretch.None;
@@ -952,28 +987,28 @@ namespace JoyPro
                 lb.Content = "REMOVE BINDING";
                 axisRelations.Add(lb);
                 buttonRelations.Add(lb);
-                foreach (KeyValuePair<string, Relation> kvpRel in InternalDataManagement.AllRelations)
+                foreach (Relation kvpRel in CURRENTDISPLAYEDRELATION)
                 {
-                    if (kvpRel.Value.ISAXIS)
+                    if (kvpRel.ISAXIS)
                     {
                         Label lbl = new Label();
-                        lbl.FontSize = lf.Size;
+                        lbl.FontSize = lf.Size*MainStructure.ScaleFactor;
                         lbl.Foreground = lf.ColorSCB;
                         lbl.FontFamily = new FontFamily(lf.Font);
                         lbl.HorizontalAlignment = HorizontalAlignment.Left;
                         lbl.VerticalAlignment = VerticalAlignment.Center;
-                        lbl.Content = kvpRel.Key;
+                        lbl.Content = kvpRel.NAME;
                         axisRelations.Add(lbl);
                     }
                     else
                     {
                         Label lbl = new Label();
-                        lbl.FontSize = lf.Size;
+                        lbl.FontSize = lf.Size * MainStructure.ScaleFactor;
                         lbl.Foreground = lf.ColorSCB;
                         lbl.FontFamily = new FontFamily(lf.Font);
                         lbl.HorizontalAlignment = HorizontalAlignment.Left;
                         lbl.VerticalAlignment = VerticalAlignment.Center;
-                        lbl.Content = kvpRel.Key;
+                        lbl.Content = kvpRel.NAME;
                         buttonRelations.Add(lbl);
                     }
                 }
@@ -1021,11 +1056,11 @@ namespace JoyPro
                     if (deviceLookup.ContainsKey(cb)) deviceLookup[cb] = stick;
                     else deviceLookup.Add(cb, stick);
                     cb.Name = kvp.Key;
-                    cb.Width = lf.Size * 10;
-                    cb.Height = lf.Size + 10;
+                    cb.Width = (lf.Size * 10) * MainStructure.ScaleFactor;
+                    cb.Height = (lf.Size + 10)*MainStructure.ScaleFactor;
                     cb.HorizontalAlignment = HorizontalAlignment.Left;
                     cb.VerticalAlignment = VerticalAlignment.Top;
-                    cb.Margin = new Thickness(kvp.Value.X, kvp.Value.Y, 0, 0);
+                    cb.Margin = new Thickness(kvp.Value.X*MainStructure.ScaleFactor, kvp.Value.Y * MainStructure.ScaleFactor, 0, 0);
                     Grid.SetColumn(cb, 0);
                     Grid.SetRow(cb, 0);
                     cb.SelectionChanged += new SelectionChangedEventHandler(selectionChanged);
@@ -1190,7 +1225,8 @@ namespace JoyPro
             }
             svHeader.Content = g;
         }
-        void RefreshRelationsToShow()
+
+        void RefreshDropDowns()
         {
             DeviceDropdown.Items.Clear();
             CheckBox dvcbAll = new CheckBox();
@@ -1219,14 +1255,14 @@ namespace JoyPro
             if (possibleSticks.Count != InternalDataManagement.JoystickActivity.Count)
             {
                 InternalDataManagement.JoystickActivity.Clear();
-                for(int i=0; i<possibleSticks.Count; ++i)
+                for (int i = 0; i < possibleSticks.Count; ++i)
                 {
                     InternalDataManagement.JoystickActivity.Add(possibleSticks[i], true);
                 }
             }
             if (InternalDataManagement.JoystickAliases == null)
                 InternalDataManagement.JoystickAliases = new Dictionary<string, string>();
-            for (int i=0; i< InternalDataManagement.JoystickActivity.Count; ++i)
+            for (int i = 0; i < InternalDataManagement.JoystickActivity.Count; ++i)
             {
                 CheckBox dvcbItem = new CheckBox();
                 dvcbItem.Name = "d" + i.ToString();
@@ -1279,7 +1315,7 @@ namespace JoyPro
                 }
             }
             if (InternalDataManagement.JoystickAliases == null) InternalDataManagement.JoystickAliases = new Dictionary<string, string>();
-            for (int b=0; b< InternalDataManagement.AllGroups.Count; ++b)
+            for (int b = 0; b < InternalDataManagement.AllGroups.Count; ++b)
             {
                 CheckBox cbItem = new CheckBox();
                 cbItem.Name = "g" + b.ToString();
@@ -1291,13 +1327,109 @@ namespace JoyPro
                 cbItem.Click += new RoutedEventHandler(GroupFilterChanged);
                 GroupFilterDropdown.Items.Add(cbItem);
             }
+
+            PlaneDropdown.Items.Clear();
+            CheckBox cbpAll = new CheckBox();
+            cbpAll.Name = "ALL";
+            cbpAll.Content = "ALL";
+            cbpAll.IsChecked = false;
+            cbpAll.Click += new RoutedEventHandler(PlaneFilterChanged);
+            PlaneDropdown.Items.Add(cbpAll);
+
+            CheckBox cbpNone = new CheckBox();
+            cbpNone.Name = "NONE";
+            cbpNone.Content = "NONE";
+            cbpNone.IsChecked = false;
+            cbpNone.Click += new RoutedEventHandler(PlaneFilterChanged);
+            PlaneDropdown.Items.Add(cbpNone);
+
+            for(int i = 0; i < DBLogic.Planes.Count; ++i)
+            {
+                CheckBox cbgpAll = new CheckBox();
+                cbgpAll.Name = "ALL";
+                cbgpAll.Content = DBLogic.Planes.ElementAt(i).Key+":"+"ALL";
+                cbgpAll.IsChecked = false;
+                cbgpAll.Click += new RoutedEventHandler(PlaneFilterChanged);
+                PlaneDropdown.Items.Add(cbgpAll);
+
+                CheckBox cbgpNone = new CheckBox();
+                cbgpNone.Name = "NONE";
+                cbgpNone.Content = DBLogic.Planes.ElementAt(i).Key + ":" + "NONE";
+                cbgpNone.IsChecked = false;
+                cbgpNone.Click += new RoutedEventHandler(PlaneFilterChanged);
+                PlaneDropdown.Items.Add(cbgpNone);
+            }
+
+            for (int i = 0; i < DBLogic.Planes.Count; ++i)
+            {
+                for(int j = 0; j < DBLogic.Planes.ElementAt(i).Value.Count; ++j)
+                {
+                    CheckBox pln = new CheckBox();
+                    pln.Name = "plane";
+                    string k = DBLogic.Planes.ElementAt(i).Key + ":" + DBLogic.Planes.ElementAt(i).Value[j];
+                    pln.Content = k;
+                    pln.IsChecked = InternalDataManagement.PlaneActivity[k];
+                    pln.Click += new RoutedEventHandler(PlaneFilterChanged);
+                    PlaneDropdown.Items.Add(pln);
+                }
+            }
+
+        }
+        private void PlaneFilterChanged(object sender, RoutedEventArgs e)
+        {
+            CheckBox sndr = (CheckBox)sender;
+            if ((string)sndr.Content == "ALL")
+            {
+                for(int i=0; i<InternalDataManagement.PlaneActivity.Count; ++i)
+                {
+                    string key = InternalDataManagement.PlaneActivity.ElementAt(i).Key;
+                    InternalDataManagement.PlaneActivity[key] = true;
+                }
+            }else if ((string)sndr.Content == "NONE")
+            {
+                for (int i = 0; i < InternalDataManagement.PlaneActivity.Count; ++i)
+                {
+                    string key = InternalDataManagement.PlaneActivity.ElementAt(i).Key;
+                    InternalDataManagement.PlaneActivity[key] = false;
+                }
+            }
+            else if (((string)sndr.Content).Contains(":ALL"))
+            {
+                string game = ((string)sndr.Content).Substring(0, ((string)sndr.Content).IndexOf(':'));
+                for (int i = 0; i < InternalDataManagement.PlaneActivity.Count; ++i)
+                {
+                    string key = InternalDataManagement.PlaneActivity.ElementAt(i).Key;
+                    if(key.StartsWith(game))InternalDataManagement.PlaneActivity[key] = true;
+                }
+            }
+            else if (((string)sndr.Content).Contains(":NONE"))
+            {
+                string game = ((string)sndr.Content).Substring(0, ((string)sndr.Content).IndexOf(':'));
+                for (int i = 0; i < InternalDataManagement.PlaneActivity.Count; ++i)
+                {
+                    string key = InternalDataManagement.PlaneActivity.ElementAt(i).Key;
+                    if (key.StartsWith(game)) InternalDataManagement.PlaneActivity[key] = true;
+                }
+            }
+            else
+            {
+                string key = ((string)sndr.Content);
+                if (sndr.IsChecked == true)
+                    InternalDataManagement.PlaneActivity[key] = true;
+                else
+                    InternalDataManagement.PlaneActivity[key] = false;
+            }
+            InternalDataManagement.ResyncRelations();
+        }
+
+        void RefreshRelationsToShow()
+        {
             
 
             additional = new List<Button>();
             List<string> allMods = InternalDataManagement.GetAllModsAsString();
             allMods.Add("Delete");
             Grid grid = BaseSetupRelationGrid();
-            BackupGrid=grid;
             for (int i = 0; i < CURRENTDISPLAYEDRELATION.Count; i++)
             {
                 Label lblName = new Label();
@@ -1868,8 +2000,10 @@ namespace JoyPro
         public void SetRelationsToView(List<Relation> li)
         {
             CURRENTDISPLAYEDRELATION = li;
+            RefreshDropDowns();
             if (!MainStructure.VisualMode)
             {
+
                 RefreshRelationsToShow();
                 SetHeadersForScrollView();
             }
@@ -2301,7 +2435,7 @@ namespace JoyPro
             os.Show();
             os.Closing += new CancelEventHandler(ActivateInputs);
         }
-        void OpenOverlay(object sender, EventArgs e)
+        public void OpenOverlay(object sender, EventArgs e)
         {
             if (!overlay_opened)
             {
@@ -2362,12 +2496,17 @@ namespace JoyPro
         {
             if (MainStructure.VisualMode)
             {
+                scaleTBox.Visibility = Visibility.Hidden;
+                scaleLbl.Visibility = Visibility.Hidden;
                 MainStructure.VisualMode = false;
                 VisualAssigningModeBtn.Content = "Visual Mode";
                 InternalDataManagement.ResyncRelations();
             }
             else
             {
+                scaleTBox.Visibility = Visibility.Visible;
+                scaleLbl.Visibility = Visibility.Visible;
+                scaleTBox.Text = MainStructure.ScaleFactor.ToString();
                 CollectSticksForVisual csfv = new CollectSticksForVisual();
                 csfv.Show();
                 VisualAssigningModeBtn.Content = "Table Mode";
@@ -2378,6 +2517,19 @@ namespace JoyPro
             int indx = Convert.ToInt32(((Button)sender).Name.Replace("LayerBtn", ""));
             MainStructure.VisualLayer = indx - 1;
             InternalDataManagement.ResyncRelations();
+        }
+
+        void SetNewScaleFactor(object sender, EventArgs e)
+        {
+            try
+            {
+                MainStructure.ScaleFactor = Convert.ToDouble(scaleTBox.Text, new CultureInfo("en-US"));
+                InternalDataManagement.ResyncRelations();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Not a valid double");
+            }
         }
     }
 }

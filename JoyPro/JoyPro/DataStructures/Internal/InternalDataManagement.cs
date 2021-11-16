@@ -21,6 +21,7 @@ namespace JoyPro
         public static List<string> AllGroups = new List<string>();
         public static Dictionary<string, bool> GroupActivity = new Dictionary<string, bool>();
         public static Dictionary<string, bool> JoystickActivity = new Dictionary<string, bool>();
+        public static Dictionary<string, bool> PlaneActivity = new Dictionary<string, bool>();
         public static Dictionary<string, string> JoystickAliases = new Dictionary<string, string>();
         public static string[] LocalJoysticks;
         public static Dictionary<string, Modifier> AllModifiers = new Dictionary<string, Modifier>();
@@ -28,6 +29,7 @@ namespace JoyPro
         public static Dictionary<string, string> JoystickFileImages = new Dictionary<string, string>();
         public static string JoystickLayoutExport=null;
         public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> CurrentButtonMapping= new ConcurrentDictionary<string, ConcurrentDictionary<string, string>>();
+        public static Dictionary<string, Dictionary<string, string>> PlaneAliases = new Dictionary<string, Dictionary<string,string>>();
 
 
         public static void CorrectModifiersInBinds()
@@ -446,6 +448,8 @@ namespace JoyPro
                 AllRelations = pr.Relations;
                 AllBinds = pr.Binds;
                 JoystickAliases = pr.JoystickAliases;
+                PlaneAliases = pr.PlaneAliases;
+                if (PlaneAliases == null) PlaneAliases = new Dictionary<string, Dictionary<string, string>>();
                 JoystickFileImages = pr.JoystickFileImages;
                 JoystickLayoutExport = pr.JoystickLayoutExport;
                 if (pr.LastSelectedDCSInstance != null && Directory.Exists(pr.LastSelectedDCSInstance))
@@ -590,7 +594,7 @@ namespace JoyPro
         }
         public static void SaveProfileTo(string filePath)
         {
-            Pr0file pr = new Pr0file(AllRelations, AllBinds, MiscGames.DCSselectedInstancePath, JoystickAliases);
+            Pr0file pr = new Pr0file(AllRelations, AllBinds, MiscGames.DCSselectedInstancePath, JoystickAliases,PlaneAliases);
             pr.JoystickAliases= JoystickAliases;
             pr.JoystickFileImages = JoystickFileImages;
             pr.JoystickLayoutExport = JoystickLayoutExport;
@@ -768,11 +772,35 @@ namespace JoyPro
             li = FilterGroups(li);
             li = FilterDevices(li);
             li = FilterWords(li);
+            li= FilterPlanes(li);
             MainStructure.mainW.SetRelationsToView(li);
+        }
+        static List<Relation> FilterPlanes(List<Relation> temp)
+        {
+            if (PlaneActivity == null || PlaneActivity.Count == 0 || temp == null) return temp;
+            List<Relation> toReturn = new List<Relation>();
+            for (int i = 0; i < temp.Count; ++i)
+            {
+                bool found = false;
+                for(int j = 0; j < PlaneActivity.Count; ++j)
+                {
+                    if (PlaneActivity.ElementAt(j).Value)
+                    {
+                        string[] parts = PlaneActivity.ElementAt(j).Key.Split(':');
+                        if (temp[i].GetPlaneRelationState(parts[1], parts[0]) > 0)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if(found)
+                    toReturn.Add(temp[i]);
+            }
+            return toReturn;
         }
         static List<Relation> FilterWords(List<Relation> temp)
         {
-
             if (RelationWordFilter == null || RelationWordFilter.Length == 0 || temp == null) return temp;
             List<Relation> toReturn = new List<Relation>();
             for (int i = 0; i < temp.Count; ++i)
@@ -990,51 +1018,64 @@ namespace JoyPro
                 result.Add(kvp.Value);
             return result;
         }
-        public static void WriteProfileClean(bool nukeDevices)
+        public static void WriteProfileClean(bool nukeDevices, Dictionary<string, List<string>> Planes)
         {
-            DCSIOLogic.WriteProfileClean(nukeDevices);
-            List<Bind> Il2Binds = new List<Bind>();
-            foreach(KeyValuePair<string, Bind> kvp in AllBinds) {
-                if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
-                    Il2Binds.Add(kvp.Value);
+            if (Planes.ContainsKey("DCS"))DCSIOLogic.WriteProfileClean(nukeDevices,Planes["DCS"]);
+            if (Planes.ContainsKey("IL2Game"))
+            {
+                List<Bind> Il2Binds = new List<Bind>();
+                foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+                {
+                    if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
+                        Il2Binds.Add(kvp.Value);
+                }
+                IL2IOLogic.WriteOut(Il2Binds, OutputType.Clean);
             }
-            IL2IOLogic.WriteOut(Il2Binds, OutputType.Clean);
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
-        public static void WriteProfileCleanAndLoadedOverwrittenAndAdd(bool fillBeforeEmpty)
+        public static void WriteProfileCleanAndLoadedOverwrittenAndAdd(bool fillBeforeEmpty, Dictionary<string,List<string>> Planes)
         {
-            DCSIOLogic.WriteProfileCleanAndLoadedOverwrittenAndAdd(fillBeforeEmpty);
-            List<Bind> Il2Binds = new List<Bind>();
-            foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+            if(Planes.ContainsKey("DCS"))DCSIOLogic.WriteProfileCleanAndLoadedOverwrittenAndAdd(fillBeforeEmpty,Planes["DCS"]);
+            if (Planes.ContainsKey("IL2Game"))
             {
-                if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
-                    Il2Binds.Add(kvp.Value);
+                List<Bind> Il2Binds = new List<Bind>();
+                foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+                {
+                    if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
+                        Il2Binds.Add(kvp.Value);
+                }
+                IL2IOLogic.WriteOut(Il2Binds, OutputType.Add);
             }
-            IL2IOLogic.WriteOut(Il2Binds, OutputType.Add);
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
-        public static void WriteProfileCleanNotOverwriteLocal(bool fillBeforeEmpty)
+        public static void WriteProfileCleanNotOverwriteLocal(bool fillBeforeEmpty, Dictionary<string, List<string>> Planes)
         {
-            DCSIOLogic.WriteProfileCleanNotOverwriteLocal(fillBeforeEmpty);
-            List<Bind> Il2Binds = new List<Bind>();
-            foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+            if (Planes.ContainsKey("DCS"))DCSIOLogic.WriteProfileCleanNotOverwriteLocal(fillBeforeEmpty,Planes["DCS"]);
+            if (Planes.ContainsKey("IL2Game"))
             {
-                if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
-                    Il2Binds.Add(kvp.Value);
+                List<Bind> Il2Binds = new List<Bind>();
+                foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+                {
+                    if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
+                        Il2Binds.Add(kvp.Value);
+                }
+                IL2IOLogic.WriteOut(Il2Binds, OutputType.Merge);
             }
-            IL2IOLogic.WriteOut(Il2Binds, OutputType.Merge);
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
-        public static void WriteProfileCleanAndLoadedOverwritten(bool fillBeforeEmpty)
+        public static void WriteProfileCleanAndLoadedOverwritten(bool fillBeforeEmpty, Dictionary<string, List<string>> Planes)
         {
-            DCSIOLogic.WriteProfileCleanAndLoadedOverwritten(fillBeforeEmpty);
-            List<Bind> Il2Binds = new List<Bind>();
-            foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+            if (Planes.ContainsKey("DCS")) DCSIOLogic.WriteProfileCleanAndLoadedOverwritten(fillBeforeEmpty,Planes["DCS"]);
+            if (Planes.ContainsKey("IL2Game"))
             {
-                if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
-                    Il2Binds.Add(kvp.Value);
+                List<Bind> Il2Binds = new List<Bind>();
+                foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+                {
+                    if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
+                        Il2Binds.Add(kvp.Value);
+                }
+                IL2IOLogic.WriteOut(Il2Binds, OutputType.MergeOverwrite);
             }
-            IL2IOLogic.WriteOut(Il2Binds, OutputType.MergeOverwrite);
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
         static bool modifiersMetaUnqueal(List<string> listA, List<string> listB)
@@ -1097,6 +1138,20 @@ namespace JoyPro
                     return LocalJoysticks[i];
                 }
             }
+            
+            return null;
+        }
+        public static string GetJoystickByName(string name)
+        {
+            for (int i = 0; i < LocalJoysticks.Length; ++i)
+            {
+                string localcut = LocalJoysticks[i].Substring(0, LocalJoysticks[i].IndexOf("{")-1);
+                if(localcut.ToLower().Trim() == name.ToLower().Trim())
+                {
+                    return LocalJoysticks[i];
+                }
+            }
+
             return null;
         }
         public static void PrintOverviewToCsv(List<Relation> toPrint, string file)
@@ -1405,6 +1460,7 @@ namespace JoyPro
             bool isAxis;
             string realBtn;
             string[] modSplit = null;
+            int modCount = 0;
             if (ModBtn.Contains('+'))
             {
                 modSplit = ModBtn.Split('+');
@@ -1413,6 +1469,7 @@ namespace JoyPro
                 for (int i = 0; i < shortend.Length; ++i)
                     shortend[i] = modSplit[i];
                 modSplit = shortend;
+                modCount=modSplit.Length;
             }
             else
             {
@@ -1422,7 +1479,8 @@ namespace JoyPro
             else isAxis = true;
             foreach (KeyValuePair<string, Bind> kvp in AllBinds)
             {
-                if (kvp.Value.Joystick == Joystick && ((isAxis && realBtn == kvp.Value.JAxis) || (!isAxis && realBtn == kvp.Value.JButton)))
+                if (kvp.Value.AllReformers == null) kvp.Value.AllReformers = new List<string>();
+                if (kvp.Value.Joystick == Joystick && ((isAxis && realBtn == kvp.Value.JAxis) || (!isAxis && realBtn == kvp.Value.JButton))&&modCount==kvp.Value.AllReformers.Count)
                 {
                     if (modSplit != null)
                     {

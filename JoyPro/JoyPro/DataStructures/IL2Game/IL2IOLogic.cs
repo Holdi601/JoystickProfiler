@@ -786,6 +786,19 @@ namespace JoyPro
             }
             return null;
         }
+
+        public static string GetDCSNameForStick(string guid, string rawstick)
+        {
+            string DCSstick = InternalDataManagement.GetJoystickByIL2GUID(guid); ;
+            if(DCSstick == null)
+            {
+                DCSstick = rawstick.Split('{')[0] + "{";
+                string[] parameterCells = guid.Split('-');
+                DCSstick = DCSstick + parameterCells[0].ToUpper() + "-" + parameterCells[1].ToUpper() + "-" + parameterCells[2].ToLower() + "N0TF-0000000000000000";
+            }
+            return DCSstick;
+        }
+
         public static void ImportInputs(bool sensitivity, bool deadzone, bool inverted)
         {
             if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
@@ -844,7 +857,7 @@ namespace JoyPro
                     }
                     int pv = Convert.ToInt32(positive.Split('_')[0].Replace("joy", ""));
                     string stick = IL2Sticks[pv];
-                    string DCSstick = InternalDataManagement.GetJoystickByIL2GUID(stick.Substring(stick.IndexOf("{") + 1).Replace("}", ""));
+                    string DCSstick = GetDCSNameForStick(stick.Substring(stick.IndexOf("{") + 1).Replace("}", ""),stick);
                     string btnInput = ConvertIL2ToDCSButtonAxis(positive);
                     string mod_pos_stick = null, mod_pos_btn = null, mod_neg_stick = null, mod_neg_btn = null, DCSstickneg=null, btnInputneg=null;
                     if (mod_positive != null)
@@ -857,7 +870,7 @@ namespace JoyPro
                         {
                             int mpv = Convert.ToInt32(mod_positive.Split('_')[0].Replace("joy", ""));
                             string tempstick = IL2Sticks[mpv];
-                            mod_pos_stick = InternalDataManagement.GetJoystickByIL2GUID(tempstick.Substring(tempstick.IndexOf("{") + 1).Replace("}", ""));
+                            mod_pos_stick = GetDCSNameForStick(tempstick.Substring(tempstick.IndexOf("{") + 1).Replace("}", ""),tempstick);
                         }
                         
                         mod_pos_btn = ConvertIL2ToDCSButtonAxis(mod_positive);
@@ -866,7 +879,7 @@ namespace JoyPro
                     {
                         int mpv = Convert.ToInt32(negative.Split('_')[0].Replace("joy", ""));
                         string tempstick = IL2Sticks[mpv];
-                        DCSstickneg = InternalDataManagement.GetJoystickByIL2GUID(tempstick.Substring(tempstick.IndexOf("{") + 1).Replace("}", ""));
+                        DCSstickneg = GetDCSNameForStick(tempstick.Substring(tempstick.IndexOf("{") + 1).Replace("}", ""),tempstick);
                         btnInputneg = ConvertIL2ToDCSButtonAxis(negative);
                         if (mod_negative != null)
                         {
@@ -874,7 +887,8 @@ namespace JoyPro
                             {
                                 int mpvn = Convert.ToInt32(mod_negative.Split('_')[0].Replace("joy", ""));
                                 tempstick = IL2Sticks[mpvn];
-                                mod_neg_stick = InternalDataManagement.GetJoystickByIL2GUID(tempstick.Substring(tempstick.IndexOf("{") + 1).Replace("}", ""));
+                                mod_neg_stick = GetDCSNameForStick(tempstick.Substring(tempstick.IndexOf("{") + 1).Replace("}", ""),tempstick);
+                                if (mod_neg_stick == null) mod_neg_stick = InternalDataManagement.GetJoystickByName(tempstick.Substring(0, tempstick.IndexOf("{") - 1));
                             }
                             else
                             {
@@ -1213,13 +1227,16 @@ namespace JoyPro
                                             rawGroupsNeg = rawGroups.Substring(rawGroups.IndexOf('/') + 1);
                                             rawGroups = rawGroups.Substring(0, rawGroups.IndexOf('/'));
                                         }
-                                        string[] groupsp = rawGroupsNeg.Split(',');
-                                        for (int k = 0; k < groupsp.Length; ++k)
+                                        if (rawGroupsNeg != null)
                                         {
-                                            r.Groups.Add(groupsp[k]);
-                                            if (!InternalDataManagement.AllGroups.Contains(groupsp[k]))
+                                            string[] groupsp = rawGroupsNeg.Split(',');
+                                            for (int k = 0; k < groupsp.Length; ++k)
                                             {
-                                                InternalDataManagement.AllGroups.Add(groupsp[k]);
+                                                r.Groups.Add(groupsp[k]);
+                                                if (!InternalDataManagement.AllGroups.Contains(groupsp[k]))
+                                                {
+                                                    InternalDataManagement.AllGroups.Add(groupsp[k]);
+                                                }
                                             }
                                         }
                                     }
@@ -1256,7 +1273,7 @@ namespace JoyPro
                                         if (!b.AllReformers.Contains(reformer))
                                             b.AllReformers.Add(reformer);
                                     }
-                                    if (alias_neg.Length > 1)
+                                    if (alias_neg!=null&&alias_neg.Length > 1)
                                     {
                                         b.aliasJoystick = alias_neg;
                                         if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstickneg))

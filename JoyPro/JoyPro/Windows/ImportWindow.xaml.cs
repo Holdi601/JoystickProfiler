@@ -89,10 +89,37 @@ namespace JoyPro
                 CBslid.IsChecked = true;
             }
         }
+        List<string> getActivePlanes()
+        {
+            List<string> result = new List<string>();
+            for(int i = 0; i < GamesFilterDropDown.Items.Count; i++)
+            {
+                CheckBox element = (CheckBox)GamesFilterDropDown.Items[i];
+                string content = (string)element.Content;
+                if (!(content == "ALL" || content == "NONE" || content.Contains(":ALL") || content.Contains(":NONE"))&& element.IsChecked == true)
+                {
+                    result.Add(content);
+                }
+            }
+            return result;
+        }
+        Dictionary<string, List<string>> ActiveGamePlaneDict(List<string> rawList)
+        {
+            Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
+            for(int i = 0;i < rawList.Count; i++)
+            {
+                string[] parts = rawList[i].Split(':');
+                if(!result.ContainsKey(parts[0]))result.Add(parts[0], new List<string>());
+                result[parts[0]].Add(parts[1]);
+            }
+            return result;
+        }
         void Import(object sender, EventArgs e)
         {
             MainStructure.msave._ImportWindow = MainStructure.GetWindowPosFrom(this);
             MainStructure.SaveMetaLast();
+            var list = ActiveGamePlaneDict(getActivePlanes());
+            
             bool inv, slid, curv, dz, sx, sy, importDefault;
             if (CBinv.IsChecked == true)
                 inv = true;
@@ -122,9 +149,9 @@ namespace JoyPro
                 importDefault = true;
             else
                 importDefault = false;
-            if(InternalDataManagement.GamesFilter["DCS"])
-                DCSIOLogic.BindsFromLocal(selectedSticks ,importDefault, inv, slid, curv, dz, sx, sy);
-            if (InternalDataManagement.GamesFilter["IL2Game"])
+            if(list.ContainsKey("DCS"))
+                DCSIOLogic.BindsFromLocal(selectedSticks, list["DCS"] ,importDefault, inv, slid, curv, dz, sx, sy);
+            if (list.ContainsKey("IL2Game"))
                 IL2IOLogic.ImportInputs(curv, dz, inv);
             
             Close();
@@ -217,38 +244,130 @@ namespace JoyPro
         private void SetupGamesDropDown()
         {
             GamesFilterDropDown.Items.Clear();
-            if (InternalDataManagement.GamesFilter == null || InternalDataManagement.GamesFilter.Count == 0)
+            CheckBox cbpAll = new CheckBox();
+            cbpAll.Name = "ALL";
+            cbpAll.Content = "ALL";
+            cbpAll.IsChecked = false;
+            cbpAll.Click += new RoutedEventHandler(PlaneFilterChanged);
+            GamesFilterDropDown.Items.Add(cbpAll);
+
+            CheckBox cbpNone = new CheckBox();
+            cbpNone.Name = "NONE";
+            cbpNone.Content = "NONE";
+            cbpNone.IsChecked = false;
+            cbpNone.Click += new RoutedEventHandler(PlaneFilterChanged);
+            GamesFilterDropDown.Items.Add(cbpNone);
+
+            for (int i = 0; i < DBLogic.Planes.Count; ++i)
             {
-                for (int i = 0; i < MiscGames.Games.Count; ++i)
+                CheckBox cbgpAll = new CheckBox();
+                cbgpAll.Name = "ALL";
+                cbgpAll.Content = DBLogic.Planes.ElementAt(i).Key + ":" + "ALL";
+                cbgpAll.IsChecked = false;
+                cbgpAll.Click += new RoutedEventHandler(PlaneFilterChanged);
+                GamesFilterDropDown.Items.Add(cbgpAll);
+
+                CheckBox cbgpNone = new CheckBox();
+                cbgpNone.Name = "NONE";
+                cbgpNone.Content = DBLogic.Planes.ElementAt(i).Key + ":" + "NONE";
+                cbgpNone.IsChecked = false;
+                cbgpNone.Click += new RoutedEventHandler(PlaneFilterChanged);
+                GamesFilterDropDown.Items.Add(cbgpNone);
+            }
+
+            for (int i = 0; i < DBLogic.Planes.Count; ++i)
+            {
+                for (int j = 0; j < DBLogic.Planes.ElementAt(i).Value.Count; ++j)
                 {
-                    InternalDataManagement.GamesFilter.Add(MiscGames.Games[i], true);
+                    CheckBox pln = new CheckBox();
+                    pln.Name = "plane";
+                    string k = DBLogic.Planes.ElementAt(i).Key + ":" + DBLogic.Planes.ElementAt(i).Value[j];
+                    pln.Content = k;
+                    pln.IsChecked = InternalDataManagement.PlaneActivity[k];
+                    pln.Click += new RoutedEventHandler(PlaneFilterChanged);
+                    GamesFilterDropDown.Items.Add(pln);
                 }
             }
-            foreach (KeyValuePair<string, bool> kvp in InternalDataManagement.GamesFilter)
-            {
-                CheckBox cbx = new CheckBox();
-                cbx.Name = kvp.Key + "game";
-                cbx.Content = kvp.Key;
-                cbx.Foreground = Brushes.Black;
-                cbx.IsChecked = kvp.Value;
-                cbx.HorizontalAlignment = HorizontalAlignment.Left;
-                cbx.VerticalAlignment = VerticalAlignment.Center;
-                cbx.Click += new RoutedEventHandler(gameFilterChanged);
-                GamesFilterDropDown.Items.Add(cbx);
-            }
         }
-        private void gameFilterChanged(object sender, EventArgs e)
+
+        private void PlaneFilterChanged(object sender, RoutedEventArgs e)
         {
-            CheckBox cb = (CheckBox)sender;
-            if (cb.IsChecked == true)
+            CheckBox sndr = (CheckBox)sender;
+            if ((string)sndr.Content == "ALL")
             {
-                InternalDataManagement.GamesFilter[(string)cb.Content] = true;
+                for(int i=0; i< GamesFilterDropDown.Items.Count; ++i)
+                {
+                    CheckBox element = (CheckBox)GamesFilterDropDown.Items[i];
+                    string cnt = (string)element.Content;
+                    if (cnt == "ALL" || cnt == "NONE" || cnt.Contains(":ALL") || cnt.Contains(":NONE"))
+                    {
+                        element.IsChecked = false;
+                    }
+                    else
+                    {
+                        element.IsChecked = true;
+                    }
+                }
+            }
+            else if ((string)sndr.Content == "NONE")
+            {
+                for (int i = 0; i < GamesFilterDropDown.Items.Count; ++i)
+                {
+                    CheckBox element = (CheckBox)GamesFilterDropDown.Items[i];
+                    string cnt = (string)element.Content;
+                    if (cnt == "ALL" || cnt == "NONE" || cnt.Contains(":ALL") || cnt.Contains(":NONE"))
+                    {
+                        element.IsChecked = false;
+                    }
+                    else
+                    {
+                        element.IsChecked = false;
+                    }
+                }
+            }
+            else if (((string)sndr.Content).Contains(":ALL"))
+            {
+                string game = ((string)sndr.Content).Substring(0, ((string)sndr.Content).IndexOf(':'));
+                for (int i = 0; i < GamesFilterDropDown.Items.Count; ++i)
+                {
+                    CheckBox element = (CheckBox)GamesFilterDropDown.Items[i];
+                    string cnt = (string)element.Content;
+                    if (cnt == "ALL" || cnt == "NONE" || cnt.Contains(":ALL") || cnt.Contains(":NONE"))
+                    {
+                        element.IsChecked = false;
+                    }
+                    else
+                    {
+                        string elementGame =((string)element.Content).Substring(0, ((string)sndr.Content).IndexOf(':'));
+                        if(elementGame==game) element.IsChecked = true;
+                    }
+                }
+            }
+            else if (((string)sndr.Content).Contains(":NONE"))
+            {
+                string game = ((string)sndr.Content).Substring(0, ((string)sndr.Content).IndexOf(':'));
+                for (int i = 0; i < GamesFilterDropDown.Items.Count; ++i)
+                {
+                    CheckBox element = (CheckBox)GamesFilterDropDown.Items[i];
+                    string cnt = (string)element.Content;
+                    if (cnt == "ALL" || cnt == "NONE" || cnt.Contains(":ALL") || cnt.Contains(":NONE"))
+                    {
+                        element.IsChecked = false;
+                    }
+                    else
+                    {
+                        string elementGame = ((string)element.Content).Substring(0, ((string)sndr.Content).IndexOf(':'));
+                        if (elementGame == game) element.IsChecked = false;
+                    }
+                }
             }
             else
             {
-                InternalDataManagement.GamesFilter[(string)cb.Content] = false;
+
             }
         }
+
+
         void JoystickSetChanged(object sender, EventArgs e)
         {
             MainStructure.msave._ImportWindow = MainStructure.GetWindowPosFrom(this);

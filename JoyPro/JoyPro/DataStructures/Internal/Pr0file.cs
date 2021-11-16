@@ -18,17 +18,15 @@ namespace JoyPro
         public Dictionary<string, string> JoystickAliases;
         public Dictionary<string, string> JoystickFileImages;
         public string JoystickLayoutExport;
-        //public Dictionary<string, int> JoystickTextSize;
-        //public Dictionary<string, string> JoystickTextFont;
-        //public Dictionary<string, SolidColorBrush> JoystickTextColor;
-        //public Dictionary<string, Dictionary<string, Point>> JoystickTextPosition; 
+        public Dictionary<string, Dictionary<string, string>> PlaneAliases;
 
-        public Pr0file(Dictionary<string, Relation> Rel, Dictionary<string, Bind> Bnds, string DCSInstance, Dictionary<string, string> JAlias)
+        public Pr0file(Dictionary<string, Relation> Rel, Dictionary<string, Bind> Bnds, string DCSInstance, Dictionary<string, string> JAlias, Dictionary<string, Dictionary<string, string>> pAlias)
         {
             Relations = Rel;
             Binds = Bnds;
             LastSelectedDCSInstance = DCSInstance;
             JoystickAliases = JAlias;
+            PlaneAliases = pAlias;
         }
     }
 }

@@ -23,9 +23,11 @@ namespace JoyPro
     public enum LuaDataType { String, Number, Dict, Bool, Error };
     public enum SortType { NAME_NORM, NAME_DESC, STICK_NORM, STICK_DESC, BTN_NORM, BTN_DESC }
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
+
+
     public static class MainStructure
     {
-        public const int version = 65;
+        public const int version = 66;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;
@@ -38,6 +40,8 @@ namespace JoyPro
         public static OverlayBackGroundWorker OverlayWorker = null;
         public static bool VisualMode = false;
         public static int VisualLayer = 0;
+        public static GlobalHotKey HotKey = null;
+        public static double ScaleFactor = 1.0;
         
         public static void LoadMetaLast()
         {
@@ -65,6 +69,9 @@ namespace JoyPro
             {
                 InternalDataManagement.LoadProfile(pth + "\\last.pr0file");
             }
+            HotKey = new GlobalHotKey();
+            HotKey.Initialize();
+
         }
         public static WindowPos GetWindowPosFrom(Window w)
         {

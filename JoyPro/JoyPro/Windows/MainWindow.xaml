@@ -9,9 +9,9 @@
     <Grid Background="#FF191919" Name="PnlMainGrid"  Margin="0,0,2,0" >
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
             <RowDefinition/>
             <RowDefinition Height="53"/>
             <RowDefinition Height="60"/>
@@ -64,9 +64,12 @@
         <Label Content="Group Filter:" Foreground="White" Grid.Column="3" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Margin="10,12,10,10" Width="80"/>
         <ComboBox Name="GroupFilterDropdown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,12,0,10" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="1" Width="150" Height="31" ></ComboBox>
         <Label Content="Device Filter:" Foreground="White" Grid.Column="5" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Margin="10,12,10,10" Width="80"/>
+        <Label Content="Plane Filter:" Foreground="White" Grid.Column="7" Grid.Row="2"  HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Margin="150,12,10,10" Width="80"/>
         <ComboBox Name="DeviceDropdown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,12,0,10" Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2" Width="275" Height="31" ></ComboBox>
+        <ComboBox Name="PlaneDropdown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="230,12,0,10" Grid.Row="2" Grid.Column="7" Grid.ColumnSpan="2" Width="200" Height="31" ></ComboBox>
         
         <Button FontWeight="Bold" Name="GroupManagerBtn" Content="Group Manager" Height="30" Width="180"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,19,0,11" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
-
+        <Label Name="scaleLbl" Content="Image Scale:" Foreground="White" Grid.Column="7" Grid.Row="6"  HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Margin="150,12,50,10" Width="80"/>
+        <TextBox Name="scaleTBox" Grid.Row="6" Grid.Column="7" Grid.ColumnSpan="1" Background="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Width="45" Height="26" ></TextBox>
     </Grid>
 </Window>

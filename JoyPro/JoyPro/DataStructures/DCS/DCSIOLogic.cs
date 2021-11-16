@@ -107,10 +107,11 @@ namespace JoyPro
             sr.Close();
             Console.WriteLine("Clean Data loaded");
         }
-        public static void CorrectExportForAddedRemoved()
+        public static void CorrectExportForAddedRemoved(List<string> planes)
         {
-            foreach (KeyValuePair<string, DCSExportPlane> kvpExpPlane in DCSIOLogic.ToExportDCS)
+            foreach (KeyValuePair<string, DCSExportPlane> kvpExpPlane in ToExportDCS)
             {
+                if (!planes.Contains(kvpExpPlane.Key)) continue;
                 foreach (KeyValuePair<string, DCSLuaInput> kvpJoyConf in kvpExpPlane.Value.joystickConfig)
                 {
                     foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvpAxEl in kvpJoyConf.Value.axisDiffs)
@@ -160,10 +161,11 @@ namespace JoyPro
                 }
             }
         }
-        public static void OverwriteDCSExportWith(Dictionary<string, DCSExportPlane> attr, bool overwrite = true, bool fillBeforeEmpty = true, bool overwriteAdd = false)
+        public static void OverwriteDCSExportWith(Dictionary<string, DCSExportPlane> attr, List<string> planes, bool overwrite = true, bool fillBeforeEmpty = true, bool overwriteAdd = false)
         {
             foreach (KeyValuePair<string, DCSExportPlane> kvp in attr)
             {
+                if (!planes.Contains(kvp.Key)) continue;
                 if ((!ToExportDCS.ContainsKey(kvp.Key) && !fillBeforeEmpty) || (!ToExportDCS.ContainsKey(kvp.Key) && fillBeforeEmpty && !EmptyOutputsDCS.ContainsKey(kvp.Key)))
                 {
                     ToExportDCS.Add(kvp.Key, kvp.Value.Copy());
@@ -331,15 +333,15 @@ namespace JoyPro
                     }
                 }
             }
-            CorrectExportForAddedRemoved();
+            CorrectExportForAddedRemoved(planes);
         }
-        public static Dictionary<string, DCSExportPlane> BindToExportFormatDCS(Bind b)
+        public static Dictionary<string, DCSExportPlane> BindToExportFormatDCS(Bind b, List<string> planes)
         {
             Dictionary<string, int> pstate = b.Rl.GetPlaneSetState("DCS");
             Dictionary<string, DCSExportPlane> result = new Dictionary<string, DCSExportPlane>();
             foreach (KeyValuePair<string, int> kvpPS in pstate)
             {
-                if (kvpPS.Value > 0)
+                if (kvpPS.Value > 0&&planes.Contains(kvpPS.Key))
                 {
                     RelationItem ri = b.Rl.GetRelationItemForPlaneDCS(kvpPS.Key);
                     if (ri == null) continue;
@@ -375,17 +377,17 @@ namespace JoyPro
             }
             return result;
         }
-        public static void PushAllDCSBindsToExport(bool oride, bool fillBeforeEmpty = true, bool overwriteAdd = false)
+        public static void PushAllDCSBindsToExport(bool oride,List<string> planes, bool fillBeforeEmpty = true, bool overwriteAdd = false)
         {
             foreach (KeyValuePair<string, Bind> kvp in InternalDataManagement.AllBinds)
             {
                 if (kvp.Value.Joystick.Length > 0 &&
                     ((kvp.Value.Rl.ISAXIS && kvp.Value.JAxis.Length > 0) ||
                     (!kvp.Value.Rl.ISAXIS && kvp.Value.JButton.Length > 0)))
-                    OverwriteDCSExportWith(BindToExportFormatDCS(kvp.Value), oride, fillBeforeEmpty, overwriteAdd);
+                    OverwriteDCSExportWith(BindToExportFormatDCS(kvp.Value,planes),planes, oride, fillBeforeEmpty, overwriteAdd);
             }
         }
-        public static void NukeUnusedButConnectedDevicesToExport()
+        public static void NukeUnusedButConnectedDevicesToExport(List<string> planes)
         {
             foreach (string g in MiscGames.Games)
             {
@@ -395,25 +397,28 @@ namespace JoyPro
                     List<string> connectedSticks = JoystickReader.GetConnectedJoysticks();
                     for (int i = 0; i < allPlanes.Length; ++i)
                     {
-                        if (!DCSIOLogic.ToExportDCS.ContainsKey(allPlanes[i]))
+                        if (planes.Contains(allPlanes[i]))
                         {
-                            DCSIOLogic.ToExportDCS.Add(allPlanes[i], new DCSExportPlane());
-                            DCSIOLogic.ToExportDCS[allPlanes[i]].plane = allPlanes[i];
-                        }
-                        DCSLuaInput empty = null;
-                        if (DCSIOLogic.EmptyOutputsDCS.ContainsKey(allPlanes[i]))
-                        {
-                            empty = DCSIOLogic.EmptyOutputsDCS[allPlanes[i]];
-                        }
-                        else
-                            continue;
-                        for (int j = 0; j < connectedSticks.Count; j++)
-                        {
-                            if (!DCSIOLogic.ToExportDCS[allPlanes[i]].joystickConfig.ContainsKey(connectedSticks[j]))
+                            if (!ToExportDCS.ContainsKey(allPlanes[i]))
                             {
-                                DCSIOLogic.ToExportDCS[allPlanes[i]].joystickConfig.Add(connectedSticks[j], empty.Copy());
-                                DCSIOLogic.ToExportDCS[allPlanes[i]].joystickConfig[connectedSticks[j]].plane = allPlanes[i];
-                                DCSIOLogic.ToExportDCS[allPlanes[i]].joystickConfig[connectedSticks[j]].JoystickName = connectedSticks[j];
+                                ToExportDCS.Add(allPlanes[i], new DCSExportPlane());
+                                ToExportDCS[allPlanes[i]].plane = allPlanes[i];
+                            }
+                            DCSLuaInput empty = null;
+                            if (EmptyOutputsDCS.ContainsKey(allPlanes[i]))
+                            {
+                                empty = EmptyOutputsDCS[allPlanes[i]];
+                            }
+                            else
+                                continue;
+                            for (int j = 0; j < connectedSticks.Count; j++)
+                            {
+                                if (!ToExportDCS[allPlanes[i]].joystickConfig.ContainsKey(connectedSticks[j]))
+                                {
+                                    ToExportDCS[allPlanes[i]].joystickConfig.Add(connectedSticks[j], empty.Copy());
+                                    ToExportDCS[allPlanes[i]].joystickConfig[connectedSticks[j]].plane = allPlanes[i];
+                                    ToExportDCS[allPlanes[i]].joystickConfig[connectedSticks[j]].JoystickName = connectedSticks[j];
+                                }
                             }
                         }
                     }
@@ -421,28 +426,28 @@ namespace JoyPro
             }
 
         }
-        public static void WriteProfileCleanAndLoadedOverwrittenAndAdd(bool fillBeforeEmpty)
+        public static void WriteProfileCleanAndLoadedOverwrittenAndAdd(bool fillBeforeEmpty, List<string> Planes)
         {
             if (!Directory.Exists(MiscGames.DCSselectedInstancePath)) return;
             ToExportDCS.Clear();
             defaultToOverwrite = new List<string>();
-            LoadLocalBinds(MiscGames.DCSselectedInstancePath, true);
-            OverwriteDCSExportWith(LocalBindsDCS, true, false, false);
-            PushAllDCSBindsToExport(true, fillBeforeEmpty, true);
-            WriteFilesDCS();
-            WriteFilesDCS(".jp");
+            LoadLocalBinds(MiscGames.DCSselectedInstancePath, Planes, true);
+            OverwriteDCSExportWith(LocalBindsDCS,Planes, true, false, false);
+            PushAllDCSBindsToExport(true,Planes, fillBeforeEmpty, true);
+            WriteFilesDCS(Planes);
+            WriteFilesDCS(Planes, ".jp");
         }
-        public static void WriteProfileClean(bool nukeDevices)
+        public static void WriteProfileClean(bool nukeDevices,List<string> Planes)
         {
             if (!Directory.Exists(MiscGames.DCSselectedInstancePath)) return;
             ToExportDCS.Clear();
-            PushAllDCSBindsToExport(true, true, true);
+            PushAllDCSBindsToExport(true,Planes, true, true);
             if (nukeDevices)
-                NukeUnusedButConnectedDevicesToExport();
-            WriteFilesDCS();
-            WriteFilesDCS(".jp");
+                NukeUnusedButConnectedDevicesToExport(Planes);
+            WriteFilesDCS(Planes);
+            WriteFilesDCS(Planes, ".jp");
         }
-        public static void LoadLocalBinds(string localPath, bool fillWithDefaults = false, string ending = ".diff.lua", Dictionary<string, DCSExportPlane> resultsDict = null)
+        public static void LoadLocalBinds(string localPath, List<string> planes, bool fillWithDefaults = false, string ending = ".diff.lua", Dictionary<string, DCSExportPlane> resultsDict = null)
         {
             Dictionary<string, DCSExportPlane> toOutput;
             if (resultsDict == null)
@@ -462,6 +467,7 @@ namespace JoyPro
                 for (int i = 0; i < allSubs.Length; ++i)
                 {
                     string currentPlane = allSubs[i].Name;
+                    if (!planes.Contains(currentPlane)) continue;
                     DCSExportPlane current = new DCSExportPlane();
                     current.plane = currentPlane;
                     toOutput.Add(currentPlane, current);
@@ -498,6 +504,7 @@ namespace JoyPro
                 {
                     foreach (KeyValuePair<string, DCSExportPlane> kvp in toOutput)
                     {
+                        if (!planes.Contains(kvp.Key)) continue;
                         foreach (KeyValuePair<string, DCSLuaInput> kiwi in kvp.Value.joystickConfig)
                         {
                             kiwi.Value.FillUpWithDefaults();
@@ -526,33 +533,33 @@ namespace JoyPro
             }
             InternalDataManagement.ResyncRelations();
         }
-        public static void WriteProfileCleanNotOverwriteLocal(bool fillBeforeEmpty)
+        public static void WriteProfileCleanNotOverwriteLocal(bool fillBeforeEmpty, List<string> planes)
         {
             if (!Directory.Exists(MiscGames.DCSselectedInstancePath)) return;
             ToExportDCS.Clear();
             defaultToOverwrite = new List<string>();
-            LoadLocalBinds(MiscGames.DCSselectedInstancePath, true);
-            OverwriteDCSExportWith(LocalBindsDCS, true, false, false);
-            PushAllDCSBindsToExport(false, fillBeforeEmpty, false);
-            WriteFilesDCS();
-            WriteFilesDCS(".jp");
+            LoadLocalBinds(MiscGames.DCSselectedInstancePath,planes, true);
+            OverwriteDCSExportWith(LocalBindsDCS,planes, true, false, false);
+            PushAllDCSBindsToExport(false,planes, fillBeforeEmpty, false);
+            WriteFilesDCS(planes);
+            WriteFilesDCS(planes,".jp");
         }
-        public static void WriteProfileCleanAndLoadedOverwritten(bool fillBeforeEmpty)
+        public static void WriteProfileCleanAndLoadedOverwritten(bool fillBeforeEmpty, List<string> planes)
         {
             if (!Directory.Exists(MiscGames.DCSselectedInstancePath)) return;
             ToExportDCS.Clear();
             defaultToOverwrite = new List<string>();
-            LoadLocalBinds(MiscGames.DCSselectedInstancePath, true);
-            OverwriteDCSExportWith(LocalBindsDCS, true, false, false);
-            PushAllDCSBindsToExport(true, fillBeforeEmpty, false);
-            WriteFilesDCS();
-            WriteFilesDCS(".jp");
+            LoadLocalBinds(MiscGames.DCSselectedInstancePath,planes, true);
+            OverwriteDCSExportWith(LocalBindsDCS,planes, true, false, false);
+            PushAllDCSBindsToExport(true, planes, fillBeforeEmpty, false);
+            WriteFilesDCS(planes);
+            WriteFilesDCS(planes, ".jp");
         }
-        public static void BindsFromLocal(List<string> sticks, bool loadDefaults, bool inv = false, bool slid = false, bool curv = false, bool dz = false, bool sx = false, bool sy = false)
+        public static void BindsFromLocal(List<string> sticks, List<string> planes, bool loadDefaults, bool inv = false, bool slid = false, bool curv = false, bool dz = false, bool sx = false, bool sy = false)
         {
             Dictionary<string, DCSExportPlane> checkAgainst = new Dictionary<string, DCSExportPlane>();
-            LoadLocalBinds(MiscGames.DCSselectedInstancePath, loadDefaults, ".jp", checkAgainst);
-            LoadLocalBinds(MiscGames.DCSselectedInstancePath, loadDefaults);
+            LoadLocalBinds(MiscGames.DCSselectedInstancePath,planes, loadDefaults, ".jp", checkAgainst);
+            LoadLocalBinds(MiscGames.DCSselectedInstancePath,planes, loadDefaults);
             Dictionary<string, Bind> checkRes = LibraryFromLocalDict(checkAgainst, sticks, loadDefaults, inv, slid, curv, dz, sx, sy);
             Dictionary<string, Bind> result = LibraryFromLocalDict(LocalBindsDCS, sticks, loadDefaults, inv, slid, curv, dz, sx, sy);
             foreach (KeyValuePair<string, Bind> kvp in checkRes)
@@ -704,10 +711,11 @@ namespace JoyPro
             }
             return result;
         }
-        public static void WriteFilesDCS(string endingDCS = ".diff.lua")
+        public static void WriteFilesDCS(List<string> planes, string endingDCS = ".diff.lua")
         {
-            foreach (KeyValuePair<string, DCSExportPlane> kvp in DCSIOLogic.ToExportDCS)
+            foreach (KeyValuePair<string, DCSExportPlane> kvp in ToExportDCS)
             {
+                if (!planes.Contains(kvp.Key)) continue;
                 string modPath = MiscGames.DCSselectedInstancePath + "\\Config\\Input\\" + kvp.Key;
                 string adjustedPath = modPath + "\\joystick\\";
                 if (!Directory.Exists(adjustedPath)) Directory.CreateDirectory(adjustedPath);

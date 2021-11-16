@@ -94,55 +94,14 @@ namespace JoyPro
             }
 
         }
-        public void ActivateRestForID(string id)
-        {
-            
-            string game=null;
-            List<string> planesActiveInRel = new List<string>();
-            for (int i = 0; i < NODES.Count; ++i)
-            {
-                List<string> planes = NODES[i].GetActiveAircraftList();
-                for (int j = 0; j < planes.Count; ++j)
-                {
-                    if (!planesActiveInRel.Contains(planes[j]))
-                    {
-                        planesActiveInRel.Add(planes[j]);
-                        game = NODES[i].Game;
-                    }
-                }
-            }
-            if (game == null) game = "DCS";
-            List<string> planesAll = DBLogic.Planes[game].ToList();
-            for (int i = 0; i < planesActiveInRel.Count; ++i)
-            {
-                if (planesAll.Contains(planesActiveInRel[i]))
-                {
-                    planesAll.Remove(planesActiveInRel[i]);
-                }
-            }
-            RelationItem node = GetRelationItem(id, game);
-            if (node == null) return;
-            for(int i=0; i<planesAll.Count; ++i)
-            {
-                node.SetAircraftActivity(planesAll[i], true);
-            }
-        }
-        public void DeactivateAllID(string id, string game)
-        {
-            RelationItem node = GetRelationItem(id, game);
-            List<string> planes = node.GetActiveAircraftList();
-            for (int j = 0; j < planes.Count; ++j)
-            {
-                node.SetAircraftActivity(planes[j], false);
-            }
-        }
-        int GetPlaneRelationState(string plane, string game)
+        public int GetPlaneRelationState(string plane, string game)
         {
             int counter = 0;
             for (int i = 0; i < NODES.Count; ++i)
             {
+                if (NODES[i].Game == null || NODES[i].Game.Length < 1) NODES[i].Game = "DCS";
                 PlaneState ps = NODES[i].GetStateAircraft(plane);
-                if (ps == PlaneState.ACTIVE) ++counter;
+                if (ps == PlaneState.ACTIVE&&NODES[i].Game==game) ++counter;
             }
             return counter;
         }

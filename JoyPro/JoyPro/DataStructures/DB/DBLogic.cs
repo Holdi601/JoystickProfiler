@@ -277,7 +277,11 @@ namespace JoyPro
                 {
                     PopulateDictionaryWithFile(allFilesShipped[i].FullName);
                     if (!loadedPlanes.Contains(allFilesShipped[i].Name.Replace(".html", "")))
+                    {
                         loadedPlanes.Add(allFilesShipped[i].Name.Replace(".html", ""));
+                        
+                    }
+                        
                 }
             }
             if (Planes == null)

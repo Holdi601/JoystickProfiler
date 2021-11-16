@@ -268,7 +268,7 @@ namespace JoyPro
             for (int i = 0; i < columnsNeeded; ++i)
             {
                 ColumnDefinition c = new ColumnDefinition();
-                c.Width= (GridLength)converter.ConvertFromString("80");
+                c.Width= (GridLength)converter.ConvertFromString("100");
                 grid.ColumnDefinitions.Add(c);
                 headerColumns.Add(c);
             }
@@ -338,7 +338,7 @@ namespace JoyPro
 
             return grid;
         }
-        void createLabelOnGrid(string Name, string Content, int column, int row, Grid g)
+        void createLabelOnGrid(string Name, string Content, int column, int row, Grid g, bool headerPlane)
         {
             Label lbl = new Label();
             lbl.Name = Name;
@@ -346,10 +346,24 @@ namespace JoyPro
             lbl.Content = Content;
             lbl.HorizontalAlignment = HorizontalAlignment.Center;
             lbl.VerticalAlignment = VerticalAlignment.Center;
+            if(headerPlane)lbl.MouseRightButtonUp += new MouseButtonEventHandler(CreatePlaneAlias);
             Grid.SetColumn(lbl, column);
             Grid.SetRow(lbl, row);
             g.Children.Add(lbl);
         }
+
+        void CreatePlaneAlias(object sender, MouseButtonEventArgs e)
+        {
+            Label l = (Label)sender;
+            int num = Convert.ToInt32((l.Name).Replace("Plane", ""));
+            string name = GetPlaneByNumber(num);
+            string game = GetGameByNumber(num);
+            if (name == null || game == null) return;
+            CreatePlaneAlias cpa = new CreatePlaneAlias(name, game);
+            cpa.Show();
+            cpa.Closing += new System.ComponentModel.CancelEventHandler(RefreshDGSelected);
+        }
+
         void createButtonOnGrid(string Name, string Content, int column, int row, RoutedEventHandler evnt, Grid g)
         {
             Button Btn = new Button();
@@ -377,6 +391,10 @@ namespace JoyPro
             Grid.SetRow(cbx, row);
             g.Children.Add(cbx);
         }
+        void RefreshDGSelected(object sender, EventArgs e)
+        {
+            RefreshDGSelected();
+        }
         void RefreshDGSelected()
         {
             ri = Current.AllRelations();
@@ -384,7 +402,7 @@ namespace JoyPro
             Grid gridId = createMainGridId(ri.Count);
             for (int z=0; z<ri.Count; ++z)
             {
-                createLabelOnGrid("id_" + z.ToString(), ri[z].ID, 0, z, gridId);
+                createLabelOnGrid("id_" + z.ToString(), ri[z].ID, 0, z, gridId, false);
                 createButtonOnGrid("deleteBtn" + z.ToString(), "Delete", 1, z, new RoutedEventHandler(deleteItem), gridId);
                 createButtonOnGrid("selectAllBtn" + z.ToString(), "Select All", 2, z, new RoutedEventHandler(selectAll), gridId);
                 createButtonOnGrid("selectNoneBtn" + z.ToString(), "Select None", 3, z, new RoutedEventHandler(selectNone), gridId);
@@ -417,7 +435,7 @@ namespace JoyPro
                             }
                             else
                             {
-                                createLabelOnGrid("id_" + z.ToString(), "   ", j, z, grid);
+                                createLabelOnGrid("id_" + z.ToString(), "   ", j, z, grid, false);
                             }
                             ++j;
                         }
@@ -440,17 +458,22 @@ namespace JoyPro
             Grid headerGrid = createBaseGridHeader();
             Grid headerGridId = createBaseGridHeaderId();
 
-            createLabelOnGrid("headerID", "ID", 0, 0, headerGridId);
-            createLabelOnGrid("deleteBtns", "Delete", 1, 0, headerGridId);
-            createLabelOnGrid("selectAllBtns", "Select All", 2, 0, headerGridId);
-            createLabelOnGrid("selectNoneBtns", "Select None", 3, 0, headerGridId);
+            createLabelOnGrid("headerID", "ID", 0, 0, headerGridId, false);
+            createLabelOnGrid("deleteBtns", "Delete", 1, 0, headerGridId, false);
+            createLabelOnGrid("selectAllBtns", "Select All", 2, 0, headerGridId, false);
+            createLabelOnGrid("selectNoneBtns", "Select None", 3, 0, headerGridId, false);
             int i = 0;
             foreach(KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
             {
                 if(kvp.Value!=null)
                     for(int j=0; j<kvp.Value.Count; ++j)
                     {
-                        createLabelOnGrid("Plane" + i.ToString(), kvp.Key + "__" + kvp.Value[j], i, 0, headerGrid);
+                        string plane = kvp.Value[j];
+                        if (InternalDataManagement.PlaneAliases.ContainsKey(kvp.Key) &&
+                            InternalDataManagement.PlaneAliases[kvp.Key].ContainsKey(kvp.Value[j]) &&
+                            InternalDataManagement.PlaneAliases[kvp.Key][kvp.Value[j]].Length > 0)
+                            plane = InternalDataManagement.PlaneAliases[kvp.Key][kvp.Value[j]];
+                        createLabelOnGrid("Plane" + i.ToString(), kvp.Key + ":" + plane, i, 0, headerGrid, true);
                         ++i;
                     }
             }
@@ -460,6 +483,36 @@ namespace JoyPro
             svHeadId.Content = headerGridId;
             svHead.Content = headerGrid;
             scrollChanged(null, null);
+        }
+
+        string GetPlaneByNumber(int num)
+        {
+            int i = 0;
+            foreach (KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
+            {
+                if (kvp.Value != null)
+                    for (int j = 0; j < kvp.Value.Count; ++j)
+                    {
+                        if(num==i)return kvp.Value[j];
+                        ++i;
+                    }
+            }
+            return null;
+        }
+
+        string GetGameByNumber(int num)
+        {
+            int i = 0;
+            foreach (KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
+            {
+                if (kvp.Value != null)
+                    for (int j = 0; j < kvp.Value.Count; ++j)
+                    {
+                        if (num == i) return kvp.Key;
+                        ++i;
+                    }
+            }
+            return null;
         }
         void planeActiveStateChanged(object sender, EventArgs e)
         {

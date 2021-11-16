@@ -115,6 +115,7 @@
     <Compile Include="DataStructures\Other\OtherGameInput.cs" />
     <Compile Include="DataStructures\DB\DBDCSDataStructure\HtmlBindElement.cs" />
     <Compile Include="DataStructures\DB\DBDCSDataStructure\HtmlInputElementDCS.cs" />
+    <Compile Include="General\GlobalHotKey.cs" />
     <Compile Include="General\LUADataRead.cs" />
     <Compile Include="General\Updater.cs" />
     <Compile Include="MISC\OverlayBackGroundWorker.cs" />
@@ -132,6 +133,9 @@
     </Compile>
     <Compile Include="Windows\CreateJoystickAlias.xaml.cs">
       <DependentUpon>CreateJoystickAlias.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\CreatePlaneAlias.xaml.cs">
+      <DependentUpon>CreatePlaneAlias.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\EditJoystickLayoutImage.xaml.cs">
       <DependentUpon>EditJoystickLayoutImage.xaml</DependentUpon>
@@ -164,6 +168,9 @@
     </Compile>
     <Compile Include="Windows\OverlayWindow.xaml.cs">
       <DependentUpon>OverlayWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PlanesToExport.xaml.cs">
+      <DependentUpon>PlanesToExport.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ReinstateBackup.xaml.cs">
       <DependentUpon>ReinstateBackup.xaml</DependentUpon>
@@ -203,6 +210,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\CreateJoystickAlias.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\CreatePlaneAlias.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -254,6 +265,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\OverlayWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\PlanesToExport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -554,9 +569,6 @@
     <Resource Include="TOOLS\Unzip\DotNetZip.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Content Include="TOOLS\ExtractCleanInput.py">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="TOOLS\Unzip\UnzipMeHereWin.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -595,11 +607,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="TOOLS\DCSKeyAxisExtractor.py">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataStructures\StarCitizen\" />
