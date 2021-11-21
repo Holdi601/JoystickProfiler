@@ -27,7 +27,7 @@ namespace JoyPro
 
     public static class MainStructure
     {
-        public const int version = 66;
+        public const int version = 67;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;
@@ -37,10 +37,10 @@ namespace JoyPro
         public static Thread DCSServerSocket = null;
         public static Thread DisplayBackgroundWorker = null;
         public static Thread DisplayDispatcherWorker = null;
+        public static Thread HotkeyThread = null;
         public static OverlayBackGroundWorker OverlayWorker = null;
         public static bool VisualMode = false;
         public static int VisualLayer = 0;
-        public static GlobalHotKey HotKey = null;
         public static double ScaleFactor = 1.0;
         
         public static void LoadMetaLast()
@@ -69,9 +69,6 @@ namespace JoyPro
             {
                 InternalDataManagement.LoadProfile(pth + "\\last.pr0file");
             }
-            HotKey = new GlobalHotKey();
-            HotKey.Initialize();
-
         }
         public static WindowPos GetWindowPosFrom(Window w)
         {
@@ -199,12 +196,15 @@ namespace JoyPro
             DCSServerSocket = new Thread(OverlayWorker.StartDCSListener);
             JrContReading = new JoystickReader();
             JrContReading.KeepDaemonRunning = true;
-            if (msave == null || msave._OverlaySettingsWindow == null) msave = new MetaSave();
+            HotkeyThread = new Thread(JrContReading.HotKeyRead);
             
+            if (msave == null || msave._OverlaySettingsWindow == null) msave = new MetaSave();
+            HotkeyThread.Name = "HotKeyReader";
             runningGameCheck.Name = "GameRunCheck";
             DCSServerSocket.Name = "DCSServerSocket";
             runningGameCheck.Start();
             DCSServerSocket.Start();
+            HotkeyThread.Start();
         }
         public static void InitProgram()
         {

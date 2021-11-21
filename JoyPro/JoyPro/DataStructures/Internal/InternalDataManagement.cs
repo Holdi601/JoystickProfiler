@@ -1078,7 +1078,7 @@ namespace JoyPro
             }
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
-        static bool modifiersMetaUnqueal(List<string> listA, List<string> listB)
+        static bool modifiersMetaUnqueal(ref List<string> listA,ref List<string> listB)
         {
             if (listA == null) listA = new List<string>();
             if(listB==null) listB = new List<string>();
@@ -1100,7 +1100,7 @@ namespace JoyPro
                    ((axis&& kvp.Value.JAxis.ToLower() == Button.ToLower())||
                    (!axis&&kvp.Value.JButton.ToLower() == Button.ToLower() )))
                 {
-                    if(modifiersMetaUnqueal(modifier, kvp.Value.AllReformers))
+                    if(modifiersMetaUnqueal(ref modifier, ref kvp.Value.AllReformers))
                     {
                         continue;
                     }else if(modifier.Count>0)

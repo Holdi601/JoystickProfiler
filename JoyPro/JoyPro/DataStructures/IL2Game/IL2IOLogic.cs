@@ -936,6 +936,8 @@ namespace JoyPro
                             else
                             {
                                 jppositive = jpInput;
+                                jpName = jpName + "/" + jp2Name;
+                                jp2Name = null;
                             }
                             if (positive.Contains('+'))
                             {

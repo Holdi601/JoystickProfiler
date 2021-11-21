@@ -115,7 +115,6 @@
     <Compile Include="DataStructures\Other\OtherGameInput.cs" />
     <Compile Include="DataStructures\DB\DBDCSDataStructure\HtmlBindElement.cs" />
     <Compile Include="DataStructures\DB\DBDCSDataStructure\HtmlInputElementDCS.cs" />
-    <Compile Include="General\GlobalHotKey.cs" />
     <Compile Include="General\LUADataRead.cs" />
     <Compile Include="General\Updater.cs" />
     <Compile Include="MISC\OverlayBackGroundWorker.cs" />

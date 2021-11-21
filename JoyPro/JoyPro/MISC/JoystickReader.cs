@@ -56,6 +56,7 @@ namespace JoyPro
         Dictionary<Joystick, JoyAxisState> state;
         Dictionary<Joystick, JoystickState> lastState;
         KeyboardState lastKbState = null;
+        Keyboard kb = null;
         bool detectionEventActiveButton;
         bool detectionEventActiveAxis;
         bool quit;
@@ -66,7 +67,6 @@ namespace JoyPro
         int timeLeftToSet;
         public JoystickResults result;
         int pollWaitTime;
-        Keyboard kb;
         public bool KeepDaemonRunning = false;
 
         public static List<string> GetAllPossibleStickInputs(Relation rel = null)
@@ -195,6 +195,9 @@ namespace JoyPro
             {
                 if (gamepad.Acquire().IsFailure) continue;
             }
+            DirectInput dikb = new DirectInput();
+            kb = new Keyboard(directInput);
+            kb.Acquire();
             KeepDaemonRunning = true;
 
         }
@@ -394,6 +397,22 @@ namespace JoyPro
                 }
                 OverlayBackGroundWorker.currentPressed = currentResults;
                 OverlayBackGroundWorker.currentPressedNonSwitched = currentResultsConcurrent;
+            }
+        }
+        public void HotKeyRead()
+        {
+            bool[] curBtns = new bool[128];
+            bool[] lastBtns = new bool[128];
+            KeyboardState ksState = kb.GetCurrentState();
+            while (true)
+            {
+                ksState = kb.GetCurrentState();
+                if (lastKbState == null) { lastKbState = ksState;continue; }
+                if (ksState.IsPressed(Key.ScrollLock))
+                {
+                    MainStructure.mainW.Dispatcher.Invoke(new Action(() => MainStructure.mainW.OpenOverlay(null, null)));
+                    Thread.Sleep(500);
+                }
             }
         }
         public JoystickReader(bool axis, bool includeKeyboard = false)

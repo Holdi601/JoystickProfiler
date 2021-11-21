@@ -20,7 +20,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <ScrollViewer Name="sv" ScrollViewer.HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Grid.RowSpan="1" Grid.Row="1" Grid.ColumnSpan="2"/>
-        <Button Name="CloseBtn" Content="X" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-2,-6,0,0" Margin="0,0,0,0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Foreground="Black" Width="50" Height="50" FontSize="35" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Label Name="MoveLabel" Content="ᕕ( ᐛ )ᕗ" Foreground="Black" Grid.Row="0" HorizontalAlignment="Left" FontSize="15" Margin="50,-3,0,0" Grid.Column="1" MaxWidth="100"/>
+        <Button Name="CloseBtn" Content="X" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-2,-6,0,0" Margin="0,0,0,0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Foreground="Orange" Width="50" Height="50" FontSize="35" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Label Name="MoveLabel" Content="☻" Foreground="Orange" Grid.Row="0" HorizontalAlignment="Left"  FontSize="25" Margin="50,-12,0,0" Grid.Column="1" MaxWidth="100" />
     </Grid>
 </Window>
