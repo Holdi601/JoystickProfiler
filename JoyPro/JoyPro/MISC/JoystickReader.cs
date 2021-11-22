@@ -413,6 +413,7 @@ namespace JoyPro
                     MainStructure.mainW.Dispatcher.Invoke(new Action(() => MainStructure.mainW.OpenOverlay(null, null)));
                     Thread.Sleep(500);
                 }
+                Thread.Sleep(16);
             }
         }
         public JoystickReader(bool axis, bool includeKeyboard = false)

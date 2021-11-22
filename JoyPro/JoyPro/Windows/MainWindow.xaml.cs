@@ -1055,7 +1055,8 @@ namespace JoyPro
                     }
                     if (deviceLookup.ContainsKey(cb)) deviceLookup[cb] = stick;
                     else deviceLookup.Add(cb, stick);
-                    cb.Name = kvp.Key;
+                    string altKey = kvp.Key.Replace("+", "ZPLUS").Replace("-", "ZMINUS");
+                    cb.Name = altKey;
                     cb.Width = (lf.Size * 10) * MainStructure.ScaleFactor;
                     cb.Height = (lf.Size + 10)*MainStructure.ScaleFactor;
                     cb.HorizontalAlignment = HorizontalAlignment.Left;
@@ -1110,6 +1111,7 @@ namespace JoyPro
             if (relation != "REMOVE BINDING")
             {
                 string rawBtn = cb.Name;
+                rawBtn = rawBtn.Replace("ZPLUS", "+" ).Replace("ZMINUS", "-");
                 string[] parts = rawBtn.Split('+');
                 string realBtn = parts[parts.Length - 1];
                 List<string> reformers = new List<string>();
@@ -1875,6 +1877,18 @@ namespace JoyPro
         }
         void ColorRowOrange(int row)
         {
+            if (relationLabels.Length <= row ||
+                editBtns.Length <= row ||
+                dupBtns.Length <= row ||
+                dltBtns.Length <= row ||
+                groupComboboxes.Length <= row ||
+                stickLabels.Length <= row ||
+                setBtns.Length <= row ||
+                invertedcbs.Length <= row ||
+                slidercbs.Length <= row ||
+                usercurvecbs.Length <= row ||
+                mods.GetLength(0) <= row ||
+                tboxes.GetLength(0) <= row) return;
             relationLabels[row].Foreground = Brushes.Orange;
             editBtns[row].Background = Brushes.Orange;
             dupBtns[row].Background = Brushes.Orange;
@@ -1897,6 +1911,18 @@ namespace JoyPro
         }
         void UncolorRow(int row)
         {
+            if (relationLabels.Length <= row ||
+                editBtns.Length <= row ||
+                dupBtns.Length <= row ||
+                dltBtns.Length <= row ||
+                groupComboboxes.Length <= row ||
+                stickLabels.Length <= row ||
+                setBtns.Length <= row ||
+                invertedcbs.Length <= row ||
+                slidercbs.Length <= row ||
+                usercurvecbs.Length <= row ||
+                mods.GetLength(0) <= row ||
+                tboxes.GetLength(0) <= row) return;
             relationLabels[row].Foreground = Brushes.White;
             editBtns[row].Background = Brushes.White;
             dupBtns[row].Background = Brushes.White;
