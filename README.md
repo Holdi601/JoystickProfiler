@@ -30,7 +30,16 @@ Microsoft C++ Redist 2010, 2011 and 2015 x64. I can't put a link here as they be
 https://dotnet.microsoft.com/download/dotnet-framework .NET 4.5 or higher (newest always best)
 
 DirectX11
-Windows 10
+Windows 10 or higher
+
+SlimDX Requirements:
+X64 Runtime:
+https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/slimdx/SlimDX%20Runtime%20.NET%204.0%20x64%20(January%202012).msi
+
+If that doesn’t help maybe the SDK:
+https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/slimdx/SlimDX%20SDK%20(January%202012).msi
+
+And in general slimdx ressources can be found here in case the links are dead for you https://code.google.com/archive/p/slimdx/downloads but please when possible try to choose the x64 option as that is what JoyPro uses
 
 # Documentation / Tutorials
 
