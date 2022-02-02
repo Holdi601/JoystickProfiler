@@ -24,6 +24,7 @@ namespace JoyPro
         public static Dictionary<string, bool> PlaneActivity = new Dictionary<string, bool>();
         public static Dictionary<string, string> JoystickAliases = new Dictionary<string, string>();
         public static string[] LocalJoysticks;
+        public static Dictionary<string, string> LocalJoystickPGUID = new Dictionary<string, string>();
         public static Dictionary<string, Modifier> AllModifiers = new Dictionary<string, Modifier>();
         public static Dictionary<string, bool> GamesFilter = new Dictionary<string, bool>();
         public static Dictionary<string, string> JoystickFileImages = new Dictionary<string, string>();
@@ -445,6 +446,15 @@ namespace JoyPro
                 Pr0file pr = null;
                 pr = MainStructure.ReadFromBinaryFile<Pr0file>(filePath);
                 NewFile();
+                if (pr.JoysticksPGuids == null) pr.JoysticksPGuids = new Dictionary<string, string>();
+                List<string> sticks = LocalJoysticks.ToList();
+                foreach(KeyValuePair<string, string> kvp in pr.JoysticksPGuids)
+                {
+                    if(LocalJoystickPGUID.ContainsKey(kvp.Key))LocalJoystickPGUID[kvp.Key] = kvp.Value;
+                    else LocalJoystickPGUID.Add(kvp.Key, kvp.Value);
+                    if (!sticks.Contains(kvp.Key)) sticks.Add(kvp.Key);
+                }
+                LocalJoysticks=sticks.ToArray();
                 AllRelations = pr.Relations;
                 AllBinds = pr.Binds;
                 JoystickAliases = pr.JoystickAliases;
@@ -478,7 +488,9 @@ namespace JoyPro
         }
         public static List<string> GetAllPossibleJoysticks()
         {
-            List<string> result = JoystickReader.GetConnectedJoysticks();
+            Dictionary<string, string> sticks = JoystickReader.GetConnectedJoysticks();
+            List<string> result = new List<string>();
+            foreach(KeyValuePair<string, string> kvp in sticks)result.Add(kvp.Key);
             foreach (KeyValuePair<string, Bind> kvp in AllBinds)
             {
                 if (!result.Contains(kvp.Value.Joystick)) result.Add(kvp.Value.Joystick);
@@ -556,13 +568,13 @@ namespace JoyPro
         static void CheckConnectedSticksToBinds()
         {
             //Check if joystick is connected and ask for more context
-            List<string> connectedSticks = JoystickReader.GetConnectedJoysticks();
+            Dictionary<string, string> connectedSticks = JoystickReader.GetConnectedJoysticks();
             List<string> misMatches = new List<string>();
             List<Bind> toRemove = new List<Bind>();
             List<string> upperConn = new List<string>();
             for (int i = 0; i < connectedSticks.Count; ++i)
-                if (!upperConn.Contains(connectedSticks[i].ToUpper()))
-                    upperConn.Add(connectedSticks[i].ToUpper());
+                if (!upperConn.Contains(connectedSticks.ElementAt(i).Key.ToUpper()))
+                    upperConn.Add(connectedSticks.ElementAt(i).Key.ToUpper());
             foreach (KeyValuePair<string, Bind> kvp in AllBinds)
             {
                 if (kvp.Value.Joystick != null && kvp.Value.Joystick.Length > 0)
@@ -598,6 +610,7 @@ namespace JoyPro
             pr.JoystickAliases= JoystickAliases;
             pr.JoystickFileImages = JoystickFileImages;
             pr.JoystickLayoutExport = JoystickLayoutExport;
+            pr.JoysticksPGuids = LocalJoystickPGUID;
             MainStructure.WriteToBinaryFile<Pr0file>(filePath, pr);
         }
         public static List<Relation> SyncRelations()

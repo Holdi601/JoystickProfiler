@@ -394,7 +394,7 @@ namespace JoyPro
                 if (g == "DCS")
                 {
                     string[] allPlanes = DBLogic.Planes[g].ToArray();
-                    List<string> connectedSticks = JoystickReader.GetConnectedJoysticks();
+                    Dictionary<string, string> connectedSticks = JoystickReader.GetConnectedJoysticks();
                     for (int i = 0; i < allPlanes.Length; ++i)
                     {
                         if (planes.Contains(allPlanes[i]))
@@ -413,11 +413,11 @@ namespace JoyPro
                                 continue;
                             for (int j = 0; j < connectedSticks.Count; j++)
                             {
-                                if (!ToExportDCS[allPlanes[i]].joystickConfig.ContainsKey(connectedSticks[j]))
+                                if (!ToExportDCS[allPlanes[i]].joystickConfig.ContainsKey(connectedSticks.ElementAt(j).Key))
                                 {
-                                    ToExportDCS[allPlanes[i]].joystickConfig.Add(connectedSticks[j], empty.Copy());
-                                    ToExportDCS[allPlanes[i]].joystickConfig[connectedSticks[j]].plane = allPlanes[i];
-                                    ToExportDCS[allPlanes[i]].joystickConfig[connectedSticks[j]].JoystickName = connectedSticks[j];
+                                    ToExportDCS[allPlanes[i]].joystickConfig.Add(connectedSticks.ElementAt(j).Key, empty.Copy());
+                                    ToExportDCS[allPlanes[i]].joystickConfig[connectedSticks.ElementAt(j).Key].plane = allPlanes[i];
+                                    ToExportDCS[allPlanes[i]].joystickConfig[connectedSticks.ElementAt(j).Key].JoystickName = connectedSticks.ElementAt(j).Key;
                                 }
                             }
                         }

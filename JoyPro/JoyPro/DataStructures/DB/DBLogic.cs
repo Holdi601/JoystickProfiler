@@ -72,6 +72,60 @@ namespace JoyPro
             return result;
 
         }
+        public static void PopulateSCDictionary()
+        {
+            string fileActionPath = MainStructure.PROGPATH + "\\DB\\StarCitizen\\actionmaps.xml";
+            string gameName = "StarCitizen";
+            if (File.Exists(fileActionPath))
+            {
+                if (!OtherLib.ContainsKey(gameName))
+                {
+                    OtherLib.Add(gameName, new Dictionary<string, OtherGame>());
+                    OtherLib[gameName].Add(gameName, new OtherGame(gameName, gameName, true));
+                }
+                if (!Planes["StarCitizen"].Contains(gameName))
+                    Planes["StarCitizen"].Add(gameName);
+                StreamReader sr = new StreamReader(fileActionPath);
+                string lastCat = "";
+                string catString = "<actionmap name=\"";
+                string idString = "<action name=\"";
+                string commentStart = "<!--";
+                string commentEnd = "-->";
+                while (!sr.EndOfStream)
+                {
+                    string rawLine = sr.ReadLine();
+                    if (rawLine.Contains(catString))
+                    {
+                        lastCat = rawLine.Substring(rawLine.IndexOf(catString) + catString.Length);
+                        lastCat = lastCat.Substring(0, lastCat.IndexOf("\""));
+                    }
+                    if (rawLine.Contains(idString)&&rawLine.Contains(commentStart))
+                    {
+                        string id = rawLine.Substring(rawLine.IndexOf(idString) + idString.Length);
+                        id = id.Substring(0, id.IndexOf("\""));
+
+                        string comment = rawLine.Substring(rawLine.IndexOf(commentStart) + commentStart.Length);
+                        comment = comment.Substring(0, comment.IndexOf(commentEnd));
+                        string[] parts = MainStructure.SplitBy(comment, "//");
+                        string description = parts[0];
+                        bool axis = parts[1].Trim()=="true" ? true: false;
+
+                        OtherGameInput current = new OtherGameInput(id, description, axis, gameName, gameName, lastCat);
+                        if (axis)
+                        {
+                            if (!OtherLib[gameName][gameName].Axis.ContainsKey(id))
+                                OtherLib[gameName][gameName].Axis.Add(id, current);
+                        }
+                        else
+                        {
+                            if (!OtherLib[gameName][gameName].Buttons.ContainsKey(id))
+                                OtherLib[gameName][gameName].Buttons.Add(id, current);
+                        }
+                    }
+                }
+                sr.Close();
+            }
+        }
         public static void PopulateIL2Dictionary()
         {
             string fileActionPath = MainStructure.PROGPATH + "\\DB\\IL2\\IL2.actions";
@@ -104,15 +158,15 @@ namespace JoyPro
                         if (rawLine.Contains("//a"))
                             axis = true;
                         string descriptor = rawLine.Substring(4);
-                        OtherGameInput current = new OtherGameInput(id, descriptor, axis, gameName, gameName);
+                        OtherGameInput current = new OtherGameInput(id, descriptor, axis, gameName, gameName, "");
                         if (axis)
                         {
                             if (!OtherLib[gameName][gameName].Axis.ContainsKey(id))
                                 OtherLib[gameName][gameName].Axis.Add(id, current);
                             if (!OtherLib[gameName][gameName].Buttons.ContainsKey(id + "+"))
                             {
-                                OtherGameInput currentAxisPlus = new OtherGameInput(id + "+", descriptor + " (BUTTON PLUS)", false, gameName, gameName);
-                                OtherGameInput currentAxisMinus = new OtherGameInput(id + "-", descriptor + " (BUTTON MINUS)", false, gameName, gameName);
+                                OtherGameInput currentAxisPlus = new OtherGameInput(id + "+", descriptor + " (BUTTON PLUS)", false, gameName, gameName, "");
+                                OtherGameInput currentAxisMinus = new OtherGameInput(id + "-", descriptor + " (BUTTON MINUS)", false, gameName, gameName, "");
                                 OtherLib[gameName][gameName].Buttons.Add(id + "+", currentAxisPlus);
                                 OtherLib[gameName][gameName].Buttons.Add(id + "-", currentAxisMinus);
                             }

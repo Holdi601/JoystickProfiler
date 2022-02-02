@@ -114,6 +114,7 @@ namespace JoyPro
             BackupDaysBox.LostFocus += new RoutedEventHandler(changeBackupDays);
             IL2InstanceORBox.LostFocus += new RoutedEventHandler(ChangeIL2InstanceOverridePath);
             DCSInstanceORBox.LostFocus += new RoutedEventHandler(ChangeDCSInstanceOverridePath);
+            SCInstanceORBox.LostFocus += new RoutedEventHandler(ChangeSCInstanceOverridePath);
             RefreshDCSCleanBtn.Click += new RoutedEventHandler(RefreshCleanDB);
             RefreshDCSIdBtn.Click += new RoutedEventHandler(RefreshIDDB);
             ModulesToScanBox.LostFocus += new RoutedEventHandler(objectsToScanChanged);
@@ -129,6 +130,28 @@ namespace JoyPro
                 ImportLocalsFromInstanceCB.IsChecked = false;
             readDCSConfigData();
         }
+
+        void ChangeSCInstanceOverridePath(object sender, RoutedEventArgs e)
+        {
+            if (Directory.Exists(SCInstanceORBox.Text))
+            {
+                if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+                MainStructure.msave.SCOR = SCInstanceORBox.Text;
+                MiscGames.StarCitizen = SCInstanceORBox.Text;
+                InitGames.ReloadGameData();
+            }
+            else if (SCInstanceORBox.Text.Length > 0)
+            {
+                MessageBox.Show("Invalid Path in Star Citizen Path");
+            }
+            else
+            {
+                if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+                MainStructure.msave.SCOR = "";
+                InitGames.ReloadGameData();
+            }
+        }
+
         void ImportLocalsChanged(object sender, EventArgs e)
         {
             if (ImportLocalsFromInstanceCB.IsChecked == true)
@@ -470,6 +493,8 @@ namespace JoyPro
                 "DCS can't be in Fullscreen mode! Once the process is done, you will be notified. For the affects to take change, please restart JoyPro.This Operation will take 1-2 Minutes Thanks. ", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
             if (mr == MessageBoxResult.Yes)
             {
+                string pathToClear = path  + "\\Config\\Input";
+                MainStructure.DeleteFolder(pathToClear);
                 turnFullScreen(false);
                 string executeDCS = InitGames.GetDCSInstallationPath() + "\\bin\\DCS_updater.exe";
                 StartProgram(executeDCS);

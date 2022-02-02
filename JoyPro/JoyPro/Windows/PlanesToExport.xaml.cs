@@ -71,6 +71,9 @@ namespace JoyPro
 
             for (int i = 0; i < DBLogic.Planes.Count; ++i)
             {
+                //REmove for later SC implementation                
+                if (DBLogic.Planes.ElementAt(i).Key.ToLower().Contains("starcitizen")) continue;
+
                 CheckBox cbgpAll = new CheckBox();
                 cbgpAll.Name = "ALL";
                 cbgpAll.Content = DBLogic.Planes.ElementAt(i).Key + ":" + "ALL";
@@ -88,6 +91,9 @@ namespace JoyPro
 
             for (int i = 0; i < DBLogic.Planes.Count; ++i)
             {
+                //REmove for later SC implementation                
+                if (DBLogic.Planes.ElementAt(i).Key.ToLower().Contains("starcitizen")) continue;
+
                 for (int j = 0; j < DBLogic.Planes.ElementAt(i).Value.Count; ++j)
                 {
                     CheckBox pln = new CheckBox();

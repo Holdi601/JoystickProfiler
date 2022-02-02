@@ -16,6 +16,8 @@ namespace JoyPro
         public string AxisButton { get; set; }
         public string Device { get; set; }
 
+        public string PDevice { get; set; }
+
         public List<string> All = new List<string>();
     }
     public class JoyAxisState
@@ -159,24 +161,28 @@ namespace JoyPro
 
         
 
-        public static List<string> GetConnectedJoysticks()
+        public static Dictionary<string, string> GetConnectedJoysticks()
         {
-            List<string> result = new List<string>();
+            Dictionary<string, string> result = new Dictionary<string, string>();
             DirectInput di = new DirectInput();
             List<DeviceInstance> dil = new List<DeviceInstance>();
             dil.Clear();
-            dil.AddRange(di.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly));
+            dil.AddRange(di.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AllDevices));
+            int i = 1;
             foreach (var device in dil)
             {
                 string deviceToAdd = ToDeviceString(new Joystick(di, device.InstanceGuid));
-                //Console.WriteLine("Instance Name: " + device);
-                //Console.WriteLine("Instance GUID: " + device.InstanceGuid);
-                //Console.WriteLine("Product Name: " + device.ProductName);
-                //Console.WriteLine("Product GUID: " + device.ProductGuid);
-                //Console.WriteLine();
-                //Console.WriteLine();
-                if (!MainStructure.ListContainsCaseInsensitive(result, deviceToAdd))
-                    result.Add(deviceToAdd);
+                string PdeviceToAdd = ToPDeviceString(new Joystick(di, device.InstanceGuid));
+                Console.WriteLine(i.ToString());
+                Console.WriteLine("Instance Name: " + device);
+                Console.WriteLine("Instance GUID: " + device.InstanceGuid);
+                Console.WriteLine("Product Name: " + device.ProductName);
+                Console.WriteLine("Product GUID: " + device.ProductGuid);
+                Console.WriteLine();
+                Console.WriteLine();
+                ++i;
+                if (!result.ContainsKey(deviceToAdd))
+                    result.Add(deviceToAdd, PdeviceToAdd);
             }
             return result;
         }
@@ -544,6 +550,7 @@ namespace JoyPro
             if (s2rDiff < 0) s2rDiff *= -1;
             JoystickResults args = new JoystickResults();
             args.Device = ToDeviceString(pad);
+            args.PDevice = ToPDeviceString(pad);
             string pre = "JOY_";
             args.AxisButton = "JOY_";
             bool triggered = false;
@@ -616,6 +623,7 @@ namespace JoyPro
                 bool found = false;
                 foreach (var keyPressed in allPressed)
                 {
+                    r.PDevice = "Keyboard {" + kb.Information.ProductGuid.ToString().ToUpper() + "}";
                     r.Device = "Keyboard";
                     r.AxisButton = keyPressed.ToString();
                     r.All.Add(keyPressed.ToString());
@@ -641,6 +649,7 @@ namespace JoyPro
                 {
                     if (curBtns[i] != lastBtns[i])
                     {
+                        args.PDevice = ToPDeviceString(pad);
                         args.Device = ToDeviceString(pad);
                         args.AxisButton = "JOY_BTN" + (i + 1).ToString();
                         args.All.Add(args.AxisButton);
@@ -683,6 +692,7 @@ namespace JoyPro
                             dir += "UL";
                             break;
                     }
+                    args.PDevice = ToPDeviceString(pad);
                     args.Device = ToDeviceString(pad);
                     args.AxisButton = dir;
                     args.All.Add(dir);
@@ -692,6 +702,20 @@ namespace JoyPro
             if (found)
                 ResultFound(args);
 
+        }
+        static string ToPDeviceString(Joystick pad)
+        {
+            string id = pad.Information.ProductGuid.ToString();
+            string[] idParts = id.Split('-');
+            if (idParts.Length > 2)
+            {
+                id = idParts[0].ToUpper() + "-"
+                    + idParts[1].ToUpper() + "-"
+                    + idParts[2].ToUpper();
+                for (int i = 3; i < idParts.Length; ++i)
+                    id += "-" + idParts[i].ToUpper();
+            }
+            return pad.Information.ProductName.Replace("/", "_").Replace("\"", "_") + " {" + id + "}";
         }
         static string ToDeviceString(Joystick pad)
         {

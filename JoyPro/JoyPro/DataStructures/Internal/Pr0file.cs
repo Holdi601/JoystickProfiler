@@ -19,6 +19,7 @@ namespace JoyPro
         public Dictionary<string, string> JoystickFileImages;
         public string JoystickLayoutExport;
         public Dictionary<string, Dictionary<string, string>> PlaneAliases;
+        public Dictionary<string, string> JoysticksPGuids = new Dictionary<string, string>();
 
         public Pr0file(Dictionary<string, Relation> Rel, Dictionary<string, Bind> Bnds, string DCSInstance, Dictionary<string, string> JAlias, Dictionary<string, Dictionary<string, string>> pAlias)
         {

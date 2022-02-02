@@ -115,6 +115,7 @@
     <Compile Include="DataStructures\Other\OtherGameInput.cs" />
     <Compile Include="DataStructures\DB\DBDCSDataStructure\HtmlBindElement.cs" />
     <Compile Include="DataStructures\DB\DBDCSDataStructure\HtmlInputElementDCS.cs" />
+    <Compile Include="DataStructures\StarCitizen\SCIOLogic.cs" />
     <Compile Include="General\LUADataRead.cs" />
     <Compile Include="General\Updater.cs" />
     <Compile Include="MISC\OverlayBackGroundWorker.cs" />
@@ -312,6 +313,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="DB\StarCitizen\actionmaps.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DB\DCS\a-10a.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -607,9 +611,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataStructures\StarCitizen\" />
-    <Folder Include="DB\StarCitizen\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

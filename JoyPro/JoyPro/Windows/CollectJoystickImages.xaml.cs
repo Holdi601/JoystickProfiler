@@ -37,7 +37,9 @@ namespace JoyPro
             InitializeComponent();
             openedWindows = 0;
             JoyPaths = new Dictionary<string, string>();
-            connectedSticks = JoystickReader.GetConnectedJoysticks();
+            Dictionary<string, string> cSticks = JoystickReader.GetConnectedJoysticks();
+            connectedSticks = new List<string>();
+            foreach(KeyValuePair<string, string> kvp in cSticks)connectedSticks.Add(kvp.Key);
             JoysticksActiveInBinds = InternalDataManagement.LocalJoysticks.ToList();
             CloseBtn.Click += new RoutedEventHandler(CloseThis);
             SearchExportBtn.Click += new RoutedEventHandler(searchExport);

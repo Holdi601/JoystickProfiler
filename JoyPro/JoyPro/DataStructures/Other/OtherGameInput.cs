@@ -12,19 +12,32 @@ namespace JoyPro
         public string ID, Game, Title;
         public bool IsAxis;
         public string Plane;
+        string categ;
+        public string Category {
+            get
+            {
+                if (categ == null) categ = "";
+                return categ;
+            }
+            set
+            {
+                categ = value;
+            }
+        }
 
-        public OtherGameInput(string id, string title, bool isAxis, string game, string pln)
+        public OtherGameInput(string id, string title, bool isAxis, string game, string pln, string cat)
         {
             this.ID = id;
             this.Title = title;
             this.IsAxis = isAxis;
             this.Game = game;
             Plane = pln;
+            Category = cat;
         }
 
         public OtherGameInput Copy()
         {
-            OtherGameInput dip = new OtherGameInput(ID, Title, IsAxis, Game, Plane);
+            OtherGameInput dip = new OtherGameInput(ID, Title, IsAxis, Game, Plane, Category);
             return dip;
         }
     }

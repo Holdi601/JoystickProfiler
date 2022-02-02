@@ -31,7 +31,12 @@ namespace JoyPro
         {
             selectedSticks = new List<string>();
             availableJoysticks = InternalDataManagement.LocalJoysticks;
-            connectedSticks = JoystickReader.GetConnectedJoysticks();
+            List<string> localSticks = availableJoysticks.ToList();
+            MiscGames.GetDCSInputJoysticks(localSticks);
+            availableJoysticks = localSticks.ToArray();
+            Dictionary<string, string> cSticks = JoystickReader.GetConnectedJoysticks();
+            connectedSticks = new List<string>();
+            foreach(KeyValuePair<string, string> kvp in cSticks)connectedSticks.Add(kvp.Key);
             for (int i = 0; i < connectedSticks.Count; ++i)
                 connectedSticks[i] = connectedSticks[i].ToLower();
             InitializeComponent();
@@ -260,6 +265,9 @@ namespace JoyPro
 
             for (int i = 0; i < DBLogic.Planes.Count; ++i)
             {
+                //REmove for later SC implementation                
+                if (DBLogic.Planes.ElementAt(i).Key.ToLower().Contains("starcitizen")) continue;
+
                 CheckBox cbgpAll = new CheckBox();
                 cbgpAll.Name = "ALL";
                 cbgpAll.Content = DBLogic.Planes.ElementAt(i).Key + ":" + "ALL";
@@ -277,6 +285,9 @@ namespace JoyPro
 
             for (int i = 0; i < DBLogic.Planes.Count; ++i)
             {
+                //REmove for later SC implementation                
+                if (DBLogic.Planes.ElementAt(i).Key.ToLower().Contains("starcitizen")) continue;
+
                 for (int j = 0; j < DBLogic.Planes.ElementAt(i).Value.Count; ++j)
                 {
                     CheckBox pln = new CheckBox();

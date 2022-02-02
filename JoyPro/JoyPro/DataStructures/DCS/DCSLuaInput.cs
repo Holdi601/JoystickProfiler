@@ -27,26 +27,26 @@ namespace JoyPro
                 {
                     joyAl = InternalDataManagement.JoystickAliases[JoystickName];
                 }
-                swr.Write("\t[\"JAL\"] = \"" + joyAl + "\",\n");
+                swr.Write("\t[\"JAL\"] = \"" + joyAl.Replace("\"","") + "\",\n");
                 swr.Write("\t[\"axisDiffs\"] = {\n");
                 foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in axisDiffs)
                 {
-                    swr.Write("\t\t[\"" + kvp.Key + "\"] = {\n");
-                    swr.Write("\t\t\t[\"name\"] = \"" + kvp.Value.Title + "\",\n");
+                    swr.Write("\t\t[\"" + kvp.Key.Replace("\"", "") + "\"] = {\n");
+                    swr.Write("\t\t\t[\"name\"] = \"" + kvp.Value.Title.Replace("\"", "") + "\",\n");
                     if (kvp.Value.added.Count > 0)
                     {
                         swr.Write("\t\t\t[\"added\"] = {\n");
                         for (int y = 0; y < kvp.Value.added.Count; ++y)
                         {
                             swr.Write("\t\t\t\t[" + (y + 1).ToString() + "] = {\n");
-                            swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.added[y].key + "\",\n");
-                            swr.Write("\t\t\t\t\t[\"JPK\"] = \"" + kvp.Value.added[y].JPRelName + "\",\n");
+                            swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.added[y].key.Replace("\"", "") + "\",\n");
+                            swr.Write("\t\t\t\t\t[\"JPK\"] = \"" + kvp.Value.added[y].JPRelName.Replace("\"", "") + "\",\n");
                             if (kvp.Value.added[y].Groups.Count > 0)
                             {
                                 swr.Write("\t\t\t\t\t[\"JGRP\"] = {\n");
                                 for (int r = 0; r < kvp.Value.added[y].Groups.Count; ++r)
                                 {
-                                    swr.Write("\t\t\t\t\t\t[" + (r + 1).ToString() + "] = \"" + kvp.Value.added[y].Groups[r] + "\",\n");
+                                    swr.Write("\t\t\t\t\t\t[" + (r + 1).ToString() + "] = \"" + kvp.Value.added[y].Groups[r].Replace("\"", "") + "\",\n");
                                 }
                                 swr.Write("\t\t\t\t\t},\n");
                             }                      
@@ -76,7 +76,7 @@ namespace JoyPro
                         for (int w = 0; w < kvp.Value.removed.Count; ++w)
                         {
                             swr.Write("\t\t\t\t[" + (w + 1).ToString() + "] = {\n");
-                            swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.removed[w].key + "\",\n");
+                            swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.removed[w].key.Replace("\"", "") + "\",\n");
                             swr.Write("\t\t\t\t},\n");
                         }
                         swr.Write("\t\t\t},\n");
@@ -90,22 +90,22 @@ namespace JoyPro
                 swr.Write("\t[\"keyDiffs\"] = {\n");
                 foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvp in keyDiffs)
                 {
-                    swr.Write("\t\t[\"" + kvp.Key + "\"] = {\n");
-                    swr.Write("\t\t\t[\"name\"] = \"" + kvp.Value.Title + "\",\n");
+                    swr.Write("\t\t[\"" + kvp.Key.Replace("\"", "") + "\"] = {\n");
+                    swr.Write("\t\t\t[\"name\"] = \"" + kvp.Value.Title.Replace("\"", "") + "\",\n");
                     if (kvp.Value.added.Count > 0)
                     {
                         swr.Write("\t\t\t[\"added\"] = {\n");
                         for (int z = 0; z < kvp.Value.added.Count; ++z)
                         {
                             swr.Write("\t\t\t\t[" + (z + 1).ToString() + "] = {\n");
-                            swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.added[z].key + "\",\n");
-                            swr.Write("\t\t\t\t\t[\"JPK\"] = \"" + kvp.Value.added[z].JPRelName + "\",\n");
+                            swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.added[z].key.Replace("\"", "") + "\",\n");
+                            swr.Write("\t\t\t\t\t[\"JPK\"] = \"" + kvp.Value.added[z].JPRelName.Replace("\"", "") + "\",\n");
                             if (kvp.Value.added[z].Groups.Count > 0)
                             {
                                 swr.Write("\t\t\t\t\t[\"JGRP\"] = {\n");
                                 for (int r = 0; r < kvp.Value.added[z].Groups.Count; ++r)
                                 {
-                                    swr.Write("\t\t\t\t\t\t[" + (r + 1).ToString() + "] = \"" + kvp.Value.added[z].Groups[r] + "\",\n");
+                                    swr.Write("\t\t\t\t\t\t[" + (r + 1).ToString() + "] = \"" + kvp.Value.added[z].Groups[r].Replace("\"", "") + "\",\n");
                                 }
                                 swr.Write("\t\t\t\t\t},\n");
                             }
@@ -114,7 +114,7 @@ namespace JoyPro
                                 swr.Write("\t\t\t\t\t[\"reformers\"] = {\n");
                                 for (int a = 0; a < kvp.Value.added[z].reformers.Count; ++a)
                                 {
-                                    swr.Write("\t\t\t\t\t\t[" + (a + 1).ToString() + "] = \"" + kvp.Value.added[z].reformers[a] + "\",\n");
+                                    swr.Write("\t\t\t\t\t\t[" + (a + 1).ToString() + "] = \"" + kvp.Value.added[z].reformers[a].Replace("\"", "") + "\",\n");
                                 }
                                 swr.Write("\t\t\t\t\t},\n");
                             }
@@ -128,13 +128,13 @@ namespace JoyPro
                         for (int z = 0; z < kvp.Value.removed.Count; ++z)
                         {
                             swr.Write("\t\t\t\t[" + (z + 1).ToString() + "] = {\n");
-                            swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.removed[z].key + "\",\n");
+                            swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.removed[z].key.Replace("\"", "") + "\",\n");
                             if (kvp.Value.removed[z].reformers.Count > 0)
                             {
                                 swr.Write("\t\t\t\t\t[\"reformers\"] = {\n");
                                 for (int a = 0; a < kvp.Value.removed[z].reformers.Count; ++a)
                                 {
-                                    swr.Write("\t\t\t\t\t\t[" + (a + 1).ToString() + "] = \"" + kvp.Value.removed[z].reformers[a] + "\",\n");
+                                    swr.Write("\t\t\t\t\t\t[" + (a + 1).ToString() + "] = \"" + kvp.Value.removed[z].reformers[a].Replace("\"", "") + "\",\n");
                                 }
                                 swr.Write("\t\t\t\t\t},\n");
                             }

@@ -30,6 +30,26 @@ namespace JoyPro
         public static double SaturationX_Default = 1.0;
         public static double SaturationY_Default = 1.0;
         public static double Deadzone_Default = 0.0;
+        public string PJoystick { 
+            get {
+                if (InternalDataManagement.LocalJoystickPGUID.ContainsKey(Joystick) &&
+                    InternalDataManagement.LocalJoystickPGUID[Joystick].Length > 2)
+                    return InternalDataManagement.LocalJoystickPGUID[Joystick];
+                else
+                    return Joystick;
+            }
+            set
+            {
+                if (InternalDataManagement.LocalJoystickPGUID.ContainsKey(Joystick))
+                {
+                    InternalDataManagement.LocalJoystickPGUID[Joystick] = value;
+                }
+                else
+                {
+                    InternalDataManagement.LocalJoystickPGUID.Add(PJoystick, value);
+                }
+            }
+        }
 
         public void CorrectJoystickName()
         {

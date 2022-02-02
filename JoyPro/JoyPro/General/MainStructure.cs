@@ -15,6 +15,7 @@ using System.Net.Http;
 using System.Web.Hosting;
 using System.Diagnostics;
 using System.Threading;
+using System.Windows.Threading;
 
 namespace JoyPro
 {
@@ -27,7 +28,7 @@ namespace JoyPro
 
     public static class MainStructure
     {
-        public const int version = 68;
+        public const int version = 69;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;
@@ -61,6 +62,52 @@ namespace JoyPro
             {
                 msave = new MetaSave();
             }
+        }
+        public static void WriteCrashInfo(object sender, UnhandledExceptionEventArgs e)
+        {
+            PROGPATH = Environment.CurrentDirectory;
+            DateTime dtNow = DateTime.UtcNow;
+            StreamWriter swr = new StreamWriter(PROGPATH + "\\" + dtNow.ToString("yyyyMMddHHmmss") + ".UnhandledException");
+            if (e != null)
+            {
+                swr.WriteLine(e.ToString());
+                swr.WriteLine("#");
+                if(e.ExceptionObject!=null)swr.WriteLine(e.ExceptionObject.ToString());
+            }
+            
+            swr.Close();
+            swr.Dispose();
+        }
+        public static void WriteCrashInfoDisp(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            PROGPATH = Environment.CurrentDirectory;
+            DateTime dtNow = DateTime.UtcNow;
+            StreamWriter swr = new StreamWriter(PROGPATH + "\\" + dtNow.ToString("yyyyMMddHHmmss") + ".DispUnhandledException");
+            if (e != null)
+            {   
+                swr.WriteLine(e.ToString());
+                swr.WriteLine("#");
+                if (e.Exception != null)
+                {
+                    if(e.Exception.Message != null) swr.WriteLine(e.Exception.Message);
+                    swr.WriteLine("#");
+                    if (e.Exception.StackTrace != null) swr.WriteLine(e.Exception.StackTrace);
+                    swr.WriteLine("#");
+                    if (e.Exception.Data != null) swr.WriteLine(e.Exception.Data.ToString());
+                    swr.WriteLine("#");
+                    if (e.Exception.InnerException != null)
+                    {
+                        if(e.Exception.InnerException.Message!=null) swr.WriteLine(e.Exception.InnerException.Message);
+                        swr.WriteLine("#");
+                        if (e.Exception.InnerException.StackTrace != null) swr.WriteLine(e.Exception.InnerException.StackTrace.ToString());
+                        swr.WriteLine("#");
+                        if (e.Exception.InnerException.Data != null) swr.WriteLine(e.Exception.InnerException.Data.ToString());
+                    }
+                }
+            }
+            
+            swr.Close();
+            swr.Dispose();
         }
         public static void AfterLoad()
         {
@@ -242,6 +289,7 @@ namespace JoyPro
             InitGames.LoadIL2Path();
             InitGames.LoadStarCitizenPath();
             MiscGames.BackupConfigsOfIL2();
+            MiscGames.BackupConfigsOfSC();
             LoadMetaLast();
         }
         public static T ReadFromBinaryFile<T>(string filePath)

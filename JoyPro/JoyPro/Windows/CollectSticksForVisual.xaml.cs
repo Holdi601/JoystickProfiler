@@ -33,7 +33,9 @@ namespace JoyPro
         public CollectSticksForVisual()
         {
             InitializeComponent();
-            connectedSticks = JoystickReader.GetConnectedJoysticks();
+            Dictionary<string, string> cSticks = JoystickReader.GetConnectedJoysticks();
+            connectedSticks = new List<string>();
+            foreach(KeyValuePair<string, string> kvp in cSticks)connectedSticks.Add(kvp.Key);
             JoyPaths = new Dictionary<string, string>();
             AllJoysticks = InternalDataManagement.LocalJoysticks.ToList();
             CloseBtn.Click += new RoutedEventHandler(CloseThis);

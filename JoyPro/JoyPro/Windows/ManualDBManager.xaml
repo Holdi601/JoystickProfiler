@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JoyPro"
         mc:Ignorable="d"
-        Title="Manual Database Manager" Height="450" Width="911">
+        Title="Manual Database Manager" Height="450" Width="1080">
     <Grid Background="#FF191919" Name="MainGrid">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="140"/>
             <ColumnDefinition Width="140"/>
             <ColumnDefinition Width="140"/>
             <ColumnDefinition Width="300*"/>
@@ -22,18 +23,20 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Label Content="ID" Foreground="White" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="26"  />
-        <Label Content="Plane" Foreground="White" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="26"  />
-        <Label Content="Description" Foreground="White" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="26"  />
-        <Label Content="Axis" Foreground="White" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="26"   />
-        <Label Content="Game" Foreground="White" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="26"   />
-        <Label Content="Buttons" Foreground="White" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="26"  />
+        <Label Content="Category" Foreground="White" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="26"  />
+        <Label Content="Plane" Foreground="White" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="26"  />
+        <Label Content="Description" Foreground="White" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="26"  />
+        <Label Content="Axis" Foreground="White" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="26"   />
+        <Label Content="Game" Foreground="White" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="26"   />
+        <Label Content="Buttons" Foreground="White" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="26"  />
         <TextBox Name="IDTF"  TextAlignment="Left" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="0" Background="White"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="130" Height="26"   ></TextBox>
-        <TextBox Name="DescriptionTF"  TextAlignment="Left" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="2" Background="White"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="330" Height="26"  ></TextBox>
-        <CheckBox Name="AxisCB" Grid.Row="1" Grid.Column="3" Content="Axis" Foreground="White" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="10,12" />
-        <ComboBox Name="GamesDropDown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="1" Width="130" Height="32"  ></ComboBox>
-        <ComboBox Name="PlaneDropDown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Width="130" Height="32"  ></ComboBox>
-        <Button FontWeight="Bold" Name="CloseBtn" Content="Close" Height="32" Width="92"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="3" Grid.Column="4"   />
-        <Button FontWeight="Bold" Name="AddBtn" Content="Add" Height="32" Width="60"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="1" Grid.Column="5"   />
+        <TextBox Name="CatTF"  TextAlignment="Left" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="1" Background="White"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="130" Height="26"   ></TextBox>
+        <TextBox Name="DescriptionTF"  TextAlignment="Left" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="3" Background="White"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="330" Height="26"  ></TextBox>
+        <CheckBox Name="AxisCB" Grid.Row="1" Grid.Column="4" Content="Axis" Foreground="White" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="10,12" />
+        <ComboBox Name="GamesDropDown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="1" Width="130" Height="32"  ></ComboBox>
+        <ComboBox Name="PlaneDropDown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Width="130" Height="32"  ></ComboBox>
+        <Button FontWeight="Bold" Name="CloseBtn" Content="Close" Height="32" Width="92"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="3" Grid.Column="5"   />
+        <Button FontWeight="Bold" Name="AddBtn" Content="Add" Height="32" Width="60"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="1" Grid.Column="6"   />
         
     </Grid>
 </Window>

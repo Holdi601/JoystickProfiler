@@ -29,8 +29,9 @@ namespace JoyPro
             InitializeComponent();
             DEFAULT_HEIGHT = this.Height;
             DEFAULT_WIDTH = this.Width;
-
-            List<string> sticks = JoystickReader.GetConnectedJoysticks();
+            Dictionary<string, string> cSticks = JoystickReader.GetConnectedJoysticks();
+            List<string> sticks = new List<string>();
+            foreach(KeyValuePair<string, string> kvp in cSticks) sticks.Add(kvp.Key);
             Joysticks = sticks;
             if (InternalDataManagement.JoystickAliases == null) InternalDataManagement.JoystickAliases = new Dictionary<string, string>();
             for (int i = 0; i < sticks.Count; ++i)

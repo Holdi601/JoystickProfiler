@@ -9,52 +9,12 @@ namespace JoyPro
 {
     public static class InitGames
     {
+        
         public static void InitDCSJoysticks()
         {
             List<string> Joysticks = new List<string>();
-            if (Directory.Exists(MiscGames.DCSselectedInstancePath + "\\InputLayoutsTxt"))
-            {
-                string[] subs = Directory.GetDirectories(MiscGames.DCSselectedInstancePath + "\\InputLayoutsTxt");
-                for (int j = 0; j < subs.Length; j++)
-                {
-                    string[] files = Directory.GetFiles(subs[j]);
-                    for (int k = 0; k < files.Length; k++)
-                    {
-                        string[] parts = files[k].Split('\\');
-                        string toCompare = parts[parts.Length - 1];
-                        if (toCompare.EndsWith(".html"))
-                        {
-                            string toAdd = toCompare.Replace(".html", "");
-                            if (!Joysticks.Contains(MiscGames.DCSStickNaming(toAdd)) && toAdd != "Keyboard" && toAdd != "Mouse" && toAdd != "TrackIR")
-                            {
-                                Joysticks.Add(MiscGames.DCSStickNaming(toAdd));
-                            }
-                        }
-                    }
-                }
-            }
-            if (Directory.Exists(MiscGames.DCSselectedInstancePath + "\\Config\\Input"))
-            {
-                string[] subs = Directory.GetDirectories(MiscGames.DCSselectedInstancePath + "\\Config\\Input");
-                for (int j = 0; j < subs.Length; j++)
-                {
-                    string[] inputs = Directory.GetDirectories(subs[j]);
-                    for (int k = 0; k < inputs.Length; ++k)
-                    {
-                        string[] planes = Directory.GetFiles(inputs[k]);
-                        for (int z = 0; z < planes.Length; ++z)
-                        {
-                            string[] parts = planes[z].Split('\\');
-                            string toCompare = parts[parts.Length - 1];
-                            if (toCompare.EndsWith(".diff.lua"))
-                            {
-                                string toAdd = toCompare.Replace(".diff.lua", "");
-                                if (!Joysticks.Contains(MiscGames.DCSStickNaming(toAdd)) && toAdd != "Keyboard" && toAdd != "Mouse" && toAdd != "TrackIR") Joysticks.Add(MiscGames.DCSStickNaming(toAdd));
-                            }
-                        }
-                    }
-                }
-            }
+            MiscGames.GetDCSInputJoysticks(Joysticks);
+
             if (InternalDataManagement.LocalJoysticks == null)
                 InternalDataManagement.LocalJoysticks = Joysticks.ToArray();
             else
@@ -175,6 +135,10 @@ namespace JoyPro
             if (pth != null) installs.Add(pth);
             pth = MainStructure.GetRegistryValue("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 223750", "InstallLocation", "LocalMachine");
             if (pth != null) installs.Add(pth);
+            for(int i =installs.Count - 1; i >= 0; i--)
+            {
+                if(!Directory.Exists(installs[i]))installs.RemoveAt(i);
+            }
             MiscGames.installPathsDCS = installs.ToArray();
             if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
             MainStructure.mainW.DropDownInstanceSelection.Items.Clear();
@@ -206,14 +170,21 @@ namespace JoyPro
             ReloadDatabase();
             try
             {
-                List<string> connectedSticks = JoystickReader.GetConnectedJoysticks();
+                Dictionary<string, string> connectedSticks = JoystickReader.GetConnectedJoysticks();
                 List<string> crSticks = InternalDataManagement.LocalJoysticks.ToList();
                 for (int i = 0; i < connectedSticks.Count; ++i)
                 {
-                    if (!crSticks.Contains(connectedSticks[i]))
-                        crSticks.Add(connectedSticks[i]);
+                    if (!crSticks.Contains(connectedSticks.ElementAt(i).Key))
+                        crSticks.Add(connectedSticks.ElementAt(i).Key);
                 }
                 InternalDataManagement.LocalJoysticks = crSticks.ToArray();
+                foreach(KeyValuePair<string, string> kvp in connectedSticks)
+                {
+                    if(InternalDataManagement.LocalJoystickPGUID.ContainsKey(kvp.Key))
+                        InternalDataManagement.LocalJoystickPGUID[kvp.Key] = kvp.Value;
+                    else
+                        InternalDataManagement.LocalJoystickPGUID.Add(kvp.Key, kvp.Value);
+                }
             }
             catch
             {
@@ -226,6 +197,7 @@ namespace JoyPro
             DBLogic.DCSLib.Clear();
             DBLogic.PopulateDCSDictionaryWithProgram();
             DBLogic.PopulateIL2Dictionary();
+            DBLogic.PopulateSCDictionary();
             DBLogic.PopulateManualDictionary();
             InternalDataManagement.PlaneActivity = new Dictionary<string, bool>();
             for(int i=0; i<DBLogic.Planes.Count; ++i)

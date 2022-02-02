@@ -75,8 +75,8 @@ namespace JoyPro
             renderedComboBoxes = new Dictionary<string, Dictionary<string, ComboBox>>();
             deviceLookup = new Dictionary<ComboBox, string>();
             stopwatch.Start();
-            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
-            Application.Current.DispatcherUnhandledException += NBug.Handler.DispatcherUnhandledException;
+            Application.Current.DispatcherUnhandledException += new System.Windows.Threading.DispatcherUnhandledExceptionEventHandler(MainStructure.WriteCrashInfoDisp);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MainStructure.WriteCrashInfo);
             InitializeComponent();
             DEFAULT_HEIGHT = this.Height;
             DEFAULT_WIDTH = this.Width;
@@ -709,6 +709,7 @@ namespace JoyPro
                 return;
             }
             cr.Joystick = joyReader.result.Device;
+            cr.PJoystick = joyReader.result.PDevice;
             cr.JAxis = joyReader.result.AxisButton;
             setBtns[indx].Content = joyReader.result.AxisButton.Replace("JOY_", "Axis-");
             stickLabels[indx].Content = joyReader.result.Device;
@@ -739,6 +740,7 @@ namespace JoyPro
                 InternalDataManagement.AddBind(cr.Rl.NAME, cr);
             }
             cr.Joystick = joyReader.result.Device;
+            cr.PJoystick = joyReader.result.PDevice;
             cr.JButton = joyReader.result.AxisButton;
             setBtns[indx].Content = joyReader.result.AxisButton.Replace("JOY_BTN", "Button-");
             Console.WriteLine(setBtns[indx].Content);

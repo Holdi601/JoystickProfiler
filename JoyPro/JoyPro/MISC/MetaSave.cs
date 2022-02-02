@@ -45,7 +45,7 @@ namespace JoyPro
         private byte r, g, b, a;
         WindowPos collectSticks=null;
         public int maxVisualLayers;
-        
+        public string SCOR = "";
 
         public WindowPos _RelationWindow
         {
@@ -470,6 +470,7 @@ namespace JoyPro
             DCSInstaceOverride = "";
             DCSInstallPathOR = "";
             IL2OR = "";
+            SCOR = "";
             additionModulesToScan = default_modulesToScan;
             overlaySW = new WindowPos();
             overlayW = new WindowPos();

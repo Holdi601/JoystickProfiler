@@ -65,9 +65,9 @@ namespace JoyPro
             }
             MainGrid.Children.Add(sv);
             old = sv;
-            sv.SetValue(Grid.ColumnSpanProperty, 6);
+            sv.SetValue(Grid.ColumnSpanProperty, 7);
             Grid grid = new Grid();
-            int columnsNeeded = 6;
+            int columnsNeeded = 7;
             for(int i=0; i<rowsNeeded; ++i)
             grid.RowDefinitions.Add(new RowDefinition());
             for (int i = 0; i < columnsNeeded; ++i)
@@ -119,13 +119,13 @@ namespace JoyPro
                 foreach (KeyValuePair<string, DCSInput> kvpAx in kvp.Value.Axis)
                 {
                     renderedInputsDCS.Add(kvpAx.Value);
-                    createRow(rowInput, rowInput, kvpAx.Value.ID, "DCS", kvpAx.Value.Plane, kvpAx.Value.Title, true, false, g);
+                    createRow(rowInput, rowInput, kvpAx.Value.ID, "DCS", kvpAx.Value.Plane, kvpAx.Value.Title, true, false, g,"");
                     rowInput++;
                 }
                 foreach (KeyValuePair<string, DCSInput> kvpBn in kvp.Value.Buttons)
                 {
                     renderedInputsDCS.Add(kvpBn.Value);
-                    createRow(rowInput, rowInput, kvpBn.Value.ID, "DCS", kvpBn.Value.Plane, kvpBn.Value.Title, false, false, g);
+                    createRow(rowInput, rowInput, kvpBn.Value.ID, "DCS", kvpBn.Value.Plane, kvpBn.Value.Title, false, false, g,"");
                     rowInput++;
                 }
             }
@@ -135,16 +135,16 @@ namespace JoyPro
                 foreach (KeyValuePair<string, OtherGame> kvpInner in kvp.Value)
                 {
                     foreach (KeyValuePair<string, OtherGameInput> kvAx in kvpInner.Value.Axis)
-                    {
+                    {                       
                         renderedInputsOG.Add(kvAx.Value);
-                        createRow(rowInput, otherGameIndex, kvAx.Value.ID, kvp.Key, kvAx.Value.Plane, kvAx.Value.Title, true,true, g);
+                        createRow(rowInput, otherGameIndex, kvAx.Value.ID, kvp.Key, kvAx.Value.Plane, kvAx.Value.Title, true,true, g, kvAx.Value.Category);
                         otherGameIndex++;
                         rowInput++;
                     }
                     foreach (KeyValuePair<string, OtherGameInput> kvBn in kvpInner.Value.Buttons)
                     {
                         renderedInputsOG.Add(kvBn.Value);
-                        createRow(rowInput, otherGameIndex, kvBn.Value.ID, kvp.Key, kvBn.Value.Plane, kvBn.Value.Title, false, true, g);
+                        createRow(rowInput, otherGameIndex, kvBn.Value.ID, kvp.Key, kvBn.Value.Plane, kvBn.Value.Title, false, true, g, kvBn.Value.Category);
                         otherGameIndex++;
                         rowInput++;
                     }
@@ -154,7 +154,7 @@ namespace JoyPro
 
         }
 
-        void createRow(int rowInput, int listIndex, string id, string game, string plane, string description, bool axis, bool othergame, Grid g)
+        void createRow(int rowInput, int listIndex, string id, string game, string plane, string description, bool axis, bool othergame, Grid g, string cat)
         {
             string itemName;
             if (othergame)
@@ -163,10 +163,11 @@ namespace JoyPro
                 itemName = "d";
             itemName += listIndex.ToString();
             createLabel(itemName + "id", id, 0, rowInput,g);
-            createLabel(itemName + "plane", plane, 1, rowInput,g);
-            createLabel(itemName + "desc", description, 2, rowInput, g);
-            createLabel(itemName + "ax", axis.ToString(), 3, rowInput, g);
-            createLabel(itemName + "game", game, 4, rowInput, g);
+            createLabel(itemName + "cat", cat, 1, rowInput, g);
+            createLabel(itemName + "plane", plane, 2, rowInput,g);
+            createLabel(itemName + "desc", description, 3, rowInput, g);
+            createLabel(itemName + "ax", axis.ToString(), 4, rowInput, g);
+            createLabel(itemName + "game", game, 5, rowInput, g);
             Button Btn = new Button();
             Btn.Name = itemName+"dlt";
             Btn.Content = "Delete";
@@ -174,7 +175,7 @@ namespace JoyPro
             Btn.VerticalAlignment = VerticalAlignment.Center;
             Btn.Width = 70;
             Btn.Click += new RoutedEventHandler(DeleteItem);
-            Grid.SetColumn(Btn, 5);
+            Grid.SetColumn(Btn, 6);
             Grid.SetRow(Btn, rowInput);
             g.Children.Add(Btn);
         }
@@ -240,7 +241,7 @@ namespace JoyPro
                     for(int i=0; i<DBLogic.Planes[(string)GamesDropDown.SelectedItem].Count; ++i)
                     {
                         plane = DBLogic.Planes[(string)GamesDropDown.SelectedItem][i];
-                        OtherGameInput ogi = new OtherGameInput(IDTF.Text, DescriptionTF.Text, ax, (string)GamesDropDown.SelectedItem, plane);
+                        OtherGameInput ogi = new OtherGameInput(IDTF.Text, DescriptionTF.Text, ax, (string)GamesDropDown.SelectedItem, plane, CatTF.Text);
                         if (!DBLogic.ManualDatabase.OtherLib.ContainsKey((string)GamesDropDown.SelectedItem))
                             DBLogic.ManualDatabase.OtherLib.Add((string)GamesDropDown.SelectedItem, new Dictionary<string, OtherGame>());
                         if (!DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem].ContainsKey(plane))
@@ -259,7 +260,7 @@ namespace JoyPro
                 }
                 else
                 {
-                    OtherGameInput ogi = new OtherGameInput(IDTF.Text, DescriptionTF.Text, ax, (string)GamesDropDown.SelectedItem, (string)PlaneDropDown.SelectedItem);
+                    OtherGameInput ogi = new OtherGameInput(IDTF.Text, DescriptionTF.Text, ax, (string)GamesDropDown.SelectedItem, (string)PlaneDropDown.SelectedItem, CatTF.Text);
                     if (!DBLogic.ManualDatabase.OtherLib.ContainsKey((string)GamesDropDown.SelectedItem))
                         DBLogic.ManualDatabase.OtherLib.Add((string)GamesDropDown.SelectedItem, new Dictionary<string, OtherGame>());
                     if (!DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem].ContainsKey((string)PlaneDropDown.SelectedItem))

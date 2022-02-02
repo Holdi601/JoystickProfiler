@@ -103,6 +103,59 @@ namespace JoyPro
 
             return fallback;
         }
+
+        public static void CheckSubfolderForDCSSticks(List<string> result, string path)
+        {
+            string[] subs = Directory.GetDirectories(path);
+            for (int j = 0; j < subs.Length; j++)
+            {
+                string[] files = Directory.GetFiles(subs[j]);
+                for (int k = 0; k < files.Length; k++)
+                {
+                    string[] parts = files[k].Split('\\');
+                    string toCompare = parts[parts.Length - 1];
+                    if (toCompare.EndsWith(".html"))
+                    {
+                        string toAdd = toCompare.Replace(".html", "");
+                        if (!result.Contains(MiscGames.DCSStickNaming(toAdd)) && toAdd != "Keyboard" && toAdd != "Mouse" && toAdd != "TrackIR")
+                        {
+                            result.Add(MiscGames.DCSStickNaming(toAdd));
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void GetDCSInputJoysticks(List<string> result)
+        {
+            if (result == null) return;
+            if (MainStructure.msave.DCSInstaceOverride != null &&
+                Directory.Exists(MainStructure.msave.DCSInstaceOverride))
+            {
+                if (Directory.Exists(MainStructure.msave.DCSInstaceOverride + "\\InputLayoutsTxt"))
+                {
+                    CheckSubfolderForDCSSticks(result, MainStructure.msave.lastInstanceSelected + "\\InputLayoutsTxt");
+                }
+                if (Directory.Exists(MainStructure.msave.DCSInstaceOverride + "\\Config\\Input"))
+                {
+                    CheckSubfolderForDCSSticks(result, MainStructure.msave.lastInstanceSelected + "\\Config\\Input");
+                }
+            }
+            else
+            {
+                if (Directory.Exists(MainStructure.msave.lastInstanceSelected))
+                {
+                    if (Directory.Exists(MainStructure.msave.lastInstanceSelected + "\\InputLayoutsTxt"))
+                    {
+                        CheckSubfolderForDCSSticks(result, MainStructure.msave.lastInstanceSelected + "\\InputLayoutsTxt");
+                    }
+                    if (Directory.Exists(MiscGames.DCSselectedInstancePath + "\\Config\\Input"))
+                    {
+                        CheckSubfolderForDCSSticks(result, MainStructure.msave.lastInstanceSelected + "\\Config\\Input");
+                    }
+                }
+            }
+        }
         public static void RestoreInputsInInstance(string instance, string fallBack, string game)
         {
             string toCopy, dest, initFold, runBU, inputFo, subPath;
@@ -240,6 +293,63 @@ namespace JoyPro
             }
             if (indx > -1)
                 MainStructure.mainW.DropDownInstanceSelection.SelectedIndex = indx;
+        }
+        public static void BackupConfigsOfSC()
+        {
+            if (!Directory.Exists(StarCitizen)) return;
+            try
+            {
+                const string inputFolder = "\\LIVE\\USER\\Client\\0\\Profiles\\default";
+                const string initBU = "\\LIVE\\USER\\Client\\0\\Profiles\\JP_InitBackup";
+                const string runningBU = "\\LIVE\\USER\\Client\\0\\Profiles\\JP_Backup";
+                if (!Directory.Exists(StarCitizen + initBU))
+                {
+                    Directory.CreateDirectory(StarCitizen + initBU);
+                    MainStructure.CopyFolderIntoFolder(StarCitizen + inputFolder, StarCitizen + initBU);
+                }
+                else
+                {
+                    if (!Directory.Exists(StarCitizen + runningBU))
+                    {
+                        Directory.CreateDirectory(StarCitizen + runningBU);
+                    }
+                    DirectoryInfo dirInfo = new DirectoryInfo(StarCitizen + runningBU);
+                    int days;
+                    if (MainStructure.msave == null)
+                        days = 90;
+                    else
+                        days = MainStructure.msave.backupDays;
+
+                    if (dirInfo.GetDirectories().Length > days)
+                    {
+                        string dirToDelete = "";
+                        DateTime lastWritten = DateTime.UtcNow;
+                        foreach (DirectoryInfo d in dirInfo.GetDirectories())
+                        {
+                            if (d.LastWriteTimeUtc < lastWritten)
+                            {
+                                lastWritten = d.LastWriteTimeUtc;
+                                dirToDelete = d.FullName;
+                            }
+                        }
+                        MainStructure.DeleteFolder(dirToDelete);
+                    }
+                    string now = DateTime.UtcNow.ToString("yyyy-MM-dd");
+                    if (!Directory.Exists(StarCitizen + runningBU + "\\" + now))
+                    {
+                        Directory.CreateDirectory(StarCitizen + runningBU + "\\" + now);
+                        MainStructure.CopyFolderIntoFolder(StarCitizen + inputFolder, StarCitizen + runningBU + "\\" + now);
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+                Console.WriteLine(e.Source);
+                Console.WriteLine(e.HelpLink);
+            }
         }
         public static void BackupConfigsOfIL2()
         {
