@@ -68,7 +68,7 @@ namespace JoyPro
         }
         public string toReformerString()
         {
-            return name + "§" + device + "§" + key;
+            return name + "§" + device + "§" + key+"§"+sw.ToString();
         }
         public static Modifier ReformerToMod(string reformer)
         {
@@ -79,6 +79,14 @@ namespace JoyPro
                 m.name = parts[0];
                 m.device = parts[1];
                 m.sw = false;
+                m.key = parts[2];
+                return m;
+            }else if(parts.Length == 4)
+            {
+                Modifier m = new Modifier();
+                m.name = parts[0];
+                m.device = parts[1];
+                m.sw = Convert.ToBoolean(parts[3]);
                 m.key = parts[2];
                 return m;
             }

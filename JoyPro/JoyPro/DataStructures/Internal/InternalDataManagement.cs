@@ -924,12 +924,17 @@ namespace JoyPro
                 bool allTheSame = true;
                 for (int i = 1; i < AllGroups.Count; ++i)
                 {
-                    if (toCompare != GroupActivity[AllGroups[i]])
+                    try
                     {
-                        allTheSame = false;
-                        break;
+                        if (toCompare != GroupActivity[AllGroups[i]])
+                        {
+                            allTheSame = false;
+                            break;
+                        }
+                    }catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message + "\n InternalDatamanagement Filter Groups");
                     }
-
                 }
                 if (!allTheSame)
                 {

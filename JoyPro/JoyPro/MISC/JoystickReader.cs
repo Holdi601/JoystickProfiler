@@ -173,13 +173,13 @@ namespace JoyPro
             {
                 string deviceToAdd = ToDeviceString(new Joystick(di, device.InstanceGuid));
                 string PdeviceToAdd = ToPDeviceString(new Joystick(di, device.InstanceGuid));
-                Console.WriteLine(i.ToString());
-                Console.WriteLine("Instance Name: " + device);
-                Console.WriteLine("Instance GUID: " + device.InstanceGuid);
-                Console.WriteLine("Product Name: " + device.ProductName);
-                Console.WriteLine("Product GUID: " + device.ProductGuid);
-                Console.WriteLine();
-                Console.WriteLine();
+                //Console.WriteLine(i.ToString());
+                //Console.WriteLine("Instance Name: " + device);
+                //Console.WriteLine("Instance GUID: " + device.InstanceGuid);
+                //Console.WriteLine("Product Name: " + device.ProductName);
+                //Console.WriteLine("Product GUID: " + device.ProductGuid);
+                //Console.WriteLine();
+                //Console.WriteLine();
                 ++i;
                 if (!result.ContainsKey(deviceToAdd))
                     result.Add(deviceToAdd, PdeviceToAdd);

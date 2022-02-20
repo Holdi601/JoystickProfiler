@@ -71,7 +71,7 @@ namespace JoyPro
             var converter = new GridLengthConverter();
             Grid grid = new Grid();
             colDefs = new List<ColumnDefinition>();
-            for (int i = 0; i < 4; ++i)
+            for (int i = 0; i < 5; ++i)
             {
                 ColumnDefinition c = new ColumnDefinition();
                 grid.ColumnDefinitions.Add(c);
@@ -180,6 +180,14 @@ namespace JoyPro
             jr = new JoystickReader(false, true);
         }
 
+        void switchSet(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            string numString = cb.Name.Replace("swCb", "");
+            int num = Convert.ToInt32(numString);
+            CURRENTDISPLAYEDMODS[num].sw = cb.IsChecked ==true ? true : false;
+        }
+
         void modSet(object sender, EventArgs e)
         {
             ActivateButtons();
@@ -200,7 +208,7 @@ namespace JoyPro
                 device = "m" + jr.result.Device.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
             string nameToShow = device + jr.result.AxisButton;
             string moddedDevice = Bind.JoystickGuidToModifierGuid(jr.result.Device);
-            string toAdd = nameToShow + "§" + moddedDevice + "§" + jr.result.AxisButton;
+            string toAdd = nameToShow + "§" + moddedDevice + "§" + jr.result.AxisButton+"§"+false.ToString();
             ModExists existsAlready = InternalDataManagement.DoesReformerExistInMods(toAdd);
             if (existsAlready == ModExists.NOT_EXISTENT)
             {
@@ -260,6 +268,18 @@ namespace JoyPro
                 Grid.SetColumn(buttonName, 3);
                 Grid.SetRow(buttonName, i);
                 grid.Children.Add(buttonName);
+
+                CheckBox cbSwitch = new CheckBox();
+                cbSwitch.Name = "swCb" + i.ToString();
+                cbSwitch.Click += new RoutedEventHandler(switchSet);
+                cbSwitch.Foreground = Brushes.White;
+                cbSwitch.Width = 100;
+                cbSwitch.HorizontalAlignment = HorizontalAlignment.Left;
+                cbSwitch.VerticalAlignment = VerticalAlignment.Center;
+                cbSwitch.IsChecked = CURRENTDISPLAYEDMODS[i].sw;
+                Grid.SetColumn(cbSwitch, 4);
+                Grid.SetRow(cbSwitch, i);
+                grid.Children.Add(cbSwitch);
             }
             svC.Content = grid;
         }
@@ -269,7 +289,7 @@ namespace JoyPro
             var converter = new GridLengthConverter();
             Grid grid = new Grid();
             colHds = new List<ColumnDefinition>();
-            for (int i = 0; i < 4; ++i)
+            for (int i = 0; i < 5; ++i)
             {
                 ColumnDefinition c = new ColumnDefinition();
                 grid.ColumnDefinitions.Add(c);
@@ -312,6 +332,15 @@ namespace JoyPro
             joystickBtn.VerticalAlignment = VerticalAlignment.Center;
             Grid.SetColumn(joystickBtn, 3);
             grid.Children.Add(joystickBtn);
+
+            Label joystickSw = new Label();
+            joystickSw.Name = "joyHdrLblsw";
+            joystickSw.Content = "Switch";
+            joystickSw.Foreground = Brushes.White;
+            joystickSw.HorizontalAlignment = HorizontalAlignment.Left;
+            joystickSw.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(joystickSw, 4);
+            grid.Children.Add(joystickSw);
 
             svHead.Content = grid;
         }

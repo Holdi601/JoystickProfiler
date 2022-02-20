@@ -20,6 +20,7 @@ namespace JoyPro
             string install = InitGames.GetDCSInstallationPath();
             string further = "\\Input";
             string modPaths = "\\Mods\\aircraft";
+            if (!Directory.Exists(install) || !Directory.Exists(install + modPaths)) return;
             if (install != null)
             {
                 DirectoryInfo dirInfo = new DirectoryInfo(install + modPaths);
@@ -523,6 +524,19 @@ namespace JoyPro
                     name = kvp.Value.additionalImportInfo.Split('§')[kvp.Value.additionalImportInfo.Split('§').Length - 1];
                 else
                     name = kvp.Value.Rl.NAME;
+
+                System.Text.RegularExpressions.Regex rgx = new System.Text.RegularExpressions.Regex(@"\d\d\d\d");
+                if (name.Length > 5)
+                {
+                    System.Text.RegularExpressions.Match match = rgx.Match(name.Substring(1,4));
+                    if (match.Success)
+                    {
+                        name = kvp.Value.Rl.GetRandomDescription();
+                        kvp.Value.Rl.NAME=name;
+                    }
+                }
+
+                Console.WriteLine(name);
                 while (InternalDataManagement.AllRelations.ContainsKey(name))
                 {
                     name += "i";

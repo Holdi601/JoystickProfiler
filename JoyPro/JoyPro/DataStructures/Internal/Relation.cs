@@ -36,6 +36,16 @@ namespace JoyPro
             }
             return result;
         }
+
+        public string GetRandomDescription()
+        {
+            if(NODES.Count > 0)
+            {
+                Random r = new Random();
+                return NODES[r.Next(NODES.Count)].RandomDescription();
+            }
+            return "ERROR"; 
+        }
         public Dictionary<string, int> GetPlaneSetState(string game)
         {
             Dictionary<string, int> results = new Dictionary<string, int>();

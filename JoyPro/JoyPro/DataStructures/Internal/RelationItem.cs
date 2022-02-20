@@ -15,6 +15,17 @@ namespace JoyPro
         public string Game;
         OtherGameInput[] OtherInputs;
 
+        public string RandomDescription()
+        {
+            Random r = new Random();
+            if (Game == "DCS" || Game == null || Game == "") 
+                if(AllInputs.Length > 0)
+                    return AllInputs[r.Next(AllInputs.Length)].Title;
+            else
+                if(OtherInputs.Length > 0)
+                    return OtherInputs[r.Next(OtherInputs.Length)].Title;
+            return "ERROR";
+        }
         public RelationItem(string id, string game)
         {
             AIRCRAFT = new Dictionary<string, bool>();

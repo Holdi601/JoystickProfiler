@@ -581,6 +581,9 @@
     <Content Include="DB\IL2\IL2.map">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Requirements\SlimDX Runtime .NET 4.0 x64 %28January 2012%29.msi">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="TOOLS\AHK\ALTF4.ahk" />
     <None Include="TOOLS\AHK\ArrowKeyDown.ahk" />
     <None Include="TOOLS\AHK\ArrowKeyUp.ahk" />
