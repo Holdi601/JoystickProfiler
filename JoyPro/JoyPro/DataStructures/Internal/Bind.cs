@@ -370,6 +370,15 @@ namespace JoyPro
                         m.sw = false;
                         m.key = parts[2];
                         dbb.modifiers.Add(m);
+                    }else if(parts.Length == 4)
+                    {
+                        dbb.reformers.Add(parts[0]);
+                        Modifier m = new Modifier();
+                        m.name = parts[0];
+                        m.device = parts[1];
+                        m.sw = Convert.ToBoolean(parts[3]);
+                        m.key = parts[2];
+                        dbb.modifiers.Add(m);
                     }
                 }
             }
