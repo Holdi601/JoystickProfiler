@@ -87,25 +87,42 @@ namespace JoyPro
         }
         public static void LoadCleanLuasDCS()
         {
-            StreamReader sr = new StreamReader(MainStructure.PROGPATH + "\\CleanProfile\\DCS\\clean.cf");
-            DCSLuaInput curPlane = null;
-            string content = sr.ReadToEnd();
-            string sep = "####################";
-            string rtn = LUADataRead.GetContentBetweenSymbols(content, sep);
-            char nl = '\n';
-            while (rtn != null && rtn.Length > 0)
+            if(File.Exists(MainStructure.PROGPATH + "\\CleanProfile\\DCS\\clean.cf"))
             {
-                string plane = rtn.Split(nl)[0];
-                content = content.Replace(sep + rtn, "");
-                plane = plane.Replace("\r", "");
-                curPlane = new DCSLuaInput();
-                EmptyOutputsDCS.Add(plane, curPlane);
-                curPlane.plane = plane;
-                curPlane.JoystickName = "EMPTY";
-                curPlane.AnalyzeRawLuaInput(rtn);
-                rtn = LUADataRead.GetContentBetweenSymbols(content, sep);
+                File.Delete(MainStructure.PROGPATH + "\\CleanProfile\\DCS\\clean.cf");
             }
-            sr.Close();
+            if (File.Exists(MainStructure.PROGPATH + "\\CleanProfile\\DCS\\backup.cf"))
+            {
+                File.Delete(MainStructure.PROGPATH + "\\CleanProfile\\DCS\\backup.cf");
+            }
+            DirectoryInfo dirInf = new DirectoryInfo(MainStructure.PROGPATH + "\\CleanProfile\\DCS");
+            FileInfo[] fileInfos = dirInf.GetFiles();
+            foreach(FileInfo file in fileInfos)
+            {
+                StreamReader sr = new StreamReader(file.FullName);
+                DCSLuaInput curPlane = null;
+                string content = sr.ReadToEnd();
+                string plane = file.Name.Replace(".cf", "");
+                curPlane = new DCSLuaInput();
+                if (!EmptyOutputsDCS.ContainsKey(plane))
+                {
+                    EmptyOutputsDCS.Add(plane, curPlane);
+                    curPlane.plane = plane;
+                    curPlane.JoystickName = "EMPTY";
+                    try
+                    {
+                        curPlane.AnalyzeRawLuaInput(content);
+                    }
+                    catch
+                    {
+                        EmptyOutputsDCS.Remove(plane);
+                    }
+                    
+                    sr.Close();
+                    sr.Dispose();
+                } 
+            }
+            
             Console.WriteLine("Clean Data loaded");
         }
         public static void CorrectExportForAddedRemoved(List<string> planes)

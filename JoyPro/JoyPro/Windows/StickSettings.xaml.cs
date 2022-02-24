@@ -497,6 +497,11 @@ namespace JoyPro
                 MainStructure.DeleteFolder(pathToClear);
                 turnFullScreen(false);
                 string executeDCS = InitGames.GetDCSInstallationPath() + "\\bin\\DCS_updater.exe";
+                if (!File.Exists(executeDCS))
+                {
+                    MessageBox.Show("Couldn't find the DCS_Updater executeable. Path that got checked: " + executeDCS);
+                    return;
+                }
                 StartProgram(executeDCS);
                 bool inMenu = false;
                 while (!inMenu)
@@ -566,6 +571,11 @@ namespace JoyPro
             {
                 turnFullScreen(false);
                 string executeDCS = InitGames.GetDCSInstallationPath() + "\\bin\\DCS_updater.exe";
+                if (!File.Exists(executeDCS))
+                {
+                    MessageBox.Show("Couldn't find the DCS_Updater executeable. Path that got checked: " + executeDCS);
+                    return;
+                }
                 StartProgram(executeDCS);
                 bool inMenu = false;
                 while (!inMenu)
@@ -751,17 +761,12 @@ namespace JoyPro
         void recreateCleanFile(string instance)
         {
             instance = instance + "\\Config\\Input";
-            string fileToWrite = MainStructure.PROGPATH + "\\CleanProfile\\DCS\\clean.cf";
-            if (File.Exists(fileToWrite) && !File.Exists(MainStructure.PROGPATH + "\\CleanProfile\\DCS\\backup.cf"))
-            {
-                File.Move(fileToWrite, MainStructure.PROGPATH + "\\CleanProfile\\DCS\\backup.cf");
-            }
-            StreamWriter writer = new StreamWriter(fileToWrite);
+            
             DirectoryInfo dirInf = new DirectoryInfo(instance);
             DirectoryInfo[] allSubs = dirInf.GetDirectories();
             for (int i = 0; i < allSubs.Length; ++i)
             {
-                writer.WriteLine("####################" + allSubs[i].Name);
+                string plane = allSubs[i].Name;
                 if (Directory.Exists(allSubs[i].FullName + "\\joystick"))
                 {
                     DirectoryInfo planeFolder = new DirectoryInfo(allSubs[i].FullName + "\\joystick");
@@ -769,12 +774,15 @@ namespace JoyPro
                     FileInfo largest = null;
                     for (int j = 0; j < allFiles.Length; ++j)
                     {
-                        if ((largest == null&& allFiles[j].Name.EndsWith(".diff.lua")) ||
+                        if (((largest == null&& allFiles[j].Name.EndsWith(".diff.lua")) ||
                             (largest!=null&&largest.Length < allFiles[j].Length && allFiles[j].Name.EndsWith(".diff.lua")))
+                            && !allFiles[j].Name.ToLower().Contains("mfd"))
                         {
                             largest = allFiles[j];
                         }
                     }
+                    string fileToWrite = MainStructure.PROGPATH + "\\CleanProfile\\DCS\\"+plane+".cf";
+                    StreamWriter writer = new StreamWriter(fileToWrite);
                     if (largest != null)
                     {
                         StreamReader reader = new StreamReader(largest.FullName);
@@ -785,11 +793,12 @@ namespace JoyPro
                         reader.Close();
                         reader.Dispose();
                     }
+                    writer.Flush();
+                    writer.Close();
+                    writer.Dispose();
                 }
             }
-            writer.Flush();
-            writer.Close();
-            writer.Dispose();
+            
         }
     }
 }
