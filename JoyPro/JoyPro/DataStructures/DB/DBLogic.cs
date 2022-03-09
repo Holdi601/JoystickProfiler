@@ -287,7 +287,6 @@ namespace JoyPro
                 }
             }
         }
-
         public static void ReadDefaultsFromHTML(string plane, string file)
         {
             DCSLuaInput def;
@@ -322,6 +321,7 @@ namespace JoyPro
         }
         public static void PopulateDCSDictionaryWithProgram()
         {
+            InitGames.DCSDBMatchesClean();
             DirectoryInfo fileStorage = new DirectoryInfo(MainStructure.PROGPATH + "\\DB\\DCS");
             FileInfo[] allFilesShipped = fileStorage.GetFiles();
             List<string> loadedPlanes = new List<string>();
@@ -475,8 +475,6 @@ namespace JoyPro
             }
             return results.ToArray();
         }
-
-
         public static List<SearchQueryResults> SearchBinds(string[] keywords, bool searchDescription=true, bool filteredSearch=true)
         {
             List<SearchQueryResults> results = new List<SearchQueryResults>();

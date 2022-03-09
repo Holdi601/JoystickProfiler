@@ -78,6 +78,7 @@ namespace JoyPro
         }
         public void CheckNamesAgainstDB()
         {
+            if (MainStructure.msave.AddAditionalAndCorrectRelationItems == false) return;
             List<DCSInput> toAdd = new List<DCSInput>();
             List<OtherGameInput> oToAdd = new List<OtherGameInput>();
             foreach (RelationItem r in NODES)

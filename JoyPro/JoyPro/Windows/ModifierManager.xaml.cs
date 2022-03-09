@@ -186,6 +186,8 @@ namespace JoyPro
             string numString = cb.Name.Replace("swCb", "");
             int num = Convert.ToInt32(numString);
             CURRENTDISPLAYEDMODS[num].sw = cb.IsChecked ==true ? true : false;
+            InternalDataManagement.ChangeSwitchStateBind(CURRENTDISPLAYEDMODS[num].name, cb.IsChecked == true ? true : false);
+
         }
 
         void modSet(object sender, EventArgs e)

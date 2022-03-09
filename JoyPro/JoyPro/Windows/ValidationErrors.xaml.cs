@@ -66,55 +66,31 @@ namespace JoyPro
             return grid;
         }
 
+        void renderErrorList(List<string> errs, ScrollViewer sv)
+        {
+            Grid relGrid = BaseSetupGrid(errs);
+            for (int i = 0; i < errs.Count; ++i)
+            {
+                Label cbx = new Label();
+                cbx.Name = "bxrel" + i.ToString();
+                cbx.Content = errs[i];
+                cbx.Foreground = Brushes.White;
+                cbx.HorizontalAlignment = HorizontalAlignment.Left;
+                cbx.VerticalAlignment = VerticalAlignment.Center;
+                Grid.SetColumn(cbx, 0);
+                Grid.SetRow(cbx, i);
+                relGrid.Children.Add(cbx);
+            }
+            sv.Content = relGrid;
+        }
         void fillView()
         {
-            if (data != null && data.BindErrors != null && data.ModifierErrors != null && data.RelationErrors != null)
+            if (data != null && data.BindErrors != null && data.ModifierErrors != null && data.RelationErrors != null &&data.DupActiveError!=null)
             {
-                Grid relGrid = BaseSetupGrid(data.RelationErrors);
-                for(int i=0; i<data.RelationErrors.Count; ++i)
-                {
-                    Label cbx = new Label();
-                    cbx.Name = "bxrel" + i.ToString();
-                    cbx.Content = data.RelationErrors[i];
-                    cbx.Foreground = Brushes.White;
-                    cbx.HorizontalAlignment = HorizontalAlignment.Left;
-                    cbx.VerticalAlignment = VerticalAlignment.Center;
-                    Grid.SetColumn(cbx, 0);
-                    Grid.SetRow(cbx, i);
-                    relGrid.Children.Add(cbx);
-                }
-                svRel.Content = relGrid;
-
-                Grid bindGrid = BaseSetupGrid(data.BindErrors);
-                for(int i=0; i<data.BindErrors.Count; ++i)
-                {
-                    Label cbx = new Label();
-                    cbx.Name = "brel" + i.ToString();
-                    cbx.Content = data.BindErrors[i];
-                    cbx.Foreground = Brushes.White;
-                    cbx.HorizontalAlignment = HorizontalAlignment.Left;
-                    cbx.VerticalAlignment = VerticalAlignment.Center;
-                    Grid.SetColumn(cbx, 0);
-                    Grid.SetRow(cbx, i);
-                    bindGrid.Children.Add(cbx);
-                }
-                svBind.Content = bindGrid;
-
-                Grid modGrid = BaseSetupGrid(data.ModifierErrors);
-                for(int i=0; i<data.ModifierErrors.Count; ++i)
-                {
-                    Label cbx = new Label();
-                    cbx.Name = "rel" + i.ToString();
-                    cbx.Content = data.ModifierErrors[i];
-                    cbx.Foreground = Brushes.White;
-                    cbx.HorizontalAlignment = HorizontalAlignment.Left;
-                    cbx.VerticalAlignment = VerticalAlignment.Center;
-                    Grid.SetColumn(cbx, 0);
-                    Grid.SetRow(cbx, i);
-                    modGrid.Children.Add(cbx);
-                }
-                svMod.Content = modGrid;
-
+                renderErrorList(data.RelationErrors, svRel);
+                renderErrorList(data.BindErrors, svBind);
+                renderErrorList(data.ModifierErrors, svMod);
+                renderErrorList(data.DupActiveError, svDup);
             }
         }
     }

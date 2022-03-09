@@ -11,12 +11,14 @@ namespace JoyPro
         public List<string> RelationErrors;
         public List<string> BindErrors;
         public List<string> ModifierErrors;
+        public List<string> DupActiveError;
 
         public Validation()
         {
             RelationErrors = new List<string>();
             BindErrors = new List<string>();
             ModifierErrors = new List<string>();
+            DupActiveError = new List<string>();
             startValidation();
         }
 
@@ -25,6 +27,30 @@ namespace JoyPro
             CheckRelationErrors();
             CheckButtonErrors();
             CheckModifierError();
+            CheckDuplicateActiveErrors();
+        }
+
+        void CheckDuplicateActiveErrors()
+        {
+            List<Relation> rels = InternalDataManagement.GetAllRelations();
+            for(int i = 0; i < rels.Count; i++)
+            {
+                List<string> games = rels[i].GamesInRelation();
+                for(int j=0; j< games.Count; j++)
+                {
+                    Dictionary<string, int> activity = rels[i].GetPlaneSetState(games[j]);
+                    if (activity == null) continue;
+                    foreach(KeyValuePair<string, int> pair in activity)
+                    {
+                        if (pair.Value > 1)
+                        {
+                            string message = "The game " + games[j] + " has multiple active items for the plane " + pair.Key + " on the Relation " + rels[i].NAME;
+                            if(!DupActiveError.Contains(message))DupActiveError.Add(message);
+                        }
+                    }
+                }
+            }
+
         }
 
         void CheckRelationErrors()

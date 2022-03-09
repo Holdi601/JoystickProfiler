@@ -359,6 +359,31 @@ namespace JoyPro
                 }
             }
         }
+
+        public static void ChangeSwitchStateBind(string modName, bool swtch)
+        {
+            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                for(int j=0; j<kvp.Value.AllReformers.Count; ++j)
+                {
+                    string reform = kvp.Value.AllReformers[j];
+                    if (!reform.Contains("§")) continue;
+                    string[] reformParts = reform.Split('§');
+                    if (modName.ToLower() == reformParts[0].ToLower())
+                    {
+                        string replacement = reformParts[0];
+                        for(int i = 1;i < reformParts.Length - 1; i++)
+                        {
+                            replacement=replacement+"§"+reformParts[i];
+                        }
+                        replacement = replacement + "§" + swtch.ToString();
+                        kvp.Value.AllReformers[j] = replacement;
+                        return;
+                    }
+                }
+            }
+        }
+
         public static Modifier ModifierByName(string name)
         {
             if (AllModifiers.ContainsKey(name)) return AllModifiers[name];
@@ -1146,6 +1171,7 @@ namespace JoyPro
         {
             for( int i=0; i<LocalJoysticks.Length; ++i)
             {
+                if (!LocalJoysticks[i].Contains("{")) continue;
                 string guidPart = LocalJoysticks[i].Split('{')[1].Replace("}", "");
                 string[] guidCells = guidPart.Split('-');
                 string[] parameterCells = guid.Split('-');

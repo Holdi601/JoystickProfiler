@@ -548,6 +548,16 @@ namespace JoyPro
                     System.Text.RegularExpressions.Match match = rgx.Match(name.Substring(1,4));
                     if (match.Success)
                     {
+                        string generatedNameGroup = "GENERATED-NAME";
+                        if (!InternalDataManagement.AllGroups.Contains(generatedNameGroup))
+                        {
+                            InternalDataManagement.AllGroups.Add(generatedNameGroup);
+                            InternalDataManagement.GroupActivity.Add(generatedNameGroup, true);
+                        }
+                        if (!kvp.Value.Rl.Groups.Contains(generatedNameGroup))
+                        {
+                            kvp.Value.Rl.Groups.Add(generatedNameGroup);
+                        }
                         name = kvp.Value.Rl.GetRandomDescription();
                         kvp.Value.Rl.NAME=name;
                     }

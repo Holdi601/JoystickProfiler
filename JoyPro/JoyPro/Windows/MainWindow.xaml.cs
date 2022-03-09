@@ -75,8 +75,8 @@ namespace JoyPro
             renderedComboBoxes = new Dictionary<string, Dictionary<string, ComboBox>>();
             deviceLookup = new Dictionary<ComboBox, string>();
             stopwatch.Start();
-            Application.Current.DispatcherUnhandledException += new System.Windows.Threading.DispatcherUnhandledExceptionEventHandler(MainStructure.WriteCrashInfoDisp);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MainStructure.WriteCrashInfo);
+            //Application.Current.DispatcherUnhandledException += new System.Windows.Threading.DispatcherUnhandledExceptionEventHandler(MainStructure.WriteCrashInfoDisp);
+            //AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MainStructure.WriteCrashInfo);
             InitializeComponent();
             DEFAULT_HEIGHT = this.Height;
             DEFAULT_WIDTH = this.Width;
@@ -269,10 +269,6 @@ namespace JoyPro
         {
             if (colDefs != null && colHds != null)
             {
-                for(int i=0; i < CURRENTDISPLAYEDRELATION.Count; ++i)
-                {
-                    //relationLabels[i].ActualWidth
-                }
                 for (int i = 0; i < colDefs.Count; ++i)
                 {
                     colHds[i].MinWidth = colDefs[i].ActualWidth;
@@ -664,6 +660,7 @@ namespace JoyPro
                 bw.DoWork += new DoWorkEventHandler(listenButton);
                 bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(ButtonSet);
             }
+            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(MainStructure.SaveWindowState);
             bw.RunWorkerAsync();
         }
         void listenButton(object sender, EventArgs e)
@@ -712,7 +709,14 @@ namespace JoyPro
             cr.PJoystick = joyReader.result.PDevice;
             cr.JAxis = joyReader.result.AxisButton;
             setBtns[indx].Content = joyReader.result.AxisButton.Replace("JOY_", "Axis-");
-            stickLabels[indx].Content = joyReader.result.Device;
+            if (InternalDataManagement.JoystickAliases.ContainsKey(joyReader.result.Device))
+            {
+                stickLabels[indx].Content = InternalDataManagement.JoystickAliases[joyReader.result.Device];
+            }
+            else
+            {
+                stickLabels[indx].Content = joyReader.result.Device;
+            }
             joyReader = null;
             MainStructure.OverlayWorker.SetButtonMapping();
             Console.WriteLine(setBtns[indx].Content);
@@ -744,7 +748,14 @@ namespace JoyPro
             cr.JButton = joyReader.result.AxisButton;
             setBtns[indx].Content = joyReader.result.AxisButton.Replace("JOY_BTN", "Button-");
             Console.WriteLine(setBtns[indx].Content);
-            stickLabels[indx].Content = joyReader.result.Device;
+            if (InternalDataManagement.JoystickAliases.ContainsKey(joyReader.result.Device))
+            {
+                stickLabels[indx].Content = InternalDataManagement.JoystickAliases[joyReader.result.Device];
+            }
+            else
+            {
+                stickLabels[indx].Content = joyReader.result.Device;
+            }
             joyReader = null;
             MainStructure.OverlayWorker.SetButtonMapping();
         }
@@ -1428,8 +1439,6 @@ namespace JoyPro
 
         void RefreshRelationsToShow()
         {
-            
-
             additional = new List<Button>();
             List<string> allMods = InternalDataManagement.GetAllModsAsString();
             allMods.Add("Delete");
@@ -1755,6 +1764,13 @@ namespace JoyPro
                     txrl.QueryCursor += new QueryCursorEventHandler(CleanText);
                     txrlcv.QueryCursor += new QueryCursorEventHandler(CleanText);
 
+                    txrlcv.LostFocus += new RoutedEventHandler(MainStructure.SaveWindowState);
+                    txrlsy.LostFocus += new RoutedEventHandler(MainStructure.SaveWindowState);
+                    txrlsx.LostFocus += new RoutedEventHandler(MainStructure.SaveWindowState);
+                    txrl.LostFocus += new RoutedEventHandler(MainStructure.SaveWindowState);
+                    cbxs.Click += new RoutedEventHandler(MainStructure.SaveWindowState);
+                    cbx.Click += new RoutedEventHandler(MainStructure.SaveWindowState);
+
 
                 }
                 else
@@ -1838,6 +1854,11 @@ namespace JoyPro
                     modCbx2.SelectionChanged += new SelectionChangedEventHandler(modSelectionChanged);
                     modCbx3.SelectionChanged += new SelectionChangedEventHandler(modSelectionChanged);
                     modCbx4.SelectionChanged += new SelectionChangedEventHandler(modSelectionChanged);
+                    modCbx1.SelectionChanged += new SelectionChangedEventHandler(MainStructure.SaveWindowState);
+                    modCbx2.SelectionChanged += new SelectionChangedEventHandler(MainStructure.SaveWindowState);
+                    modCbx3.SelectionChanged += new SelectionChangedEventHandler(MainStructure.SaveWindowState);
+                    modCbx4.SelectionChanged += new SelectionChangedEventHandler(MainStructure.SaveWindowState);
+
                 }
             }
             grid.ShowGridLines = true;
@@ -1954,12 +1975,25 @@ namespace JoyPro
 
         void OpenJoystickCreateAliasVisual(object sender, MouseButtonEventArgs e)
         {
-            DisableInputs();
-            CreateJoystickAlias cja = new CreateJoystickAlias(visualLastJoystickSelected);
-            ALLWINDOWS.Add(cja);
-            cja.Show();
+            if (sender is TabItem)
+            {
+                TabItem tb = (TabItem)sender;
+                double tbHeight = tb.ActualHeight;
+                System.Drawing.Point mousePos = System.Windows.Forms.Cursor.Position;
+                double pixelHeightOfBar = 0;
+                for (int i = 0; i < 4; ++i) pixelHeightOfBar += PnlMainGrid.RowDefinitions[i].ActualHeight;
+                double startBar = mousePos.Y - PointToScreen(new Point(0, 0)).Y - pixelHeightOfBar;
+                if (startBar >= 0 && startBar < tbHeight + 5)
+                {
+                    Console.WriteLine(this.PointToScreen(new Point(0, 0)));
+                    DisableInputs();
+                    CreateJoystickAlias cja = new CreateJoystickAlias(visualLastJoystickSelected);
+                    ALLWINDOWS.Add(cja);
+                    cja.Show();
 
-            cja.Closing += new CancelEventHandler(WindowClosing);
+                    cja.Closing += new CancelEventHandler(WindowClosing);
+                }
+            }
         }
 
         void OpenJoystickCreateAlias(object sender, EventArgs e)
@@ -2098,7 +2132,6 @@ namespace JoyPro
                 c.MinWidth = colDefs[i].ActualWidth;
                 c.MaxWidth = colDefs[i].ActualWidth;
             }
-
 
             Button relPick = new Button();
             relPick.Name = "joyHdrLblRlName";

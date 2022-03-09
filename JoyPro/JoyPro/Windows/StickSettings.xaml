@@ -48,6 +48,7 @@
         <Button FontWeight="Bold" Name="CleanRelationsBtn" Content="Clean Relations" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="13" Grid.Column="1" Grid.RowSpan="1" />
         <Button FontWeight="Bold" Name="RestoreSpecificDefsBtn" Content="Restore DCS Stick specific Defaults" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,30,0" Grid.Row="12" Grid.Column="1" Grid.RowSpan="1" />
         <CheckBox Name="ImportLocalsFromInstanceCB" Grid.Row="11" Grid.Column="1" Content="Import Locals from Instance" Foreground="White" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Center" />
+        <CheckBox Name="AutomatedAdditionAndCorrectionCB" Grid.Row="11" Grid.Column="1" Content="Correct and Autoadd new Relation Items" Foreground="White" HorizontalAlignment="Right" Margin="15,0,30,0" VerticalAlignment="Center" />
 
         <TextBox Name="ttsBox" Grid.Column="1" Grid.Row="0" Width="431" HorizontalAlignment="Left" Margin="10,15,0,15"/>
         <TextBox Name="athBox" Grid.Column="1" Grid.Row="1" Width="431" HorizontalAlignment="Left" Margin="10,15,0,15"/>

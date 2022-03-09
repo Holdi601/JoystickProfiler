@@ -51,20 +51,20 @@ namespace JoyPro
             output += "}";
 
             return output;
-        } 
+        }
         public static string DCSJoyIdToIL2JoyId(string DCSJoyId, int id)
         {
-            if (id < 0 || DCSJoyId == null || DCSJoyId.Length < 12||!DCSJoyId.Contains("{")) return null;
-            string result = id.ToString()+",%22";
+            if (id < 0 || DCSJoyId == null || DCSJoyId.Length < 12 || !DCSJoyId.Contains("{")) return null;
+            string result = id.ToString() + ",%22";
             string guid = DCSJoyId.Split('{')[1].Replace("}", "");
             string name = DCSJoyId.Split('{')[0].Trim().Replace(" ", "%20");
             string[] guidCells = guid.Split('-');
             result = result + guidCells[0].ToLower() + "-" +
-                guidCells[1].ToLower() + "-" + 
-                guidCells[2].ToLower() + "-000054534544"+
+                guidCells[1].ToLower() + "-" +
+                guidCells[2].ToLower() + "-000054534544" +
                 guidCells[3].Substring(2, 2).ToLower() +
                 guidCells[3].Substring(0, 2).ToLower() +
-                "%22,"+ name;
+                "%22," + name;
             return result;
         }
         public static List<string> GetPossibleFallbacksForInstance(string instance, string game)
@@ -109,14 +109,24 @@ namespace JoyPro
             string[] subs = Directory.GetDirectories(path);
             for (int j = 0; j < subs.Length; j++)
             {
-                string[] files = Directory.GetFiles(subs[j]);
+                string[] files;
+                if (path.ToLower().EndsWith("input"))
+                {
+                    files = Directory.GetFiles(subs[j]+"\\joystick");
+                }
+                else
+                {
+                    files = Directory.GetFiles(subs[j]);
+                }
                 for (int k = 0; k < files.Length; k++)
                 {
                     string[] parts = files[k].Split('\\');
                     string toCompare = parts[parts.Length - 1];
-                    if (toCompare.EndsWith(".html"))
+                    if (toCompare.EndsWith(".html")||
+                        toCompare.EndsWith(".diff.lua")||
+                        toCompare.EndsWith(".jp"))
                     {
-                        string toAdd = toCompare.Replace(".html", "");
+                        string toAdd = toCompare.Replace(".html", "").Replace(".diff.lua", "").Replace(".jp", "");
                         if (!result.Contains(MiscGames.DCSStickNaming(toAdd)) && toAdd != "Keyboard" && toAdd != "Mouse" && toAdd != "TrackIR")
                         {
                             result.Add(MiscGames.DCSStickNaming(toAdd));
@@ -129,6 +139,17 @@ namespace JoyPro
         public static void GetDCSInputJoysticks(List<string> result)
         {
             if (result == null) return;
+            foreach (string instance in DCSInstances)
+            {
+                if (Directory.Exists(instance + "\\InputLayoutsTxt"))
+                {
+                    CheckSubfolderForDCSSticks(result, instance + "\\InputLayoutsTxt");
+                }
+                if (Directory.Exists(instance + "\\Config\\Input"))
+                {
+                    CheckSubfolderForDCSSticks(result, instance + "\\Config\\Input");
+                }
+            }
             if (MainStructure.msave.DCSInstaceOverride != null &&
                 Directory.Exists(MainStructure.msave.DCSInstaceOverride))
             {
@@ -141,19 +162,19 @@ namespace JoyPro
                     CheckSubfolderForDCSSticks(result, MainStructure.msave.lastInstanceSelected + "\\Config\\Input");
                 }
             }
-            else
+            if (MainStructure.msave.lastInstanceSelected != null &&
+                Directory.Exists(MainStructure.msave.lastInstanceSelected))
             {
-                if (Directory.Exists(MainStructure.msave.lastInstanceSelected))
+
+                if (Directory.Exists(MainStructure.msave.lastInstanceSelected + "\\InputLayoutsTxt"))
                 {
-                    if (Directory.Exists(MainStructure.msave.lastInstanceSelected + "\\InputLayoutsTxt"))
-                    {
-                        CheckSubfolderForDCSSticks(result, MainStructure.msave.lastInstanceSelected + "\\InputLayoutsTxt");
-                    }
-                    if (Directory.Exists(MiscGames.DCSselectedInstancePath + "\\Config\\Input"))
-                    {
-                        CheckSubfolderForDCSSticks(result, MainStructure.msave.lastInstanceSelected + "\\Config\\Input");
-                    }
+                    CheckSubfolderForDCSSticks(result, MainStructure.msave.lastInstanceSelected + "\\InputLayoutsTxt");
                 }
+                if (Directory.Exists(MiscGames.DCSselectedInstancePath + "\\Config\\Input"))
+                {
+                    CheckSubfolderForDCSSticks(result, MainStructure.msave.lastInstanceSelected + "\\Config\\Input");
+                }
+
             }
         }
         public static void RestoreInputsInInstance(string instance, string fallBack, string game)
@@ -281,7 +302,7 @@ namespace JoyPro
                 MainStructure.msave.lastInstanceSelected = DCSselectedInstancePath;
             }
             if (MainStructure.msave.importLocals == null) MainStructure.msave.importLocals = true;
-            if(MainStructure.msave.importLocals==true)DBLogic.PopulateDCSDictionaryWithLocal(DCSselectedInstancePath);
+            if (MainStructure.msave.importLocals == true) DBLogic.PopulateDCSDictionaryWithLocal(DCSselectedInstancePath);
             int indx = -1;
             for (int i = 0; i < DCSInstances.Length; ++i)
             {
@@ -408,7 +429,7 @@ namespace JoyPro
                 Console.WriteLine(e.HelpLink);
             }
         }
-        
+
     }
 
 

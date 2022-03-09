@@ -46,6 +46,7 @@ namespace JoyPro
         WindowPos collectSticks=null;
         public int maxVisualLayers;
         public string SCOR = "";
+        
 
         public WindowPos _RelationWindow
         {
@@ -443,6 +444,9 @@ namespace JoyPro
         public const bool default_OvlBtnChangeMode = false;
         public const int default_maxVisualLayers = 11;
         public const bool default_stackedMode = false;
+        public const bool default_AddAditionalCorrectItems = true;
+
+        public bool? AddAditionalAndCorrectRelationItems = null;
         public MetaSave()
         {
             lastGameSelected = "";
@@ -489,6 +493,7 @@ namespace JoyPro
             OvlBtnChangeMode = default_OvlBtnChangeMode;
             collectSticks = new WindowPos();
             maxVisualLayers = default_maxVisualLayers;
+            AddAditionalAndCorrectRelationItems = default_AddAditionalCorrectItems;
         }
     }
 }

@@ -97,6 +97,7 @@ namespace JoyPro
             athBox.Text = MainStructure.msave.axisThreshold.ToString();
             BackupDaysBox.Text = MainStructure.msave.backupDays.ToString();
             VisualLayersBox.Text = (MainStructure.msave.maxVisualLayers - 1).ToString();
+            AutomatedAdditionAndCorrectionCB.IsChecked = MainStructure.msave.AddAditionalAndCorrectRelationItems == false ? false : true;
             if (MainStructure.msave.DCSInstaceOverride != null) DCSInstanceORBox.Text = MainStructure.msave.DCSInstaceOverride;
             if (MainStructure.msave.IL2OR != null) IL2InstanceORBox.Text = MainStructure.msave.IL2OR;
             string installPath = InitGames.GetDCSInstallationPath();
@@ -124,11 +125,17 @@ namespace JoyPro
             ImportLocalsFromInstanceCB.Click += new RoutedEventHandler(ImportLocalsChanged);
             ManualDBBtn.Click += new RoutedEventHandler(OpenIDManualManagement);
             VisualLayersBox.LostFocus += new RoutedEventHandler(changeMaxLayerCount);
+            AutomatedAdditionAndCorrectionCB.Click += new RoutedEventHandler(AddOrCorrectRelationItems);
             if (MainStructure.msave.importLocals == null || MainStructure.msave.importLocals == true)
                 ImportLocalsFromInstanceCB.IsChecked = true;
             else
                 ImportLocalsFromInstanceCB.IsChecked = false;
             readDCSConfigData();
+        }
+
+        void AddOrCorrectRelationItems(object sender, EventArgs e)
+        {
+            MainStructure.msave.AddAditionalAndCorrectRelationItems = AutomatedAdditionAndCorrectionCB.IsChecked;
         }
 
         void ChangeSCInstanceOverridePath(object sender, RoutedEventArgs e)

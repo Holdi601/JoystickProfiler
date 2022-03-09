@@ -9,7 +9,33 @@ namespace JoyPro
 {
     public static class InitGames
     {
-        
+        public static void DCSDBMatchesClean()
+        {
+            List<string> missingCleans = new List<string>();
+            string htmlPath = MainStructure.PROGPATH + "\\DB\\DCS";
+            string cfPath = MainStructure.PROGPATH + "\\CleanProfile\\DCS";
+            DirectoryInfo htmlDirIn = new DirectoryInfo(htmlPath);
+            FileInfo[] allFiles = htmlDirIn.GetFiles();
+            foreach (FileInfo file in allFiles)
+            {
+                if (file.Name.EndsWith(".html")&&
+                    !File.Exists(cfPath+"\\"+file.Name.Replace(".html",".cf"))&&
+                    !missingCleans.Contains(file.Name.Replace(".html", ".cf")))
+                {
+                    missingCleans.Add(file.Name.Replace(".html", ".cf"));
+                }
+            }
+            if (missingCleans.Count > 0)
+            {
+                string errorMessage = "You are missing the Clean Profiles for the following Modules/Planes";
+                for(int i=0; i<missingCleans.Count; i++)
+                {
+                    errorMessage = errorMessage + "\r\n" + missingCleans[i];
+                }
+                errorMessage = errorMessage + "\r\n" + "Either delete the according HTML files from the DB/DCS folder or create the clean Profile files for those";
+                MainStructure.mainW.ShowMessageBox(errorMessage);
+            }
+        }
         public static void InitDCSJoysticks()
         {
             List<string> Joysticks = new List<string>();

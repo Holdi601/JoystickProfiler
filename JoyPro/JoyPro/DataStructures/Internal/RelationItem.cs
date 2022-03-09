@@ -18,12 +18,16 @@ namespace JoyPro
         public string RandomDescription()
         {
             Random r = new Random();
-            if (Game == "DCS" || Game == null || Game == "") 
-                if(AllInputs.Length > 0)
-                    return AllInputs[r.Next(AllInputs.Length)].Title;
-            else
-                if(OtherInputs.Length > 0)
-                    return OtherInputs[r.Next(OtherInputs.Length)].Title;
+
+            List<string> planes = GetActiveAircraftList();
+            while (planes.Count > 0)
+            {
+                int rnd = r.Next(planes.Count);
+                string result = GetInputDescription(planes[rnd]);
+                if (result.Length > 0) return result;
+                else planes.RemoveAt(rnd);
+            }
+
             return "ERROR";
         }
         public RelationItem(string id, string game)
@@ -90,7 +94,7 @@ namespace JoyPro
                         {
                             toRemove.Add(AllInputs[i], false);
                         }
-                        
+
                     }
                 }
                 for (int i = 0; i < dbItems.Length; ++i)
@@ -143,7 +147,7 @@ namespace JoyPro
                         else
                         {
                             toRemove.Add(OtherInputs[i], false);
-                        }     
+                        }
                     }
                 }
                 for (int i = 0; i < dbItems.Length; ++i)
@@ -193,8 +197,8 @@ namespace JoyPro
                     ri.OtherInputs[i] = OtherInputs[i].Copy();
                 }
             }
-                
-            
+
+
             return ri;
         }
         OtherGameInput InputsContainPlane(OtherGameInput[] inputs, string plane)
@@ -268,18 +272,19 @@ namespace JoyPro
         }
         public string GetInputDescription(string plane)
         {
-            if (Game==null||Game==""||Game == "DCS")
+            if (Game == null || Game == "" || Game == "DCS")
             {
                 for (int i = 0; i < AllInputs.Length; ++i)
                     if (AllInputs[i].Plane.ToLower() == plane.ToLower())
                         return AllInputs[i].Title;
-            }else 
+            }
+            else
             {
                 for (int i = 0; i < OtherInputs.Length; ++i)
                     if (OtherInputs[i].Plane.ToLower() == plane.ToLower())
                         return OtherInputs[i].Title;
             }
-            
+
             return "";
         }
         public List<string> GetActiveAircraftList()

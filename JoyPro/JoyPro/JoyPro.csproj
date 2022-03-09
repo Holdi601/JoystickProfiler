@@ -331,9 +331,6 @@
     <Content Include="DB\DCS\A-10C_easy.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DB\DCS\A-4E-C.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="DB\DCS\AJS37.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -496,9 +493,6 @@
     <Content Include="DB\DCS\P-51D-30-NA_easy.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DB\DCS\P-51D.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="DB\DCS\SA342.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -539,9 +533,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DB\DCS\UH-1H_TrackIR_Gunner.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DB\DCS\UiLayer.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DB\DCS\Yak-52.html">
