@@ -43,6 +43,9 @@ namespace JoyPro
         public static bool VisualMode = false;
         public static int VisualLayer = 0;
         public static double ScaleFactor = 1.0;
+        static int fileDeleteFailureMax = 10;
+        static int fileDeleteFailure = 0;
+        static int fileDeleteTimeOut = 1000;
         
         public static void LoadMetaLast()
         {
@@ -204,6 +207,9 @@ namespace JoyPro
                 else if (sender is OverlayWindow)
                 {
                     msave._OverlayWindow = p;
+                }else if(sender is MassModification)
+                {
+                    msave._MassOperationWindow = p;
                 }
             }
             if (mainW.CBNukeUnused.IsChecked == true)
@@ -375,20 +381,61 @@ namespace JoyPro
                 CopyFolderIntoFolder(all_dirs[i].FullName, dest + "\\" + last_part);
             }
         }
+        public static void DeleteFile(string file)
+        {
+            try
+            {
+                File.Delete(file);
+                fileDeleteFailure = 0;
+            }
+            catch (Exception ex)
+            {
+                if (fileDeleteFailure < fileDeleteFailureMax)
+                {
+                    fileDeleteFailure++;
+                    Thread.Sleep(fileDeleteTimeOut);
+                    DeleteFile(file);
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
+
+            
+        }
         public static void DeleteFolder(string folder)
         {
-            DirectoryInfo dd = new DirectoryInfo(folder);
-            FileInfo[] fi = dd.GetFiles();
-            for (int i = 0; i < fi.Length; i++)
+            try
             {
-                File.Delete(fi[i].FullName);
+                DirectoryInfo dd = new DirectoryInfo(folder);
+                FileInfo[] fi = dd.GetFiles();
+                for (int i = 0; i < fi.Length; i++)
+                {
+                    DeleteFile(fi[i].FullName);
+                }
+                DirectoryInfo[] dirs = dd.GetDirectories();
+                for (int i = 0; i < dirs.Length; i++)
+                {
+                    DeleteFolder(dirs[i].FullName);
+                }
+                Directory.Delete(folder);
+                fileDeleteFailure = 0;
             }
-            DirectoryInfo[] dirs = dd.GetDirectories();
-            for (int i = 0; i < dirs.Length; i++)
+            catch (Exception ex)
             {
-                DeleteFolder(dirs[i].FullName);
+                if (fileDeleteFailure < fileDeleteFailureMax)
+                {
+                    fileDeleteFailure++;
+                    Thread.Sleep(fileDeleteTimeOut);
+                    DeleteFolder(folder);
+                }
+                else
+                {
+                    throw ex;
+                }
             }
-            Directory.Delete(folder);
+            
         }
         public static bool ListContainsCaseInsensitive(List<string> li, string toCheck)
         {

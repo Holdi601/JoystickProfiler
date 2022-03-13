@@ -159,6 +159,9 @@
     <Compile Include="Windows\ManualJoystickAssign.xaml.cs">
       <DependentUpon>ManualJoystickAssign.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\MassModification.xaml.cs">
+      <DependentUpon>MassModification.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ModifierManager.xaml.cs">
       <DependentUpon>ModifierManager.xaml</DependentUpon>
     </Compile>
@@ -253,6 +256,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\ManualJoystickAssign.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MassModification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -305,6 +305,8 @@ namespace JoyPro
         public static void RemoveRelation(Relation r)
         {
             AllRelations.Remove(r.NAME);
+            if (AllBinds.ContainsKey(r.NAME))
+                AllBinds.Remove(r.NAME);
             ResyncRelations();
         }
         public static void LoadRelations(string filePath)
@@ -543,7 +545,17 @@ namespace JoyPro
             foreach (string s in files)
             {
                 if (s == null || s.Length < 1) continue;
-                Dictionary<string, Relation> thisRel = MainStructure.ReadFromBinaryFile<Dictionary<string, Relation>>(s);
+                Dictionary<string, Relation> thisRel;
+                if (s.EndsWith(".rl"))
+                {
+                    thisRel = MainStructure.ReadFromBinaryFile<Dictionary<string, Relation>>(s); 
+                }
+                else
+                {
+                    Pr0file pr = null;
+                    pr = MainStructure.ReadFromBinaryFile<Pr0file>(s);
+                    thisRel = pr.Relations;
+                }
                 foreach (KeyValuePair<string, Relation> kvp in thisRel)
                 {
                     string newKey = kvp.Key;
@@ -570,6 +582,10 @@ namespace JoyPro
                         kvp.Value.NAME = newKey;
                     }
                 }
+            }
+            foreach (KeyValuePair<string, Relation> kvp in AllRelations)
+            {
+                kvp.Value.CheckNamesAgainstDB();
             }
             ResyncRelations();
         }
@@ -1555,6 +1571,90 @@ namespace JoyPro
                 aircraftRemoved += result.Value;
             }
             return new KeyValuePair<int, int>(relationDeleted, aircraftRemoved);
+        }
+
+        public static void MergeRelations(List<Relation> r, string name)
+        {
+            for(int i=0; i<r.Count; ++i)
+            {
+                RemoveRelation(r[i]);
+            }
+            Relation re = new Relation();
+            re.NAME = name;
+            re.ISAXIS = r[0].ISAXIS;
+            
+            for(int j=0; j<r.Count; j++)
+            {
+                List<RelationItem> ris = r[j].AllRelations();
+                for(int k=0; k<ris.Count; ++k)
+                {
+                    re.IncludeRelationItem(ris[k]);
+                }
+            }
+            while (AllRelations.ContainsKey(re.NAME))
+            {
+                re.NAME += "0";
+            }
+            AddRelation(re);
+        }
+        public static void DuplicateRelation(Relation r)
+        {
+            string name = r.NAME;
+            while (DoesRelationAlreadyExist(name))
+            {
+                name = name + "1";
+            }
+            Relation nw = r.Copy();
+            nw.NAME = name;
+            if (nw.bind != null)
+            {
+                AddBind(nw.NAME, nw.bind);
+            }
+            AddRelation(nw);
+        }
+
+        public static void SplitRelations(List<Relation> r, string postfix, List<string> airCraftToSplit)
+        {
+            List<string> correctedAircraftList = new List<string>();
+            for(int i=0; i<airCraftToSplit.Count; ++i)
+            {
+                string tmp = airCraftToSplit[i].Substring(airCraftToSplit[i].IndexOf(":") + 1);
+                correctedAircraftList.Add(tmp);
+            }
+            for(int i=0; i<r.Count; ++i)
+            {
+                Relation rNew = new Relation();
+                rNew.NAME = r[i].NAME + "_" + postfix;
+                rNew.ISAXIS = r[i].ISAXIS;
+                List<RelationItem> ris = r[i].AllRelations();
+                for(int a=0; a<r[i].Groups.Count; a++)
+                {
+                    rNew.Groups.Add(r[i].Groups[a]);
+                }
+                for(int j=0; j<ris.Count; ++j)
+                {
+                    RelationItem copyRis = ris[j].Copy();
+                    List<string> activeCrafts = copyRis.GetActiveAircraftList();
+                    for(int k=0; k<activeCrafts.Count; ++k)
+                    {
+                        copyRis.SetAircraftActivity(activeCrafts[k], false);
+                    }
+                    for(int k=0; k<correctedAircraftList.Count; ++k)
+                    {
+                        if (activeCrafts.Contains(correctedAircraftList[k]))
+                        {
+                            copyRis.SetAircraftActivity(correctedAircraftList[k], true);
+                            ris[j].SetAircraftActivity(correctedAircraftList[k], false);
+                        }
+                    }
+                    rNew.AddNode(copyRis);
+                }
+                while (AllRelations.ContainsKey(rNew.NAME))
+                {
+                    rNew.NAME += "0";
+                }
+                AddRelation(rNew);
+            }
         }
     }
 }

@@ -447,6 +447,29 @@ namespace JoyPro
         public const bool default_AddAditionalCorrectItems = true;
 
         public bool? AddAditionalAndCorrectRelationItems = null;
+        WindowPos massOpW = null;
+        public WindowPos _MassOperationWindow
+        {
+            get
+            {
+                if (massOpW == null) massOpW = new WindowPos();
+                if (massOpW.Width <= 0 ||
+                    massOpW.Height <= 0 ||
+                    massOpW.Top < 0 ||
+                    massOpW.Left < 0)
+                {
+                    massOpW.Width = 1920;
+                    massOpW.Height = 1080;
+                    massOpW.Top = 0;
+                    massOpW.Left = 0;
+                }
+                return massOpW;
+            }
+            set
+            {
+                massOpW = value;
+            }
+        }
         public MetaSave()
         {
             lastGameSelected = "";

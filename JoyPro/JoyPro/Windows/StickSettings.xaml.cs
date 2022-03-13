@@ -501,9 +501,21 @@ namespace JoyPro
             if (mr == MessageBoxResult.Yes)
             {
                 string pathToClear = path  + "\\Config\\Input";
-                MainStructure.DeleteFolder(pathToClear);
+                if (Directory.Exists(pathToClear))
+                {
+                    MainStructure.CopyFolderIntoFolder(pathToClear, path + "\\Config\\CLInput");
+                    MainStructure.DeleteFolder(pathToClear);
+                }
                 turnFullScreen(false);
-                string executeDCS = InitGames.GetDCSInstallationPath() + "\\bin\\DCS_updater.exe";
+                string executeDCS;
+                if (InitGames.GetDCSInstallationPath().ToLower().Contains("steam"))
+                {
+                    executeDCS = InitGames.GetDCSInstallationPath() + "\\bin\\DCS.exe";
+                }
+                else
+                {
+                    executeDCS = InitGames.GetDCSInstallationPath() + "\\bin\\DCS_updater.exe";
+                }
                 if (!File.Exists(executeDCS))
                 {
                     MessageBox.Show("Couldn't find the DCS_Updater executeable. Path that got checked: " + executeDCS);
@@ -543,6 +555,9 @@ namespace JoyPro
                 DCSproc.Kill();
                 recreateCleanFile(path);
                 turnFullScreen(OriginalFullscreen);
+                if(Directory.Exists(pathToClear))MainStructure.DeleteFolder(pathToClear);
+                if (Directory.Exists(path + "\\Config\\CLInput\\Input")) MainStructure.CopyFolderIntoFolder(path + "\\Config\\CLInput\\Input", path + "\\Config");
+                if (Directory.Exists(path + "\\Config\\CLInput")) MainStructure.DeleteFolder(path + "\\Config\\CLInput");
                 MessageBox.Show("Done. Please restart JoyPro now.");
             }
         }
@@ -577,7 +592,15 @@ namespace JoyPro
             if (mr == MessageBoxResult.Yes)
             {
                 turnFullScreen(false);
-                string executeDCS = InitGames.GetDCSInstallationPath() + "\\bin\\DCS_updater.exe";
+                string executeDCS;
+                if (InitGames.GetDCSInstallationPath().ToLower().Contains("steam"))
+                {
+                    executeDCS = InitGames.GetDCSInstallationPath() + "\\bin\\DCS.exe";
+                }
+                else
+                {
+                    executeDCS = InitGames.GetDCSInstallationPath() + "\\bin\\DCS_updater.exe";
+                }
                 if (!File.Exists(executeDCS))
                 {
                     MessageBox.Show("Couldn't find the DCS_Updater executeable. Path that got checked: " + executeDCS);

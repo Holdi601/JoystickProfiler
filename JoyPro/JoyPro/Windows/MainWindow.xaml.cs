@@ -75,8 +75,8 @@ namespace JoyPro
             renderedComboBoxes = new Dictionary<string, Dictionary<string, ComboBox>>();
             deviceLookup = new Dictionary<ComboBox, string>();
             stopwatch.Start();
-            //Application.Current.DispatcherUnhandledException += new System.Windows.Threading.DispatcherUnhandledExceptionEventHandler(MainStructure.WriteCrashInfoDisp);
-            //AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MainStructure.WriteCrashInfo);
+            Application.Current.DispatcherUnhandledException += new System.Windows.Threading.DispatcherUnhandledExceptionEventHandler(MainStructure.WriteCrashInfoDisp);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MainStructure.WriteCrashInfo);
             InitializeComponent();
             DEFAULT_HEIGHT = this.Height;
             DEFAULT_WIDTH = this.Width;
@@ -154,6 +154,8 @@ namespace JoyPro
             ALLBUTTONS.Add(OverlayBtn);
             ALLBUTTONS.Add(SettingsOverlayBtn);
             ALLBUTTONS.Add(VisualAssigningModeBtn);
+            ALLBUTTONS.Add(MassOperationBtn);
+            ALLBUTTONS.Add(JoystickReferenceBtn);
         }
         void SetupEventHandlers()
         {
@@ -190,6 +192,7 @@ namespace JoyPro
             NewFileBtn.Click += new RoutedEventHandler(NewFileEvent);
             ModManagerBtn.Click += new RoutedEventHandler(OpenModifierManager);
             ValidateBtn.Click += new RoutedEventHandler(OpenValidation);
+            MassOperationBtn.Click += new RoutedEventHandler(OpenMassOperation);
             ExchStickBtn.Click += new RoutedEventHandler(OpenExchangeStick);
             SettingsBtn.Click += new RoutedEventHandler(OpenChangeJoystickSettings);
             ReinstateBUBtn.Click += new RoutedEventHandler(OpenBackupWindow);
@@ -236,6 +239,14 @@ namespace JoyPro
             StickToExchange ste = new StickToExchange(sticksInBind);
             ste.Show();
             ste.Closing += new CancelEventHandler(ActivateInputs);
+        }
+        void OpenMassOperation(object sender, EventArgs e)
+        {
+            DisableInputs();
+            MassModification m = new MassModification(CURRENTDISPLAYEDRELATION);
+            ALLWINDOWS.Add(m);
+            m.Show();
+            m.Closed += new EventHandler(WindowClosing);
         }
         void OpenValidation(object sender, EventArgs e)
         {
@@ -507,7 +518,7 @@ namespace JoyPro
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = true;
-            ofd.Filter = "Relation Files (*.rl)|*.rl|All filed (*.*)|*.*";
+            ofd.Filter = "Relation Files (*.rl)|*.rl|Pr0file Files (*.pr0file)|*.pr0file|All filed (*.*)|*.*";
             ofd.Title = "Include Relations";
             if (MainStructure.msave.lastOpenedLocation.Length < 1 || !Directory.Exists(MainStructure.msave.lastOpenedLocation))
             {
@@ -2030,23 +2041,9 @@ namespace JoyPro
         {
             int indx= Convert.ToInt32(((Button)sender).Name.Replace("dupBtn", ""));
             Relation r = CURRENTDISPLAYEDRELATION[indx];
-            duplicateRelation(r);
+            InternalDataManagement.DuplicateRelation(r);
         }
-        public void duplicateRelation(Relation r)
-        {
-            string name = r.NAME;
-            while (InternalDataManagement.DoesRelationAlreadyExist(name))
-            {
-                name = name + "1";
-            }
-            Relation nw = r.Copy();
-            nw.NAME = name;
-            if (nw.bind != null)
-            {
-                InternalDataManagement.AddBind(nw.NAME, nw.bind);
-            }
-            InternalDataManagement.AddRelation(nw);
-        }
+        
         public void CleanText(object sender, EventArgs e)
         {
             TextBox cx = (TextBox)sender;

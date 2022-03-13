@@ -116,6 +116,15 @@ namespace JoyPro
             }
             return counter;
         }
+        public bool AddNode(RelationItem ri)
+        {
+            if (ri.Game == null || ri.Game.Length < 1) ri.Game = "DCS";
+            if (NodesContainId(ri.ID)) return false;
+            NODES.Add(ri);
+            return true;
+            //Possible error condition if already added condition is button or axis
+
+        }
         public bool AddNode(string id, string game, bool axis, string plane = "")
         {
             if (game == null || game.Length < 1) game = "DCS";
@@ -180,6 +189,25 @@ namespace JoyPro
                     game.ToUpper()==NODES[i].Game.ToUpper()) return NODES[i];
             }
             return null;
+        }
+
+        public void IncludeRelationItem(RelationItem ri)
+        {
+            if(ri==null) return;
+            if (NodesContainId(ri.ID))
+            {
+                RelationItem refri = GetRelationItem(ri.ID, ri.Game);
+                if (refri==null) return;
+                List<string> activePlanes = ri.GetActiveAircraftList();
+                for(int i=0; i< activePlanes.Count; i++)
+                {
+                    refri.SetAircraftActivity(activePlanes[i], true);
+                }
+            }
+            else
+            {
+                NODES.Add(ri);
+            }
         }
         bool NodesContainId(string id)
         {
