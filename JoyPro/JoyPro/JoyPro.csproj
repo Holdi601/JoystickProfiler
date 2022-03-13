@@ -182,6 +182,9 @@
       <DependentUpon>RelationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataStructures\Internal\SearchQueryResults.cs" />
+    <Compile Include="Windows\StickMention.xaml.cs">
+      <DependentUpon>StickMention.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\StickSettings.xaml.cs">
       <DependentUpon>StickSettings.xaml</DependentUpon>
     </Compile>
@@ -284,6 +287,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\RelationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\StickMention.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -811,6 +818,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="CleanProfile\DCS\Yak-52_easy.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\SpitfireLFMkIX.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\SpitfireLFMkIXCW_easy.cf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="TOOLS\AHK\ALTF4.ahk" />

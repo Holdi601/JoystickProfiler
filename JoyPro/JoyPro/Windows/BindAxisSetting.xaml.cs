@@ -141,7 +141,7 @@ namespace JoyPro
 
         void Duplicate(object sender, EventArgs e)
         {
-            mainw.duplicateRelation(bind.Rl);
+            InternalDataManagement.DuplicateRelation(bind.Rl);
             Close();
         }
 

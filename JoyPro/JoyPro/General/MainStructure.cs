@@ -210,6 +210,9 @@ namespace JoyPro
                 }else if(sender is MassModification)
                 {
                     msave._MassOperationWindow = p;
+                }else if(sender is StickMention)
+                {
+                    msave._JoystickMentionWindow = p;
                 }
             }
             if (mainW.CBNukeUnused.IsChecked == true)

@@ -32,6 +32,156 @@ namespace JoyPro
         public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> CurrentButtonMapping= new ConcurrentDictionary<string, ConcurrentDictionary<string, string>>();
         public static Dictionary<string, Dictionary<string, string>> PlaneAliases = new Dictionary<string, Dictionary<string,string>>();
 
+        public static void DeleteAllReferencesOfJoystick(string joystick, bool deleteFileReferences)
+        {
+            DeleteJoyStickFromBinds(joystick);
+            if(JoystickActivity.ContainsKey(joystick))JoystickActivity.Remove(joystick);
+            if (JoystickAliases.ContainsKey(joystick)) JoystickAliases.Remove(joystick);
+            List<string> localJoyNew = new List<string>();
+            foreach(string s in LocalJoysticks)
+            {
+                if(s!=joystick)localJoyNew.Add(s);
+            }
+            LocalJoysticks = localJoyNew.ToArray();
+            if (LocalJoystickPGUID.ContainsKey(joystick)) LocalJoystickPGUID.Remove(joystick);
+            if (JoystickFileImages.ContainsKey(joystick)) JoystickFileImages.Remove(joystick);
+            if (deleteFileReferences)
+            {
+                DeleteJoystickFromFiles(joystick);
+            }
+        }
+
+        static void DeleteJoystickFromFiles(string stick)
+        {
+            foreach(string pth in MiscGames.DCSInstances)
+            {
+                if(Directory.Exists(pth+ "\\Config\\Input"))
+                {
+                    DeleteJoystickFilesFromDirectory(stick, pth + "\\Config\\Input");
+                    DeleteJoystickFilesFromDirectory(stick, pth + "\\Config\\Input", ".jp");
+                }
+                if(Directory.Exists(pth+ "\\InputLayoutsTxt"))
+                {
+                    DeleteJoystickFilesFromDirectory(stick, pth + "\\InputLayoutsTxt", ".html");
+                }
+            }
+            if(MainStructure.msave.DCSInstaceOverride != null
+                && MainStructure.msave.DCSInstaceOverride.Length> 2
+                && Directory.Exists(MainStructure.msave.DCSInstaceOverride))
+            {
+                if (Directory.Exists(MainStructure.msave.DCSInstaceOverride + "\\Config\\Input"))
+                {
+                    DeleteJoystickFilesFromDirectory(stick, MainStructure.msave.DCSInstaceOverride + "\\Config\\Input");
+                    DeleteJoystickFilesFromDirectory(stick, MainStructure.msave.DCSInstaceOverride + "\\Config\\Input", ".jp");
+                }
+                if (Directory.Exists(MainStructure.msave.DCSInstaceOverride + "\\InputLayoutsTxt"))
+                {
+                    DeleteJoystickFilesFromDirectory(stick, MainStructure.msave.DCSInstaceOverride + "\\Config\\Input", ".html");
+                }
+            }
+        }
+
+        static void DeleteJoystickFilesFromDirectory(string stick, string path, string ending = ".diff.lua")
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(path);
+            foreach(DirectoryInfo dir in dirInfo.GetDirectories())
+            {
+                string finalPath = dir.FullName;
+                if (ending == ".diff.lua" || ending == ".jp")
+                {
+                    finalPath = finalPath + "\\joystick";                    
+                }
+                finalPath = finalPath +"\\" + stick + ending;
+                if (File.Exists(finalPath))
+                {
+                    MainStructure.DeleteFile(finalPath);
+                }
+            }
+        }
+
+        static void DeleteJoyStickFromBinds(string joystick)
+        {
+            List<Bind> toDelete = new List<Bind>();
+            foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (kvp.Value.Joystick == joystick)
+                {
+                    toDelete.Add(kvp.Value);
+                    continue;
+                }
+
+                for (int i = 0; i < kvp.Value.AllReformers.Count; i++)
+                {
+                    string stick = kvp.Value.AllReformers[i].Split('§')[1];
+                    if (joystick == stick)
+                    {
+                        toDelete.Add(kvp.Value);
+                    }
+                }
+            }
+            for(int i=0; i<toDelete.Count; i++)
+            {
+                if(AllBinds.ContainsKey(toDelete[i].Rl.NAME))
+                    AllBinds.Remove(toDelete[i].Rl.NAME);
+            }
+        }
+
+        public static List<string> GetAllMentionSticks()
+        {
+            List<string> list = new List<string>();
+            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (!list.Contains(kvp.Value.Joystick))
+                {
+                    list.Add(kvp.Value.Joystick);
+                }
+                for(int i=0; i<kvp.Value.AllReformers.Count; i++)
+                {
+                    string stick = kvp.Value.AllReformers[i].Split('§')[1];
+                    if (!list.Contains(stick))
+                    {
+                        list.Add(stick);
+                    }
+                }
+            }
+            foreach(KeyValuePair<string, bool> kvp in JoystickActivity)
+            {
+                if (!list.Contains(kvp.Key))
+                {
+                    list.Add(kvp.Key);
+                }
+            }
+            foreach (KeyValuePair<string, string> kvp in JoystickAliases)
+            {
+                if (!list.Contains(kvp.Key))
+                {
+                    list.Add(kvp.Key);
+                }
+            }
+            foreach (string s in LocalJoysticks)
+            {
+                if (!list.Contains(s))
+                {
+                    list.Add(s);
+                }
+            }
+            foreach (KeyValuePair<string, string> kvp in LocalJoystickPGUID)
+            {
+                if (!list.Contains(kvp.Key))
+                {
+                    list.Add(kvp.Key);
+                }
+            }
+            foreach (KeyValuePair<string, string> kvp in JoystickFileImages)
+            {
+                if (!list.Contains(kvp.Key))
+                {
+                    list.Add(kvp.Key);
+                }
+            }
+
+            return list;
+        }
 
         public static void CorrectModifiersInBinds()
         {

@@ -75,8 +75,8 @@ namespace JoyPro
             renderedComboBoxes = new Dictionary<string, Dictionary<string, ComboBox>>();
             deviceLookup = new Dictionary<ComboBox, string>();
             stopwatch.Start();
-            Application.Current.DispatcherUnhandledException += new System.Windows.Threading.DispatcherUnhandledExceptionEventHandler(MainStructure.WriteCrashInfoDisp);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MainStructure.WriteCrashInfo);
+            //Application.Current.DispatcherUnhandledException += new System.Windows.Threading.DispatcherUnhandledExceptionEventHandler(MainStructure.WriteCrashInfoDisp);
+            //AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MainStructure.WriteCrashInfo);
             InitializeComponent();
             DEFAULT_HEIGHT = this.Height;
             DEFAULT_WIDTH = this.Width;
@@ -202,6 +202,7 @@ namespace JoyPro
             SettingsOverlayBtn.Click += new RoutedEventHandler(OpenOverlaySettings);
             OverlayBtn.Click += new RoutedEventHandler(OpenOverlay);
             VisualAssigningModeBtn.Click += new RoutedEventHandler(SwitchVisualMode);
+            JoystickReferenceBtn.Click += new RoutedEventHandler(OpenJoystickReference);
         }
         void OpenBackupWindow(object sender, EventArgs e)
         {
@@ -239,6 +240,15 @@ namespace JoyPro
             StickToExchange ste = new StickToExchange(sticksInBind);
             ste.Show();
             ste.Closing += new CancelEventHandler(ActivateInputs);
+        }
+
+        void OpenJoystickReference(object sender, EventArgs e)
+        {
+            DisableInputs();
+            StickMention m = new StickMention();
+            ALLWINDOWS.Add(m);
+            m.Show();
+            m.Closed += new EventHandler(WindowClosing);
         }
         void OpenMassOperation(object sender, EventArgs e)
         {

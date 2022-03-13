@@ -470,6 +470,31 @@ namespace JoyPro
                 massOpW = value;
             }
         }
+
+        WindowPos joyMention = null;
+        public WindowPos _JoystickMentionWindow
+        {
+            get
+            {
+                if (joyMention == null) joyMention = new WindowPos();
+                if (joyMention.Width <= 0 ||
+                    joyMention.Height <= 0 ||
+                    joyMention.Top < 0 ||
+                    joyMention.Left < 0)
+                {
+                    joyMention.Width = 1920;
+                    joyMention.Height = 1080;
+                    joyMention.Top = 0;
+                    joyMention.Left = 0;
+                }
+                return joyMention;
+            }
+            set
+            {
+                joyMention = value;
+            }
+        }
+
         public MetaSave()
         {
             lastGameSelected = "";
