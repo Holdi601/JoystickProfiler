@@ -1405,6 +1405,7 @@ namespace JoyPro
                     pln.Name = "plane";
                     string k = DBLogic.Planes.ElementAt(i).Key + ":" + DBLogic.Planes.ElementAt(i).Value[j];
                     pln.Content = k;
+                    if (!InternalDataManagement.PlaneActivity.ContainsKey(k)) InternalDataManagement.PlaneActivity.Add(k, true);
                     pln.IsChecked = InternalDataManagement.PlaneActivity[k];
                     pln.Click += new RoutedEventHandler(PlaneFilterChanged);
                     PlaneDropdown.Items.Add(pln);
@@ -1598,6 +1599,7 @@ namespace JoyPro
                 grid.Children.Add(modCbx);
                 modCbx.MouseEnter += new MouseEventHandler(OnHover);
                 modCbx.MouseLeave += new MouseEventHandler(OnLeave);
+                int firstActiveModIndex = -1;
                 for(int r=0; r<allMods.Count; r++)
                 {
                     CheckBox mcbx = new CheckBox();
@@ -1608,9 +1610,11 @@ namespace JoyPro
                     mcbx.VerticalAlignment = VerticalAlignment.Center;
                     modCbx.Items.Add(mcbx);
                     mcbx.IsChecked = (currentBind != null && currentBind.ReformerInBind(allMods[r])) ? true : false;
+                    if (mcbx.IsChecked == true && firstActiveModIndex < 0) firstActiveModIndex = r;
                     mcbx.Click += new RoutedEventHandler(OnModifierChanged);
                     mcbx.Click += new RoutedEventHandler(MainStructure.SaveWindowState);
                 }
+                if(firstActiveModIndex>=0)modCbx.SelectedIndex = firstActiveModIndex;
                 
 
 
