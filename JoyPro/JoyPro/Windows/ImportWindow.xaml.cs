@@ -101,9 +101,16 @@ namespace JoyPro
             {
                 CheckBox element = (CheckBox)GamesFilterDropDown.Items[i];
                 string content = (string)element.Content;
-                if (!(content == "ALL" || content == "NONE" || content.Contains(":ALL") || content.Contains(":NONE"))&& element.IsChecked == true)
+                if (!(content == "ALL" || content == "NONE" || content.Contains(":ALL") || content.Contains(":NONE")))
                 {
-                    result.Add(content);
+                    string game = content.Substring(0, content.IndexOf(":"));
+                    string plane = content.Substring(content.IndexOf(":")+1);
+                    bool state = element.IsChecked == true?true:false;
+                    MainStructure.msave.PlaneSetLastActivity(PlaneActivitySelection.Import, game, plane, state);
+                    if(element.IsChecked == true)
+                    {
+                        result.Add(content);
+                    }
                 }
             }
             return result;
@@ -294,7 +301,9 @@ namespace JoyPro
                     pln.Name = "plane";
                     string k = DBLogic.Planes.ElementAt(i).Key + ":" + DBLogic.Planes.ElementAt(i).Value[j];
                     pln.Content = k;
-                    pln.IsChecked = InternalDataManagement.PlaneActivity[k];
+                    bool? toCheck = MainStructure.msave.PlaneWasActiveLastTime(PlaneActivitySelection.Import, DBLogic.Planes.ElementAt(i).Key, DBLogic.Planes.ElementAt(i).Value[j]);
+                    if (toCheck == null) pln.IsChecked = true;
+                    else pln.IsChecked = toCheck;
                     pln.Click += new RoutedEventHandler(PlaneFilterChanged);
                     GamesFilterDropDown.Items.Add(pln);
                 }

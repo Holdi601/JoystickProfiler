@@ -20,14 +20,16 @@ namespace JoyPro
         public string JoystickLayoutExport;
         public Dictionary<string, Dictionary<string, string>> PlaneAliases;
         public Dictionary<string, string> JoysticksPGuids = new Dictionary<string, string>();
+        public List<KeyValuePair<string, string>> modifierNameChanges = new List<KeyValuePair<string, string>>();
 
-        public Pr0file(Dictionary<string, Relation> Rel, Dictionary<string, Bind> Bnds, string DCSInstance, Dictionary<string, string> JAlias, Dictionary<string, Dictionary<string, string>> pAlias)
+        public Pr0file(Dictionary<string, Relation> Rel, Dictionary<string, Bind> Bnds, string DCSInstance, Dictionary<string, string> JAlias, Dictionary<string, Dictionary<string, string>> pAlias, List<KeyValuePair<string, string>> modifierChanges)
         {
             Relations = Rel;
             Binds = Bnds;
             LastSelectedDCSInstance = DCSInstance;
             JoystickAliases = JAlias;
             PlaneAliases = pAlias;
+            modifierNameChanges = modifierChanges;
         }
     }
 }

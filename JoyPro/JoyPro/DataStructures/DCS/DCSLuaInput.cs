@@ -40,6 +40,15 @@ namespace JoyPro
                         {
                             swr.Write("\t\t\t\t[" + (y + 1).ToString() + "] = {\n");
                             swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.added[y].key.Replace("\"", "") + "\",\n");
+                            if (kvp.Value.added[y].reformers.Count > 0)
+                            {
+                                swr.Write("\t\t\t\t\t[\"reformers\"] = {\n");
+                                for (int a = 0; a < kvp.Value.added[y].reformers.Count; ++a)
+                                {
+                                    swr.Write("\t\t\t\t\t\t[" + (a + 1).ToString() + "] = \"" + kvp.Value.added[y].reformers[a].Replace("\"", "") + "\",\n");
+                                }
+                                swr.Write("\t\t\t\t\t},\n");
+                            }
                             swr.Write("\t\t\t\t\t[\"JPK\"] = \"" + kvp.Value.added[y].JPRelName.Replace("\"", "") + "\",\n");
                             if (kvp.Value.added[y].Groups.Count > 0)
                             {
@@ -77,6 +86,15 @@ namespace JoyPro
                         {
                             swr.Write("\t\t\t\t[" + (w + 1).ToString() + "] = {\n");
                             swr.Write("\t\t\t\t\t[\"key\"] = \"" + kvp.Value.removed[w].key.Replace("\"", "") + "\",\n");
+                            if (kvp.Value.removed[w].reformers.Count > 0)
+                            {
+                                swr.Write("\t\t\t\t\t[\"reformers\"] = {\n");
+                                for (int a = 0; a < kvp.Value.removed[w].reformers.Count; ++a)
+                                {
+                                    swr.Write("\t\t\t\t\t\t[" + (a + 1).ToString() + "] = \"" + kvp.Value.removed[w].reformers[a].Replace("\"", "") + "\",\n");
+                                }
+                                swr.Write("\t\t\t\t\t},\n");
+                            }
                             swr.Write("\t\t\t\t},\n");
                         }
                         swr.Write("\t\t\t},\n");
@@ -190,6 +208,14 @@ namespace JoyPro
                             {
                                 DCSAxisBind dab = new DCSAxisBind();
                                 dab.key = (string)((Dictionary<object, object>)kvpAdded.Value)["key"];
+                                if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("reformers"))
+                                {
+                                    foreach (KeyValuePair<object, object> kvpReformers in (Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["reformers"])
+                                    {
+                                        if (!dab.reformers.Contains((string)kvpReformers.Value))
+                                            dab.reformers.Add((string)kvpReformers.Value);
+                                    }
+                                }
                                 if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("filter"))
                                 {
                                     DCSAxisFilter daf = new DCSAxisFilter();
@@ -221,6 +247,14 @@ namespace JoyPro
                             {
                                 DCSAxisBind dab = new DCSAxisBind();
                                 dab.key = (string)((Dictionary<object, object>)kvpAdded.Value)["key"];
+                                if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("reformers"))
+                                {
+                                    foreach (KeyValuePair<object, object> kvpReformers in (Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["reformers"])
+                                    {
+                                        if (!dab.reformers.Contains((string)kvpReformers.Value))
+                                            dab.reformers.Add((string)kvpReformers.Value);
+                                    }
+                                }
                                 if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("filter"))
                                 {
                                     DCSAxisFilter daf = new DCSAxisFilter();
@@ -339,6 +373,22 @@ namespace JoyPro
                                         }
                                     }
                                 }
+                                if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("reformers"))
+                                {
+                                    foreach (KeyValuePair<object, object> kvpReformers in (Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["reformers"])
+                                    {
+                                        if (!dab.reformers.Contains((string)kvpReformers.Value))
+                                            dab.reformers.Add((string)kvpReformers.Value);
+                                        if (refMod != null)
+                                        {
+                                            if (refMod.modifiers.ContainsKey((string)kvpReformers.Value))
+                                            {
+                                                Modifier m = refMod.modifiers[(string)kvpReformers.Value];
+                                                dab.modifiers.Add(m);
+                                            }
+                                        }
+                                    }
+                                }
                                 if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("filter"))
                                 {
                                     DCSAxisFilter daf = new DCSAxisFilter();
@@ -382,6 +432,22 @@ namespace JoyPro
                                         if (!InternalDataManagement.AllGroups.Contains((string)kvpGroup.Value))
                                         {
                                             InternalDataManagement.AllGroups.Add((string)kvpGroup.Value);
+                                        }
+                                    }
+                                }
+                                if (((Dictionary<object, object>)kvpAdded.Value).ContainsKey("reformers"))
+                                {
+                                    foreach (KeyValuePair<object, object> kvpReformers in (Dictionary<object, object>)((Dictionary<object, object>)kvpAdded.Value)["reformers"])
+                                    {
+                                        if (!dab.reformers.Contains((string)kvpReformers.Value))
+                                            dab.reformers.Add((string)kvpReformers.Value);
+                                        if (refMod != null)
+                                        {
+                                            if (refMod.modifiers.ContainsKey((string)kvpReformers.Value))
+                                            {
+                                                Modifier m = refMod.modifiers[(string)kvpReformers.Value];
+                                                dab.modifiers.Add(m);
+                                            }
                                         }
                                     }
                                 }

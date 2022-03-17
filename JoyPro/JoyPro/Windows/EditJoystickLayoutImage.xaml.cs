@@ -297,7 +297,43 @@ namespace JoyPro
             backup = (System.Drawing.Bitmap)lf.backup.Clone();
             mainImg = (System.Drawing.Bitmap)lf.backup.Clone();
             fontColor = lf.ColorSCB;
-            LabelLocations = lf.Positions;
+            Dictionary<string, Point> tempPosMap = new Dictionary<string, Point>();
+            if (InternalDataManagement.ModifierNameChanges == null) InternalDataManagement.ModifierNameChanges = new List<KeyValuePair<string, string>>();
+            foreach(KeyValuePair<string, Point> pair in lf.Positions)
+            {
+                string temp=pair.Key;
+                string[] mods = temp.Split('+');
+                for(int j=0; j<mods.Length-1; j++)
+                {
+                    for(int i=0; i<InternalDataManagement.ModifierNameChanges.Count; i++)
+                    {
+                        if(InternalDataManagement.ModifierNameChanges[i].Key == mods[j])
+                        {
+                            mods[j] = InternalDataManagement.ModifierNameChanges[i].Value;
+                        }
+                    }
+                }
+                string finalName;
+                if(mods.Length > 1)
+                {
+                    List<string> modsList = mods.ToList();
+                    modsList.RemoveAt(mods.Length-1);
+                    modsList.Sort();
+                    finalName=modsList[0];
+                    for(int i=1; i<modsList.Count; ++i)
+                    {
+                        finalName = finalName + "+" + modsList[i];
+                    }
+                    finalName=finalName+"+"+mods[mods.Length-1];
+                }
+                else
+                {
+                    finalName=mods[0];
+                }
+                tempPosMap.Add(finalName, pair.Value);
+
+            }
+            LabelLocations = tempPosMap;
             textSize = lf.Size;
             TextSizeTB.Text = textSize.ToString();
             int toSel = 0;

@@ -66,6 +66,14 @@ local diff = {
 				},
 			},
 		},
+		["d3034pnilu3033cd26vd1vpnilvu0"] = {
+			["name"] = "Minigun fire",
+			["removed"] = {
+				[1] = {
+					["key"] = "JOY_BTN2",
+				},
+			},
+		},
 		["d84pnilu85cdnilvdnilvpnilvunil"] = {
 			["name"] = "Fire Gun or Rockets",
 			["removed"] = {

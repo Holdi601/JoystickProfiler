@@ -960,6 +960,7 @@ namespace JoyPro
                             
                             if (jpName.Length>1&&positive==jppositive&&mod_positive==jpmod_positive)
                             {
+                                if(jpName.EndsWith("/"))jpName=jpName.Substring(0,jpName.Length-1);
                                 bpos = InternalDataManagement.GetBindForRelation(jpName);
                                 if (bpos != null)
                                 {
@@ -1126,6 +1127,7 @@ namespace JoyPro
                             }
                             if ((jp2Name!=null&&jp2Name.Length > 1 && negative == jpnegative && mod_negative == jpmod_negative))
                             {
+                                if (jp2Name.EndsWith("/")) jp2Name = jp2Name.Substring(0, jp2Name.Length - 1);
                                 bneg = InternalDataManagement.GetBindForRelation(jp2Name);
                                 if (bneg != null)
                                 {

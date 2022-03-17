@@ -31,6 +31,7 @@ namespace JoyPro
         public static string JoystickLayoutExport=null;
         public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> CurrentButtonMapping= new ConcurrentDictionary<string, ConcurrentDictionary<string, string>>();
         public static Dictionary<string, Dictionary<string, string>> PlaneAliases = new Dictionary<string, Dictionary<string,string>>();
+        public static List<KeyValuePair<string, string>> ModifierNameChanges = new List<KeyValuePair<string, string>>();
 
         public static void DeleteAllReferencesOfJoystick(string joystick, bool deleteFileReferences)
         {
@@ -45,6 +46,7 @@ namespace JoyPro
             LocalJoysticks = localJoyNew.ToArray();
             if (LocalJoystickPGUID.ContainsKey(joystick)) LocalJoystickPGUID.Remove(joystick);
             if (JoystickFileImages.ContainsKey(joystick)) JoystickFileImages.Remove(joystick);
+            DeleteJoyStickFromModDict(joystick);
             if (deleteFileReferences)
             {
                 DeleteJoystickFromFiles(joystick);
@@ -99,6 +101,13 @@ namespace JoyPro
             }
         }
 
+        static void DeleteJoyStickFromModDict(string joystick)
+        {
+            foreach(Modifier mod in GetAllModifiers())
+            {
+                if(mod.device==joystick)AllModifiers.Remove(mod.name);
+            }
+        }
         static void DeleteJoyStickFromBinds(string joystick)
         {
             List<Bind> toDelete = new List<Bind>();
@@ -179,7 +188,11 @@ namespace JoyPro
                     list.Add(kvp.Key);
                 }
             }
-
+            foreach (Modifier mod in GetAllModifiers())
+            {
+                if(!list.Contains(mod.device))list.Add(mod.device);
+            }
+            
             return list;
         }
 
@@ -232,6 +245,9 @@ namespace JoyPro
         }
         public static void ChangeReformerName(string oldName, string newName)
         {
+            if (ModifierNameChanges == null) ModifierNameChanges = new List<KeyValuePair<string, string>>();
+            KeyValuePair<string, string> changeList = new KeyValuePair<string, string>(key:oldName, value:newName);
+            ModifierNameChanges.Add(changeList);
             if (AllModifiers.ContainsKey(oldName))
             {
                 Modifier m = AllModifiers[oldName];
@@ -636,6 +652,7 @@ namespace JoyPro
                 AllBinds = pr.Binds;
                 JoystickAliases = pr.JoystickAliases;
                 PlaneAliases = pr.PlaneAliases;
+                ModifierNameChanges = pr.modifierNameChanges;
                 if (PlaneAliases == null) PlaneAliases = new Dictionary<string, Dictionary<string, string>>();
                 JoystickFileImages = pr.JoystickFileImages;
                 JoystickLayoutExport = pr.JoystickLayoutExport;
@@ -787,9 +804,34 @@ namespace JoyPro
                 {
                     kvp.Value.Joystick = newstr;
                 }
-                kvp.Value.replaceDeviceInReformers(old, newstr);
             }
             ResyncRelations();
+        }
+        public static void ExchangeStickInModifiers(string old, string newstr)
+        {
+            foreach(KeyValuePair<string, Modifier> kvp in AllModifiers)
+            {
+                if (old.ToLower() == kvp.Value.device.ToLower())
+                {
+                    kvp.Value.device = newstr;
+                }
+            }
+            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                for(int i=0; i<kvp.Value.AllReformers.Count; i++)
+                {
+                    string[] strParts = kvp.Value.AllReformers[i].Split('§');
+                    if(strParts.Length > 1 && strParts[1].ToLower() == old.ToLower())
+                    {
+                        string newref = strParts[0] + "§" + newstr;
+                        for(int j=2; j<strParts.Length; j++)
+                        {
+                            newref = newref + "§" + strParts[j];
+                        }
+                        kvp.Value.AllReformers[i]=newref;
+                    }
+                }
+            }
         }
         public static void SaveRelationsTo(string filePath)
         {
@@ -797,7 +839,7 @@ namespace JoyPro
         }
         public static void SaveProfileTo(string filePath)
         {
-            Pr0file pr = new Pr0file(AllRelations, AllBinds, MiscGames.DCSselectedInstancePath, JoystickAliases,PlaneAliases);
+            Pr0file pr = new Pr0file(AllRelations, AllBinds, MiscGames.DCSselectedInstancePath, JoystickAliases,PlaneAliases, ModifierNameChanges);
             pr.JoystickAliases= JoystickAliases;
             pr.JoystickFileImages = JoystickFileImages;
             pr.JoystickLayoutExport = JoystickLayoutExport;

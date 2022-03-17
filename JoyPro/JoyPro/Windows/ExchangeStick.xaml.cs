@@ -80,6 +80,8 @@ namespace JoyPro
             if (selItem == null || selItem.Length < 1)
                 MessageBox.Show("No Stick selected");
             InternalDataManagement.ExchangeSticksInBind(stickToReplace, selItem);
+            InternalDataManagement.ExchangeStickInModifiers(stickToReplace, selItem);
+            //Replace stick in modifiers
             Close();
         }
 

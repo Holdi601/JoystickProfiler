@@ -38,7 +38,6 @@ namespace JoyPro
         Button[] dltBtns;
         Button[] dupBtns;
         Button[] setBtns;
-        ComboBox[,] mods;
         Label[] stickLabels;
         Label[] relationLabels;
         ComboBox[] groupComboboxes;
@@ -75,12 +74,12 @@ namespace JoyPro
             renderedComboBoxes = new Dictionary<string, Dictionary<string, ComboBox>>();
             deviceLookup = new Dictionary<ComboBox, string>();
             stopwatch.Start();
-            //Application.Current.DispatcherUnhandledException += new System.Windows.Threading.DispatcherUnhandledExceptionEventHandler(MainStructure.WriteCrashInfoDisp);
-            //AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MainStructure.WriteCrashInfo);
+            Application.Current.DispatcherUnhandledException += new System.Windows.Threading.DispatcherUnhandledExceptionEventHandler(MainStructure.WriteCrashInfoDisp);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MainStructure.WriteCrashInfo);
             InitializeComponent();
             DEFAULT_HEIGHT = this.Height;
             DEFAULT_WIDTH = this.Width;
-            gridCols = 15;
+            gridCols = 16;
             VersionLabel.Content = "v" + MainStructure.version.ToString();
             CURRENTDISPLAYEDRELATION = new List<Relation>();
             ALLWINDOWS = new List<Window>();
@@ -101,6 +100,7 @@ namespace JoyPro
             stopwatch.Stop();
             Console.WriteLine("Startup Time: "+stopwatch.ElapsedMilliseconds.ToString() + "ms");
             this.Closing += new CancelEventHandler(ShutThreads);
+
         }
         void setGridBordersLightGray()
         {
@@ -228,7 +228,7 @@ namespace JoyPro
                 string otherId = mods[i].device;
                 if (otherId.Contains('{'))
                 {
-                    otherId = otherId.Split('{')[0] + "{" + otherId.Split('{')[1].ToUpper();
+                    otherId = otherId.Split('{')[0] + "{" + otherId.Split('{')[1];
                 }
 
                 if (!sticksInBind.Contains(otherId))
@@ -311,6 +311,7 @@ namespace JoyPro
         }
         void OpenImportProf(object sender, EventArgs e)
         {
+            Console.WriteLine(InternalDataManagement.GetAllMentionSticks());
             if (MiscGames.DCSselectedInstancePath == null || MiscGames.DCSselectedInstancePath.Length < 1)
             {
                 MessageBox.Show("Not Instance selected");
@@ -648,7 +649,6 @@ namespace JoyPro
             dupBtns = new Button[CURRENTDISPLAYEDRELATION.Count];
             stickLabels = new Label[CURRENTDISPLAYEDRELATION.Count];
             relationLabels = new Label[CURRENTDISPLAYEDRELATION.Count];
-            mods = new ComboBox[CURRENTDISPLAYEDRELATION.Count, 4];
             tboxes = new TextBox[CURRENTDISPLAYEDRELATION.Count, 4];
             groupComboboxes= new ComboBox[CURRENTDISPLAYEDRELATION.Count];
             invertedcbs = new CheckBox[CURRENTDISPLAYEDRELATION.Count];
@@ -779,41 +779,6 @@ namespace JoyPro
             }
             joyReader = null;
             MainStructure.OverlayWorker.SetButtonMapping();
-        }
-        void modSelectionChanged(object sender, EventArgs e)
-        {
-            ComboBox cx = (ComboBox)sender;
-            int indx = Convert.ToInt32(cx.Name.Split('x')[1]);
-            Bind currentBind = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
-            int modint = Convert.ToInt32(cx.Name.Split('c')[0].Replace("mod", ""))-1;
-            if (currentBind == null)
-            {
-                MessageBox.Show("Please bind the main key first and then the modifiers");
-                return;
-            }
-            string element = (string)cx.SelectedItem;
-            if (element == "Delete")
-            {
-                if (modint < currentBind.AllReformers.Count)
-                {
-                    currentBind.AllReformers.RemoveAt(modint);
-                }
-            }
-            else
-            {
-                Modifier m = InternalDataManagement.ModifierByName(element);
-                if (m == null)
-                {
-                    MessageBox.Show("Something went wrong when trying to assing modifier please report with accurate repro steps or simply retry");
-                    return;
-                }
-                if (!currentBind.AllReformers.Contains(m.toReformerString()))
-                {
-                    currentBind.AllReformers.Add(m.toReformerString());
-                }
-            }
-            MainStructure.OverlayWorker.SetButtonMapping();
-            InternalDataManagement.ResyncRelations();
         }
         void changeCurveToUserCurve(object sender, EventArgs e)
         {
@@ -1049,7 +1014,43 @@ namespace JoyPro
                 axisRelations.Sort((x,y) => ((string)x.Content).CompareTo((string)y.Content));
                 buttonRelations.Sort((x, y) => ((string)x.Content).CompareTo((string)y.Content));
 
-                foreach (KeyValuePair<string, Point> kvp in lf.Positions)
+                Dictionary<string, Point> tempPosMap = new Dictionary<string, Point>();
+                if (InternalDataManagement.ModifierNameChanges == null) InternalDataManagement.ModifierNameChanges = new List<KeyValuePair<string, string>>();
+                foreach (KeyValuePair<string, Point> pair in lf.Positions)
+                {
+                    string temp = pair.Key;
+                    string[] mods = temp.Split('+');
+                    for (int j = 0; j < mods.Length - 1; j++)
+                    {
+                        for (int b = 0; b < InternalDataManagement.ModifierNameChanges.Count; b++)
+                        {
+                            if (InternalDataManagement.ModifierNameChanges[b].Key == mods[j])
+                            {
+                                mods[j] = InternalDataManagement.ModifierNameChanges[b].Value;
+                            }
+                        }
+                    }
+                    string finalName;
+                    if (mods.Length > 1)
+                    {
+                        List<string> modsList = mods.ToList();
+                        modsList.RemoveAt(mods.Length - 1);
+                        modsList.Sort();
+                        finalName = modsList[0];
+                        for (int b = 1; b < modsList.Count; ++b)
+                        {
+                            finalName = finalName + "+" + modsList[b];
+                        }
+                        finalName = finalName + "+" + mods[mods.Length - 1];
+                    }
+                    else
+                    {
+                        finalName = mods[0];
+                    }
+                    tempPosMap.Add(finalName, pair.Value);
+                }
+
+                foreach (KeyValuePair<string, Point> kvp in tempPosMap)
                 {
                     if (kvp.Key == "Joystick" || kvp.Key == "Game" || kvp.Key == "Plane") continue;
                     ComboBox cb;
@@ -1462,7 +1463,6 @@ namespace JoyPro
         {
             additional = new List<Button>();
             List<string> allMods = InternalDataManagement.GetAllModsAsString();
-            allMods.Add("Delete");
             Grid grid = BaseSetupRelationGrid();
             for (int i = 0; i < CURRENTDISPLAYEDRELATION.Count; i++)
             {
@@ -1588,6 +1588,32 @@ namespace JoyPro
                 joybtnin.MouseEnter += new MouseEventHandler(OnHover);
                 joybtnin.MouseLeave += new MouseEventHandler(OnLeave);
 
+                ComboBox modCbx = new ComboBox();
+                modCbx.Name = "modcbx" + i.ToString();
+                modCbx.HorizontalAlignment = HorizontalAlignment.Center;
+                modCbx.VerticalAlignment = VerticalAlignment.Center;
+                modCbx.Width = 150;
+                Grid.SetColumn(modCbx, 11);
+                Grid.SetRow(modCbx, i);
+                grid.Children.Add(modCbx);
+                modCbx.MouseEnter += new MouseEventHandler(OnHover);
+                modCbx.MouseLeave += new MouseEventHandler(OnLeave);
+                for(int r=0; r<allMods.Count; r++)
+                {
+                    CheckBox mcbx = new CheckBox();
+                    mcbx.Name = "modrel" + i.ToString();
+                    mcbx.Content = allMods[r];
+                    mcbx.Foreground = Brushes.Black;
+                    mcbx.HorizontalAlignment = HorizontalAlignment.Center;
+                    mcbx.VerticalAlignment = VerticalAlignment.Center;
+                    modCbx.Items.Add(mcbx);
+                    mcbx.IsChecked = (currentBind != null && currentBind.ReformerInBind(allMods[r])) ? true : false;
+                    mcbx.Click += new RoutedEventHandler(OnModifierChanged);
+                    mcbx.Click += new RoutedEventHandler(MainStructure.SaveWindowState);
+                }
+                
+
+
                 if (CURRENTDISPLAYEDRELATION[i].ISAXIS)
                 {
 
@@ -1635,7 +1661,7 @@ namespace JoyPro
                     txrl.Name = "txrldz" + i.ToString();
                     txrl.Width = 150;
                     txrl.Height = 24;
-                    Grid.SetColumn(txrl, 11);
+                    Grid.SetColumn(txrl, 12);
                     Grid.SetRow(txrl, i);
                     tboxes[i, 0] = txrl;
                     grid.Children.Add(txrl);
@@ -1646,7 +1672,7 @@ namespace JoyPro
                     txrlsx.Name = "txrlsatx" + i.ToString();
                     txrlsx.Width = 150;
                     txrlsx.Height = 24;
-                    Grid.SetColumn(txrlsx, 12);
+                    Grid.SetColumn(txrlsx, 13);
                     Grid.SetRow(txrlsx, i);
                     tboxes[i, 1] = txrlsx;
                     grid.Children.Add(txrlsx);
@@ -1657,7 +1683,7 @@ namespace JoyPro
                     txrlsy.Name = "txrlsaty" + i.ToString();
                     txrlsy.Width = 150;
                     txrlsy.Height = 24;
-                    Grid.SetColumn(txrlsy, 13);
+                    Grid.SetColumn(txrlsy, 14);
                     Grid.SetRow(txrlsy, i);
                     tboxes[i, 2] = txrlsy;
                     grid.Children.Add(txrlsy);
@@ -1668,7 +1694,7 @@ namespace JoyPro
                     txrlcv.Name = "txrlsacv" + i.ToString();
                     txrlcv.Width = 150;
                     txrlcv.Height = 24;
-                    Grid.SetColumn(txrlcv, 14);
+                    Grid.SetColumn(txrlcv, 15);
                     Grid.SetRow(txrlcv, i);
                     tboxes[i, 3] = txrlcv;
                     txrlcv.MouseEnter += new MouseEventHandler(OnHover);
@@ -1682,11 +1708,13 @@ namespace JoyPro
                     userCurvBtn.Width = 100;
                     userCurvBtn.Click += new RoutedEventHandler(changeUserCurve);
                     additional.Add(userCurvBtn);
-                    Grid.SetColumn(userCurvBtn, 14);
+                    Grid.SetColumn(userCurvBtn, 15);
                     Grid.SetRow(userCurvBtn, i);
                     userCurveBtn[i] = userCurvBtn;
                     userCurvBtn.MouseEnter += new MouseEventHandler(OnHover);
                     userCurvBtn.MouseLeave += new MouseEventHandler(OnLeave);
+
+                    
 
                     if (currentBind != null)
                     {
@@ -1796,94 +1824,41 @@ namespace JoyPro
                 }
                 else
                 {
-                    ComboBox modCbx1 = new ComboBox();
-                    modCbx1.Name = "mod1cbx" + i.ToString();
-                    modCbx1.HorizontalAlignment = HorizontalAlignment.Center;
-                    modCbx1.VerticalAlignment = VerticalAlignment.Center;
-                    modCbx1.Width = 150;
-                    modCbx1.ItemsSource = allMods;
-                    mods[i, 0] = modCbx1;
-                    Grid.SetColumn(modCbx1, 11);
-                    Grid.SetRow(modCbx1, i);
-                    grid.Children.Add(modCbx1);
-                    modCbx1.MouseEnter += new MouseEventHandler(OnHover);
-                    modCbx1.MouseLeave += new MouseEventHandler(OnLeave);
-
-                    ComboBox modCbx2 = new ComboBox();
-                    modCbx2.Name = "mod2cbx" + i.ToString();
-                    modCbx2.HorizontalAlignment = HorizontalAlignment.Center;
-                    modCbx2.VerticalAlignment = VerticalAlignment.Center;
-                    modCbx2.Width = 150;
-                    modCbx2.ItemsSource = allMods;
-                    mods[i, 1] = modCbx2;
-                    Grid.SetColumn(modCbx2, 12);
-                    Grid.SetRow(modCbx2, i);
-                    grid.Children.Add(modCbx2);
-                    modCbx2.MouseEnter += new MouseEventHandler(OnHover);
-                    modCbx2.MouseLeave += new MouseEventHandler(OnLeave);
-
-                    ComboBox modCbx3 = new ComboBox();
-                    modCbx3.Name = "mod3cbx" + i.ToString();
-                    modCbx3.HorizontalAlignment = HorizontalAlignment.Center;
-                    modCbx3.VerticalAlignment = VerticalAlignment.Center;
-                    modCbx3.Width = 150;
-                    modCbx3.ItemsSource = allMods;
-                    mods[i, 2] = modCbx3;
-                    Grid.SetColumn(modCbx3, 13);
-                    Grid.SetRow(modCbx3, i);
-                    grid.Children.Add(modCbx3);
-                    modCbx3.MouseEnter += new MouseEventHandler(OnHover);
-                    modCbx3.MouseLeave += new MouseEventHandler(OnLeave);
-
-                    ComboBox modCbx4 = new ComboBox();
-                    modCbx4.Name = "mod4cbx" + i.ToString();
-                    modCbx4.HorizontalAlignment = HorizontalAlignment.Center;
-                    modCbx4.VerticalAlignment = VerticalAlignment.Center;
-                    modCbx4.Width = 150;
-                    modCbx4.ItemsSource = allMods;
-                    mods[i, 3] = modCbx4;
-                    Grid.SetColumn(modCbx4, 14);
-                    Grid.SetRow(modCbx4, i);
-                    grid.Children.Add(modCbx4);
-                    modCbx4.MouseEnter += new MouseEventHandler(OnHover);
-                    modCbx4.MouseLeave += new MouseEventHandler(OnLeave);
-
-
-                    //Check against mod buttons needed
                     if (currentBind != null)
                     {
-                        string btnraw = currentBind.JButton.Replace("JOY_BTN","Button-");
+                        string btnraw = currentBind.JButton.Replace("JOY_BTN", "Button-");
                         joybtnin.Content = btnraw;
-                        if (currentBind.AllReformers.Count > 0)
-                        {
-                            modCbx1.SelectedItem = currentBind.AllReformers[0].Split('§')[0];
-                            if (currentBind.AllReformers.Count > 1)
-                            {
-                                modCbx2.SelectedItem = currentBind.AllReformers[1].Split('§')[0];
-                                if (currentBind.AllReformers.Count > 2)
-                                {
-                                    modCbx3.SelectedItem = currentBind.AllReformers[2].Split('§')[0];
-                                    if (currentBind.AllReformers.Count > 3)
-                                    {
-                                        modCbx4.SelectedItem = currentBind.AllReformers[3].Split('§')[0];
-                                    }
-                                }
-                            }
-                        }
                     }
-                    modCbx1.SelectionChanged += new SelectionChangedEventHandler(modSelectionChanged);
-                    modCbx2.SelectionChanged += new SelectionChangedEventHandler(modSelectionChanged);
-                    modCbx3.SelectionChanged += new SelectionChangedEventHandler(modSelectionChanged);
-                    modCbx4.SelectionChanged += new SelectionChangedEventHandler(modSelectionChanged);
-                    modCbx1.SelectionChanged += new SelectionChangedEventHandler(MainStructure.SaveWindowState);
-                    modCbx2.SelectionChanged += new SelectionChangedEventHandler(MainStructure.SaveWindowState);
-                    modCbx3.SelectionChanged += new SelectionChangedEventHandler(MainStructure.SaveWindowState);
-                    modCbx4.SelectionChanged += new SelectionChangedEventHandler(MainStructure.SaveWindowState);
-
                 }
             }
             grid.ShowGridLines = true;
             sv.Content = grid;
+        }
+
+        void OnModifierChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            int relSel= Convert.ToInt32(removeIDAdditionalPartsFromControls(cb.Name));
+            Bind currentBind = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[relSel].NAME);
+            string mod = (string)cb.Content;
+            if (!InternalDataManagement.AllModifiers.ContainsKey(mod))
+            {
+                MessageBox.Show("Error trying to assign Modifier please report bug.");
+                return; 
+            }
+            string reform = InternalDataManagement.AllModifiers[mod].toReformerString();
+            if (cb.IsChecked == true)
+            {
+                if (!currentBind.AllReformers.Contains(reform))
+                    currentBind.AllReformers.Add(reform);
+            }
+            else
+            {
+                if (currentBind.AllReformers.Contains(reform))
+                    currentBind.AllReformers.Remove(reform);
+            }
+            MainStructure.OverlayWorker.SetButtonMapping();
+            InternalDataManagement.ResyncRelations();
         }
         void OnHover(object sender, EventArgs e)
         {
@@ -1908,15 +1883,13 @@ namespace JoyPro
                 .Replace("assignBtn", "")
                 .Replace("cbxrel", "")
                 .Replace("cbxsrel", "")
-                .Replace("mod1cbx", "")
-                .Replace("mod2cbx", "")
-                .Replace("mod3cbx", "")
-                .Replace("mod4cbx", "")
                 .Replace("txrldz", "")
                 .Replace("txrlsatx", "")
                 .Replace("txrlsaty", "")
                 .Replace("txrlsacv", "")
-                .Replace("UsrcvBtn", "");
+                .Replace("UsrcvBtn", "")
+                .Replace("modcbx", "")
+                .Replace("modrel", "");
             return cntrl;
         }
         void ColorRowOrange(int row)
@@ -1931,7 +1904,6 @@ namespace JoyPro
                 invertedcbs.Length <= row ||
                 slidercbs.Length <= row ||
                 usercurvecbs.Length <= row ||
-                mods.GetLength(0) <= row ||
                 tboxes.GetLength(0) <= row) return;
             relationLabels[row].Foreground = Brushes.Orange;
             editBtns[row].Background = Brushes.Orange;
@@ -1940,7 +1912,6 @@ namespace JoyPro
             groupComboboxes[row].Background = Brushes.Orange;
             groupComboboxes[row].BorderBrush = Brushes.Orange;
             groupComboboxes[row].Foreground = Brushes.Orange;
-            //groupComboboxes[row].ItemContainerStyle.Setters.Add(new)
             stickLabels[row].Foreground = Brushes.Orange;
             setBtns[row].Background = Brushes.Orange;
             if (invertedcbs[row] != null) invertedcbs[row].Foreground = Brushes.Orange;
@@ -1948,7 +1919,6 @@ namespace JoyPro
             if (usercurvecbs[row] != null) usercurvecbs[row].Foreground = Brushes.Orange;
             for(int i=0; i<4; ++i)
             {
-                if (mods[row, i] != null) mods[row, i].Background = Brushes.Orange;
                 if (tboxes[row, i] != null) tboxes[row, i].Background = Brushes.Orange;
             }
             if (userCurveBtn[row] != null) userCurveBtn[row].Background = Brushes.Orange;
@@ -1965,7 +1935,6 @@ namespace JoyPro
                 invertedcbs.Length <= row ||
                 slidercbs.Length <= row ||
                 usercurvecbs.Length <= row ||
-                mods.GetLength(0) <= row ||
                 tboxes.GetLength(0) <= row) return;
             relationLabels[row].Foreground = Brushes.White;
             editBtns[row].Background = Brushes.White;
@@ -1979,7 +1948,6 @@ namespace JoyPro
             if (usercurvecbs[row] != null) usercurvecbs[row].Foreground = Brushes.White;
             for (int i = 0; i < 4; ++i)
             {
-                if (mods[row, i] != null) mods[row, i].Background = Brushes.White;
                 if (tboxes[row, i] != null) tboxes[row, i].Background = Brushes.White;
             }
             if (userCurveBtn[row] != null) userCurveBtn[row].Background = Brushes.White;
@@ -2197,36 +2165,44 @@ namespace JoyPro
             Grid.SetColumn(joystickAxisS, 8);
             grid.Children.Add(joystickAxisS);
 
+            Label modlbl = new Label();
+            modlbl.Content = "Modifier";
+            modlbl.Foreground = Brushes.White;
+            modlbl.HorizontalAlignment = HorizontalAlignment.Center;
+            modlbl.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(modlbl, 11);
+            grid.Children.Add(modlbl);
+
             Label dzlbl = new Label();
-            dzlbl.Content = "Mod1/Deadzone";
+            dzlbl.Content = "Deadzone";
             dzlbl.Foreground = Brushes.White;
             dzlbl.HorizontalAlignment = HorizontalAlignment.Center;
             dzlbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(dzlbl, 11);
+            Grid.SetColumn(dzlbl, 12);
             grid.Children.Add(dzlbl);
 
-            Label sxlbl = new Label();
-            sxlbl.Content = "Mod2/Sat X";
-            sxlbl.Foreground = Brushes.White;
-            sxlbl.HorizontalAlignment = HorizontalAlignment.Center;
-            sxlbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(sxlbl, 12);
-            grid.Children.Add(sxlbl);
+            Label satxlbl = new Label();
+            satxlbl.Content = "Saturation X";
+            satxlbl.Foreground = Brushes.White;
+            satxlbl.HorizontalAlignment = HorizontalAlignment.Center;
+            satxlbl.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(satxlbl, 13);
+            grid.Children.Add(satxlbl);
 
-            Label sylbl = new Label();
-            sylbl.Content = "Mod3/Sat Y";
-            sylbl.Foreground = Brushes.White;
-            sylbl.HorizontalAlignment = HorizontalAlignment.Center;
-            sylbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(sylbl, 13);
-            grid.Children.Add(sylbl);
+            Label satylbl = new Label();
+            satylbl.Content = "Saturation Y";
+            satylbl.Foreground = Brushes.White;
+            satylbl.HorizontalAlignment = HorizontalAlignment.Center;
+            satylbl.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(satylbl, 14);
+            grid.Children.Add(satylbl);
 
             Label curvlbl = new Label();
-            curvlbl.Content = "Mod4/Curv";
+            curvlbl.Content = "Curvature";
             curvlbl.Foreground = Brushes.White;
             curvlbl.HorizontalAlignment = HorizontalAlignment.Center;
             curvlbl.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(curvlbl, 14);
+            Grid.SetColumn(curvlbl, 15);
             grid.Children.Add(curvlbl);
 
             svHeader.Content = grid;
@@ -2422,17 +2398,6 @@ namespace JoyPro
                     setBtns[i].IsEnabled = true;
                     dupBtns[i].IsEnabled = true;
                 }
-            if (mods != null)
-            {
-                for(int i=0; i<mods.GetLength(0); ++i)
-                {
-                    for(int j=0; j<mods.GetLength(1); ++j)
-                    {
-                        if (mods[i, j] != null)
-                            mods[i, j].IsEnabled = true;
-                    }
-                }
-            }
             if (additional != null)
             {
                 for(int i=0; i<additional.Count; ++i)
@@ -2458,17 +2423,6 @@ namespace JoyPro
                     setBtns[i].IsEnabled = false;
                     dupBtns[i].IsEnabled = false;
                 }
-            if (mods != null)
-            {
-                for (int i = 0; i < mods.GetLength(0); ++i)
-                {
-                    for (int j = 0; j < mods.GetLength(1); ++j)
-                    {
-                        if (mods[i, j] != null)
-                            mods[i, j].IsEnabled = false;
-                    }
-                }
-            }
             if (additional != null)
             {
                 for (int i = 0; i < additional.Count; ++i)

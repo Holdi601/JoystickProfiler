@@ -468,14 +468,7 @@ namespace JoyPro
         public static void LoadLocalBinds(string localPath, List<string> planes, bool fillWithDefaults = false, string ending = ".diff.lua", Dictionary<string, DCSExportPlane> resultsDict = null)
         {
             Dictionary<string, DCSExportPlane> toOutput;
-            if (resultsDict == null)
-            {
-                toOutput = LocalBindsDCS;
-            }
-            else
-            {
-                toOutput = resultsDict;
-            }
+            toOutput = resultsDict == null ? LocalBindsDCS : resultsDict;
             toOutput.Clear();
             string pathToSearch = localPath + "\\Config\\Input";
             if (Directory.Exists(pathToSearch))
@@ -546,7 +539,8 @@ namespace JoyPro
                 if (name.Length > 5)
                 {
                     System.Text.RegularExpressions.Match match = rgx.Match(name.Substring(1,4));
-                    if (match.Success)
+                    System.Text.RegularExpressions.Match mch = rgx.Match(name.Substring(2, 5));
+                    if (match.Success||mch.Success)
                     {
                         string generatedNameGroup = "GENERATED-NAME";
                         if (!InternalDataManagement.AllGroups.Contains(generatedNameGroup))

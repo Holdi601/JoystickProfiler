@@ -100,7 +100,9 @@ namespace JoyPro
                     pln.Name = "plane";
                     string k = DBLogic.Planes.ElementAt(i).Key + ":" + DBLogic.Planes.ElementAt(i).Value[j];
                     pln.Content = k;
-                    pln.IsChecked = InternalDataManagement.PlaneActivity[k];
+                    bool? state = MainStructure.msave.PlaneWasActiveLastTime(PlaneActivitySelection.Export, DBLogic.Planes.ElementAt(i).Key, DBLogic.Planes.ElementAt(i).Value[j]);
+                    if (state == null) pln.IsChecked = true;
+                    else pln.IsChecked = state;
                     pln.Click += new RoutedEventHandler(PlaneFilterChanged);
                     GamePlaneBox.Items.Add(pln);
                 }
@@ -191,9 +193,16 @@ namespace JoyPro
             {
                 CheckBox element = (CheckBox)GamePlaneBox.Items[i];
                 string content = (string)element.Content;
-                if (!(content == "ALL" || content == "NONE" || content.Contains(":ALL") || content.Contains(":NONE")) && element.IsChecked == true)
+                if (!(content == "ALL" || content == "NONE" || content.Contains(":ALL") || content.Contains(":NONE")))
                 {
-                    result.Add(content);
+                    string game = content.Substring(0, content.IndexOf(":"));
+                    string plane = content.Substring(content.IndexOf(":") + 1);
+                    bool state = element.IsChecked == true ? true : false;
+                    MainStructure.msave.PlaneSetLastActivity(PlaneActivitySelection.Export, game, plane, state);
+                    if (element.IsChecked == true)
+                    {
+                        result.Add(content);
+                    }
                 }
             }
             return result;

@@ -35,6 +35,7 @@ namespace JoyPro
         public TextAliveField[] TextTimeAlive = null;
         public static ConcurrentDictionary<string, List<string>> currentPressed = new ConcurrentDictionary<string, List<string>>();
         public static ConcurrentDictionary<string, List<string>> currentPressedNonSwitched = new ConcurrentDictionary<string, List<string>>();
+        public static Dictionary<string, string> LookupCorrection = new Dictionary<string, string>();
         public void GameRunningCheck()
         {
             while (true)
@@ -70,6 +71,14 @@ namespace JoyPro
             }
         }
 
+        string CorrectName(string inp)
+        {
+            foreach(KeyValuePair<string, string> pair in LookupCorrection)
+            {
+                if(pair.Key.ToLower()==inp.ToLower())return pair.Value;
+            }
+            return inp;
+        }
         public void StartDCSListener()
         {
             try
@@ -90,7 +99,7 @@ namespace JoyPro
                         if (s == "exit") break;
                         else
                         {
-                            CurrentPlane = s;
+                            CurrentPlane = CorrectName(s);
                             Console.WriteLine(s + " New plane set");
                             SetButtonMapping();
                         }
@@ -103,8 +112,9 @@ namespace JoyPro
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                StartDCSListener();
+                Thread.Sleep(500);
             }
+            StartDCSListener();
         }
 
         public void SetButtonMapping()

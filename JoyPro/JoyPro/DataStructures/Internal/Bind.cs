@@ -173,6 +173,34 @@ namespace JoyPro
             {
                 result.Groups = Rl.Groups;
             }
+            if (result.reformers == null) result.reformers = new List<string>();
+            for (int i = 0; i < AllReformers.Count; ++i)
+            {
+                if (AllReformers[i].Length > 0)
+                {
+                    string[] parts = AllReformers[i].Split('§');
+                    if (parts.Length == 3)
+                    {
+                        result.reformers.Add(parts[0]);
+                        Modifier m = new Modifier();
+                        m.name = parts[0];
+                        m.device = parts[1];
+                        m.sw = false;
+                        m.key = parts[2];
+                        result.modifiers.Add(m);
+                    }
+                    else if (parts.Length == 4)
+                    {
+                        result.reformers.Add(parts[0]);
+                        Modifier m = new Modifier();
+                        m.name = parts[0];
+                        m.device = parts[1];
+                        m.sw = Convert.ToBoolean(parts[3]);
+                        m.key = parts[2];
+                        result.modifiers.Add(m);
+                    }
+                }
+            }
             result.relatedBind = this;
             return result;
         }
@@ -185,7 +213,61 @@ namespace JoyPro
             r.ISAXIS = true;
             b.JAxis = dab.key;
             b.Joystick = joystick;
-            
+            if (dab.modifiers != null)
+                foreach (Modifier m in dab.modifiers)
+                {
+                    //same code as mainwindow
+                    if (m.JPN != null && m.JPN.Length > 1)
+                        m.name = m.JPN;
+
+                    string reform = m.name + "§" + m.device + "§" + m.key;
+
+                    string device;
+                    if (m.device == "Keyboard")
+                        device = "Keyboard";
+                    else
+                        device = "m" + m.device.Split('{')[1].Split('}')[0].GetHashCode().ToString().Substring(0, 5);
+                    string nameToShow;
+                    nameToShow = device + m.key;
+                    if (m.JPN != null && m.JPN.Length > 1)
+                        b.additionalImportInfo += m.JPN + "§";
+                    //else
+                    //    nameToShow = device + m.key;
+
+                    string moddedDevice = Bind.JoystickGuidToModifierGuid(m.device);
+                    string toAdd = nameToShow + "§" + moddedDevice + "§" + m.key;
+                    if (!b.AllReformers.Contains(toAdd))
+                    {
+
+                        ModExists alreadyExists = InternalDataManagement.DoesReformerExistInMods(toAdd);
+                        if (alreadyExists == ModExists.NOT_EXISTENT)
+                        {
+                            InternalDataManagement.AddReformerToMods(toAdd);
+                            b.AllReformers.Add(toAdd);
+                        }
+                        else if (alreadyExists == ModExists.BINDNAME_EXISTS || alreadyExists == ModExists.ALL_EXISTS)
+                        {
+                            Modifier mf = Modifier.ReformerToMod(toAdd);
+                            toAdd = InternalDataManagement.GetReformerStringFromMod(mf.name);
+                            if (!b.AllReformers.Contains(toAdd)) b.AllReformers.Add(toAdd);
+                        }
+                        else if (alreadyExists == ModExists.KEYBIND_EXISTS)
+                        {
+                            Modifier mnew = InternalDataManagement.GetModifierWithKeyCombo(m.device, m.key);
+                            if (mnew != null)
+                            {
+                                toAdd = mnew.toReformerString();
+                                if (!b.AllReformers.Contains(toAdd)) b.AllReformers.Add(toAdd);
+                            }
+                        }
+                        else if (alreadyExists == ModExists.ERROR)
+                        {
+
+                        }
+                    }
+                    relationName = nameToShow + relationName + m.name;
+
+                }
             if (dab.Groups.Count > 0)
             {
                 for(int i=0; i<dab.Groups.Count; ++i)

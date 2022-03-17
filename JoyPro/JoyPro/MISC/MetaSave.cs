@@ -495,6 +495,11 @@ namespace JoyPro
             }
         }
 
+        public Dictionary<string, Dictionary<string, bool>> relationPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
+        public Dictionary<string, Dictionary<string, bool>> importPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
+        public Dictionary<string, Dictionary<string, bool>> exportPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
+
+
         public MetaSave()
         {
             lastGameSelected = "";
@@ -542,6 +547,50 @@ namespace JoyPro
             collectSticks = new WindowPos();
             maxVisualLayers = default_maxVisualLayers;
             AddAditionalAndCorrectRelationItems = default_AddAditionalCorrectItems;
+            relationPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
+            importPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
+            exportPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
         }
+
+        public bool? PlaneWasActiveLastTime(PlaneActivitySelection pas, string game, string plane)
+        {
+            MakeSureActivityReferencesArentNull();
+            Dictionary<string, Dictionary<string, bool>> activity=null;
+            if (pas == PlaneActivitySelection.Relation) activity = relationPlaneActivity;
+            else if(pas == PlaneActivitySelection.Import) activity = importPlaneActivity;
+            else if(pas== PlaneActivitySelection.Export) activity = exportPlaneActivity;
+            foreach(KeyValuePair<string, Dictionary<string , bool>> pair in activity)
+            {
+                if(pair.Key.ToLower() == game.ToLower())
+                {
+                    foreach(KeyValuePair<string, bool> kvp in pair.Value)
+                    {
+                        if(kvp.Key.ToLower() == plane.ToLower())return kvp.Value;
+                    }
+                    return null;
+                }
+            }
+            return null;
+        }
+
+        void MakeSureActivityReferencesArentNull()
+        {
+            relationPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
+            importPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
+            exportPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
+        }
+
+        public void PlaneSetLastActivity(PlaneActivitySelection pas, string game, string plane, bool state)
+        {
+            MakeSureActivityReferencesArentNull();
+            Dictionary<string, Dictionary<string, bool>> activity = null;
+            if (pas == PlaneActivitySelection.Relation) activity = relationPlaneActivity;
+            else if (pas == PlaneActivitySelection.Import) activity = importPlaneActivity;
+            else if (pas == PlaneActivitySelection.Export) activity = exportPlaneActivity;
+            if(!activity.ContainsKey(game))activity.Add(game, new Dictionary<string, bool>());
+            if (!activity[game].ContainsKey(plane)) activity[game].Add(plane, state);
+            else activity[game][plane] = state;
+        }
+
     }
 }

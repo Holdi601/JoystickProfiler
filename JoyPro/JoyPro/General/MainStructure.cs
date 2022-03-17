@@ -24,11 +24,11 @@ namespace JoyPro
     public enum LuaDataType { String, Number, Dict, Bool, Error };
     public enum SortType { NAME_NORM, NAME_DESC, STICK_NORM, STICK_DESC, BTN_NORM, BTN_DESC }
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
-
+    public enum PlaneActivitySelection { Relation, Import, Export }
 
     public static class MainStructure
     {
-        public const int version = 73;
+        public const int version = 74;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;
@@ -236,7 +236,7 @@ namespace JoyPro
                     var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                     binaryFormatter.Serialize(stream, objectToWrite);
                 }
-            }
+             }
             catch(Exception e)
             {
                 Console.WriteLine(e.Message);

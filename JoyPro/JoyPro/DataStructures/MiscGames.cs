@@ -109,27 +109,30 @@ namespace JoyPro
             string[] subs = Directory.GetDirectories(path);
             for (int j = 0; j < subs.Length; j++)
             {
-                string[] files;
+                string[] files=null;
                 if (path.ToLower().EndsWith("input"))
                 {
-                    files = Directory.GetFiles(subs[j]+"\\joystick");
+                    if(Directory.Exists(subs[j] + "\\joystick"))files = Directory.GetFiles(subs[j]+"\\joystick");
                 }
                 else
                 {
-                    files = Directory.GetFiles(subs[j]);
+                    if (Directory.Exists(subs[j]))files = Directory.GetFiles(subs[j]);
                 }
-                for (int k = 0; k < files.Length; k++)
+                if(files != null)
                 {
-                    string[] parts = files[k].Split('\\');
-                    string toCompare = parts[parts.Length - 1];
-                    if (toCompare.EndsWith(".html")||
-                        toCompare.EndsWith(".diff.lua")||
-                        toCompare.EndsWith(".jp"))
+                    for (int k = 0; k < files.Length; k++)
                     {
-                        string toAdd = toCompare.Replace(".html", "").Replace(".diff.lua", "").Replace(".jp", "");
-                        if (!result.Contains(MiscGames.DCSStickNaming(toAdd)) && toAdd != "Keyboard" && toAdd != "Mouse" && toAdd != "TrackIR")
+                        string[] parts = files[k].Split('\\');
+                        string toCompare = parts[parts.Length - 1];
+                        if (toCompare.EndsWith(".html") ||
+                            toCompare.EndsWith(".diff.lua") ||
+                            toCompare.EndsWith(".jp"))
                         {
-                            result.Add(MiscGames.DCSStickNaming(toAdd));
+                            string toAdd = toCompare.Replace(".html", "").Replace(".diff.lua", "").Replace(".jp", "");
+                            if (!result.Contains(DCSStickNaming(toAdd)) && toAdd != "Keyboard" && toAdd != "Mouse" && toAdd != "TrackIR")
+                            {
+                                result.Add(DCSStickNaming(toAdd));
+                            }
                         }
                     }
                 }

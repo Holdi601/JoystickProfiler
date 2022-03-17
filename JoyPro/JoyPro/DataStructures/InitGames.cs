@@ -36,6 +36,24 @@ namespace JoyPro
                 MainStructure.mainW.ShowMessageBox(errorMessage);
             }
         }
+
+        public static void InitOverlayLookup()
+        {
+            if (File.Exists(MainStructure.PROGPATH + "\\Overlay\\DCS\\plane.rename"))
+            {
+                StreamReader sr = new StreamReader(MainStructure.PROGPATH + "\\Overlay\\DCS\\plane.rename");
+                while (!sr.EndOfStream)
+                {
+                    string[] pair = sr.ReadLine().Split('§');
+                    if (!OverlayBackGroundWorker.LookupCorrection.ContainsKey(pair[0]))
+                    {
+                        OverlayBackGroundWorker.LookupCorrection.Add(pair[0], pair[1]);
+                    }
+                }
+                sr.Close();
+                sr.Dispose();
+            }
+        }
         public static void InitDCSJoysticks()
         {
             List<string> Joysticks = new List<string>();
@@ -104,6 +122,7 @@ namespace JoyPro
         }
         public static string[] GetDCSUserFolders()
         {
+            
             KnownFolder sg = KnownFolder.SavedGames;
             MiscGames.SaveGamesPath = KnownFolders.GetPath(sg);
             string[] dirs = Directory.GetDirectories(MiscGames.SaveGamesPath);
@@ -177,6 +196,7 @@ namespace JoyPro
                 foreach (string inst in MiscGames.DCSInstances)
                     MainStructure.mainW.DropDownInstanceSelection.Items.Add(inst);
             }
+            InitOverlayLookup();
         }
         public static void UnloadGameData()
         {

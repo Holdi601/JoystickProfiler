@@ -219,7 +219,7 @@ namespace JoyPro
                 MessageBox.Show("No relations to Remove Name Part");
                 return;
             }
-            if (inputBox.Text.Replace(" ", "").Length < 3)
+            if (inputBox.Text.Replace(" ", "").Length < 1)
             {
                 MessageBox.Show("RelationName in the input box cant be shorter than 3 Characters.");
                 return;
@@ -248,7 +248,7 @@ namespace JoyPro
                 MessageBox.Show("No relations to add Prefix Selected");
                 return;
             }
-            if (inputBox.Text.Replace(" ", "").Length < 3)
+            if (inputBox.Text.Replace(" ", "").Length < 1)
             {
                 MessageBox.Show("RelationName in the input box cant be shorter than 3 Characters.");
                 return;
@@ -277,7 +277,7 @@ namespace JoyPro
                 MessageBox.Show("No relations to add Prefix Selected");
                 return;
             }
-            if (inputBox.Text.Replace(" ", "").Length < 3)
+            if (inputBox.Text.Replace(" ", "").Length < 1)
             {
                 MessageBox.Show("RelationName in the input box cant be shorter than 3 Characters.");
                 return;
@@ -328,7 +328,7 @@ namespace JoyPro
                 MessageBox.Show("No relations to Merge Selected");
                 return;
             }
-            if (inputBox.Text.Replace(" ", "").Length < 3)
+            if (inputBox.Text.Replace(" ", "").Length < 1)
             {
                 MessageBox.Show("RelationName in the input box cant be shorter than 3 Characters.");
                 return;
