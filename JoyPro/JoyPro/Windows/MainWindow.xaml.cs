@@ -260,8 +260,7 @@ namespace JoyPro
         }
         void OpenValidation(object sender, EventArgs e)
         {
-            Validation validate = new Validation();
-            ValidationErrors win = new ValidationErrors(validate);
+            ValidationErrors win = new ValidationErrors();
             win.Show();
         }
         void OpenModifierManager(object sender, EventArgs e)

@@ -309,7 +309,7 @@ namespace JoyPro
             for(int i=0; i<columnsNeeded; ++i)
             {
                 ColumnDefinition c = new ColumnDefinition();
-                c.MinWidth = 150;
+                c.MinWidth = 160;
                 grid.ColumnDefinitions.Add(c);
                 mainColumns.Add(c);
             }
@@ -331,7 +331,7 @@ namespace JoyPro
             for (int i = 0; i < columnsNeeded; ++i)
             {
                 ColumnDefinition c = new ColumnDefinition();
-                c.MinWidth = 150;
+                c.MinWidth = 30;
                 grid.ColumnDefinitions.Add(c);
                 mainColumnsIds.Add(c);
             }

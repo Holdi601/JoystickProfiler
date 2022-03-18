@@ -99,19 +99,20 @@ namespace JoyPro
                 for(int j=0; j<AllRelIt.Count; ++j)
                 {
                     List<string> Aircraft = AllRelIt[j].GetActiveAircraftList();
-                    for(int k=0; k<Aircraft.Count; ++k)
+                    string game = AllRelIt[j].Game;
+                    for (int k=0; k<Aircraft.Count; ++k)
                     {
-                        string toAdd = Aircraft[k] + "__" + binds[i].Joystick;
+                        string toAdd = game+":"+Aircraft[k] + "§" + binds[i].Joystick;
                         if (binds[i].Rl.ISAXIS)
                         {
-                            toAdd = toAdd + "__" + binds[i].JAxis;
+                            toAdd = toAdd + "§" + binds[i].JAxis;
                         }
                         else
                         {
-                            toAdd = toAdd + "__" + binds[i].JButton;
+                            toAdd = toAdd + "§" + binds[i].JButton;
                             for(int m=0; m<binds[i].AllReformers.Count; ++m)
                             {
-                                toAdd = toAdd + "__" + binds[i].AllReformers[m];
+                                toAdd = toAdd + "§" + binds[i].AllReformers[m];
                             }
                         }
                         if (!AllKeys.ContainsKey(toAdd))

@@ -1216,6 +1216,16 @@ namespace JoyPro
                             }
                         }
                         toReturn = groupresult;
+                    }else if (toCompare && !showUnassignedGroups)
+                    {
+                        for(int i=0; i<temp.Count; ++i)
+                        {
+                            if(temp[i].Groups !=null&&temp[i].Groups.Count > 0)
+                            {
+                                groupresult.Add(temp[i]);
+                            }
+                        }
+                        toReturn = groupresult;
                     }
                     else
                     {

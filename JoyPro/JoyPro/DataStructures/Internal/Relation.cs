@@ -76,6 +76,16 @@ namespace JoyPro
             }
             return r;
         }
+        public void DeactivateAllAircraftItems(string game, string plane)
+        {
+            for(int i=0; i<NODES.Count; ++i)
+            {
+                if(NODES[i].Game == game)
+                {
+                    NODES[i].SetAircraftActivity(plane, false);
+                }
+            }
+        }
         public void CheckNamesAgainstDB()
         {
             if (MainStructure.msave.AddAditionalAndCorrectRelationItems == false) return;
@@ -97,22 +107,24 @@ namespace JoyPro
             }
             for(int i=0; i<toAdd.Count; ++i)
             {
-                AddNode(toAdd[i].ID, "DCS", toAdd[i].IsAxis, toAdd[i].Plane);
+                if(GetPlaneRelationState(toAdd[i].Plane, "DCS")<1)
+                    AddNode(toAdd[i].ID, "DCS", toAdd[i].IsAxis, toAdd[i].Plane);
             }
             for(int i=0; i<oToAdd.Count; ++i)
             {
-                AddNode(oToAdd[i].ID, oToAdd[i].Game, oToAdd[i].IsAxis, oToAdd[i].Plane);
+                if (GetPlaneRelationState(oToAdd[i].Plane, oToAdd[i].Game) < 1)
+                    AddNode(oToAdd[i].ID, oToAdd[i].Game, oToAdd[i].IsAxis, oToAdd[i].Plane);
             }
 
         }
-        public int GetPlaneRelationState(string plane, string game)
+        public int GetPlaneRelationState(string plane, string game, RelationItem toIgnore=null)
         {
             int counter = 0;
             for (int i = 0; i < NODES.Count; ++i)
             {
                 if (NODES[i].Game == null || NODES[i].Game.Length < 1) NODES[i].Game = "DCS";
                 PlaneState ps = NODES[i].GetStateAircraft(plane);
-                if (ps == PlaneState.ACTIVE&&NODES[i].Game==game) ++counter;
+                if (ps == PlaneState.ACTIVE&&NODES[i].Game==game&&NODES[i]!=toIgnore) ++counter;
             }
             return counter;
         }

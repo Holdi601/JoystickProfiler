@@ -62,12 +62,13 @@ namespace JoyPro
         public List<object> CheckAgainstDB(Relation r)
         {
             List<object> toReturn = new List<object>();
+            
             if (Game == null || Game == "DCS" || Game == "")
             {
                 DCSInput[] dbItems = DBLogic.GetAllDCSInputsWithId(ID);
                 Dictionary<DCSInput, bool> toRemove = new Dictionary<DCSInput, bool>();
                 List<DCSInput> toKeep = new List<DCSInput>();
-                for (int i = 0; i < AllInputs.Length; ++i)
+                for (int i = AllInputs.Length-1; i >=0; i--)
                 {
                     DCSInput di = InputsContainPlane(dbItems, AllInputs[i].Plane);
                     if (di != null)
@@ -88,13 +89,8 @@ namespace JoyPro
                         if (replacements.Length > 0)
                         {
                             toReturn.Add(replacements[0]);
-                            toRemove.Add(AllInputs[i], true);
                         }
-                        else
-                        {
-                            toRemove.Add(AllInputs[i], false);
-                        }
-
+                        if(AIRCRAFT.ContainsKey(AllInputs[i].Plane))AIRCRAFT.Remove(AllInputs[i].Plane);
                     }
                 }
                 for (int i = 0; i < dbItems.Length; ++i)
@@ -103,16 +99,16 @@ namespace JoyPro
                     if (di == null)
                     {
                         DCSInput da = InputsContainPlane(toKeep.ToArray(), dbItems[i].Plane);
-                        if (da == null)
+                        toKeep.Add(dbItems[i]);
+                        if (da == null&&r.GetPlaneRelationState(dbItems[i].Plane, Game, this)<1)
                         {
-                            toKeep.Add(dbItems[i]);
                             AIRCRAFT.Add(dbItems[i].Plane, true);
                         }
+                        else
+                        {
+                            AIRCRAFT.Add(dbItems[i].Plane, false);
+                        }
                     }
-                }
-                for (int i = 0; i < toRemove.Count; ++i)
-                {
-                    AIRCRAFT.Remove(toRemove.ElementAt(i).Key.Plane);
                 }
                 AllInputs = toKeep.ToArray();
             }
@@ -142,12 +138,8 @@ namespace JoyPro
                         if (replacements.Length > 0)
                         {
                             toReturn.Add(replacements[0]);
-                            toRemove.Add(OtherInputs[i], true);
                         }
-                        else
-                        {
-                            toRemove.Add(OtherInputs[i], false);
-                        }
+                        if (AIRCRAFT.ContainsKey(OtherInputs[i].Plane)) AIRCRAFT.Remove(OtherInputs[i].Plane);
                     }
                 }
                 for (int i = 0; i < dbItems.Length; ++i)
@@ -159,13 +151,16 @@ namespace JoyPro
                         if (da == null)
                         {
                             toKeep.Add(dbItems[i]);
-                            AIRCRAFT.Add(dbItems[i].Plane, true);
+                            if (da == null && r.GetPlaneRelationState(dbItems[i].Plane, Game, this) < 1)
+                            {
+                                AIRCRAFT.Add(dbItems[i].Plane, true);
+                            }
+                            else
+                            {
+                                AIRCRAFT.Add(dbItems[i].Plane, false);
+                            }
                         }
                     }
-                }
-                for (int i = 0; i < toRemove.Count; ++i)
-                {
-                    AIRCRAFT.Remove(toRemove.ElementAt(i).Key.Plane);
                 }
                 OtherInputs = toKeep.ToArray();
             }
@@ -204,14 +199,14 @@ namespace JoyPro
         OtherGameInput InputsContainPlane(OtherGameInput[] inputs, string plane)
         {
             for (int i = 0; i < inputs.Length; ++i)
-                if (inputs[i].Plane == plane) return inputs[i];
+                if (inputs[i].Plane.ToLower() == plane.ToLower()) return inputs[i];
             return null;
         }
         DCSInput InputsContainPlane(DCSInput[] inputs, string plane)
         {
             for (int i = 0; i < inputs.Length; ++i)
             {
-                if (inputs[i].Plane == plane) return inputs[i];
+                if (inputs[i].Plane.ToLower() == plane.ToLower()) return inputs[i];
             }
             return null;
         }
