@@ -536,7 +536,7 @@ namespace JoyPro
                     name = kvp.Value.Rl.NAME;
 
                 System.Text.RegularExpressions.Regex rgx = new System.Text.RegularExpressions.Regex(@"\d\d\d\d");
-                if (name.Length > 5)
+                if (name.Length > 6)
                 {
                     System.Text.RegularExpressions.Match match = rgx.Match(name.Substring(1,4));
                     System.Text.RegularExpressions.Match mch = rgx.Match(name.Substring(2, 5));
