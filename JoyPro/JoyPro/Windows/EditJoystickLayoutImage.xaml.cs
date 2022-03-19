@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -42,13 +43,15 @@ namespace JoyPro
         SolidColorBrush fontColor;
         int textSize;
         Dictionary<string, Point> LabelLocations;
+        List<KeyValuePair<string, string>> li;
         public EditJoystickLayoutImage(string joystick, string filepath, string exportpath)
         {
             InitializeComponent();
+            li = InitGames.GetDCSKneeboardPlaneReference();
             currentSelectedBtnAxis = "";
             LabelLocations = new Dictionary<string, Point>();
-            if(InternalDataManagement.JoystickAliases!=null&&
-                InternalDataManagement.JoystickAliases.ContainsKey(joystick)&&
+            if (InternalDataManagement.JoystickAliases != null &&
+                InternalDataManagement.JoystickAliases.ContainsKey(joystick) &&
                 InternalDataManagement.JoystickAliases[joystick].Length > 1)
             {
                 alias = InternalDataManagement.JoystickAliases[joystick];
@@ -81,15 +84,15 @@ namespace JoyPro
             foreach (KeyValuePair<string, Modifier> kvp in InternalDataManagement.AllModifiers) modNames.Add(kvp.Key);
             modNames.Sort();
             List<string> modNamesC = new List<string>();
-            for(int i=0; i<modNames.Count; ++i)
+            for (int i = 0; i < modNames.Count; ++i)
             {
                 if (i > 3) break;
                 List<string> ModNamesCombined = getAllPossibleCombinationWithLength(modNames, i + 1);
                 foreach (string s in ModNamesCombined) modNamesC.Add(s);
             }
-            for(int i=0; i<modNamesC.Count; ++i)
+            for (int i = 0; i < modNamesC.Count; ++i)
             {
-                for(int j=0; j<rawPossibleBtns.Count; ++j)
+                for (int j = 0; j < rawPossibleBtns.Count; ++j)
                 {
                     possibleAxBtn.Add(modNamesC[i] + "+" + rawPossibleBtns[j]);
                 }
@@ -101,7 +104,7 @@ namespace JoyPro
             assignedButtons.Add("Joystick");
             PopulateButtonAxisList();
             textSize = Convert.ToInt32(TextSizeTB.Text);
-            if(FontDropDown.SelectedIndex<0)
+            if (FontDropDown.SelectedIndex < 0)
                 FontDropDown.SelectedIndex = 0;
             ButtonsLB.SelectionChanged += new SelectionChangedEventHandler(SelectedButtonChanged);
             TextSizeTB.LostFocus += new RoutedEventHandler(textSizeChanged);
@@ -109,6 +112,7 @@ namespace JoyPro
             FontDropDown.SelectionChanged += new SelectionChangedEventHandler(settingChanged);
             SaveLayoutBtn.Click += new RoutedEventHandler(saveLayout);
             ExportBtn.Click += new RoutedEventHandler(exportInputs);
+            ExportKneeboardBtn.Click += new RoutedEventHandler(exportInputs);
             refreshImageToShow();
         }
         List<string> getAllPossibleCombinationWithLength(List<string> li, int leng)
@@ -117,12 +121,12 @@ namespace JoyPro
             else if (leng == 0) return new List<string>();
             List<string> res = new List<string>();
             UInt16 max = (UInt16)Math.Pow(2, li.Count);
-            for(UInt16 groups=1; groups<max; ++groups)
+            for (UInt16 groups = 1; groups < max; ++groups)
             {
                 if (countSetBits(groups) == (UInt16)leng)
                 {
                     string tempResult = "";
-                    for(int i=0; i<16; ++i)
+                    for (int i = 0; i < 16; ++i)
                     {
                         if ((groups & (1 << i)) != 0)
                         {
@@ -132,7 +136,7 @@ namespace JoyPro
                             }
                             else
                             {
-                                tempResult+="+"+li[i];
+                                tempResult += "+" + li[i];
                             }
                         }
                     }
@@ -147,7 +151,7 @@ namespace JoyPro
             UInt16 j = 0;
             for (UInt16 i = 0; i < 16; ++i)
             {
-                if ((tester & (1 << i))!=0)
+                if ((tester & (1 << i)) != 0)
                     ++j;
             }
             return j;
@@ -185,13 +189,13 @@ namespace JoyPro
         }
         void SelectedButtonChanged(object sender, EventArgs e)
         {
-            if((System.Windows.Controls.Label)ButtonsLB.SelectedItem!=null)
+            if ((System.Windows.Controls.Label)ButtonsLB.SelectedItem != null)
                 currentSelectedBtnAxis = (string)((System.Windows.Controls.Label)ButtonsLB.SelectedItem).Content;
         }
         void PopulateButtonAxisList()
         {
             ButtonsLB.Items.Clear();
-            for(int i=0; i< possibleAxBtn.Count; ++i)
+            for (int i = 0; i < possibleAxBtn.Count; ++i)
             {
                 System.Windows.Controls.Label btnLabel = new System.Windows.Controls.Label();
                 btnLabel.Name = "btn";
@@ -200,7 +204,7 @@ namespace JoyPro
                 {
                     btnLabel.Foreground = Brushes.Black;
                 }
-                else if(assignedButtons.Contains(possibleAxBtn[i]))
+                else if (assignedButtons.Contains(possibleAxBtn[i]))
                 {
                     btnLabel.Foreground = Brushes.Red;
                 }
@@ -211,7 +215,7 @@ namespace JoyPro
                 ButtonsLB.Items.Add(btnLabel);
 
             }
-            if(possibleAxBtn != null&& possibleAxBtn.Count>0&&(currentSelectedBtnAxis==null||currentSelectedBtnAxis.Length<1))
+            if (possibleAxBtn != null && possibleAxBtn.Count > 0 && (currentSelectedBtnAxis == null || currentSelectedBtnAxis.Length < 1))
                 currentSelectedBtnAxis = possibleAxBtn[0];
         }
         void PopulateFontDropDown()
@@ -281,7 +285,7 @@ namespace JoyPro
         }
         void AddLabelToImage(Point pos)
         {
-            double scaleFactor = mainImg.Height / uiElementImage.ActualHeight ;
+            double scaleFactor = mainImg.Height / uiElementImage.ActualHeight;
             Point newPos = new Point(pos.X * scaleFactor, pos.Y * scaleFactor);
 
             if (LabelLocations.ContainsKey(currentSelectedBtnAxis))
@@ -299,36 +303,36 @@ namespace JoyPro
             fontColor = lf.ColorSCB;
             Dictionary<string, Point> tempPosMap = new Dictionary<string, Point>();
             if (InternalDataManagement.ModifierNameChanges == null) InternalDataManagement.ModifierNameChanges = new List<KeyValuePair<string, string>>();
-            foreach(KeyValuePair<string, Point> pair in lf.Positions)
+            foreach (KeyValuePair<string, Point> pair in lf.Positions)
             {
-                string temp=pair.Key;
+                string temp = pair.Key;
                 string[] mods = temp.Split('+');
-                for(int j=0; j<mods.Length-1; j++)
+                for (int j = 0; j < mods.Length - 1; j++)
                 {
-                    for(int i=0; i<InternalDataManagement.ModifierNameChanges.Count; i++)
+                    for (int i = 0; i < InternalDataManagement.ModifierNameChanges.Count; i++)
                     {
-                        if(InternalDataManagement.ModifierNameChanges[i].Key == mods[j])
+                        if (InternalDataManagement.ModifierNameChanges[i].Key == mods[j])
                         {
                             mods[j] = InternalDataManagement.ModifierNameChanges[i].Value;
                         }
                     }
                 }
                 string finalName;
-                if(mods.Length > 1)
+                if (mods.Length > 1)
                 {
                     List<string> modsList = mods.ToList();
-                    modsList.RemoveAt(mods.Length-1);
+                    modsList.RemoveAt(mods.Length - 1);
                     modsList.Sort();
-                    finalName=modsList[0];
-                    for(int i=1; i<modsList.Count; ++i)
+                    finalName = modsList[0];
+                    for (int i = 1; i < modsList.Count; ++i)
                     {
                         finalName = finalName + "+" + modsList[i];
                     }
-                    finalName=finalName+"+"+mods[mods.Length-1];
+                    finalName = finalName + "+" + mods[mods.Length - 1];
                 }
                 else
                 {
-                    finalName=mods[0];
+                    finalName = mods[0];
                 }
                 tempPosMap.Add(finalName, pair.Value);
 
@@ -337,7 +341,7 @@ namespace JoyPro
             textSize = lf.Size;
             TextSizeTB.Text = textSize.ToString();
             int toSel = 0;
-            for(int i=0; i<FontDropDown.Items.Count; ++i)
+            for (int i = 0; i < FontDropDown.Items.Count; ++i)
             {
                 if ((string)FontDropDown.Items[i] == lf.Font) toSel = i;
             }
@@ -383,19 +387,23 @@ namespace JoyPro
         }
         void exportInputs(object sender, EventArgs e)
         {
+            System.Windows.Controls.Button bu = (System.Windows.Controls.Button)sender;
+            bool kneeboardExport = false;
+            Thread[] thrds = new Thread[Environment.ProcessorCount];
+            if (bu.Name.Contains("Kneeboard")) kneeboardExport = true;
             if (LabelLocations.Count < 1)
             {
                 MessageBox.Show("No Labels set. Set the labels where you want them before you can export");
                 return;
             }
-            foreach(KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
+            foreach (KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
             {
                 if (!Directory.Exists(exportP + "\\" + kvp.Key))
                     Directory.CreateDirectory(exportP + "\\" + kvp.Key);
 
-                for(int i=0; i < kvp.Value.Count; ++i)
+                for (int i = 0; i < kvp.Value.Count; ++i)
                 {
-                    if (!Directory.Exists(exportP + "\\" + kvp.Key+"\\"+kvp.Value[i]))
+                    if (!Directory.Exists(exportP + "\\" + kvp.Key + "\\" + kvp.Value[i]))
                         Directory.CreateDirectory(exportP + "\\" + kvp.Key + "\\" + kvp.Value[i]);
                     InternalDataManagement.CurrentButtonMapping = InternalDataManagement.GetAirCraftLayout(kvp.Key, kvp.Value[i]);
                     System.Drawing.Bitmap export = (System.Drawing.Bitmap)backup.Clone();
@@ -410,7 +418,8 @@ namespace JoyPro
                         if (keys.Key == "Game")
                         {
                             descriptor = kvp.Key;
-                        }else if (keys.Key == "Plane")
+                        }
+                        else if (keys.Key == "Plane")
                         {
                             descriptor = kvp.Value[i];
                         }
@@ -420,12 +429,35 @@ namespace JoyPro
                         }
                         else
                         {
-                            descriptor= InternalDataManagement.GetTextForButton(stick, keys.Key);
+                            descriptor = InternalDataManagement.GetTextForButton(stick, keys.Key);
                         }
                         g.DrawString(descriptor, new System.Drawing.Font((string)FontDropDown.SelectedItem, textSize), b, Convert.ToSingle(keys.Value.X), Convert.ToSingle(keys.Value.Y));
                     }
                     g.Flush();
-                    exportBitmap(export, exportP + "\\" + kvp.Key + "\\" + kvp.Value[i] + "\\" + kvp.Value[i] + "_" + alias + ".png", ImageFormat.Png);
+                    //exportBitmap(export, exportP + "\\", kvp.Value[i], kvp.Key, alias, ImageFormat.Png, kneeboardExport);
+                    int f = 0;
+                    string valr = kvp.Value[i];
+                    string ffff = kvp.Key;
+                    Thread t = new Thread(() => exportBitmap(export, exportP + "\\", valr, ffff, alias, ImageFormat.Png, kneeboardExport));
+                    while (true)
+                    {
+                        if (f < thrds.Length)
+                        {
+                            if (thrds[f] == null||!thrds[f].IsAlive)
+                            {
+                                thrds[f] = t;
+                                t.Start();
+                                break;
+                            }
+                            f++;
+                        }
+                        else
+                        {
+                            f = 0;
+                        }
+                        Thread.Sleep(50);
+                    }
+
                 }
             }
             //One General Overview
@@ -457,18 +489,95 @@ namespace JoyPro
                 gr.DrawString(descriptor, new System.Drawing.Font((string)FontDropDown.SelectedItem, textSize), br, Convert.ToSingle(keys.Value.X), Convert.ToSingle(keys.Value.Y));
             }
             gr.Flush();
-            exportBitmap(expMain, exportP + "\\" + alias + ".png", ImageFormat.Png);
+            exportBitmap(expMain, exportP + "\\", "", "", alias, ImageFormat.Png, false);
             MessageBox.Show("Export looks successful.");
         }
 
-        void exportBitmap(System.Drawing.Bitmap bmp, string path, ImageFormat format)
+        void exportBitmap(System.Drawing.Bitmap bmp, string path, string plane, string game, string joystick, ImageFormat format, bool toKneeboard)
         {
             int attemps = 0;
+            double a4_width = 210;
+            double a4_height = 297;
+            double ration = a4_width / a4_height;
+
             while (true)
             {
                 try
                 {
-                    bmp.Save(path, format);
+                    if (toKneeboard)
+                    {
+                        System.Drawing.GraphicsUnit px = System.Drawing.GraphicsUnit.Pixel;
+                        var size = bmp.GetBounds(ref px);
+                        double imgratio = (double)size.Width / (double)size.Height;
+                        bool tooWide = false;
+                        if (imgratio > ration) tooWide = true;
+                        System.Drawing.Bitmap replacementBMP;
+                        int newSide;
+                        int centerOffset;
+                        if (tooWide)
+                        {
+                            newSide = (int)(size.Width * (a4_height / a4_width));
+                            centerOffset = (newSide - (int)size.Height) / 2;
+                            replacementBMP = new System.Drawing.Bitmap((int)size.Width, newSide);
+                            for (int w = 0; w < size.Width; w++)
+                            {
+                                for (int h = 0; h < size.Height; h++)
+                                {
+                                    replacementBMP.SetPixel(w, h + centerOffset, bmp.GetPixel(w, h));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            newSide = (int)(size.Height * (a4_width / a4_height));
+                            centerOffset = (newSide - (int)size.Width) / 2;
+                            replacementBMP = new System.Drawing.Bitmap(newSide, (int)size.Height);
+                            for (int w = 0; w < size.Width; w++)
+                            {
+                                for (int h = 0; h < size.Height; h++)
+                                {
+                                    replacementBMP.SetPixel(w + centerOffset, h, bmp.GetPixel(w, h));
+                                }
+                            }
+                        }
+                        bmp = replacementBMP;
+
+                    }
+                    string finalPath = path;
+                    if (!path.EndsWith("\\")) finalPath = finalPath + "\\";
+                    if (plane != game && plane.Length > 0 && game.Length > 0)
+                    {
+                        finalPath = finalPath + "\\" + game + "\\" + plane + "\\";
+                    }
+                    if (toKneeboard && game == "DCS")
+                    {
+
+                        string instance = MiscGames.DCSselectedInstancePath;
+                        if (MainStructure.msave != null && MainStructure.msave.DCSInstaceOverride != null && Directory.Exists(MainStructure.msave.DCSInstaceOverride))
+                            instance = MainStructure.msave.DCSInstaceOverride;
+                        instance = instance + "\\Kneeboard\\";
+                        string fileName = plane + "\\00_" + plane + "__" + joystick + ".png";
+                        string ins = instance + plane;
+                        if (!Directory.Exists(ins)) Directory.CreateDirectory(ins);
+                        bmp.Save(instance + fileName, format);
+                        for (int i = 0; i < li.Count; i++)
+                        {
+                            if (li[i].Key.ToLower() == plane.ToLower())
+                            {
+                                ins = instance + li[i].Value;
+                                if (!Directory.Exists(ins)) Directory.CreateDirectory(ins);
+                                fileName = li[i].Value + "\\00_" + plane + "__" + joystick + ".png";
+                                bmp.Save(instance + fileName, format);
+                            }
+                        }
+
+                    }
+                    else if (!toKneeboard)
+                    {
+                        finalPath = finalPath + joystick + ".png";
+                        bmp.Save(finalPath, format);
+                    }
+
                     return;
                 }
                 catch (Exception ex)
@@ -479,7 +588,7 @@ namespace JoyPro
                     }
                     attemps++;
                 }
-                
+
             }
         }
     }

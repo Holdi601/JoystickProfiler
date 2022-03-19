@@ -375,6 +375,11 @@ namespace JoyPro
                         result[kvpPS.Key].joystickConfig[b.Joystick].axisDiffs[ri.ID].Title = ri.GetInputDescription(kvpPS.Key);
                         DCSAxisBind dab = b.toDCSAxisBind();
                         if (dab == null) continue;
+                        for (int i = 0; i < dab.modifiers.Count; ++i)
+                        {
+                            if (!result[kvpPS.Key].modifiers.ContainsKey(dab.modifiers[i].name))
+                                result[kvpPS.Key].modifiers.Add(dab.modifiers[i].name, dab.modifiers[i]);
+                        }
                         result[kvpPS.Key].joystickConfig[b.Joystick].axisDiffs[ri.ID].added.Add(dab);
                     }
                     else

@@ -9,6 +9,23 @@ namespace JoyPro
 {
     public static class InitGames
     {
+
+
+        public static List<KeyValuePair<string, string>> GetDCSKneeboardPlaneReference()
+        {
+            if(!File.Exists(MainStructure.PROGPATH+"\\Overlay\\DCS\\rename.plane"))return new List<KeyValuePair<string, string>>();
+            List<KeyValuePair<string, string>> result = new List<KeyValuePair<string, string>>();
+            StreamReader sr = new StreamReader(MainStructure.PROGPATH + "\\Overlay\\DCS\\rename.plane");
+            while (!sr.EndOfStream)
+            {
+                string line = sr.ReadLine();
+                string[] parts = line.Split('§');
+                if (parts.Length < 2) continue;
+                result.Add(new KeyValuePair<string, string>(parts[0], parts[1]));
+            }
+
+            return result;
+        }
         public static void DCSDBMatchesClean()
         {
             List<string> missingCleans = new List<string>();

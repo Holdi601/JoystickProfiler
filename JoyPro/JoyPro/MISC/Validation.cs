@@ -106,6 +106,10 @@ namespace JoyPro
                         if (binds[i].Rl.ISAXIS)
                         {
                             toAdd = toAdd + "§" + binds[i].JAxis;
+                            for (int m = 0; m < binds[i].AllReformers.Count; ++m)
+                            {
+                                toAdd = toAdd + "§" + binds[i].AllReformers[m];
+                            }
                         }
                         else
                         {
