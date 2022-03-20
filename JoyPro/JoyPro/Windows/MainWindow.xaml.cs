@@ -755,6 +755,7 @@ namespace JoyPro
                 if (cr != null)
                 {
                     InternalDataManagement.RemoveBind(cr);
+                    InternalDataManagement.ResyncRelations();
                 }
                 return;
             }
@@ -1843,6 +1844,12 @@ namespace JoyPro
             CheckBox cb = (CheckBox)sender;
             int relSel= Convert.ToInt32(removeIDAdditionalPartsFromControls(cb.Name));
             Bind currentBind = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[relSel].NAME);
+            if (currentBind == null)
+            {
+                cb.IsChecked= false;
+                MessageBox.Show("Make a bind first");
+                return;
+            }
             string mod = (string)cb.Content;
             if (!InternalDataManagement.AllModifiers.ContainsKey(mod))
             {
@@ -1857,7 +1864,7 @@ namespace JoyPro
             }
             else
             {
-                if (currentBind.AllReformers.Contains(reform))
+                 if (currentBind.AllReformers.Contains(reform))
                     currentBind.AllReformers.Remove(reform);
             }
             MainStructure.OverlayWorker.SetButtonMapping();
