@@ -1,0 +1,17 @@
+local diff = {
+	["keyDiffs"] = {
+		["d134pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Close Look to NS430 On Off",
+			["removed"] = {
+				[1] = {
+					["key"] = "B",
+					["reformers"] = {
+						[1] = "LShift",
+						[2] = "LAlt",
+					},
+				},
+			},
+		},
+	},
+}
+return diff

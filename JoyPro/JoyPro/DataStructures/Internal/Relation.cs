@@ -76,6 +76,20 @@ namespace JoyPro
             }
             return r;
         }
+
+        public bool IsEmptyOfActivePlanes()
+        {
+            if (NODES.Count == 0) return true;
+            foreach(KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
+            {
+                for(int i=0; i<kvp.Value.Count; ++i)
+                {
+                    int res = GetPlaneRelationState(kvp.Value[i], kvp.Key);
+                    if (res > 0) return false;
+                }
+            }
+            return true;
+        }
         public void DeactivateAllAircraftItems(string game, string plane)
         {
             for(int i=0; i<NODES.Count; ++i)

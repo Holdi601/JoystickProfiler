@@ -24,27 +24,42 @@ namespace JoyPro
     {
         ExportMode exportMode;
         bool param;
-        public PlanesToExport(ExportMode em, bool paramP)
+        public PlanesToExport(ExportMode em, bool paramP, Dictionary<string, List<string>> activeAirCraft = null, List<Bind> bindsToExport = null)
         {
             InitializeComponent();
+            if (MainStructure.msave != null && MainStructure.msave._ExportWindow != null)
+            {
+                if (MainStructure.msave._ExportWindow.Top > 0) this.Top = MainStructure.msave._ExportWindow.Top;
+                if (MainStructure.msave._ExportWindow.Left > 0) this.Left = MainStructure.msave._ExportWindow.Left;
+                if (MainStructure.msave._ExportWindow.Width > 0) this.Width = MainStructure.msave._ExportWindow.Width;
+                if (MainStructure.msave._ExportWindow.Height > 0) this.Height = MainStructure.msave._ExportWindow.Height;
+            }
             exportMode = em;
             param = paramP;
             SetupGamesDropDown();
             CancelBtn.Click += new RoutedEventHandler(CloseThis);
             ExportBtn.Click += new RoutedEventHandler(Export);
+            this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
+            this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
+            if (bindsToExport != null) ExportActiveParameter(activeAirCraft, bindsToExport);
+        }
+
+        void ExportActiveParameter(Dictionary<string, List<string>> ActivePlanes, List<Bind> bindsInView=null)
+        {
+            switch (exportMode)
+            {
+                case ExportMode.WriteCleanNotOverride: InternalDataManagement.WriteProfileCleanNotOverwriteLocal(param, ActivePlanes, bindsInView); break;
+                case ExportMode.WriteCleanOverride: InternalDataManagement.WriteProfileCleanAndLoadedOverwritten(param, ActivePlanes, bindsInView); break;
+                case ExportMode.WriteClean: InternalDataManagement.WriteProfileClean(param, ActivePlanes, bindsInView); break;
+                case ExportMode.WriteCleanAdd: InternalDataManagement.WriteProfileCleanAndLoadedOverwrittenAndAdd(param, ActivePlanes, bindsInView); break;
+            }
+            Close();
         }
 
         void Export(object sender, EventArgs e)
         {
             Dictionary<string, List<string>> ActivePlanes = ActiveGamePlaneDict(GetActivePlanes());
-            switch (exportMode)
-            {
-                case ExportMode.WriteCleanNotOverride: InternalDataManagement.WriteProfileCleanNotOverwriteLocal(param, ActivePlanes); break;
-                case ExportMode.WriteCleanOverride: InternalDataManagement.WriteProfileCleanAndLoadedOverwritten(param,ActivePlanes); break;
-                case ExportMode.WriteClean: InternalDataManagement.WriteProfileClean(param, ActivePlanes); break;
-                case ExportMode.WriteCleanAdd: InternalDataManagement.WriteProfileCleanAndLoadedOverwrittenAndAdd(param,ActivePlanes); break;
-            }
-            Close();
+            ExportActiveParameter(ActivePlanes);
         }
 
         void CloseThis(object sender, EventArgs e)

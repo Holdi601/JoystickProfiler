@@ -498,6 +498,32 @@ namespace JoyPro
         public Dictionary<string, Dictionary<string, bool>> relationPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
         public Dictionary<string, Dictionary<string, bool>> importPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
         public Dictionary<string, Dictionary<string, bool>> exportPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
+        public Dictionary<string, Dictionary<string, bool>> ViewPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
+        public bool ExportInView;
+
+        WindowPos exprtWindow = null;
+        public WindowPos _ExportWindow
+        {
+            get
+            {
+                if (exprtWindow == null) exprtWindow = new WindowPos();
+                if (exprtWindow.Width <= 0 ||
+                    exprtWindow.Height <= 0 ||
+                    exprtWindow.Top < 0 ||
+                    exprtWindow.Left < 0)
+                {
+                    exprtWindow.Width = 1920;
+                    exprtWindow.Height = 1080;
+                    exprtWindow.Top = 0;
+                    exprtWindow.Left = 0;
+                }
+                return exprtWindow;
+            }
+            set
+            {
+                exprtWindow = value;
+            }
+        }
 
 
         public MetaSave()
@@ -550,6 +576,9 @@ namespace JoyPro
             relationPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
             importPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
             exportPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
+            ViewPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
+            ExportInView = false;
+            exprtWindow = new WindowPos();
         }
 
         public bool? PlaneWasActiveLastTime(PlaneActivitySelection pas, string game, string plane)
@@ -557,8 +586,9 @@ namespace JoyPro
             MakeSureActivityReferencesArentNull();
             Dictionary<string, Dictionary<string, bool>> activity=null;
             if (pas == PlaneActivitySelection.Relation) activity = relationPlaneActivity;
-            else if(pas == PlaneActivitySelection.Import) activity = importPlaneActivity;
-            else if(pas== PlaneActivitySelection.Export) activity = exportPlaneActivity;
+            else if (pas == PlaneActivitySelection.Import) activity = importPlaneActivity;
+            else if (pas == PlaneActivitySelection.Export) activity = exportPlaneActivity;
+            else if (pas == PlaneActivitySelection.View) activity = ViewPlaneActivity;
             foreach(KeyValuePair<string, Dictionary<string , bool>> pair in activity)
             {
                 if(pair.Key.ToLower() == game.ToLower())
@@ -575,9 +605,10 @@ namespace JoyPro
 
         void MakeSureActivityReferencesArentNull()
         {
-            relationPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
-            importPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
-            exportPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
+            if (relationPlaneActivity==null) relationPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
+            if (importPlaneActivity == null) importPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
+            if (exportPlaneActivity == null) exportPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
+            if (ViewPlaneActivity == null) ViewPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
         }
 
         public void PlaneSetLastActivity(PlaneActivitySelection pas, string game, string plane, bool state)
@@ -587,6 +618,7 @@ namespace JoyPro
             if (pas == PlaneActivitySelection.Relation) activity = relationPlaneActivity;
             else if (pas == PlaneActivitySelection.Import) activity = importPlaneActivity;
             else if (pas == PlaneActivitySelection.Export) activity = exportPlaneActivity;
+            else if (pas == PlaneActivitySelection.View) activity = ViewPlaneActivity;
             if(!activity.ContainsKey(game))activity.Add(game, new Dictionary<string, bool>());
             if (!activity[game].ContainsKey(plane)) activity[game].Add(plane, state);
             else activity[game][plane] = state;

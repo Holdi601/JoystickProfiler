@@ -21,7 +21,7 @@ namespace JoyPro
         public static List<string> AllGroups = new List<string>();
         public static Dictionary<string, bool> GroupActivity = new Dictionary<string, bool>();
         public static Dictionary<string, bool> JoystickActivity = new Dictionary<string, bool>();
-        public static Dictionary<string, bool> PlaneActivity = new Dictionary<string, bool>();
+        //public static Dictionary<string, bool> PlaneActivity = new Dictionary<string, bool>();
         public static Dictionary<string, string> JoystickAliases = new Dictionary<string, string>();
         public static string[] LocalJoysticks;
         public static Dictionary<string, string> LocalJoystickPGUID = new Dictionary<string, string>();
@@ -1023,22 +1023,24 @@ namespace JoyPro
         }
         static List<Relation> FilterPlanes(List<Relation> temp)
         {
-            if (PlaneActivity == null || PlaneActivity.Count == 0 || temp == null) return temp;
+            if (MainStructure.msave.ViewPlaneActivity == null || temp == null) return temp;
             List<Relation> toReturn = new List<Relation>();
             for (int i = 0; i < temp.Count; ++i)
             {
                 bool found = false;
-                for(int j = 0; j < PlaneActivity.Count; ++j)
+                foreach(KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
                 {
-                    if (PlaneActivity.ElementAt(j).Value)
+                    for(int j=0; j<kvp.Value.Count; ++j)
                     {
-                        string[] parts = PlaneActivity.ElementAt(j).Key.Split(':');
-                        if (temp[i].GetPlaneRelationState(parts[1], parts[0]) > 0)
+                        bool? state = MainStructure.msave.PlaneWasActiveLastTime(PlaneActivitySelection.View, kvp.Key, kvp.Value[j]);
+                        if ((temp[i].GetPlaneRelationState(kvp.Value[j], kvp.Key) > 0 || temp[i].IsEmptyOfActivePlanes())&&
+                            (state==true||state==null))
                         {
                             found = true;
                             break;
                         }
                     }
+                    if (found) break;
                 }
                 if(found)
                     toReturn.Add(temp[i]);
@@ -1279,61 +1281,105 @@ namespace JoyPro
                 result.Add(kvp.Value);
             return result;
         }
-        public static void WriteProfileClean(bool nukeDevices, Dictionary<string, List<string>> Planes)
+        public static void WriteProfileClean(bool nukeDevices, Dictionary<string, List<string>> Planes, List<Bind> manualBinds)
         {
-            if (Planes.ContainsKey("DCS"))DCSIOLogic.WriteProfileClean(nukeDevices,Planes["DCS"]);
+            if (Planes.ContainsKey("DCS"))DCSIOLogic.WriteProfileClean(nukeDevices,Planes["DCS"], manualBinds);
             if (Planes.ContainsKey("IL2Game"))
             {
                 List<Bind> Il2Binds = new List<Bind>();
-                foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+                if (manualBinds == null)
                 {
-                    if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
-                        Il2Binds.Add(kvp.Value);
+                    foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+                    {
+                        if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
+                            Il2Binds.Add(kvp.Value);
+                    }
+                }
+                else
+                {
+                    for(int i = 0; i < manualBinds.Count; i++)
+                    {
+                        if (manualBinds[i].Rl.GamesInRelation().Contains("IL2Game"))
+                            Il2Binds.Add(manualBinds[i]);
+                    }
                 }
                 IL2IOLogic.WriteOut(Il2Binds, OutputType.Clean);
             }
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
-        public static void WriteProfileCleanAndLoadedOverwrittenAndAdd(bool fillBeforeEmpty, Dictionary<string,List<string>> Planes)
+        public static void WriteProfileCleanAndLoadedOverwrittenAndAdd(bool fillBeforeEmpty, Dictionary<string,List<string>> Planes, List<Bind> manualBinds)
         {
-            if(Planes.ContainsKey("DCS"))DCSIOLogic.WriteProfileCleanAndLoadedOverwrittenAndAdd(fillBeforeEmpty,Planes["DCS"]);
+            if(Planes.ContainsKey("DCS"))DCSIOLogic.WriteProfileCleanAndLoadedOverwrittenAndAdd(fillBeforeEmpty,Planes["DCS"], manualBinds);
             if (Planes.ContainsKey("IL2Game"))
             {
                 List<Bind> Il2Binds = new List<Bind>();
-                foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+                if (manualBinds == null)
                 {
-                    if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
-                        Il2Binds.Add(kvp.Value);
+                    foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+                    {
+                        if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
+                            Il2Binds.Add(kvp.Value);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < manualBinds.Count; i++)
+                    {
+                        if (manualBinds[i].Rl.GamesInRelation().Contains("IL2Game"))
+                            Il2Binds.Add(manualBinds[i]);
+                    }
                 }
                 IL2IOLogic.WriteOut(Il2Binds, OutputType.Add);
             }
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
-        public static void WriteProfileCleanNotOverwriteLocal(bool fillBeforeEmpty, Dictionary<string, List<string>> Planes)
+        public static void WriteProfileCleanNotOverwriteLocal(bool fillBeforeEmpty, Dictionary<string, List<string>> Planes, List<Bind> manualBinds)
         {
-            if (Planes.ContainsKey("DCS"))DCSIOLogic.WriteProfileCleanNotOverwriteLocal(fillBeforeEmpty,Planes["DCS"]);
+            if (Planes.ContainsKey("DCS"))DCSIOLogic.WriteProfileCleanNotOverwriteLocal(fillBeforeEmpty,Planes["DCS"], manualBinds);
             if (Planes.ContainsKey("IL2Game"))
             {
                 List<Bind> Il2Binds = new List<Bind>();
-                foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+                if (manualBinds == null)
                 {
-                    if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
-                        Il2Binds.Add(kvp.Value);
+                    foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+                    {
+                        if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
+                            Il2Binds.Add(kvp.Value);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < manualBinds.Count; i++)
+                    {
+                        if (manualBinds[i].Rl.GamesInRelation().Contains("IL2Game"))
+                            Il2Binds.Add(manualBinds[i]);
+                    }
                 }
                 IL2IOLogic.WriteOut(Il2Binds, OutputType.Merge);
             }
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
-        public static void WriteProfileCleanAndLoadedOverwritten(bool fillBeforeEmpty, Dictionary<string, List<string>> Planes)
+        public static void WriteProfileCleanAndLoadedOverwritten(bool fillBeforeEmpty, Dictionary<string, List<string>> Planes, List<Bind> manualBinds)
         {
-            if (Planes.ContainsKey("DCS")) DCSIOLogic.WriteProfileCleanAndLoadedOverwritten(fillBeforeEmpty,Planes["DCS"]);
+            if (Planes.ContainsKey("DCS")) DCSIOLogic.WriteProfileCleanAndLoadedOverwritten(fillBeforeEmpty,Planes["DCS"], manualBinds);
             if (Planes.ContainsKey("IL2Game"))
             {
                 List<Bind> Il2Binds = new List<Bind>();
-                foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+                if (manualBinds == null)
                 {
-                    if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
-                        Il2Binds.Add(kvp.Value);
+                    foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+                    {
+                        if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
+                            Il2Binds.Add(kvp.Value);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < manualBinds.Count; i++)
+                    {
+                        if (manualBinds[i].Rl.GamesInRelation().Contains("IL2Game"))
+                            Il2Binds.Add(manualBinds[i]);
+                    }
                 }
                 IL2IOLogic.WriteOut(Il2Binds, OutputType.MergeOverwrite);
             }

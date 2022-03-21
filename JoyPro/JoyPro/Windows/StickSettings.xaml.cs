@@ -827,6 +827,22 @@ namespace JoyPro
                     writer.Close();
                     writer.Dispose();
                 }
+                if (File.Exists(allSubs[i].FullName+ "\\Keyboard\\Keyboard.diff.lua"))
+                {
+                    string fileToWrite = MainStructure.PROGPATH + "\\KeyboardCleanProfile\\DCS\\" + plane + ".cf";
+                    StreamWriter writer = new StreamWriter(fileToWrite);
+                    StreamReader reader = new StreamReader(allSubs[i].FullName + "\\Keyboard\\Keyboard.diff.lua");
+                    while (!reader.EndOfStream)
+                    {
+                        writer.WriteLine(reader.ReadLine());
+                    }
+                    reader.Close();
+                    reader.Dispose();
+                    writer.Flush();
+                    writer.Close();
+                    writer.Dispose();
+
+                }
             }
             
         }

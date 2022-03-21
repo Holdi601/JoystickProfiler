@@ -1,0 +1,48 @@
+local diff = {
+	["keyDiffs"] = {
+		["d3001pnilu3001cd30vd1vpnilvu0"] = {
+			["name"] = "Petrovitch AI Helper - SHOW/HIDE",
+			["removed"] = {
+				[1] = {
+					["key"] = "V",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3002pnilu3002cd30vd1vpnilvu0"] = {
+			["name"] = "Petrovitch Helper Interface - move RIGHT",
+			["removed"] = {
+				[1] = {
+					["key"] = "D",
+				},
+			},
+		},
+		["d3003pnilu3003cd30vd1vpnilvu0"] = {
+			["name"] = "Petrovitch Helper Interface - move LEFT",
+			["removed"] = {
+				[1] = {
+					["key"] = "A",
+				},
+			},
+		},
+		["d3004pnilu3004cd30vd1vpnilvu0"] = {
+			["name"] = "Petrovitch Helper Interface - move UP",
+			["removed"] = {
+				[1] = {
+					["key"] = "W",
+				},
+			},
+		},
+		["d3005pnilu3005cd30vd1vpnilvu0"] = {
+			["name"] = "Petrovitch Helper Intreface - move DOWN",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+				},
+			},
+		},
+	},
+}
+return diff

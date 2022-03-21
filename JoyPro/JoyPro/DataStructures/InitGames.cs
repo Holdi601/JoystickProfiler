@@ -262,22 +262,6 @@ namespace JoyPro
             DBLogic.PopulateIL2Dictionary();
             DBLogic.PopulateSCDictionary();
             DBLogic.PopulateManualDictionary();
-            InternalDataManagement.PlaneActivity = new Dictionary<string, bool>();
-            for(int i=0; i<DBLogic.Planes.Count; ++i)
-            {
-                for(int j=0; j<DBLogic.Planes.ElementAt(i).Value.Count; ++j)
-                {
-                    string element = DBLogic.Planes.ElementAt(i).Key + ":" + DBLogic.Planes.ElementAt(i).Value[j];
-                    if (InternalDataManagement.PlaneActivity.ContainsKey(element))
-                    {
-                        InternalDataManagement.PlaneActivity[element] = true;
-                    }
-                    else
-                    {
-                        InternalDataManagement.PlaneActivity.Add(element, true);
-                    }
-                }
-            }
         }
 
     }

@@ -24,7 +24,7 @@ namespace JoyPro
     public enum LuaDataType { String, Number, Dict, Bool, Error };
     public enum SortType { NAME_NORM, NAME_DESC, STICK_NORM, STICK_DESC, BTN_NORM, BTN_DESC }
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
-    public enum PlaneActivitySelection { Relation, Import, Export }
+    public enum PlaneActivitySelection { Relation, Import, Export, View, Error }
 
     public static class MainStructure
     {
@@ -213,12 +213,19 @@ namespace JoyPro
                 }else if(sender is StickMention)
                 {
                     msave._JoystickMentionWindow = p;
+                }else if(sender is PlanesToExport)
+                {
+                    msave._ExportWindow = p;
                 }
             }
             if (mainW.CBNukeUnused.IsChecked == true)
                 msave.NukeSticks = true;
             else if (mainW.CBNukeUnused.IsChecked == false)
                 msave.NukeSticks = false;
+            if (mainW.CBExportOnlyView.IsChecked == true)
+                msave.ExportInView = true;
+            else if(mainW.CBExportOnlyView.IsChecked==false)
+                msave.ExportInView = false;
             SaveMetaLast();
         }
         public static string ShortenDeviceName(string device)

@@ -1,0 +1,618 @@
+local diff = {
+	["keyDiffs"] = {
+		["d1571pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Turret select",
+			["removed"] = {
+				[1] = {
+					["key"] = "Q",
+				},
+			},
+		},
+		["d1572pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Turret weapon select ",
+			["removed"] = {
+				[1] = {
+					["key"] = "E",
+				},
+			},
+		},
+		["d1576p1652unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Sight Zoom In",
+			["removed"] = {
+				[1] = {
+					["key"] = "=",
+				},
+			},
+		},
+		["d1576pnilu1577cdnilvdnilvpnilvunil"] = {
+			["name"] = "Sight Zoom Narrow (press and hold)",
+			["removed"] = {
+				[1] = {
+					["key"] = "O",
+				},
+			},
+		},
+		["d1577p1653unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Sight Zoom Out",
+			["removed"] = {
+				[1] = {
+					["key"] = "-",
+				},
+			},
+		},
+		["d1580pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Target Lock",
+			["removed"] = {
+				[1] = {
+					["key"] = "Enter",
+				},
+			},
+		},
+		["d1581pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Target Unlock",
+			["removed"] = {
+				[1] = {
+					["key"] = "Back",
+				},
+			},
+		},
+		["d1582pnilu1583cdnilvdnilvpnilvunil"] = {
+			["name"] = "Group Control Mode",
+			["removed"] = {
+				[1] = {
+					["key"] = "G",
+				},
+			},
+		},
+		["d1588pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Isometric view",
+			["removed"] = {
+				[1] = {
+					["key"] = "Insert",
+				},
+			},
+		},
+		["d1607pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Turret to hull align",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num5",
+				},
+			},
+		},
+		["d1608pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Gun Stabilizer On/Off",
+			["removed"] = {
+				[1] = {
+					["key"] = "V",
+				},
+			},
+		},
+		["d1611pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Night Vision Gain Up",
+			["removed"] = {
+				[1] = {
+					["key"] = "N",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d1612pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Night Vision Gain Down",
+			["removed"] = {
+				[1] = {
+					["key"] = "N",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d1613pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Launch Red Flare",
+			["removed"] = {
+				[1] = {
+					["key"] = "1",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d1614pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Launch Green Flare",
+			["removed"] = {
+				[1] = {
+					["key"] = "2",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d1615pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Launch White Flare",
+			["removed"] = {
+				[1] = {
+					["key"] = "3",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d1622pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Select feed slot #1",
+			["removed"] = {
+				[1] = {
+					["key"] = "1",
+				},
+			},
+		},
+		["d1623pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Select feed slot #2",
+			["removed"] = {
+				[1] = {
+					["key"] = "2",
+				},
+			},
+		},
+		["d1624pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Radar On/Off",
+			["removed"] = {
+				[1] = {
+					["key"] = "I",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d1630pnilu1631cdnilvdnilvpnilvunil"] = {
+			["name"] = "Rangefinder Activate",
+			["removed"] = {
+				[1] = {
+					["key"] = "L",
+				},
+			},
+		},
+		["d1642pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Ammunition reloading manual start",
+			["removed"] = {
+				[1] = {
+					["key"] = "R",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d1643pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Ammunition maintenance interrupt",
+			["removed"] = {
+				[1] = {
+					["key"] = "R",
+					["reformers"] = {
+						[1] = "LShift",
+						[2] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d1649pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Sight Reticle Alternate",
+			["removed"] = {
+				[1] = {
+					["key"] = "F",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d1651pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Sight Reticle Light Toggle",
+			["removed"] = {
+				[1] = {
+					["key"] = "F",
+				},
+			},
+		},
+		["d1654p1637unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Rotate turret left",
+			["removed"] = {
+				[1] = {
+					["key"] = "Left",
+				},
+			},
+		},
+		["d1655p1638unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Rotate turret right",
+			["removed"] = {
+				[1] = {
+					["key"] = "Right",
+				},
+			},
+		},
+		["d1656p1639unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Turret up",
+			["removed"] = {
+				[1] = {
+					["key"] = "Up",
+				},
+			},
+		},
+		["d1657p1640unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Turret down",
+			["removed"] = {
+				[1] = {
+					["key"] = "Down",
+				},
+			},
+		},
+		["d1658pnilu1659cdnilvdnilvpnilvunil"] = {
+			["name"] = "Fire Secondary Weapon",
+			["removed"] = {
+				[1] = {
+					["key"] = "Space",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d1660pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "IFF Test",
+			["removed"] = {
+				[1] = {
+					["key"] = "I",
+				},
+			},
+		},
+		["d1661pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Driver Role",
+			["removed"] = {
+				[1] = {
+					["key"] = "C",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d1662pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Track Target On/Off",
+			["removed"] = {
+				[1] = {
+					["key"] = "L",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["d1671pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Plan Position Indicator",
+			["removed"] = {
+				[1] = {
+					["key"] = "F10",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d1678pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "IR Vision ON/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "N",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["d1679pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Night Vision ON/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "N",
+				},
+			},
+		},
+		["d1681pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Rearming",
+			["removed"] = {
+				[1] = {
+					["key"] = "\\",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d1730pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Binocular, toggle hints",
+			["removed"] = {
+				[1] = {
+					["key"] = "B",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d1759pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Engine Start/Stop",
+			["removed"] = {
+				[1] = {
+					["key"] = "E",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d1761pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Rangefinder Combat Range",
+			["removed"] = {
+				[1] = {
+					["key"] = "L",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d1762p1766u1763cdnilvdnilvpnilvunil"] = {
+			["name"] = "Range Increase",
+			["removed"] = {
+				[1] = {
+					["key"] = "Home",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d1764p1767u1765cdnilvdnilvpnilvunil"] = {
+			["name"] = "Range Decrease",
+			["removed"] = {
+				[1] = {
+					["key"] = "End",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d179pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Communication menu",
+			["removed"] = {
+				[1] = {
+					["key"] = "\\",
+				},
+			},
+		},
+		["d186pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Cruise control",
+			["removed"] = {
+				[1] = {
+					["key"] = "T",
+				},
+			},
+		},
+		["d193pnilu194cdnilvdnilvpnilvunil"] = {
+			["name"] = "Vehicle Accelerate",
+			["removed"] = {
+				[1] = {
+					["key"] = "W",
+				},
+			},
+		},
+		["d195pnilu196cdnilvdnilvpnilvunil"] = {
+			["name"] = "Vehicle Brake",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+				},
+			},
+		},
+		["d197pnilu198cdnilvdnilvpnilvunil"] = {
+			["name"] = "Vehicle Turn Left",
+			["removed"] = {
+				[1] = {
+					["key"] = "A",
+				},
+			},
+		},
+		["d199pnilu200cdnilvdnilvpnilvunil"] = {
+			["name"] = "Vehicle Turn Right",
+			["removed"] = {
+				[1] = {
+					["key"] = "D",
+				},
+			},
+		},
+		["d201pnilu202cdnilvdnilvpnilvunil"] = {
+			["name"] = "Vehicle Shift Gear Down",
+			["removed"] = {
+				[1] = {
+					["key"] = "Z",
+				},
+			},
+		},
+		["d203pnilu204cdnilvdnilvpnilvunil"] = {
+			["name"] = "Vehicle Shift Gear Up",
+			["removed"] = {
+				[1] = {
+					["key"] = "X",
+				},
+			},
+		},
+		["d407pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Binocular view",
+			["removed"] = {
+				[1] = {
+					["key"] = "B",
+				},
+			},
+		},
+		["d62pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Autopilot",
+			["removed"] = {
+				[1] = {
+					["key"] = "C",
+				},
+			},
+		},
+		["d7pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Gunner Role",
+			["removed"] = {
+				[1] = {
+					["key"] = "F1",
+				},
+			},
+		},
+		["d836pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Radar scale in",
+			["removed"] = {
+				[1] = {
+					["key"] = "=",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d837pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Radar scale out",
+			["removed"] = {
+				[1] = {
+					["key"] = "-",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d84pnilu85cdnilvdnilvpnilvunil"] = {
+			["name"] = "Fire selected weapon",
+			["removed"] = {
+				[1] = {
+					["key"] = "Space",
+				},
+			},
+		},
+		["d855pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Hand Brake Toggle",
+			["removed"] = {
+				[1] = {
+					["key"] = "H",
+				},
+			},
+		},
+		["dnilp1645unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Sight Elevation Correction Increase",
+			["removed"] = {
+				[1] = {
+					["key"] = "Home",
+				},
+			},
+		},
+		["dnilp1646unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Sight Elevation Correction Decrease",
+			["removed"] = {
+				[1] = {
+					["key"] = "End",
+				},
+			},
+		},
+		["dnilp1647unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Sight Azimuth Correction To The Left",
+			["removed"] = {
+				[1] = {
+					["key"] = "Delete",
+				},
+			},
+		},
+		["dnilp1648unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Sight Azimuth Correction To The Right",
+			["removed"] = {
+				[1] = {
+					["key"] = "PageDown",
+				},
+			},
+		},
+		["dnilp1690unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Sight Elevation Correction Increase (Slow)",
+			["removed"] = {
+				[1] = {
+					["key"] = "Home",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1691unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Sight Elevation Correction Decrease (Slow)",
+			["removed"] = {
+				[1] = {
+					["key"] = "End",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1692unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Sight Azimuth Correction To The Left (Slow)",
+			["removed"] = {
+				[1] = {
+					["key"] = "Delete",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1693unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Sight Azimuth Correction To The Right (Slow)",
+			["removed"] = {
+				[1] = {
+					["key"] = "PageDown",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1694unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Reset Sight's Orientation",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num5",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilpnilu1632cdnilvdnilvpnilvunil"] = {
+			["name"] = "Rangefinder Reset",
+			["removed"] = {
+				[1] = {
+					["key"] = "L",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+	},
+}
+return diff

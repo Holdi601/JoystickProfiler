@@ -170,6 +170,7 @@ namespace JoyPro
             SearchQueryRelationName.LostFocus += new RoutedEventHandler(FilterSearchResult);
             SearchQueryRelationName.KeyUp += new KeyEventHandler(FilterSearchConfirm);
             CBNukeUnused.Click += new RoutedEventHandler(MainStructure.SaveWindowState);
+            CBExportOnlyView.Click += new RoutedEventHandler(MainStructure.SaveWindowState);
             scaleTBox.LostFocus += new RoutedEventHandler(SetNewScaleFactor);
         }
         void SetupDropDownsEventHandlers()
@@ -335,7 +336,36 @@ namespace JoyPro
             else
                 param = true;
 
-            PlanesToExport pex = new PlanesToExport(ExportMode.WriteCleanNotOverride, param);
+            PlanesToExport pex;
+            if(CBExportOnlyView.IsChecked == true)
+            {
+                List<Bind> toExport = new List<Bind>();
+                for(int i=0; i < CURRENTDISPLAYEDRELATION.Count; ++i)
+                {
+                    Bind currentBind = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[i].NAME);
+                    if(currentBind != null)
+                    {
+                        toExport.Add(currentBind);
+                    }
+                }
+                Dictionary<string, List<string>> activeAircraft = new Dictionary<string, List<string>>();
+                foreach(KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
+                {
+                    for(int i=0; i<kvp.Value.Count; ++i)
+                    {
+                        if (MainStructure.msave.PlaneWasActiveLastTime(PlaneActivitySelection.View, kvp.Key, kvp.Value[i]) == true)
+                        {
+                            if(!activeAircraft.ContainsKey(kvp.Key))activeAircraft.Add(kvp.Key, new List<string>());
+                            activeAircraft[kvp.Key].Add(kvp.Value[i]);
+                        }
+                    }
+                }
+                pex = new PlanesToExport(ExportMode.WriteCleanNotOverride, param, activeAircraft, toExport);
+            }
+            else
+            {
+                pex = new PlanesToExport(ExportMode.WriteCleanNotOverride, param);
+            }
             pex.Show();
             DisableInputs();
             pex.Closing+= new CancelEventHandler(ActivateInputs);
@@ -353,7 +383,36 @@ namespace JoyPro
             else
                 param = true;
 
-            PlanesToExport pex = new PlanesToExport(ExportMode.WriteCleanOverride, param);
+            PlanesToExport pex;
+            if (CBExportOnlyView.IsChecked == true)
+            {
+                List<Bind> toExport = new List<Bind>();
+                for (int i = 0; i < CURRENTDISPLAYEDRELATION.Count; ++i)
+                {
+                    Bind currentBind = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[i].NAME);
+                    if (currentBind != null)
+                    {
+                        toExport.Add(currentBind);
+                    }
+                }
+                Dictionary<string, List<string>> activeAircraft = new Dictionary<string, List<string>>();
+                foreach (KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
+                {
+                    for (int i = 0; i < kvp.Value.Count; ++i)
+                    {
+                        if (MainStructure.msave.PlaneWasActiveLastTime(PlaneActivitySelection.View, kvp.Key, kvp.Value[i]) == true)
+                        {
+                            if (!activeAircraft.ContainsKey(kvp.Key)) activeAircraft.Add(kvp.Key, new List<string>());
+                            activeAircraft[kvp.Key].Add(kvp.Value[i]);
+                        }
+                    }
+                }
+                pex = new PlanesToExport(ExportMode.WriteCleanOverride, param, activeAircraft, toExport);
+            }
+            else
+            {
+                pex = new PlanesToExport(ExportMode.WriteCleanOverride, param);
+            }
             pex.Show();
             DisableInputs();
             pex.Closing += new CancelEventHandler(ActivateInputs);
@@ -371,7 +430,36 @@ namespace JoyPro
             else
                 param = true;
 
-            PlanesToExport pex = new PlanesToExport(ExportMode.WriteCleanAdd, param);
+            PlanesToExport pex;
+            if (CBExportOnlyView.IsChecked == true)
+            {
+                List<Bind> toExport = new List<Bind>();
+                for (int i = 0; i < CURRENTDISPLAYEDRELATION.Count; ++i)
+                {
+                    Bind currentBind = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[i].NAME);
+                    if (currentBind != null)
+                    {
+                        toExport.Add(currentBind);
+                    }
+                }
+                Dictionary<string, List<string>> activeAircraft = new Dictionary<string, List<string>>();
+                foreach (KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
+                {
+                    for (int i = 0; i < kvp.Value.Count; ++i)
+                    {
+                        if (MainStructure.msave.PlaneWasActiveLastTime(PlaneActivitySelection.View, kvp.Key, kvp.Value[i]) == true)
+                        {
+                            if (!activeAircraft.ContainsKey(kvp.Key)) activeAircraft.Add(kvp.Key, new List<string>());
+                            activeAircraft[kvp.Key].Add(kvp.Value[i]);
+                        }
+                    }
+                }
+                pex = new PlanesToExport(ExportMode.WriteCleanAdd, param, activeAircraft, toExport);
+            }
+            else
+            {
+                pex = new PlanesToExport(ExportMode.WriteCleanAdd, param);
+            }
             pex.Show();
             DisableInputs();
             pex.Closing += new CancelEventHandler(ActivateInputs);
@@ -385,7 +473,37 @@ namespace JoyPro
             if (CBNukeUnused.IsChecked == true)
                 nukeDevices = true;
 
-            PlanesToExport pex = new PlanesToExport(ExportMode.WriteClean, nukeDevices);
+
+            PlanesToExport pex;
+            if (CBExportOnlyView.IsChecked == true)
+            {
+                List<Bind> toExport = new List<Bind>();
+                for (int i = 0; i < CURRENTDISPLAYEDRELATION.Count; ++i)
+                {
+                    Bind currentBind = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[i].NAME);
+                    if (currentBind != null)
+                    {
+                        toExport.Add(currentBind);
+                    }
+                }
+                Dictionary<string, List<string>> activeAircraft = new Dictionary<string, List<string>>();
+                foreach (KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
+                {
+                    for (int i = 0; i < kvp.Value.Count; ++i)
+                    {
+                        if (MainStructure.msave.PlaneWasActiveLastTime(PlaneActivitySelection.View, kvp.Key, kvp.Value[i]) == true)
+                        {
+                            if (!activeAircraft.ContainsKey(kvp.Key)) activeAircraft.Add(kvp.Key, new List<string>());
+                            activeAircraft[kvp.Key].Add(kvp.Value[i]);
+                        }
+                    }
+                }
+                pex = new PlanesToExport(ExportMode.WriteClean, nukeDevices, activeAircraft, toExport);
+            }
+            else
+            {
+                pex = new PlanesToExport(ExportMode.WriteClean, nukeDevices);
+            }
             pex.Show();
             DisableInputs();
             pex.Closing += new CancelEventHandler(ActivateInputs);
@@ -1405,8 +1523,13 @@ namespace JoyPro
                     pln.Name = "plane";
                     string k = DBLogic.Planes.ElementAt(i).Key + ":" + DBLogic.Planes.ElementAt(i).Value[j];
                     pln.Content = k;
-                    if (!InternalDataManagement.PlaneActivity.ContainsKey(k)) InternalDataManagement.PlaneActivity.Add(k, true);
-                    pln.IsChecked = InternalDataManagement.PlaneActivity[k];
+                    bool? state = MainStructure.msave.PlaneWasActiveLastTime(PlaneActivitySelection.View, DBLogic.Planes.ElementAt(i).Key, DBLogic.Planes.ElementAt(i).Value[j]);
+                    if (state == null)
+                    {
+                        pln.IsChecked = true;
+                        MainStructure.msave.PlaneSetLastActivity(PlaneActivitySelection.View, DBLogic.Planes.ElementAt(i).Key, DBLogic.Planes.ElementAt(i).Value[j], true);
+                    }
+                    else pln.IsChecked = state;
                     pln.Click += new RoutedEventHandler(PlaneFilterChanged);
                     PlaneDropdown.Items.Add(pln);
                 }
@@ -1418,44 +1541,58 @@ namespace JoyPro
             CheckBox sndr = (CheckBox)sender;
             if ((string)sndr.Content == "ALL")
             {
-                for(int i=0; i<InternalDataManagement.PlaneActivity.Count; ++i)
+                foreach(KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
                 {
-                    string key = InternalDataManagement.PlaneActivity.ElementAt(i).Key;
-                    InternalDataManagement.PlaneActivity[key] = true;
+                    for(int i=0; i<kvp.Value.Count; i++)
+                    {
+                        MainStructure.msave.PlaneSetLastActivity(PlaneActivitySelection.View, kvp.Key, kvp.Value[i], true);
+                    }
                 }
             }else if ((string)sndr.Content == "NONE")
             {
-                for (int i = 0; i < InternalDataManagement.PlaneActivity.Count; ++i)
+                foreach (KeyValuePair<string, List<string>> kvp in DBLogic.Planes)
                 {
-                    string key = InternalDataManagement.PlaneActivity.ElementAt(i).Key;
-                    InternalDataManagement.PlaneActivity[key] = false;
+                    for (int i = 0; i < kvp.Value.Count; i++)
+                    {
+                        MainStructure.msave.PlaneSetLastActivity(PlaneActivitySelection.View, kvp.Key, kvp.Value[i], false);
+                    }
                 }
             }
             else if (((string)sndr.Content).Contains(":ALL"))
             {
                 string game = ((string)sndr.Content).Substring(0, ((string)sndr.Content).IndexOf(':'));
-                for (int i = 0; i < InternalDataManagement.PlaneActivity.Count; ++i)
+                if (!DBLogic.Planes.ContainsKey(game))
                 {
-                    string key = InternalDataManagement.PlaneActivity.ElementAt(i).Key;
-                    if(key.StartsWith(game))InternalDataManagement.PlaneActivity[key] = true;
+                    MessageBox.Show("Error doesn't recognize game: " + game);
+                    return;
+                }
+                for(int i=0; i<DBLogic.Planes[game].Count; i++)
+                {
+                    MainStructure.msave.PlaneSetLastActivity(PlaneActivitySelection.View, game, DBLogic.Planes[game][i], true);
                 }
             }
             else if (((string)sndr.Content).Contains(":NONE"))
             {
                 string game = ((string)sndr.Content).Substring(0, ((string)sndr.Content).IndexOf(':'));
-                for (int i = 0; i < InternalDataManagement.PlaneActivity.Count; ++i)
+                if (!DBLogic.Planes.ContainsKey(game))
                 {
-                    string key = InternalDataManagement.PlaneActivity.ElementAt(i).Key;
-                    if (key.StartsWith(game)) InternalDataManagement.PlaneActivity[key] = true;
+                    MessageBox.Show("Error doesn't recognize game: " + game);
+                    return;
+                }
+                for (int i = 0; i < DBLogic.Planes[game].Count; i++)
+                {
+                    MainStructure.msave.PlaneSetLastActivity(PlaneActivitySelection.View, game, DBLogic.Planes[game][i], false);
                 }
             }
             else
             {
                 string key = ((string)sndr.Content);
+                string game = key.Substring(0, key.IndexOf(':'));
+                string plane =key.Substring(game.Length+1);
                 if (sndr.IsChecked == true)
-                    InternalDataManagement.PlaneActivity[key] = true;
+                    MainStructure.msave.PlaneSetLastActivity(PlaneActivitySelection.View, game, plane, true);
                 else
-                    InternalDataManagement.PlaneActivity[key] = false;
+                    MainStructure.msave.PlaneSetLastActivity(PlaneActivitySelection.View, game, plane, false);
             }
             InternalDataManagement.ResyncRelations();
         }
@@ -2390,6 +2527,7 @@ namespace JoyPro
                 this.Height = MainStructure.msave._MainWindow.Height;
                 Console.WriteLine("Done set");
                 CBNukeUnused.IsChecked = MainStructure.msave.NukeSticks;
+                CBExportOnlyView.IsChecked = MainStructure.msave.ExportInView;
             }
         }
         void ActivateInputs(object sender, EventArgs e)

@@ -1,0 +1,13 @@
+local diff = {
+	["keyDiffs"] = {
+		["d84pnilu84cdnilvd1vpnilvu0"] = {
+			["name"] = "Machinegun fire",
+			["removed"] = {
+				[1] = {
+					["key"] = "Space",
+				},
+			},
+		},
+	},
+}
+return diff
