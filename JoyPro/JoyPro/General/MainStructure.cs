@@ -33,20 +33,34 @@ namespace JoyPro
         public static string PROGPATH;
         public static MetaSave msave = null;
         public static JoystickReader JrContReading = null;
+        public static RelationJumper rlJumper = null;
         public static Thread runningGameCheck = null;
         public static Thread joystickInputRead = null;
+        public static Thread joystickInputReadCon = null;
         public static Thread DCSServerSocket = null;
         public static Thread DisplayBackgroundWorker = null;
         public static Thread DisplayDispatcherWorker = null;
         public static Thread HotkeyThread = null;
+        public static Thread RelationJumper = null;
         public static OverlayBackGroundWorker OverlayWorker = null;
         public static bool VisualMode = false;
         public static int VisualLayer = 0;
         public static double ScaleFactor = 1.0;
+        public static bool MainWindowActive = false;
+        public static bool MainWindowTextActive = false;
+        public static bool JoystickReadActive = false;
         static int fileDeleteFailureMax = 10;
         static int fileDeleteFailure = 0;
         static int fileDeleteTimeOut = 1000;
         
+        public static void MainWActivated(object sender, EventArgs e)
+        {
+            MainWindowActive = true;
+        }
+        public static void MainWDeactivated(object sender, EventArgs e)
+        {
+            MainWindowActive = false;
+        }
         public static void LoadMetaLast()
         {
             string pth = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\JoyPro";
@@ -260,14 +274,20 @@ namespace JoyPro
             JrContReading = new JoystickReader();
             JrContReading.KeepDaemonRunning = true;
             HotkeyThread = new Thread(JrContReading.HotKeyRead);
-            
+            rlJumper = new RelationJumper();
+            RelationJumper = new Thread(rlJumper.StartRelationJumper);
+
+
+
             if (msave == null || msave._OverlaySettingsWindow == null) msave = new MetaSave();
             HotkeyThread.Name = "HotKeyReader";
             runningGameCheck.Name = "GameRunCheck";
             DCSServerSocket.Name = "DCSServerSocket";
+            RelationJumper.Name = "Relation Jumper";
             runningGameCheck.Start();
             DCSServerSocket.Start();
             HotkeyThread.Start();
+            RelationJumper.Start();
         }
         public static void InitProgram()
         {

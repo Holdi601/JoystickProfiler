@@ -524,6 +524,7 @@ namespace JoyPro
                 exprtWindow = value;
             }
         }
+        public bool? JumpToRelation = false;
 
 
         public MetaSave()
@@ -579,6 +580,7 @@ namespace JoyPro
             ViewPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
             ExportInView = false;
             exprtWindow = new WindowPos();
+            JumpToRelation = false;
         }
 
         public bool? PlaneWasActiveLastTime(PlaneActivitySelection pas, string game, string plane)

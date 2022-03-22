@@ -32,6 +32,7 @@ namespace JoyPro
         public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> CurrentButtonMapping= new ConcurrentDictionary<string, ConcurrentDictionary<string, string>>();
         public static Dictionary<string, Dictionary<string, string>> PlaneAliases = new Dictionary<string, Dictionary<string,string>>();
         public static List<KeyValuePair<string, string>> ModifierNameChanges = new List<KeyValuePair<string, string>>();
+        public static Dictionary<string, Dictionary<string, int>> JoystickButtonsPressed = new Dictionary<string, Dictionary<string, int>>();
 
         public static void DeleteAllReferencesOfJoystick(string joystick, bool deleteFileReferences)
         {

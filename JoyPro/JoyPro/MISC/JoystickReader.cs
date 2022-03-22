@@ -184,6 +184,7 @@ namespace JoyPro
                 if (!result.ContainsKey(deviceToAdd))
                     result.Add(deviceToAdd, PdeviceToAdd);
             }
+            result.Add("Keyboard", "Keyboard");
             return result;
         }
 
@@ -202,8 +203,6 @@ namespace JoyPro
                 if (gamepad.Acquire().IsFailure) continue;
             }
             DirectInput dikb = new DirectInput();
-            kb = new Keyboard(directInput);
-            kb.Acquire();
             KeepDaemonRunning = true;
 
         }
@@ -289,9 +288,11 @@ namespace JoyPro
             string dir = "";
             ConcurrentDictionary<string, List<string>> currentResults = new ConcurrentDictionary<string, List<string>>();
             ConcurrentDictionary<string, List<string>> currentResultsConcurrent = new ConcurrentDictionary<string, List<string>>();
-
             JoystickState currentState;
+            KeyboardState ks_currentState=kb.GetCurrentState();
+            var keylist = ks_currentState.AllKeys;
             string curDevice;
+            IList<Key> lastKeys = new List<Key>();
             foreach (var gamepad in gamepads)
             {
                 if (gamepad.Poll().IsFailure)
@@ -306,6 +307,18 @@ namespace JoyPro
                 Thread.Sleep(MainStructure.msave.OvlPollTime);
                 currentResults = new ConcurrentDictionary<string, List<string>>();
                 currentResultsConcurrent = new ConcurrentDictionary<string, List<string>>();
+
+                ks_currentState = kb.GetCurrentState();
+                var curPressedKeyb = ks_currentState.PressedKeys;
+                currentResultsConcurrent.TryAdd("Keyboard", new List<string>());
+                currentResults.TryAdd("Keyboard", new List<string>());
+                for (int i = 0; i < curPressedKeyb.Count; i++)
+                {
+                    currentResultsConcurrent["Keyboard"].Add(curPressedKeyb[i].ToString());
+                    if(!lastKeys.Contains(curPressedKeyb[i]))
+                        currentResults["Keyboard"].Add(curPressedKeyb[i].ToString());
+                }
+                lastKeys = curPressedKeyb;
                 foreach (var gamepad in gamepads)
                 {
                     if (gamepad.Poll().IsFailure)
@@ -403,6 +416,7 @@ namespace JoyPro
                 }
                 OverlayBackGroundWorker.currentPressed = currentResults;
                 OverlayBackGroundWorker.currentPressedNonSwitched = currentResultsConcurrent;
+           
             }
         }
         public void HotKeyRead()

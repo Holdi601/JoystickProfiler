@@ -33,7 +33,7 @@ namespace JoyPro
         public static double DEFAULT_HEIGHT;
         List<Button> ALLBUTTONS;
         List<Window> ALLWINDOWS;
-        List<Relation> CURRENTDISPLAYEDRELATION;
+        public List<Relation> CURRENTDISPLAYEDRELATION;
         Button[] editBtns;
         Button[] dltBtns;
         Button[] dupBtns;
@@ -100,7 +100,53 @@ namespace JoyPro
             stopwatch.Stop();
             Console.WriteLine("Startup Time: "+stopwatch.ElapsedMilliseconds.ToString() + "ms");
             this.Closing += new CancelEventHandler(ShutThreads);
+            this.Activated += new EventHandler(MainStructure.MainWActivated);
+            this.GotFocus += new RoutedEventHandler(MainStructure.MainWActivated);
+            this.Deactivated+= new EventHandler(MainStructure.MainWDeactivated);
+            this.LostFocus += new RoutedEventHandler(MainStructure.MainWDeactivated);
+            SetTextBoxEventHandlers();
+            if (MainStructure.msave.JumpToRelation == true) StartInputReader();
+        }
 
+
+        public void JumpToRelation(int i)
+        {
+            sv.ScrollToVerticalOffset(i * 30);
+        }
+        public void textBoxInFocus(object sender, EventArgs e)
+        {
+            if (scaleTBox.IsFocused)
+            {
+                MainStructure.MainWindowTextActive = true;
+                return;
+            }
+            if (SearchQueryRelationName.IsFocused)
+            {
+                MainStructure.MainWindowTextActive = true;
+                return;
+            }
+            for(int i=0; i<tboxes.GetLength(0); i++)
+            {
+                for(int j=0; j<tboxes.GetLength(1); j++)
+                {
+                    if (tboxes[i, j] != null)
+                    {
+                        if(tboxes[i, j].IsFocused)
+                        {
+                            MainStructure.MainWindowTextActive = true;
+                        }
+                    }
+                }
+            }
+            MainStructure.MainWindowTextActive = false;
+        }
+
+        void SetTextBoxEventHandlers()
+        {
+            scaleTBox.GotFocus += new RoutedEventHandler(textBoxInFocus);
+            SearchQueryRelationName.GotFocus += new RoutedEventHandler(textBoxInFocus);
+            scaleTBox.LostFocus += new RoutedEventHandler(textBoxInFocus);
+            SearchQueryRelationName.LostFocus += new RoutedEventHandler(textBoxInFocus);
         }
         void setGridBordersLightGray()
         {
@@ -798,6 +844,7 @@ namespace JoyPro
                 bw.DoWork += new DoWorkEventHandler(listenButton);
                 bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(ButtonSet);
             }
+            MainStructure.JoystickReadActive = true;
             bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(MainStructure.SaveWindowState);
             bw.RunWorkerAsync();
         }
@@ -812,6 +859,7 @@ namespace JoyPro
         void AxisSet(object sender, EventArgs e)
         {
             ActivateInputs();
+            MainStructure.JoystickReadActive = false;
             int indx = buttonSetting;
             buttonSetting = -1;
             setBtns[indx].Background = Brushes.White;
@@ -862,6 +910,7 @@ namespace JoyPro
         void ButtonSet(object sender, EventArgs e)
         {
             ActivateInputs();
+            MainStructure.JoystickReadActive = false;
             int indx = buttonSetting;
             buttonSetting = -1;
             setBtns[indx].Background = Brushes.White;
@@ -1808,6 +1857,8 @@ namespace JoyPro
                     grid.Children.Add(txrl);
                     txrl.MouseEnter += new MouseEventHandler(OnHover);
                     txrl.MouseLeave += new MouseEventHandler(OnLeave);
+                    txrl.GotFocus += new RoutedEventHandler(textBoxInFocus);
+                    txrl.LostFocus += new RoutedEventHandler(textBoxInFocus);
 
                     TextBox txrlsx = new TextBox();
                     txrlsx.Name = "txrlsatx" + i.ToString();
@@ -1819,6 +1870,8 @@ namespace JoyPro
                     grid.Children.Add(txrlsx);
                     txrlsx.MouseEnter += new MouseEventHandler(OnHover);
                     txrlsx.MouseLeave += new MouseEventHandler(OnLeave);
+                    txrlsx.GotFocus += new RoutedEventHandler(textBoxInFocus);
+                    txrlsx.LostFocus += new RoutedEventHandler(textBoxInFocus);
 
                     TextBox txrlsy = new TextBox();
                     txrlsy.Name = "txrlsaty" + i.ToString();
@@ -1830,6 +1883,8 @@ namespace JoyPro
                     grid.Children.Add(txrlsy);
                     txrlsy.MouseEnter += new MouseEventHandler(OnHover);
                     txrlsy.MouseLeave += new MouseEventHandler(OnLeave);
+                    txrlsy.GotFocus += new RoutedEventHandler(textBoxInFocus);
+                    txrlsy.LostFocus += new RoutedEventHandler(textBoxInFocus);
 
                     TextBox txrlcv = new TextBox();
                     txrlcv.Name = "txrlsacv" + i.ToString();
@@ -1840,6 +1895,8 @@ namespace JoyPro
                     tboxes[i, 3] = txrlcv;
                     txrlcv.MouseEnter += new MouseEventHandler(OnHover);
                     txrlcv.MouseLeave += new MouseEventHandler(OnLeave);
+                    txrlcv.GotFocus += new RoutedEventHandler(textBoxInFocus);
+                    txrlcv.LostFocus += new RoutedEventHandler(textBoxInFocus);
 
                     Button userCurvBtn = new Button();
                     userCurvBtn.Name = "UsrcvBtn" + i.ToString();
@@ -2605,6 +2662,27 @@ namespace JoyPro
             os.Show();
             os.Closing += new CancelEventHandler(ActivateInputs);
         }
+
+        public void StartInputReader()
+        {
+            MainStructure.joystickInputRead = new Thread(MainStructure.JrContReading.StartReadingInputsChangeMode);
+            MainStructure.joystickInputRead.Name = "InputReaderR";
+            MainStructure.JrContReading.KeepDaemonRunning = true;
+            MainStructure.joystickInputRead.Start();
+        }
+
+        public void StopInputReader()
+        {
+            if (MainStructure.JrContReading != null)
+            {
+                MainStructure.JrContReading.KeepDaemonRunning = false;
+            }
+            if (MainStructure.joystickInputRead != null)
+            {
+                MainStructure.joystickInputRead.Abort();
+            }
+                
+        }
         public void OpenOverlay(object sender, EventArgs e)
         {
             if (!overlay_opened)
@@ -2613,19 +2691,8 @@ namespace JoyPro
                 ow.Show();
                 ow.Closing += new CancelEventHandler(CloseOverlay);
                 MainStructure.OverlayWorker.overlay = ow;
-                if (MainStructure.msave.OvlBtnChangeMode)
-                {
-                    MainStructure.joystickInputRead = new Thread(MainStructure.JrContReading.StartReadingInputsChangeMode);
-                }
-                else
-                {
-                    MainStructure.joystickInputRead = new Thread(MainStructure.JrContReading.StartReadingInputsCurrentMode);
-                }
-                MainStructure.joystickInputRead.Name = "InputReader";
-                MainStructure.JrContReading.KeepDaemonRunning = true;
                 MainStructure.OverlayWorker.keepDisplayBackgroundWorkerRunning = true;
                 MainStructure.OverlayWorker.keepDisplayDispatcherRunning = true;
-                MainStructure.joystickInputRead.Start();
                 MainStructure.DisplayBackgroundWorker = new System.Threading.Thread(MainStructure.OverlayWorker.StartDisplayBackgroundWorker);
                 MainStructure.DisplayBackgroundWorker.Name = "DisplayBackgroundWorker";
                 MainStructure.DisplayBackgroundWorker.Start();
@@ -2659,6 +2726,8 @@ namespace JoyPro
             if(MainStructure.DCSServerSocket!=null)MainStructure.DCSServerSocket.Abort();
             if(MainStructure.joystickInputRead!=null)MainStructure.joystickInputRead.Abort();
             if(MainStructure.runningGameCheck!=null)MainStructure.runningGameCheck.Abort();
+            if (MainStructure.HotkeyThread != null) MainStructure.HotkeyThread.Abort();
+            if (MainStructure.RelationJumper != null) MainStructure.RelationJumper.Abort();
             Application.Current.Shutdown();
             Process.GetCurrentProcess().Kill();
         }

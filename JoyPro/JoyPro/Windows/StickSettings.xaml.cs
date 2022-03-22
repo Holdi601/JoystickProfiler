@@ -130,9 +130,29 @@ namespace JoyPro
                 ImportLocalsFromInstanceCB.IsChecked = true;
             else
                 ImportLocalsFromInstanceCB.IsChecked = false;
+            if (MainStructure.msave.JumpToRelation == true)
+            {
+                JumpToRelationCB.IsChecked = true;
+            }
+            JumpToRelationCB.Click += new RoutedEventHandler(JumpToRelationAltered);
             readDCSConfigData();
         }
 
+        void JumpToRelationAltered(object sender, EventArgs e)
+        {
+            if (JumpToRelationCB.IsChecked == true)
+            {
+                MainStructure.msave.JumpToRelation = true;
+                MainStructure.mainW.StartInputReader();
+            }
+                
+            else
+            {
+                MainStructure.msave.JumpToRelation = false;
+                MainStructure.mainW.StopInputReader();
+            }
+                
+        }
         void AddOrCorrectRelationItems(object sender, EventArgs e)
         {
             MainStructure.msave.AddAditionalAndCorrectRelationItems = AutomatedAdditionAndCorrectionCB.IsChecked;
