@@ -39,14 +39,14 @@ Num8§NumberPad8
 Num9§NumberPad9
 NumEnter§NumberPadEnter
 NumLock§NumberLock
-LWin §LeftWindowsKey
-RWin §RightWindowsKey
-LCtrl §LeftControl
-RCtrl §RightControl
-LAlt §LeftAlt
-RAlt §RightAlt
-LShift §LeftShift
-RShift §RightShift
+LWin§LeftWindowsKey
+RWin§RightWindowsKey
+LCtrl§LeftControl
+RCtrl§RightControl
+LAlt§LeftAlt
+RAlt§RightAlt
+LShift§LeftShift
+RShift§RightShift
 `§Grave
 Enter§Return
 Back§Backspace
