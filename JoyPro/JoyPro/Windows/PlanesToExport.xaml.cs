@@ -23,8 +23,8 @@ namespace JoyPro
     public partial class PlanesToExport : Window
     {
         ExportMode exportMode;
-        bool param;
-        public PlanesToExport(ExportMode em, bool paramP, Dictionary<string, List<string>> activeAirCraft = null, List<Bind> bindsToExport = null)
+        bool nukeDevices=false;
+        public PlanesToExport(ExportMode em,bool nukeDev=false, Dictionary<string, List<string>> activeAirCraft = null, List<Bind> bindsToExport = null)
         {
             InitializeComponent();
             if (MainStructure.msave != null && MainStructure.msave._ExportWindow != null)
@@ -35,7 +35,7 @@ namespace JoyPro
                 if (MainStructure.msave._ExportWindow.Height > 0) this.Height = MainStructure.msave._ExportWindow.Height;
             }
             exportMode = em;
-            param = paramP;
+            nukeDevices = nukeDev;
             SetupGamesDropDown();
             CancelBtn.Click += new RoutedEventHandler(CloseThis);
             ExportBtn.Click += new RoutedEventHandler(Export);
@@ -48,10 +48,10 @@ namespace JoyPro
         {
             switch (exportMode)
             {
-                case ExportMode.WriteCleanNotOverride: InternalDataManagement.WriteProfileCleanNotOverwriteLocal(param, ActivePlanes, bindsInView); break;
-                case ExportMode.WriteCleanOverride: InternalDataManagement.WriteProfileCleanAndLoadedOverwritten(param, ActivePlanes, bindsInView); break;
-                case ExportMode.WriteClean: InternalDataManagement.WriteProfileClean(param, ActivePlanes, bindsInView); break;
-                case ExportMode.WriteCleanAdd: InternalDataManagement.WriteProfileCleanAndLoadedOverwrittenAndAdd(param, ActivePlanes, bindsInView); break;
+                case ExportMode.WriteCleanNotOverride: InternalDataManagement.WriteProfileCleanNotOverwriteLocal(ActivePlanes, bindsInView); break;
+                case ExportMode.WriteCleanOverride: InternalDataManagement.WriteProfileCleanAndLoadedOverwritten(ActivePlanes, bindsInView); break;
+                case ExportMode.WriteClean: InternalDataManagement.WriteProfileClean(nukeDevices, ActivePlanes, bindsInView); break;
+                case ExportMode.WriteCleanAdd: InternalDataManagement.WriteProfileCleanAndLoadedOverwrittenAndAdd(ActivePlanes, bindsInView); break;
             }
             Close();
         }

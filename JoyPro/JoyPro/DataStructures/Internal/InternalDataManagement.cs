@@ -1308,9 +1308,9 @@ namespace JoyPro
             }
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
-        public static void WriteProfileCleanAndLoadedOverwrittenAndAdd(bool fillBeforeEmpty, Dictionary<string,List<string>> Planes, List<Bind> manualBinds)
+        public static void WriteProfileCleanAndLoadedOverwrittenAndAdd(Dictionary<string,List<string>> Planes, List<Bind> manualBinds)
         {
-            if(Planes.ContainsKey("DCS"))DCSIOLogic.WriteProfileCleanAndLoadedOverwrittenAndAdd(fillBeforeEmpty,Planes["DCS"], manualBinds);
+            if(Planes.ContainsKey("DCS"))DCSIOLogic.WriteProfileCleanAndLoadedOverwrittenAndAdd(Planes["DCS"], manualBinds);
             if (Planes.ContainsKey("IL2Game"))
             {
                 List<Bind> Il2Binds = new List<Bind>();
@@ -1334,9 +1334,9 @@ namespace JoyPro
             }
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
-        public static void WriteProfileCleanNotOverwriteLocal(bool fillBeforeEmpty, Dictionary<string, List<string>> Planes, List<Bind> manualBinds)
+        public static void WriteProfileCleanNotOverwriteLocal(Dictionary<string, List<string>> Planes, List<Bind> manualBinds)
         {
-            if (Planes.ContainsKey("DCS"))DCSIOLogic.WriteProfileCleanNotOverwriteLocal(fillBeforeEmpty,Planes["DCS"], manualBinds);
+            if (Planes.ContainsKey("DCS"))DCSIOLogic.WriteProfileCleanNotOverwriteLocal(Planes["DCS"], manualBinds);
             if (Planes.ContainsKey("IL2Game"))
             {
                 List<Bind> Il2Binds = new List<Bind>();
@@ -1360,9 +1360,9 @@ namespace JoyPro
             }
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
-        public static void WriteProfileCleanAndLoadedOverwritten(bool fillBeforeEmpty, Dictionary<string, List<string>> Planes, List<Bind> manualBinds)
+        public static void WriteProfileCleanAndLoadedOverwritten(Dictionary<string, List<string>> Planes, List<Bind> manualBinds)
         {
-            if (Planes.ContainsKey("DCS")) DCSIOLogic.WriteProfileCleanAndLoadedOverwritten(fillBeforeEmpty,Planes["DCS"], manualBinds);
+            if (Planes.ContainsKey("DCS")) DCSIOLogic.WriteProfileCleanAndLoadedOverwritten(Planes["DCS"], manualBinds);
             if (Planes.ContainsKey("IL2Game"))
             {
                 List<Bind> Il2Binds = new List<Bind>();

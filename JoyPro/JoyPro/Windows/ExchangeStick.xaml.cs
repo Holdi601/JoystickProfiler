@@ -67,6 +67,15 @@ namespace JoyPro
             this.Topmost = true;
             this.Activate();
             this.Loaded += new RoutedEventHandler(loadedEvent);
+            DropDownSticks.SelectionChanged+= new SelectionChangedEventHandler(StickSelected);
+        }
+
+        void StickSelected(object sender, SelectionChangedEventArgs e)
+        {
+            if (DropDownSticks.SelectedIndex >= 0)
+            {
+                OKJoyExchange.IsEnabled = true;
+            }
         }
 
         void loadedEvent(object sender, EventArgs e)

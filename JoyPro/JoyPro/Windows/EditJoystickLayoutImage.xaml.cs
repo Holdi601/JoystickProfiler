@@ -44,6 +44,7 @@ namespace JoyPro
         int textSize;
         Dictionary<string, Point> LabelLocations;
         List<KeyValuePair<string, string>> li;
+        string lastEditedLabel = null;
         public EditJoystickLayoutImage(string joystick, string filepath, string exportpath)
         {
             InitializeComponent();
@@ -114,7 +115,38 @@ namespace JoyPro
             ExportBtn.Click += new RoutedEventHandler(exportInputs);
             ExportKneeboardBtn.Click += new RoutedEventHandler(exportInputs);
             refreshImageToShow();
+            sv.KeyUp += new KeyEventHandler(MoveLastLabelByPixel);
         }
+
+        void MoveLastLabelByPixel(object sender, KeyEventArgs e)
+        {
+            if(lastEditedLabel != null)
+            {
+                Point p = LabelLocations[lastEditedLabel];
+                switch (e.Key)
+                {
+                    case Key.Up:
+                    case Key.W:
+                        if (p.Y > 0) p = new Point(p.X, p.Y - 1);
+                        break;
+                    case Key.Left:
+                    case Key.A:
+                        if (p.X > 0) p = new Point(p.X -1, p.Y);
+                        break;
+                    case Key.Right:
+                    case Key.D:
+                        p = new Point(p.X + 1, p.Y);
+                        break;
+                    case Key.Down:
+                    case Key.S:
+                        p = new Point(p.X, p.Y+1);
+                        break;
+                }
+                LabelLocations[lastEditedLabel] = p;
+                refreshImageToShow();
+            }
+        }
+
         List<string> getAllPossibleCombinationWithLength(List<string> li, int leng)
         {
             if (leng > li.Count) return null;
@@ -269,6 +301,7 @@ namespace JoyPro
             if (LabelLocations.ContainsKey(currentSelectedBtnAxis))
             {
                 LabelLocations.Remove(currentSelectedBtnAxis);
+                lastEditedLabel = null;
                 refreshImageToShow();
                 PopulateButtonAxisList();
             }
@@ -287,7 +320,7 @@ namespace JoyPro
         {
             double scaleFactor = mainImg.Height / uiElementImage.ActualHeight;
             Point newPos = new Point(pos.X * scaleFactor, pos.Y * scaleFactor);
-
+            lastEditedLabel = currentSelectedBtnAxis;
             if (LabelLocations.ContainsKey(currentSelectedBtnAxis))
                 LabelLocations[currentSelectedBtnAxis] = newPos;
             else

@@ -36,7 +36,13 @@ namespace JoyPro
             availableJoysticks = localSticks.ToArray();
             Dictionary<string, string> cSticks = JoystickReader.GetConnectedJoysticks();
             connectedSticks = new List<string>();
-            foreach(KeyValuePair<string, string> kvp in cSticks)connectedSticks.Add(kvp.Key);
+            foreach (KeyValuePair<string, string> kvp in cSticks)
+            {
+                connectedSticks.Add(kvp.Key);
+                if(!localSticks.Contains(kvp.Key))localSticks.Add(kvp.Key);
+            }
+            InternalDataManagement.LocalJoysticks = localSticks.ToArray();
+            availableJoysticks=localSticks.ToArray();
             for (int i = 0; i < connectedSticks.Count; ++i)
                 connectedSticks[i] = connectedSticks[i].ToLower();
             InitializeComponent();

@@ -10,10 +10,32 @@ namespace JoyPro
     public static class DCSIOLogic
     {
         public static Dictionary<string, DCSLuaInput> EmptyOutputsDCS = new Dictionary<string, DCSLuaInput>();
+        public static Dictionary<string, DCSLuaInput> EmptyOutputsDCSKeyboard = new Dictionary<string, DCSLuaInput>();
         public static Dictionary<string, DCSExportPlane> LocalBindsDCS = new Dictionary<string, DCSExportPlane>();
         public static Dictionary<string, DCSExportPlane> ToExportDCS = new Dictionary<string, DCSExportPlane>();
         public static List<string> defaultToOverwrite = new List<string>();
+        public static Dictionary<string, string> KeyboardConversion_DCS2DX= new Dictionary<string, string>();
+        public static Dictionary<string, string> KeyboardConversion_DX2DCS = new Dictionary<string, string>();
 
+        public static void LoadKeyboardConversion()
+        {
+            string cfile = MainStructure.PROGPATH + "\\TOOLS\\Conversions\\DCS2DX.keyboardconversion";
+            if (File.Exists(cfile))
+            {
+                StreamReader streamReader = new StreamReader(cfile);
+                while (!streamReader.EndOfStream)
+                {
+                    string[] parts = streamReader.ReadLine().Split('§');
+                    if(parts.Length > 1)
+                    {
+                        KeyboardConversion_DCS2DX.Add(parts[0], parts[1]);
+                        KeyboardConversion_DX2DCS.Add(parts[1], parts[2]);
+                    }
+                }
+                streamReader.Close();
+                streamReader.Dispose();
+            }
+        }
 
         public static void LoadLocalDefaultsDCS()
         {
@@ -87,7 +109,7 @@ namespace JoyPro
         }
         public static void LoadCleanLuasDCS()
         {
-            if(File.Exists(MainStructure.PROGPATH + "\\CleanProfile\\DCS\\clean.cf"))
+            if (File.Exists(MainStructure.PROGPATH + "\\CleanProfile\\DCS\\clean.cf"))
             {
                 File.Delete(MainStructure.PROGPATH + "\\CleanProfile\\DCS\\clean.cf");
             }
@@ -97,7 +119,7 @@ namespace JoyPro
             }
             DirectoryInfo dirInf = new DirectoryInfo(MainStructure.PROGPATH + "\\CleanProfile\\DCS");
             FileInfo[] fileInfos = dirInf.GetFiles();
-            foreach(FileInfo file in fileInfos)
+            foreach (FileInfo file in fileInfos)
             {
                 StreamReader sr = new StreamReader(file.FullName);
                 DCSLuaInput curPlane = null;
@@ -117,13 +139,46 @@ namespace JoyPro
                     {
                         EmptyOutputsDCS.Remove(plane);
                     }
-                    
+
                     sr.Close();
                     sr.Dispose();
-                } 
+                }
             }
-            
-            Console.WriteLine("Clean Data loaded");
+
+            Console.WriteLine("Clean Joy Data loaded");
+        }
+
+        public static void LoadCleanLuasDCSKeyboard()
+        {
+            DirectoryInfo dirInf = new DirectoryInfo(MainStructure.PROGPATH + "\\KeyboardCleanProfile\\DCS");
+            FileInfo[] fileInfos = dirInf.GetFiles();
+            foreach (FileInfo file in fileInfos)
+            {
+                StreamReader sr = new StreamReader(file.FullName);
+                DCSLuaInput curPlane = null;
+                string content = sr.ReadToEnd();
+                string plane = file.Name.Replace(".cf", "");
+                curPlane = new DCSLuaInput();
+                if (!EmptyOutputsDCSKeyboard.ContainsKey(plane))
+                {
+                    EmptyOutputsDCSKeyboard.Add(plane, curPlane);
+                    curPlane.plane = plane;
+                    curPlane.JoystickName = "EMPTY";
+                    try
+                    {
+                        curPlane.AnalyzeRawLuaInput(content);
+                    }
+                    catch
+                    {
+                        EmptyOutputsDCSKeyboard.Remove(plane);
+                    }
+
+                    sr.Close();
+                    sr.Dispose();
+                }
+            }
+
+            Console.WriteLine("Clean Joy Data loaded");
         }
         public static void CorrectExportForAddedRemoved(List<string> planes)
         {
@@ -196,7 +251,15 @@ namespace JoyPro
                         ToExportDCS[kvp.Key].plane = kvp.Key;
                         foreach (KeyValuePair<string, DCSLuaInput> kvpDef in kvp.Value.joystickConfig)
                         {
-                            if (!ToExportDCS[kvp.Key].joystickConfig.ContainsKey(kvpDef.Key) && EmptyOutputsDCS.ContainsKey(kvp.Key))
+                            if (!ToExportDCS[kvp.Key].joystickConfig.ContainsKey(kvpDef.Key) && EmptyOutputsDCSKeyboard.ContainsKey(kvp.Key) && kvpDef.Key == "Keyboard" && MainStructure.msave.KeepKeyboardDefaults == false)
+                            {
+                                ToExportDCS[kvp.Key].joystickConfig.Add(kvpDef.Key, EmptyOutputsDCSKeyboard[kvp.Key].Copy());
+                                ToExportDCS[kvp.Key].joystickConfig[kvpDef.Key].JoystickName = kvpDef.Key;
+                                ToExportDCS[kvp.Key].joystickConfig[kvpDef.Key].plane = kvp.Key;
+                                string toCheck = kvpDef.Key + "§" + kvp.Key;
+                                if (!defaultToOverwrite.Contains(toCheck)) defaultToOverwrite.Add(toCheck);
+                            }
+                            else if (!ToExportDCS[kvp.Key].joystickConfig.ContainsKey(kvpDef.Key) && EmptyOutputsDCS.ContainsKey(kvp.Key) && kvpDef.Key != "Keyboard")
                             {
                                 ToExportDCS[kvp.Key].joystickConfig.Add(kvpDef.Key, EmptyOutputsDCS[kvp.Key].Copy());
                                 ToExportDCS[kvp.Key].joystickConfig[kvpDef.Key].JoystickName = kvpDef.Key;
@@ -219,7 +282,15 @@ namespace JoyPro
                     }
                     foreach (KeyValuePair<string, DCSLuaInput> kvpIn in kvp.Value.joystickConfig)
                     {
-                        if (!ToExportDCS[kvp.Key].joystickConfig.ContainsKey(kvpIn.Key) && fillBeforeEmpty && EmptyOutputsDCS.ContainsKey(kvp.Key))
+                        if (!ToExportDCS[kvp.Key].joystickConfig.ContainsKey(kvpIn.Key) && fillBeforeEmpty && EmptyOutputsDCSKeyboard.ContainsKey(kvp.Key) && kvpIn.Key == "Keyboard" && MainStructure.msave.KeepKeyboardDefaults == false)
+                        {
+                            ToExportDCS[kvp.Key].joystickConfig.Add(kvpIn.Key, EmptyOutputsDCSKeyboard[kvp.Key].Copy());
+                            ToExportDCS[kvp.Key].joystickConfig[kvpIn.Key].JoystickName = kvpIn.Key;
+                            ToExportDCS[kvp.Key].joystickConfig[kvpIn.Key].plane = kvp.Key;
+                            string toCheck = kvpIn.Key + "§" + kvp.Key;
+                            if (!defaultToOverwrite.Contains(toCheck)) defaultToOverwrite.Add(toCheck);
+                        }
+                        else if (!ToExportDCS[kvp.Key].joystickConfig.ContainsKey(kvpIn.Key) && fillBeforeEmpty && EmptyOutputsDCS.ContainsKey(kvp.Key) && kvpIn.Key != "Keyboard")
                         {
                             ToExportDCS[kvp.Key].joystickConfig.Add(kvpIn.Key, EmptyOutputsDCS[kvp.Key].Copy());
                             ToExportDCS[kvp.Key].joystickConfig[kvpIn.Key].JoystickName = kvpIn.Key;
@@ -263,27 +334,34 @@ namespace JoyPro
                                     }
                                     if (fillBeforeEmpty)
                                     {
-                                        if (EmptyOutputsDCS.ContainsKey(kvp.Key) && EmptyOutputsDCS[kvp.Key].axisDiffs.ContainsKey(kvpDiffsAxisElement.Key))
+                                        if (kvpIn.Key == "Keyboard")
                                         {
-                                            bool found = false;
-                                            for (int r = 0; r < EmptyOutputsDCS[kvp.Key].axisDiffs[kvpDiffsAxisElement.Key].removed.Count; ++r)
+                                            //Lol tastatur hat keine Achsen
+                                        }
+                                        else
+                                        {
+                                            if (EmptyOutputsDCS.ContainsKey(kvp.Key) && EmptyOutputsDCS[kvp.Key].axisDiffs.ContainsKey(kvpDiffsAxisElement.Key))
                                             {
-                                                for (int w = 0; w < kvpDiffsAxisElement.Value.added.Count; ++w)
-                                                {
-                                                    if (kvpDiffsAxisElement.Value.added[w].key == EmptyOutputsDCS[kvp.Key].axisDiffs[kvpDiffsAxisElement.Key].removed[r].key)
-                                                    {
-                                                        found = true;
-                                                        break;
-                                                    }
-                                                    if (found)
-                                                        break;
-                                                }
-                                            }
-                                            if (!found)
-                                            {
+                                                bool found = false;
                                                 for (int r = 0; r < EmptyOutputsDCS[kvp.Key].axisDiffs[kvpDiffsAxisElement.Key].removed.Count; ++r)
                                                 {
-                                                    ToExportDCS[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key].removed.Add(EmptyOutputsDCS[kvp.Key].axisDiffs[kvpDiffsAxisElement.Key].removed[r]);
+                                                    for (int w = 0; w < kvpDiffsAxisElement.Value.added.Count; ++w)
+                                                    {
+                                                        if (kvpDiffsAxisElement.Value.added[w].key == EmptyOutputsDCS[kvp.Key].axisDiffs[kvpDiffsAxisElement.Key].removed[r].key)
+                                                        {
+                                                            found = true;
+                                                            break;
+                                                        }
+                                                        if (found)
+                                                            break;
+                                                    }
+                                                }
+                                                if (!found)
+                                                {
+                                                    for (int r = 0; r < EmptyOutputsDCS[kvp.Key].axisDiffs[kvpDiffsAxisElement.Key].removed.Count; ++r)
+                                                    {
+                                                        ToExportDCS[kvp.Key].joystickConfig[kvpIn.Key].axisDiffs[kvpDiffsAxisElement.Key].removed.Add(EmptyOutputsDCS[kvp.Key].axisDiffs[kvpDiffsAxisElement.Key].removed[r]);
+                                                    }
                                                 }
                                             }
                                         }
@@ -320,7 +398,31 @@ namespace JoyPro
                                     }
                                     if (fillBeforeEmpty)
                                     {
-                                        if (EmptyOutputsDCS.ContainsKey(kvp.Key) && EmptyOutputsDCS[kvp.Key].keyDiffs.ContainsKey(kvpDiffsButtonsElement.Key))
+                                        if (EmptyOutputsDCSKeyboard.ContainsKey(kvp.Key) && EmptyOutputsDCSKeyboard[kvp.Key].keyDiffs.ContainsKey(kvpDiffsButtonsElement.Key) && kvpIn.Key == "Keyboard"&&MainStructure.msave.KeepKeyboardDefaults==false)
+                                        {
+                                            bool found = false;
+                                            for (int r = 0; r < EmptyOutputsDCSKeyboard[kvp.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed.Count; ++r)
+                                            {
+                                                for (int w = 0; w < kvpDiffsButtonsElement.Value.added.Count; ++w)
+                                                {
+                                                    if (kvpDiffsButtonsElement.Value.added[w].key == EmptyOutputsDCSKeyboard[kvp.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed[r].key)
+                                                    {
+                                                        found = true;
+                                                        break;
+                                                    }
+                                                    if (found)
+                                                        break;
+                                                }
+                                            }
+                                            if (!found)
+                                            {
+                                                for (int r = 0; r < EmptyOutputsDCSKeyboard[kvp.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed.Count; ++r)
+                                                {
+                                                    ToExportDCS[kvp.Key].joystickConfig[kvpIn.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed.Add(EmptyOutputsDCSKeyboard[kvp.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed[r]);
+                                                }
+                                            }
+                                        }
+                                        else if (EmptyOutputsDCS.ContainsKey(kvp.Key) && EmptyOutputsDCS[kvp.Key].keyDiffs.ContainsKey(kvpDiffsButtonsElement.Key) && kvpIn.Key != "Keyboard")
                                         {
                                             bool found = false;
                                             for (int r = 0; r < EmptyOutputsDCS[kvp.Key].keyDiffs[kvpDiffsButtonsElement.Key].removed.Count; ++r)
@@ -359,7 +461,7 @@ namespace JoyPro
             Dictionary<string, DCSExportPlane> result = new Dictionary<string, DCSExportPlane>();
             foreach (KeyValuePair<string, int> kvpPS in pstate)
             {
-                if (kvpPS.Value > 0&&planes.Contains(kvpPS.Key))
+                if (kvpPS.Value > 0 && planes.Contains(kvpPS.Key))
                 {
                     RelationItem ri = b.Rl.GetRelationItemForPlaneDCS(kvpPS.Key);
                     if (ri == null) continue;
@@ -400,7 +502,7 @@ namespace JoyPro
             }
             return result;
         }
-        public static void PushAllDCSBindsToExport(bool oride,List<string> planes, List<Bind> manual=null, bool fillBeforeEmpty = true, bool overwriteAdd = false)
+        public static void PushAllDCSBindsToExport(bool oride, List<string> planes, List<Bind> manual = null, bool overwriteAdd = false)
         {
             if (manual == null)
             {
@@ -409,20 +511,20 @@ namespace JoyPro
                     if (kvp.Value.Joystick.Length > 0 &&
                         ((kvp.Value.Rl.ISAXIS && kvp.Value.JAxis.Length > 0) ||
                         (!kvp.Value.Rl.ISAXIS && kvp.Value.JButton.Length > 0)))
-                        OverwriteDCSExportWith(BindToExportFormatDCS(kvp.Value, planes), planes, oride, fillBeforeEmpty, overwriteAdd);
+                        OverwriteDCSExportWith(BindToExportFormatDCS(kvp.Value, planes), planes, oride, overwriteAdd);
                 }
             }
             else
             {
-                for(int i=0; i<manual.Count; i++)
+                for (int i = 0; i < manual.Count; i++)
                 {
                     if (manual[i].Joystick.Length > 0 &&
                         ((manual[i].Rl.ISAXIS && manual[i].JAxis.Length > 0) ||
                         (!manual[i].Rl.ISAXIS && manual[i].JButton.Length > 0)))
-                        OverwriteDCSExportWith(BindToExportFormatDCS(manual[i], planes), planes, oride, fillBeforeEmpty, overwriteAdd);
+                        OverwriteDCSExportWith(BindToExportFormatDCS(manual[i], planes), planes, oride, overwriteAdd);
                 }
             }
-            
+
         }
         public static void NukeUnusedButConnectedDevicesToExport(List<string> planes)
         {
@@ -450,6 +552,7 @@ namespace JoyPro
                                 continue;
                             for (int j = 0; j < connectedSticks.Count; j++)
                             {
+                                if (connectedSticks.ElementAt(j).Key == "Keyboard") continue;
                                 if (!ToExportDCS[allPlanes[i]].joystickConfig.ContainsKey(connectedSticks.ElementAt(j).Key))
                                 {
                                     ToExportDCS[allPlanes[i]].joystickConfig.Add(connectedSticks.ElementAt(j).Key, empty.Copy());
@@ -463,22 +566,22 @@ namespace JoyPro
             }
 
         }
-        public static void WriteProfileCleanAndLoadedOverwrittenAndAdd(bool fillBeforeEmpty, List<string> Planes, List<Bind> manualList=null)
+        public static void WriteProfileCleanAndLoadedOverwrittenAndAdd(List<string> Planes, List<Bind> manualList = null)
         {
             if (!Directory.Exists(MiscGames.DCSselectedInstancePath)) return;
             ToExportDCS.Clear();
             defaultToOverwrite = new List<string>();
             LoadLocalBinds(MiscGames.DCSselectedInstancePath, Planes, true);
-            OverwriteDCSExportWith(LocalBindsDCS,Planes, true, false, false);
-            PushAllDCSBindsToExport(true,Planes, manualList, fillBeforeEmpty, true);
+            OverwriteDCSExportWith(LocalBindsDCS, Planes, true, false, false);
+            PushAllDCSBindsToExport(true, Planes, manualList, true);
             WriteFilesDCS(Planes);
             WriteFilesDCS(Planes, ".jp");
         }
-        public static void WriteProfileClean(bool nukeDevices,List<string> Planes, List<Bind> manualList = null)
+        public static void WriteProfileClean(bool nukeDevices, List<string> Planes, List<Bind> manualList = null)
         {
             if (!Directory.Exists(MiscGames.DCSselectedInstancePath)) return;
             ToExportDCS.Clear();
-            PushAllDCSBindsToExport(true,Planes, manualList, true, true);
+            PushAllDCSBindsToExport(true, Planes, manualList, true);
             if (nukeDevices)
                 NukeUnusedButConnectedDevicesToExport(Planes);
             WriteFilesDCS(Planes);
@@ -529,6 +632,26 @@ namespace JoyPro
                             }
                         }
                     }
+                    if (Directory.Exists(allSubs[i].FullName + "\\keyboard"))
+                    {
+                        DirectoryInfo dirPlaneJoy = new DirectoryInfo(allSubs[i].FullName + "\\keyboard");
+                        FileInfo[] allFiles = dirPlaneJoy.GetFiles();
+                        for (int j = 0; j < allFiles.Length; ++j)
+                        {
+                            if (allFiles[j].Name.Contains(ending))
+                            {
+                                string stickName = allFiles[j].Name.Replace(ending, "");
+                                DCSLuaInput luaInput = new DCSLuaInput();
+                                luaInput.plane = currentPlane;
+                                luaInput.JoystickName = stickName;
+                                current.joystickConfig.Add(stickName, luaInput);
+                                StreamReader sr = new StreamReader(allFiles[j].FullName);
+                                string fileContent = sr.ReadToEnd();
+                                sr.Close();
+                                luaInput.AnalyzeRawLuaInput(fileContent, current);
+                            }
+                        }
+                    }
                 }
                 if (fillWithDefaults)
                 {
@@ -557,9 +680,9 @@ namespace JoyPro
                 System.Text.RegularExpressions.Regex rgx = new System.Text.RegularExpressions.Regex(@"\d\d\d\d");
                 if (name.Length > 6)
                 {
-                    System.Text.RegularExpressions.Match match = rgx.Match(name.Substring(1,4));
+                    System.Text.RegularExpressions.Match match = rgx.Match(name.Substring(1, 4));
                     System.Text.RegularExpressions.Match mch = rgx.Match(name.Substring(2, 5));
-                    if (match.Success||mch.Success)
+                    if (match.Success || mch.Success)
                     {
                         string generatedNameGroup = "GENERATED-NAME";
                         if (!InternalDataManagement.AllGroups.Contains(generatedNameGroup))
@@ -572,7 +695,7 @@ namespace JoyPro
                             kvp.Value.Rl.Groups.Add(generatedNameGroup);
                         }
                         name = kvp.Value.Rl.GetRandomDescription();
-                        kvp.Value.Rl.NAME=name;
+                        kvp.Value.Rl.NAME = name;
                     }
                 }
 
@@ -587,33 +710,33 @@ namespace JoyPro
             }
             InternalDataManagement.ResyncRelations();
         }
-        public static void WriteProfileCleanNotOverwriteLocal(bool fillBeforeEmpty, List<string> planes, List<Bind> manualList=null)
+        public static void WriteProfileCleanNotOverwriteLocal(List<string> planes, List<Bind> manualList = null)
         {
             if (!Directory.Exists(MiscGames.DCSselectedInstancePath)) return;
             ToExportDCS.Clear();
             defaultToOverwrite = new List<string>();
-            LoadLocalBinds(MiscGames.DCSselectedInstancePath,planes, true);
-            OverwriteDCSExportWith(LocalBindsDCS,planes, true, false, false);
-            PushAllDCSBindsToExport(false,planes, manualList, fillBeforeEmpty, false);
+            LoadLocalBinds(MiscGames.DCSselectedInstancePath, planes, true);
+            OverwriteDCSExportWith(LocalBindsDCS, planes, true, false, false);
+            PushAllDCSBindsToExport(false, planes, manualList, false);
             WriteFilesDCS(planes);
-            WriteFilesDCS(planes,".jp");
+            WriteFilesDCS(planes, ".jp");
         }
-        public static void WriteProfileCleanAndLoadedOverwritten(bool fillBeforeEmpty, List<string> planes, List<Bind> manualList = null)
+        public static void WriteProfileCleanAndLoadedOverwritten(List<string> planes, List<Bind> manualList = null)
         {
             if (!Directory.Exists(MiscGames.DCSselectedInstancePath)) return;
             ToExportDCS.Clear();
             defaultToOverwrite = new List<string>();
-            LoadLocalBinds(MiscGames.DCSselectedInstancePath,planes, true);
-            OverwriteDCSExportWith(LocalBindsDCS,planes, true, false, false);
-            PushAllDCSBindsToExport(true, planes, manualList, fillBeforeEmpty, false);
+            LoadLocalBinds(MiscGames.DCSselectedInstancePath, planes, true);
+            OverwriteDCSExportWith(LocalBindsDCS, planes, true, false, false);
+            PushAllDCSBindsToExport(true, planes, manualList, false);
             WriteFilesDCS(planes);
             WriteFilesDCS(planes, ".jp");
         }
         public static void BindsFromLocal(List<string> sticks, List<string> planes, bool loadDefaults, bool inv = false, bool slid = false, bool curv = false, bool dz = false, bool sx = false, bool sy = false)
         {
             Dictionary<string, DCSExportPlane> checkAgainst = new Dictionary<string, DCSExportPlane>();
-            LoadLocalBinds(MiscGames.DCSselectedInstancePath,planes, loadDefaults, ".jp", checkAgainst);
-            LoadLocalBinds(MiscGames.DCSselectedInstancePath,planes, loadDefaults);
+            LoadLocalBinds(MiscGames.DCSselectedInstancePath, planes, loadDefaults, ".jp", checkAgainst);
+            LoadLocalBinds(MiscGames.DCSselectedInstancePath, planes, loadDefaults);
             Dictionary<string, Bind> checkRes = LibraryFromLocalDict(checkAgainst, sticks, loadDefaults, inv, slid, curv, dz, sx, sy);
             Dictionary<string, Bind> result = LibraryFromLocalDict(LocalBindsDCS, sticks, loadDefaults, inv, slid, curv, dz, sx, sy);
             foreach (KeyValuePair<string, Bind> kvp in checkRes)
@@ -701,6 +824,64 @@ namespace JoyPro
             }
             if (loadDefaults)
             {
+                foreach (KeyValuePair<string, DCSLuaInput> kvp in EmptyOutputsDCSKeyboard)
+                {
+                    string planeToCheck = kvp.Key;
+                    foreach (KeyValuePair<string, DCSLuaDiffsAxisElement> kvpax in kvp.Value.axisDiffs)
+                    {
+                        string idToCheck = kvpax.Key;
+                        bool found = false;
+                        if (checkedIds.ContainsKey(planeToCheck))
+                        {
+                            if (checkedIds[planeToCheck].ContainsKey("Keyboard"))
+                            {
+                                string joystick = "Keyboard";
+                                found = checkedIds[planeToCheck]["Keyboard"].Contains(idToCheck);
+                                if (!found)
+                                {
+                                    if (kvpax.Value.removed.Count > 0)
+                                    {
+                                        Bind b = Bind.GetBindFromAxisElement(kvpax.Value.removed[0], idToCheck, joystick, planeToCheck, inv, slid, curv, dz, sx, sy);
+                                        if (!result.ContainsKey(b.Rl.NAME))
+                                        {
+                                            result.Add(b.Rl.NAME, b);
+                                        }
+                                        else
+                                        {
+                                            result[b.Rl.NAME].Rl.AddNode(idToCheck, "DCS", true, planeToCheck);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    foreach (KeyValuePair<string, DCSLuaDiffsButtonElement> kvpbn in kvp.Value.keyDiffs)
+                    {
+                        string idToCheck = kvpbn.Key;
+                        bool found = false;
+                        string joystick = "Keyboard";
+                        if (checkedIds.ContainsKey(planeToCheck)&& checkedIds[planeToCheck].ContainsKey(joystick))
+                        {
+                            found = checkedIds[planeToCheck]["Keyboard"].Contains(idToCheck);
+                            if (!found)
+                            {
+                                if (kvpbn.Value.removed.Count > 0)
+                                {
+                                    if (joystick == "Keyboard" && kvpbn.Value.removed[0].key.ToLower().StartsWith("joy")) continue;
+                                    Bind b = Bind.GetBindFromButtonElement(kvpbn.Value.removed[0], idToCheck, joystick, planeToCheck);
+                                    if (!result.ContainsKey(b.Rl.NAME))
+                                    {
+                                        result.Add(b.Rl.NAME, b);
+                                    }
+                                    else
+                                    {
+                                        result[b.Rl.NAME].Rl.AddNode(idToCheck, "DCS", false, planeToCheck);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 foreach (KeyValuePair<string, DCSLuaInput> kvp in EmptyOutputsDCS)
                 {
                     string planeToCheck = kvp.Key;
@@ -713,6 +894,7 @@ namespace JoyPro
                             foreach (KeyValuePair<string, List<string>> kiwi in checkedIds[planeToCheck])
                             {
                                 string joystick = kiwi.Key;
+                                if (joystick == "Keyboard") continue;
                                 found = kiwi.Value.Contains(idToCheck);
                                 if (!found)
                                 {
@@ -746,6 +928,7 @@ namespace JoyPro
                                 {
                                     if (kvpbn.Value.removed.Count > 0)
                                     {
+                                        if (joystick == "Keyboard" && kvpbn.Value.removed[0].key.ToLower().StartsWith("joy")) continue;
                                         Bind b = Bind.GetBindFromButtonElement(kvpbn.Value.removed[0], idToCheck, joystick, planeToCheck);
                                         if (!result.ContainsKey(b.Rl.NAME))
                                         {
@@ -794,14 +977,21 @@ namespace JoyPro
                                 outputName = outputName + "-" + idParts[i].ToUpper();
                             }
                         }
-
                     }
-                    string finalPath = adjustedPath + outputName + endingDCS;
-                    kvJoy.Value.writeLua(finalPath);
+                    if (kvJoy.Key == "Keyboard")
+                    {
+                        string keypth = modPath + "\\keyboard\\";
+                        if(!Directory.Exists(keypth))Directory.CreateDirectory(keypth);
+                        kvJoy.Value.writeLua(keypth, outputName, endingDCS);
+                    }
+                    else
+                    {
+                        if (!Directory.Exists(adjustedPath)) Directory.CreateDirectory(adjustedPath);
+                        kvJoy.Value.writeLua(adjustedPath, outputName, endingDCS);
+                    }
                 }
             }
-        } 
+        }
 
-        
     }
 }

@@ -81,7 +81,9 @@ namespace JoyPro
             {
                 swr.Write("\t[\"" + kvp.Key + "\"] = {\n");
                 swr.Write("\t\t[\"device\"] = \""+kvp.Value.device+ "\",\n");
-                swr.Write("\t\t[\"key\"] = \"" + kvp.Value.key + "\",\n");
+                string key = kvp.Value.key;
+                if(DCSIOLogic.KeyboardConversion_DX2DCS.ContainsKey(key))key= DCSIOLogic.KeyboardConversion_DX2DCS[key];
+                swr.Write("\t\t[\"key\"] = \"" + key + "\",\n");
                 swr.Write("\t\t[\"JPK\"] = \"" + kvp.Key + "\",\n");
                 if (kvp.Value.sw)
                 {

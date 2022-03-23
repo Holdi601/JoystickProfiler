@@ -811,7 +811,11 @@ namespace JoyPro
         void recreateCleanFile(string instance)
         {
             instance = instance + "\\Config\\Input";
-            
+            if (!Directory.Exists(instance))
+            {
+                MessageBox.Show("Something went wrong, your Input folder was not found in the suspecte place: " + instance);
+                return;
+            }
             DirectoryInfo dirInf = new DirectoryInfo(instance);
             DirectoryInfo[] allSubs = dirInf.GetDirectories();
             for (int i = 0; i < allSubs.Length; ++i)

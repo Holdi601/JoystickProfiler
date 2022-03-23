@@ -31,6 +31,7 @@ namespace JoyPro
             List<string> missingCleans = new List<string>();
             string htmlPath = MainStructure.PROGPATH + "\\DB\\DCS";
             string cfPath = MainStructure.PROGPATH + "\\CleanProfile\\DCS";
+            string cfPathKb = MainStructure.PROGPATH + "\\KeyboardCleanProfile\\DCS";
             DirectoryInfo htmlDirIn = new DirectoryInfo(htmlPath);
             FileInfo[] allFiles = htmlDirIn.GetFiles();
             foreach (FileInfo file in allFiles)
@@ -40,6 +41,12 @@ namespace JoyPro
                     !missingCleans.Contains(file.Name.Replace(".html", ".cf")))
                 {
                     missingCleans.Add(file.Name.Replace(".html", ".cf"));
+                }
+                if (file.Name.EndsWith(".html") &&
+                    !File.Exists(cfPathKb + "\\" + file.Name.Replace(".html", ".cf")) &&
+                    !missingCleans.Contains(file.Name.Replace(".html", ".cf")))
+                {
+                    missingCleans.Add(file.Name.Replace(".html", ".cf")+"(Keyboard Version)");
                 }
             }
             if (missingCleans.Count > 0)
@@ -189,7 +196,9 @@ namespace JoyPro
             MainStructure.PROGPATH = Environment.CurrentDirectory;
             Console.WriteLine(MainStructure.PROGPATH);
             DCSIOLogic.LoadCleanLuasDCS();
+            DCSIOLogic.LoadCleanLuasDCSKeyboard();
             DCSIOLogic.LoadLocalDefaultsDCS();
+            DCSIOLogic.LoadKeyboardConversion();
             List<string> installs = new List<string>();
             string pth = MainStructure.GetRegistryValue("SOFTWARE\\Eagle Dynamics\\DCS World", "Path", "CurrentUser");
             if (pth != null) installs.Add(pth);

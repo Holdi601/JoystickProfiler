@@ -16,9 +16,9 @@ namespace JoyPro
         public Dictionary<string, DCSLuaDiffsButtonElement> keyDiffs;
         const string filestart = "local diff = {\n";
         const string fileend = "}\nreturn diff";
-        public void writeLua(string path)
+        public void writeLua(string path, string filename, string ending)
         {
-            StreamWriter swr = new StreamWriter(path);
+            StreamWriter swr = new StreamWriter(path+"\\"+filename+ending);
             swr.Write(filestart);
             if (axisDiffs.Count > 0)
             {
@@ -590,7 +590,7 @@ namespace JoyPro
         }
         public void FillUpWithDefaults()
         {
-            DCSLuaInput def = getDefaultBinds();
+            DCSLuaInput def = JoystickName=="Keyboard"? getDefaultBinds(true):getDefaultBinds(false);
             if (def == null) return;
             foreach(KeyValuePair<string, DCSLuaDiffsAxisElement> kvp in def.axisDiffs)
             {
@@ -603,7 +603,10 @@ namespace JoyPro
                         d.Title = kvp.Value.Title;
                         DCSAxisBind dab = new DCSAxisBind();
                         dab.key = kvp.Value.removed[0].key;
+                        dab.reformers = kvp.Value.removed[0].reformers;
+                        dab.modifiers = kvp.Value.removed[0].modifiers;
                         d.added.Add(dab);
+                        
                         axisDiffs.Add(kvp.Key, d);
                     }
                 }
@@ -619,6 +622,8 @@ namespace JoyPro
                         d.Title = kvp.Value.Title;
                         DCSButtonBind dab = new DCSButtonBind();
                         dab.key= kvp.Value.removed[0].key;
+                        dab.reformers=kvp.Value.removed[0].reformers;
+                        dab.modifiers = kvp.Value.removed[0].modifiers;
                         d.added.Add(dab);
                         keyDiffs.Add(kvp.Key, d);
                     }
@@ -738,12 +743,16 @@ namespace JoyPro
                 }
             }
         }
-        DCSLuaInput getDefaultBinds()
+        DCSLuaInput getDefaultBinds(bool keyboard)
         {
             DCSLuaInput result = null;
-            if (DCSIOLogic.EmptyOutputsDCS.ContainsKey(plane))
+            if (DCSIOLogic.EmptyOutputsDCS.ContainsKey(plane)&&!keyboard)
             {
                 return DCSIOLogic.EmptyOutputsDCS[plane].Copy();
+            }
+            else if (DCSIOLogic.EmptyOutputsDCSKeyboard.ContainsKey(plane) && keyboard)
+            {
+                return DCSIOLogic.EmptyOutputsDCSKeyboard[plane].Copy();
             }
             return result;
         }

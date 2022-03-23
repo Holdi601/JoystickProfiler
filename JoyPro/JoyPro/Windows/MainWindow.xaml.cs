@@ -96,7 +96,7 @@ namespace JoyPro
             scaleTBox.Text = MainStructure.ScaleFactor.ToString();
             scaleLbl.Visibility = Visibility.Hidden;
             scaleTBox.Visibility = Visibility.Hidden;
-            
+            CBKeepKeyboard.IsChecked = MainStructure.msave.KeepKeyboardDefaults;
             stopwatch.Stop();
             Console.WriteLine("Startup Time: "+stopwatch.ElapsedMilliseconds.ToString() + "ms");
             this.Closing += new CancelEventHandler(ShutThreads);
@@ -104,10 +104,15 @@ namespace JoyPro
             this.GotFocus += new RoutedEventHandler(MainStructure.MainWActivated);
             this.Deactivated+= new EventHandler(MainStructure.MainWDeactivated);
             this.LostFocus += new RoutedEventHandler(MainStructure.MainWDeactivated);
+            CBKeepKeyboard.Click += new RoutedEventHandler(ChangeKeepKeyboard);
             SetTextBoxEventHandlers();
             if (MainStructure.msave.JumpToRelation == true) StartInputReader();
         }
 
+        void ChangeKeepKeyboard(object sender, RoutedEventArgs e)
+        {
+            MainStructure.msave.KeepKeyboardDefaults = CBKeepKeyboard.IsChecked;
+        }
 
         public void JumpToRelation(int i)
         {
@@ -373,14 +378,6 @@ namespace JoyPro
         {
             MessageBoxResult res = MessageBox.Show("Are you sure you want to export your profile (Keep-Mode)?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (res == MessageBoxResult.No || res == MessageBoxResult.Cancel || res == MessageBoxResult.None) return;
-            bool? overwrite = CBKeepDefault.IsChecked;
-            bool param;
-            if (overwrite == null)
-                param = true;
-            else if (overwrite == true)
-                param = false;
-            else
-                param = true;
 
             PlanesToExport pex;
             if(CBExportOnlyView.IsChecked == true)
@@ -406,11 +403,11 @@ namespace JoyPro
                         }
                     }
                 }
-                pex = new PlanesToExport(ExportMode.WriteCleanNotOverride, param, activeAircraft, toExport);
+                pex = new PlanesToExport(ExportMode.WriteCleanNotOverride,false, activeAircraft, toExport);
             }
             else
             {
-                pex = new PlanesToExport(ExportMode.WriteCleanNotOverride, param);
+                pex = new PlanesToExport(ExportMode.WriteCleanNotOverride);
             }
             pex.Show();
             DisableInputs();
@@ -420,14 +417,6 @@ namespace JoyPro
         {
             MessageBoxResult res = MessageBox.Show("Are you sure you want to export your profile (Overwrite-Mode)?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (res == MessageBoxResult.No || res == MessageBoxResult.Cancel || res == MessageBoxResult.None) return;
-            bool? overwrite = CBKeepDefault.IsChecked;
-            bool param;
-            if (overwrite == null)
-                param = true;
-            else if (overwrite == true)
-                param = false;
-            else
-                param = true;
 
             PlanesToExport pex;
             if (CBExportOnlyView.IsChecked == true)
@@ -453,11 +442,11 @@ namespace JoyPro
                         }
                     }
                 }
-                pex = new PlanesToExport(ExportMode.WriteCleanOverride, param, activeAircraft, toExport);
+                pex = new PlanesToExport(ExportMode.WriteCleanOverride,false,  activeAircraft, toExport);
             }
             else
             {
-                pex = new PlanesToExport(ExportMode.WriteCleanOverride, param);
+                pex = new PlanesToExport(ExportMode.WriteCleanOverride);
             }
             pex.Show();
             DisableInputs();
@@ -467,14 +456,6 @@ namespace JoyPro
         {
             MessageBoxResult res = MessageBox.Show("Are you sure you want to export your profile (Add-Mode)?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (res == MessageBoxResult.No || res == MessageBoxResult.Cancel || res == MessageBoxResult.None) return;
-            bool? overwrite = CBKeepDefault.IsChecked;
-            bool param;
-            if (overwrite == null)
-                param = true;
-            else if (overwrite == true)
-                param = false;
-            else
-                param = true;
 
             PlanesToExport pex;
             if (CBExportOnlyView.IsChecked == true)
@@ -500,11 +481,11 @@ namespace JoyPro
                         }
                     }
                 }
-                pex = new PlanesToExport(ExportMode.WriteCleanAdd, param, activeAircraft, toExport);
+                pex = new PlanesToExport(ExportMode.WriteCleanAdd,false, activeAircraft, toExport);
             }
             else
             {
-                pex = new PlanesToExport(ExportMode.WriteCleanAdd, param);
+                pex = new PlanesToExport(ExportMode.WriteCleanAdd);
             }
             pex.Show();
             DisableInputs();
@@ -850,7 +831,7 @@ namespace JoyPro
         }
         void listenButton(object sender, EventArgs e)
         {
-            joyReader = new JoystickReader(false);
+            joyReader = new JoystickReader(false, true);
         }
         void listenAxis(object sender, EventArgs e)
         {
@@ -915,7 +896,7 @@ namespace JoyPro
             buttonSetting = -1;
             setBtns[indx].Background = Brushes.White;
             Bind cr = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[indx].NAME);
-            if (joyReader==null||joyReader.result == null)
+            if (joyReader==null||joyReader.result == null||joyReader.result.AxisButton=="Escape")
             {
                 setBtns[indx].Content = "None";
                 stickLabels[indx].Content = "None";
@@ -2714,7 +2695,7 @@ namespace JoyPro
             MainStructure.OverlayWorker.keepDisplayDispatcherRunning = false;
             MainStructure.DisplayDispatcherWorker.Abort();
             MainStructure.DisplayBackgroundWorker.Abort();
-            MainStructure.joystickInputRead.Abort();
+            if(MainStructure.joystickInputRead!=null)MainStructure.joystickInputRead.Abort();
             OverlayBtn.Background = Brushes.White;
             overlay_opened = false;
         }

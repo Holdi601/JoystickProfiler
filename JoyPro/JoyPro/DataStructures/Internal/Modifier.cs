@@ -108,5 +108,25 @@ namespace JoyPro
             }
             return false;
         }
+
+        public static string CreateDefaultReformer(string defRef)
+        {
+            Modifier m;
+            if (InternalDataManagement.AllModifiers.ContainsKey(defRef))
+            {
+                m = InternalDataManagement.AllModifiers[defRef];
+            }
+            else
+            {
+                m = new Modifier();
+                m.sw = false;
+                m.device = "Keyboard";
+                m.key = defRef;
+                if (DCSIOLogic.KeyboardConversion_DCS2DX.ContainsKey(defRef)) m.key = DCSIOLogic.KeyboardConversion_DCS2DX[defRef];
+                m.name = defRef;
+                InternalDataManagement.AllModifiers.Add(defRef, m);
+            }
+            return m.toReformerString();
+        }
     }
 }

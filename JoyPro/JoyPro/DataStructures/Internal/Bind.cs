@@ -214,8 +214,10 @@ namespace JoyPro
             b.JAxis = dab.key;
             b.Joystick = joystick;
             if (dab.modifiers != null)
+            {
                 foreach (Modifier m in dab.modifiers)
                 {
+                    if (DCSIOLogic.KeyboardConversion_DCS2DX.ContainsKey(m.key)) m.key = DCSIOLogic.KeyboardConversion_DCS2DX[m.key];
                     //same code as mainwindow
                     if (m.JPN != null && m.JPN.Length > 1)
                         m.name = m.JPN;
@@ -268,6 +270,15 @@ namespace JoyPro
                     relationName = nameToShow + relationName + m.name;
 
                 }
+            }
+            if ((dab.modifiers == null || dab.modifiers.Count == 0) && (dab.reformers != null && dab.reformers.Count > 0))
+            {
+                for (int i = 0; i < dab.reformers.Count; i++)
+                {
+                    b.AllReformers.Add(Modifier.CreateDefaultReformer(dab.reformers[i]));
+                    relationName = relationName + dab.reformers[i];
+                }
+            }
             if (dab.Groups.Count > 0)
             {
                 for(int i=0; i<dab.Groups.Count; ++i)
@@ -355,6 +366,7 @@ namespace JoyPro
             Bind b = new Bind(r);
             r.ISAXIS = false;
             string shorten = MainStructure.ShortenDeviceName(joystick);
+            if (joystick == "Keyboard") shorten = "m000000";
             string relationName = shorten + dab.key;
             if (dab.Groups.Count > 0)
             {
@@ -366,9 +378,11 @@ namespace JoyPro
                     }
                 }
             }
-            if (dab.modifiers!=null)
-                foreach(Modifier m in dab.modifiers)
+            if (dab.modifiers != null)
+            {
+                foreach (Modifier m in dab.modifiers)
                 {
+                    if(DCSIOLogic.KeyboardConversion_DCS2DX.ContainsKey(m.key))m.key = DCSIOLogic.KeyboardConversion_DCS2DX[m.key];
                     //same code as mainwindow
                     if (m.JPN != null && m.JPN.Length > 1)
                         m.name = m.JPN;
@@ -383,27 +397,28 @@ namespace JoyPro
                     string nameToShow;
                     nameToShow = device + m.key;
                     if (m.JPN != null && m.JPN.Length > 1)
-                        b.additionalImportInfo +=  m.JPN+"§";
+                        b.additionalImportInfo += m.JPN + "§";
                     //else
                     //    nameToShow = device + m.key;
-                    
-                    string moddedDevice = Bind.JoystickGuidToModifierGuid(m.device);
+
+                    string moddedDevice = JoystickGuidToModifierGuid(m.device);
                     string toAdd = nameToShow + "§" + moddedDevice + "§" + m.key;
                     if (!b.AllReformers.Contains(toAdd))
                     {
-                        
+
                         ModExists alreadyExists = InternalDataManagement.DoesReformerExistInMods(toAdd);
                         if (alreadyExists == ModExists.NOT_EXISTENT)
                         {
                             InternalDataManagement.AddReformerToMods(toAdd);
                             b.AllReformers.Add(toAdd);
                         }
-                        else if (alreadyExists == ModExists.BINDNAME_EXISTS||alreadyExists== ModExists.ALL_EXISTS)
+                        else if (alreadyExists == ModExists.BINDNAME_EXISTS || alreadyExists == ModExists.ALL_EXISTS)
                         {
                             Modifier mf = Modifier.ReformerToMod(toAdd);
                             toAdd = InternalDataManagement.GetReformerStringFromMod(mf.name);
                             if (!b.AllReformers.Contains(toAdd)) b.AllReformers.Add(toAdd);
-                        }else if (alreadyExists == ModExists.KEYBIND_EXISTS)
+                        }
+                        else if (alreadyExists == ModExists.KEYBIND_EXISTS)
                         {
                             Modifier mnew = InternalDataManagement.GetModifierWithKeyCombo(m.device, m.key);
                             if (mnew != null)
@@ -414,16 +429,26 @@ namespace JoyPro
                         }
                         else if (alreadyExists == ModExists.ERROR)
                         {
-                           
+
                         }
                     }
                     relationName = nameToShow + relationName + m.name;
 
                 }
+            }
+            if((dab.modifiers == null || dab.modifiers.Count == 0) && (dab.reformers != null && dab.reformers.Count > 0))
+            {
+                for(int i=0; i<dab.reformers.Count; i++)
+                {
+                    b.AllReformers.Add(Modifier.CreateDefaultReformer(dab.reformers[i]));
+                    relationName = relationName + dab.reformers[i];
+                }
+            }
             r.NAME = relationName;
             if(dab.JPRelName.Length>2)
                 b.additionalImportInfo += dab.JPRelName;
             b.JButton = dab.key;
+            if(joystick=="Keyboard"&&DCSIOLogic.KeyboardConversion_DCS2DX.ContainsKey(b.JButton))b.JButton= DCSIOLogic.KeyboardConversion_DCS2DX[b.JButton];
             b.Joystick = joystick;
             r.AddNode(id,"DCS",false, plane);
             return b;
@@ -432,6 +457,7 @@ namespace JoyPro
         {
             DCSButtonBind dbb = new DCSButtonBind();
             dbb.key = JButton;
+            if (Joystick == "Keyboard" && DCSIOLogic.KeyboardConversion_DX2DCS.ContainsKey(JButton)) dbb.key = DCSIOLogic.KeyboardConversion_DX2DCS[JButton];
             dbb.JPRelName = Rl.NAME;
             dbb.relatedBind = this;
             if(Rl.Groups!=null)

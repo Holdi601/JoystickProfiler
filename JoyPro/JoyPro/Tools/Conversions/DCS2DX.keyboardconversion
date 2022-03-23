@@ -1,0 +1,53 @@
+\\§Backslash
+,§Comma
+.§Period
+/§Slash
+;§Semicolon
+[§LeftBracket
+]§RightBracket
+=§Équals
+-§Minus
+'§Apostrophe
+0§D0
+1§D1
+2§D2
+3§D3
+4§D4
+5§D5
+6§D6
+7§D7
+8§D8
+9§D9
+Up§UpArrow
+Down§DownArrow
+Left§LeftArrow
+Right§RightArrow
+Num*§NumberPadStar
+Num.§NumberPadPeriod
+Num/§NumberPadSlash
+Num+§NumberPadPlus
+Num-§NumberPadMinus
+Num0§NumberPad0
+Num1§NumberPad1
+Num2§NumberPad2
+Num3§NumberPad3
+Num4§NumberPad4
+Num5§NumberPad5
+Num6§NumberPad6
+Num7§NumberPad7
+Num8§NumberPad8
+Num9§NumberPad9
+NumEnter§NumberPadEnter
+NumLock§NumberLock
+LWin §LeftWindowsKey
+RWin §RightWindowsKey
+LCtrl §LeftControl
+RCtrl §RightControl
+LAlt §LeftAlt
+RAlt §RightAlt
+LShift §LeftShift
+RShift §RightShift
+`§Grave
+Enter§Return
+Back§Backspace
+OEM102§Oem102

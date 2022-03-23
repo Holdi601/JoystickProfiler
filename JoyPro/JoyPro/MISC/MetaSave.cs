@@ -525,6 +525,7 @@ namespace JoyPro
             }
         }
         public bool? JumpToRelation = false;
+        public bool? KeepKeyboardDefaults = true;
 
 
         public MetaSave()
@@ -581,6 +582,7 @@ namespace JoyPro
             ExportInView = false;
             exprtWindow = new WindowPos();
             JumpToRelation = false;
+            KeepKeyboardDefaults = true;
         }
 
         public bool? PlaneWasActiveLastTime(PlaneActivitySelection pas, string game, string plane)
