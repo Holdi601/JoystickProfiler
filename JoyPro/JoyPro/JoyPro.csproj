@@ -1126,6 +1126,9 @@
     <Content Include="TOOLS\DCSLuaSocket\Addative.lua">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TOOLS\Conversions\DCS2DX.keyboardconversion">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="TOOLS\Unzip\UnzipMeHereWin.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

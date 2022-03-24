@@ -28,8 +28,11 @@ namespace JoyPro
                     string[] parts = streamReader.ReadLine().Split('§');
                     if(parts.Length > 1)
                     {
-                        KeyboardConversion_DCS2DX.Add(parts[0], parts[1]);
-                        KeyboardConversion_DX2DCS.Add(parts[1], parts[2]);
+                        if (!KeyboardConversion_DCS2DX.ContainsKey(parts[0]))
+                        {
+                            KeyboardConversion_DCS2DX.Add(parts[0], parts[1]);
+                            KeyboardConversion_DX2DCS.Add(parts[1], parts[0]);
+                        }
                     }
                 }
                 streamReader.Close();
