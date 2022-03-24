@@ -159,11 +159,6 @@ namespace JoyPro
             }
             return candidates.ToArray();
         }
-        public static void LoadIL2Path()
-        {
-            string pth = MainStructure.GetRegistryValue("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 307960", "InstallLocation", "LocalMachine");
-            if (pth != null) MiscGames.IL2Instance = pth;
-        }
 
         public static void LoadStarCitizenPath()
         {
@@ -183,7 +178,8 @@ namespace JoyPro
         {
             MainStructure.PROGPATH = Environment.CurrentDirectory;
             Console.WriteLine(MainStructure.PROGPATH);
-            LoadIL2Path();
+            IL2IOLogic.LoadKeyboardConversion();
+            IL2IOLogic.LoadIL2Path();
             if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
             if (MainStructure.msave.IL2OR!=null&&MainStructure.msave.IL2OR.Length > 0)
             {
