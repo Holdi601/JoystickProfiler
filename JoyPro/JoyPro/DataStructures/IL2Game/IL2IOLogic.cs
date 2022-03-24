@@ -71,6 +71,12 @@ namespace JoyPro
             }
         }
         
+        public static void LoadIL2Path()
+        {
+            string pth = MainStructure.GetRegistryValue("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 307960", "InstallLocation", "LocalMachine");
+            if (pth != null) MiscGames.IL2Instance = pth;
+        }
+        
         public static void WriteOut(List<Bind> toExport, OutputType ot)
         {
             if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
