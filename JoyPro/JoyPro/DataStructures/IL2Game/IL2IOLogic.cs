@@ -48,6 +48,29 @@ namespace JoyPro
         static List<string> Modifier = new List<string>();
         static Dictionary<string, IL2AxisReplacementButtons> axesButtonCommandOtherHalfMissing = new Dictionary<string, IL2AxisReplacementButtons>();
         static Dictionary<string, IL2AxisSetting> axisResponsedRead = new Dictionary<string, IL2AxisSetting>();
+        public static Dictionary<string, string> KeyboardConversion_IL2DX = new Dictionary<string, string>();
+        public static Dictionary<string, string> KeyboardConversion_DX2IL = new Dictionary<string, string>();
+        
+        public static void LoadKeyboardConversion()
+        {
+            string cfile = MainStructure.PROGPATH + "\\TOOLS\\Conversions\\IL2DX.keyboardconversion";
+            if (File.Exists(cfile))
+            {
+                StreamReader streamReader = new StreamReader(cfile);
+                while (!streamReader.EndOfStream)
+                {
+                    string[] parts = streamReader.ReadLine().Split('§');
+                    if(parts.Length > 1&&!KeyboardConversion_IL2DX.ContainsKey(parts[0]))
+                    {
+                        KeyboardConversion_IL2DX.Add(parts[0], parts[1]);
+                        KeyboardConversion_DX2IL.Add(parts[1], parts[0]);
+                    }
+                }
+                streamReader.Close();
+                streamReader.Dispose();
+            }
+        }
+        
         public static void WriteOut(List<Bind> toExport, OutputType ot)
         {
             if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
