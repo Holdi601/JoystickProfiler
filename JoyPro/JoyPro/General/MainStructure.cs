@@ -322,7 +322,7 @@ namespace JoyPro
             }
             StartThreads();
             //IL2 Backup needed
-            InitGames.LoadIL2Path();
+            IL2IOLogic.LoadIL2Path();
             InitGames.LoadStarCitizenPath();
             MiscGames.BackupConfigsOfIL2();
             MiscGames.BackupConfigsOfSC();

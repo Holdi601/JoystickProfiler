@@ -71,6 +71,21 @@ namespace JoyPro
         int pollWaitTime;
         public bool KeepDaemonRunning = false;
 
+
+        public static List<string> GetAllPossibleKeyboardInputs()
+        {
+            DirectInput dikb = new DirectInput();
+            Keyboard kb = new Keyboard(dikb);
+            kb.Acquire();
+            var state = kb.GetCurrentState();
+            List<string> result = new List<string>();
+            foreach(Key k in state.AllKeys)
+            {
+                result.Add(k.ToString());
+            }
+
+            return result;
+        }
         public static List<string> GetAllPossibleStickInputs(Relation rel = null)
         {
             List<string> result = new List<string>();
