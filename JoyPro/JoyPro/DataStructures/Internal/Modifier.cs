@@ -109,9 +109,20 @@ namespace JoyPro
             return false;
         }
 
-        public static string CreateDefaultReformer(string defRef)
+        public static string CreateDefaultReformer(string defRef, Game g)
         {
             Modifier m;
+            switch (g)
+            {
+                case Game.DCS:
+                    if (DCSIOLogic.KeyboardConversion_DCS2DX.ContainsKey(defRef)) defRef = DCSIOLogic.KeyboardConversion_DCS2DX[defRef];
+                    break;
+                case Game.IL2:
+                    defRef = defRef.Substring(4);
+                    if (IL2IOLogic.KeyboardConversion_IL2DX.ContainsKey(defRef)) defRef = IL2IOLogic.KeyboardConversion_IL2DX[defRef];
+                    else defRef = defRef.Substring(0, 1).ToUpper() + defRef.Substring(1);
+                    break;
+            }
             if (InternalDataManagement.AllModifiers.ContainsKey(defRef))
             {
                 m = InternalDataManagement.AllModifiers[defRef];
@@ -122,7 +133,6 @@ namespace JoyPro
                 m.sw = false;
                 m.device = "Keyboard";
                 m.key = defRef;
-                if (DCSIOLogic.KeyboardConversion_DCS2DX.ContainsKey(defRef)) m.key = DCSIOLogic.KeyboardConversion_DCS2DX[defRef];
                 m.name = defRef;
                 InternalDataManagement.AllModifiers.Add(defRef, m);
             }

@@ -170,7 +170,7 @@ namespace JoyPro
             if(list.ContainsKey("DCS"))
                 DCSIOLogic.BindsFromLocal(selectedSticks, list["DCS"] ,importDefault, inv, slid, curv, dz, sx, sy);
             if (list.ContainsKey("IL2Game"))
-                IL2IOLogic.ImportInputs(curv, dz, inv);
+                IL2IOLogic.ImportInputs(curv, dz, inv, selectedSticks);
             
             Close();
         }

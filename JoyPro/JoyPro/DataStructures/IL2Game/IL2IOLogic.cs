@@ -12,6 +12,7 @@ namespace JoyPro
     public enum IL2ActionComponent { ID, Input, Inverted, Description, JRelationName, JAlias, JGroups}
     public static class IL2IOLogic
     {
+        public static List<string> DefModifier = new List<string>() {"LeftControl","RightControl", "LeftAlt","RightAlt","LeftWindowsKey","RightWindowsKey","LeftShift","RightShift" };
         static string ActionsPreFile = 
             "// Input map preset.\r\n"+
             "// It is not recommended to change anything here,\r\n"+
@@ -37,6 +38,7 @@ namespace JoyPro
         static string DevicesPreFile = "configId,guid,model|\r\r\n";
         public static List<string> ActionsFileContentOutput = new List<string>();
         public static List<string> ActionsFileKeyboardContent = new List<string>();
+        public static List<string> ActionsFileMouseOtherContent = new List<string>();
         public static Dictionary<string, List<string>> ActionsFileJoystickContent = new Dictionary<string, List<string>>();
         public static List<string> MapActionKeyboard = new List<string>();
         public static List<string> MapActionContent = new List<string>();
@@ -86,12 +88,16 @@ namespace JoyPro
                 return;
             clearAll();
             CreateDeviceFile();
-            ReadActionsFromActions(ActionsFileKeyboardContent, ActionsFileJoystickContent);
-            foreach(string s in ActionsFileKeyboardContent)
+            ReadActionsFromActions(ActionsFileMouseOtherContent ,ActionsFileKeyboardContent, ActionsFileJoystickContent);
+            if (MainStructure.msave.KeepKeyboardDefaults == true)
+                foreach (string s in ActionsFileKeyboardContent)
+                {
+                     ActionsFileContentOutput.Add(s);
+                }
+            foreach(string s in ActionsFileMouseOtherContent)
             {
                 ActionsFileContentOutput.Add(s);
             }
-
             Dictionary<string, string> generatedOutputFromBinds = new Dictionary<string, string>();
             for (int i=0; i<toExport.Count; ++i)
             {
@@ -152,6 +158,7 @@ namespace JoyPro
         {
             ActionsFileContentOutput = new List<string>();
             ActionsFileKeyboardContent = new List<string>();
+            ActionsFileMouseOtherContent = new List<string>();
             MapActionKeyboard = new List<string>();
             MapActionContent = new List<string>();
             MapEndOfFile = new List<string>();
@@ -173,7 +180,7 @@ namespace JoyPro
             if (!Modifier.Contains(result))
                 Modifier.Add(result);
         }
-        static void ReadActionsFromActions(List<string> KeyboardOutput, Dictionary<string, List<string>> JoystickOutput, string name="current")
+        static void ReadActionsFromActions(List<string> MouseNOtherOutput, List<string> KeyboardOutput, Dictionary<string, List<string>> JoystickOutput, string name="current")
         {
             string path = GetInputPath();
             if (!File.Exists(path + InputPath + name + ".actions")) return;
@@ -196,7 +203,7 @@ namespace JoyPro
             while (!sr.EndOfStream)
             {
                 string currentLine = sr.ReadLine();
-                if (!(currentLine.Contains("joy0") ||
+                if ((currentLine.Contains("joy0") ||
                     currentLine.Contains("joy1")   ||
                     currentLine.Contains("joy2")   ||
                     currentLine.Contains("joy3")   ||
@@ -209,17 +216,21 @@ namespace JoyPro
                     currentLine.Contains("joy10")  ||
                     currentLine.Contains("joy11")))
                 {
-                    KeyboardOutput.Add(currentLine);
-                }
-                else
-                {
+                    
                     string command = currentLine.Split(',')[0];
                     if (!JoystickOutput.ContainsKey(command))
                     {
                         JoystickOutput.Add(command, new List<string>());
                     }
                     JoystickOutput[command].Add(currentLine);
-
+                }
+                else if(currentLine.Contains("mouse_b")||currentLine.Contains("mouse_a"))
+                {
+                    MouseNOtherOutput.Add(currentLine);
+                }
+                else
+                {
+                    KeyboardOutput.Add(currentLine);
                 }
             }
             sr.Close();
@@ -442,29 +453,11 @@ namespace JoyPro
         {
             int i = -1;
             string result=null;
-            if (joystick.ToLower() == "Keyboard")
+            if (joystick.ToLower() == "keyboard")
             {
                 result = "key_";
-                axisButton = axisButton.ToLower().Replace("numberpad", "numpad").Replace("minus","subtract").Replace("plus","add").Replace("arrow","");
-                if (axisButton.Length == 2) axisButton.Replace("d", "");
-                switch (axisButton)
-                {
-                    case "leftalt": result = result + "lmenu";break;
-                    case "rightalt": result = result + "rmenu";break;
-                    case "leftcontrol": result = result + "lcontrol";break;
-                    case "rightcontrol": result = result + "rcontrol";break;
-                    case "leftshift": result = result + "lshift";break;
-                    case "rightshift": result = result + "rshift"; break;
-                    case "leftbracket": result = result + "lbracket";break;
-                    case "rightbracket": result = result + "rbracket";break;
-                    case "printscreen": result = result + "sysrq";break;
-                    case "applications":result = result + "apps";break;
-                    case "capslock": result = result + "capital";break;
-                    case "pageup":result = result + "prior";break;
-                    case "pagedown": result = result + "next"; break;
-                    case "scrolllock":result = result + "scroll";break;
-                    default: result = result + axisButton;break;
-                }
+                if (KeyboardConversion_DX2IL.ContainsKey(axisButton)) result = result + KeyboardConversion_DX2IL[axisButton];
+                else result = result + axisButton.ToLower();
             }
             else
             {
@@ -542,73 +535,12 @@ namespace JoyPro
                         else
                         {
                             string filler = "";
-                            switch (num)
+                            if(num==63)filler = "b63_povnu";
+                            if(num>63&&num<72) filler="pov"+(64-num).ToString();
+                            else
                             {
-                                case 63: filler = "b63_povnu"; break;
-                                case 64: filler = "pov0"; break;
-                                case 65: filler = "pov1"; break;
-                                case 66: filler = "pov2"; break;
-                                case 67: filler = "pov3"; break;
-                                case 68: filler = "pov4"; break;
-                                case 69: filler = "pov5"; break;
-                                case 70: filler = "pov6"; break;
-                                case 71: filler = "pov7"; break;
-                                case 72: filler = "pov0_0"; break;
-                                case 73: filler = "pov0_45"; break;
-                                case 74: filler = "pov0_90"; break;
-                                case 75: filler = "pov0_135"; break;
-                                case 76: filler = "pov0_180"; break;
-                                case 77: filler = "pov0_225"; break;
-                                case 78: filler = "pov0_270"; break;
-                                case 79: filler = "pov0_315"; break;
-                                case 80: filler = "pov1_0"; break;
-                                case 81: filler = "pov1_45"; break;
-                                case 82: filler = "pov1_90"; break;
-                                case 83: filler = "pov1_135"; break;
-                                case 84: filler = "pov1_180"; break;
-                                case 85: filler = "pov1_225"; break;
-                                case 86: filler = "pov1_270"; break;
-                                case 87: filler = "pov1_315"; break;
-                                case 88: filler = "pov2_0"; break;
-                                case 89: filler = "pov2_45"; break;
-                                case 90: filler = "pov2_90"; break;
-                                case 91: filler = "pov2_135"; break;
-                                case 92: filler = "pov2_180"; break;
-                                case 93: filler = "pov2_225"; break;
-                                case 94: filler = "pov2_270"; break;
-                                case 95: filler = "pov2_315"; break;
-                                case 96: filler = "pov3_0"; break;
-                                case 97: filler = "pov3_45"; break;
-                                case 98: filler = "pov3_90"; break;
-                                case 99: filler = "pov3_135"; break;
-                                case 100: filler = "pov3_180"; break;
-                                case 101: filler = "pov3_225"; break;
-                                case 102: filler = "pov3_270"; break;
-                                case 103: filler = "pov3_315"; break;
-                                case 104: filler = "pov4_0"; break;
-                                case 105: filler = "pov4_45"; break;
-                                case 106: filler = "pov4_90"; break;
-                                case 107: filler = "pov4_135"; break;
-                                case 108: filler = "pov4_180"; break;
-                                case 109: filler = "pov4_225"; break;
-                                case 110: filler = "pov4_270"; break;
-                                case 111: filler = "pov4_315"; break;
-                                case 112: filler = "pov5_0"; break;
-                                case 113: filler = "pov5_45"; break;
-                                case 114: filler = "pov5_90"; break;
-                                case 115: filler = "pov5_135"; break;
-                                case 116: filler = "pov5_180"; break;
-                                case 117: filler = "pov5_225"; break;
-                                case 118: filler = "pov5_270"; break;
-                                case 119: filler = "pov5_315"; break;
-                                case 120: filler = "pov6_0"; break;
-                                case 121: filler = "pov6_45"; break;
-                                case 122: filler = "pov6_90"; break;
-                                case 123: filler = "pov6_135"; break;
-                                case 124: filler = "pov6_180"; break;
-                                case 125: filler = "pov6_225"; break;
-                                case 126: filler = "pov6_270"; break;
-                                case 127: filler = "pov6_315"; break;
+                                int start = num - 72;
+                                filler = "pov"+(start / 8).ToString()+"_"+((start % 8) * 45).ToString();
                             }
                             result = result + filler;
                         }
@@ -643,13 +575,15 @@ namespace JoyPro
             string path = GetInputPath();
             StreamWriter swr = new StreamWriter(path + InputPath + name + ".txt");
             swr.Write(DevicesPreFile);
-            for(int i=0; i< InternalDataManagement.LocalJoysticks.Length-1; ++i)
+            List<string> devices = InternalDataManagement.LocalJoysticks.ToList();
+            if (devices.Contains("Keyboard")) devices.Remove("Keyboard");
+            for (int i=0; i< devices.Count - 1; ++i)
             {
-                swr.Write(MiscGames.DCSJoyIdToIL2JoyId(InternalDataManagement.LocalJoysticks[i], i)+"|\r\r\n");
+                swr.Write(MiscGames.DCSJoyIdToIL2JoyId(devices[i], i)+"|\r\r\n");
             }
             swr.Write(MiscGames.DCSJoyIdToIL2JoyId(
-                InternalDataManagement.LocalJoysticks[InternalDataManagement.LocalJoysticks.Length-1],
-                InternalDataManagement.LocalJoysticks.Length - 1) + "\r\r");
+                devices[devices.Count-1],
+                devices.Count - 1) + "\r\r");
             swr.Flush();
             swr.Close();
             swr.Dispose();
@@ -750,70 +684,95 @@ namespace JoyPro
         }
         static string ConvertIL2ToDCSButtonAxis(string button)
         {
+            if (button.Length < 1) return null;
             string IL2Button = button.Substring(button.IndexOf("_") + 1);
-            if (IL2Button.Substring(0, 1) == "b"&&IL2Button!= "b63_povnu")
+            if (button.StartsWith("key_"))
             {
-                return "JOY_BTN" + (Convert.ToInt32(IL2Button.Substring(1)) + 1).ToString();
-            }else if(IL2Button== "b63_povnu")
-            {
-                return "JOY_BTN64";
-            }
-            else if (IL2Button.Substring(0,4)=="pov0")
-            {
-                string result = "JOY_BTN_POV0_";
-                IL2Button = IL2Button.Substring(4);
-                string direction = IL2Button.Substring(IL2Button.IndexOf("_") + 1);
-                switch (direction)
+                string toReturn = "";
+                if (KeyboardConversion_IL2DX.ContainsKey(IL2Button))
                 {
-                    case "0": result = result + "U";break;
-                    case "45": result = result + "UR"; break;
-                    case "90": result = result + "R"; break;
-                    case "135": result = result + "DR"; break;
-                    case "180": result = result + "D"; break;
-                    case "225": result = result + "DL"; break;
-                    case "270": result = result + "L"; break;
-                    case "315": result = result + "UL"; break;
+                    toReturn = KeyboardConversion_IL2DX[IL2Button];
                 }
-                return result;
-            }
-            else if (IL2Button.Substring(0, 3) == "pov")
-            {
-                int povHead = Convert.ToInt32(IL2Button.Substring(3, 1));
-                //(pov-1)*8+80+direction
-                string direction = IL2Button.Substring(IL2Button.IndexOf("_") + 1);
-                int addition = -1;
-                switch (direction)
+                else
                 {
-                    case "0": addition = 0; break;
-                    case "45": addition = 1; break;
-                    case "90": addition = 2; break;
-                    case "135": addition = 3; break;
-                    case "180": addition = 4; break;
-                    case "225": addition = 5; break;
-                    case "270": addition = 6; break;
-                    case "315": addition = 7; break;
+                    if (IL2Button.Length > 1)
+                    {
+                        toReturn = IL2Button.Substring(0, 1).ToUpper() + IL2Button.Substring(1);
+                    }
+                    else
+                    {
+                        toReturn = IL2Button.ToUpper();
+                    }
                 }
-                int finalButton = (povHead - 1) * 8 + 80 + addition;
-                return "JOY_BTN" + finalButton.ToString();
+                return toReturn;
             }
-            else if (IL2Button.Substring(0, 4) == "axis")
+            else
             {
-                string result = "JOY_";
-                IL2Button = IL2Button.Substring(5);
-                switch (IL2Button)
+                if (IL2Button.Substring(0, 1) == "b" && IL2Button != "b63_povnu")
                 {
-                    case "x":  result=result+"X"; break;
-                    case "y":  result = result + "Y"; break;
-                    case "z":   result = result + "Z"; break;
-                    case "w":  result = result + "RX"; break;
-                    case "s":  result = result + "RY"; break;
-                    case "t":  result = result + "RZ"; break;
-                    case "p": result = result + "SLIDER1"; break;
-                    case "q": result = result + "SLIDER2"; break;
+                    return "JOY_BTN" + (Convert.ToInt32(IL2Button.Substring(1)) + 1).ToString();
                 }
-                return result;
+                else if (IL2Button == "b63_povnu")
+                {
+                    return "JOY_BTN64";
+                }
+                else if (IL2Button.Substring(0, 4) == "pov0")
+                {
+                    string result = "JOY_BTN_POV0_";
+                    IL2Button = IL2Button.Substring(4);
+                    string direction = IL2Button.Substring(IL2Button.IndexOf("_") + 1);
+                    switch (direction)
+                    {
+                        case "0": result = result + "U"; break;
+                        case "45": result = result + "UR"; break;
+                        case "90": result = result + "R"; break;
+                        case "135": result = result + "DR"; break;
+                        case "180": result = result + "D"; break;
+                        case "225": result = result + "DL"; break;
+                        case "270": result = result + "L"; break;
+                        case "315": result = result + "UL"; break;
+                    }
+                    return result;
+                }
+                else if (IL2Button.Substring(0, 3) == "pov")
+                {
+                    int povHead = Convert.ToInt32(IL2Button.Substring(3, 1));
+                    //(pov-1)*8+80+direction
+                    string direction = IL2Button.Substring(IL2Button.IndexOf("_") + 1);
+                    int addition = -1;
+                    switch (direction)
+                    {
+                        case "0": addition = 0; break;
+                        case "45": addition = 1; break;
+                        case "90": addition = 2; break;
+                        case "135": addition = 3; break;
+                        case "180": addition = 4; break;
+                        case "225": addition = 5; break;
+                        case "270": addition = 6; break;
+                        case "315": addition = 7; break;
+                    }
+                    int finalButton = (povHead - 1) * 8 + 80 + addition;
+                    return "JOY_BTN" + finalButton.ToString();
+                }
+                else if (IL2Button.Substring(0, 4) == "axis")
+                {
+                    string result = "JOY_";
+                    IL2Button = IL2Button.Substring(5);
+                    switch (IL2Button)
+                    {
+                        case "x": result = result + "X"; break;
+                        case "y": result = result + "Y"; break;
+                        case "z": result = result + "Z"; break;
+                        case "w": result = result + "RX"; break;
+                        case "s": result = result + "RY"; break;
+                        case "t": result = result + "RZ"; break;
+                        case "p": result = result + "SLIDER1"; break;
+                        case "q": result = result + "SLIDER2"; break;
+                    }
+                    return result;
+                }
+                return null;
             }
-            return null;
         }
 
         public static string GetDCSNameForStick(string guid, string rawstick)
@@ -828,7 +787,7 @@ namespace JoyPro
             return DCSstick;
         }
 
-        public static void ImportInputs(bool sensitivity, bool deadzone, bool inverted)
+        public static void ImportInputs(bool sensitivity, bool deadzone, bool inverted, List<string> sticksToFilter)
         {
             if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
             if (MainStructure.msave.IL2OR == null) MainStructure.msave.IL2OR = "";
@@ -836,15 +795,677 @@ namespace JoyPro
                 (MiscGames.IL2Instance == null || !Directory.Exists(MiscGames.IL2Instance))))
                 return;
             List<string> KeyboardInputs = new List<string>();
+            List<string> MouseInputs = new List<string>();
             Dictionary<string, List<string>> JoystickInputs = new Dictionary<string, List<string>>();
             List<string> JPKeyboardInputs = new List<string>();
+            List<string> JPMouseInputs = new List<string>();
             Dictionary<string, List<string>> JPJoystickInputs = new Dictionary<string, List<string>>();
-            ReadActionsFromActions(JPKeyboardInputs, JPJoystickInputs, "jp");
-            ReadActionsFromActions(KeyboardInputs, JoystickInputs);
+            
+            ReadActionsFromActions(JPMouseInputs,JPKeyboardInputs, JPJoystickInputs, "jp");
+            ReadActionsFromActions(MouseInputs, KeyboardInputs, JoystickInputs);
             ReadResponsesFile();
             Dictionary<int, string> IL2Sticks= new Dictionary<int, string>();
             LoadIL2Joysticks(IL2Sticks);
-            foreach(KeyValuePair<string, List<string>> kvp in JoystickInputs)
+            if (sticksToFilter.Contains("Keyboard"))
+            {
+                Dictionary<string, List<string>> keyboardJPLookup = new Dictionary<string, List<string>>();
+                for (int i = 0; i < JPKeyboardInputs.Count; i++)
+                {
+                    string item = JPKeyboardInputs[i].Substring(0, JPKeyboardInputs[i].IndexOf(','));
+                    if (!keyboardJPLookup.ContainsKey(item)) keyboardJPLookup.Add(item, new List<string>());
+                    keyboardJPLookup[item].Add(JPKeyboardInputs[i]);
+                }
+                foreach (string line in KeyboardInputs)
+                {
+                    if (line.Contains("mouse_")) continue;
+                    string input = GetComponentFromActionLine(line, IL2ActionComponent.Input);
+                    string invertRaw = GetComponentFromActionLine(line, IL2ActionComponent.Inverted);
+                    string positive, negative = null, mod_positive = null, mod_negative = null, rawPositive = null, rawNegative = null;
+                    bool invert;
+                    if (invertRaw == "0") invert = false;
+                    else invert = true;
+                    bool noMatchPos = true;
+                    bool noMatchNeg = true;
+                    Bind bpos = null;
+                    Bind bneg = null;
+                    string jp2Name = null;
+                    if (input.Contains('/'))
+                    {
+                        string[] splitted = input.Split('/');
+                        positive = splitted[0];
+                        negative = splitted[1];
+                        rawPositive = positive;
+                        rawNegative = negative;
+                    }
+                    else
+                    {
+                        positive = input;
+                        rawPositive = positive;
+                    }
+                    if (positive.Contains('+'))
+                    {
+                        string[] splitted = positive.Split('+');
+                        mod_positive = splitted[0];
+                        positive = splitted[1];
+                    }
+                    if (negative != null && negative.Contains('+'))
+                    {
+                        string[] splitted = negative.Split('+');
+                        mod_negative = splitted[0];
+                        negative = splitted[1];
+                    }
+                    string DCSstick = "Keyboard";
+                    string btnInput = ConvertIL2ToDCSButtonAxis(positive);
+                    string mod_pos_stick = null, mod_pos_btn = null, mod_neg_stick = null, mod_neg_btn = null, DCSstickneg = null, btnInputneg = null;
+                    if (mod_positive != null)
+                    {
+                        if (mod_positive.Contains("key_"))
+                        {
+                            mod_pos_stick = "Keyboard";
+                        }
+                        else
+                        {
+                            int mpv = Convert.ToInt32(mod_positive.Split('_')[0].Replace("joy", ""));
+                            string tempstick = IL2Sticks[mpv];
+                            mod_pos_stick = GetDCSNameForStick(tempstick.Substring(tempstick.IndexOf("{") + 1).Replace("}", ""), tempstick);
+                        }
+
+                        mod_pos_btn = ConvertIL2ToDCSButtonAxis(mod_positive);
+                    }
+                    if (negative != null)
+                    {
+                        string tempstick = "Keyboard";
+                        DCSstickneg = "Keyboard";
+                        btnInputneg = ConvertIL2ToDCSButtonAxis(negative);
+                        if (mod_negative != null)
+                        {
+                            if (!mod_negative.Contains("key_"))
+                            {
+                                int mpvn = Convert.ToInt32(mod_negative.Split('_')[0].Replace("joy", ""));
+                                tempstick = IL2Sticks[mpvn];
+                                mod_neg_stick = GetDCSNameForStick(tempstick.Substring(tempstick.IndexOf("{") + 1).Replace("}", ""), tempstick);
+                                if (mod_neg_stick == null) mod_neg_stick = InternalDataManagement.GetJoystickByName(tempstick.Substring(0, tempstick.IndexOf("{") - 1));
+                            }
+                            else
+                            {
+                                mod_neg_stick = "Keyboard";
+                            }
+
+                            mod_neg_btn = ConvertIL2ToDCSButtonAxis(mod_negative);
+                        }
+                    }
+                    string kid = line.Substring(0, line.IndexOf(","));
+                    string sid = kid;
+                    string sidneg = kid;
+                    if (negative != null)
+                    {
+                        sid += "+";
+                        sidneg += "-";
+                    }
+                    OtherGameInput[] found = DBLogic.GetAllOtherGameInputsWithId(sid, "IL2Game");
+                    OtherGameInput[] foundNeg = DBLogic.GetAllOtherGameInputsWithId(sidneg, "IL2Game");
+                    bool axis;
+                    string rawGroupsNeg = null;
+                    if (found == null && found.Length < 1) axis = false;
+                    else
+                    {
+                        axis = found[0].IsAxis;
+                    }
+                    if (keyboardJPLookup.ContainsKey(kid))
+                    {
+                        for (int j = 0; j < keyboardJPLookup[kid].Count; ++j)
+                        {
+                            string jpInput = GetComponentFromActionLine(keyboardJPLookup[kid][j], IL2ActionComponent.Input);
+                            string jpName = GetComponentFromActionLine(keyboardJPLookup[kid][j], IL2ActionComponent.JRelationName);
+                            string jAlias = GetComponentFromActionLine(keyboardJPLookup[kid][j], IL2ActionComponent.JAlias);
+
+                            if (jpName.Contains('/'))
+                            {
+                                jp2Name = jpName.Substring(jpName.IndexOf('/') + 1);
+                                jpName = jpName.Substring(0, jpName.IndexOf('/'));
+                            }
+                            string jppositive, jpnegative = null, jpmod_positive = null, jpmod_negative = null, alias_neg = null;
+                            if (jpInput.Contains('/'))
+                            {
+                                string[] splitted = jpInput.Split('/');
+                                jppositive = splitted[0];
+                                jpnegative = splitted[1];
+                            }
+                            else
+                            {
+                                jppositive = jpInput;
+                                jpName = jpName + "/" + jp2Name;
+                                jp2Name = null;
+                            }
+                            if (jppositive.Contains('+'))
+                            {
+                                string[] splitted = jppositive.Split('+');
+                                jpmod_positive = splitted[0];
+                                jppositive = splitted[1];
+                            }
+                            if (jpnegative != null && jpnegative.Contains('+'))
+                            {
+                                string[] splitted = jpnegative.Split('+');
+                                jpmod_negative = splitted[0];
+                                jpnegative = splitted[1];
+                            }
+
+                            if (jAlias.Contains('/'))
+                            {
+                                alias_neg = jAlias.Substring(jAlias.IndexOf('/') + 1);
+                                jAlias = jAlias.Substring(0, jAlias.IndexOf('/'));
+                            }
+
+                            if (jpName.Length > 1 && positive == jppositive && mod_positive == jpmod_positive)
+                            {
+                                if (jpName.EndsWith("/")) jpName = jpName.Substring(0, jpName.Length - 1);
+                                bpos = InternalDataManagement.GetBindForRelation(jpName);
+                                if (bpos != null&&btnInput!=null)
+                                {
+
+                                    if (DCSstick == bpos.Joystick && ((bpos.Rl.ISAXIS && bpos.JAxis == btnInput) || (!bpos.Rl.ISAXIS && bpos.JButton == btnInput)) &&
+                                        (!sensitivity || (axisResponsedRead.ContainsKey(kid) && bpos.Curvature[0] == axisResponsedRead[kid].Sensitivity * 2)) &&
+                                        (!deadzone || (axisResponsedRead.ContainsKey(kid) && ((bpos.Slider == true && bpos.Deadzone == axisResponsedRead[kid].DeadZoneSide * 4) ||
+                                        ((bpos.Slider == false || bpos.Slider == null) && bpos.Deadzone == axisResponsedRead[kid].DeadZoneCenter * 4)))) &&
+                                        ((!inverted || !bpos.Rl.ISAXIS) || (bpos.Rl.ISAXIS && bpos.Inverted == invert)))
+                                    {
+                                        if (bpos.Rl.GetRelationItem(sid, "IL2Game") == null)
+                                        {
+                                            bpos.Rl.AddNode(sid, "IL2Game", axis, "IL2Game");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Relation r = new Relation();
+                                        r.AddNode(sid, "IL2Game", axis, "IL2Game");
+                                        r.ISAXIS = axis;
+                                        string rawGroups = GetComponentFromActionLine(keyboardJPLookup[kid][j], IL2ActionComponent.JGroups);
+                                        if (rawGroups != null)
+                                        {
+                                            if (rawGroups.Contains('/'))
+                                            {
+                                                rawGroupsNeg = rawGroups.Substring(rawGroups.IndexOf('/') + 1);
+                                                rawGroups = rawGroups.Substring(0, rawGroups.IndexOf('/'));
+                                            }
+                                            string[] groupsp = rawGroups.Split(',');
+                                            for (int k = 0; k < groupsp.Length; ++k)
+                                            {
+                                                r.Groups.Add(groupsp[k]);
+                                                if (!InternalDataManagement.AllGroups.Contains(groupsp[k]))
+                                                {
+                                                    InternalDataManagement.AllGroups.Add(groupsp[k]);
+                                                }
+                                            }
+                                        }
+                                        string name = bpos.Rl.NAME;
+                                        while (InternalDataManagement.AllRelations.ContainsKey(name))
+                                        {
+                                            name += "ILGAME(COPY)";
+                                        }
+                                        r.NAME = name;
+                                        Bind b = new Bind(r);
+                                        r.bind = b;
+                                        if (axis)
+                                        {
+                                            b.JAxis = btnInput;
+                                        }
+                                        else
+                                        {
+                                            b.JButton = btnInput;
+                                        }
+                                        b.Joystick = DCSstick;
+                                        if (axisResponsedRead.ContainsKey(kid))
+                                        {
+                                            b.Curvature[0] = axisResponsedRead[kid].Sensitivity * 2;
+                                            if (axisResponsedRead[kid].DeadZoneCenter > 0.00)
+                                            {
+                                                b.Slider = false;
+                                                b.Deadzone = axisResponsedRead[kid].DeadZoneCenter * 4;
+                                            }
+                                            else
+                                            {
+                                                b.Slider = true;
+                                                b.Deadzone = axisResponsedRead[kid].DeadZoneSide * 4;
+                                            }
+                                        }
+                                        if (mod_positive != null)
+                                        {
+                                            string reformer = mod_pos_btn + "§" + mod_pos_stick + "§" + mod_pos_btn;
+                                            if (!b.AllReformers.Contains(reformer))
+                                                b.AllReformers.Add(reformer);
+                                        }
+                                        if (jAlias.Length > 1)
+                                        {
+                                            b.aliasJoystick = jAlias;
+                                            if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstick))
+                                                InternalDataManagement.JoystickAliases.Add(DCSstick, jAlias);
+                                            else
+                                                b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstick];
+                                        }
+
+                                        InternalDataManagement.AllBinds.Add(r.NAME, b);
+                                        InternalDataManagement.AllRelations.Add(r.NAME, r);
+                                        //Create new Relation with different name
+                                    }
+                                }
+                                else if(btnInput != null)
+                                {
+                                    //Create new
+                                    Relation r = new Relation();
+                                    r.AddNode(sid, "IL2Game", axis, "IL2Game");
+                                    r.ISAXIS = axis;
+                                    string rawGroups = GetComponentFromActionLine(keyboardJPLookup[kid][j], IL2ActionComponent.JGroups);
+                                    if (rawGroups != null)
+                                    {
+                                        if (rawGroups.Contains('/'))
+                                        {
+                                            rawGroupsNeg = rawGroups.Substring(rawGroups.IndexOf('/') + 1);
+                                            rawGroups = rawGroups.Substring(0, rawGroups.IndexOf('/'));
+                                        }
+                                        string[] groupsp = rawGroups.Split(',');
+                                        for (int k = 0; k < groupsp.Length; ++k)
+                                        {
+                                            r.Groups.Add(groupsp[k]);
+                                            if (!InternalDataManagement.AllGroups.Contains(groupsp[k]))
+                                            {
+                                                InternalDataManagement.AllGroups.Add(groupsp[k]);
+                                            }
+                                        }
+                                    }
+                                    string name = jpName;
+                                    while (InternalDataManagement.GetBindForRelation(name) != null)
+                                    {
+                                        name = name + "1";
+                                    }
+                                    r.NAME = name;
+                                    Bind b = new Bind(r);
+                                    r.bind = b;
+                                    if (axis)
+                                    {
+                                        b.JAxis = btnInput;
+                                    }
+                                    else
+                                    {
+                                        b.JButton = btnInput;
+                                    }
+                                    b.Joystick = DCSstick;
+                                    if (axisResponsedRead.ContainsKey(kid))
+                                    {
+                                        b.Curvature[0] = axisResponsedRead[kid].Sensitivity * 2;
+                                        if (axisResponsedRead[kid].DeadZoneCenter > 0.00)
+                                        {
+                                            b.Slider = false;
+                                            b.Deadzone = axisResponsedRead[kid].DeadZoneCenter * 4;
+                                        }
+                                        else
+                                        {
+                                            b.Slider = true;
+                                            b.Deadzone = axisResponsedRead[kid].DeadZoneSide * 4;
+                                        }
+                                    }
+                                    if (mod_positive != null)
+                                    {
+                                        string reformer = mod_pos_btn + "§" + mod_pos_stick + "§" + mod_pos_btn;
+                                        if (!b.AllReformers.Contains(reformer))
+                                            b.AllReformers.Add(reformer);
+                                    }
+                                    if (jAlias.Length > 1)
+                                    {
+                                        b.aliasJoystick = jAlias;
+                                        if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstick))
+                                            InternalDataManagement.JoystickAliases.Add(DCSstick, jAlias);
+                                        else
+                                            b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstick];
+                                    }
+
+                                    InternalDataManagement.AllBinds.Add(r.NAME, b);
+                                    InternalDataManagement.AllRelations.Add(r.NAME, r);
+                                }
+                                noMatchPos = false;
+                            }
+                            if ((jp2Name != null && jp2Name.Length > 1 && negative == jpnegative && mod_negative == jpmod_negative))
+                            {
+                                if (jp2Name.EndsWith("/")) jp2Name = jp2Name.Substring(0, jp2Name.Length - 1);
+                                bneg = InternalDataManagement.GetBindForRelation(jp2Name);
+                                if (bneg != null&& btnInputneg!=null)
+                                {
+
+                                    if (DCSstickneg == bneg.Joystick && ((bneg.Rl.ISAXIS && bneg.JAxis == btnInputneg) || (!bneg.Rl.ISAXIS && bneg.JButton == btnInputneg)) &&
+                                        (!sensitivity || (axisResponsedRead.ContainsKey(kid) && bneg.Curvature[0] == axisResponsedRead[kid].Sensitivity * 2)) &&
+                                        (!deadzone || (axisResponsedRead.ContainsKey(kid) && ((bneg.Slider == true && bneg.Deadzone == axisResponsedRead[kid].DeadZoneSide * 4) ||
+                                        ((bneg.Slider == false || bneg.Slider == null) && bneg.Deadzone == axisResponsedRead[kid].DeadZoneCenter * 4)))) &&
+                                        ((!inverted || !bneg.Rl.ISAXIS) || (bneg.Rl.ISAXIS && bneg.Inverted == invert)))
+                                    {
+                                        if (bneg.Rl.GetRelationItem(sidneg, "IL2Game") == null)
+                                        {
+                                            bneg.Rl.AddNode(sidneg, "IL2Game", axis, "IL2Game");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Relation r = new Relation();
+                                        r.AddNode(sid, "IL2Game", axis, "IL2Game");
+                                        r.ISAXIS = axis;
+                                        string rawGroups = GetComponentFromActionLine(keyboardJPLookup[kid][j], IL2ActionComponent.JGroups);
+                                        if (rawGroups != null)
+                                        {
+                                            if (rawGroups.Contains('/'))
+                                            {
+                                                rawGroupsNeg = rawGroups.Substring(rawGroups.IndexOf('/') + 1);
+                                                rawGroups = rawGroups.Substring(0, rawGroups.IndexOf('/'));
+                                            }
+                                            string[] groupsp = rawGroupsNeg.Split(',');
+                                            for (int k = 0; k < groupsp.Length; ++k)
+                                            {
+                                                r.Groups.Add(groupsp[k]);
+                                                if (!InternalDataManagement.AllGroups.Contains(groupsp[k]))
+                                                {
+                                                    InternalDataManagement.AllGroups.Add(groupsp[k]);
+                                                }
+                                            }
+                                        }
+                                        string name = bneg.Rl.NAME;
+                                        while (InternalDataManagement.AllRelations.ContainsKey(name))
+                                        {
+                                            name += "ILGAME(COPY)";
+                                        }
+                                        r.NAME = name;
+                                        Bind b = new Bind(r);
+                                        r.bind = b;
+                                        if (axis)
+                                        {
+                                            b.JAxis = btnInputneg;
+                                        }
+                                        else
+                                        {
+                                            b.JButton = btnInputneg;
+                                        }
+                                        b.Joystick = DCSstickneg;
+                                        if (axisResponsedRead.ContainsKey(kid))
+                                        {
+                                            b.Curvature[0] = axisResponsedRead[kid].Sensitivity * 2;
+                                            if (axisResponsedRead[kid].DeadZoneCenter > 0.00)
+                                            {
+                                                b.Slider = false;
+                                                b.Deadzone = axisResponsedRead[kid].DeadZoneCenter * 4;
+                                            }
+                                            else
+                                            {
+                                                b.Slider = true;
+                                                b.Deadzone = axisResponsedRead[kid].DeadZoneSide * 4;
+                                            }
+                                        }
+                                        if (mod_negative != null)
+                                        {
+                                            string reformer = mod_neg_btn + "§" + mod_neg_stick + "§" + mod_neg_btn;
+                                            if (!b.AllReformers.Contains(reformer))
+                                                b.AllReformers.Add(reformer);
+                                        }
+                                        if (alias_neg.Length > 1)
+                                        {
+                                            b.aliasJoystick = alias_neg;
+                                            if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstickneg))
+                                                InternalDataManagement.JoystickAliases.Add(DCSstickneg, alias_neg);
+                                            else
+                                                b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstickneg];
+                                        }
+
+                                        InternalDataManagement.AllBinds.Add(r.NAME, b);
+                                        InternalDataManagement.AllRelations.Add(r.NAME, r);
+                                        //Create new Relation with different name
+                                    }
+                                }
+                                else if(btnInputneg!=null)
+                                {
+                                    //Create new
+                                    Relation r = new Relation();
+                                    r.AddNode(sid, "IL2Game", axis, "IL2Game");
+                                    r.ISAXIS = axis;
+                                    string rawGroups = GetComponentFromActionLine(keyboardJPLookup[kid][j], IL2ActionComponent.JGroups);
+                                    if (rawGroups != null)
+                                    {
+                                        if (rawGroups.Contains('/'))
+                                        {
+                                            rawGroupsNeg = rawGroups.Substring(rawGroups.IndexOf('/') + 1);
+                                            rawGroups = rawGroups.Substring(0, rawGroups.IndexOf('/'));
+                                        }
+                                        if (rawGroupsNeg != null)
+                                        {
+                                            string[] groupsp = rawGroupsNeg.Split(',');
+                                            for (int k = 0; k < groupsp.Length; ++k)
+                                            {
+                                                r.Groups.Add(groupsp[k]);
+                                                if (!InternalDataManagement.AllGroups.Contains(groupsp[k]))
+                                                {
+                                                    InternalDataManagement.AllGroups.Add(groupsp[k]);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    string name = jp2Name;
+                                    r.NAME = name;
+                                    Bind b = new Bind(r);
+                                    r.bind = b;
+                                    if (axis)
+                                    {
+                                        b.JAxis = btnInputneg;
+                                    }
+                                    else
+                                    {
+                                        b.JButton = btnInputneg;
+                                    }
+                                    b.Joystick = DCSstickneg;
+                                    if (axisResponsedRead.ContainsKey(kid))
+                                    {
+                                        b.Curvature[0] = axisResponsedRead[kid].Sensitivity * 2;
+                                        if (axisResponsedRead[kid].DeadZoneCenter > 0.00)
+                                        {
+                                            b.Slider = false;
+                                            b.Deadzone = axisResponsedRead[kid].DeadZoneCenter * 4;
+                                        }
+                                        else
+                                        {
+                                            b.Slider = true;
+                                            b.Deadzone = axisResponsedRead[kid].DeadZoneSide * 4;
+                                        }
+                                    }
+                                    if (mod_negative != null)
+                                    {
+                                        string reformer = mod_neg_btn + "§" + mod_neg_stick + "§" + mod_neg_btn;
+                                        if (!b.AllReformers.Contains(reformer))
+                                            b.AllReformers.Add(reformer);
+                                    }
+                                    if (alias_neg != null && alias_neg.Length > 1)
+                                    {
+                                        b.aliasJoystick = alias_neg;
+                                        if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstickneg))
+                                            InternalDataManagement.JoystickAliases.Add(DCSstickneg, alias_neg);
+                                        else
+                                            b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstickneg];
+                                    }
+                                    InternalDataManagement.AllBinds.Add(r.NAME, b);
+                                    InternalDataManagement.AllRelations.Add(r.NAME, r);
+                                }
+                                noMatchNeg = false;
+                            }
+                        }
+                    }
+
+                    bool toSendInv, sliderToSend;
+                    double deadZoneToSet = double.NaN;
+                    if (axis && inverted) toSendInv = invert;
+                    else toSendInv = Bind.Inverted_Default;
+                    if (axis && deadzone)
+                    {
+                        if (axisResponsedRead.ContainsKey(kid))
+                        {
+                            if (axisResponsedRead[kid].DeadZoneCenter > 0.00)
+                            {
+                                sliderToSend = false;
+                                deadZoneToSet = axisResponsedRead[kid].DeadZoneCenter * 4;
+                            }
+                            else
+                            {
+                                sliderToSend = true;
+                                deadZoneToSet = axisResponsedRead[kid].DeadZoneSide * 4;
+                            }
+                        }
+                        else
+                        {
+                            sliderToSend = Bind.Slider_Default;
+                            deadZoneToSet = Bind.Deadzone_Default;
+                        }
+                    }
+                    else
+                    {
+                        sliderToSend = Bind.Slider_Default;
+                        deadZoneToSet = Bind.Deadzone_Default;
+                    }
+
+                    if (noMatchPos&& btnInput!=null)
+                    {
+                        Bind bT = null;
+                        if (axis)
+                        {
+                            List<Bind> matchingb = InternalDataManagement.GetBindsByJoystickAndKey(DCSstick, btnInput, axis, toSendInv, sliderToSend, Bind.SaturationX_Default, Bind.SaturationY_Default, deadZoneToSet);
+                            if (matchingb.Count > 0) bT = matchingb[0];
+                        }
+                        else
+                        {
+                            string rlname = InternalDataManagement.GetRelationNameForJostickButton(DCSstick, rawPositive);
+                            if (rlname != null)
+                                bT = InternalDataManagement.GetBindForRelation(rlname);
+                        }
+
+                        if (bT != null)
+                        {
+                            bT.Rl.AddNode(sid, "IL2Game", axis, "IL2Game");
+                        }
+                        else
+                        {
+                            Relation r = new Relation();
+                            r.AddNode(sid, "IL2Game", axis, "IL2Game");
+                            r.ISAXIS = axis;
+                            string shorten = MainStructure.ShortenDeviceName(DCSstick);
+                            shorten = found[0].Title;
+                            while (InternalDataManagement.AllRelations.ContainsKey(shorten))
+                            {
+                                shorten += "1";
+                            }
+                            string name = shorten;
+
+                            r.NAME = name;
+                            Bind b = new Bind(r);
+                            r.bind = b;
+                            if (axis)
+                            {
+                                b.JAxis = btnInput;
+                            }
+                            else
+                            {
+                                b.JButton = btnInput;
+                            }
+                            b.Joystick = DCSstick;
+                            if (axisResponsedRead.ContainsKey(kid))
+                            {
+                                b.Curvature[0] = axisResponsedRead[kid].Sensitivity * 2;
+                                b.Slider = sliderToSend;
+                                b.Deadzone = deadZoneToSet;
+                            }
+                            if (mod_positive != null)
+                            {
+                                string reformer = JoyPro.Modifier.CreateDefaultReformer(mod_positive, Game.IL2);
+                                if (!b.AllReformers.Contains(reformer))
+                                    b.AllReformers.Add(reformer);
+                            }
+                            string generatedNameGroup = "GENERATED-NAME";
+                            if (!InternalDataManagement.AllGroups.Contains(generatedNameGroup))
+                            {
+                                InternalDataManagement.AllGroups.Add(generatedNameGroup);
+                                InternalDataManagement.GroupActivity.Add(generatedNameGroup, true);
+                            }
+                            if (!r.Groups.Contains(generatedNameGroup))
+                            {
+                                r.Groups.Add(generatedNameGroup);
+                            }
+                            InternalDataManagement.AllBinds.Add(r.NAME, b);
+                            InternalDataManagement.AllRelations.Add(r.NAME, r);
+                        }
+                        InternalDataManagement.ResyncRelations();
+                    }
+
+                    if (noMatchNeg && negative != null && btnInputneg!=null)
+                    {
+                        Bind bT = null;
+                        if (axis)
+                        {
+                            List<Bind> matchingb = InternalDataManagement.GetBindsByJoystickAndKey(DCSstickneg, btnInputneg, axis, toSendInv, sliderToSend, Bind.SaturationX_Default, Bind.SaturationY_Default, deadZoneToSet);
+                            if (matchingb.Count > 0) bT = matchingb[0];
+                        }
+                        else
+                        {
+                            string rlname = InternalDataManagement.GetRelationNameForJostickButton(DCSstick, rawNegative);
+                            if (rlname != null)
+                                bT = InternalDataManagement.GetBindForRelation(rlname);
+                        }
+                        if (bT != null)
+                        {
+                            bT.Rl.AddNode(sid, "IL2Game", axis, "IL2Game");
+                        }
+                        else
+                        {
+                            Relation r = new Relation();
+                            r.AddNode(sid, "IL2Game", axis, "IL2Game");
+                            r.ISAXIS = axis;
+                            string shorten = MainStructure.ShortenDeviceName(DCSstickneg);
+                            shorten = foundNeg[0].Title;
+                            while (InternalDataManagement.AllRelations.ContainsKey(shorten))
+                            {
+                                shorten += "1";
+                            }
+                            string name = shorten;
+                            r.NAME = name;
+                            Bind b = new Bind(r);
+                            r.bind = b;
+                            if (axis)
+                            {
+                                b.JAxis = btnInputneg;
+                            }
+                            else
+                            {
+                                b.JButton = btnInputneg;
+                            }
+                            b.Joystick = DCSstickneg;
+                            if (axisResponsedRead.ContainsKey(kid))
+                            {
+                                b.Curvature[0] = axisResponsedRead[kid].Sensitivity * 2;
+                                b.Slider = sliderToSend;
+                                b.Deadzone = deadZoneToSet;
+                            }
+                            if (mod_negative != null)
+                            {
+                                string reformer = JoyPro.Modifier.CreateDefaultReformer(mod_negative, Game.IL2);
+                                if (!b.AllReformers.Contains(reformer))
+                                    b.AllReformers.Add(reformer);
+                            }
+                            string generatedNameGroup = "GENERATED-NAME";
+                            if (!InternalDataManagement.AllGroups.Contains(generatedNameGroup))
+                            {
+                                InternalDataManagement.AllGroups.Add(generatedNameGroup);
+                                InternalDataManagement.GroupActivity.Add(generatedNameGroup, true);
+                            }
+                            if (!r.Groups.Contains(generatedNameGroup))
+                            {
+                                r.Groups.Add(generatedNameGroup);
+                            }
+                            InternalDataManagement.AllBinds.Add(r.NAME, b);
+                            InternalDataManagement.AllRelations.Add(r.NAME, r);
+                        }
+                        InternalDataManagement.ResyncRelations();
+                    }
+                }
+            }
+            foreach (KeyValuePair<string, List<string>> kvp in JoystickInputs)
             {
                 for(int i=0; i<kvp.Value.Count; ++i)
                 {
@@ -885,6 +1506,7 @@ namespace JoyPro
                         negative = splitted[1];
                     }
                     int pv = Convert.ToInt32(positive.Split('_')[0].Replace("joy", ""));
+                    if (!IL2Sticks.ContainsKey(pv)) continue;
                     string stick = IL2Sticks[pv];
                     string DCSstick = GetDCSNameForStick(stick.Substring(stick.IndexOf("{") + 1).Replace("}", ""),stick);
                     string btnInput = ConvertIL2ToDCSButtonAxis(positive);
@@ -935,6 +1557,7 @@ namespace JoyPro
                         sidneg += "-";
                     }
                     OtherGameInput[] found = DBLogic.GetAllOtherGameInputsWithId(sid, "IL2Game");
+                    OtherGameInput[] foundNeg = DBLogic.GetAllOtherGameInputsWithId(sidneg, "IL2Game");
                     bool axis;
                     string rawGroupsNeg = null;
                     if (found == null && found.Length < 1) axis = false;
@@ -968,13 +1591,13 @@ namespace JoyPro
                                 jpName = jpName + "/" + jp2Name;
                                 jp2Name = null;
                             }
-                            if (positive.Contains('+'))
+                            if (jppositive.Contains('+'))
                             {
                                 string[] splitted = jppositive.Split('+');
                                 jpmod_positive = splitted[0];
                                 jppositive = splitted[1];
                             }
-                            if (negative!=null&&negative.Contains('+'))
+                            if (jpnegative != null&& jpnegative.Contains('+'))
                             {
                                 string[] splitted = negative.Split('+');
                                 mod_negative = splitted[0];
@@ -987,11 +1610,11 @@ namespace JoyPro
                                 jAlias = jAlias.Substring(0, jAlias.IndexOf('/'));
                             }
                             
-                            if (jpName.Length>1&&positive==jppositive&&mod_positive==jpmod_positive)
+                            if (jpName.Length>1&&positive==jppositive&&mod_positive==jpmod_positive&&sticksToFilter.Contains(DCSstick))
                             {
                                 if(jpName.EndsWith("/"))jpName=jpName.Substring(0,jpName.Length-1);
                                 bpos = InternalDataManagement.GetBindForRelation(jpName);
-                                if (bpos != null)
+                                if (bpos != null&&sticksToFilter.Contains(bpos.Joystick))
                                 {
 
                                     if (DCSstick == bpos.Joystick && ((bpos.Rl.ISAXIS && bpos.JAxis == btnInput) || (!bpos.Rl.ISAXIS && bpos.JButton == btnInput)) &&
@@ -1136,7 +1759,7 @@ namespace JoyPro
                                     }
                                     if (mod_positive != null)
                                     {
-                                        string reformer = mod_pos_btn + "§" + mod_pos_stick + "§" + mod_pos_btn;
+                                        string reformer = JoyPro.Modifier.CreateDefaultReformer(mod_pos_btn, Game.IL2);
                                         if (!b.AllReformers.Contains(reformer))
                                             b.AllReformers.Add(reformer);
                                     }
@@ -1148,17 +1771,19 @@ namespace JoyPro
                                         else
                                             b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstick];
                                     }
-
-                                    InternalDataManagement.AllBinds.Add(r.NAME, b);
-                                    InternalDataManagement.AllRelations.Add(r.NAME, r);
+                                    if (sticksToFilter.Contains(b.Joystick))
+                                    {
+                                        InternalDataManagement.AllBinds.Add(r.NAME, b);
+                                        InternalDataManagement.AllRelations.Add(r.NAME, r);
+                                    }
                                 }
                                 noMatchPos = false;
                             }
-                            if ((jp2Name!=null&&jp2Name.Length > 1 && negative == jpnegative && mod_negative == jpmod_negative))
+                            if (jp2Name!=null&&jp2Name.Length > 1 && negative == jpnegative && mod_negative == jpmod_negative&& sticksToFilter.Contains(DCSstickneg))
                             {
                                 if (jp2Name.EndsWith("/")) jp2Name = jp2Name.Substring(0, jp2Name.Length - 1);
                                 bneg = InternalDataManagement.GetBindForRelation(jp2Name);
-                                if (bneg != null)
+                                if (bneg != null && sticksToFilter.Contains(bneg.Joystick))
                                 {
 
                                     if (DCSstickneg == bneg.Joystick && ((bneg.Rl.ISAXIS && bneg.JAxis == btnInputneg) || (!bneg.Rl.ISAXIS && bneg.JButton == btnInputneg)) &&
@@ -1228,7 +1853,7 @@ namespace JoyPro
                                         }
                                         if (mod_negative != null)
                                         {
-                                            string reformer = mod_neg_btn + "§" + mod_neg_stick + "§" + mod_neg_btn;
+                                            string reformer = JoyPro.Modifier.CreateDefaultReformer(mod_neg_btn, Game.IL2);
                                             if (!b.AllReformers.Contains(reformer))
                                                 b.AllReformers.Add(reformer);
                                         }
@@ -1302,7 +1927,7 @@ namespace JoyPro
                                     }
                                     if (mod_negative != null)
                                     {
-                                        string reformer = mod_neg_btn + "§" + mod_neg_stick + "§" + mod_neg_btn;
+                                        string reformer = JoyPro.Modifier.CreateDefaultReformer(mod_neg_btn, Game.IL2);
                                         if (!b.AllReformers.Contains(reformer))
                                             b.AllReformers.Add(reformer);
                                     }
@@ -1314,8 +1939,12 @@ namespace JoyPro
                                         else
                                             b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstickneg];
                                     }
-                                    InternalDataManagement.AllBinds.Add(r.NAME, b);
-                                    InternalDataManagement.AllRelations.Add(r.NAME, r);
+                                    if (sticksToFilter.Contains(b.Joystick))
+                                    {
+                                        InternalDataManagement.AllBinds.Add(r.NAME, b);
+                                        InternalDataManagement.AllRelations.Add(r.NAME, r);
+                                    }
+                                    
                                 }
                                 noMatchNeg = false;
                             }
@@ -1351,7 +1980,7 @@ namespace JoyPro
                         sliderToSend = Bind.Slider_Default;
                         deadZoneToSet = Bind.Deadzone_Default;
                     }
-                    if (noMatchPos)
+                    if (noMatchPos && sticksToFilter.Contains(DCSstick))
                     {
                         Bind bT = null;
                         if (axis)
@@ -1376,7 +2005,7 @@ namespace JoyPro
                             r.AddNode(sid, "IL2Game", axis, "IL2Game");
                             r.ISAXIS = axis;
                             string shorten = MainStructure.ShortenDeviceName(DCSstick);
-                            shorten = shorten + btnInput;
+                            shorten = found[0].Title;
                             while (InternalDataManagement.AllRelations.ContainsKey(shorten))
                             {
                                 shorten += "1";
@@ -1402,17 +2031,26 @@ namespace JoyPro
                             }
                             if (mod_positive != null)
                             {
-                                string reformer = mod_pos_btn + "§" + mod_pos_stick + "§" + mod_pos_btn;
+                                string reformer = JoyPro.Modifier.CreateDefaultReformer(mod_pos_btn, Game.IL2);
                                 if (!b.AllReformers.Contains(reformer))
                                     b.AllReformers.Add(reformer);
                             }
-
+                            string generatedNameGroup = "GENERATED-NAME";
+                            if (!InternalDataManagement.AllGroups.Contains(generatedNameGroup))
+                            {
+                                InternalDataManagement.AllGroups.Add(generatedNameGroup);
+                                InternalDataManagement.GroupActivity.Add(generatedNameGroup, true);
+                            }
+                            if (!r.Groups.Contains(generatedNameGroup))
+                            {
+                                r.Groups.Add(generatedNameGroup);
+                            }
                             InternalDataManagement.AllBinds.Add(r.NAME, b);
                             InternalDataManagement.AllRelations.Add(r.NAME, r);
                         }
                         InternalDataManagement.ResyncRelations();
                     }
-                    if (noMatchNeg&&negative!=null)
+                    if (noMatchNeg&&negative!=null&&sticksToFilter.Contains(DCSstickneg))
                     {
                         Bind bT = null;
                         if (axis)
@@ -1436,7 +2074,7 @@ namespace JoyPro
                             r.AddNode(sid, "IL2Game", axis, "IL2Game");
                             r.ISAXIS = axis;
                             string shorten = MainStructure.ShortenDeviceName(DCSstickneg);
-                            shorten = shorten + btnInputneg;
+                            shorten = foundNeg[0].Title;
                             while (InternalDataManagement.AllRelations.ContainsKey(shorten))
                             {
                                 shorten += "1";
@@ -1462,18 +2100,44 @@ namespace JoyPro
                             }
                             if (mod_negative != null)
                             {
-                                string reformer = mod_pos_btn + "§" + mod_pos_stick + "§" + mod_pos_btn;
+                                string reformer = JoyPro.Modifier.CreateDefaultReformer(mod_neg_btn, Game.IL2);
                                 if (!b.AllReformers.Contains(reformer))
                                     b.AllReformers.Add(reformer);
                             }
-                            InternalDataManagement.AllBinds.Add(r.NAME, b);
-                            InternalDataManagement.AllRelations.Add(r.NAME, r);
+                            if (sticksToFilter.Contains(b.Joystick))
+                            {
+                                string generatedNameGroup = "GENERATED-NAME";
+                                if (!InternalDataManagement.AllGroups.Contains(generatedNameGroup))
+                                {
+                                    InternalDataManagement.AllGroups.Add(generatedNameGroup);
+                                    InternalDataManagement.GroupActivity.Add(generatedNameGroup, true);
+                                }
+                                if (!r.Groups.Contains(generatedNameGroup))
+                                {
+                                    r.Groups.Add(generatedNameGroup);
+                                }
+                                InternalDataManagement.AllBinds.Add(r.NAME, b);
+                                InternalDataManagement.AllRelations.Add(r.NAME, r);
+                            }
                         }
                         InternalDataManagement.ResyncRelations();
                     }
-                }
-                
+                }           
             }
+        }
+
+        public static bool HasIllegalModifiers(Bind b)
+        {
+            foreach(string s in b.AllReformers)
+            {
+                string[] splitted = s.Split('§');
+                if (splitted.Length > 2)
+                {
+                    if (splitted[1] != "Keyboard") return true;
+                    if (!DefModifier.Contains(splitted[2])) return true;
+                }
+            }
+            return false;
         }
         static string GetComponentFromActionLine(string line, IL2ActionComponent comp)
         {

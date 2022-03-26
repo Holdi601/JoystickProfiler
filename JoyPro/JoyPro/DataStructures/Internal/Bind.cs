@@ -275,7 +275,7 @@ namespace JoyPro
             {
                 for (int i = 0; i < dab.reformers.Count; i++)
                 {
-                    b.AllReformers.Add(Modifier.CreateDefaultReformer(dab.reformers[i]));
+                    b.AllReformers.Add(Modifier.CreateDefaultReformer(dab.reformers[i], Game.DCS));
                     relationName = relationName + dab.reformers[i];
                 }
             }
@@ -440,7 +440,7 @@ namespace JoyPro
             {
                 for(int i=0; i<dab.reformers.Count; i++)
                 {
-                    b.AllReformers.Add(Modifier.CreateDefaultReformer(dab.reformers[i]));
+                    b.AllReformers.Add(Modifier.CreateDefaultReformer(dab.reformers[i], Game.DCS));
                     relationName = relationName + dab.reformers[i];
                 }
             }

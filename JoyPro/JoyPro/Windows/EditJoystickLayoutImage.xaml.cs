@@ -75,7 +75,9 @@ namespace JoyPro
             {
                 initBitMaps(filepath);
             }
-            List<string> rawPossibleBtns = JoystickReader.GetAllPossibleStickInputs();
+            List<string> rawPossibleBtns;
+            if (stick.ToLower() == "keyboard") rawPossibleBtns = JoystickReader.GetAllPossibleKeyboardInputs();
+            else rawPossibleBtns = JoystickReader.GetAllPossibleStickInputs();
             possibleAxBtn = new List<string>();
             possibleAxBtn.Add("Game");
             possibleAxBtn.Add("Plane");

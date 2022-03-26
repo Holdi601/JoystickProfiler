@@ -19,7 +19,7 @@ using System.Windows.Threading;
 
 namespace JoyPro
 {
-    public enum Game { DCS, StarCitizen }
+    public enum Game { DCS, StarCitizen, IL2 }
     public enum JoystickAxis { JOY_X, JOY_Y, JOY_Z, JOY_RX, JOY_RY, JOY_RZ, JOY_SLIDER1, JOY_SLIDER2, NONE }
     public enum LuaDataType { String, Number, Dict, Bool, Error };
     public enum SortType { NAME_NORM, NAME_DESC, STICK_NORM, STICK_DESC, BTN_NORM, BTN_DESC }

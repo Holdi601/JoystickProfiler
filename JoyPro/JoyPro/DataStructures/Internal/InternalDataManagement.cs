@@ -1156,6 +1156,14 @@ namespace JoyPro
             if (GroupActivity.Count > 0)
             {
                 List<Relation> groupresult = new List<Relation>();
+                if (GroupActivity.Count != AllGroups.Count)
+                {
+                    for(int i=0; i<AllGroups.Count; i++)
+                    {
+                        if (!GroupActivity.ContainsKey(AllGroups[i]))
+                            GroupActivity.Add(AllGroups[i], true);
+                    }
+                }
                 bool toCompare = GroupActivity[AllGroups[0]];
                 bool allTheSame = true;
                 for (int i = 1; i < AllGroups.Count; ++i)
@@ -1293,7 +1301,14 @@ namespace JoyPro
                     foreach (KeyValuePair<string, Bind> kvp in AllBinds)
                     {
                         if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
+                        {
+                            if (IL2IOLogic.HasIllegalModifiers(kvp.Value))
+                            {
+                                MessageBox.Show(kvp.Value.Rl.NAME + " has a modifier not supported by IL2Game");
+                            }
                             Il2Binds.Add(kvp.Value);
+                        }
+                            
                     }
                 }
                 else
@@ -1301,7 +1316,14 @@ namespace JoyPro
                     for(int i = 0; i < manualBinds.Count; i++)
                     {
                         if (manualBinds[i].Rl.GamesInRelation().Contains("IL2Game"))
+                        {
+                            if (IL2IOLogic.HasIllegalModifiers(manualBinds[i]))
+                            {
+                                MessageBox.Show(manualBinds[i].Rl.NAME+" has a modifier not supported by IL2Game");
+                            }
                             Il2Binds.Add(manualBinds[i]);
+                        }
+                            
                     }
                 }
                 IL2IOLogic.WriteOut(Il2Binds, OutputType.Clean);
@@ -1319,7 +1341,14 @@ namespace JoyPro
                     foreach (KeyValuePair<string, Bind> kvp in AllBinds)
                     {
                         if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
+                        {
+                            if (IL2IOLogic.HasIllegalModifiers(kvp.Value))
+                            {
+                                MessageBox.Show(kvp.Value.Rl.NAME + " has a modifier not supported by IL2Game");
+                            }
                             Il2Binds.Add(kvp.Value);
+                        }
+                            
                     }
                 }
                 else
@@ -1327,7 +1356,13 @@ namespace JoyPro
                     for (int i = 0; i < manualBinds.Count; i++)
                     {
                         if (manualBinds[i].Rl.GamesInRelation().Contains("IL2Game"))
+                        {
+                            if (IL2IOLogic.HasIllegalModifiers(manualBinds[i]))
+                            {
+                                MessageBox.Show(manualBinds[i].Rl.NAME + " has a modifier not supported by IL2Game");
+                            }
                             Il2Binds.Add(manualBinds[i]);
+                        }
                     }
                 }
                 IL2IOLogic.WriteOut(Il2Binds, OutputType.Add);
@@ -1345,7 +1380,14 @@ namespace JoyPro
                     foreach (KeyValuePair<string, Bind> kvp in AllBinds)
                     {
                         if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
+                        {
+                            if (IL2IOLogic.HasIllegalModifiers(kvp.Value))
+                            {
+                                MessageBox.Show(kvp.Value.Rl.NAME + " has a modifier not supported by IL2Game");
+                            }
                             Il2Binds.Add(kvp.Value);
+                        }
+                            
                     }
                 }
                 else
@@ -1353,7 +1395,14 @@ namespace JoyPro
                     for (int i = 0; i < manualBinds.Count; i++)
                     {
                         if (manualBinds[i].Rl.GamesInRelation().Contains("IL2Game"))
+                        {
+                            if (IL2IOLogic.HasIllegalModifiers(manualBinds[i]))
+                            {
+                                MessageBox.Show(manualBinds[i].Rl.NAME + " has a modifier not supported by IL2Game");
+                            }
                             Il2Binds.Add(manualBinds[i]);
+                        }
+                            
                     }
                 }
                 IL2IOLogic.WriteOut(Il2Binds, OutputType.Merge);
@@ -1371,7 +1420,13 @@ namespace JoyPro
                     foreach (KeyValuePair<string, Bind> kvp in AllBinds)
                     {
                         if (kvp.Value.Rl.GamesInRelation().Contains("IL2Game"))
+                        {
+                            if (IL2IOLogic.HasIllegalModifiers(kvp.Value))
+                            {
+                                MessageBox.Show(kvp.Value.Rl.NAME + " has a modifier not supported by IL2Game");
+                            }
                             Il2Binds.Add(kvp.Value);
+                        }
                     }
                 }
                 else
@@ -1379,7 +1434,14 @@ namespace JoyPro
                     for (int i = 0; i < manualBinds.Count; i++)
                     {
                         if (manualBinds[i].Rl.GamesInRelation().Contains("IL2Game"))
+                        {
+                            if (IL2IOLogic.HasIllegalModifiers(manualBinds[i]))
+                            {
+                                MessageBox.Show(manualBinds[i].Rl.NAME + " has a modifier not supported by IL2Game");
+                            }
                             Il2Binds.Add(manualBinds[i]);
+                        }
+                            
                     }
                 }
                 IL2IOLogic.WriteOut(Il2Binds, OutputType.MergeOverwrite);
@@ -1690,7 +1752,7 @@ namespace JoyPro
             {
                 realBtn = ModBtn;
             }
-            if (realBtn.ToLower().Contains("btn") || realBtn.ToLower().Contains("pov")) isAxis = false;
+            if (realBtn.ToLower().Contains("btn") || realBtn.ToLower().Contains("pov")||Joystick=="Keyboard") isAxis = false;
             else isAxis = true;
             foreach(KeyValuePair<string, Bind> kvp in AllBinds)
             {
