@@ -126,6 +126,7 @@ namespace JoyPro
             ManualDBBtn.Click += new RoutedEventHandler(OpenIDManualManagement);
             VisualLayersBox.LostFocus += new RoutedEventHandler(changeMaxLayerCount);
             AutomatedAdditionAndCorrectionCB.Click += new RoutedEventHandler(AddOrCorrectRelationItems);
+            AddToManualDBBtn.Click += new RoutedEventHandler(DiffDBtoManualDB);
             if (MainStructure.msave.importLocals == null || MainStructure.msave.importLocals == true)
                 ImportLocalsFromInstanceCB.IsChecked = true;
             else
@@ -586,6 +587,89 @@ namespace JoyPro
             ManualDBManager mdb = new ManualDBManager();
             mdb.Show();
         }
+
+        void ExtractHTMLfromDCS()
+        {
+            turnFullScreen(false);
+            string executeDCS;
+            if (InitGames.GetDCSInstallationPath().ToLower().Contains("steam"))
+            {
+                executeDCS = InitGames.GetDCSInstallationPath() + "\\bin\\DCS.exe";
+            }
+            else
+            {
+                executeDCS = InitGames.GetDCSInstallationPath() + "\\bin\\DCS_updater.exe";
+            }
+            if (!File.Exists(executeDCS))
+            {
+                MessageBox.Show("Couldn't find the DCS_Updater executeable. Path that got checked: " + executeDCS);
+                return;
+            }
+            StartProgram(executeDCS);
+            bool inMenu = false;
+            while (!inMenu)
+            {
+                MessageBoxResult mrop = MessageBox.Show("Is it in the Menu?", "Is it in the Menu?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                if (mrop == MessageBoxResult.Yes)
+                {
+                    inMenu = true;
+                }
+            }
+
+            Process[] processes = Process.GetProcessesByName("DCS");
+            if (processes == null || processes.Length < 1)
+            {
+                MessageBox.Show("DCS was not open.Cancelling.");
+                return;
+            }
+            Process DCSproc = processes[0];
+            IntPtr ptr = DCSproc.MainWindowHandle;
+            Rect DCSRect = new Rect();
+            GetWindowRect(ptr, ref DCSRect);
+            BringProcessToFront(DCSproc);
+            Thread.Sleep(200);
+            ClickIntoControlsDCS(DCSRect);
+            Thread.Sleep(1000);
+            ClickCenterAnchored(DCSRect, -554, -280);
+            int planesNeeded = CountInstalledCrafts();
+            for (int i = 0; i < planesNeeded * 2; ++i)
+            {
+                ArrowUp();
+                Thread.Sleep(50);
+            }
+            Thread.Sleep(5000);
+            for (int i = 0; i < planesNeeded; ++i)
+            {
+                ClickCenterAnchored(DCSRect, 310, 313);
+                Thread.Sleep(1500);
+                CloseCurrentWindow();
+                Thread.Sleep(500);
+                DCSproc.Refresh();
+                if (DCSproc.HasExited)
+                {
+                    MessageBox.Show("Oops Joypro accidently closed the wrong window >.< sorry");
+                    return;
+                }
+                BringProcessToFront(DCSproc);
+                Thread.Sleep(500);
+                ClickCenterAnchored(DCSRect, -554, -280);
+                Thread.Sleep(500);
+                ArrowDown();
+            }
+            DCSproc.Kill();
+            turnFullScreen(OriginalFullscreen);
+            Thread.Sleep(500);
+            Process[] explorer = Process.GetProcessesByName("explorer");
+            foreach (Process process in explorer)
+            {
+                try
+                {
+                    process.Kill();
+                }catch { }
+                
+            }
+            Process.Start("explorer.exe");
+        }
         void RefreshIDDB(object sender, EventArgs e)
         {
             string path;
@@ -611,77 +695,69 @@ namespace JoyPro
                 " Once the process is done, you will be notified. For the affects to take change, please restart JoyPro. This Operation will take 5-10 Minutes. Thanks. ", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
             if (mr == MessageBoxResult.Yes)
             {
-                turnFullScreen(false);
-                string executeDCS;
-                if (InitGames.GetDCSInstallationPath().ToLower().Contains("steam"))
-                {
-                    executeDCS = InitGames.GetDCSInstallationPath() + "\\bin\\DCS.exe";
-                }
-                else
-                {
-                    executeDCS = InitGames.GetDCSInstallationPath() + "\\bin\\DCS_updater.exe";
-                }
-                if (!File.Exists(executeDCS))
-                {
-                    MessageBox.Show("Couldn't find the DCS_Updater executeable. Path that got checked: " + executeDCS);
-                    return;
-                }
-                StartProgram(executeDCS);
-                bool inMenu = false;
-                while (!inMenu)
-                {
-                    MessageBoxResult mrop = MessageBox.Show("Is it in the Menu?", "Is it in the Menu?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-                    if (mrop == MessageBoxResult.Yes)
-                    {
-                        inMenu = true;
-                    }
-                }
-
-                Process[] processes = Process.GetProcessesByName("DCS");
-                if (processes == null || processes.Length < 1)
-                {
-                    MessageBox.Show("DCS was not open.Cancelling.");
-                    return;
-                }
-                Process DCSproc = processes[0];
-                IntPtr ptr = DCSproc.MainWindowHandle;
-                Rect DCSRect = new Rect();
-                GetWindowRect(ptr, ref DCSRect);
-                BringProcessToFront(DCSproc);
-                Thread.Sleep(200);
-                ClickIntoControlsDCS(DCSRect);
-                Thread.Sleep(1000);
-                ClickCenterAnchored(DCSRect, -554, -280);
-                int planesNeeded = CountInstalledCrafts();
-                for (int i = 0; i < planesNeeded*2; ++i)
-                {
-                    ArrowUp();
-                    Thread.Sleep(50);
-                }
-                Thread.Sleep(5000);
-                for (int i = 0; i < planesNeeded; ++i)
-                {
-                    ClickCenterAnchored(DCSRect, 310, 313);
-                    Thread.Sleep(1500);
-                    CloseCurrentWindow();
-                    Thread.Sleep(500);
-                    DCSproc.Refresh();
-                    if (DCSproc.HasExited)
-                    {
-                        MessageBox.Show("Oops Joypro accidently closed the wrong window >.< sorry");
-                        return;
-                    }
-                    BringProcessToFront(DCSproc);
-                    Thread.Sleep(500);
-                    ClickCenterAnchored(DCSRect, -554, -280);
-                    Thread.Sleep(500);
-                    ArrowDown();
-                }
-                DCSproc.Kill();
+                ExtractHTMLfromDCS();
                 Thread.Sleep(5000);
                 PostWorkExportedIDs();
-                turnFullScreen(OriginalFullscreen);
+                
                 MessageBox.Show("Done. Please restart JoyPro now");
+            }
+        }
+        void PostWorkDiff()
+        {
+            string path;
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            if (MainStructure.msave.DCSInstaceOverride == null) MainStructure.msave.DCSInstaceOverride = "";
+            if (MainStructure.msave.DCSInstaceOverride.Length > 0 && Directory.Exists((MainStructure.msave.DCSInstaceOverride))) path = MainStructure.msave.DCSInstaceOverride;
+            else path = MiscGames.DCSselectedInstancePath;
+            path = path + "\\InputLayoutsTxt";
+            if (!Directory.Exists(path))
+            {
+                MessageBox.Show("Something went very wrong, the htmls are not in the selected Instance");
+                return;
+            }
+            DirectoryInfo dirParent = new DirectoryInfo(path);
+            DirectoryInfo[] planes = dirParent.GetDirectories();
+            if (DBLogic.ManualDatabase == null) DBLogic.ManualDatabase = new ManualDatabaseAdditions();
+            for (int i = 0; i < planes.Length; ++i)
+            {
+                FileInfo[] allFiles = planes[i].GetFiles();
+                string planeName = planes[i].Name;
+                for (int j = 0; j < allFiles.Length; ++j)
+                {
+                    if (allFiles[j].Name.ToLower() != "keyboard.html" && allFiles[j].Name.ToLower() != "mouse.html" && allFiles[j].Name.ToLower() != "trackir.html"&&allFiles[j].Name.EndsWith(".html"))
+                    {
+                        List<HtmlInputElementDCS> li = DBLogic.GetElementsFromHTMLDCS(allFiles[j].FullName);
+                        for(int k=0; k < li.Count; ++k)
+                        {
+                            if (DBLogic.DCSLib.ContainsKey(planeName))
+                            {
+                                bool ax = li[k].id.Substring(0, 1).ToLower() == "a" ? true : false;
+                                Dictionary<string, DCSInput> toCheck = ax ? DBLogic.DCSLib[planeName].Axis : DBLogic.DCSLib[planeName].Buttons;
+                                if (toCheck.ContainsKey(li[k].id)) continue;
+                                DCSPlane p;
+                                if (!DBLogic.ManualDatabase.DCSLib.ContainsKey(planeName))
+                                {
+                                    DBLogic.ManualDatabase.DCSLib.Add(planeName, new DCSPlane(planeName));
+                                }
+                                p = DBLogic.ManualDatabase.DCSLib[planeName];
+                                Dictionary<string, DCSInput> lib = ax ? p.Axis : p.Buttons;
+                                if (!lib.ContainsKey(li[k].id))
+                                {
+                                    lib.Add(li[k].id, new DCSInput(li[k].id, li[k].title, ax, planeName));
+                                }
+                            }
+                        }
+                        //dot it here
+                    }
+                }
+            }
+            try
+            {
+                MainStructure.DeleteFolder(path);
+            }
+            catch
+            {
+
             }
         }
         void PostWorkExportedIDs()
@@ -807,6 +883,41 @@ namespace JoyPro
         {
             ProcessStartInfo startInfo = new ProcessStartInfo(prog);
             Process.Start(startInfo);
+        }
+
+        void DiffDBtoManualDB(object sender, EventArgs e)
+        {
+            string path;
+            if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
+            if (MainStructure.msave.DCSInstaceOverride == null) MainStructure.msave.DCSInstaceOverride = "";
+            if (MainStructure.msave.DCSInstaceOverride != null && Directory.Exists(MainStructure.msave.DCSInstaceOverride))
+            {
+                path = MainStructure.msave.DCSInstaceOverride;
+            }
+            else if (Directory.Exists(MiscGames.DCSselectedInstancePath))
+            {
+                path = MiscGames.DCSselectedInstancePath;
+            }
+            else
+            {
+                MessageBox.Show("Incorrect selected instance path");
+                path = "";
+                return;
+            }
+            MessageBoxResult mr = MessageBox.Show("Are you sure that you want to Diff the ID DB?" +
+                " If you still want to Proceed Press yes. DCS will start and another pop up of the program will open asking you if the Main menu has loaded. Once its loaded press yes." +
+                "DCS does not allow for CLI command communication, thus the programm will take over your mouse and will do some automated clicks.Your selected instance must match with the DCS that you run otherwise this will lead to corrupt Data. Please dont touch your mouse and keyboard in the meantime." +
+                " Once the process is done, you will be notified. For the affects to take change, please restart JoyPro. This Operation will take 5-15 Minutes. Thanks. ", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+            if(mr == MessageBoxResult.Yes)
+            {
+                ExtractHTMLfromDCS();
+                Thread.Sleep(5000);
+                PostWorkDiff();
+                string pth = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\JoyPro";
+                DBLogic.ManualDatabase.WriteToTextFile(pth + "\\ManualAdditions.txt");
+                MessageBox.Show("Done. Please restart JoyPro now");
+
+            }
         }
         void recreateCleanFile(string instance)
         {

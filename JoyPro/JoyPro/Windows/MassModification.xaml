@@ -8,25 +8,27 @@
         Title="MassModification" Height="850" Width="550">
     <Grid Background="#FF191919">
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
-            <RowDefinition Height="80"/>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="60"/>
             <RowDefinition/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
 
-        <Button FontWeight="Bold" Name="CloseBtn" Content="Close" Height="30" Width="120"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="400,0,0,0" Grid.Row="4" Grid.Column="0" />
+        <Button FontWeight="Bold" Name="CloseBtn" Content="Close" Height="30" Width="120"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="400,0,0,0" Grid.Row="5" Grid.Column="0" />
         <Button FontWeight="Bold" Name="DeleteBtn" Content="Delete" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Column="0" />
         <Button FontWeight="Bold" Name="MergeBtn" Content="Merge" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="180,0,0,0" Grid.Column="0" />
-        <Button FontWeight="Bold" Name="SplitOutBtn" Content="Split Out" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Column="0"  Grid.Row="2"/>
+        <Button FontWeight="Bold" Name="SplitOutBtn" Content="Split Out" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Column="0"  Grid.Row="3"/>
         <Button FontWeight="Bold" Name="DuplicateBtn" Content="Duplicate" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="350,0,0,0" Grid.Column="0" />
         <Button FontWeight="Bold" Name="AddPrefixBtn" Content="Add Prefix to Name" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Row="1" Grid.Column="0" />
         <Button FontWeight="Bold" Name="AddPostfixBtn" Content="Add Postfix to Name" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="180,0,0,0" Grid.Row="1" Grid.Column="0" />
         <Button FontWeight="Bold" Name="RemoveStringPartBtn" Content="Remove Part of the Name" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="350,0,0,0" Grid.Row="1" Grid.Column="0" />
-        <ScrollViewer Name="sv" ScrollViewer.HorizontalScrollBarVisibility="Auto"  Width="auto" Grid.Row="3" Grid.Column="0" />
-        <TextBox Name="inputBox" Grid.Column="0" Grid.Row="4" Width="370" HorizontalAlignment="Left" Margin="10,15,0,15"/>
-        <Label Content="Merge Relation Name / Name Prefix / Name Postfix / Name Part Removal /Splitted Group Postfix:" Foreground="White" Grid.Column="0" Grid.Row="4"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Margin="0,-7,-10,5" />
-        <Label Content="Planes to Split out:" Foreground="White" Grid.Column="0" Grid.Row="2"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Margin="180,-7,-10,5" />
-        <ComboBox Name="PlaneDropdown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="180,0,0,0" Grid.Row="2" Width="320" Height="30" />
+        <Button FontWeight="Bold" Name="ExportToRelationBtn" Content="Export to Relation file" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Row="2" Grid.Column="0" />
+        <ScrollViewer Name="sv" ScrollViewer.HorizontalScrollBarVisibility="Auto"  Width="auto" Grid.Row="4" Grid.Column="0" />
+        <TextBox Name="inputBox" Grid.Column="0" Grid.Row="5" Width="370" HorizontalAlignment="Left" Margin="10,15,0,15"/>
+        <Label Content="Merge Relation Name / Name Prefix / Name Postfix / Name Part Removal /Splitted Group Postfix:" Foreground="White" Grid.Column="0" Grid.Row="5"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Margin="0,-7,-10,5" />
+        <Label Content="Planes to Split out:" Foreground="White" Grid.Column="0" Grid.Row="3"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Margin="180,-7,-10,5" />
+        <ComboBox Name="PlaneDropdown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="180,0,0,0" Grid.Row="3" Width="320" Height="30" />
     </Grid>
 </Window>

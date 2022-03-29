@@ -1,0 +1,1 @@
+﻿FileDelete, E:\AHK.txt

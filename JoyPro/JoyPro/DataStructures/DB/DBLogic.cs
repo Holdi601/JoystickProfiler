@@ -219,25 +219,130 @@ namespace JoyPro
             }
 
         }
+
+        public static void AddItemToManualDB(bool ax, string plane, string game, string id, string description, string category)
+        {
+            if (game == "DCS")
+            {
+                if (plane == "ALL")
+                {
+                    for (int i = 0; i < DBLogic.Planes["DCS"].Count; ++i)
+                    {
+                        plane = DBLogic.Planes["DCS"][i];
+                        DCSInput di = new DCSInput(id, description, ax, plane);
+                        if (DBLogic.ManualDatabase == null) DBLogic.ManualDatabase = new ManualDatabaseAdditions();
+                        if (!DBLogic.ManualDatabase.DCSLib.ContainsKey(plane))
+                            DBLogic.ManualDatabase.DCSLib.Add(plane, new DCSPlane(plane));
+                        if (ax)
+                        {
+                            if (!DBLogic.ManualDatabase.DCSLib[plane].Axis.ContainsKey(di.ID))
+                                DBLogic.ManualDatabase.DCSLib[plane].Axis.Add(di.ID, di);
+                        }
+                        else
+                        {
+                            if (!DBLogic.ManualDatabase.DCSLib[plane].Buttons.ContainsKey(di.ID))
+                                DBLogic.ManualDatabase.DCSLib[plane].Buttons.Add(di.ID, di);
+                        }
+                    }
+                }
+                else
+                {
+                    DCSInput di = new DCSInput(id, description, ax, plane);
+                    if (DBLogic.ManualDatabase == null) DBLogic.ManualDatabase = new ManualDatabaseAdditions();
+                    if (!DBLogic.ManualDatabase.DCSLib.ContainsKey(plane))
+                        DBLogic.ManualDatabase.DCSLib.Add(plane, new DCSPlane(plane));
+                    if (ax)
+                    {
+                        if (!DBLogic.ManualDatabase.DCSLib[plane].Axis.ContainsKey(di.ID))
+                            DBLogic.ManualDatabase.DCSLib[plane].Axis.Add(di.ID, di);
+                    }
+                    else
+                    {
+                        if (!DBLogic.ManualDatabase.DCSLib[plane].Buttons.ContainsKey(di.ID))
+                            DBLogic.ManualDatabase.DCSLib[plane].Buttons.Add(di.ID, di);
+                    }
+                }
+            }
+            else
+            {
+                if (plane == "ALL")
+                {
+                    for (int i = 0; i < DBLogic.Planes[game].Count; ++i)
+                    {
+                        plane = DBLogic.Planes[game][i];
+                        OtherGameInput ogi = new OtherGameInput(id, description, ax, game, plane, category);
+                        if (!DBLogic.ManualDatabase.OtherLib.ContainsKey(game))
+                            DBLogic.ManualDatabase.OtherLib.Add(game, new Dictionary<string, OtherGame>());
+                        if (!DBLogic.ManualDatabase.OtherLib[game].ContainsKey(plane))
+                            DBLogic.ManualDatabase.OtherLib[game].Add(plane, new OtherGame(plane, game, true));
+                        if (ax)
+                        {
+                            if (!DBLogic.ManualDatabase.OtherLib[game][plane].Axis.ContainsKey(ogi.ID))
+                                DBLogic.ManualDatabase.OtherLib[game][plane].Axis.Add(ogi.ID, ogi);
+                        }
+                        else
+                        {
+                            if (!DBLogic.ManualDatabase.OtherLib[game][plane].Buttons.ContainsKey(ogi.ID))
+                                DBLogic.ManualDatabase.OtherLib[game][plane].Buttons.Add(ogi.ID, ogi);
+                        }
+                    }
+                }
+                else
+                {
+                    OtherGameInput ogi = new OtherGameInput(id, description, ax, game, plane, category);
+                    if (!DBLogic.ManualDatabase.OtherLib.ContainsKey(game))
+                        DBLogic.ManualDatabase.OtherLib.Add(game, new Dictionary<string, OtherGame>());
+                    if (!DBLogic.ManualDatabase.OtherLib[game].ContainsKey(plane))
+                        DBLogic.ManualDatabase.OtherLib[game].Add(plane, new OtherGame(plane, game, true));
+                    if (ax)
+                    {
+                        if (!DBLogic.ManualDatabase.OtherLib[game][plane].Axis.ContainsKey(ogi.ID))
+                            DBLogic.ManualDatabase.OtherLib[game][plane].Axis.Add(ogi.ID, ogi);
+                    }
+                    else
+                    {
+                        if (!DBLogic.ManualDatabase.OtherLib[game][plane].Buttons.ContainsKey(ogi.ID))
+                            DBLogic.ManualDatabase.OtherLib[game][plane].Buttons.Add(ogi.ID, ogi);
+                    }
+                }
+            }
+        }
+
         public static void PopulateManualDictionary()
         {
             string pth = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\JoyPro";
-            string manualPath = pth + "\\ManualAdditions.bin";
-            if (!File.Exists(manualPath))
+            string manualPath = pth + "\\ManualAdditions.txt";
+            if (File.Exists(manualPath))
             {
                 ManualDatabase = new ManualDatabaseAdditions();
-                return;
+                if(!File.Exists(pth+"\\ManualAdditions.txt")) return;
+                StreamReader streamReader = new StreamReader(pth + "\\ManualAdditions.txt");
+                while (!streamReader.EndOfStream)
+                {
+                    string currentLine=streamReader.ReadLine();
+                    string[] parts = currentLine.Split('§');
+                    if(parts.Length == 6)
+                    {
+                        AddItemToManualDB(Convert.ToBoolean(parts[4]), parts[2], parts[5], parts[0],parts[3],parts[1]);
+                    }
+                }
+
+                streamReader.Close();
+                streamReader.Dispose();
             }
-            try
+            else
             {
-                ManualDatabase = MainStructure.ReadFromBinaryFile<ManualDatabaseAdditions>(manualPath);
+                if (!File.Exists(pth + "\\ManualAdditions.bin")) return;
+                try
+                {
+                    ManualDatabase = MainStructure.ReadFromBinaryFile<ManualDatabaseAdditions>(pth + "\\ManualAdditions.bin");
+                }
+                catch
+                {
+                    System.Windows.MessageBox.Show("Error loading manual database");
+                    return;
+                }
             }
-            catch
-            {
-                System.Windows.MessageBox.Show("Error loading manual database");
-                return;
-            }
-            
             if (ManualDatabase == null || ManualDatabase.DCSLib == null || ManualDatabase.OtherLib == null)
             {
                 ManualDatabase = new ManualDatabaseAdditions();

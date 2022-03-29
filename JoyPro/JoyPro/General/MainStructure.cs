@@ -28,7 +28,7 @@ namespace JoyPro
 
     public static class MainStructure
     {
-        public const int version = 79;
+        public const int version = 80;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;
@@ -157,7 +157,6 @@ namespace JoyPro
             }
             WriteToBinaryFile(pth + "\\meta.info", msave);
             InternalDataManagement.SaveProfileTo(pth + "\\last.pr0file");
-            WriteToBinaryFile(pth + "\\ManualAdditions.bin", DBLogic.ManualDatabase);
         }
         public static void SaveWindowState(object sender, EventArgs e)
         {

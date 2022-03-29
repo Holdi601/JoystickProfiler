@@ -834,9 +834,14 @@ namespace JoyPro
                 }
             }
         }
-        public static void SaveRelationsTo(string filePath)
+        public static void SaveRelationsTo(string filePath, Dictionary<string, Relation> toExport=null)
         {
-            MainStructure.WriteToBinaryFile<Dictionary<string, Relation>>(filePath, AllRelations);
+            if(toExport==null)
+                MainStructure.WriteToBinaryFile<Dictionary<string, Relation>>(filePath, AllRelations);
+            else
+            {
+                MainStructure.WriteToBinaryFile<Dictionary<string, Relation>>(filePath, toExport);
+            }
         }
         public static void SaveProfileTo(string filePath)
         {

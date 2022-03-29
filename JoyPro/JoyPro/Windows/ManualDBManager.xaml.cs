@@ -193,90 +193,8 @@ namespace JoyPro
             }
             bool ax = AxisCB.IsChecked == true ? true : false;
             string plane = (string)PlaneDropDown.SelectedItem;
-            if ((string)GamesDropDown.SelectedItem == "DCS")
-            {
-                if (plane == "ALL")
-                {
-                    for(int i=0; i<DBLogic.Planes["DCS"].Count; ++i)
-                    {
-                        plane = DBLogic.Planes["DCS"][i];
-                        DCSInput di = new DCSInput(IDTF.Text, DescriptionTF.Text, ax, plane);
-                        if (DBLogic.ManualDatabase == null) DBLogic.ManualDatabase = new ManualDatabaseAdditions();
-                        if (!DBLogic.ManualDatabase.DCSLib.ContainsKey(plane))
-                            DBLogic.ManualDatabase.DCSLib.Add(plane, new DCSPlane(plane));
-                        if (ax)
-                        {
-                            if (!DBLogic.ManualDatabase.DCSLib[plane].Axis.ContainsKey(di.ID))
-                                DBLogic.ManualDatabase.DCSLib[plane].Axis.Add(di.ID, di);
-                        }
-                        else
-                        {
-                            if (!DBLogic.ManualDatabase.DCSLib[plane].Buttons.ContainsKey(di.ID))
-                                DBLogic.ManualDatabase.DCSLib[plane].Buttons.Add(di.ID, di);
-                        }
-                    }
-                }
-                else
-                {
-                    DCSInput di = new DCSInput(IDTF.Text, DescriptionTF.Text, ax, (string)PlaneDropDown.SelectedItem);
-                    if (DBLogic.ManualDatabase == null) DBLogic.ManualDatabase = new ManualDatabaseAdditions();
-                    if (!DBLogic.ManualDatabase.DCSLib.ContainsKey((string)PlaneDropDown.SelectedItem))
-                        DBLogic.ManualDatabase.DCSLib.Add((string)PlaneDropDown.SelectedItem, new DCSPlane((string)PlaneDropDown.SelectedItem));
-                    if (ax)
-                    {
-                        if (!DBLogic.ManualDatabase.DCSLib[(string)PlaneDropDown.SelectedItem].Axis.ContainsKey(di.ID))
-                            DBLogic.ManualDatabase.DCSLib[(string)PlaneDropDown.SelectedItem].Axis.Add(di.ID, di);
-                    }
-                    else
-                    {
-                        if (!DBLogic.ManualDatabase.DCSLib[(string)PlaneDropDown.SelectedItem].Buttons.ContainsKey(di.ID))
-                            DBLogic.ManualDatabase.DCSLib[(string)PlaneDropDown.SelectedItem].Buttons.Add(di.ID, di);
-                    }
-                }
-            }
-            else
-            {
-                if (plane == "ALL")
-                {
-                    for(int i=0; i<DBLogic.Planes[(string)GamesDropDown.SelectedItem].Count; ++i)
-                    {
-                        plane = DBLogic.Planes[(string)GamesDropDown.SelectedItem][i];
-                        OtherGameInput ogi = new OtherGameInput(IDTF.Text, DescriptionTF.Text, ax, (string)GamesDropDown.SelectedItem, plane, CatTF.Text);
-                        if (!DBLogic.ManualDatabase.OtherLib.ContainsKey((string)GamesDropDown.SelectedItem))
-                            DBLogic.ManualDatabase.OtherLib.Add((string)GamesDropDown.SelectedItem, new Dictionary<string, OtherGame>());
-                        if (!DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem].ContainsKey(plane))
-                            DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem].Add(plane, new OtherGame(plane, (string)GamesDropDown.SelectedItem, true));
-                        if (ax)
-                        {
-                            if (!DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem][plane].Axis.ContainsKey(ogi.ID))
-                                DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem][plane].Axis.Add(ogi.ID, ogi);
-                        }
-                        else
-                        {
-                            if (!DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem][plane].Buttons.ContainsKey(ogi.ID))
-                                DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem][plane].Buttons.Add(ogi.ID, ogi);
-                        }
-                    }
-                }
-                else
-                {
-                    OtherGameInput ogi = new OtherGameInput(IDTF.Text, DescriptionTF.Text, ax, (string)GamesDropDown.SelectedItem, (string)PlaneDropDown.SelectedItem, CatTF.Text);
-                    if (!DBLogic.ManualDatabase.OtherLib.ContainsKey((string)GamesDropDown.SelectedItem))
-                        DBLogic.ManualDatabase.OtherLib.Add((string)GamesDropDown.SelectedItem, new Dictionary<string, OtherGame>());
-                    if (!DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem].ContainsKey((string)PlaneDropDown.SelectedItem))
-                        DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem].Add((string)PlaneDropDown.SelectedItem, new OtherGame((string)PlaneDropDown.SelectedItem, (string)GamesDropDown.SelectedItem, true));
-                    if (ax)
-                    {
-                        if (!DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem][(string)PlaneDropDown.SelectedItem].Axis.ContainsKey(ogi.ID))
-                            DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem][(string)PlaneDropDown.SelectedItem].Axis.Add(ogi.ID, ogi);
-                    }
-                    else
-                    {
-                        if (!DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem][(string)PlaneDropDown.SelectedItem].Buttons.ContainsKey(ogi.ID))
-                            DBLogic.ManualDatabase.OtherLib[(string)GamesDropDown.SelectedItem][(string)PlaneDropDown.SelectedItem].Buttons.Add(ogi.ID, ogi);
-                    }
-                }
-            }
+            string gmae = (string)GamesDropDown.SelectedItem;
+            DBLogic.AddItemToManualDB(ax, plane, gmae, IDTF.Text, DescriptionTF.Text, CatTF.Text);
             RefreshManualEntries();
         }
         void DeleteItem(object sender, EventArgs e)
@@ -334,7 +252,8 @@ namespace JoyPro
         }
         void CloseThis(object sender, EventArgs e)
         {
-            MainStructure.SaveMetaLast();
+            string pth = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\JoyPro";
+            DBLogic.ManualDatabase.WriteToTextFile(pth + "\\ManualAdditions.txt");
             InitGames.ReloadGameData();
             InitGames.ReloadDatabase();
             MainStructure.SaveMetaLast();

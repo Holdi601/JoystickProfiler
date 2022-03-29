@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,9 +50,53 @@ namespace JoyPro
             AddPrefixBtn.Click += new RoutedEventHandler(AddPrefix);
             AddPostfixBtn.Click += new RoutedEventHandler(AddPostfix);
             RemoveStringPartBtn.Click += new RoutedEventHandler(RemoveNamePart);
+            ExportToRelationBtn.Click += new RoutedEventHandler(SaveRelationsTo);
             ListRelations();
             selectedPlanes = new List<CheckBox>();
             fillPlaneDropDown();
+        }
+
+        void SaveRelationsTo(object sender, EventArgs e)
+        {
+            Dictionary<string, Relation> relations= new Dictionary<string, Relation>();
+            for (int i = 0; i < RelationToDisplay.Count; i++)
+            {
+                if (createdCBs[i].IsChecked == true)
+                {
+                    relations.Add(RelationToDisplay[i].NAME, RelationToDisplay[i]);
+                }
+            }
+            if (relations.Count < 1)
+            {
+                MessageBox.Show("No relations to export Selected");
+                return;
+            }
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Relation Files (*.rl)|*.rl";
+            saveFileDialog1.Title = "Save Relations";
+            if (Directory.Exists(MainStructure.msave.lastOpenedLocation))
+            {
+                saveFileDialog1.InitialDirectory = MainStructure.msave.lastOpenedLocation;
+            }
+            else
+            {
+                saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            }
+            string filePath;
+            saveFileDialog1.ShowDialog();
+            filePath = saveFileDialog1.FileName;
+            string[] pathParts = filePath.Split('\\');
+            if (pathParts.Length > 0)
+            {
+                MainStructure.msave.lastOpenedLocation = pathParts[0];
+                for (int i = 1; i < pathParts.Length - 1; ++i)
+                {
+                    MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
+                }
+            }
+            InternalDataManagement.SaveRelationsTo(filePath, relations);
+
+            Close();
         }
 
         void CloseThis(object sender, EventArgs e)

@@ -47,6 +47,7 @@ namespace JoyPro
         Button[] userCurveBtn;
         TextBox[,] tboxes; 
         int buttonSetting;
+        int lastHighlighted;
         JoystickReader joyReader;
         public string selectedSort1;
         public string selectedSort2;
@@ -74,9 +75,10 @@ namespace JoyPro
             renderedComboBoxes = new Dictionary<string, Dictionary<string, ComboBox>>();
             deviceLookup = new Dictionary<ComboBox, string>();
             stopwatch.Start();
-            //Application.Current.DispatcherUnhandledException += new System.Windows.Threading.DispatcherUnhandledExceptionEventHandler(MainStructure.WriteCrashInfoDisp);
-            //AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MainStructure.WriteCrashInfo);
+            Application.Current.DispatcherUnhandledException += new System.Windows.Threading.DispatcherUnhandledExceptionEventHandler(MainStructure.WriteCrashInfoDisp);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MainStructure.WriteCrashInfo);
             InitializeComponent();
+            lastHighlighted = -1;
             DEFAULT_HEIGHT = this.Height;
             DEFAULT_WIDTH = this.Width;
             gridCols = 16;
@@ -117,6 +119,9 @@ namespace JoyPro
         public void JumpToRelation(int i)
         {
             sv.ScrollToVerticalOffset(i * 30);
+            
+            ColorRowOrange(i);
+            
         }
         public void textBoxInFocus(object sender, EventArgs e)
         {
@@ -2053,9 +2058,9 @@ namespace JoyPro
         }
         void OnLeave(object sender, EventArgs e)
         {
-            Control c = (Control)sender;
-            int id = Convert.ToInt32(removeIDAdditionalPartsFromControls(c.Name));
-            UncolorRow(id);
+            //Control c = (Control)sender;
+            //int id = Convert.ToInt32(removeIDAdditionalPartsFromControls(c.Name));
+            //UncolorRow(id);
         }
         string removeIDAdditionalPartsFromControls(string cntrl)
         {
@@ -2079,6 +2084,8 @@ namespace JoyPro
         }
         void ColorRowOrange(int row)
         {
+            UncolorRow(lastHighlighted);
+            lastHighlighted = row;
             if (relationLabels.Length <= row ||
                 editBtns.Length <= row ||
                 dupBtns.Length <= row ||
@@ -2110,6 +2117,7 @@ namespace JoyPro
         }
         void UncolorRow(int row)
         {
+            if (row < 0) return;
             if (relationLabels.Length <= row ||
                 editBtns.Length <= row ||
                 dupBtns.Length <= row ||
