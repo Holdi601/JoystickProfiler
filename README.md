@@ -55,14 +55,16 @@ My own Video Short and Condense Series:
 8. Export & Save your Controls https://youtu.be/aviKpu6Y6ks
 9. Mod Support & Refresh DCS Input DB https://youtu.be/r-kyHykQCrs
 10. Troubleshoot - Exported but default Profile binds still exist https://youtu.be/KkGLdN2cglU
-11. Export Joystick Graphical Layouts https://youtu.be/kAWnWB3HDQ4
+11. Export Joystick Graphical Layouts https://youtu.be/kAWnWB3HDQ4 *Needs an Update*
 12. Exchange a device https://youtu.be/Y8H9D9UX8KQ
 13. Quick start guide https://youtu.be/Z030AiaJwg4
 14. JoyPro doesn't start anymore https://youtu.be/EM1Ou2USzL0
 15. Im unhappy with JoyPro, give me my old controls back! https://youtu.be/Kl-lvnkyeqU
-16. Manually Adding Input Entries into Database https://youtu.be/L-bivat1-gU
+16. Manually Adding Input Entries into Database https://youtu.be/L-bivat1-gU *Needs an Update*
 17. Visual Assign Mode https://youtu.be/7LtPkeC2dL4
 18. Ingame Overlay https://youtu.be/fDksVg-TnyU
+19. Mass Operations
+20. Keyboard support explained
 
 The entire playlist:
 https://www.youtube.com/watch?v=WY3UCZiRwro&list=PLlzaQN7UpUfh3b98GOSMe3LHgXxLziFca
