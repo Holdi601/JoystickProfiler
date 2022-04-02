@@ -40,7 +40,8 @@ namespace JoyPro
                     !File.Exists(cfPath+"\\"+file.Name.Replace(".html",".cf"))&&
                     !missingCleans.Contains(file.Name.Replace(".html", ".cf")))
                 {
-                    missingCleans.Add(file.Name.Replace(".html", ".cf"));
+                    if(file.Name.Replace(".html","").ToLower()!="uilayer")
+                        missingCleans.Add(file.Name.Replace(".html", ".cf"));
                 }
                 if (file.Name.EndsWith(".html") &&
                     !File.Exists(cfPathKb + "\\" + file.Name.Replace(".html", ".cf")) &&
