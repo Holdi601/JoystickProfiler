@@ -1026,6 +1026,7 @@ namespace JoyPro
             li = FilterWords(li);
             li= FilterPlanes(li);
             MainStructure.mainW.SetRelationsToView(li);
+            GC.Collect();
         }
         static List<Relation> FilterPlanes(List<Relation> temp)
         {

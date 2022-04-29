@@ -505,7 +505,7 @@ namespace JoyPro
             }
             return result;
         }
-        public static void PushAllDCSBindsToExport(bool oride, List<string> planes, List<Bind> manual = null, bool overwriteAdd = false)
+        public static void PushAllDCSBindsToExport(bool oride, List<string> planes, bool overwriteAdd = false, List<Bind> manual = null)
         {
             if (manual == null)
             {
@@ -514,7 +514,7 @@ namespace JoyPro
                     if (kvp.Value.Joystick.Length > 0 &&
                         ((kvp.Value.Rl.ISAXIS && kvp.Value.JAxis.Length > 0) ||
                         (!kvp.Value.Rl.ISAXIS && kvp.Value.JButton.Length > 0)))
-                        OverwriteDCSExportWith(BindToExportFormatDCS(kvp.Value, planes), planes, oride, overwriteAdd);
+                        OverwriteDCSExportWith(BindToExportFormatDCS(kvp.Value, planes), planes, oride, true, overwriteAdd);
                 }
             }
             else
@@ -524,7 +524,7 @@ namespace JoyPro
                     if (manual[i].Joystick.Length > 0 &&
                         ((manual[i].Rl.ISAXIS && manual[i].JAxis.Length > 0) ||
                         (!manual[i].Rl.ISAXIS && manual[i].JButton.Length > 0)))
-                        OverwriteDCSExportWith(BindToExportFormatDCS(manual[i], planes), planes, oride, overwriteAdd);
+                        OverwriteDCSExportWith(BindToExportFormatDCS(manual[i], planes), planes, oride, true, overwriteAdd);
                 }
             }
 
@@ -576,7 +576,7 @@ namespace JoyPro
             defaultToOverwrite = new List<string>();
             LoadLocalBinds(MiscGames.DCSselectedInstancePath, Planes, true);
             OverwriteDCSExportWith(LocalBindsDCS, Planes, true, false, false);
-            PushAllDCSBindsToExport(true, Planes, manualList, true);
+            PushAllDCSBindsToExport(true, Planes,true, manualList);
             WriteFilesDCS(Planes);
             WriteFilesDCS(Planes, ".jp");
         }
@@ -584,7 +584,7 @@ namespace JoyPro
         {
             if (!Directory.Exists(MiscGames.DCSselectedInstancePath)) return;
             ToExportDCS.Clear();
-            PushAllDCSBindsToExport(true, Planes, manualList, true);
+            PushAllDCSBindsToExport(true, Planes, true, manualList);
             if (nukeDevices)
                 NukeUnusedButConnectedDevicesToExport(Planes);
             WriteFilesDCS(Planes);
@@ -720,7 +720,7 @@ namespace JoyPro
             defaultToOverwrite = new List<string>();
             LoadLocalBinds(MiscGames.DCSselectedInstancePath, planes, true);
             OverwriteDCSExportWith(LocalBindsDCS, planes, true, false, false);
-            PushAllDCSBindsToExport(false, planes, manualList, false);
+            PushAllDCSBindsToExport(false, planes,false, manualList);
             WriteFilesDCS(planes);
             WriteFilesDCS(planes, ".jp");
         }
@@ -731,7 +731,7 @@ namespace JoyPro
             defaultToOverwrite = new List<string>();
             LoadLocalBinds(MiscGames.DCSselectedInstancePath, planes, true);
             OverwriteDCSExportWith(LocalBindsDCS, planes, true, false, false);
-            PushAllDCSBindsToExport(true, planes, manualList, false);
+            PushAllDCSBindsToExport(true, planes, false, manualList);
             WriteFilesDCS(planes);
             WriteFilesDCS(planes, ".jp");
         }

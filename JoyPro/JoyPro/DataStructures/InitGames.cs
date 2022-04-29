@@ -26,6 +26,12 @@ namespace JoyPro
 
             return result;
         }
+        public static string GetCurrentDCSVersion()
+        {
+            string dcsInstallPath = InitGames.GetDCSInstallationPath();
+            string savedGames;
+            return null;
+        }
         public static void DCSDBMatchesClean()
         {
             List<string> missingCleans = new List<string>();

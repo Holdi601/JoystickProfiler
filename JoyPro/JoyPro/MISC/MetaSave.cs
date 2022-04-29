@@ -526,7 +526,8 @@ namespace JoyPro
         }
         public bool? JumpToRelation = false;
         public bool? KeepKeyboardDefaults = true;
-
+        public bool MovedDefaults = false;
+        public string LastDCSVersion = "";
 
         public MetaSave()
         {
@@ -583,6 +584,8 @@ namespace JoyPro
             exprtWindow = new WindowPos();
             JumpToRelation = false;
             KeepKeyboardDefaults = true;
+            MovedDefaults = false;
+            LastDCSVersion = "";
         }
 
         public bool? PlaneWasActiveLastTime(PlaneActivitySelection pas, string game, string plane)
