@@ -413,10 +413,10 @@ namespace JoyPro
             else
             {
                 pex = new PlanesToExport(ExportMode.WriteCleanNotOverride);
+                pex.Show();
+                DisableInputs();
+                pex.Closing += new CancelEventHandler(ActivateInputs);
             }
-            pex.Show();
-            DisableInputs();
-            pex.Closing+= new CancelEventHandler(ActivateInputs);
         }
         void LoadExistingExportOverwrite(object sender, EventArgs e)
         {
@@ -535,11 +535,10 @@ namespace JoyPro
             else
             {
                 pex = new PlanesToExport(ExportMode.WriteClean, nukeDevices);
+                pex.Show();
+                DisableInputs();
+                pex.Closing += new CancelEventHandler(ActivateInputs);
             }
-            pex.Show();
-            DisableInputs();
-            pex.Closing += new CancelEventHandler(ActivateInputs);
-            
         }
         void OpenSaveProfile(object sender, EventArgs e)
         {
