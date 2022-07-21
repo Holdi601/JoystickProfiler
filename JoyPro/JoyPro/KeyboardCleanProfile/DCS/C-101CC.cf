@@ -390,8 +390,8 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -402,8 +402,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -437,8 +437,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -911,7 +911,7 @@ local diff = {
 			},
 		},
 		["d309pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Automatic Startup Procedure",
+			["name"] = "Auto Start",
 			["removed"] = {
 				[1] = {
 					["key"] = "Home",
@@ -1037,14 +1037,14 @@ local diff = {
 				[1] = {
 					["key"] = "L",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
 		},
 		["d310pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Automatic Shutdown Procedure",
+			["name"] = "Auto Stop",
 			["removed"] = {
 				[1] = {
 					["key"] = "End",
@@ -1105,28 +1105,6 @@ local diff = {
 					["key"] = "O",
 					["reformers"] = {
 						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d3118pnilunilcd1vd0.5vpnilvunil"] = {
-			["name"] = "Throttle Idle Detent - IDLE",
-			["removed"] = {
-				[1] = {
-					["key"] = "Home",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["d3118pnilunilcd1vd0vpnilvunil"] = {
-			["name"] = "Throttle Idle Detent - STOP",
-			["removed"] = {
-				[1] = {
-					["key"] = "Home",
-					["reformers"] = {
-						[1] = "RCtrl",
 					},
 				},
 			},
@@ -1696,7 +1674,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Look back view",
+			["name"] = "F4 Camera mounted on airframe",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -1772,8 +1750,8 @@ local diff = {
 				[1] = {
 					["key"] = "Space",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1804,8 +1782,8 @@ local diff = {
 				[1] = {
 					["key"] = "Space",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -2134,7 +2112,7 @@ local diff = {
 			},
 		},
 		["d8005pnilunilcd1vdnilvpnilvunil"] = {
-			["name"] = "Landing Gear Toggle",
+			["name"] = "Landing gear toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "G",
@@ -2164,7 +2142,7 @@ local diff = {
 			},
 		},
 		["d8014pnilunilcd1vdnilvpnilvunil"] = {
-			["name"] = "Throttle Idle Detent - Idle/Stop (toggle button)",
+			["name"] = "Throttle Idle Detent Toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "Home",
@@ -2175,7 +2153,7 @@ local diff = {
 			},
 		},
 		["d8023pnilunilcd1vdnilvpnilvunil"] = {
-			["name"] = "Parking Brake",
+			["name"] = "Parking brake",
 			["removed"] = {
 				[1] = {
 					["key"] = "W",

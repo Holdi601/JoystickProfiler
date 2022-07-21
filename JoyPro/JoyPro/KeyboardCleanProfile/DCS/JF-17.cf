@@ -351,17 +351,6 @@ local diff = {
 				},
 			},
 		},
-		["d10098pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Laser Designator On/Off",
-			["removed"] = {
-				[1] = {
-					["key"] = "O",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
 		["d10129pnilu10130cd24vdnilvpnilvunil"] = {
 			["name"] = "T4_Forward: Radio Comm 1 (w/ VOIP)",
 			["removed"] = {
@@ -717,8 +706,8 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -729,8 +718,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -764,8 +753,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -1412,7 +1401,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Look back view",
+			["name"] = "F4 Camera mounted on airframe",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -2331,8 +2320,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -2343,8 +2332,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},

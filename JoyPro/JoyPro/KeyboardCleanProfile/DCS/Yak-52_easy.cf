@@ -17,7 +17,7 @@ local diff = {
 			},
 		},
 		["d114pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "COMM Dispatch wingmen - complete mission and RTB (easy communication only)",
+			["name"] = "Flight - Complete mission and RTB",
 			["removed"] = {
 				[1] = {
 					["key"] = "E",
@@ -28,7 +28,7 @@ local diff = {
 			},
 		},
 		["d115pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "COMM Dispatch wingmen - complete mission and rejoin (easy communication only)",
+			["name"] = "Flight - Complete mission and rejoin",
 			["removed"] = {
 				[1] = {
 					["key"] = "R",
@@ -39,7 +39,7 @@ local diff = {
 			},
 		},
 		["d116pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "COMM Toggle formation (easy communication only)",
+			["name"] = "Toggle Formation",
 			["removed"] = {
 				[1] = {
 					["key"] = "T",
@@ -50,7 +50,7 @@ local diff = {
 			},
 		},
 		["d117pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "COMM Join up formation (easy communication only)",
+			["name"] = "Join Up Formation",
 			["removed"] = {
 				[1] = {
 					["key"] = "Y",
@@ -61,7 +61,7 @@ local diff = {
 			},
 		},
 		["d118pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "COMM Attack my target (easy communication only)",
+			["name"] = "Attack My Target",
 			["removed"] = {
 				[1] = {
 					["key"] = "Q",
@@ -72,7 +72,7 @@ local diff = {
 			},
 		},
 		["d119pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "COMM Cover me (easy communication only)",
+			["name"] = "Cover Me",
 			["removed"] = {
 				[1] = {
 					["key"] = "W",
@@ -192,7 +192,7 @@ local diff = {
 			},
 		},
 		["d1536pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Briefing window",
+			["name"] = "View briefing on/off",
 			["removed"] = {
 				[1] = {
 					["key"] = "B",
@@ -277,7 +277,7 @@ local diff = {
 			},
 		},
 		["d159pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 camera moving forward",
+			["name"] = "F11 Camera moving forward",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num*",
@@ -312,7 +312,7 @@ local diff = {
 			},
 		},
 		["d160pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 camera moving backward",
+			["name"] = "F11 Camera moving backward",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num/",
@@ -390,8 +390,8 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -402,8 +402,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -437,8 +437,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -453,7 +453,7 @@ local diff = {
 			},
 		},
 		["d179pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "COMM Communication menu",
+			["name"] = "Communication menu",
 			["removed"] = {
 				[1] = {
 					["key"] = "\\",
@@ -513,7 +513,7 @@ local diff = {
 			},
 		},
 		["d184pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Padlock terrain point",
+			["name"] = "Lock terrain view",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num.",
@@ -589,7 +589,7 @@ local diff = {
 			},
 		},
 		["d19pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Padlock cycle",
+			["name"] = "Lock View (cycle padlock)",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num.",
@@ -613,7 +613,7 @@ local diff = {
 			},
 		},
 		["d20pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Padlock Off (stop padlock)",
+			["name"] = "Unlock view (stop padlock)",
 			["removed"] = {
 				[1] = {
 					["key"] = "NumLock",
@@ -677,7 +677,7 @@ local diff = {
 			},
 		},
 		["d245pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Coordinates units change",
+			["name"] = "Info Bar - TOGGLE COORDINATE INITS",
 			["removed"] = {
 				[1] = {
 					["key"] = "Y",
@@ -708,7 +708,7 @@ local diff = {
 			},
 		},
 		["d258pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Padlock missile threat",
+			["name"] = "Threat missile padlock",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num.",
@@ -719,7 +719,7 @@ local diff = {
 			},
 		},
 		["d259pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Padlock missiles all",
+			["name"] = "All missiles padlock",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num.",
@@ -730,7 +730,7 @@ local diff = {
 			},
 		},
 		["d261pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Labels All",
+			["name"] = "All Labels",
 			["removed"] = {
 				[1] = {
 					["key"] = "F10",
@@ -741,7 +741,7 @@ local diff = {
 			},
 		},
 		["d264pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Labels Aircraft",
+			["name"] = "Aircraft Labels",
 			["removed"] = {
 				[1] = {
 					["key"] = "F2",
@@ -752,7 +752,7 @@ local diff = {
 			},
 		},
 		["d265pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Labels Missile",
+			["name"] = "Missile Labels",
 			["removed"] = {
 				[1] = {
 					["key"] = "F6",
@@ -763,7 +763,7 @@ local diff = {
 			},
 		},
 		["d266pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Labels Vehicle & Ship",
+			["name"] = "Vehicle & Ship Labels",
 			["removed"] = {
 				[1] = {
 					["key"] = "F9",
@@ -774,7 +774,7 @@ local diff = {
 			},
 		},
 		["d267pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "COMM Ask AWACS home airbase (easy communication only)",
+			["name"] = "Request AWACS Home Airbase",
 			["removed"] = {
 				[1] = {
 					["key"] = "U",
@@ -1168,7 +1168,7 @@ local diff = {
 			},
 		},
 		["d321pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view mouse rate fast",
+			["name"] = "Mouse Rate Fast",
 			["removed"] = {
 				[1] = {
 					["key"] = "[",
@@ -1179,7 +1179,7 @@ local diff = {
 			},
 		},
 		["d322pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view mouse rate slow",
+			["name"] = "Mouse Rate Slow",
 			["removed"] = {
 				[1] = {
 					["key"] = "[",
@@ -1190,7 +1190,7 @@ local diff = {
 			},
 		},
 		["d323pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view mouse rate normal",
+			["name"] = "Mouse Rate Normal",
 			["removed"] = {
 				[1] = {
 					["key"] = "[",
@@ -1235,7 +1235,7 @@ local diff = {
 			},
 		},
 		["d331pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view keyboard rate fast",
+			["name"] = "Keyboard Rate Fast",
 			["removed"] = {
 				[1] = {
 					["key"] = "]",
@@ -1246,7 +1246,7 @@ local diff = {
 			},
 		},
 		["d332pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view keyboard rate slow",
+			["name"] = "Keyboard Rate Slow",
 			["removed"] = {
 				[1] = {
 					["key"] = "]",
@@ -1257,7 +1257,7 @@ local diff = {
 			},
 		},
 		["d333pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view keyboard rate normal",
+			["name"] = "Keyboard Rate Normal",
 			["removed"] = {
 				[1] = {
 					["key"] = "]",
@@ -1290,7 +1290,7 @@ local diff = {
 			},
 		},
 		["d342pnilu49cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view up-left",
+			["name"] = "Glance up-left",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num7",
@@ -1301,7 +1301,7 @@ local diff = {
 			},
 		},
 		["d343pnilu49cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view up-right",
+			["name"] = "Glance up-right",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num9",
@@ -1312,7 +1312,7 @@ local diff = {
 			},
 		},
 		["d344pnilu49cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view down-left",
+			["name"] = "Glance down-left",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num1",
@@ -1323,7 +1323,7 @@ local diff = {
 			},
 		},
 		["d345pnilu49cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view down-right",
+			["name"] = "Glance down-right",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num3",
@@ -1346,7 +1346,7 @@ local diff = {
 			},
 		},
 		["d347pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Return camera",
+			["name"] = "Return Camera",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num5",
@@ -1368,7 +1368,7 @@ local diff = {
 			},
 		},
 		["d352pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Return camera base",
+			["name"] = "Return Camera Base",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num5",
@@ -1379,7 +1379,7 @@ local diff = {
 			},
 		},
 		["d353pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view up-left slow",
+			["name"] = "Camera snap view up-left",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num7",
@@ -1390,7 +1390,7 @@ local diff = {
 			},
 		},
 		["d354pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view up-right slow",
+			["name"] = "Camera snap view up-right",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num9",
@@ -1401,7 +1401,7 @@ local diff = {
 			},
 		},
 		["d355pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view down-left slow",
+			["name"] = "Camera snap view down-left",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num1",
@@ -1423,7 +1423,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Look back view",
+			["name"] = "F4 Camera mounted on airframe",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -1450,7 +1450,7 @@ local diff = {
 			},
 		},
 		["d383pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Arcade View",
+			["name"] = "F4 Arcade Chase view",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -1469,7 +1469,7 @@ local diff = {
 			},
 		},
 		["d395pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera terrain altitude hold",
+			["name"] = "Keep terrain camera altitude",
 			["removed"] = {
 				[1] = {
 					["key"] = "K",
@@ -1480,7 +1480,7 @@ local diff = {
 			},
 		},
 		["d396pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 0",
+			["name"] = "Custom Snap View  0",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num0",
@@ -1491,7 +1491,7 @@ local diff = {
 			},
 		},
 		["d397pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 1",
+			["name"] = "Custom Snap View  1",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num1",
@@ -1502,7 +1502,7 @@ local diff = {
 			},
 		},
 		["d398pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 2",
+			["name"] = "Custom Snap View  2",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num2",
@@ -1513,7 +1513,7 @@ local diff = {
 			},
 		},
 		["d399pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 3",
+			["name"] = "Custom Snap View  3",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num3",
@@ -1524,7 +1524,7 @@ local diff = {
 			},
 		},
 		["d400pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 4",
+			["name"] = "Custom Snap View  4",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num4",
@@ -1535,7 +1535,7 @@ local diff = {
 			},
 		},
 		["d401pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 5",
+			["name"] = "Custom Snap View  5",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num5",
@@ -1546,7 +1546,7 @@ local diff = {
 			},
 		},
 		["d402pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 6",
+			["name"] = "Custom Snap View  6",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num6",
@@ -1557,7 +1557,7 @@ local diff = {
 			},
 		},
 		["d403pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 7",
+			["name"] = "Custom Snap View  7",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num7",
@@ -1568,7 +1568,7 @@ local diff = {
 			},
 		},
 		["d404pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 8",
+			["name"] = "Custom Snap View  8",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num8",
@@ -1579,7 +1579,7 @@ local diff = {
 			},
 		},
 		["d405pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 9",
+			["name"] = "Custom Snap View  9",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num9",
@@ -1590,7 +1590,7 @@ local diff = {
 			},
 		},
 		["d41pnilu49cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view left",
+			["name"] = "Glance left",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num4",
@@ -1601,7 +1601,7 @@ local diff = {
 			},
 		},
 		["d42pnilu49cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view right",
+			["name"] = "Glance right",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num6",
@@ -1634,7 +1634,7 @@ local diff = {
 			},
 		},
 		["d43pnilu49cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera View - UP",
+			["name"] = "Glance up",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num8",
@@ -1645,7 +1645,7 @@ local diff = {
 			},
 		},
 		["d44pnilu49cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view down",
+			["name"] = "Glance down",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num2",
@@ -1656,7 +1656,7 @@ local diff = {
 			},
 		},
 		["d45pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view left slow",
+			["name"] = "Camera snap view left",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num4",
@@ -1667,7 +1667,7 @@ local diff = {
 			},
 		},
 		["d46pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view right slow",
+			["name"] = "Camera snap view right",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num6",
@@ -1678,7 +1678,7 @@ local diff = {
 			},
 		},
 		["d47pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view up slow",
+			["name"] = "Camera snap view up",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num8",
@@ -1689,7 +1689,7 @@ local diff = {
 			},
 		},
 		["d48pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view down slow",
+			["name"] = "Camera snap view down",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num2",
@@ -1723,7 +1723,7 @@ local diff = {
 			},
 		},
 		["d49pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Center camera view",
+			["name"] = "Center Camera View",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num5",
@@ -1734,7 +1734,7 @@ local diff = {
 			},
 		},
 		["d522pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "COMM Attack Air Defenses (easy communication only)",
+			["name"] = "Flight - Attack air defenses",
 			["removed"] = {
 				[1] = {
 					["key"] = "D",
@@ -1745,7 +1745,7 @@ local diff = {
 			},
 		},
 		["d523pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "COMM Attack Ground Targets (easy communication only)",
+			["name"] = "Flight - Attack ground targets",
 			["removed"] = {
 				[1] = {
 					["key"] = "G",
@@ -1775,7 +1775,7 @@ local diff = {
 			},
 		},
 		["d816pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Pause Active",
+			["name"] = "Active Pause",
 			["removed"] = {
 				[1] = {
 					["key"] = "Pause",
@@ -1825,7 +1825,7 @@ local diff = {
 			},
 		},
 		["d851pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Controls indicator",
+			["name"] = "Show controls indicator",
 			["removed"] = {
 				[1] = {
 					["key"] = "Enter",
@@ -1844,7 +1844,7 @@ local diff = {
 			},
 		},
 		["d979pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "COMM Switch dialog",
+			["name"] = "Switch dialog",
 			["removed"] = {
 				[1] = {
 					["key"] = "\\",
@@ -1855,7 +1855,7 @@ local diff = {
 			},
 		},
 		["d980pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "COMM Switch to main menu",
+			["name"] = "Switch to main menu",
 			["removed"] = {
 				[1] = {
 					["key"] = "\\",

@@ -366,8 +366,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -401,8 +401,8 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -414,8 +414,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -1021,17 +1021,6 @@ local diff = {
 				},
 			},
 		},
-		["d3003pnilu3003cd25vd1vpnilvu0"] = {
-			["name"] = "Rear warning radar Test",
-			["removed"] = {
-				[1] = {
-					["key"] = "R",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
 		["d3003pnilunilcd15vd1vpnilvunil"] = {
 			["name"] = "Supercharger switch Cover",
 			["removed"] = {
@@ -1187,8 +1176,8 @@ local diff = {
 				[1] = {
 					["key"] = "A",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -1199,8 +1188,8 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -1211,8 +1200,8 @@ local diff = {
 				[1] = {
 					["key"] = "W",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1261,8 +1250,8 @@ local diff = {
 				[1] = {
 					["key"] = "S",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -1842,8 +1831,8 @@ local diff = {
 				[1] = {
 					["key"] = "5",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1866,8 +1855,8 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -2289,7 +2278,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Look back view",
+			["name"] = "F4 Camera mounted on airframe",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -2316,7 +2305,7 @@ local diff = {
 			},
 		},
 		["d383pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Arcade View",
+			["name"] = "F4 Arcade Chase view",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -3093,8 +3082,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -3226,8 +3215,8 @@ local diff = {
 				[1] = {
 					["key"] = "X",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -3265,9 +3254,9 @@ local diff = {
 				[1] = {
 					["key"] = "X",
 					["reformers"] = {
-						[1] = "LShift",
+						[1] = "LAlt",
 						[2] = "LCtrl",
-						[3] = "LAlt",
+						[3] = "LShift",
 					},
 				},
 			},
@@ -3278,8 +3267,8 @@ local diff = {
 				[1] = {
 					["key"] = "X",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -3567,8 +3556,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -3579,8 +3568,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},

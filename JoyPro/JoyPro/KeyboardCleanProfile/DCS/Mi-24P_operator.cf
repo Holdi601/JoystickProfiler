@@ -381,8 +381,8 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -393,8 +393,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -428,8 +428,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -857,15 +857,34 @@ local diff = {
 				},
 			},
 		},
+		["d3003pnilunilcd22vd1vpnilvunil"] = {
+			["name"] = "Set Gunner Seat",
+			["removed"] = {
+				[1] = {
+					["key"] = "3",
+				},
+			},
+		},
+		["d3005pnilunilcd22vd0vpnilvunil"] = {
+			["name"] = "TrackIR Aiming On/Off",
+			["removed"] = {
+				[1] = {
+					["key"] = "T",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
 		["d3008pnilunilcd34vd0vpnilvunil"] = {
 			["name"] = "ADI Switch - OFF",
 			["removed"] = {
 				[1] = {
 					["key"] = "D",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LShift",
-						[3] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
+						[3] = "LShift",
 					},
 				},
 			},
@@ -876,9 +895,9 @@ local diff = {
 				[1] = {
 					["key"] = "E",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LShift",
-						[3] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
+						[3] = "LShift",
 					},
 				},
 			},
@@ -888,18 +907,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "C",
-				},
-			},
-		},
-		["d3022pnilunilcd55vd1vpnilvunil"] = {
-			["name"] = "SPU-8 Mode Switch - RADIO/ICS",
-			["removed"] = {
-				[1] = {
-					["key"] = "Z",
-					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
-					},
 				},
 			},
 		},
@@ -965,42 +972,6 @@ local diff = {
 					["key"] = "0",
 					["reformers"] = {
 						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["d3027pnilunilcd55vd1vpnilvunil"] = {
-			["name"] = "SPU-8 Switch - ICS/OFF",
-			["removed"] = {
-				[1] = {
-					["key"] = "L",
-					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d3028pnilunilcd55vd-0.2vpnilvunil"] = {
-			["name"] = "SPU-8 Radio Source Select Rotary - CCW/Left",
-			["removed"] = {
-				[1] = {
-					["key"] = "E",
-					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "RShift",
-					},
-				},
-			},
-		},
-		["d3028pnilunilcd55vd0.3vpnilvunil"] = {
-			["name"] = "SPU-8 Radio Source Select Rotary - CW/Right",
-			["removed"] = {
-				[1] = {
-					["key"] = "E",
-					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "RCtrl",
 					},
 				},
 			},
@@ -1123,6 +1094,61 @@ local diff = {
 				},
 			},
 		},
+		["d3056pnilunilcd6vd0.1vpnilvunil"] = {
+			["name"] = "Weapon Select Knob - 2 GM-30",
+			["removed"] = {
+				[1] = {
+					["key"] = "2",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3056pnilunilcd6vd0.2vpnilvunil"] = {
+			["name"] = "Weapon Select Knob - 3 ROCKETS",
+			["removed"] = {
+				[1] = {
+					["key"] = "3",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3056pnilunilcd6vd0.3vpnilvunil"] = {
+			["name"] = "Weapon Select Knob - 4 BOMB",
+			["removed"] = {
+				[1] = {
+					["key"] = "4",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3056pnilunilcd6vd0.4vpnilvunil"] = {
+			["name"] = "Weapon Select Knob - 5 USLP",
+			["removed"] = {
+				[1] = {
+					["key"] = "5",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3056pnilunilcd6vd0vpnilvunil"] = {
+			["name"] = "Weapon Select Knob - 1 OFF MSL",
+			["removed"] = {
+				[1] = {
+					["key"] = "1",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
 		["d3059pnilunilcd7vd1vpnilvunil"] = {
 			["name"] = "9K113 Aiming Station Help Arrow - ON/OFF",
 			["removed"] = {
@@ -1150,6 +1176,53 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "O",
+				},
+			},
+		},
+		["d3108pnilunilcd6vd1vpnilvunil"] = {
+			["name"] = "AI Panel Show/Hide",
+			["removed"] = {
+				[1] = {
+					["key"] = "H",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3109pnilunilcd6vd1vpnilvunil"] = {
+			["name"] = "Show Gunners Panel",
+			["removed"] = {
+				[1] = {
+					["key"] = "K",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RShift",
+					},
+				},
+			},
+		},
+		["d3110pnilunilcd6vd0.1vpnilvunil"] = {
+			["name"] = "AI Gunner Burst Switch",
+			["removed"] = {
+				[1] = {
+					["key"] = "3",
+					["reformers"] = {
+						[1] = "LShift",
+						[2] = "LWin",
+					},
+				},
+			},
+		},
+		["d3110pnilunilcd6vd0vpnilvunil"] = {
+			["name"] = "AI Gunner ROE Iterate",
+			["removed"] = {
+				[1] = {
+					["key"] = "3",
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "LWin",
+					},
 				},
 			},
 		},
@@ -1466,7 +1539,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Look back view",
+			["name"] = "F4 Camera mounted on airframe",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -1853,9 +1926,9 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-						[3] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
 					},
 				},
 			},
@@ -1877,8 +1950,8 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -2210,54 +2283,6 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3019unilcd55vdnilvp-0.2vunil"] = {
-			["name"] = "SPU-8 Main Volume Knob - CCW/Decrease",
-			["removed"] = {
-				[1] = {
-					["key"] = "Q",
-					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LShift",
-					},
-				},
-			},
-		},
-		["dnilp3019unilcd55vdnilvp0.2vunil"] = {
-			["name"] = "SPU-8 Main Volume Knob - CW/Increase",
-			["removed"] = {
-				[1] = {
-					["key"] = "Q",
-					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
-					},
-				},
-			},
-		},
-		["dnilp3020unilcd55vdnilvp-0.2vunil"] = {
-			["name"] = "SPU-8 Listening Volume Knob - CCW/Decrease",
-			["removed"] = {
-				[1] = {
-					["key"] = "W",
-					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LShift",
-					},
-				},
-			},
-		},
-		["dnilp3020unilcd55vdnilvp0.2vunil"] = {
-			["name"] = "SPU-8 Listening Volume Knob - CW/Increase",
-			["removed"] = {
-				[1] = {
-					["key"] = "W",
-					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
-					},
-				},
-			},
-		},
 		["dnilp3036u3036cd6vdnilvp1vu0"] = {
 			["name"] = "Fire ATG Missile",
 			["removed"] = {
@@ -2498,8 +2523,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -2510,8 +2535,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},

@@ -28,7 +28,7 @@ local diff = {
 			},
 		},
 		["d103pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Display Zoom In",
+			["name"] = "Radar | Display Zoom In",
 			["removed"] = {
 				[1] = {
 					["key"] = "=",
@@ -36,7 +36,7 @@ local diff = {
 			},
 		},
 		["d104pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Display Zoom Out",
+			["name"] = "Radar | Display Zoom Out",
 			["removed"] = {
 				[1] = {
 					["key"] = "-",
@@ -625,8 +625,8 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -637,8 +637,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -672,8 +672,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -1233,7 +1233,7 @@ local diff = {
 				},
 			},
 		},
-		["d3001pnilunilcd4vd1vpnilvunil"] = {
+		["d3001pnilunilcd68vd1vpnilvunil"] = {
 			["name"] = "Kneeboard Next Page",
 			["removed"] = {
 				[1] = {
@@ -1241,7 +1241,7 @@ local diff = {
 				},
 			},
 		},
-		["d3002pnilunilcd4vd1vpnilvunil"] = {
+		["d3002pnilunilcd68vd1vpnilvunil"] = {
 			["name"] = "Kneeboard Previous Page",
 			["removed"] = {
 				[1] = {
@@ -1249,7 +1249,7 @@ local diff = {
 				},
 			},
 		},
-		["d3003pnilunilcd4vd1vpnilvunil"] = {
+		["d3003pnilunilcd68vd1vpnilvunil"] = {
 			["name"] = "Kneeboard current position mark point",
 			["removed"] = {
 				[1] = {
@@ -1661,7 +1661,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Look back view",
+			["name"] = "F4 Camera mounted on airframe",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -2706,8 +2706,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},

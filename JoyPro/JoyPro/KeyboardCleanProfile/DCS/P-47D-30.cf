@@ -358,8 +358,8 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -370,8 +370,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -405,8 +405,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -1152,17 +1152,31 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LShift",
 					},
 				},
 			},
 		},
-		["d3020pnilunilcd8vd0vpnilvunil"] = {
-			["name"] = "Landing Light (cycle selection)",
+		["d3020pnilunilcd8vd-1vpnilvunil"] = {
+			["name"] = "Landing Light (previous selection)",
 			["removed"] = {
 				[1] = {
 					["key"] = "L",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3020pnilunilcd8vd1vpnilvunil"] = {
+			["name"] = "Landing Light (next selection)",
+			["removed"] = {
+				[1] = {
+					["key"] = "L",
+					["reformers"] = {
+						[1] = "RShift",
+					},
 				},
 			},
 		},
@@ -1185,47 +1199,13 @@ local diff = {
 				},
 			},
 		},
-		["d3021pnilunilcd8vd-1vpnilvunil"] = {
-			["name"] = "Landing Light RETRACT",
-			["removed"] = {
-				[1] = {
-					["key"] = "L",
-					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-					},
-				},
-			},
-		},
-		["d3021pnilunilcd8vd0vpnilvunil"] = {
-			["name"] = "Landing Light OFF",
-			["removed"] = {
-				[1] = {
-					["key"] = "L",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["d3021pnilunilcd8vd1vpnilvunil"] = {
-			["name"] = "Landing Light EXTEND",
-			["removed"] = {
-				[1] = {
-					["key"] = "L",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
 		["d3023pnilu3023cd8vd-1vpnilvu0"] = {
 			["name"] = "Cockpit Lighting (previous selection)",
 			["removed"] = {
 				[1] = {
 					["key"] = "L",
 					["reformers"] = {
-						[1] = "LAlt",
+						[1] = "LCtrl",
 					},
 				},
 			},
@@ -1285,7 +1265,7 @@ local diff = {
 				[1] = {
 					["key"] = "P",
 					["reformers"] = {
-						[1] = "RCtrl",
+						[1] = "LCtrl",
 					},
 				},
 			},
@@ -1296,7 +1276,7 @@ local diff = {
 				[1] = {
 					["key"] = "P",
 					["reformers"] = {
-						[1] = "RShift",
+						[1] = "LShift",
 					},
 				},
 			},
@@ -1337,8 +1317,8 @@ local diff = {
 				[1] = {
 					["key"] = "W",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1349,7 +1329,8 @@ local diff = {
 				[1] = {
 					["key"] = "P",
 					["reformers"] = {
-						[1] = "RCtrl",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1360,7 +1341,8 @@ local diff = {
 				[1] = {
 					["key"] = "P",
 					["reformers"] = {
-						[1] = "RShift",
+						[1] = "LAlt",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -1858,7 +1840,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Look back view",
+			["name"] = "F4 Camera mounted on airframe",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -2045,17 +2027,6 @@ local diff = {
 					["key"] = "F10",
 					["reformers"] = {
 						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d438pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Night Vision Goggles",
-			["removed"] = {
-				[1] = {
-					["key"] = "H",
-					["reformers"] = {
-						[1] = "RShift",
 					},
 				},
 			},
@@ -2678,8 +2649,8 @@ local diff = {
 				[1] = {
 					["key"] = "M",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -2690,8 +2661,8 @@ local diff = {
 				[1] = {
 					["key"] = "M",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LShift",
 					},
 				},
 			},

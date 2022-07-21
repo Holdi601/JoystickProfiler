@@ -363,8 +363,8 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -375,8 +375,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -410,8 +410,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -1113,6 +1113,28 @@ local diff = {
 				},
 			},
 		},
+		["d3014pnilu3014cd2vd-1vpnilvu0"] = {
+			["name"] = "Mixture Increase",
+			["removed"] = {
+				[1] = {
+					["key"] = "M",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3014pnilu3014cd2vd1vpnilvu0"] = {
+			["name"] = "Mixture Decrease",
+			["removed"] = {
+				[1] = {
+					["key"] = "M",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
 		["d3022pnilunilcd2vd0vpnilvunil"] = {
 			["name"] = "Ignition switch OFF",
 			["removed"] = {
@@ -1506,6 +1528,28 @@ local diff = {
 				},
 			},
 		},
+		["d3067pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "Left Door Open",
+			["removed"] = {
+				[1] = {
+					["key"] = "C",
+					["reformers"] = {
+						[1] = "LWin",
+					},
+				},
+			},
+		},
+		["d3068pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "Right Door Open",
+			["removed"] = {
+				[1] = {
+					["key"] = "C",
+					["reformers"] = {
+						[1] = "RWin",
+					},
+				},
+			},
+		},
 		["d3069pnilunilcd1vd0vpnilvunil"] = {
 			["name"] = "Mech sight OFF",
 			["removed"] = {
@@ -1590,6 +1634,28 @@ local diff = {
 					["key"] = "Home",
 					["reformers"] = {
 						[1] = "LWin",
+					},
+				},
+			},
+		},
+		["d3100pnilu3100cd2vd1vpnilvu0"] = {
+			["name"] = "Throttle extra control Button",
+			["removed"] = {
+				[1] = {
+					["key"] = "E",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3101pnilu3101cd2vd1vpnilvu0"] = {
+			["name"] = "Mixture ball pushing",
+			["removed"] = {
+				[1] = {
+					["key"] = "M",
+					["reformers"] = {
+						[1] = "RCtrl",
 					},
 				},
 			},
@@ -1894,7 +1960,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Look back view",
+			["name"] = "F4 Camera mounted on airframe",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -2260,7 +2326,7 @@ local diff = {
 			},
 		},
 		["d71pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Canopy Open/Close",
+			["name"] = "Doors Open/Close",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",

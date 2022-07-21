@@ -26,8 +26,8 @@ local diff = {
 				[1] = {
 					["key"] = "1",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -38,8 +38,8 @@ local diff = {
 				[1] = {
 					["key"] = "2",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -50,8 +50,8 @@ local diff = {
 				[1] = {
 					["key"] = "3",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -62,8 +62,8 @@ local diff = {
 				[1] = {
 					["key"] = "4",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -74,8 +74,8 @@ local diff = {
 				[1] = {
 					["key"] = "5",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -86,8 +86,8 @@ local diff = {
 				[1] = {
 					["key"] = "6",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -98,8 +98,8 @@ local diff = {
 				[1] = {
 					["key"] = "9",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -110,8 +110,8 @@ local diff = {
 				[1] = {
 					["key"] = "0",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -122,8 +122,8 @@ local diff = {
 				[1] = {
 					["key"] = "1",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -134,8 +134,8 @@ local diff = {
 				[1] = {
 					["key"] = "2",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -146,8 +146,32 @@ local diff = {
 				[1] = {
 					["key"] = "3",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LShift",
+					},
+				},
+			},
+		},
+		["d1148pnilunilcdnilvd1vpnilvunil"] = {
+			["name"] = "Change GBU-12/16 Laser Code X100",
+			["removed"] = {
+				[1] = {
+					["key"] = "4",
+					["reformers"] = {
+						[1] = "LAlt",
+						[2] = "LShift",
+					},
+				},
+			},
+		},
+		["d1149pnilunilcdnilvd1vpnilvunil"] = {
+			["name"] = "Change GBU-12/16 Laser Code X010",
+			["removed"] = {
+				[1] = {
+					["key"] = "5",
+					["reformers"] = {
+						[1] = "LAlt",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -159,6 +183,18 @@ local diff = {
 					["key"] = "E",
 					["reformers"] = {
 						[1] = "LWin",
+					},
+				},
+			},
+		},
+		["d1150pnilunilcdnilvd1vpnilvunil"] = {
+			["name"] = "Change GBU-12/16 Laser Code X001",
+			["removed"] = {
+				[1] = {
+					["key"] = "6",
+					["reformers"] = {
+						[1] = "LAlt",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -298,8 +334,8 @@ local diff = {
 				[1] = {
 					["key"] = "8",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -514,8 +550,8 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -526,8 +562,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -561,8 +597,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -1313,7 +1349,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Look back view",
+			["name"] = "F4 Camera mounted on airframe",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -1643,7 +1679,7 @@ local diff = {
 			},
 		},
 		["d496pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "HUD Reject Mode Down (NORM - REJ1 - REJ2)",
+			["name"] = "HUD Reject Switch Down (NORM - REJ1 - REJ2)",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num1",
@@ -1655,7 +1691,7 @@ local diff = {
 			},
 		},
 		["d497pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "HUD Reject Mode Up (REJ2 - REJ1 - NORM)",
+			["name"] = "HUD Reject Switch Up (REJ2 - REJ1 - NORM)",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num2",
@@ -1862,7 +1898,7 @@ local diff = {
 			},
 		},
 		["d58pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Stability Augmentation - Yaw",
+			["name"] = "Stability Augmentation - Yaw Toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "Y",
@@ -1914,7 +1950,7 @@ local diff = {
 			},
 		},
 		["d60pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Stability Augmentation - Pitch",
+			["name"] = "Stability Augmentation - Pitch Toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "P",

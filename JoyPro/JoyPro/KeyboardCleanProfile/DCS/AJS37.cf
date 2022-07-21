@@ -336,8 +336,8 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -348,8 +348,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -383,8 +383,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -802,19 +802,19 @@ local diff = {
 			},
 		},
 		["d3001pnilunilcd39vd-1vpnilvunil"] = {
-			["name"] = "Generated Cartride Decrease Time Margin",
+			["name"] = "Generated Cartridge Decrease Time Margin",
 			["removed"] = {
 				[1] = {
 					["key"] = "M",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
 		},
 		["d3001pnilunilcd39vd1vpnilvunil"] = {
-			["name"] = "Generated Cartride Increase Time Margin",
+			["name"] = "Generated Cartridge Increase Time Margin",
 			["removed"] = {
 				[1] = {
 					["key"] = "M",
@@ -933,17 +933,6 @@ local diff = {
 				},
 			},
 		},
-		["d3006pnilunilcd18vd1vpnilvunil"] = {
-			["name"] = "Afterburner fuel valve (LTkran EBK)",
-			["removed"] = {
-				[1] = {
-					["key"] = "A",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
 		["d3008pnilunilcd18vd1vpnilvunil"] = {
 			["name"] = "Engine De-ice switch (toggle)",
 			["removed"] = {
@@ -972,8 +961,8 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1159,8 +1148,8 @@ local diff = {
 				[1] = {
 					["key"] = "X",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -1171,8 +1160,8 @@ local diff = {
 				[1] = {
 					["key"] = "Z",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -1183,8 +1172,8 @@ local diff = {
 				[1] = {
 					["key"] = "T",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -1305,8 +1294,8 @@ local diff = {
 				[1] = {
 					["key"] = "J",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1325,8 +1314,8 @@ local diff = {
 				[1] = {
 					["key"] = "J",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -1440,8 +1429,8 @@ local diff = {
 				[1] = {
 					["key"] = "J",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -1452,8 +1441,8 @@ local diff = {
 				[1] = {
 					["key"] = "E",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -1476,20 +1465,20 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
 		},
-		["d3408pnilunilcd22vd1vpnilvunil"] = {
-			["name"] = "Parking brake",
+		["d3413pnilunilcd22vd1vpnilvunil"] = {
+			["name"] = "Parking brake (toggle)",
 			["removed"] = {
 				[1] = {
 					["key"] = "W",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1655,8 +1644,8 @@ local diff = {
 				[1] = {
 					["key"] = "L",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1678,8 +1667,8 @@ local diff = {
 				[1] = {
 					["key"] = "F",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1701,8 +1690,8 @@ local diff = {
 				[1] = {
 					["key"] = "D",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1724,8 +1713,8 @@ local diff = {
 				[1] = {
 					["key"] = "Enter",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1808,7 +1797,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Look back view",
+			["name"] = "F4 Camera mounted on airframe",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -1882,8 +1871,8 @@ local diff = {
 				[1] = {
 					["key"] = "Q",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1902,8 +1891,8 @@ local diff = {
 				[1] = {
 					["key"] = "A",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 						[3] = "LShift",
 					},
 				},
@@ -1937,9 +1926,9 @@ local diff = {
 				[1] = {
 					["key"] = "Z",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
-						[3] = "RCtrl",
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
 					},
 				},
 			},
@@ -1950,9 +1939,9 @@ local diff = {
 				[1] = {
 					["key"] = "X",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
-						[3] = "RCtrl",
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
 					},
 				},
 			},
@@ -1963,9 +1952,9 @@ local diff = {
 				[1] = {
 					["key"] = "Up",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
-						[3] = "RCtrl",
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
 					},
 				},
 			},
@@ -1976,9 +1965,9 @@ local diff = {
 				[1] = {
 					["key"] = "Down",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
-						[3] = "RCtrl",
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
 					},
 				},
 			},
@@ -2069,8 +2058,8 @@ local diff = {
 				[1] = {
 					["key"] = "W",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -2618,7 +2607,7 @@ local diff = {
 			},
 		},
 		["dnilp3305u3305cd22vdnilvp1vu0"] = {
-			["name"] = "Roll centrering (Roll trim reset) ",
+			["name"] = "Roll centrering (Roll trim reset)",
 			["removed"] = {
 				[1] = {
 					["key"] = "O",
@@ -2631,8 +2620,8 @@ local diff = {
 				[1] = {
 					["key"] = "A",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -2872,8 +2861,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -2884,8 +2873,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},

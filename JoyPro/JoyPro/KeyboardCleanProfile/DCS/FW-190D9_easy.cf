@@ -1347,8 +1347,8 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -1492,17 +1492,6 @@ local diff = {
 					["key"] = "5",
 					["reformers"] = {
 						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d3009pnilunilcd20vd1vpnilvunil"] = {
-			["name"] = "Rocket Emergency Release Cover OPEN",
-			["removed"] = {
-				[1] = {
-					["key"] = "K",
-					["reformers"] = {
-						[1] = "LShift",
 					},
 				},
 			},
@@ -1867,8 +1856,8 @@ local diff = {
 				[1] = {
 					["key"] = "1",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -1901,8 +1890,8 @@ local diff = {
 				[1] = {
 					["key"] = "2",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -1924,9 +1913,17 @@ local diff = {
 				[1] = {
 					["key"] = "3",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
+				},
+			},
+		},
+		["d3020pnilunilcd20vd1vpnilvunil"] = {
+			["name"] = "Rocket Emergency Release - toggle ON / OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "I",
 				},
 			},
 		},
@@ -1936,8 +1933,8 @@ local diff = {
 				[1] = {
 					["key"] = "4",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -1948,8 +1945,8 @@ local diff = {
 				[1] = {
 					["key"] = "5",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -1960,8 +1957,8 @@ local diff = {
 				[1] = {
 					["key"] = "6",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -1972,8 +1969,8 @@ local diff = {
 				[1] = {
 					["key"] = "7",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -1984,8 +1981,8 @@ local diff = {
 				[1] = {
 					["key"] = "8",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -1996,8 +1993,8 @@ local diff = {
 				[1] = {
 					["key"] = "1",
 					["reformers"] = {
-						[1] = "RWin",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RWin",
 					},
 				},
 			},
@@ -2008,8 +2005,8 @@ local diff = {
 				[1] = {
 					["key"] = "2",
 					["reformers"] = {
-						[1] = "RWin",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RWin",
 					},
 				},
 			},
@@ -2020,8 +2017,8 @@ local diff = {
 				[1] = {
 					["key"] = "3",
 					["reformers"] = {
-						[1] = "RWin",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RWin",
 					},
 				},
 			},
@@ -2032,8 +2029,8 @@ local diff = {
 				[1] = {
 					["key"] = "4",
 					["reformers"] = {
-						[1] = "RWin",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RWin",
 					},
 				},
 			},
@@ -2044,8 +2041,8 @@ local diff = {
 				[1] = {
 					["key"] = "5",
 					["reformers"] = {
-						[1] = "RWin",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RWin",
 					},
 				},
 			},
@@ -2349,7 +2346,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Look back view",
+			["name"] = "F4 Camera mounted on airframe",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -2376,7 +2373,7 @@ local diff = {
 			},
 		},
 		["d383pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Arcade View",
+			["name"] = "F4 Arcade Chase view",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -3241,28 +3238,6 @@ local diff = {
 					["reformers"] = {
 						[1] = "LAlt",
 						[2] = "LWin",
-					},
-				},
-			},
-		},
-		["dnilp3014unilcd8vdnilvp-0.1vunil"] = {
-			["name"] = "Radiator Flaps Close",
-			["removed"] = {
-				[1] = {
-					["key"] = "A",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["dnilp3014unilcd8vdnilvp0.1vunil"] = {
-			["name"] = "Radiator Flaps Open",
-			["removed"] = {
-				[1] = {
-					["key"] = "A",
-					["reformers"] = {
-						[1] = "LAlt",
 					},
 				},
 			},

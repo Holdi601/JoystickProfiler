@@ -59,7 +59,7 @@ local diff = {
 			},
 		},
 		["d957pnilu958cdnilvdnilvpnilvunil"] = {
-			["name"] = "Stick to Trimmer Control Mode",
+			["name"] = "Stick to trimmer control mode",
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_BTN3",

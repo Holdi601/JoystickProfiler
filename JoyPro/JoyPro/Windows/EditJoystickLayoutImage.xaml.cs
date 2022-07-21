@@ -66,6 +66,7 @@ namespace JoyPro
             fontColor = BrushFromHex("#FF000000");
             CloseBtn.Click += new RoutedEventHandler(CloseThis);
             ColorBtn.Click += new RoutedEventHandler(OpenColorPicker);
+            ExchangeImageBtn.Click += new RoutedEventHandler(ExchangeImage);
             PopulateFontDropDown();
             if (filepath.EndsWith(".layout"))
             {
@@ -118,6 +119,31 @@ namespace JoyPro
             ExportKneeboardBtn.Click += new RoutedEventHandler(exportInputs);
             refreshImageToShow();
             sv.KeyUp += new KeyEventHandler(MoveLastLabelByPixel);
+        }
+
+        void ExchangeImage(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Multiselect = false;
+            ofd.Filter = "PNG Images (*.png)|*.png";
+            ofd.Title = "Search Image";
+            if (MainStructure.msave.lastOpenedLocation.Length < 1 || !Directory.Exists(MainStructure.msave.lastOpenedLocation))
+            {
+                ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            }
+            else
+            {
+                ofd.InitialDirectory = MainStructure.msave.lastOpenedLocation;
+            }
+            string fileToOpen;
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                fileToOpen = ofd.FileName;
+                initBitMaps(fileToOpen);
+                refreshImageToShow();
+            }
+
+            
         }
 
         void MoveLastLabelByPixel(object sender, KeyEventArgs e)

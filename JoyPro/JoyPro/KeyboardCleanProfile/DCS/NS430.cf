@@ -6,8 +6,8 @@ local diff = {
 				[1] = {
 					["key"] = "B",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LShift",
 					},
 				},
 			},

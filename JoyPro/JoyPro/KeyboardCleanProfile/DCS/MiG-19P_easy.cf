@@ -597,7 +597,7 @@ local diff = {
 			},
 		},
 		["d321pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Fast mouse turn speed",
+			["name"] = "Mouse Rate Fast",
 			["removed"] = {
 				[1] = {
 					["key"] = "[",
@@ -608,7 +608,7 @@ local diff = {
 			},
 		},
 		["d322pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Slow mouse turn speed",
+			["name"] = "Mouse Rate Slow",
 			["removed"] = {
 				[1] = {
 					["key"] = "[",
@@ -619,7 +619,7 @@ local diff = {
 			},
 		},
 		["d323pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Normal mouse turn speed",
+			["name"] = "Mouse Rate Normal",
 			["removed"] = {
 				[1] = {
 					["key"] = "[",
@@ -653,7 +653,7 @@ local diff = {
 			},
 		},
 		["d331pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Fast keyboard turn speed",
+			["name"] = "Keyboard Rate Fast",
 			["removed"] = {
 				[1] = {
 					["key"] = "]",
@@ -664,7 +664,7 @@ local diff = {
 			},
 		},
 		["d332pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Slow keyboard turn speed",
+			["name"] = "Keyboard Rate Slow",
 			["removed"] = {
 				[1] = {
 					["key"] = "]",
@@ -675,7 +675,7 @@ local diff = {
 			},
 		},
 		["d333pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Normal keyboard turn speed",
+			["name"] = "Keyboard Rate Normal",
 			["removed"] = {
 				[1] = {
 					["key"] = "]",
@@ -741,7 +741,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Look back view",
+			["name"] = "F4 Camera mounted on airframe",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",

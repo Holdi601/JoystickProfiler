@@ -132,7 +132,7 @@ local diff = {
 			},
 		},
 		["d14pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F5 Nearest AC view",
+			["name"] = "F5 nearest AC view",
 			["removed"] = {
 				[1] = {
 					["key"] = "F5",
@@ -230,7 +230,7 @@ local diff = {
 			},
 		},
 		["d1593pnilu1594cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera transpose mode (press and hold)",
+			["name"] = "Camera transpose mode on/off",
 			["removed"] = {
 				[1] = {
 					["key"] = "F1",
@@ -429,7 +429,7 @@ local diff = {
 			},
 		},
 		["d22pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Toggle tracking launched weapon",
+			["name"] = "Camera ordnance tracking",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num+",
@@ -467,9 +467,9 @@ local diff = {
 				[1] = {
 					["key"] = "F",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-						[3] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
 					},
 				},
 			},
@@ -502,9 +502,9 @@ local diff = {
 				[1] = {
 					["key"] = "D",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-						[3] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
 					},
 				},
 			},
@@ -545,9 +545,9 @@ local diff = {
 				[1] = {
 					["key"] = "A",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-						[3] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
 					},
 				},
 			},
@@ -581,6 +581,17 @@ local diff = {
 					["key"] = "J",
 					["reformers"] = {
 						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3001pnilu3001cd12vd1vpnilvunil"] = {
+			["name"] = "RESET GNumber",
+			["removed"] = {
+				[1] = {
+					["key"] = "D",
+					["reformers"] = {
+						[1] = "LAlt",
 					},
 				},
 			},
@@ -663,14 +674,6 @@ local diff = {
 				},
 			},
 		},
-		["d3003pnilunilcd1vd0vpnilvunil"] = {
-			["name"] = "Sun glass On/Off",
-			["removed"] = {
-				[1] = {
-					["key"] = "G",
-				},
-			},
-		},
 		["d3004pnilu3005cd10vd1vpnilvu0"] = {
 			["name"] = "Fuel Flow lever Backward",
 			["removed"] = {
@@ -695,17 +698,6 @@ local diff = {
 				},
 			},
 		},
-		["d3004pnilunilcd1vd0vpnilvunil"] = {
-			["name"] = "Microphone Light On/Off",
-			["removed"] = {
-				[1] = {
-					["key"] = "L",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
 		["d3004pnilunilcd27vd1vpnilvunil"] = {
 			["name"] = "Station 1 Select",
 			["removed"] = {
@@ -713,17 +705,6 @@ local diff = {
 					["key"] = "1",
 					["reformers"] = {
 						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d3005pnilu3005cd1vd1vpnilvu0"] = {
-			["name"] = "Night Vision Goggles On/Off",
-			["removed"] = {
-				[1] = {
-					["key"] = "H",
-					["reformers"] = {
-						[1] = "RShift",
 					},
 				},
 			},
@@ -755,17 +736,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "O",
-				},
-			},
-		},
-		["d3006pnilunilcd24vd1vpnilvunil"] = {
-			["name"] = "RWR Off/On/Croc Up",
-			["removed"] = {
-				[1] = {
-					["key"] = "R",
-					["reformers"] = {
-						[1] = "RShift",
-					},
 				},
 			},
 		},
@@ -804,14 +774,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "3",
-				},
-			},
-		},
-		["d3007pnilunilcd24vd1vpnilvunil"] = {
-			["name"] = "RWR Off/On/Croc Down",
-			["removed"] = {
-				[1] = {
-					["key"] = "R",
 				},
 			},
 		},
@@ -866,17 +828,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = ".",
-				},
-			},
-		},
-		["d3011pnilu3012cd24vd1vpnilvu0"] = {
-			["name"] = "RWR Audio Increase",
-			["removed"] = {
-				[1] = {
-					["key"] = "R",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
 				},
 			},
 		},
@@ -940,17 +891,6 @@ local diff = {
 				},
 			},
 		},
-		["d3013pnilu3014cd24vd1vpnilvu0"] = {
-			["name"] = "RWR Audio Decrease",
-			["removed"] = {
-				[1] = {
-					["key"] = "R",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
 		["d3014pnilu3015cd16vd1vpnilvu0"] = {
 			["name"] = "Slew right",
 			["removed"] = {
@@ -964,28 +904,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "U",
-				},
-			},
-		},
-		["d3016pnilu3017cd24vd1vpnilvu0"] = {
-			["name"] = "RWR Brightness Increase",
-			["removed"] = {
-				[1] = {
-					["key"] = "R",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d3018pnilu3019cd24vd1vpnilvu0"] = {
-			["name"] = "RWR Brightness Decrease",
-			["removed"] = {
-				[1] = {
-					["key"] = "R",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
 				},
 			},
 		},
@@ -1136,38 +1054,66 @@ local diff = {
 				},
 			},
 		},
-		["d3041pnilu3041cd16vd1vpnilvu0"] = {
-			["name"] = "Missile Launch Button",
+		["d3066pnilunilcd38vd1vpnilvunil"] = {
+			["name"] = "RWR Off/On/Croc Up",
 			["removed"] = {
 				[1] = {
-					["key"] = "Space",
+					["key"] = "R",
+					["reformers"] = {
+						[1] = "RShift",
+					},
 				},
 			},
 		},
-		["d3044pnilu3044cd16vd1vpnilvu0"] = {
-			["name"] = "Camera Centering",
+		["d3067pnilunilcd38vd1vpnilvunil"] = {
+			["name"] = "RWR Off/On/Croc Down",
 			["removed"] = {
 				[1] = {
-					["key"] = "I",
+					["key"] = "R",
+				},
+			},
+		},
+		["d3071pnilu3072cd38vd1vpnilvu0"] = {
+			["name"] = "RWR Audio Increase",
+			["removed"] = {
+				[1] = {
+					["key"] = "R",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3073pnilu3074cd38vd1vpnilvu0"] = {
+			["name"] = "RWR Audio Decrease",
+			["removed"] = {
+				[1] = {
+					["key"] = "R",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3076pnilu3077cd38vd1vpnilvu0"] = {
+			["name"] = "RWR Brightness Increase",
+			["removed"] = {
+				[1] = {
+					["key"] = "R",
 					["reformers"] = {
 						[1] = "RCtrl",
 					},
 				},
 			},
 		},
-		["d3046pnilu3046cd16vd1vpnilvu0"] = {
-			["name"] = "VCB Zoom +",
+		["d3078pnilu3079cd38vd1vpnilvu0"] = {
+			["name"] = "RWR Brightness Decrease",
 			["removed"] = {
 				[1] = {
-					["key"] = "=",
-				},
-			},
-		},
-		["d3047pnilu3047cd16vd-1vpnilvu0"] = {
-			["name"] = "VCB Zoom -",
-			["removed"] = {
-				[1] = {
-					["key"] = "-",
+					["key"] = "R",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
 				},
 			},
 		},
@@ -1194,7 +1140,7 @@ local diff = {
 			},
 		},
 		["d321pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view mouse rate fast",
+			["name"] = "Fast cockpit mouse",
 			["removed"] = {
 				[1] = {
 					["key"] = "[",
@@ -1205,7 +1151,7 @@ local diff = {
 			},
 		},
 		["d322pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view mouse rate slow",
+			["name"] = "Slow cockpit mouse",
 			["removed"] = {
 				[1] = {
 					["key"] = "[",
@@ -1216,7 +1162,7 @@ local diff = {
 			},
 		},
 		["d323pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view mouse rate normal",
+			["name"] = "Normal cockpit mouse speed",
 			["removed"] = {
 				[1] = {
 					["key"] = "[",
@@ -1261,7 +1207,7 @@ local diff = {
 			},
 		},
 		["d331pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view keyboard rate fast",
+			["name"] = "Fast cockpit keyboard",
 			["removed"] = {
 				[1] = {
 					["key"] = "]",
@@ -1271,8 +1217,43 @@ local diff = {
 				},
 			},
 		},
+		["d3321pnilu3321cd38vd1vpnilvu0"] = {
+			["name"] = "Missile Launch Button",
+			["removed"] = {
+				[1] = {
+					["key"] = "Space",
+				},
+			},
+		},
+		["d3324pnilu3324cd38vd1vpnilvu0"] = {
+			["name"] = "Camera Centering",
+			["removed"] = {
+				[1] = {
+					["key"] = "I",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3326pnilu3326cd38vd1vpnilvu0"] = {
+			["name"] = "VCB Zoom +",
+			["removed"] = {
+				[1] = {
+					["key"] = "=",
+				},
+			},
+		},
+		["d3327pnilu3327cd38vd-1vpnilvu0"] = {
+			["name"] = "VCB Zoom -",
+			["removed"] = {
+				[1] = {
+					["key"] = "-",
+				},
+			},
+		},
 		["d332pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view keyboard rate slow",
+			["name"] = "Slow cockpit keyboard",
 			["removed"] = {
 				[1] = {
 					["key"] = "]",
@@ -1282,8 +1263,71 @@ local diff = {
 				},
 			},
 		},
+		["d3331pnilunilcd38vd0vpnilvunil"] = {
+			["name"] = "SA342  Copilot Sun glass On/Off",
+			["removed"] = {
+				[1] = {
+					["key"] = "G",
+				},
+			},
+		},
+		["d3332pnilunilcd38vd0vpnilvunil"] = {
+			["name"] = "Microphone Light On/Off",
+			["removed"] = {
+				[1] = {
+					["key"] = "M",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3333pnilu3333cd38vd1vpnilvu0"] = {
+			["name"] = "Night Vision Goggles On/Off",
+			["removed"] = {
+				[1] = {
+					["key"] = "H",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["d3336pnilunilcd38vd0vpnilvunil"] = {
+			["name"] = "Sun glass On/Off",
+			["removed"] = {
+				[1] = {
+					["key"] = "G",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3337pnilunilcd38vd0vpnilvunil"] = {
+			["name"] = "SA342 Microphone CoPilot Light On/Off",
+			["removed"] = {
+				[1] = {
+					["key"] = "M",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d3338pnilu3338cd38vd1vpnilvu0"] = {
+			["name"] = "SA342 Night Vision Goggles Copilot On/Off",
+			["removed"] = {
+				[1] = {
+					["key"] = "H",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
 		["d333pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view keyboard rate normal",
+			["name"] = "Normal cockpit keyboard speed",
 			["removed"] = {
 				[1] = {
 					["key"] = "]",
@@ -1360,7 +1404,7 @@ local diff = {
 			},
 		},
 		["d345pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view up-right slow",
+			["name"] = "Camera view down-right slow",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num9",
@@ -1415,7 +1459,7 @@ local diff = {
 			},
 		},
 		["d354pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view down-right slow",
+			["name"] = "Camera view up-right slow",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num3",
@@ -1702,17 +1746,6 @@ local diff = {
 				},
 			},
 		},
-		["d481pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "SA342 DEBUG Show",
-			["removed"] = {
-				[1] = {
-					["key"] = "D",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
 		["d48pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Camera view down slow",
 			["removed"] = {
@@ -1826,17 +1859,6 @@ local diff = {
 				},
 			},
 		},
-		["d69pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "TV Hook",
-			["removed"] = {
-				[1] = {
-					["key"] = "G",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
 		["d71pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Cockpit door open/close",
 			["removed"] = {
@@ -1885,8 +1907,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -1897,8 +1919,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},

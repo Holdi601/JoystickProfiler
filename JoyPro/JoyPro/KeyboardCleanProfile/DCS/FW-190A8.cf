@@ -358,8 +358,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -393,8 +393,8 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -406,8 +406,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -874,10 +874,10 @@ local diff = {
 			},
 		},
 		["d3001pnilunilcd6vd0.2vpnilvunil"] = {
-			["name"] = "Fuel Selector Valve Open",
+			["name"] = "Fuel Selector Valve FWD Tank Closed",
 			["removed"] = {
 				[1] = {
-					["key"] = "4",
+					["key"] = "3",
 					["reformers"] = {
 						[1] = "RAlt",
 					},
@@ -885,10 +885,10 @@ local diff = {
 			},
 		},
 		["d3001pnilunilcd6vd0.3vpnilvunil"] = {
-			["name"] = "Fuel Selector Valve FWD Tank Closed",
+			["name"] = "Fuel Selector Valve Open",
 			["removed"] = {
 				[1] = {
-					["key"] = "3",
+					["key"] = "4",
 					["reformers"] = {
 						[1] = "RAlt",
 					},
@@ -1046,8 +1046,8 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1058,8 +1058,8 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -1311,8 +1311,8 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -1913,8 +1913,8 @@ local diff = {
 				[1] = {
 					["key"] = "1",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -1925,8 +1925,8 @@ local diff = {
 				[1] = {
 					["key"] = "2",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -1937,8 +1937,8 @@ local diff = {
 				[1] = {
 					["key"] = "3",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -1949,8 +1949,8 @@ local diff = {
 				[1] = {
 					["key"] = "4",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -1961,8 +1961,8 @@ local diff = {
 				[1] = {
 					["key"] = "5",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -1973,8 +1973,8 @@ local diff = {
 				[1] = {
 					["key"] = "6",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -1985,8 +1985,8 @@ local diff = {
 				[1] = {
 					["key"] = "7",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -1997,8 +1997,8 @@ local diff = {
 				[1] = {
 					["key"] = "8",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -2009,8 +2009,8 @@ local diff = {
 				[1] = {
 					["key"] = "9",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -2021,8 +2021,8 @@ local diff = {
 				[1] = {
 					["key"] = "0",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -2033,8 +2033,8 @@ local diff = {
 				[1] = {
 					["key"] = "1",
 					["reformers"] = {
-						[1] = "RWin",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RWin",
 					},
 				},
 			},
@@ -2045,8 +2045,8 @@ local diff = {
 				[1] = {
 					["key"] = "2",
 					["reformers"] = {
-						[1] = "RWin",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RWin",
 					},
 				},
 			},
@@ -2057,8 +2057,8 @@ local diff = {
 				[1] = {
 					["key"] = "3",
 					["reformers"] = {
-						[1] = "RWin",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RWin",
 					},
 				},
 			},
@@ -2069,8 +2069,8 @@ local diff = {
 				[1] = {
 					["key"] = "4",
 					["reformers"] = {
-						[1] = "RWin",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RWin",
 					},
 				},
 			},
@@ -2081,8 +2081,8 @@ local diff = {
 				[1] = {
 					["key"] = "5",
 					["reformers"] = {
-						[1] = "RWin",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RWin",
 					},
 				},
 			},
@@ -2093,8 +2093,8 @@ local diff = {
 				[1] = {
 					["key"] = "6",
 					["reformers"] = {
-						[1] = "RWin",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RWin",
 					},
 				},
 			},
@@ -2105,8 +2105,8 @@ local diff = {
 				[1] = {
 					["key"] = "7",
 					["reformers"] = {
-						[1] = "RWin",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RWin",
 					},
 				},
 			},
@@ -2117,8 +2117,8 @@ local diff = {
 				[1] = {
 					["key"] = "8",
 					["reformers"] = {
-						[1] = "RWin",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RWin",
 					},
 				},
 			},
@@ -2129,8 +2129,8 @@ local diff = {
 				[1] = {
 					["key"] = "9",
 					["reformers"] = {
-						[1] = "RWin",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RWin",
 					},
 				},
 			},
@@ -2141,8 +2141,8 @@ local diff = {
 				[1] = {
 					["key"] = "0",
 					["reformers"] = {
-						[1] = "RWin",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RWin",
 					},
 				},
 			},
@@ -2164,8 +2164,8 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "RWin",
-						[2] = "RShift",
+						[1] = "RShift",
+						[2] = "RWin",
 					},
 				},
 			},
@@ -2458,7 +2458,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Look back view",
+			["name"] = "F4 Camera mounted on airframe",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -2485,7 +2485,7 @@ local diff = {
 			},
 		},
 		["d383pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Arcade View",
+			["name"] = "F4 Arcade Chase view",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",

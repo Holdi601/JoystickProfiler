@@ -25,6 +25,7 @@ namespace JoyPro
     {
         public static double DEFAULT_WIDTH;
         public static double DEFAULT_HEIGHT;
+        static string callScript = "dofile(lfs.writedir()..[[Scripts\\Export_JoyPro.lua]])";
         public OverlaySettings()
         {
             InitializeComponent();
@@ -242,11 +243,11 @@ namespace JoyPro
                 srExp.Close();
                 srExp.Dispose();
             }
-            if (luaContent.Contains(contentAddative))
+            if (luaContent.Contains(callScript))
             {
                 try
                 {
-                    luaContent = luaContent.Replace(contentAddative, "");
+                    luaContent = luaContent.Replace(callScript, "");
                     StreamWriter sw = new StreamWriter(selectedPath + "\\Scripts\\Export.lua");
                     sw.WriteLine(luaContent);
                     sw.Close();
@@ -288,15 +289,19 @@ namespace JoyPro
                 srExp.Close();
                 srExp.Dispose();
             }
-            if (!luaContent.Contains(contentAddative))
+            if (!luaContent.Contains(callScript))
             {
                 try
                 {
-                    luaContent = luaContent + "\r\n" + contentAddative;
+                    luaContent = luaContent + "\r\n" + callScript;
                     StreamWriter sw = new StreamWriter(selectedPath + "\\Scripts\\Export.lua");
                     sw.WriteLine(luaContent);
                     sw.Close();
                     sw.Dispose();
+                    StreamWriter sw2 = new StreamWriter(selectedPath + "\\Scripts\\Export_JoyPro.lua");
+                    sw2.WriteLine(contentAddative);
+                    sw2.Close();
+                    sw2.Dispose();
                     System.Windows.MessageBox.Show("Script was installed successfully");
                 }catch (Exception ex)
                 {

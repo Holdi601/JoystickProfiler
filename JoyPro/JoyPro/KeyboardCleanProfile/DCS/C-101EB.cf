@@ -390,8 +390,8 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -402,8 +402,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -437,8 +437,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -874,8 +874,8 @@ local diff = {
 				[1] = {
 					["key"] = "T",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -1088,33 +1088,33 @@ local diff = {
 			},
 		},
 		["d3056pnilunilcd13vd-1vpnilvunil"] = {
-			["name"] = "VOR-ILS-MB Frequency selector (00/50) Decrease",
+			["name"] = "VOR-ILS-MB Frequency Selector (50 kHz increments, 00/50) Decrease",
 			["removed"] = {
 				[1] = {
 					["key"] = "V",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 						[3] = "LShift",
 					},
 				},
 			},
 		},
 		["d3056pnilunilcd13vd1vpnilvunil"] = {
-			["name"] = "VOR-ILS-MB Frequency selector (00/50) Increase",
+			["name"] = "VOR-ILS-MB Frequency Selector (50 kHz increments, 00/50) Increase",
 			["removed"] = {
 				[1] = {
 					["key"] = "V",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
 			},
 		},
 		["d309pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Automatic Startup Procedure",
+			["name"] = "Auto Start",
 			["removed"] = {
 				[1] = {
 					["key"] = "Home",
@@ -1240,14 +1240,14 @@ local diff = {
 				[1] = {
 					["key"] = "L",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
 		},
 		["d310pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Automatic Shutdown Procedure",
+			["name"] = "Auto Stop",
 			["removed"] = {
 				[1] = {
 					["key"] = "End",
@@ -1308,28 +1308,6 @@ local diff = {
 					["key"] = "O",
 					["reformers"] = {
 						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d3118pnilunilcd1vd0.5vpnilvunil"] = {
-			["name"] = "Throttle Idle Detent - IDLE",
-			["removed"] = {
-				[1] = {
-					["key"] = "Home",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["d3118pnilunilcd1vd0vpnilvunil"] = {
-			["name"] = "Throttle Idle Detent - STOP",
-			["removed"] = {
-				[1] = {
-					["key"] = "Home",
-					["reformers"] = {
-						[1] = "RCtrl",
 					},
 				},
 			},
@@ -1855,7 +1833,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Look back view",
+			["name"] = "F4 Camera mounted on airframe",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -1898,8 +1876,8 @@ local diff = {
 				[1] = {
 					["key"] = "Space",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1922,8 +1900,8 @@ local diff = {
 				[1] = {
 					["key"] = "Space",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -2236,7 +2214,7 @@ local diff = {
 			},
 		},
 		["d74pnilu75cdnilvdnilvpnilvunil"] = {
-			["name"] = "Wheel Brake On",
+			["name"] = "Wheel brake On",
 			["removed"] = {
 				[1] = {
 					["key"] = "W",
@@ -2252,7 +2230,7 @@ local diff = {
 			},
 		},
 		["d8005pnilunilcd1vdnilvpnilvunil"] = {
-			["name"] = "Landing Gear Toggle",
+			["name"] = "Landing gear toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "G",
@@ -2282,7 +2260,7 @@ local diff = {
 			},
 		},
 		["d8014pnilunilcd1vdnilvpnilvunil"] = {
-			["name"] = "Throttle Idle Detent - Idle/Stop (toggle button)",
+			["name"] = "Throttle Idle Detent Toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "Home",
@@ -2293,7 +2271,7 @@ local diff = {
 			},
 		},
 		["d8023pnilunilcd1vdnilvpnilvunil"] = {
-			["name"] = "Parking Brake",
+			["name"] = "Parking brake",
 			["removed"] = {
 				[1] = {
 					["key"] = "W",
@@ -2647,8 +2625,8 @@ local diff = {
 				[1] = {
 					["key"] = "V",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -2693,8 +2671,8 @@ local diff = {
 				[1] = {
 					["key"] = "V",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -2921,8 +2899,8 @@ local diff = {
 				[1] = {
 					["key"] = "B",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -3057,7 +3035,7 @@ local diff = {
 			},
 		},
 		["dnilp93u215cdnilvdnilvpnilvunil"] = {
-			["name"] = "Trim Hat - ROLL LEFT",
+			["name"] = "trim: Left wing Down",
 			["removed"] = {
 				[1] = {
 					["key"] = ",",
@@ -3068,7 +3046,7 @@ local diff = {
 			},
 		},
 		["dnilp94u215cdnilvdnilvpnilvunil"] = {
-			["name"] = "Trim Hat - ROLL RIGHT",
+			["name"] = "trim: Right wing Down",
 			["removed"] = {
 				[1] = {
 					["key"] = "/",
@@ -3079,7 +3057,7 @@ local diff = {
 			},
 		},
 		["dnilp95u215cdnilvdnilvpnilvunil"] = {
-			["name"] = "Trim Hat - NOSE UP",
+			["name"] = "trim: Nose Up",
 			["removed"] = {
 				[1] = {
 					["key"] = ".",
@@ -3090,7 +3068,7 @@ local diff = {
 			},
 		},
 		["dnilp96u215cdnilvdnilvpnilvunil"] = {
-			["name"] = "Trim Hat - NOSE DOWN",
+			["name"] = "trim: Nose Down",
 			["removed"] = {
 				[1] = {
 					["key"] = ";",
