@@ -340,6 +340,24 @@
     <Content Include="DB\DCS\Hercules.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DB\DCS\Mi-24P_Gunner.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\DCS\Mi-24P_TrackIR_Gunner.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\DCS\Mirage-F1BE.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\DCS\Mirage-F1CE.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\DCS\Mirage-F1EE.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\DCS\Mirage-F1M-EE.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DB\DCS\MosquitoFBMkVI_easy.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -352,7 +370,9 @@
     <Content Include="DB\DCS\SpitfireLFMkIXCW_easy.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DB\DCS\UiLayer.html" />
+    <Content Include="DB\DCS\UiLayer.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DB\StarCitizen\actionmaps.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1117,6 +1137,42 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="KeyboardCleanProfile\DCS\RadioVoIP.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\Mi-24P_Gunner.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\Mi-24P_TrackIR_Gunner.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\Mirage-F1BE.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\Mirage-F1CE.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\Mirage-F1EE.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\Mirage-F1M-EE.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\Mi-24P_Gunner.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\Mi-24P_TrackIR_Gunner.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\Mirage-F1BE.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\Mirage-F1CE.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\Mirage-F1EE.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\Mirage-F1M-EE.cf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="TOOLS\AHK\ALTF4.ahk" />
