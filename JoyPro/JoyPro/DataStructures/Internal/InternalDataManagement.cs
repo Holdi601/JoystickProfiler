@@ -652,6 +652,7 @@ namespace JoyPro
                     if (!sticks.Contains(kvp.Key)) sticks.Add(kvp.Key);
                 }
                 LocalJoysticks=sticks.ToArray();
+                string replacedStick = null;
                 if (AllRelations == null) AllRelations = new Dictionary<string, Relation>();
                 if (AllBinds == null) AllBinds = new Dictionary<string, Bind>();
                 if (JoystickAliases == null) JoystickAliases = new Dictionary<string, string>();
@@ -680,13 +681,25 @@ namespace JoyPro
                             {
                                 if(stickReplace!=null&&stickReplace.Length>0)
                                 {
-                                    string replacedStick = pr.Binds[pr.Relations.ElementAt(i).Key].Joystick;
+                                    replacedStick = pr.Binds[pr.Relations.ElementAt(i).Key].Joystick;
                                     pr.Binds[pr.Relations.ElementAt(i).Key].Joystick= stickReplace;
                                     for(int j=0; j<pr.Binds[pr.Relations.ElementAt(i).Key].AllReformers.Count; ++j)
                                     {
                                         if (pr.Binds[pr.Relations.ElementAt(i).Key].AllReformers[j].Contains(replacedStick))
                                         {
                                             pr.Binds[pr.Relations.ElementAt(i).Key].AllReformers[j].Replace(replacedStick, stickReplace);
+                                        }
+                                    }
+                                }
+                                if (pr.Binds[pr.Relations.ElementAt(i).Key].AllReformers != null)
+                                {
+                                    for(int l=0; l< pr.Binds[pr.Relations.ElementAt(i).Key].AllReformers.Count; l++)
+                                    {
+                                        Modifier m = Modifier.ReformerToMod(pr.Binds[pr.Relations.ElementAt(i).Key].AllReformers[l]);
+                                        if (m.device.Trim().ToLower() == replacedStick.Trim().ToLower())
+                                        {
+                                            m.device = stickReplace;
+                                            pr.Binds[pr.Relations.ElementAt(i).Key].AllReformers[l] = m.toReformerString();
                                         }
                                     }
                                 }
