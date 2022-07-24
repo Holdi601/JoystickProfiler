@@ -51,11 +51,28 @@ namespace JoyPro
             AddPostfixBtn.Click += new RoutedEventHandler(AddPostfix);
             RemoveStringPartBtn.Click += new RoutedEventHandler(RemoveNamePart);
             ExportToRelationBtn.Click += new RoutedEventHandler(SaveRelationsTo);
+            SelectAllBtn.Click+= new RoutedEventHandler(SelectAll);
+            SelectNoneBtn.Click += new RoutedEventHandler(SelectNone);
             ListRelations();
             selectedPlanes = new List<CheckBox>();
             fillPlaneDropDown();
         }
 
+        void SelectAll(object sender, EventArgs e)
+        {
+            for(int i=0; i<createdCBs.Length; i++)
+            {
+                createdCBs[i].IsChecked = true;
+            }
+        }
+
+        void SelectNone(object sender, EventArgs e)
+        {
+            for (int i = 0; i < createdCBs.Length; i++)
+            {
+                createdCBs[i].IsChecked = false;
+            }
+        }
         void SaveRelationsTo(object sender, EventArgs e)
         {
             Dictionary<string, Relation> relations= new Dictionary<string, Relation>();

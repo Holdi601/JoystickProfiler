@@ -34,6 +34,7 @@ namespace JoyPro
         public static List<KeyValuePair<string, string>> ModifierNameChanges = new List<KeyValuePair<string, string>>();
         public static Dictionary<string, Dictionary<string, int>> JoystickButtonsPressed = new Dictionary<string, Dictionary<string, int>>();
         public static List<string> DevicesNeedingProfile = new List<string>();
+        public static List<string> OpenedExchangedSticks = new List<string>();
 
         public static void DeleteAllReferencesOfJoystick(string joystick, bool deleteFileReferences)
         {
@@ -633,7 +634,7 @@ namespace JoyPro
                 }
             }
         }
-        public static void LoadProfile(string filePath, bool add=false)
+        public static void LoadProfile(string filePath, bool add=false, string stickReplace=null)
         {
             try
             {
@@ -677,11 +678,24 @@ namespace JoyPro
                             AllRelations.Add(name, pr.Relations.ElementAt(i).Value);
                             if (pr.Relations.ElementAt(i).Value.bind != null)
                             {
+                                if(stickReplace!=null&&stickReplace.Length>0)
+                                {
+                                    string replacedStick = pr.Binds[pr.Relations.ElementAt(i).Key].Joystick;
+                                    pr.Binds[pr.Relations.ElementAt(i).Key].Joystick= stickReplace;
+                                    for(int j=0; j<pr.Binds[pr.Relations.ElementAt(i).Key].AllReformers.Count; ++j)
+                                    {
+                                        if (pr.Binds[pr.Relations.ElementAt(i).Key].AllReformers[j].Contains(replacedStick))
+                                        {
+                                            pr.Binds[pr.Relations.ElementAt(i).Key].AllReformers[j].Replace(replacedStick, stickReplace);
+                                        }
+                                    }
+                                }
                                 AllBinds.Add(name, pr.Binds[pr.Relations.ElementAt(i).Key]);
                             }
                         }
                     }
                 }
+           
                 if (pr.JoystickAliases != null && pr.JoystickAliases.Count > 0)
                 {
                     if (!add)
@@ -781,6 +795,47 @@ namespace JoyPro
                     MiscGames.DCSInstanceSelectionChanged(pr.LastSelectedDCSInstance);
                 }
                 ResyncBindsToMods();
+                if (stickReplace != null && stickReplace.Length > 0)
+                {
+                    Dictionary<string, string> connectedDevices = JoystickReader.GetConnectedJoysticks();
+                    List<Modifier> modsConnected = new List<Modifier>();
+                    foreach (KeyValuePair<string, Modifier> m in AllModifiers)
+                    {
+                        foreach (KeyValuePair<string, string> kvp in connectedDevices)
+                        {
+                            if (kvp.Key.ToLower() == m.Value.device.ToLower())
+                            {
+                                modsConnected.Add(m.Value);
+                            }
+                        }
+                    }
+                    List<Modifier> modsToReplace = new List<Modifier>();
+                    foreach (KeyValuePair<string, Bind> kvp in pr.Binds)
+                    {
+                        for (int i = 0; i < kvp.Value.AllReformers.Count; i++)
+                        {
+                            bool found = false;
+                            Modifier m = Modifier.ReformerToMod(kvp.Value.AllReformers[i]);
+                            foreach (KeyValuePair<string, string> cst in connectedDevices)
+                            {
+                                if (cst.Key.Trim().ToLower() == m.device.Trim().ToLower())
+                                {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found)
+                            {
+                                modsToReplace.Add(m);
+                            }
+                        }
+                    }
+                    for (int i = 0; i < modsToReplace.Count; i++)
+                    {
+                        CouldNotFindModifier cnfm = new CouldNotFindModifier(modsConnected, modsToReplace[i].device, modsToReplace[i].name);
+                        cnfm.Show();
+                    }
+                }
                 RecreateGroups();
                 foreach (KeyValuePair<string, Relation> kvp in AllRelations)
                 {
@@ -908,8 +963,22 @@ namespace JoyPro
             foreach (Bind b in toRemove) if (AllBinds.ContainsKey(b.Rl.NAME)) AllBinds.Remove(b.Rl.NAME);
             foreach (string mis in misMatches)
             {
-                ExchangeStick es = new ExchangeStick(mis);
-                es.Show();
+                if(!OpenedExchangedSticks.Contains(mis))
+                {
+                    OpenedExchangedSticks.Add(mis);
+                    ExchangeStick es = new ExchangeStick(mis);
+                    es.Closing += removeEs;
+                    es.Show();
+                }
+                
+            }
+        }
+        static void removeEs(object sender, EventArgs e)
+        {
+            ExchangeStick es = (ExchangeStick)sender;
+            if (OpenedExchangedSticks.Contains(es.stickToReplace))
+            {
+                OpenedExchangedSticks.Remove(es.stickToReplace);
             }
         }
         public static void ExchangeSticksInBind(string old, string newstr)
@@ -1407,6 +1476,38 @@ namespace JoyPro
                 toReturn = temp;
             }
             return toReturn;
+        }
+        public static void ReplaceModifier(string modName, string device, string button)
+        {
+            Modifier found = null;
+            foreach (KeyValuePair<string, Modifier> kvp in AllModifiers)
+            {
+                if (kvp.Key.ToLower().Trim() == modName.ToLower().Trim())
+                {
+                    kvp.Value.device = device;
+                    kvp.Value.key = button;
+                    break;
+                }
+            }
+            if (found == null) 
+            {
+                found = new Modifier();
+                found.device = device;
+                found.key = button;
+                found.name = modName;
+                found.sw = false;
+            }
+            foreach(KeyValuePair<string, Bind> kvp in AllBinds)
+            {
+                if (kvp.Value.AllReformers == null) kvp.Value.AllReformers = new List<string>();
+                for(int i = 0; i < kvp.Value.AllReformers.Count; ++i)
+                {
+                    if (kvp.Value.AllReformers[i].StartsWith(modName + "§"))
+                    {
+                        kvp.Value.AllReformers[i] = found.toReformerString();
+                    }
+                }
+            }
         }
         public static List<Modifier> GetAllModifiers()
         {

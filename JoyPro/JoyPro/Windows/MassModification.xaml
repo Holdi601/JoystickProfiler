@@ -23,7 +23,9 @@
         <Button FontWeight="Bold" Name="DuplicateBtn" Content="Duplicate" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="350,0,0,0" Grid.Column="0" />
         <Button FontWeight="Bold" Name="AddPrefixBtn" Content="Add Prefix to Name" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Row="1" Grid.Column="0" />
         <Button FontWeight="Bold" Name="AddPostfixBtn" Content="Add Postfix to Name" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="180,0,0,0" Grid.Row="1" Grid.Column="0" />
+        <Button FontWeight="Bold" Name="SelectAllBtn" Content="Select All" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="180,0,0,0" Grid.Row="2" Grid.Column="0" />
         <Button FontWeight="Bold" Name="RemoveStringPartBtn" Content="Remove Part of the Name" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="350,0,0,0" Grid.Row="1" Grid.Column="0" />
+        <Button FontWeight="Bold" Name="SelectNoneBtn" Content="Select None" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="350,0,0,0" Grid.Row="2" Grid.Column="0" />
         <Button FontWeight="Bold" Name="ExportToRelationBtn" Content="Export to Relation file" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Row="2" Grid.Column="0" />
         <ScrollViewer Name="sv" ScrollViewer.HorizontalScrollBarVisibility="Auto"  Width="auto" Grid.Row="4" Grid.Column="0" />
         <TextBox Name="inputBox" Grid.Column="0" Grid.Row="5" Width="370" HorizontalAlignment="Left" Margin="10,15,0,15"/>

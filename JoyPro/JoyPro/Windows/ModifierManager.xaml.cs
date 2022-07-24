@@ -24,10 +24,12 @@ namespace JoyPro
         List<ColumnDefinition> colHds = null;
         List<Modifier> CURRENTDISPLAYEDMODS;
         Button[] dltBtns;
+        Button[] rplBtns;
         Button addBtn;
         JoystickReader jr;
         public static double DEFAULT_WIDTH;
         public static double DEFAULT_HEIGHT;
+        string modToReplace = "";
 
         public ModifierManager()
         {
@@ -71,7 +73,7 @@ namespace JoyPro
             var converter = new GridLengthConverter();
             Grid grid = new Grid();
             colDefs = new List<ColumnDefinition>();
-            for (int i = 0; i < 5; ++i)
+            for (int i = 0; i < 6; ++i)
             {
                 ColumnDefinition c = new ColumnDefinition();
                 grid.ColumnDefinitions.Add(c);
@@ -85,6 +87,7 @@ namespace JoyPro
             }
             grid.RowDefinitions.Add(new RowDefinition());
             dltBtns = new Button[CURRENTDISPLAYEDMODS.Count];
+            rplBtns = new Button[CURRENTDISPLAYEDMODS.Count];
             return grid;
         }
 
@@ -116,6 +119,20 @@ namespace JoyPro
         {
             RefreshRelationsToShow();
             SetHeadersForScrollView();
+        }
+
+        void ReplaceModifier(object sender, EventArgs e)
+        {
+            Button pressed = (Button)sender;
+            int indx = Convert.ToInt32(pressed.Name.Replace("replaceeBtn", ""));
+            modToReplace = CURRENTDISPLAYEDMODS[indx].name;
+            DisableButtons();
+            pressed.Content = "Click Now";
+            BackgroundWorker bw = new BackgroundWorker();
+            bw.DoWork += new DoWorkEventHandler(listenMod);
+            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(modReplaced);
+            bw.RunWorkerAsync();
+
         }
 
         void DeleteModBtn(object sender, EventArgs e)
@@ -153,6 +170,13 @@ namespace JoyPro
                 {
                     dltBtns[i].IsEnabled = true;
                 }
+            if (rplBtns != null)
+            {
+                for (int i = 0; i < rplBtns.Length; ++i)
+                {
+                    rplBtns[i].IsEnabled = true;
+                }
+            }
         }
         void DisableButtons()
         {
@@ -161,6 +185,11 @@ namespace JoyPro
                 for(int i=0; i<dltBtns.Length; ++i)
                 {
                     dltBtns[i].IsEnabled = false;
+                }
+            if (rplBtns != null)
+                for (int i = 0; i < rplBtns.Length; ++i)
+                {
+                    rplBtns[i].IsEnabled = false;
                 }
         }
 
@@ -188,6 +217,23 @@ namespace JoyPro
             CURRENTDISPLAYEDMODS[num].sw = cb.IsChecked ==true ? true : false;
             InternalDataManagement.ChangeSwitchStateBind(CURRENTDISPLAYEDMODS[num].name, cb.IsChecked == true ? true : false);
 
+        }
+
+        void modReplaced(object sender, EventArgs e)
+        {
+            ActivateButtons();
+            if (jr == null)
+            {
+                MessageBox.Show("Something went wrong when setting a modifier. Either listener was not started correctly or the main button was not assigend beforehand.");
+                return;
+            }
+            if (jr.result == null)
+            {
+                UpdateView();
+                return;
+            }
+            InternalDataManagement.ReplaceModifier(modToReplace, Bind.JoystickGuidToModifierGuid(jr.result.Device), jr.result.AxisButton);
+            UpdateView();
         }
 
         void modSet(object sender, EventArgs e)
@@ -249,6 +295,18 @@ namespace JoyPro
                 Grid.SetRow(deleteBtn, i);
                 grid.Children.Add(deleteBtn);
 
+                Button repalceBtn = new Button();
+                rplBtns[i] = repalceBtn;
+                repalceBtn.Name = "replaceeBtn" + i.ToString();
+                repalceBtn.Content = "Replace Modifier";
+                repalceBtn.Click += new RoutedEventHandler(ReplaceModifier);
+                repalceBtn.HorizontalAlignment = HorizontalAlignment.Left;
+                repalceBtn.VerticalAlignment = VerticalAlignment.Center;
+                repalceBtn.Width = 100;
+                Grid.SetColumn(repalceBtn, 2);
+                Grid.SetRow(repalceBtn, i);
+                grid.Children.Add(repalceBtn);
+
                 Label joystickPick = new Label();
                 joystickPick.Name = "joyLbl" + i.ToString();
                 joystickPick.Foreground = Brushes.White;
@@ -256,7 +314,7 @@ namespace JoyPro
                 joystickPick.Width = 500;
                 joystickPick.HorizontalAlignment = HorizontalAlignment.Left;
                 joystickPick.VerticalAlignment = VerticalAlignment.Center;
-                Grid.SetColumn(joystickPick, 2);
+                Grid.SetColumn(joystickPick, 3);
                 Grid.SetRow(joystickPick, i);
                 grid.Children.Add(joystickPick);
 
@@ -267,7 +325,7 @@ namespace JoyPro
                 buttonName.Width = 100;
                 buttonName.HorizontalAlignment = HorizontalAlignment.Left;
                 buttonName.VerticalAlignment = VerticalAlignment.Center;
-                Grid.SetColumn(buttonName, 3);
+                Grid.SetColumn(buttonName, 4);
                 Grid.SetRow(buttonName, i);
                 grid.Children.Add(buttonName);
 
@@ -279,7 +337,7 @@ namespace JoyPro
                 cbSwitch.HorizontalAlignment = HorizontalAlignment.Left;
                 cbSwitch.VerticalAlignment = VerticalAlignment.Center;
                 cbSwitch.IsChecked = CURRENTDISPLAYEDMODS[i].sw;
-                Grid.SetColumn(cbSwitch, 4);
+                Grid.SetColumn(cbSwitch, 5);
                 Grid.SetRow(cbSwitch, i);
                 grid.Children.Add(cbSwitch);
             }
@@ -291,7 +349,7 @@ namespace JoyPro
             var converter = new GridLengthConverter();
             Grid grid = new Grid();
             colHds = new List<ColumnDefinition>();
-            for (int i = 0; i < 5; ++i)
+            for (int i = 0; i < 6; ++i)
             {
                 ColumnDefinition c = new ColumnDefinition();
                 grid.ColumnDefinitions.Add(c);
@@ -317,13 +375,22 @@ namespace JoyPro
             Grid.SetColumn(addBtn, 1);
             grid.Children.Add(addBtn);
 
+            Label replaceModLbl = new Label();
+            replaceModLbl.Name = "joyHdrLbldeviceName";
+            replaceModLbl.Content = "Replace Modifier";
+            replaceModLbl.Foreground = Brushes.White;
+            replaceModLbl.HorizontalAlignment = HorizontalAlignment.Left;
+            replaceModLbl.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetColumn(replaceModLbl, 2);
+            grid.Children.Add(replaceModLbl);
+
             Label joystickPick = new Label();
             joystickPick.Name = "joyHdrLbldeviceName";
             joystickPick.Content = "Device Name";
             joystickPick.Foreground = Brushes.White;
             joystickPick.HorizontalAlignment = HorizontalAlignment.Left;
             joystickPick.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(joystickPick, 2);
+            Grid.SetColumn(joystickPick, 3);
             grid.Children.Add(joystickPick);
 
             Label joystickBtn = new Label();
@@ -332,7 +399,7 @@ namespace JoyPro
             joystickBtn.Foreground = Brushes.White;
             joystickBtn.HorizontalAlignment = HorizontalAlignment.Left;
             joystickBtn.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(joystickBtn, 3);
+            Grid.SetColumn(joystickBtn, 4);
             grid.Children.Add(joystickBtn);
 
             Label joystickSw = new Label();
@@ -341,7 +408,7 @@ namespace JoyPro
             joystickSw.Foreground = Brushes.White;
             joystickSw.HorizontalAlignment = HorizontalAlignment.Left;
             joystickSw.VerticalAlignment = VerticalAlignment.Center;
-            Grid.SetColumn(joystickSw, 4);
+            Grid.SetColumn(joystickSw, 5);
             grid.Children.Add(joystickSw);
 
             svHead.Content = grid;

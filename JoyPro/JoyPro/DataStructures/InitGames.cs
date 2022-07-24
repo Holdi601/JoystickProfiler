@@ -9,7 +9,8 @@ namespace JoyPro
 {
     public static class InitGames
     {
-
+        public static string currentlyDownloadStick="";
+        public static string currentlyDownloadStickOG = "";
 
         public static List<KeyValuePair<string, string>> GetDCSKneeboardPlaneReference()
         {
@@ -282,32 +283,32 @@ namespace JoyPro
             {
 
             }
-            InternalDataManagement.DevicesNeedingProfile.Add("X56 {");
             if (!MainStructure.mainW.STARTED&&InternalDataManagement.DevicesNeedingProfile.Count>0)
             {
-                for(int i=0; i<InternalDataManagement.DevicesNeedingProfile.Count; ++i)
-                {
-                    string deviceNameToDownload = InternalDataManagement.DevicesNeedingProfile[i].Substring(0, InternalDataManagement.DevicesNeedingProfile[i].IndexOf(" {"));
-                    JoystickProfileDownloader jpd = new JoystickProfileDownloader();
-                    jpd.stick = deviceNameToDownload;
-                    jpd.stickOg = InternalDataManagement.DevicesNeedingProfile[i];
-                    if (jpd.DoesFileExistinProfiles())
-                    {
-                        System.Windows.Forms.DialogResult dialogResult = System.Windows.Forms.MessageBox.Show("JoyPro saw you havent bound anything to "+deviceNameToDownload+" .Do you want to download a premade profile for this device?", "Download Profile for Device", System.Windows.Forms.MessageBoxButtons.YesNo);
-                        if (dialogResult == System.Windows.Forms.DialogResult.Yes)
-                        {
-                            jpd.DownloadJoystickProfile();   
-                        }
-                    }
-                }
+                CheckIfDevicesNeeded();
             }
         }
 
-        public static void ApplyDownloaded(object sender, EventArgs e)
+        public static void CheckIfDevicesNeeded()
         {
-            JoystickProfileDownloader jbd = (JoystickProfileDownloader)sender;
-            InternalDataManagement.LoadProfile(Environment.CurrentDirectory + "\\" + jbd.stick + ".pr0file", true);
+            if (InternalDataManagement.DevicesNeedingProfile.Count > 0)
+            {
+                string deviceNameToDownload = InternalDataManagement.DevicesNeedingProfile[0].Substring(0, InternalDataManagement.DevicesNeedingProfile[0].IndexOf(" {"));
+                JoystickProfileDownloader.stick = deviceNameToDownload;
+                JoystickProfileDownloader.stickOg = InternalDataManagement.DevicesNeedingProfile[0];
+                InternalDataManagement.DevicesNeedingProfile.RemoveAt(0);
+                if (JoystickProfileDownloader.DoesFileExistinProfiles())
+                {
+                    System.Windows.Forms.DialogResult dialogResult = System.Windows.Forms.MessageBox.Show("JoyPro saw you havent bound anything to " + deviceNameToDownload + " .Do you want to download a premade profile for this device?", "Download Profile for Device", System.Windows.Forms.MessageBoxButtons.YesNo);
+                    if (dialogResult == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        JoystickProfileDownloader.DownloadJoystickProfile();
+                    }
+                }
+                
+            }
         }
+
         public static void ReloadDatabase()
         {
             DBLogic.OtherLib.Clear();

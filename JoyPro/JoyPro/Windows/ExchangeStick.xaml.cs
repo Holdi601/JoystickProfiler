@@ -19,7 +19,7 @@ namespace JoyPro
     /// </summary>
     public partial class ExchangeStick : Window
     {
-        string stickToReplace;
+        public string stickToReplace;
         List<string> Joysticks;
         public static double DEFAULT_WIDTH;
         public static double DEFAULT_HEIGHT;
@@ -90,12 +90,20 @@ namespace JoyPro
                 MessageBox.Show("No Stick selected");
             InternalDataManagement.ExchangeSticksInBind(stickToReplace, selItem);
             InternalDataManagement.ExchangeStickInModifiers(stickToReplace, selItem);
+            if (InternalDataManagement.OpenedExchangedSticks.Contains(stickToReplace))
+            {
+                InternalDataManagement.OpenedExchangedSticks.Remove(stickToReplace);
+            }
             //Replace stick in modifiers
             Close();
         }
 
         void CancelJoystick(object sender, EventArgs e)
         {
+            if (InternalDataManagement.OpenedExchangedSticks.Contains(stickToReplace))
+            {
+                InternalDataManagement.OpenedExchangedSticks.Remove(stickToReplace);
+            }
             Close();
         }
     }

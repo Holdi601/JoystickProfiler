@@ -42,7 +42,7 @@ namespace JoyPro
                 string currentLine = sr.ReadLine();
                 if (iterator > 0)
                 {
-                    string cleanedLine = currentLine.Replace("\t", "").Replace("<td>", "").Replace("</td>", "").Replace("  ", "").Trim();
+                    string cleanedLine = currentLine.Replace("\t", "").Replace("<td>", "").Replace("</td>", "").Replace("  ", "").Replace("\"","").Trim();
                     switch (iterator)
                     {
                         case 1:

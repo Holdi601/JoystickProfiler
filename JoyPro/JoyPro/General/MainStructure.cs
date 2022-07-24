@@ -28,7 +28,7 @@ namespace JoyPro
 
     public static class MainStructure
     {
-        public const int version = 81;
+        public const int version = 82;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;

@@ -13,12 +13,13 @@ using System.Threading;
 
 namespace JoyPro
 {
-    public class JoystickProfileDownloader
+    public static class JoystickProfileDownloader
     {
         const string externalWebUrl = "https://raw.githubusercontent.com/Holdi601/JoystickProfiler/master/DEFAULTSTICKS/";
-        public string stick = "";
-        public string stickOg = "";
-        public bool DoesFileExistinProfiles()
+        public static string stick = "";
+        public static string stickOg = "";
+        public static bool finished = false;
+        public static bool DoesFileExistinProfiles()
         {
             try
             {
@@ -39,12 +40,12 @@ namespace JoyPro
             return false;
         }
 
-        public void DownloadJoystickProfile()
+        public static void DownloadJoystickProfile()
         {
             using (WebClient wc = new WebClient())
             {
                 wc.DownloadProgressChanged += wc_DownloadProgressChanged;
-                wc.DownloadFileCompleted += InitGames.ApplyDownloaded;
+                wc.DownloadFileCompleted += fileDownloaded;
                 wc.DownloadFileAsync(
                     new System.Uri(externalWebUrl + stick + ".pr0file"),
                     Environment.CurrentDirectory+"\\"+stick+".pr0file"
@@ -52,9 +53,16 @@ namespace JoyPro
             }
         }
 
-        public void wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        public static void wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             Console.WriteLine(e.ProgressPercentage);
+        }
+
+        static void fileDownloaded(object sender, EventArgs e)
+        {
+            finished = true;
+            InternalDataManagement.LoadProfile(Environment.CurrentDirectory + "\\" + stick + ".pr0file", true, stickOg);
+            InitGames.CheckIfDevicesNeeded();
         }
     }
 }

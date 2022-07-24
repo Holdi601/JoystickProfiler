@@ -133,6 +133,9 @@
     <Compile Include="Windows\CollectSticksForVisual.xaml.cs">
       <DependentUpon>CollectSticksForVisual.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\CouldNotFindModifier.xaml.cs">
+      <DependentUpon>CouldNotFindModifier.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\CreateJoystickAlias.xaml.cs">
       <DependentUpon>CreateJoystickAlias.xaml</DependentUpon>
     </Compile>
@@ -214,6 +217,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\CollectSticksForVisual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\CouldNotFindModifier.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

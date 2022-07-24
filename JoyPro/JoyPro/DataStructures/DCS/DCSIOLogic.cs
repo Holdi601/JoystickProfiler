@@ -127,6 +127,7 @@ namespace JoyPro
                 StreamReader sr = new StreamReader(file.FullName);
                 DCSLuaInput curPlane = null;
                 string content = sr.ReadToEnd();
+                content = content.Replace("\\\"", "");
                 string plane = file.Name.Replace(".cf", "");
                 curPlane = new DCSLuaInput();
                 if (!EmptyOutputsDCS.ContainsKey(plane))
