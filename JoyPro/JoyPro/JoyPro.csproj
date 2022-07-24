@@ -116,6 +116,7 @@
     <Compile Include="DataStructures\DB\DBDCSDataStructure\HtmlBindElement.cs" />
     <Compile Include="DataStructures\DB\DBDCSDataStructure\HtmlInputElementDCS.cs" />
     <Compile Include="DataStructures\StarCitizen\SCIOLogic.cs" />
+    <Compile Include="General\JoystickProfileDownloader.cs" />
     <Compile Include="General\LUADataRead.cs" />
     <Compile Include="General\Updater.cs" />
     <Compile Include="MISC\OverlayBackGroundWorker.cs" />

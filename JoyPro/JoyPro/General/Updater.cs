@@ -146,13 +146,9 @@ namespace JoyPro
             catch
             {
 
-
             }
             return -1;
         }
-
-        
-
     }
 
     public static class StreamExtensions

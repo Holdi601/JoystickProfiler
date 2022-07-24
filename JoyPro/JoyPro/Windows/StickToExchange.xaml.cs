@@ -22,26 +22,26 @@ namespace JoyPro
         List<string> Joysticks = new List<string>();
         public static double DEFAULT_WIDTH;
         public static double DEFAULT_HEIGHT;
+        string filep = null;
 
-
-        public StickToExchange(List<string> sticks)
+        public StickToExchange(List<string> sticks, string filePath=null)
         {
             InitializeComponent();
             DEFAULT_HEIGHT = this.Height;
             DEFAULT_WIDTH = this.Width;
 
-            if (MainStructure.msave != null&&MainStructure.msave._StickExchangeWindow!=null)
+            if (MainStructure.msave != null && MainStructure.msave._StickExchangeWindow != null)
             {
-                if(MainStructure.msave._StickExchangeWindow.Top>0) this.Top = MainStructure.msave._StickExchangeWindow.Top;
-                if(MainStructure.msave._StickExchangeWindow.Left > 0) this.Left = MainStructure.msave._StickExchangeWindow.Left;
-                if(MainStructure.msave._StickExchangeWindow.Width > 0)this.Width = MainStructure.msave._StickExchangeWindow.Width;
-                if(MainStructure.msave._StickExchangeWindow.Height > 0)this.Height = MainStructure.msave._StickExchangeWindow.Height;
+                if (MainStructure.msave._StickExchangeWindow.Top > 0) this.Top = MainStructure.msave._StickExchangeWindow.Top;
+                if (MainStructure.msave._StickExchangeWindow.Left > 0) this.Left = MainStructure.msave._StickExchangeWindow.Left;
+                if (MainStructure.msave._StickExchangeWindow.Width > 0) this.Width = MainStructure.msave._StickExchangeWindow.Width;
+                if (MainStructure.msave._StickExchangeWindow.Height > 0) this.Height = MainStructure.msave._StickExchangeWindow.Height;
             }
 
             CancelJoyExchange.Click += new RoutedEventHandler(CancelButton);
             Joysticks = sticks;
             if (InternalDataManagement.JoystickAliases == null) InternalDataManagement.JoystickAliases = new Dictionary<string, string>();
-            for (int i=0; i<sticks.Count; ++i)
+            for (int i = 0; i < sticks.Count; ++i)
             {
                 if (InternalDataManagement.JoystickAliases.ContainsKey(sticks[i]) && InternalDataManagement.JoystickAliases[sticks[i]].Length > 0)
                 {
@@ -54,14 +54,35 @@ namespace JoyPro
             }
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
-            OKJoyExchange.Click += new RoutedEventHandler(OkExchangeNow);
+            if(filePath!=null&&filePath.Length>0)
+            {
+                this.Title = "Select which stick to save";
+                filep = filePath;
+                OKJoyExchange.Click += new RoutedEventHandler(SaveStickProfile);
+            }
+            else
+            {
+                OKJoyExchange.Click += new RoutedEventHandler(OkExchangeNow);
+            }
         }
 
         void CancelButton(object sender, EventArgs e)
         {
             Close();
         }
-
+        void SaveStickProfile(object sender, EventArgs e)
+        {
+            if (DDJoysticks.SelectedItem != null || ((string)DDJoysticks.SelectedItem).Length > 0)
+            {
+                InternalDataManagement.SaveProfileOfStickTo(filep, Joysticks[DDJoysticks.SelectedIndex]);
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("No stick selected");
+                return;
+            }
+        }
         void OkExchangeNow(object sender, EventArgs e)
         {
             if (DDJoysticks.SelectedItem != null || ((string)DDJoysticks.SelectedItem).Length > 0)

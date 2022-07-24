@@ -33,6 +33,7 @@ namespace JoyPro
         public static Dictionary<string, Dictionary<string, string>> PlaneAliases = new Dictionary<string, Dictionary<string,string>>();
         public static List<KeyValuePair<string, string>> ModifierNameChanges = new List<KeyValuePair<string, string>>();
         public static Dictionary<string, Dictionary<string, int>> JoystickButtonsPressed = new Dictionary<string, Dictionary<string, int>>();
+        public static List<string> DevicesNeedingProfile = new List<string>();
 
         public static void DeleteAllReferencesOfJoystick(string joystick, bool deleteFileReferences)
         {
@@ -771,7 +772,7 @@ namespace JoyPro
                         }
                     }
                 }
-                if (pr.JoystickLayoutExport != null)
+                if (pr.JoystickLayoutExport != null&&pr.JoystickLayoutExport.Length>0)
                 {
                     JoystickLayoutExport = pr.JoystickLayoutExport;
                 }
@@ -956,6 +957,35 @@ namespace JoyPro
             {
                 MainStructure.WriteToBinaryFile<Dictionary<string, Relation>>(filePath, toExport);
             }
+        }
+
+        public static void SaveProfileOfStickTo(string filePath, string Joystick)
+        {
+            Dictionary<string, Relation> dictRel = new Dictionary<string, Relation>();
+            Dictionary<string, Bind> dictBind = new Dictionary<string, Bind>();
+            Dictionary<string, string> dictJoyAl = new Dictionary<string, string>();
+            Dictionary<string, Dictionary<string, string>> dictPlaneAl = new Dictionary<string,Dictionary<string, string>>();
+            List<KeyValuePair<string, string>> listModChanges = new List<KeyValuePair<string, string>>();
+            Dictionary<string, string> dictJoyFileImages =  new Dictionary<string, string>();
+            Dictionary<string, string> dictPGUIDS = new Dictionary<string, string>();
+            foreach(KeyValuePair<string,Bind> kvp in AllBinds)
+            {
+                if(kvp.Value.Joystick==Joystick)
+                {
+                    dictBind.Add(kvp.Key, kvp.Value);
+                    dictRel.Add(kvp.Key, kvp.Value.Rl);
+                }
+            }
+            if(JoystickAliases.ContainsKey(Joystick))
+            {
+                dictJoyAl.Add(Joystick, JoystickAliases[Joystick]);
+            }
+            Pr0file pr = new Pr0file(dictRel, dictBind, "", dictJoyAl, dictPlaneAl, listModChanges);
+            pr.JoystickAliases = dictJoyAl;
+            pr.JoystickFileImages = dictJoyFileImages;
+            pr.JoystickLayoutExport = "";
+            pr.JoysticksPGuids = dictPGUIDS;
+            MainStructure.WriteToBinaryFile<Pr0file>(filePath, pr);
         }
         public static void SaveProfileTo(string filePath)
         {

@@ -66,6 +66,7 @@ namespace JoyPro
         string visualLastJoystickSelected = "";
         double visualVerticalLastScroll = 0.0;
         double visualHorizontalLastScroll = 0.0;
+        public bool STARTED = false;
 
         public MainWindow()
         {
@@ -109,6 +110,7 @@ namespace JoyPro
             CBKeepKeyboard.Click += new RoutedEventHandler(ChangeKeepKeyboard);
             SetTextBoxEventHandlers();
             if (MainStructure.msave.JumpToRelation == true) StartInputReader();
+            STARTED = true;
         }
 
         void ChangeKeepKeyboard(object sender, RoutedEventArgs e)
@@ -241,6 +243,7 @@ namespace JoyPro
             LoadProfileBtn.Click += new RoutedEventHandler(OpenLoadProfile);
             SaveRelationsBtn.Click += new RoutedEventHandler(OpenSaveReleations);
             SaveProfileBtn.Click += new RoutedEventHandler(OpenSaveProfile);
+            SaveProfileBtn.MouseRightButtonDown += new MouseButtonEventHandler(OpenSaveProfileStick);
             MEBWEAKEBtn.Click += new RoutedEventHandler(LoadExistingExportKeepExisting);
             MEBWEAOEBtn.Click += new RoutedEventHandler(LoadExistingExportOverwrite);
             CEBAEBtn.Click += new RoutedEventHandler(CleanAndExport);
@@ -569,6 +572,38 @@ namespace JoyPro
                     }
                 }
                 InternalDataManagement.SaveProfileTo(filePath);
+            }
+        }
+        void OpenSaveProfileStick(object sender, EventArgs e)
+        {
+            if (CURRENTDISPLAYEDRELATION.Count < 1) return;
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Pr0file Files (*.pr0file)|*.pr0file|All filed (*.*)|*.*";
+            saveFileDialog1.Title = "Save Joystick specific Pr0file";
+            if (Directory.Exists(MainStructure.msave.lastOpenedLocation))
+            {
+                saveFileDialog1.InitialDirectory = MainStructure.msave.lastOpenedLocation;
+            }
+            else
+            {
+                saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            }
+            string filePath;
+            saveFileDialog1.ShowDialog();
+            filePath = saveFileDialog1.FileName;
+            if (filePath.Length > 4)
+            {
+                string[] pathParts = filePath.Split('\\');
+                if (pathParts.Length > 0)
+                {
+                    MainStructure.msave.lastOpenedLocation = pathParts[0];
+                    for (int i = 1; i < pathParts.Length - 1; ++i)
+                    {
+                        MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
+                    }
+                }
+                StickToExchange stx = new StickToExchange(InternalDataManagement.LocalJoysticks.ToList(), filePath);
+                stx.Show();
             }
         }
         void OpenSaveCSV(object sender, EventArgs e)

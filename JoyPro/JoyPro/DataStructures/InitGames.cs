@@ -247,11 +247,27 @@ namespace JoyPro
             try
             {
                 Dictionary<string, string> connectedSticks = JoystickReader.GetConnectedJoysticks();
-                List<string> crSticks = InternalDataManagement.LocalJoysticks.ToList();
+                foreach(KeyValuePair<string, string> pair in connectedSticks)
+                {
+                    InternalDataManagement.DevicesNeedingProfile.Add(pair.Key);
+                }
+                InternalDataManagement.DevicesNeedingProfile.Remove("Keyboard");
+                List<string> crSticks = new List<string>();
+                MiscGames.GetDCSInputJoysticks(crSticks);
+                InternalDataManagement.LocalJoysticks = crSticks.ToArray();
+                for(int i=0; i<crSticks.Count; i++)
+                {
+                    if (InternalDataManagement.DevicesNeedingProfile.Contains(crSticks[i]))
+                    {
+                        InternalDataManagement.DevicesNeedingProfile.Remove(crSticks[i]);
+                    }
+                }
                 for (int i = 0; i < connectedSticks.Count; ++i)
                 {
                     if (!crSticks.Contains(connectedSticks.ElementAt(i).Key))
+                    {
                         crSticks.Add(connectedSticks.ElementAt(i).Key);
+                    } 
                 }
                 InternalDataManagement.LocalJoysticks = crSticks.ToArray();
                 foreach(KeyValuePair<string, string> kvp in connectedSticks)
@@ -263,6 +279,11 @@ namespace JoyPro
                 }
             }
             catch
+            {
+
+            }
+
+            if(!MainStructure.mainW.STARTED&&InternalDataManagement.DevicesNeedingProfile.Count>0)
             {
 
             }
