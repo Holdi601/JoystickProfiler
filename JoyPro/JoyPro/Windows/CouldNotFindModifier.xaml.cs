@@ -26,6 +26,7 @@ namespace JoyPro
         JoystickReader jr;
         public CouldNotFindModifier(List<Modifier> existingMods, string deviceNotFound, string dnfInMod)
         {
+            InitializeComponent();
             modifiers = existingMods;
             modifierName= dnfInMod;
             device = deviceNotFound;
@@ -33,7 +34,8 @@ namespace JoyPro
             {
                 DropDownMods.Items.Add(modifiers[i].name);
             }
-            InitializeComponent();
+            DeviceLbl.Content = device;
+            ModifierLbl.Content = modifierName;
             CloseBtn.Click += new RoutedEventHandler(CloseThis);
             ContinueBtn.Click += new RoutedEventHandler(ContinueAndReplaceWithSelected);
             AssignBtn.Click += new RoutedEventHandler(AcquireNewMod);

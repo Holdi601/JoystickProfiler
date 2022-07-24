@@ -809,7 +809,7 @@ namespace JoyPro
                             }
                         }
                     }
-                    List<Modifier> modsToReplace = new List<Modifier>();
+                    Dictionary<string, Modifier> modsToReplace = new Dictionary<string, Modifier>();
                     foreach (KeyValuePair<string, Bind> kvp in pr.Binds)
                     {
                         for (int i = 0; i < kvp.Value.AllReformers.Count; i++)
@@ -826,13 +826,14 @@ namespace JoyPro
                             }
                             if (!found)
                             {
-                                modsToReplace.Add(m);
+                                if(!modsToReplace.ContainsKey(m.name))
+                                modsToReplace.Add(m.name,m);
                             }
                         }
                     }
                     for (int i = 0; i < modsToReplace.Count; i++)
                     {
-                        CouldNotFindModifier cnfm = new CouldNotFindModifier(modsConnected, modsToReplace[i].device, modsToReplace[i].name);
+                        CouldNotFindModifier cnfm = new CouldNotFindModifier(modsConnected, modsToReplace.ElementAt(i).Value.device, modsToReplace.ElementAt(i).Value.name);
                         cnfm.Show();
                     }
                 }
