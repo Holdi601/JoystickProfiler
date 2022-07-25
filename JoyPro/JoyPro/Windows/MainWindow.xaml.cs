@@ -2275,6 +2275,24 @@ namespace JoyPro
             {
                 RefreshVisualRelations();
             }
+            ModifierCountLabel.Content = InternalDataManagement.AllModifiers.Count;
+            RelationCountLabel.Content = InternalDataManagement.AllRelations.Count;
+            BindCountLabel.Content = InternalDataManagement.AllBinds.Count;
+            int rElements = 0;
+            int bElements = 0;
+            for(int i = 0; i < InternalDataManagement.AllRelations.Count; i++)
+            {
+                rElements += InternalDataManagement.AllRelations.ElementAt(i).Value.ElementCount;
+            }
+            for (int i = 0; i < InternalDataManagement.AllBinds.Count; i++)
+            {
+                bElements += InternalDataManagement.AllBinds.ElementAt(i).Value.Rl.ElementCount;
+            }
+            RelationElementCountLabel.Content = rElements;
+            BindElementCountLabel.Content = bElements;
+            double seconds = 10 * bElements;
+            double hours = seconds / 60 / 60;
+            TimeNeededHoursCount.Content = hours.ToString() + " h";
             sizeChanged(null,null);
         }
         void sortName(object o, EventArgs e)

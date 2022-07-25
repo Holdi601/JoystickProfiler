@@ -363,6 +363,10 @@ namespace JoyPro
             mainImg = (System.Drawing.Bitmap)lf.backup.Clone();
             fontColor = lf.ColorSCB;
             Dictionary<string, Point> tempPosMap = new Dictionary<string, Point>();
+            if (lf.KneeboardPostfix != null && lf.KneeboardPostfix.Length > 0)
+            {
+                KneeboardPostfixTB.Text = lf.KneeboardPostfix;
+            }
             if (InternalDataManagement.ModifierNameChanges == null) InternalDataManagement.ModifierNameChanges = new List<KeyValuePair<string, string>>();
             foreach (KeyValuePair<string, Point> pair in lf.Positions)
             {
@@ -418,6 +422,7 @@ namespace JoyPro
             lf.Joystick = stick;
             lf.Positions = LabelLocations;
             lf.Size = textSize;
+            lf.KneeboardPostfix = KneeboardPostfixTB.Text;
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Filter = "Layout Files (*.layout)|*.layout|All filed (*.*)|*.*";
             saveFileDialog1.Title = "Save Joystick Layout";
@@ -499,7 +504,10 @@ namespace JoyPro
                     int f = 0;
                     string valr = kvp.Value[i];
                     string ffff = kvp.Key;
-                    Thread t = new Thread(() => exportBitmap(export, exportP + "\\", valr, ffff, alias, ImageFormat.Png, kneeboardExport));
+                    //exportBitmap(export, exportP + "\\", valr, ffff, alias, ImageFormat.Png, kneeboardExport);
+                    string postfixkneeboard = "";
+                    if(KneeboardPostfixTB!=null&&KneeboardPostfixTB.Text.Length>0&&KneeboardPostfixTB.Text!= "Kneeboard_PostFix")postfixkneeboard=KneeboardPostfixTB.Text;
+                    Thread t = new Thread(() => exportBitmap(export, exportP + "\\", valr, ffff, alias, ImageFormat.Png, kneeboardExport, postfixkneeboard));
                     while (true)
                     {
                         if (f < thrds.Length)
@@ -518,7 +526,6 @@ namespace JoyPro
                         }
                         Thread.Sleep(50);
                     }
-
                 }
             }
             //One General Overview
@@ -554,13 +561,14 @@ namespace JoyPro
             MessageBox.Show("Export looks successful.");
         }
 
-        void exportBitmap(System.Drawing.Bitmap bmp, string path, string plane, string game, string joystick, ImageFormat format, bool toKneeboard)
+
+
+        void exportBitmap(System.Drawing.Bitmap bmp, string path, string plane, string game, string joystick, ImageFormat format, bool toKneeboard, string postfixknee="")
         {
             int attemps = 0;
             double a4_width = 210;
             double a4_height = 297;
             double ration = a4_width / a4_height;
-
             while (true)
             {
                 try
@@ -602,7 +610,6 @@ namespace JoyPro
                             }
                         }
                         bmp = replacementBMP;
-
                     }
                     string finalPath = path;
                     if (!path.EndsWith("\\")) finalPath = finalPath + "\\";
@@ -612,12 +619,13 @@ namespace JoyPro
                     }
                     if (toKneeboard && game == "DCS")
                     {
-
                         string instance = MiscGames.DCSselectedInstancePath;
                         if (MainStructure.msave != null && MainStructure.msave.DCSInstaceOverride != null && Directory.Exists(MainStructure.msave.DCSInstaceOverride))
                             instance = MainStructure.msave.DCSInstaceOverride;
                         instance = instance + "\\Kneeboard\\";
-                        string fileName = plane + "\\00_" + plane + "__" + joystick + ".png";
+                        string fileName = plane + "\\00_" + plane + "__" + joystick;
+                        fileName += postfixknee;
+                        fileName += ".png";
                         string ins = instance + plane;
                         if (!Directory.Exists(ins)) Directory.CreateDirectory(ins);
                         bmp.Save(instance + fileName, format);

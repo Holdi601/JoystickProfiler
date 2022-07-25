@@ -47,21 +47,33 @@
         <Button FontWeight="Bold" Name="ImportProfileBtn" Content="Import Bindings" Height="30" Width="150"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="1" />
         <Button FontWeight="Bold" Name="OTCBtn" Content="Overview To CSV" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" />
         <Button FontWeight="Bold" Name="PrintBtn" Content="Layout Editor" Height="30" Width="180"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,19,10,11" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" />
-        
+
         <Button FontWeight="Bold" Name="CEBAEBtn" Content="Clean Existing Binds and Export" Height="30" Width="190"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,18,2,12" Grid.Row="6" Grid.Column="0" />
         <Button FontWeight="Bold" Name="MEBWEAOEBtn" Content="Merge and Overwrite Existing Binds" Height="30" Width="227"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,18,0,12" Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="2" />
         <Button FontWeight="Bold" Name="MEBWEAKEBtn" Content="Merge and Keep Existing Binds" Height="30" Width="231"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,18,0,12" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" />
         <Button FontWeight="Bold" Name="MEBWEAABBtn" Content="Merge, Keep Existing and Add to" Height="30" Width="231"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,18,0,12" Grid.Row="6" Grid.Column="5" Grid.ColumnSpan="2" />
 
-        <Label Content="vxxxx" Name="VersionLabel" Foreground="White" Grid.Column="7" Grid.Row="6"  HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Margin="10,12,10,10" />
+        <Label Content="vxxxx" Name="VersionLabel" Foreground="White" Grid.Column="7" Grid.Row="6"  HorizontalAlignment="Right" VerticalAlignment="Top" Height="26"  />
+        <Label Content="hourscount" Name="TimeNeededHoursCount" Foreground="White" Grid.Column="7" Grid.Row="6"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Margin="520,16,0,0"  />
+        <Label Content="If you would have mapped out everything by hand you currently write out, you will have to spent:" Name="TimeNeededHours" Foreground="White" Grid.Column="7" Grid.Row="6"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Margin="0,16,0,0"  />
+        <Label Content="xxxx" Name="BindCountLabel" Foreground="White" Grid.Column="7" Grid.Row="6"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="26" Margin="0,0,0,0" />
+        <Label Content="Binds:" Name="BindsLabel" Foreground="White" Grid.Column="7" Grid.Row="6"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="26" Margin="0,0,30,0" />
+        <Label Content="xxxx" Name="RelationCountLabel" Foreground="White" Grid.Column="7" Grid.Row="6"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="26" Margin="0,0,100,0" />
+        <Label Content="Relations:" Name="RelationLabel" Foreground="White" Grid.Column="7" Grid.Row="6"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="26" Margin="0,0,130,0" />
+        <Label Content="xxxx" Name="ModifierCountLabel" Foreground="White" Grid.Column="7" Grid.Row="6"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="26" Margin="0,0,200,0" />
+        <Label Content="Modifiers" Name="ModifierLabel" Foreground="White" Grid.Column="7" Grid.Row="6"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="26" Margin="0,0,230,0" />
+        <Label Content="xxxx" Name="RelationElementCountLabel" Foreground="White" Grid.Column="7" Grid.Row="6"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="26" Margin="0,0,300,0" />
+        <Label Content="R__Elements:" Name="RelationElementLabel" Foreground="White" Grid.Column="7" Grid.Row="6"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="26" Margin="0,0,330,0" />
+        <Label Content="xxxx" Name="BindElementCountLabel" Foreground="White" Grid.Column="7" Grid.Row="6"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="26" Margin="0,0,400,0" />
+        <Label Content="B__Elements:" Name="BindElementLabel" Foreground="White" Grid.Column="7" Grid.Row="6"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="26" Margin="0,0,430,0" />
         <Label Content="DCS Instance:" Foreground="White" Grid.Column="0" Grid.Row="5"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Margin="10,12,10,10" Width="100"/>
         <ComboBox Name="DropDownInstanceSelection" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,12,0,10" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="6" Width="720" Height="31" ></ComboBox>
         <ScrollViewer Name="sv" ScrollViewer.HorizontalScrollBarVisibility="Auto"  Width="auto" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="8" Grid.RowSpan="1"/>
         <ScrollViewer Name="svHeader" ScrollViewer.HorizontalScrollBarVisibility="Hidden"  Width="auto" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="8" Grid.RowSpan="1"/>
         <!--<CheckBox Name="CBKeepDefault" Content="Keep Defaults" Grid.Row="6" Grid.Column="7" IsChecked="False" Width="100" Height="20" Foreground="White" HorizontalAlignment="Left" Margin="10,15,0,15"></CheckBox>-->
-        <CheckBox Name="CBNukeUnused" Content="Nuke devices that are untouched by Joy Pro" Grid.Row="5" Grid.Column="7" IsChecked="False" Width="auto" Height="20" Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0"></CheckBox>
-        <CheckBox Name="CBExportOnlyView" Content="Export Only Binds in Filtered View" Grid.Row="6" Grid.Column="7" IsChecked="False" Width="auto" Height="20" Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0"></CheckBox>
-        <CheckBox Name="CBKeepKeyboard" Content="Keep Keyboard Defaults" Grid.Row="6" Grid.Column="7" IsChecked="False" Width="auto" Height="20" Foreground="White" HorizontalAlignment="Left" Margin="230,0,0,0"></CheckBox>
+        <CheckBox Name="CBNukeUnused" Content="Nuke devices that are untouched by Joy Pro" Grid.Row="5" Grid.Column="7" IsChecked="False" Width="auto" Height="20" Foreground="White" HorizontalAlignment="Left" ></CheckBox>
+        <CheckBox Name="CBExportOnlyView" Content="Export Only Binds in Filtered View" Grid.Row="5" Grid.Column="7" IsChecked="False" Width="auto" Height="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,0"></CheckBox>
+        <CheckBox Name="CBKeepKeyboard" Content="Keep Keyboard Defaults" Grid.Row="5" Grid.Column="7" IsChecked="False" Width="auto" Height="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0"></CheckBox>
         <Label Content="Relation Name Filter:" Foreground="White" Grid.Column="0" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Margin="10,12,10,10" Width="150"/>
         <TextBox Name="SearchQueryRelationName" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Background="White" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="230" Height="26" ></TextBox>
         <Label Content="Group Filter:" Foreground="White" Grid.Column="3" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Margin="10,12,10,10" Width="80"/>
@@ -70,7 +82,7 @@
         <Label Content="Plane Filter:" Foreground="White" Grid.Column="7" Grid.Row="2"  HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Margin="150,12,10,10" Width="80"/>
         <ComboBox Name="DeviceDropdown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,12,0,10" Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2" Width="275" Height="31" ></ComboBox>
         <ComboBox Name="PlaneDropdown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="230,12,0,10" Grid.Row="2" Grid.Column="7" Grid.ColumnSpan="2" Width="200" Height="31" ></ComboBox>
-        
+
         <Button FontWeight="Bold" Name="GroupManagerBtn" Content="Group Manager" Height="30" Width="180"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,19,0,11" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" />
         <Label Name="scaleLbl" Content="Image Scale:" Foreground="White" Grid.Column="7" Grid.Row="5"  HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Margin="150,12,50,10" Width="80"/>
         <TextBox Name="scaleTBox" Grid.Row="5" Grid.Column="7" Grid.ColumnSpan="1" Background="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Width="45" Height="26" ></TextBox>

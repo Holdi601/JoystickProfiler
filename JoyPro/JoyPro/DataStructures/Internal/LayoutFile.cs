@@ -35,6 +35,7 @@ namespace JoyPro
         public Dictionary<string, System.Windows.Point> Positions;
         public int Size { get; set; }
         public System.Drawing.Bitmap backup;
+        public string KneeboardPostfix = "";
 
         public LayoutFile()
         {

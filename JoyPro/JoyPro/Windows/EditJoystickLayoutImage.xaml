@@ -25,12 +25,13 @@
         <Button FontWeight="Bold" Name="SaveLayoutBtn" Content="Save Layout" Height="30" Width="160"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,10,0,10" Grid.Row="0" Grid.Column="1" />
         <Button FontWeight="Bold" Name="ExportBtn" Content="Export Layouts" Height="30" Width="160"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20,10,0,10" Grid.Row="0" Grid.Column="6" />
         <Button FontWeight="Bold" Name="ExportKneeboardBtn" Content="Export Layouts to Kneeboard" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20,10,0,10" Grid.Row="0" Grid.Column="5" />
-        <Button FontWeight="Bold" Name="ExchangeImageBtn" Content="Exchange Image" Height="30" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,10,0,10" Grid.Row="0" Grid.Column="5" />
+        <Button FontWeight="Bold" Name="ExchangeImageBtn" Content="Exchange Image" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,10,0,10" Grid.Row="0" Grid.Column="5" />
         <Button FontWeight="Bold" Name="CloseBtn" Content="Close" Height="30" Width="160"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,10" Grid.Row="0" Grid.Column="7" />
         <ComboBox Name="FontDropDown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="1" Width="190" Height="31" ></ComboBox>
         <Button FontWeight="Bold" Name="ColorBtn" Content="Color Picker" Height="30" Width="160"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,10" Grid.Row="0" Grid.Column="3" />
         <ListBox HorizontalAlignment="Left" Name="ButtonsLB" Width="200"   Grid.Column="0" Grid.Row="1" Height="auto" VerticalAlignment="Top" />
         <ScrollViewer Name="sv" ScrollViewer.HorizontalScrollBarVisibility="Auto"  Width="auto" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="7" Grid.RowSpan="1"/>
         <TextBox Name="TextSizeTB" TextAlignment="Left" VerticalContentAlignment="Center"  Text="11" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" Background="White" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="180" Height="30" ></TextBox>
+        <TextBox Name="KneeboardPostfixTB" TextAlignment="Left" VerticalContentAlignment="Center"  Text="Kneeboard_PostFix" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="1" Background="White" Margin="0,0,210,0" HorizontalAlignment="Right" VerticalAlignment="Center" Width="170" Height="30" ></TextBox>
     </Grid>
 </Window>

@@ -228,6 +228,8 @@ namespace JoyPro
         }
         void OnClosing(object sender, EventArgs e)
         {
+            if (Current != null) Current.RecalculateElementCount();
+            if (Original != null) Original.RecalculateElementCount();
             setLastSizeAndPosition();
             MainStructure.OverlayWorker.SetButtonMapping();
         }

@@ -15,6 +15,18 @@ namespace JoyPro
         public bool ISAXIS;
         public Bind bind = null;
         public List<string> Groups;
+        private int? elCount = 0;
+        public int ElementCount 
+        { 
+            get 
+            {
+                if (elCount == null)
+                {
+                    RecalculateElementCount();
+                }
+                return (int)elCount;
+            } 
+        }
 
         public Relation()
         {
@@ -35,6 +47,14 @@ namespace JoyPro
                 }
             }
             return result;
+        }
+        public void RecalculateElementCount()
+        {
+            elCount = 0;
+            for(int i=0; i<NODES.Count; ++i)
+            {
+                elCount += NODES[i].GetActiveAircraftList().Count;
+            }
         }
 
         public string GetRandomDescription()
