@@ -455,8 +455,18 @@ namespace JoyPro
         {
             System.Windows.Controls.Button bu = (System.Windows.Controls.Button)sender;
             bool kneeboardExport = false;
+            bool includeEasyKneeboard = true;
             Thread[] thrds = new Thread[Environment.ProcessorCount];
-            if (bu.Name.Contains("Kneeboard")) kneeboardExport = true;
+            if (bu.Name.Contains("Kneeboard"))
+            {
+                kneeboardExport = true;
+                System.Windows.Forms.DialogResult dialogResult = System.Windows.Forms.MessageBox.Show("Do you want to include the easy versions of the Jets in the Kneeboard? Yes/No", "Include Easy Jets?", MessageBoxButtons.YesNo);
+                if(dialogResult == System.Windows.Forms.DialogResult.No)
+                {
+                    includeEasyKneeboard=false;
+                }
+            }
+            
             if (LabelLocations.Count < 1)
             {
                 MessageBox.Show("No Labels set. Set the labels where you want them before you can export");
@@ -507,7 +517,7 @@ namespace JoyPro
                     //exportBitmap(export, exportP + "\\", valr, ffff, alias, ImageFormat.Png, kneeboardExport);
                     string postfixkneeboard = "";
                     if(KneeboardPostfixTB!=null&&KneeboardPostfixTB.Text.Length>0&&KneeboardPostfixTB.Text!= "Kneeboard_PostFix")postfixkneeboard=KneeboardPostfixTB.Text;
-                    Thread t = new Thread(() => exportBitmap(export, exportP + "\\", valr, ffff, alias, ImageFormat.Png, kneeboardExport, postfixkneeboard));
+                    Thread t = new Thread(() => exportBitmap(export, exportP + "\\", valr, ffff, alias, ImageFormat.Png, kneeboardExport, postfixkneeboard, includeEasyKneeboard));
                     while (true)
                     {
                         if (f < thrds.Length)
@@ -563,7 +573,7 @@ namespace JoyPro
 
 
 
-        void exportBitmap(System.Drawing.Bitmap bmp, string path, string plane, string game, string joystick, ImageFormat format, bool toKneeboard, string postfixknee="")
+        void exportBitmap(System.Drawing.Bitmap bmp, string path, string plane, string game, string joystick, ImageFormat format, bool toKneeboard, string postfixknee="", bool includeEasyJet=true)
         {
             int attemps = 0;
             double a4_width = 210;
@@ -629,13 +639,17 @@ namespace JoyPro
                         string ins = instance + plane;
                         if (!Directory.Exists(ins)) Directory.CreateDirectory(ins);
                         bmp.Save(instance + fileName, format);
+                        
                         for (int i = 0; i < li.Count; i++)
                         {
                             if (li[i].Key.ToLower() == plane.ToLower())
                             {
+                                if (plane.Contains("_easy") && !includeEasyJet) continue;
                                 ins = instance + li[i].Value;
                                 if (!Directory.Exists(ins)) Directory.CreateDirectory(ins);
-                                fileName = li[i].Value + "\\00_" + plane + "__" + joystick + ".png";
+                                fileName = li[i].Value + "\\00_" + plane + "__" + joystick;
+                                fileName += postfixknee;
+                                fileName += ".png";
                                 bmp.Save(instance + fileName, format);
                             }
                         }
