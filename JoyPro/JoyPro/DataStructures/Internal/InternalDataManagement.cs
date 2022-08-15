@@ -495,6 +495,7 @@ namespace JoyPro
                 MessageBox.Show("Couldn't load relations");
             }
             ResyncRelations();
+            RecalcFigures();
         }
         public static void NewFile(bool programStart = false)
         {
@@ -864,6 +865,14 @@ namespace JoyPro
                 MessageBox.Show("Couldn't load profile. Either opened by some program or other error");
             }
             ResyncRelations();
+            RecalcFigures();
+        }
+        public static void RecalcFigures()
+        {
+            foreach(KeyValuePair<string, Relation> kvp in AllRelations)
+            {
+                kvp.Value.RecalculateElementCount();
+            }
         }
         public static List<string> GetAllPossibleJoysticks()
         {
@@ -940,6 +949,7 @@ namespace JoyPro
                 kvp.Value.CheckNamesAgainstDB();
             }
             ResyncRelations();
+            RecalcFigures();
         }
         static void AddLoadedJoysticks()
         {

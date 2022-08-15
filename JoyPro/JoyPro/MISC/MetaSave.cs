@@ -529,6 +529,14 @@ namespace JoyPro
         public bool MovedDefaults = false;
         public string LastDCSVersion = "";
 
+        public bool? import_default=false;
+        public bool? import_slider = false;
+        public bool? import_inverted = false;
+        public bool? import_deadzone = false;
+        public bool? import_curvature = false;
+        public bool? import_satx = false;
+        public bool? import_saty = false;
+
         public MetaSave()
         {
             lastGameSelected = "";
@@ -609,7 +617,6 @@ namespace JoyPro
             }
             return null;
         }
-
         void MakeSureActivityReferencesArentNull()
         {
             if (relationPlaneActivity==null) relationPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
@@ -617,7 +624,6 @@ namespace JoyPro
             if (exportPlaneActivity == null) exportPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
             if (ViewPlaneActivity == null) ViewPlaneActivity = new Dictionary<string, Dictionary<string, bool>>();
         }
-
         public void PlaneSetLastActivity(PlaneActivitySelection pas, string game, string plane, bool state)
         {
             MakeSureActivityReferencesArentNull();

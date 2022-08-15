@@ -52,6 +52,9 @@ namespace JoyPro
         static Dictionary<string, IL2AxisSetting> axisResponsedRead = new Dictionary<string, IL2AxisSetting>();
         public static Dictionary<string, string> KeyboardConversion_IL2DX = new Dictionary<string, string>();
         public static Dictionary<string, string> KeyboardConversion_DX2IL = new Dictionary<string, string>();
+        static Dictionary<string, Bind> tempBinds = new Dictionary<string, Bind>();
+        static Dictionary<string, int> deviceStats = new Dictionary<string, int>();
+        static Dictionary<string, int> deviceIndex = new Dictionary<string, int>();
         
         public static void LoadKeyboardConversion()
         {
@@ -72,13 +75,11 @@ namespace JoyPro
                 streamReader.Dispose();
             }
         }
-        
         public static void LoadIL2Path()
         {
             string pth = MainStructure.GetRegistryValue("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 307960", "InstallLocation", "LocalMachine");
             if (pth != null) MiscGames.IL2Instance = pth;
         }
-        
         public static void WriteOut(List<Bind> toExport, OutputType ot)
         {
             if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
@@ -87,6 +88,27 @@ namespace JoyPro
                 (MiscGames.IL2Instance == null || !Directory.Exists(MiscGames.IL2Instance))|| toExport==null|| toExport.Count<1))
                 return;
             clearAll();
+            if(ot== OutputType.Add)
+            {
+                ImportInputs(true, true, true, InternalDataManagement.LocalJoysticks.ToList(), tempBinds);
+                foreach(KeyValuePair<string, Bind> kvp in tempBinds)
+                {
+                    toExport.Add(kvp.Value);
+                }
+            }
+            for(int i = 0; i < toExport.Count; i++)
+            {
+                if (!deviceStats.ContainsKey(toExport[i].Joystick)) deviceStats.Add(toExport[i].Joystick, 1);
+                else deviceStats[toExport[i].Joystick] += 1;
+            }
+            var orderedList = deviceStats.OrderBy(x => x.Value).ToList();
+            int index = 0;
+            for(int i=orderedList.Count-1; i>=0; i--)
+            {
+                deviceIndex.Add(orderedList.ElementAt(i).Key, index);
+                index++;
+                if (index > 7) break;
+            }
             CreateDeviceFile();
             ReadActionsFromActions(ActionsFileMouseOtherContent ,ActionsFileKeyboardContent, ActionsFileJoystickContent);
             if (MainStructure.msave.KeepKeyboardDefaults == true)
@@ -113,11 +135,6 @@ namespace JoyPro
             switch (ot)
             {
                 case OutputType.Add:
-                    foreach (KeyValuePair<string, List<string>> kvp in ActionsFileJoystickContent)
-                    {
-                        for(int i=0; i<kvp.Value.Count; ++i)
-                            ActionsFileContentOutput.Add(kvp.Value[i]);
-                    }
                     foreach (KeyValuePair<string, string> kvp in generatedOutputFromBinds)
                         ActionsFileContentOutput.Add(kvp.Value);
                     break;
@@ -165,6 +182,9 @@ namespace JoyPro
             usedCommands = new List<string>();
             axisSettings = new Dictionary<string, Bind>();
             ActionsFileJoystickContent = new Dictionary<string, List<string>>();
+            tempBinds = new Dictionary<string, Bind>();
+            deviceStats = new Dictionary<string, int>();
+            deviceIndex = new Dictionary<string, int>();
         }
         static void AddModifierToOutput(string joystick, string btn, string modName)
         {
@@ -239,6 +259,7 @@ namespace JoyPro
         static Dictionary<string, string> BindToActionString(Bind b)
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
+            if (!deviceIndex.ContainsKey(b.Joystick)&&b.Joystick.ToLower() != "keyboard") return result;
             List<RelationItem> ri = b.Rl.AllRelations();
             for(int i=0; i<ri.Count; ++i)
             {
@@ -462,14 +483,22 @@ namespace JoyPro
             else
             {
                 result = "joy";
-                for (int j = 0; j < InternalDataManagement.LocalJoysticks.Length; ++j)
+                if(deviceIndex==null||deviceIndex.Count<1)
                 {
-                    if (joystick == InternalDataManagement.LocalJoysticks[j])
+                    for (int j = 0; j < InternalDataManagement.LocalJoysticks.Length; ++j)
                     {
-                        i = j;
-                        break;
+                        if (joystick == InternalDataManagement.LocalJoysticks[j])
+                        {
+                            i = j;
+                            break;
+                        }
                     }
                 }
+                else
+                {
+                    if(deviceIndex.ContainsKey(joystick))i= deviceIndex[joystick];
+                }
+                
                 if (i == -1) return null;
                 result = result + i.ToString() + "_";
                 if (ax)
@@ -572,18 +601,19 @@ namespace JoyPro
         }
         public static void CreateDeviceFile(string name= "devices")
         {
+            
             string path = GetInputPath();
             StreamWriter swr = new StreamWriter(path + InputPath + name + ".txt");
             swr.Write(DevicesPreFile);
             List<string> devices = InternalDataManagement.LocalJoysticks.ToList();
             if (devices.Contains("Keyboard")) devices.Remove("Keyboard");
-            for (int i=0; i< devices.Count - 1; ++i)
+            for(int i=0; i<deviceIndex.Count-1; ++i)
             {
-                swr.Write(MiscGames.DCSJoyIdToIL2JoyId(devices[i], i)+"|\r\r\n");
+                swr.Write(MiscGames.DCSJoyIdToIL2JoyId(deviceIndex.ElementAt(i).Key, deviceIndex[deviceIndex.ElementAt(i).Key]) + "|\r\r\n");
             }
             swr.Write(MiscGames.DCSJoyIdToIL2JoyId(
-                devices[devices.Count-1],
-                devices.Count - 1) + "\r\r");
+                deviceIndex.ElementAt(deviceIndex.Count-1).Key,
+                deviceIndex[deviceIndex.ElementAt(deviceIndex.Count - 1).Key]) + "\r\r");
             swr.Flush();
             swr.Close();
             swr.Dispose();
@@ -786,8 +816,7 @@ namespace JoyPro
             }
             return DCSstick;
         }
-
-        public static void ImportInputs(bool sensitivity, bool deadzone, bool inverted, List<string> sticksToFilter)
+        public static void ImportInputs(bool sensitivity, bool deadzone, bool inverted, List<string> sticksToFilter, Dictionary<string, Bind> TempTable=null)
         {
             if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
             if (MainStructure.msave.IL2OR == null) MainStructure.msave.IL2OR = "";
@@ -960,7 +989,7 @@ namespace JoyPro
                             {
                                 if (jpName.EndsWith("/")) jpName = jpName.Substring(0, jpName.Length - 1);
                                 bpos = InternalDataManagement.GetBindForRelation(jpName);
-                                if (bpos != null&&btnInput!=null)
+                                if (bpos != null&&btnInput!=null&&TempTable==null)
                                 {
 
                                     if (DCSstick == bpos.Joystick && ((bpos.Rl.ISAXIS && bpos.JAxis == btnInput) || (!bpos.Rl.ISAXIS && bpos.JButton == btnInput)) &&
@@ -988,6 +1017,7 @@ namespace JoyPro
                                                 rawGroups = rawGroups.Substring(0, rawGroups.IndexOf('/'));
                                             }
                                             string[] groupsp = rawGroups.Split(',');
+                                            if(TempTable==null)
                                             for (int k = 0; k < groupsp.Length; ++k)
                                             {
                                                 r.Groups.Add(groupsp[k]);
@@ -998,10 +1028,21 @@ namespace JoyPro
                                             }
                                         }
                                         string name = bpos.Rl.NAME;
-                                        while (InternalDataManagement.AllRelations.ContainsKey(name))
+                                        if(TempTable==null)
                                         {
-                                            name += "ILGAME(COPY)";
+                                            while (InternalDataManagement.AllRelations.ContainsKey(name))
+                                            {
+                                                name += "ILGAME(COPY)";
+                                            }
                                         }
+                                        else
+                                        {
+                                            while (TempTable.ContainsKey(name))
+                                            {
+                                                name += "ILGAME(COPY)";
+                                            }
+                                        }
+                                        
                                         r.NAME = name;
                                         Bind b = new Bind(r);
                                         r.bind = b;
@@ -1034,7 +1075,7 @@ namespace JoyPro
                                             if (!b.AllReformers.Contains(reformer))
                                                 b.AllReformers.Add(reformer);
                                         }
-                                        if (jAlias.Length > 1)
+                                        if (jAlias.Length > 1&&TempTable==null)
                                         {
                                             b.aliasJoystick = jAlias;
                                             if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstick))
@@ -1042,9 +1083,16 @@ namespace JoyPro
                                             else
                                                 b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstick];
                                         }
-
-                                        InternalDataManagement.AllBinds.Add(r.NAME, b);
-                                        InternalDataManagement.AllRelations.Add(r.NAME, r);
+                                        if (TempTable == null)
+                                        {
+                                            InternalDataManagement.AllBinds.Add(r.NAME, b);
+                                            InternalDataManagement.AllRelations.Add(r.NAME, r);
+                                        }
+                                        else
+                                        {
+                                            TempTable.Add(r.NAME, b);
+                                        }
+                                        
                                         //Create new Relation with different name
                                     }
                                 }
@@ -1063,6 +1111,7 @@ namespace JoyPro
                                             rawGroups = rawGroups.Substring(0, rawGroups.IndexOf('/'));
                                         }
                                         string[] groupsp = rawGroups.Split(',');
+                                        if(TempTable == null)
                                         for (int k = 0; k < groupsp.Length; ++k)
                                         {
                                             r.Groups.Add(groupsp[k]);
@@ -1073,10 +1122,21 @@ namespace JoyPro
                                         }
                                     }
                                     string name = jpName;
-                                    while (InternalDataManagement.GetBindForRelation(name) != null)
+                                    if(TempTable == null)
                                     {
-                                        name = name + "1";
+                                        while (InternalDataManagement.GetBindForRelation(name) != null)
+                                        {
+                                            name = name + "1";
+                                        }
                                     }
+                                    else
+                                    {
+                                        while (TempTable.ContainsKey(name))
+                                        {
+                                            name = name + "1";
+                                        }
+                                    }
+                                    
                                     r.NAME = name;
                                     Bind b = new Bind(r);
                                     r.bind = b;
@@ -1109,7 +1169,7 @@ namespace JoyPro
                                         if (!b.AllReformers.Contains(reformer))
                                             b.AllReformers.Add(reformer);
                                     }
-                                    if (jAlias.Length > 1)
+                                    if (jAlias.Length > 1&&TempTable==null)
                                     {
                                         b.aliasJoystick = jAlias;
                                         if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstick))
@@ -1117,9 +1177,16 @@ namespace JoyPro
                                         else
                                             b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstick];
                                     }
-
-                                    InternalDataManagement.AllBinds.Add(r.NAME, b);
-                                    InternalDataManagement.AllRelations.Add(r.NAME, r);
+                                    if(TempTable==null)
+                                    {
+                                        InternalDataManagement.AllBinds.Add(r.NAME, b);
+                                        InternalDataManagement.AllRelations.Add(r.NAME, r);
+                                    }
+                                    else
+                                    {
+                                        TempTable.Add(r.NAME, b);
+                                    }
+                                    
                                 }
                                 noMatchPos = false;
                             }
@@ -1127,7 +1194,7 @@ namespace JoyPro
                             {
                                 if (jp2Name.EndsWith("/")) jp2Name = jp2Name.Substring(0, jp2Name.Length - 1);
                                 bneg = InternalDataManagement.GetBindForRelation(jp2Name);
-                                if (bneg != null&& btnInputneg!=null)
+                                if (bneg != null&& btnInputneg!=null&&TempTable==null)
                                 {
 
                                     if (DCSstickneg == bneg.Joystick && ((bneg.Rl.ISAXIS && bneg.JAxis == btnInputneg) || (!bneg.Rl.ISAXIS && bneg.JButton == btnInputneg)) &&
@@ -1232,6 +1299,7 @@ namespace JoyPro
                                         if (rawGroupsNeg != null)
                                         {
                                             string[] groupsp = rawGroupsNeg.Split(',');
+                                            if(TempTable==null)
                                             for (int k = 0; k < groupsp.Length; ++k)
                                             {
                                                 r.Groups.Add(groupsp[k]);
@@ -1275,7 +1343,7 @@ namespace JoyPro
                                         if (!b.AllReformers.Contains(reformer))
                                             b.AllReformers.Add(reformer);
                                     }
-                                    if (alias_neg != null && alias_neg.Length > 1)
+                                    if (alias_neg != null && alias_neg.Length > 1&&TempTable==null)
                                     {
                                         b.aliasJoystick = alias_neg;
                                         if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstickneg))
@@ -1283,8 +1351,16 @@ namespace JoyPro
                                         else
                                             b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstickneg];
                                     }
-                                    InternalDataManagement.AllBinds.Add(r.NAME, b);
-                                    InternalDataManagement.AllRelations.Add(r.NAME, r);
+                                    if (TempTable == null)
+                                    {
+                                        InternalDataManagement.AllBinds.Add(r.NAME, b);
+                                        InternalDataManagement.AllRelations.Add(r.NAME, r);
+                                    }
+                                    else
+                                    {
+                                        TempTable.Add(r.NAME, b);
+                                    }
+                                    
                                 }
                                 noMatchNeg = false;
                             }
@@ -1337,7 +1413,7 @@ namespace JoyPro
                                 bT = InternalDataManagement.GetBindForRelation(rlname);
                         }
 
-                        if (bT != null)
+                        if (bT != null&&TempTable==null)
                         {
                             bT.Rl.AddNode(sid, "IL2Game", axis, "IL2Game");
                         }
@@ -1348,10 +1424,21 @@ namespace JoyPro
                             r.ISAXIS = axis;
                             string shorten = MainStructure.ShortenDeviceName(DCSstick);
                             shorten = found[0].Title;
-                            while (InternalDataManagement.AllRelations.ContainsKey(shorten))
+                            if(TempTable==null)
                             {
-                                shorten += "1";
+                                while (InternalDataManagement.AllRelations.ContainsKey(shorten))
+                                {
+                                    shorten += "1";
+                                }
                             }
+                            else
+                            {
+                                while (TempTable.ContainsKey(shorten))
+                                {
+                                    shorten += "1";
+                                }
+                            }
+                            
                             string name = shorten;
 
                             r.NAME = name;
@@ -1379,17 +1466,24 @@ namespace JoyPro
                                     b.AllReformers.Add(reformer);
                             }
                             string generatedNameGroup = "GENERATED-NAME";
-                            if (!InternalDataManagement.AllGroups.Contains(generatedNameGroup))
+                            if(TempTable==null)
                             {
-                                InternalDataManagement.AllGroups.Add(generatedNameGroup);
-                                InternalDataManagement.GroupActivity.Add(generatedNameGroup, true);
+                                if (!InternalDataManagement.AllGroups.Contains(generatedNameGroup))
+                                {
+                                    InternalDataManagement.AllGroups.Add(generatedNameGroup);
+                                    InternalDataManagement.GroupActivity.Add(generatedNameGroup, true);
+                                }
+                                if (!r.Groups.Contains(generatedNameGroup))
+                                {
+                                    r.Groups.Add(generatedNameGroup);
+                                }
+                                InternalDataManagement.AllBinds.Add(r.NAME, b);
+                                InternalDataManagement.AllRelations.Add(r.NAME, r);
                             }
-                            if (!r.Groups.Contains(generatedNameGroup))
+                            else
                             {
-                                r.Groups.Add(generatedNameGroup);
+                                TempTable.Add(r.NAME, b);
                             }
-                            InternalDataManagement.AllBinds.Add(r.NAME, b);
-                            InternalDataManagement.AllRelations.Add(r.NAME, r);
                         }
                         InternalDataManagement.ResyncRelations();
                     }
@@ -1408,7 +1502,7 @@ namespace JoyPro
                             if (rlname != null)
                                 bT = InternalDataManagement.GetBindForRelation(rlname);
                         }
-                        if (bT != null)
+                        if (bT != null&&TempTable==null)
                         {
                             bT.Rl.AddNode(sid, "IL2Game", axis, "IL2Game");
                         }
@@ -1419,10 +1513,21 @@ namespace JoyPro
                             r.ISAXIS = axis;
                             string shorten = MainStructure.ShortenDeviceName(DCSstickneg);
                             shorten = foundNeg[0].Title;
-                            while (InternalDataManagement.AllRelations.ContainsKey(shorten))
+                            if (TempTable == null)
                             {
-                                shorten += "1";
+                                while (InternalDataManagement.AllRelations.ContainsKey(shorten))
+                                {
+                                    shorten += "1";
+                                }
                             }
+                            else
+                            {
+                                while (TempTable.ContainsKey(shorten))
+                                {
+                                    shorten += "1";
+                                }
+                            }
+                            
                             string name = shorten;
                             r.NAME = name;
                             Bind b = new Bind(r);
@@ -1449,17 +1554,25 @@ namespace JoyPro
                                     b.AllReformers.Add(reformer);
                             }
                             string generatedNameGroup = "GENERATED-NAME";
-                            if (!InternalDataManagement.AllGroups.Contains(generatedNameGroup))
+                            if(TempTable==null)
                             {
-                                InternalDataManagement.AllGroups.Add(generatedNameGroup);
-                                InternalDataManagement.GroupActivity.Add(generatedNameGroup, true);
+                                if (!InternalDataManagement.AllGroups.Contains(generatedNameGroup))
+                                {
+                                    InternalDataManagement.AllGroups.Add(generatedNameGroup);
+                                    InternalDataManagement.GroupActivity.Add(generatedNameGroup, true);
+                                }
+                                if (!r.Groups.Contains(generatedNameGroup))
+                                {
+                                    r.Groups.Add(generatedNameGroup);
+                                }
+                                InternalDataManagement.AllBinds.Add(r.NAME, b);
+                                InternalDataManagement.AllRelations.Add(r.NAME, r);
                             }
-                            if (!r.Groups.Contains(generatedNameGroup))
+                            else
                             {
-                                r.Groups.Add(generatedNameGroup);
+                                TempTable.Add(r.NAME, b);
                             }
-                            InternalDataManagement.AllBinds.Add(r.NAME, b);
-                            InternalDataManagement.AllRelations.Add(r.NAME, r);
+                            
                         }
                         InternalDataManagement.ResyncRelations();
                     }
@@ -1614,7 +1727,7 @@ namespace JoyPro
                             {
                                 if(jpName.EndsWith("/"))jpName=jpName.Substring(0,jpName.Length-1);
                                 bpos = InternalDataManagement.GetBindForRelation(jpName);
-                                if (bpos != null&&sticksToFilter.Contains(bpos.Joystick))
+                                if (bpos != null&&sticksToFilter.Contains(bpos.Joystick)&&TempTable==null)
                                 {
 
                                     if (DCSstick == bpos.Joystick && ((bpos.Rl.ISAXIS && bpos.JAxis == btnInput) || (!bpos.Rl.ISAXIS && bpos.JButton == btnInput)) &&
@@ -1717,20 +1830,34 @@ namespace JoyPro
                                             rawGroups = rawGroups.Substring(0, rawGroups.IndexOf('/'));
                                         }
                                         string[] groupsp = rawGroups.Split(',');
-                                        for (int k = 0; k < groupsp.Length; ++k)
+                                        if(TempTable==null)
                                         {
-                                            r.Groups.Add(groupsp[k]);
-                                            if (!InternalDataManagement.AllGroups.Contains(groupsp[k]))
+                                            for (int k = 0; k < groupsp.Length; ++k)
                                             {
-                                                InternalDataManagement.AllGroups.Add(groupsp[k]);
+                                                r.Groups.Add(groupsp[k]);
+                                                if (!InternalDataManagement.AllGroups.Contains(groupsp[k]))
+                                                {
+                                                    InternalDataManagement.AllGroups.Add(groupsp[k]);
+                                                }
                                             }
                                         }
                                     }
                                     string name = jpName;
-                                    while (InternalDataManagement.GetBindForRelation(name) != null)
+                                    if(TempTable==null)
                                     {
-                                        name = name + "1";
+                                        while (InternalDataManagement.GetBindForRelation(name) != null)
+                                        {
+                                            name = name + "1";
+                                        }
                                     }
+                                    else
+                                    {
+                                        while (TempTable.ContainsKey(name))
+                                        {
+                                            name = name + "1";
+                                        }
+                                    }
+                                    
                                     r.NAME = name;
                                     Bind b = new Bind(r);
                                     r.bind = b;
@@ -1771,10 +1898,14 @@ namespace JoyPro
                                         else
                                             b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstick];
                                     }
-                                    if (sticksToFilter.Contains(b.Joystick))
+                                    if (sticksToFilter.Contains(b.Joystick)&&TempTable==null)
                                     {
                                         InternalDataManagement.AllBinds.Add(r.NAME, b);
                                         InternalDataManagement.AllRelations.Add(r.NAME, r);
+                                    }
+                                    else
+                                    {
+                                        TempTable.Add(r.NAME, b);
                                     }
                                 }
                                 noMatchPos = false;
@@ -1783,7 +1914,7 @@ namespace JoyPro
                             {
                                 if (jp2Name.EndsWith("/")) jp2Name = jp2Name.Substring(0, jp2Name.Length - 1);
                                 bneg = InternalDataManagement.GetBindForRelation(jp2Name);
-                                if (bneg != null && sticksToFilter.Contains(bneg.Joystick))
+                                if (bneg != null && sticksToFilter.Contains(bneg.Joystick)&&TempTable==null)
                                 {
 
                                     if (DCSstickneg == bneg.Joystick && ((bneg.Rl.ISAXIS && bneg.JAxis == btnInputneg) || (!bneg.Rl.ISAXIS && bneg.JButton == btnInputneg)) &&
@@ -1888,6 +2019,7 @@ namespace JoyPro
                                         if (rawGroupsNeg != null)
                                         {
                                             string[] groupsp = rawGroupsNeg.Split(',');
+                                            if(TempTable==null)
                                             for (int k = 0; k < groupsp.Length; ++k)
                                             {
                                                 r.Groups.Add(groupsp[k]);
@@ -1931,7 +2063,7 @@ namespace JoyPro
                                         if (!b.AllReformers.Contains(reformer))
                                             b.AllReformers.Add(reformer);
                                     }
-                                    if (alias_neg!=null&&alias_neg.Length > 1)
+                                    if (alias_neg!=null&&alias_neg.Length > 1&&TempTable==null)
                                     {
                                         b.aliasJoystick = alias_neg;
                                         if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstickneg))
@@ -1939,10 +2071,14 @@ namespace JoyPro
                                         else
                                             b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstickneg];
                                     }
-                                    if (sticksToFilter.Contains(b.Joystick))
+                                    if (sticksToFilter.Contains(b.Joystick)&&TempTable==null)
                                     {
                                         InternalDataManagement.AllBinds.Add(r.NAME, b);
                                         InternalDataManagement.AllRelations.Add(r.NAME, r);
+                                    }
+                                    else
+                                    {
+                                        TempTable.Add(r.NAME, b);
                                     }
                                     
                                 }
@@ -1995,7 +2131,7 @@ namespace JoyPro
                                 bT = InternalDataManagement.GetBindForRelation(rlname);
                         }
                         
-                        if (bT != null)
+                        if (bT != null&&TempTable==null)
                         {
                             bT.Rl.AddNode(sid, "IL2Game", axis, "IL2Game");
                         }
@@ -2006,10 +2142,21 @@ namespace JoyPro
                             r.ISAXIS = axis;
                             string shorten = MainStructure.ShortenDeviceName(DCSstick);
                             shorten = found[0].Title;
-                            while (InternalDataManagement.AllRelations.ContainsKey(shorten))
+                            if(TempTable==null)
                             {
-                                shorten += "1";
+                                while (InternalDataManagement.AllRelations.ContainsKey(shorten))
+                                {
+                                    shorten += "1";
+                                }
                             }
+                            else
+                            {
+                                while (TempTable.ContainsKey(shorten))
+                                {
+                                    shorten += "1";
+                                }
+                            }
+                            
                             string name = shorten;
                             r.NAME = name;
                             Bind b = new Bind(r);
@@ -2036,17 +2183,25 @@ namespace JoyPro
                                     b.AllReformers.Add(reformer);
                             }
                             string generatedNameGroup = "GENERATED-NAME";
-                            if (!InternalDataManagement.AllGroups.Contains(generatedNameGroup))
+                            if(TempTable==null)
                             {
-                                InternalDataManagement.AllGroups.Add(generatedNameGroup);
-                                InternalDataManagement.GroupActivity.Add(generatedNameGroup, true);
+                                if (!InternalDataManagement.AllGroups.Contains(generatedNameGroup))
+                                {
+                                    InternalDataManagement.AllGroups.Add(generatedNameGroup);
+                                    InternalDataManagement.GroupActivity.Add(generatedNameGroup, true);
+                                }
+                                if (!r.Groups.Contains(generatedNameGroup))
+                                {
+                                    r.Groups.Add(generatedNameGroup);
+                                }
+                                InternalDataManagement.AllBinds.Add(r.NAME, b);
+                                InternalDataManagement.AllRelations.Add(r.NAME, r);
                             }
-                            if (!r.Groups.Contains(generatedNameGroup))
+                            else
                             {
-                                r.Groups.Add(generatedNameGroup);
+                                TempTable.Add(r.NAME, b);
                             }
-                            InternalDataManagement.AllBinds.Add(r.NAME, b);
-                            InternalDataManagement.AllRelations.Add(r.NAME, r);
+                            
                         }
                         InternalDataManagement.ResyncRelations();
                     }
@@ -2064,7 +2219,7 @@ namespace JoyPro
                             if (rlname != null)
                                 bT = InternalDataManagement.GetBindForRelation(rlname);
                         }
-                        if (bT != null)
+                        if (bT != null&&TempTable==null)
                         {
                             bT.Rl.AddNode(sid, "IL2Game", axis, "IL2Game");
                         }
@@ -2075,10 +2230,21 @@ namespace JoyPro
                             r.ISAXIS = axis;
                             string shorten = MainStructure.ShortenDeviceName(DCSstickneg);
                             shorten = foundNeg[0].Title;
-                            while (InternalDataManagement.AllRelations.ContainsKey(shorten))
+                            if (TempTable == null)
                             {
-                                shorten += "1";
+                                while (InternalDataManagement.AllRelations.ContainsKey(shorten))
+                                {
+                                    shorten += "1";
+                                }
                             }
+                            else
+                            {
+                                while (TempTable.ContainsKey(shorten))
+                                {
+                                    shorten += "1";
+                                }
+                            }
+                            
                             string name = shorten;
                             r.NAME = name;
                             Bind b = new Bind(r);
@@ -2104,7 +2270,7 @@ namespace JoyPro
                                 if (!b.AllReformers.Contains(reformer))
                                     b.AllReformers.Add(reformer);
                             }
-                            if (sticksToFilter.Contains(b.Joystick))
+                            if (sticksToFilter.Contains(b.Joystick)&&TempTable==null)
                             {
                                 string generatedNameGroup = "GENERATED-NAME";
                                 if (!InternalDataManagement.AllGroups.Contains(generatedNameGroup))
@@ -2118,6 +2284,10 @@ namespace JoyPro
                                 }
                                 InternalDataManagement.AllBinds.Add(r.NAME, b);
                                 InternalDataManagement.AllRelations.Add(r.NAME, r);
+                            }
+                            else
+                            {
+                                TempTable.Add(r.NAME, b);
                             }
                         }
                         InternalDataManagement.ResyncRelations();

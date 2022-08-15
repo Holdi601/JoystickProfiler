@@ -58,13 +58,19 @@ namespace JoyPro
                 this.Left = MainStructure.msave._ImportWindow.Left;
                 this.Width = MainStructure.msave._ImportWindow.Width;
                 this.Height = MainStructure.msave._ImportWindow.Height;
+                CBinv.IsChecked = MainStructure.msave.import_inverted;
+                CBcurv.IsChecked = MainStructure.msave.import_curvature;
+                CBdz.IsChecked = MainStructure.msave.import_deadzone;
+                CBimportDefault.IsChecked = MainStructure.msave.import_default;
+                CBsatx.IsChecked = MainStructure.msave.import_satx;
+                CBsaty.IsChecked = MainStructure.msave.import_saty;
+                CBslid.IsChecked = MainStructure.msave.import_slider;
             }
             this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
             this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
             SetupGamesDropDown();
             CBselAll.Click += new RoutedEventHandler(SelectAll);
             CBselNone.Click += new RoutedEventHandler(SelectNone);
-
         }
         void CancelImport(object sender, EventArgs e)
         {
@@ -167,11 +173,18 @@ namespace JoyPro
                 importDefault = true;
             else
                 importDefault = false;
+            MainStructure.msave.import_inverted = inv;
+            MainStructure.msave.import_slider = slid;
+            MainStructure.msave.import_curvature = curv;
+            MainStructure.msave.import_deadzone = dz;
+            MainStructure.msave.import_default = importDefault;
+            MainStructure.msave.import_satx = sx;
+            MainStructure.msave.import_saty = sy;
             if(list.ContainsKey("DCS"))
                 DCSIOLogic.BindsFromLocal(selectedSticks, list["DCS"] ,importDefault, inv, slid, curv, dz, sx, sy);
             if (list.ContainsKey("IL2Game"))
                 IL2IOLogic.ImportInputs(curv, dz, inv, selectedSticks);
-            
+            InternalDataManagement.RecalcFigures();
             Close();
         }
         Grid BaseSetupRelationGrid()
