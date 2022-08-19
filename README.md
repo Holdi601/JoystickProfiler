@@ -55,7 +55,7 @@ My own Video Short and Condense Series:
 6. Manage your Relations https://youtu.be/BqnDsQjF6Fw
 7. Validate your Relations https://youtu.be/X3dzaRcWWZo
 8. Export & Save your Controls https://youtu.be/aviKpu6Y6ks
-9. Mod Support & Refresh DCS Input DB https://youtu.be/r-kyHykQCrs
+9. Mod Support & Refresh DCS Input DB https://youtu.be/r-kyHykQCrs *Needs an Update*
 10. Troubleshoot - Exported but default Profile binds still exist https://youtu.be/KkGLdN2cglU
 11. Export Joystick Graphical Layouts https://youtu.be/kAWnWB3HDQ4 *Needs an Update*
 12. Exchange a device https://youtu.be/Y8H9D9UX8KQ
