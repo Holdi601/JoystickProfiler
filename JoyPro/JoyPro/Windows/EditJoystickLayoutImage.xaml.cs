@@ -665,6 +665,7 @@ namespace JoyPro
                 }
                 catch (Exception ex)
                 {
+                    MainStructure.NoteError(ex);
                     if (attemps > 10)
                     {
                         MessageBox.Show("Failed to export: " + path + " with message: " + ex.Message);

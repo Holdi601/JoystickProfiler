@@ -196,7 +196,7 @@ namespace JoyPro
             if (!editMode)
             {
                 InternalDataManagement.AddRelation(Current);
-                Console.WriteLine("Adds new relation " + Current.NAME);
+                MainStructure.Write("Adds new relation " + Current.NAME);
             }
             else
             {
@@ -207,7 +207,7 @@ namespace JoyPro
                     return;
                 }
                 InternalDataManagement.ReplaceRelation(Original, Current);
-                Console.WriteLine("Finished Editing Relation " + Current.NAME);
+                MainStructure.Write("Finished Editing Relation " + Current.NAME);
             }
             setLastSizeAndPosition();
             Close();

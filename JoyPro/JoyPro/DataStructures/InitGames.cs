@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace JoyPro
 {
@@ -35,6 +36,7 @@ namespace JoyPro
         }
         public static void DCSDBMatchesClean()
         {
+            MainStructure.Write("Check if for every DCS db file is a clean file");
             List<string> missingCleans = new List<string>();
             string htmlPath = MainStructure.PROGPATH + "\\DB\\DCS";
             string cfPath = MainStructure.PROGPATH + "\\CleanProfile\\DCS";
@@ -47,13 +49,15 @@ namespace JoyPro
                     !File.Exists(cfPath+"\\"+file.Name.Replace(".html",".cf"))&&
                     !missingCleans.Contains(file.Name.Replace(".html", ".cf")))
                 {
-                    if(file.Name.Replace(".html","").ToLower()!="uilayer")
+                    MainStructure.Write("CF not found for " + file.FullName);
+                    if (file.Name.Replace(".html","").ToLower()!="uilayer")
                         missingCleans.Add(file.Name.Replace(".html", ".cf"));
                 }
                 if (file.Name.EndsWith(".html") &&
                     !File.Exists(cfPathKb + "\\" + file.Name.Replace(".html", ".cf")) &&
                     !missingCleans.Contains(file.Name.Replace(".html", ".cf")))
                 {
+                    MainStructure.Write("CF not found for " + file.FullName);
                     if (file.Name.Replace(".html", "").ToLower() != "uilayer")
                         missingCleans.Add(file.Name.Replace(".html", ".cf")+"(Keyboard Version)");
                 }
@@ -186,7 +190,7 @@ namespace JoyPro
         public static void InitIL2Data()
         {
             MainStructure.PROGPATH = Environment.CurrentDirectory;
-            Console.WriteLine(MainStructure.PROGPATH);
+            MainStructure.Write(MainStructure.PROGPATH);
             IL2IOLogic.LoadKeyboardConversion();
             IL2IOLogic.LoadIL2Path();
             if (MainStructure.msave == null) MainStructure.msave = new MetaSave();
@@ -194,13 +198,14 @@ namespace JoyPro
             {
                 MiscGames.IL2Instance = MainStructure.msave.IL2OR;
             }
-            Console.WriteLine(MiscGames.IL2Instance);
+            MainStructure.Write(MiscGames.IL2Instance);
         }
         public static void InitDCSData()
         {
             MainStructure.PROGPATH = Environment.CurrentDirectory;
-            Console.WriteLine(MainStructure.PROGPATH);
+            MainStructure.Write(MainStructure.PROGPATH);
             DCSIOLogic.LoadCleanLuasDCS();
+            
             DCSIOLogic.LoadCleanLuasDCSKeyboard();
             DCSIOLogic.LoadLocalDefaultsDCS();
             DCSIOLogic.LoadKeyboardConversion();
@@ -279,9 +284,9 @@ namespace JoyPro
                         InternalDataManagement.LocalJoystickPGUID.Add(kvp.Key, kvp.Value);
                 }
             }
-            catch
+            catch(Exception ex)
             {
-
+                MainStructure.NoteError(ex);
             }
             if (!MainStructure.mainW.STARTED&&InternalDataManagement.DevicesNeedingProfile.Count>0)
             {
@@ -311,11 +316,16 @@ namespace JoyPro
 
         public static void ReloadDatabase()
         {
+            MainStructure.Write("Clear Databaste");
             DBLogic.OtherLib.Clear();
             DBLogic.DCSLib.Clear();
+            MainStructure.Write("Populate DCS DB");
             DBLogic.PopulateDCSDictionaryWithProgram();
+            MainStructure.Write("Populate IL2 DB");
             DBLogic.PopulateIL2Dictionary();
+            MainStructure.Write("Populate SC DB");
             DBLogic.PopulateSCDictionary();
+            MainStructure.Write("Populate Manual DB");
             DBLogic.PopulateManualDictionary();
         }
 

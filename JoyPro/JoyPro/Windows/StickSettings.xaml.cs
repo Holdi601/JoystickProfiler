@@ -665,7 +665,7 @@ namespace JoyPro
                 try
                 {
                     process.Kill();
-                }catch { }
+                }catch (Exception ex){ MainStructure.NoteError(ex); }
                 
             }
             Process.Start("explorer.exe");
@@ -755,9 +755,9 @@ namespace JoyPro
             {
                 MainStructure.DeleteFolder(path);
             }
-            catch
+            catch(Exception ex)
             {
-
+                MainStructure.NoteError(ex);
             }
         }
         void PostWorkExportedIDs()
@@ -798,9 +798,9 @@ namespace JoyPro
             {
                 MainStructure.DeleteFolder(path);
             }
-            catch
+            catch(Exception ex)
             {
-
+                MainStructure.NoteError(ex);
             }
         }
         int CountInstalledCrafts()

@@ -52,12 +52,13 @@ namespace JoyPro
                 try
                 {
                     Uri uri = new Uri(buildPath + newestAvailableVersion + ".zip");
-                    Console.WriteLine(buildPath + newestAvailableVersion + ".zip");
+                    MainStructure.Write(buildPath + newestAvailableVersion + ".zip");
                     DownloadCompletedEvent += new EventHandler(DownloadCompleted);
                     Task.Run(() => DownloadAsync(uri, "NewerVersion.zip"));
                 }
-                catch
+                catch(Exception ex)
                 {
+                    MainStructure.NoteError(ex);
                     downloadFails++;
                     MessageBox.Show("Download failed: " + downloadFails.ToString() + " times.");
                     DownloadNewerVersion();
@@ -87,7 +88,7 @@ namespace JoyPro
             {
                 return;
             }
-            Console.WriteLine(MainStructure.PROGPATH);
+            MainStructure.Write(MainStructure.PROGPATH);
             if (Directory.Exists(MainStructure.PROGPATH + "\\TOOLS\\Unzip\\"))
             {
                 if (!Directory.Exists(MainStructure.PROGPATH + "\\TOOLS\\temp\\"))
@@ -101,10 +102,10 @@ namespace JoyPro
                 catch (Exception ex)
                 {
                     MessageBox.Show("Could not make temperory copy of unzipper");
-                    Console.WriteLine(ex.Message);
-                    Console.WriteLine(ex.StackTrace);
-                    Console.WriteLine(ex.Source);
-                    Console.WriteLine(ex.HelpLink);
+                    MainStructure.Write(ex.Message);
+                    MainStructure.Write(ex.StackTrace);
+                    MainStructure.Write(ex.Source);
+                    MainStructure.Write(ex.HelpLink);
                     return;
                 }
                 
@@ -118,10 +119,10 @@ namespace JoyPro
                 catch(Exception ex)
                 {
                     MessageBox.Show("Could not start unzipper");
-                    Console.WriteLine(ex.Message);
-                    Console.WriteLine(ex.StackTrace);
-                    Console.WriteLine(ex.Source);
-                    Console.WriteLine(ex.HelpLink);
+                    MainStructure.Write(ex.Message);
+                    MainStructure.Write(ex.StackTrace);
+                    MainStructure.Write(ex.Source);
+                    MainStructure.Write(ex.HelpLink);
                     return;
                 }
             }
@@ -143,9 +144,9 @@ namespace JoyPro
                     return Convert.ToInt32(newestAvailableVersion);
                 }
             }
-            catch
+            catch(Exception ex)
             {
-
+                MainStructure.NoteError(ex);
             }
             return -1;
         }

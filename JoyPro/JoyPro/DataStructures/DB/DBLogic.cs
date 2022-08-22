@@ -74,6 +74,7 @@ namespace JoyPro
         }
         public static void PopulateSCDictionary()
         {
+
             string fileActionPath = MainStructure.PROGPATH + "\\DB\\StarCitizen\\actionmaps.xml";
             string gameName = "StarCitizen";
             if (File.Exists(fileActionPath))
@@ -337,8 +338,9 @@ namespace JoyPro
                 {
                     ManualDatabase = MainStructure.ReadFromBinaryFile<ManualDatabaseAdditions>(pth + "\\ManualAdditions.bin");
                 }
-                catch
+                catch(Exception ex)
                 {
+                    MainStructure.NoteError(ex);
                     System.Windows.MessageBox.Show("Error loading manual database");
                     return;
                 }
@@ -434,6 +436,7 @@ namespace JoyPro
             {
                 if (allFilesShipped[i].Name.EndsWith(".html"))
                 {
+                    MainStructure.Write("Load " + allFilesShipped[i].FullName + "into DCS");
                     PopulateDictionaryWithFile(allFilesShipped[i].FullName);
                     if (!loadedPlanes.Contains(allFilesShipped[i].Name.Replace(".html", "")))
                     {

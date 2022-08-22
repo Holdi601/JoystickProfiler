@@ -112,6 +112,7 @@ namespace JoyPro
         }
         public static void LoadCleanLuasDCS()
         {
+            MainStructure.Write("Load default DCS Inputs");
             if (File.Exists(MainStructure.PROGPATH + "\\CleanProfile\\DCS\\clean.cf"))
             {
                 File.Delete(MainStructure.PROGPATH + "\\CleanProfile\\DCS\\clean.cf");
@@ -124,6 +125,7 @@ namespace JoyPro
             FileInfo[] fileInfos = dirInf.GetFiles();
             foreach (FileInfo file in fileInfos)
             {
+                MainStructure.Write("Load default DCS: "+file.FullName);
                 StreamReader sr = new StreamReader(file.FullName);
                 DCSLuaInput curPlane = null;
                 string content = sr.ReadToEnd();
@@ -139,8 +141,9 @@ namespace JoyPro
                     {
                         curPlane.AnalyzeRawLuaInput(content);
                     }
-                    catch
+                    catch(Exception ex)
                     {
+                        MainStructure.NoteError(ex);
                         EmptyOutputsDCS.Remove(plane);
                     }
 
@@ -149,7 +152,7 @@ namespace JoyPro
                 }
             }
 
-            Console.WriteLine("Clean Joy Data loaded");
+            MainStructure.Write("Clean Joy Data loaded");
         }
 
         public static void LoadCleanLuasDCSKeyboard()
@@ -172,8 +175,9 @@ namespace JoyPro
                     {
                         curPlane.AnalyzeRawLuaInput(content);
                     }
-                    catch
+                    catch(Exception ex)
                     {
+                        MainStructure.NoteError(ex);
                         EmptyOutputsDCSKeyboard.Remove(plane);
                     }
 
@@ -182,7 +186,7 @@ namespace JoyPro
                 }
             }
 
-            Console.WriteLine("Clean Joy Data loaded");
+            MainStructure.Write("Clean Joy Data loaded");
         }
         public static void CorrectExportForAddedRemoved(List<string> planes)
         {
@@ -669,7 +673,7 @@ namespace JoyPro
                     }
                 }
             }
-            Console.WriteLine("Locals loaded lol");
+            MainStructure.Write("Locals loaded lol");
         }
         public static void MergeImport(Dictionary<string, Bind> res)
         {
@@ -703,7 +707,7 @@ namespace JoyPro
                     }
                 }
 
-                Console.WriteLine(name);
+                MainStructure.Write(name);
                 while (InternalDataManagement.AllRelations.ContainsKey(name))
                 {
                     name += "i";

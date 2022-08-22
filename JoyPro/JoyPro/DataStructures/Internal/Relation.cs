@@ -208,7 +208,7 @@ namespace JoyPro
                     NODES.Add(new RelationItem(id, plane, game));
                 }
             }
-            Console.WriteLine("Relation Item Added");
+            MainStructure.Write("Relation Item Added");
             return true;
         }
         public bool RemoveNode(string id, string game)

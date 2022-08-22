@@ -490,8 +490,9 @@ namespace JoyPro
                     kvp.Value.CheckNamesAgainstDB();
                 }
             }
-            catch
+            catch(Exception ex)
             {
+                MainStructure.NoteError(ex);
                 MessageBox.Show("Couldn't load relations");
             }
             ResyncRelations();
@@ -860,8 +861,9 @@ namespace JoyPro
                 CheckConnectedSticksToBinds();
                 CleanJoystickNodes();
             }
-            catch
+            catch(Exception ex)
             {
+                MainStructure.NoteError(ex);
                 MessageBox.Show("Couldn't load profile. Either opened by some program or other error");
             }
             ResyncRelations();
@@ -1420,7 +1422,7 @@ namespace JoyPro
                         }
                     }catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message + "\n InternalDatamanagement Filter Groups");
+                        MainStructure.NoteError(ex);
                     }
                 }
                 if (!allTheSame)

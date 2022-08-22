@@ -370,10 +370,7 @@ namespace JoyPro
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
-                Console.WriteLine(e.Source);
-                Console.WriteLine(e.HelpLink);
+                MainStructure.NoteError(e);
             }
         }
         public static void BackupConfigsOfIL2()
@@ -427,10 +424,7 @@ namespace JoyPro
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
-                Console.WriteLine(e.Source);
-                Console.WriteLine(e.HelpLink);
+                MainStructure.NoteError(e);
             }
         }
 

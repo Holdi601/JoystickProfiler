@@ -26,8 +26,16 @@ namespace JoyPro
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
     public enum PlaneActivitySelection { Relation, Import, Export, View, Error }
 
+    public partial class App:Application
+    {
+        private void Start(object sender, StartupEventArgs e)
+        {
+
+        }
+    }
     public static class MainStructure
     {
+        public static string LogFile = "\\log";
         public const int version = 84;
         public static MainWindow mainW;
         public static string PROGPATH;
@@ -52,7 +60,27 @@ namespace JoyPro
         static int fileDeleteFailureMax = 10;
         static int fileDeleteFailure = 0;
         static int fileDeleteTimeOut = 1000;
-        
+        public static bool loadKeyboard = true;
+
+        public static void Startup(object sender, StartupEventArgs e)
+        {
+
+        }
+
+        public static void NoteError(Exception e)
+        {
+            Write(e.ToString());
+            Write(e.Message);
+            Write(e.Source);
+            Write(e.StackTrace);
+        }
+
+        public static void Write(string msg)
+        {
+            msg = "[" + DateTime.UtcNow.ToString() + "]: " + "\t" + msg;
+            System.Diagnostics.Debug.WriteLine(msg);
+            File.AppendAllText(Environment.CurrentDirectory + LogFile, msg + "\r\n");
+        }
         public static void MainWActivated(object sender, EventArgs e)
         {
             MainWindowActive = true;
@@ -106,6 +134,7 @@ namespace JoyPro
                 swr.WriteLine("#");
                 if (e.Exception != null)
                 {
+                    NoteError(e.Exception);
                     if(e.Exception.Message != null) swr.WriteLine(e.Exception.Message);
                     swr.WriteLine("#");
                     if (e.Exception.StackTrace != null) swr.WriteLine(e.Exception.StackTrace);
@@ -259,10 +288,7 @@ namespace JoyPro
              }
             catch(Exception e)
             {
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
-                Console.WriteLine(e.Source);
-                Console.WriteLine(e.HelpLink);
+                MainStructure.NoteError(e);
             }
         }
         public static void StartThreads()
@@ -275,9 +301,6 @@ namespace JoyPro
             HotkeyThread = new Thread(JrContReading.HotKeyRead);
             rlJumper = new RelationJumper();
             RelationJumper = new Thread(rlJumper.StartRelationJumper);
-
-
-
             if (msave == null || msave._OverlaySettingsWindow == null) msave = new MetaSave();
             HotkeyThread.Name = "HotKeyReader";
             runningGameCheck.Name = "GameRunCheck";
@@ -290,6 +313,7 @@ namespace JoyPro
         }
         public static void InitProgram()
         {
+            Write("Check Newer Version");
             if (Updater.GetNewestVersionNumber() > version)
             {
                 MessageBoxResult mr = MessageBox.Show("A newer version is available, if you press yes, it will download in the background (Dont close the program please), You will be notified once its done.", "Newer Version Available", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -298,33 +322,43 @@ namespace JoyPro
                     Updater.DownloadNewerVersion();
                 }
             }
+            Write("Adding DCS to games");
             if (!MiscGames.Games.Contains("DCS"))
             {
                 MiscGames.Games.Add("DCS");
                 DBLogic.Planes.Add("DCS", new List<string>());
             }
+            Write("Adding IL2 to games");
             if (!MiscGames.Games.Contains("IL2Game"))
             {
                 MiscGames.Games.Add("IL2Game");
                 DBLogic.Planes.Add("IL2Game", new List<string>());
             }
+            Write("Adding SC to games");
             if (!MiscGames.Games.Contains("StarCitizen"))
             {
                 MiscGames.Games.Add("StarCitizen");
                 DBLogic.Planes.Add("StarCitizen", new List<string>());
             }
-                
+            Write("GET DCS User Fodlers");
             MiscGames.DCSInstances = InitGames.GetDCSUserFolders();
             for (int i = 0; i < MiscGames.DCSInstances.Length; ++i)
             {
+                Write("Backup User DCS config: "+ MiscGames.DCSInstances[i]);
                 MiscGames.BackupConfigsOfDCSInstance(MiscGames.DCSInstances[i]);
             }
+            Write("Start Other Threads");
             StartThreads();
             //IL2 Backup needed
+            Write("Load IL2 Path");
             IL2IOLogic.LoadIL2Path();
+            Write("Load SC Path");
             InitGames.LoadStarCitizenPath();
+            Write("Backup IL2");
             MiscGames.BackupConfigsOfIL2();
+            Write("Backup SC");
             MiscGames.BackupConfigsOfSC();
+            Write("Load last meta");
             LoadMetaLast();
         }
         public static T ReadFromBinaryFile<T>(string filePath)
@@ -386,9 +420,9 @@ namespace JoyPro
                     return currentKey;
                 }
             }
-            catch
+            catch(Exception ex)
             {
-
+                MainStructure.NoteError(ex);
             }
             return null;
         }
@@ -427,7 +461,7 @@ namespace JoyPro
                 }
                 else
                 {
-                    throw ex;
+                    MainStructure.NoteError(ex);
                 }
             }
 
@@ -461,7 +495,7 @@ namespace JoyPro
                 }
                 else
                 {
-                    throw ex;
+                    MainStructure.NoteError(ex);
                 }
             }
             

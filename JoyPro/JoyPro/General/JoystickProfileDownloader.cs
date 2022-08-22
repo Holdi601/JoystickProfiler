@@ -33,9 +33,9 @@ namespace JoyPro
                 response.Close();
                 return (response.StatusCode == HttpStatusCode.OK);
             }
-            catch
+            catch(Exception ex)
             {
-            
+                MainStructure.NoteError(ex);
             }
             return false;
         }
@@ -55,7 +55,7 @@ namespace JoyPro
 
         public static void wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            Console.WriteLine(e.ProgressPercentage);
+            MainStructure.Write(e.ProgressPercentage.ToString());
         }
 
         static void fileDownloaded(object sender, EventArgs e)

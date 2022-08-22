@@ -85,11 +85,11 @@ namespace JoyPro
             {
                 TcpListener listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 1992);
                 listener.Start();
-                Console.WriteLine("DCS Listener started");
+                MainStructure.Write("DCS Listener started");
                 while (true)
                 {
                     TcpClient client = listener.AcceptTcpClient();
-                    Console.WriteLine("Connected");
+                    MainStructure.Write("Connected");
                     StreamReader reader = new StreamReader(client.GetStream());
                     StreamWriter writer = new StreamWriter(client.GetStream());
                     string s = string.Empty;
@@ -100,7 +100,7 @@ namespace JoyPro
                         else
                         {
                             CurrentPlane = CorrectName(s);
-                            Console.WriteLine(s + " New plane set");
+                            MainStructure.Write(s + " New plane set");
                             SetButtonMapping();
                         }
                     }
@@ -111,7 +111,7 @@ namespace JoyPro
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                MainStructure.NoteError(ex);
                 Thread.Sleep(500);
             }
             StartDCSListener();
@@ -123,7 +123,7 @@ namespace JoyPro
             stopwatch.Start();
             TextTimeAlive = new TextAliveField[MainStructure.msave.OvlElementsToShow];
             InternalDataManagement.CurrentButtonMapping.Clear();
-            Console.WriteLine("ButtonSet called: " + CurrentGame + " " + CurrentPlane);
+            MainStructure.Write("ButtonSet called: " + CurrentGame + " " + CurrentPlane);
             if (CurrentGame == "DCS")
             {
                 InternalDataManagement.CurrentButtonMapping = InternalDataManagement.GetAirCraftLayout(CurrentGame, CurrentPlane);
@@ -137,7 +137,7 @@ namespace JoyPro
                 InternalDataManagement.CurrentButtonMapping = InternalDataManagement.GetAirCraftLayout(CurrentGame, CurrentGame);
             }
             stopwatch.Stop();
-            Console.WriteLine("Assigning new ButtonLayout took: " + stopwatch.ElapsedMilliseconds + "ms");
+            MainStructure.Write("Assigning new ButtonLayout took: " + stopwatch.ElapsedMilliseconds + "ms");
         }
 
         public void StartDisplayDispatcher()
@@ -287,7 +287,7 @@ namespace JoyPro
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                MainStructure.NoteError(ex);
                 Thread.Sleep(500);
                 StartDisplayBackgroundWorker();
             }

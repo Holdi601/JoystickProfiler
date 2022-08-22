@@ -256,6 +256,7 @@ namespace JoyPro
                 }
                 catch (Exception ex)
                 {
+                    MainStructure.NoteError(ex);
                     System.Windows.MessageBox.Show(ex.Message);
                 }
             }
@@ -304,6 +305,7 @@ namespace JoyPro
                     System.Windows.MessageBox.Show("Script was installed successfully");
                 }catch (Exception ex)
                 {
+                    MainStructure.NoteError(ex);
                     System.Windows.MessageBox.Show(ex.Message);
                 }
                 

@@ -70,47 +70,63 @@ namespace JoyPro
 
         public MainWindow()
         {
-            
+            MainStructure.Write("Program Started");
+            MainStructure.Write("Setup UI Lists");
             Stopwatch stopwatch = new Stopwatch();
             usedImages = new Dictionary<string, LayoutFile>();
             renderedComboBoxes = new Dictionary<string, Dictionary<string, ComboBox>>();
             deviceLookup = new Dictionary<ComboBox, string>();
             stopwatch.Start();
+            MainStructure.Write("Crash catcher Setup");
             Application.Current.DispatcherUnhandledException += new System.Windows.Threading.DispatcherUnhandledExceptionEventHandler(MainStructure.WriteCrashInfoDisp);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MainStructure.WriteCrashInfo);
+            MainStructure.Write("Init WPF components");
             InitializeComponent();
+            MainStructure.Write("Set def Height width");
             lastHighlighted = -1;
             DEFAULT_HEIGHT = this.Height;
             DEFAULT_WIDTH = this.Width;
             gridCols = 16;
+            MainStructure.Write("Lookup this version");
             VersionLabel.Content = "v" + MainStructure.version.ToString();
             CURRENTDISPLAYEDRELATION = new List<Relation>();
             ALLWINDOWS = new List<Window>();
+            MainStructure.Write("Grid Borders light gray");
             setGridBordersLightGray();
             MainStructure.mainW = this;
+            MainStructure.Write("Buttons into list");
             ButtonsIntoList();
+            MainStructure.Write("Setup Event Handlers");
             SetupEventHandlers();
+            MainStructure.Write("First Start Init process");
             FirstStart();
+            MainStructure.Write("First Start Init completed. Setup Sorting");
             joyReader = null;
             buttonSetting = -1;
             selectedSort1 = "NAME_NORM";
             selectedSort2 = "STICK_NORM";
             selectedSort3 = "BTN_NORM";
+            MainStructure.Write("Setup Scaling");
             scaleTBox.Text = MainStructure.ScaleFactor.ToString();
             scaleLbl.Visibility = Visibility.Hidden;
             scaleTBox.Visibility = Visibility.Hidden;
             CBKeepKeyboard.IsChecked = MainStructure.msave.KeepKeyboardDefaults;
             stopwatch.Stop();
-            Console.WriteLine("Startup Time: "+stopwatch.ElapsedMilliseconds.ToString() + "ms");
+            MainStructure.Write("Setup event handlers for when main window is activated");
+            MainStructure.Write("Startup Time: "+stopwatch.ElapsedMilliseconds.ToString() + "ms");
             this.Closing += new CancelEventHandler(ShutThreads);
             this.Activated += new EventHandler(MainStructure.MainWActivated);
             this.GotFocus += new RoutedEventHandler(MainStructure.MainWActivated);
             this.Deactivated+= new EventHandler(MainStructure.MainWDeactivated);
             this.LostFocus += new RoutedEventHandler(MainStructure.MainWDeactivated);
             CBKeepKeyboard.Click += new RoutedEventHandler(ChangeKeepKeyboard);
+            MainStructure.Write("Setup completed");
+            MainStructure.Write("Setup textbox eventhandlers");
             SetTextBoxEventHandlers();
+            MainStructure.Write("Start input readers");
             if (MainStructure.msave.JumpToRelation == true) StartInputReader();
             STARTED = true;
+            MainStructure.Write("Program should successfully started");
         }
 
         void ChangeKeepKeyboard(object sender, RoutedEventArgs e)
@@ -370,7 +386,7 @@ namespace JoyPro
         }
         void OpenImportProf(object sender, EventArgs e)
         {
-            Console.WriteLine(InternalDataManagement.GetAllMentionSticks());
+            MainStructure.Write(InternalDataManagement.GetAllMentionSticks().ToString());
             if (MiscGames.DCSselectedInstancePath == null || MiscGames.DCSselectedInstancePath.Length < 1)
             {
                 MessageBox.Show("Not Instance selected");
@@ -757,7 +773,7 @@ namespace JoyPro
             string fileToOpen;
             if (ofd.ShowDialog() == true)
             {
-                Console.WriteLine(ofd.FileName);
+                MainStructure.Write(ofd.FileName);
                 fileToOpen = ofd.FileName;
                 string[] pathParts = fileToOpen.Split('\\');
                 if (pathParts.Length > 0)
@@ -789,7 +805,7 @@ namespace JoyPro
         void EditRelationButton(object sender, EventArgs e)
         {
             Button b = (Button)sender;
-            Console.WriteLine(b.Name);
+            MainStructure.Write(b.Name);
             int indx = Convert.ToInt32(b.Name.Replace("editBtn", ""));
             Relation r = CURRENTDISPLAYEDRELATION[indx];
             EditRelationButton(r);
@@ -925,7 +941,7 @@ namespace JoyPro
             }
             joyReader = null;
             MainStructure.OverlayWorker.SetButtonMapping();
-            Console.WriteLine(setBtns[indx].Content);
+            MainStructure.Write(setBtns[indx].Content.ToString());
         }
         void ButtonSet(object sender, EventArgs e)
         {
@@ -955,7 +971,7 @@ namespace JoyPro
             cr.PJoystick = joyReader.result.PDevice;
             cr.JButton = joyReader.result.AxisButton;
             setBtns[indx].Content = joyReader.result.AxisButton.Replace("JOY_BTN", "Button-");
-            Console.WriteLine(setBtns[indx].Content);
+            MainStructure.Write(setBtns[indx].Content.ToString());
             if (InternalDataManagement.JoystickAliases.ContainsKey(joyReader.result.Device))
             {
                 stickLabels[indx].Content = InternalDataManagement.JoystickAliases[joyReader.result.Device];
@@ -2201,7 +2217,7 @@ namespace JoyPro
                 double startBar = mousePos.Y - PointToScreen(new Point(0, 0)).Y - pixelHeightOfBar;
                 if (startBar >= 0 && startBar < tbHeight + 5)
                 {
-                    Console.WriteLine(this.PointToScreen(new Point(0, 0)));
+                    MainStructure.Write(this.PointToScreen(new Point(0, 0)).ToString());
                     DisableInputs();
                     CreateJoystickAlias cja = new CreateJoystickAlias(visualLastJoystickSelected);
                     ALLWINDOWS.Add(cja);
@@ -2500,8 +2516,9 @@ namespace JoyPro
             {
                 cr.SaturationX = Convert.ToDouble(cleaned, System.Globalization.CultureInfo.InvariantCulture);
             }
-            catch
+            catch(Exception ex)
             {
+                MainStructure.NoteError(ex);
                 MessageBox.Show("Given SaturationX not a valid double");
             }
         }
@@ -2524,8 +2541,9 @@ namespace JoyPro
             {
                 cr.SaturationY = Convert.ToDouble(cleaned, System.Globalization.CultureInfo.InvariantCulture);
             }
-            catch
+            catch(Exception ex)
             {
+                MainStructure.NoteError(ex);
                 MessageBox.Show("Given SaturationY not a valid double");
             }
         }
@@ -2551,8 +2569,9 @@ namespace JoyPro
                 curv = Convert.ToDouble(cleaned, System.Globalization.CultureInfo.InvariantCulture);
                 succ = true;
             }
-            catch
+            catch(Exception ex)
             {
+                MainStructure.NoteError(ex);
                 MessageBox.Show("Given Curviture not a valid double");
             }
             if (succ == true)
@@ -2580,8 +2599,9 @@ namespace JoyPro
             {
                 cr.Deadzone = Convert.ToDouble(cleaned, System.Globalization.CultureInfo.InvariantCulture);
             }
-            catch
+            catch(Exception ex)
             {
+                MainStructure.NoteError(ex);
                 MessageBox.Show("Given Deadzone not a valid double");
             }
         }
@@ -2606,24 +2626,28 @@ namespace JoyPro
         }
         void FirstStart()
         {
+            MainStructure.Write("InitProgram");
             MainStructure.InitProgram();
+            MainStructure.Write("NEWFILE TRUE");
             InternalDataManagement.NewFile(true);
             for (int i = 0; i < ALLBUTTONS.Count; ++i)
                 ALLBUTTONS[i].IsEnabled = false;
+            MainStructure.Write("Load Last Meta");
             MainStructure.LoadMetaLast();
+            MainStructure.Write("Activate Inputs");
             ActivateInputs();
 
         }
         void setWindowPosSize(object sender, EventArgs e)
         {
-            Console.WriteLine("Should set");
+            MainStructure.Write("Should set");
             if (MainStructure.msave != null && MainStructure.msave._MainWindow.Width > 0)
             {
                 this.Top = MainStructure.msave._MainWindow.Top;
                 this.Left = MainStructure.msave._MainWindow.Left;
                 this.Width = MainStructure.msave._MainWindow.Width;
                 this.Height = MainStructure.msave._MainWindow.Height;
-                Console.WriteLine("Done set");
+                MainStructure.Write("Done set");
                 CBNukeUnused.IsChecked = MainStructure.msave.NukeSticks;
                 CBExportOnlyView.IsChecked = MainStructure.msave.ExportInView;
             }
@@ -2684,7 +2708,7 @@ namespace JoyPro
         }
         private void InstanceSelectionChanged(object sender, EventArgs e)
         {
-            Console.WriteLine(sender.GetType().ToString());
+            MainStructure.Write(sender.GetType().ToString());
             if (((ComboBox)sender).SelectedIndex < 0) return;
             MiscGames.DCSInstanceSelectionChanged((string)DropDownInstanceSelection.SelectedItem);
         }    
@@ -2808,6 +2832,7 @@ namespace JoyPro
             }
             catch (Exception ex)
             {
+                MainStructure.NoteError(ex);
                 MessageBox.Show("Not a valid double");
             }
         }
