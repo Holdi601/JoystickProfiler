@@ -30,7 +30,23 @@ namespace JoyPro
     {
         private void Start(object sender, StartupEventArgs e)
         {
-
+            if(e.Args!=null)
+            {
+                MainStructure.Write("Startup Args:");
+                for(int i = 0; i < e.Args.Length; i++)
+                {
+                    MainStructure.Write(e.Args[i]);
+                    if (e.Args[i].Length > 0 && e.Args[i].StartsWith("-"))
+                    {
+                        switch(e.Args[i].ToLower())
+                        {
+                            case "-nokeyboard":MainStructure.loadKeyboard = false;break;
+                            default:break;
+                        }
+                    }
+                }
+                MainStructure.Write("End of Args");
+            }
         }
     }
     public static class MainStructure
@@ -62,10 +78,6 @@ namespace JoyPro
         static int fileDeleteTimeOut = 1000;
         public static bool loadKeyboard = true;
 
-        public static void Startup(object sender, StartupEventArgs e)
-        {
-
-        }
 
         public static void NoteError(Exception e)
         {

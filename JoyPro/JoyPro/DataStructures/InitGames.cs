@@ -53,7 +53,7 @@ namespace JoyPro
                     if (file.Name.Replace(".html","").ToLower()!="uilayer")
                         missingCleans.Add(file.Name.Replace(".html", ".cf"));
                 }
-                if (file.Name.EndsWith(".html") &&
+                if (file.Name.EndsWith(".html") &&MainStructure.loadKeyboard&&
                     !File.Exists(cfPathKb + "\\" + file.Name.Replace(".html", ".cf")) &&
                     !missingCleans.Contains(file.Name.Replace(".html", ".cf")))
                 {
@@ -205,8 +205,7 @@ namespace JoyPro
             MainStructure.PROGPATH = Environment.CurrentDirectory;
             MainStructure.Write(MainStructure.PROGPATH);
             DCSIOLogic.LoadCleanLuasDCS();
-            
-            DCSIOLogic.LoadCleanLuasDCSKeyboard();
+            if(MainStructure.loadKeyboard)DCSIOLogic.LoadCleanLuasDCSKeyboard();
             DCSIOLogic.LoadLocalDefaultsDCS();
             DCSIOLogic.LoadKeyboardConversion();
             List<string> installs = new List<string>();
