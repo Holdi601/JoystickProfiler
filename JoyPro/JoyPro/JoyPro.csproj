@@ -345,9 +345,6 @@
     <Content Include="DB\DCS\AH-64D_BLK_II_PLT.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DB\DCS\Hercules.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="DB\DCS\Mi-24P_Gunner.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
