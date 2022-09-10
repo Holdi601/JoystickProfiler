@@ -98,6 +98,8 @@ namespace JoyPro
             BackupDaysBox.Text = MainStructure.msave.backupDays.ToString();
             VisualLayersBox.Text = (MainStructure.msave.maxVisualLayers - 1).ToString();
             AutomatedAdditionAndCorrectionCB.IsChecked = MainStructure.msave.AddAditionalAndCorrectRelationItems == false ? false : true;
+            AutoAddCB.IsChecked = MainStructure.msave.AutoAddDBItems == false ? false : true;
+            AddItemSelectedOnlyCB.IsChecked = MainStructure.msave.SelectedPlaneItemAddOnly == false ? false : true;
             if (MainStructure.msave.DCSInstaceOverride != null) DCSInstanceORBox.Text = MainStructure.msave.DCSInstaceOverride;
             if (MainStructure.msave.IL2OR != null) IL2InstanceORBox.Text = MainStructure.msave.IL2OR;
             string installPath = InitGames.GetDCSInstallationPath();
@@ -126,6 +128,8 @@ namespace JoyPro
             ManualDBBtn.Click += new RoutedEventHandler(OpenIDManualManagement);
             VisualLayersBox.LostFocus += new RoutedEventHandler(changeMaxLayerCount);
             AutomatedAdditionAndCorrectionCB.Click += new RoutedEventHandler(AddOrCorrectRelationItems);
+            AutoAddCB.Click+= new RoutedEventHandler(AutoAddItemCB);
+            AddItemSelectedOnlyCB.Click+=new RoutedEventHandler(SelectedPlaneItemAddCB);
             AddToManualDBBtn.Click += new RoutedEventHandler(DiffDBtoManualDB);
             if (MainStructure.msave.importLocals == null || MainStructure.msave.importLocals == true)
                 ImportLocalsFromInstanceCB.IsChecked = true;
@@ -157,6 +161,16 @@ namespace JoyPro
         void AddOrCorrectRelationItems(object sender, EventArgs e)
         {
             MainStructure.msave.AddAditionalAndCorrectRelationItems = AutomatedAdditionAndCorrectionCB.IsChecked;
+        }
+
+        void AutoAddItemCB(object sender, EventArgs e)
+        {
+            MainStructure.msave.AutoAddDBItems = AutoAddCB.IsChecked;
+        }
+
+        void SelectedPlaneItemAddCB(object sender, EventArgs e)
+        {
+            MainStructure.msave.SelectedPlaneItemAddOnly = AddItemSelectedOnlyCB.IsChecked;
         }
 
         void ChangeSCInstanceOverridePath(object sender, RoutedEventArgs e)

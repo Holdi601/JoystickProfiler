@@ -30,12 +30,12 @@ namespace JoyPro
 
             return "ERROR";
         }
-        public RelationItem(string id, string game)
+        public RelationItem(string id, string game, Relation r)
         {
             AIRCRAFT = new Dictionary<string, bool>();
             ID = id;
             Game = game;
-            if (game == "DCS") InitDCS();
+            if (game == "DCS") InitDCS(r);
             else InitOtherGame();
 
         }
@@ -73,7 +73,7 @@ namespace JoyPro
                     DCSInput di = InputsContainPlane(dbItems, AllInputs[i].Plane);
                     if (di != null)
                     {
-                        if (di.Title == AllInputs[i].Title)
+                        if (di.Title.ToLower() == AllInputs[i].Title.ToLower())
                         {
                             toKeep.Add(AllInputs[i]);
                         }
@@ -122,7 +122,7 @@ namespace JoyPro
                     OtherGameInput di = InputsContainPlane(dbItems, OtherInputs[i].Plane);
                     if (di != null)
                     {
-                        if (di.Title == OtherInputs[i].Title)
+                        if (di.Title.ToLower() == OtherInputs[i].Title.ToLower())
                         {
                             toKeep.Add(OtherInputs[i]);
                         }
@@ -210,13 +210,17 @@ namespace JoyPro
             }
             return null;
         }
-        void InitDCS()
+        void InitDCS(Relation r)
         {
             AIRCRAFT = new Dictionary<string, bool>();
             AllInputs = DBLogic.GetAllDCSInputsWithId(ID);
             for (int i = 0; i < AllInputs.Length; ++i)
-                if (!AIRCRAFT.ContainsKey(AllInputs[i].Plane))
+            {
+                if (!AIRCRAFT.ContainsKey(AllInputs[i].Plane)&& r.GetPlaneRelationState(AllInputs[i].Plane, "DCS") < 1)
+                {
                     AIRCRAFT.Add(AllInputs[i].Plane, true);
+                }
+            } 
         }
         void InitOtherGame()
         {

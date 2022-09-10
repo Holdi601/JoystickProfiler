@@ -242,6 +242,7 @@ namespace JoyPro
                 return;
             }
             bool axis = selected[0].AXIS;
+            string pl = selected[0].AIRCRAFT;
             for (int i = 1; i < selected.Count; i++)
             {
                 if (axis != (selected[i].AXIS))
@@ -252,7 +253,7 @@ namespace JoyPro
             }
             for (int i = 0; i < selected.Count; ++i)
             {
-                Current.AddNode(selected[i].ID, selected[i].GAME, selected[i].AXIS);
+                Current.AddNode(selected[i].ID, selected[i].GAME, selected[i].AXIS, selected[i].AIRCRAFT, true);                
             }       
             RefreshDGSelected();
         }

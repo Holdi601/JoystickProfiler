@@ -46,7 +46,6 @@ namespace JoyPro
         WindowPos collectSticks=null;
         public int maxVisualLayers;
         public string SCOR = "";
-        
 
         public WindowPos _RelationWindow
         {
@@ -536,6 +535,8 @@ namespace JoyPro
         public bool? import_curvature = false;
         public bool? import_satx = false;
         public bool? import_saty = false;
+        public bool? AutoAddDBItems = null;
+        public bool? SelectedPlaneItemAddOnly = null;
 
         public MetaSave()
         {

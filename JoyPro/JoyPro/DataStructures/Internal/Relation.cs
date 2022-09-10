@@ -141,12 +141,12 @@ namespace JoyPro
             }
             for(int i=0; i<toAdd.Count; ++i)
             {
-                if(GetPlaneRelationState(toAdd[i].Plane, "DCS")<1)
+                if(MainStructure.msave.AutoAddDBItems == true && GetPlaneRelationState(toAdd[i].Plane, "DCS")<1)
                     AddNode(toAdd[i].ID, "DCS", toAdd[i].IsAxis, toAdd[i].Plane);
             }
             for(int i=0; i<oToAdd.Count; ++i)
             {
-                if (GetPlaneRelationState(oToAdd[i].Plane, oToAdd[i].Game) < 1)
+                if (MainStructure.msave.AutoAddDBItems == true && GetPlaneRelationState(oToAdd[i].Plane, oToAdd[i].Game) < 1)
                     AddNode(oToAdd[i].ID, oToAdd[i].Game, oToAdd[i].IsAxis, oToAdd[i].Plane);
             }
 
@@ -171,9 +171,19 @@ namespace JoyPro
             //Possible error condition if already added condition is button or axis
 
         }
-        public bool AddNode(string id, string game, bool axis, string plane = "")
+        public bool AddNode(string id, string game, bool axis, string plane = "", bool RelWinAdd=false)
         {
             if (game == null || game.Length < 1) game = "DCS";
+            if (NodesContainId(id))
+            {
+                for(int i = 0; i < NODES.Count; ++i)
+                {
+                    if (NODES[i].ID == id)
+                    {
+                        NODES[i].CheckAgainstDB(this);
+                    }
+                }
+            }
             if (NodesContainId(id) && plane.Length < 1) return false;
             if (NODES.Count < 1)
             {
@@ -184,7 +194,7 @@ namespace JoyPro
                 if (ISAXIS != axis) return false;
             }
             if (plane.Length < 1)
-                NODES.Add(new RelationItem(id, game));
+                NODES.Add(new RelationItem(id, game, this));
             else
             {
                 bool found = false;
@@ -205,7 +215,14 @@ namespace JoyPro
                 }
                 else
                 {
-                    NODES.Add(new RelationItem(id, plane, game));
+                    if(MainStructure.msave.SelectedPlaneItemAddOnly==true||!RelWinAdd)
+                    {
+                        NODES.Add(new RelationItem(id, plane, game));
+                    }
+                    else
+                    {
+                        NODES.Add(new RelationItem(id, game, this));
+                    }
                 }
             }
             MainStructure.Write("Relation Item Added");
