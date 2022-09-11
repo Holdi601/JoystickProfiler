@@ -125,6 +125,7 @@ namespace JoyPro
             if (MainStructure.msave.AddAditionalAndCorrectRelationItems == false) return;
             List<DCSInput> toAdd = new List<DCSInput>();
             List<OtherGameInput> oToAdd = new List<OtherGameInput>();
+            CurrentBind cb = new CurrentBind(this);
             foreach (RelationItem r in NODES)
             {
                 List<object> toAddInner = r.CheckAgainstDB(this);
@@ -141,12 +142,24 @@ namespace JoyPro
             }
             for(int i=0; i<toAdd.Count; ++i)
             {
-                if(MainStructure.msave.AutoAddDBItems == true && GetPlaneRelationState(toAdd[i].Plane, "DCS")<1)
+                bool nothingElseBound = true;
+                if (cb.found == true && MainStructure.msave.AutoAddDBItems == true)
+                {
+                    string desc = InternalDataManagement.GetDescriptionForJoystickButtonGamePlane(cb.joystick, cb.modbtn, "DCS", toAdd[i].Plane);
+                    if (desc.Length > 0) nothingElseBound = false;
+                }
+                if (MainStructure.msave.AutoAddDBItems == true && GetPlaneRelationState(toAdd[i].Plane, "DCS")<1&&nothingElseBound)
                     AddNode(toAdd[i].ID, "DCS", toAdd[i].IsAxis, toAdd[i].Plane);
             }
             for(int i=0; i<oToAdd.Count; ++i)
             {
-                if (MainStructure.msave.AutoAddDBItems == true && GetPlaneRelationState(oToAdd[i].Plane, oToAdd[i].Game) < 1)
+                bool nothingElseBound = true;
+                if (cb.found == true && MainStructure.msave.AutoAddDBItems == true)
+                {
+                    string desc = InternalDataManagement.GetDescriptionForJoystickButtonGamePlane(cb.joystick, cb.modbtn, oToAdd[i].Game, oToAdd[i].Plane);
+                    if (desc.Length > 0) nothingElseBound = false;
+                }
+                if (MainStructure.msave.AutoAddDBItems == true && GetPlaneRelationState(oToAdd[i].Plane, oToAdd[i].Game) < 1 && nothingElseBound)
                     AddNode(oToAdd[i].ID, oToAdd[i].Game, oToAdd[i].IsAxis, oToAdd[i].Plane);
             }
 

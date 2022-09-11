@@ -62,7 +62,7 @@ namespace JoyPro
         public List<object> CheckAgainstDB(Relation r)
         {
             List<object> toReturn = new List<object>();
-            
+            CurrentBind cb = new CurrentBind(r);
             if (Game == null || Game == "DCS" || Game == "")
             {
                 DCSInput[] dbItems = DBLogic.GetAllDCSInputsWithId(ID);
@@ -100,7 +100,14 @@ namespace JoyPro
                     {
                         DCSInput da = InputsContainPlane(toKeep.ToArray(), dbItems[i].Plane);
                         toKeep.Add(dbItems[i]);
-                        if (da == null&&r.GetPlaneRelationState(dbItems[i].Plane, Game, this)<1)
+                        bool nothingElseBound = true;
+                        if(cb.found==true&& MainStructure.msave.AutoAddDBItems == true)
+                        {
+                            string desc = InternalDataManagement.GetDescriptionForJoystickButtonGamePlane(cb.joystick, cb.modbtn, "DCS", dbItems[i].Plane);
+                            if(desc.Length>0)nothingElseBound = false;
+                        }
+
+                        if (da == null&&r.GetPlaneRelationState(dbItems[i].Plane, Game, this)<1&&MainStructure.msave.AutoAddDBItems==true&&nothingElseBound)
                         {
                             AIRCRAFT.Add(dbItems[i].Plane, true);
                         }
@@ -151,7 +158,14 @@ namespace JoyPro
                         if (da == null)
                         {
                             toKeep.Add(dbItems[i]);
-                            if (da == null && r.GetPlaneRelationState(dbItems[i].Plane, Game, this) < 1)
+                            bool nothingElseBound = true;
+                            if (cb.found == true && MainStructure.msave.AutoAddDBItems == true)
+                            {
+                                string desc = InternalDataManagement.GetDescriptionForJoystickButtonGamePlane(cb.joystick, cb.modbtn, Game, dbItems[i].Plane);
+                                if (desc.Length > 0) nothingElseBound = false;
+                            }
+
+                            if (da == null && r.GetPlaneRelationState(dbItems[i].Plane, Game, this) < 1 && MainStructure.msave.AutoAddDBItems == true)
                             {
                                 AIRCRAFT.Add(dbItems[i].Plane, true);
                             }

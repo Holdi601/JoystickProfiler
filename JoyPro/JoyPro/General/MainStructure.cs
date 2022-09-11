@@ -26,6 +26,49 @@ namespace JoyPro
     public enum ModExists { NOT_EXISTENT, BINDNAME_EXISTS, KEYBIND_EXISTS, ALL_EXISTS, ERROR }
     public enum PlaneActivitySelection { Relation, Import, Export, View, Error }
 
+    public struct CurrentBind
+    {
+        public bool found;
+        public string joystick;
+        public string modbtn;
+
+        public CurrentBind(Relation r)
+        {
+            if (InternalDataManagement.AllBinds.ContainsKey(r.NAME))
+            {
+                found = true;
+                joystick = InternalDataManagement.AllBinds[r.NAME].Joystick;
+                string toCompare;
+                if (r.ISAXIS)
+                {
+                    toCompare = InternalDataManagement.AllBinds[r.NAME].JAxis;
+                }
+                else
+                {
+                    toCompare = InternalDataManagement.AllBinds[r.NAME].JButton;
+                }
+                string prefix = "";
+                if (InternalDataManagement.AllBinds[r.NAME].AllReformers.Count > 0)
+                {
+                    InternalDataManagement.AllBinds[r.NAME].AllReformers.Sort();
+                    prefix = InternalDataManagement.AllBinds[r.NAME].AllReformers[0].Substring(0, InternalDataManagement.AllBinds[r.NAME].AllReformers[0].IndexOf('§'));
+                    for (int i = 1; i < InternalDataManagement.AllBinds[r.NAME].AllReformers.Count; ++i)
+                    {
+                        prefix = prefix + "+" + InternalDataManagement.AllBinds[r.NAME].AllReformers[i].Substring(0, InternalDataManagement.AllBinds[r.NAME].AllReformers[i].IndexOf('§'));
+                    }
+                    prefix = prefix + "+";
+                }
+                toCompare = prefix + toCompare;
+                modbtn = toCompare;
+            }
+            else
+            {
+                found = false;
+                joystick = null;
+                modbtn = null;
+            }
+        }
+    }
     public partial class App:Application
     {
         private void Start(object sender, StartupEventArgs e)
