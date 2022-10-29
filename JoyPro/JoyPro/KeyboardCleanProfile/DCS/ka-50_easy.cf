@@ -549,9 +549,9 @@ local diff = {
 				[1] = {
 					["key"] = "F",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
-						[3] = "RShift",
+						[1] = "RCtrl",
+						[2] = "RShift",
+						[3] = "RAlt",
 					},
 				},
 			},
@@ -584,9 +584,9 @@ local diff = {
 				[1] = {
 					["key"] = "D",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
-						[3] = "RShift",
+						[1] = "RCtrl",
+						[2] = "RShift",
+						[3] = "RAlt",
 					},
 				},
 			},
@@ -671,9 +671,9 @@ local diff = {
 				[1] = {
 					["key"] = "A",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
-						[3] = "RShift",
+						[1] = "RCtrl",
+						[2] = "RShift",
+						[3] = "RAlt",
 					},
 				},
 			},
@@ -1089,7 +1089,7 @@ local diff = {
 			},
 		},
 		["d363pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Clickable Mouse Cockpit Mode - ON/OFF",
+			["name"] = "Force cursor to show, toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",
@@ -1543,8 +1543,8 @@ local diff = {
 				[1] = {
 					["key"] = "J",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -1697,20 +1697,8 @@ local diff = {
 				[1] = {
 					["key"] = "K",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d816pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Active Pause",
-			["removed"] = {
-				[1] = {
-					["key"] = "Pause",
-					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LWin",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -1797,7 +1785,7 @@ local diff = {
 			},
 		},
 		["d855pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Wheel brake parking",
+			["name"] = "Parking brake",
 			["removed"] = {
 				[1] = {
 					["key"] = "W",
@@ -1813,8 +1801,8 @@ local diff = {
 				[1] = {
 					["key"] = "D",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},

@@ -1,0 +1,264 @@
+local diff = {
+	["keyDiffs"] = {
+		["d1702pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera bookmarks editor",
+			["removed"] = {
+				[1] = {
+					["key"] = "Z",
+				},
+			},
+		},
+		["d1705pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera main menu bar",
+			["removed"] = {
+				[1] = {
+					["key"] = "M",
+				},
+			},
+		},
+		["d1710pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Pie menu",
+			["removed"] = {
+				[1] = {
+					["key"] = "O",
+				},
+			},
+		},
+		["d1723pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Horizontal camera moving",
+			["removed"] = {
+				[1] = {
+					["key"] = "H",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d1724pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Direct the camera towards the ground",
+			["removed"] = {
+				[1] = {
+					["key"] = "G",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d1725pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Vertical camera moving",
+			["removed"] = {
+				[1] = {
+					["key"] = "V",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d1726pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Frontal camera moving",
+			["removed"] = {
+				[1] = {
+					["key"] = "F",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d1809pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Direct the camera along the room walls",
+			["removed"] = {
+				[1] = {
+					["key"] = "N",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["dnilp1713u1810cdnilvdnilvpnilvunil"] = {
+			["name"] = "Forward key W",
+			["removed"] = {
+				[1] = {
+					["key"] = "W",
+				},
+			},
+		},
+		["dnilp1714u1811cdnilvdnilvpnilvunil"] = {
+			["name"] = "Backward key S",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+				},
+			},
+		},
+		["dnilp1715u1812cdnilvdnilvpnilvunil"] = {
+			["name"] = "Left key A",
+			["removed"] = {
+				[1] = {
+					["key"] = "A",
+				},
+			},
+		},
+		["dnilp1716u1813cdnilvdnilvpnilvunil"] = {
+			["name"] = "Right key D",
+			["removed"] = {
+				[1] = {
+					["key"] = "D",
+				},
+			},
+		},
+		["dnilp1717u1814cdnilvdnilvpnilvunil"] = {
+			["name"] = "Fast forward key LShift-W",
+			["removed"] = {
+				[1] = {
+					["key"] = "W",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["dnilp1718u1815cdnilvdnilvpnilvunil"] = {
+			["name"] = "Fast backward key LShift-S",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["dnilp1719u1816cdnilvdnilvpnilvunil"] = {
+			["name"] = "Fast left key LShift-A",
+			["removed"] = {
+				[1] = {
+					["key"] = "A",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["dnilp1720u1817cdnilvdnilvpnilvunil"] = {
+			["name"] = "Fast right key LShift-D",
+			["removed"] = {
+				[1] = {
+					["key"] = "D",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["dnilp1733u1818cdnilvdnilvpnilvunil"] = {
+			["name"] = "Slow forward key LCtrl-W",
+			["removed"] = {
+				[1] = {
+					["key"] = "W",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1734u1820cdnilvdnilvpnilvunil"] = {
+			["name"] = "Slow left key LCtrl-A",
+			["removed"] = {
+				[1] = {
+					["key"] = "A",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1735u1819cdnilvdnilvpnilvunil"] = {
+			["name"] = "Slow backward key LCtrl-S",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1736u1821cdnilvdnilvpnilvunil"] = {
+			["name"] = "Slow right key LCtrl-D",
+			["removed"] = {
+				[1] = {
+					["key"] = "D",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1837u1840cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera height up",
+			["removed"] = {
+				[1] = {
+					["key"] = "E",
+				},
+			},
+		},
+		["dnilp1838u1840cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera height up fast",
+			["removed"] = {
+				[1] = {
+					["key"] = "E",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["dnilp1839u1840cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera height up slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "E",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1841u1844cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera height down",
+			["removed"] = {
+				[1] = {
+					["key"] = "Q",
+				},
+			},
+		},
+		["dnilp1842u1844cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera height down fast",
+			["removed"] = {
+				[1] = {
+					["key"] = "Q",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["dnilp1843u1844cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera height down slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Q",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+	},
+}
+return diff

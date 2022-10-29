@@ -458,6 +458,17 @@ local diff = {
 				},
 			},
 		},
+		["d1593pnilu1594cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera transpose mode (press and hold)",
+			["removed"] = {
+				[1] = {
+					["key"] = "F1",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
 		["d159pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "F11 Camera moving forward",
 			["removed"] = {
@@ -625,8 +636,8 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -637,8 +648,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 						[3] = "RShift",
 					},
 				},
@@ -666,11 +677,37 @@ local diff = {
 				},
 			},
 		},
+		["d1710pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Pie menu",
+			["removed"] = {
+				[1] = {
+					["key"] = "O",
+					["reformers"] = {
+						[1] = "RCtrl",
+						[2] = "RAlt",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
 		["d1711pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Object free camera bookmarks menu",
 			["removed"] = {
 				[1] = {
 					["key"] = "-",
+					["reformers"] = {
+						[1] = "RCtrl",
+						[2] = "RAlt",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["d1753pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Supercarrier camera",
+			["removed"] = {
+				[1] = {
+					["key"] = "F9",
 					["reformers"] = {
 						[1] = "RAlt",
 						[2] = "RCtrl",
@@ -703,6 +740,18 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "NumEnter",
+				},
+			},
+		},
+		["d1782pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative center",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num5",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
 				},
 			},
 		},
@@ -784,6 +833,19 @@ local diff = {
 					["key"] = "F2",
 					["reformers"] = {
 						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d1862pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 view local input layer toggle",
+			["removed"] = {
+				[1] = {
+					["key"] = "F11",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
 					},
 				},
 			},
@@ -990,6 +1052,17 @@ local diff = {
 					["key"] = "F10",
 					["reformers"] = {
 						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d2622pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Theater map dialog on/off",
+			["removed"] = {
+				[1] = {
+					["key"] = "F10",
+					["reformers"] = {
+						[1] = "RShift",
 					},
 				},
 			},
@@ -1233,7 +1306,7 @@ local diff = {
 				},
 			},
 		},
-		["d3001pnilunilcd68vd1vpnilvunil"] = {
+		["d3001pnilunilcd100vd1vpnilvunil"] = {
 			["name"] = "Kneeboard Next Page",
 			["removed"] = {
 				[1] = {
@@ -1241,7 +1314,7 @@ local diff = {
 				},
 			},
 		},
-		["d3002pnilunilcd68vd1vpnilvunil"] = {
+		["d3002pnilunilcd100vd1vpnilvunil"] = {
 			["name"] = "Kneeboard Previous Page",
 			["removed"] = {
 				[1] = {
@@ -1249,7 +1322,7 @@ local diff = {
 				},
 			},
 		},
-		["d3003pnilunilcd68vd1vpnilvunil"] = {
+		["d3003pnilunilcd100vd1vpnilvunil"] = {
 			["name"] = "Kneeboard current position mark point",
 			["removed"] = {
 				[1] = {
@@ -1677,7 +1750,7 @@ local diff = {
 			},
 		},
 		["d363pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Clickable Mouse Cockpit Mode - ON/OFF",
+			["name"] = "Force cursor to show, toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",
@@ -2153,18 +2226,6 @@ local diff = {
 				},
 			},
 		},
-		["d816pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Active Pause",
-			["removed"] = {
-				[1] = {
-					["key"] = "Pause",
-					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LWin",
-					},
-				},
-			},
-		},
 		["d81pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Salvo Mode",
 			["removed"] = {
@@ -2363,6 +2424,256 @@ local diff = {
 					["key"] = "Num-",
 					["reformers"] = {
 						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1769u1777cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative up",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num8",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1770u1777cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative down",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num2",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1771u1777cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative left",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num4",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1772u1777cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative right",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num6",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1773u1777cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative up right",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num9",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1774u1777cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative down right",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num3",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1775u1777cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative down left",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num1",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1776u1777cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative up left",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num7",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1778u1779cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative forward",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num*",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1780u1781cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative backward",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num/",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1783u1791cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative up slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num8",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1784u1791cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative down slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num2",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1785u1791cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative left slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num4",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1786u1791cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative right slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num6",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1787u1791cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative up right slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num9",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1788u1791cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative down right slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num3",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1789u1791cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative down left slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num1",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1790u1791cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative up left slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num7",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1792u1793cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative forward slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num*",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1794u1795cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative backward slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num/",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -2706,8 +3017,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RShift",
+						[1] = "RShift",
+						[2] = "RAlt",
 					},
 				},
 			},

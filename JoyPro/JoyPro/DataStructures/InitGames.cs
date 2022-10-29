@@ -50,7 +50,8 @@ namespace JoyPro
                     !missingCleans.Contains(file.Name.Replace(".html", ".cf")))
                 {
                     MainStructure.Write("CF not found for " + file.FullName);
-                    if (file.Name.Replace(".html","").ToLower()!="uilayer")
+                    if (file.Name.Replace(".html","").ToLower()!="uilayer"&&
+                        file.Name.Replace(".html", "").ToLower() != "cameraobject")
                         missingCleans.Add(file.Name.Replace(".html", ".cf"));
                 }
                 if (file.Name.EndsWith(".html") &&MainStructure.loadKeyboard&&
@@ -58,7 +59,8 @@ namespace JoyPro
                     !missingCleans.Contains(file.Name.Replace(".html", ".cf")))
                 {
                     MainStructure.Write("CF not found for " + file.FullName);
-                    if (file.Name.Replace(".html", "").ToLower() != "uilayer")
+                    if (file.Name.Replace(".html", "").ToLower() != "uilayer"&&
+                        file.Name.Replace(".html", "").ToLower() != "cameraobject")
                         missingCleans.Add(file.Name.Replace(".html", ".cf")+"(Keyboard Version)");
                 }
             }

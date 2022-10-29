@@ -345,6 +345,24 @@
     <Content Include="DB\DCS\AH-64D_BLK_II_PLT.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DB\DCS\CameraFree.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\DCS\CameraObject.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\DCS\CameraRoom.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\DCS\Hercules.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\DCS\MB-339A.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\DCS\MB-339APAN.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DB\DCS\Mi-24P_Gunner.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1178,6 +1196,33 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="KeyboardCleanProfile\DCS\Mirage-F1M-EE.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\CameraFree.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\CameraRoom.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\MB-339A.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\MB-339APAN.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\CameraFree.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\CameraObject.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\CameraRoom.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\MB-339A.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\MB-339APAN.cf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="TOOLS\AHK\ALTF4.ahk" />

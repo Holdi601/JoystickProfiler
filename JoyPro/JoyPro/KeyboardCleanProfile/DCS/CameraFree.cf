@@ -1,0 +1,513 @@
+local diff = {
+	["keyDiffs"] = {
+		["d1698pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Unload camera position to clipboard",
+			["removed"] = {
+				[1] = {
+					["key"] = "C",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d1699pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Load camera position from clipboard",
+			["removed"] = {
+				[1] = {
+					["key"] = "V",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d1723pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Horizontal camera moving",
+			["removed"] = {
+				[1] = {
+					["key"] = "H",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d1724pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Direct the camera towards the ground",
+			["removed"] = {
+				[1] = {
+					["key"] = "G",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d1725pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Vertical camera moving",
+			["removed"] = {
+				[1] = {
+					["key"] = "V",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d1726pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Frontal camera moving",
+			["removed"] = {
+				[1] = {
+					["key"] = "F",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d1727pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Direct the camera along world axes",
+			["removed"] = {
+				[1] = {
+					["key"] = "N",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d1845pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Align camera to the Earth horizont",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num5",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1713u1810cdnilvdnilvpnilvunil"] = {
+			["name"] = "Forward key W",
+			["removed"] = {
+				[1] = {
+					["key"] = "W",
+				},
+			},
+		},
+		["dnilp1714u1811cdnilvdnilvpnilvunil"] = {
+			["name"] = "Backward key S",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+				},
+			},
+		},
+		["dnilp1715u1812cdnilvdnilvpnilvunil"] = {
+			["name"] = "Left key A",
+			["removed"] = {
+				[1] = {
+					["key"] = "A",
+				},
+			},
+		},
+		["dnilp1716u1813cdnilvdnilvpnilvunil"] = {
+			["name"] = "Right key D",
+			["removed"] = {
+				[1] = {
+					["key"] = "D",
+				},
+			},
+		},
+		["dnilp1717u1814cdnilvdnilvpnilvunil"] = {
+			["name"] = "Fast forward key LShift-W",
+			["removed"] = {
+				[1] = {
+					["key"] = "W",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["dnilp1718u1815cdnilvdnilvpnilvunil"] = {
+			["name"] = "Fast backward key LShift-S",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["dnilp1719u1816cdnilvdnilvpnilvunil"] = {
+			["name"] = "Fast left key LShift-A",
+			["removed"] = {
+				[1] = {
+					["key"] = "A",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["dnilp1720u1817cdnilvdnilvpnilvunil"] = {
+			["name"] = "Fast right key LShift-D",
+			["removed"] = {
+				[1] = {
+					["key"] = "D",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["dnilp1733u1818cdnilvdnilvpnilvunil"] = {
+			["name"] = "Slow forward key LCtrl-W",
+			["removed"] = {
+				[1] = {
+					["key"] = "W",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1734u1820cdnilvdnilvpnilvunil"] = {
+			["name"] = "Slow left key LCtrl-A",
+			["removed"] = {
+				[1] = {
+					["key"] = "A",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1735u1819cdnilvdnilvpnilvunil"] = {
+			["name"] = "Slow backward key LCtrl-S",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1736u1821cdnilvdnilvpnilvunil"] = {
+			["name"] = "Slow right key LCtrl-D",
+			["removed"] = {
+				[1] = {
+					["key"] = "D",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1837u1840cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera height up",
+			["removed"] = {
+				[1] = {
+					["key"] = "E",
+				},
+			},
+		},
+		["dnilp1838u1840cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera height up fast",
+			["removed"] = {
+				[1] = {
+					["key"] = "E",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["dnilp1839u1840cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera height up slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "E",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1841u1844cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera height down",
+			["removed"] = {
+				[1] = {
+					["key"] = "Q",
+				},
+			},
+		},
+		["dnilp1842u1844cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera height down fast",
+			["removed"] = {
+				[1] = {
+					["key"] = "Q",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["dnilp1843u1844cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera height down slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Q",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1846u1850cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera yaw left fast",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num4",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1847u1851cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera yaw right fast",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num6",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1848u1852cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch up fast",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num8",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1849u1853cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch down fast",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num2",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1854u1858cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch up, yaw left fast",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num7",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1855u1859cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch up, yaw right fast",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num9",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1856u1860cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch down, yaw left fast",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num1",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1857u1861cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch down, yaw right fast",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num3",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp205u1859cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch up, yaw right",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num9",
+				},
+			},
+		},
+		["dnilp206u1861cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch down, yaw right",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num3",
+				},
+			},
+		},
+		["dnilp207u1860cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch down, yaw left",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num1",
+				},
+			},
+		},
+		["dnilp208u1858cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch up, yaw left",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num7",
+				},
+			},
+		},
+		["dnilp210u1859cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch up, yaw right fast",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num9",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp211u1861cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch down, yaw right fast",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num3",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp212u1860cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch down, yaw left fast",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num1",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp213u1858cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch up, yaw left fast",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num7",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp28u1850cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera yaw left",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num4",
+				},
+			},
+		},
+		["dnilp29u1851cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera yaw right",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num6",
+				},
+			},
+		},
+		["dnilp30u1852cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch up",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num8",
+				},
+			},
+		},
+		["dnilp31u1853cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch down",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num2",
+				},
+			},
+		},
+		["dnilp32u1850cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera yaw left slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num4",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp33u1851cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera yaw right slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num6",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp34u1852cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch up slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num8",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp35u1853cdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 camera pitch down slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num2",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+	},
+}
+return diff

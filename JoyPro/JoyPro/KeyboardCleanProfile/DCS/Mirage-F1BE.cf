@@ -149,7 +149,7 @@ local diff = {
 			},
 		},
 		["d145pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Flaps Landing Position",
+			["name"] = "Slat/Flap lever - one step down",
 			["removed"] = {
 				[1] = {
 					["key"] = "F",
@@ -160,7 +160,7 @@ local diff = {
 			},
 		},
 		["d146pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Flaps Up",
+			["name"] = "Slat/Flap lever - one step up",
 			["removed"] = {
 				[1] = {
 					["key"] = "F",
@@ -404,8 +404,8 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -416,8 +416,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 						[3] = "RShift",
 					},
 				},
@@ -445,11 +445,37 @@ local diff = {
 				},
 			},
 		},
+		["d1710pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Pie menu",
+			["removed"] = {
+				[1] = {
+					["key"] = "O",
+					["reformers"] = {
+						[1] = "RCtrl",
+						[2] = "RAlt",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
 		["d1711pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Object free camera bookmarks menu",
 			["removed"] = {
 				[1] = {
 					["key"] = "-",
+					["reformers"] = {
+						[1] = "RCtrl",
+						[2] = "RAlt",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["d1753pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Supercarrier camera",
+			["removed"] = {
+				[1] = {
+					["key"] = "F9",
 					["reformers"] = {
 						[1] = "RAlt",
 						[2] = "RCtrl",
@@ -463,6 +489,18 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "NumEnter",
+				},
+			},
+		},
+		["d1782pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative center",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num5",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
 				},
 			},
 		},
@@ -544,6 +582,19 @@ local diff = {
 					["key"] = "F2",
 					["reformers"] = {
 						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d1862pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "F11 view local input layer toggle",
+			["removed"] = {
+				[1] = {
+					["key"] = "F11",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
 					},
 				},
 			},
@@ -754,6 +805,17 @@ local diff = {
 				},
 			},
 		},
+		["d2622pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Theater map dialog on/off",
+			["removed"] = {
+				[1] = {
+					["key"] = "F10",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
 		["d264pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Aircraft Labels",
 			["removed"] = {
@@ -886,8 +948,8 @@ local diff = {
 				[1] = {
 					["key"] = "S",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -910,8 +972,8 @@ local diff = {
 				[1] = {
 					["key"] = "S",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -934,8 +996,8 @@ local diff = {
 				[1] = {
 					["key"] = "A",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -981,8 +1043,8 @@ local diff = {
 				[1] = {
 					["key"] = "A",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -993,8 +1055,8 @@ local diff = {
 				[1] = {
 					["key"] = "Y",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -1017,8 +1079,8 @@ local diff = {
 				[1] = {
 					["key"] = "P",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -1156,8 +1218,8 @@ local diff = {
 				[1] = {
 					["key"] = "E",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -1191,8 +1253,8 @@ local diff = {
 				[1] = {
 					["key"] = "F",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -1215,8 +1277,8 @@ local diff = {
 				[1] = {
 					["key"] = "F",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -1305,8 +1367,8 @@ local diff = {
 				[1] = {
 					["key"] = "J",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -1340,8 +1402,8 @@ local diff = {
 				[1] = {
 					["key"] = "J",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -1413,66 +1475,6 @@ local diff = {
 				},
 			},
 		},
-		["d3100pnilu3100cd1vd1vpnilvu0"] = {
-			["name"] = "Radar control stick elevation/altitude difference button",
-			["removed"] = {
-				[1] = {
-					["key"] = "R",
-					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LWin",
-					},
-				},
-			},
-		},
-		["d3101pnilunilcd1vd-1vpnilvunil"] = {
-			["name"] = "Radar control stick scale selection - RIGHT",
-			["removed"] = {
-				[1] = {
-					["key"] = "R",
-					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d3101pnilunilcd1vd1vpnilvunil"] = {
-			["name"] = "Radar control stick scale selection - LEFT",
-			["removed"] = {
-				[1] = {
-					["key"] = "R",
-					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LWin",
-					},
-				},
-			},
-		},
-		["d3102pnilunilcd1vd-1vpnilvunil"] = {
-			["name"] = "Radar control stick scan selection - RIGHT",
-			["removed"] = {
-				[1] = {
-					["key"] = "R",
-					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LShift",
-					},
-				},
-			},
-		},
-		["d3102pnilunilcd1vd1vpnilvunil"] = {
-			["name"] = "Radar control stick scan selection - LEFT",
-			["removed"] = {
-				[1] = {
-					["key"] = "R",
-					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LShift",
-					},
-				},
-			},
-		},
 		["d310pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Auto Stop",
 			["removed"] = {
@@ -1484,7 +1486,7 @@ local diff = {
 				},
 			},
 		},
-		["d3118pnilu3118cd1vd1vpnilvu0"] = {
+		["d3120pnilu3120cd1vd1vpnilvu0"] = {
 			["name"] = "Alternative PTT",
 			["removed"] = {
 				[1] = {
@@ -1495,8 +1497,8 @@ local diff = {
 				},
 			},
 		},
-		["d3120pnilunilcd1vd-1vpnilvunil"] = {
-			["name"] = "Slat/Flap lever - UP",
+		["d3122pnilunilcd1vd-1vpnilvunil"] = {
+			["name"] = "Slat/Flap lever - full up",
 			["removed"] = {
 				[1] = {
 					["key"] = "F",
@@ -1506,8 +1508,19 @@ local diff = {
 				},
 			},
 		},
-		["d3120pnilunilcd1vd1vpnilvunil"] = {
-			["name"] = "Slat/Flap lever - DOWN",
+		["d3122pnilunilcd1vd0.5vpnilvunil"] = {
+			["name"] = "Slat/Flap lever - 1/2 flap",
+			["removed"] = {
+				[1] = {
+					["key"] = "F",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d3122pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "Slat/Flap lever - full flap",
 			["removed"] = {
 				[1] = {
 					["key"] = "F",
@@ -1517,7 +1530,7 @@ local diff = {
 				},
 			},
 		},
-		["d3121pnilunilcd1vd-1vpnilvunil"] = {
+		["d3123pnilunilcd1vd-1vpnilvunil"] = {
 			["name"] = "High-lift device selector switch - EMG. RETR.",
 			["removed"] = {
 				[1] = {
@@ -1528,7 +1541,7 @@ local diff = {
 				},
 			},
 		},
-		["d3121pnilunilcd1vd0vpnilvunil"] = {
+		["d3123pnilunilcd1vd0vpnilvunil"] = {
 			["name"] = "High-lift device selector switch - OFF",
 			["removed"] = {
 				[1] = {
@@ -1539,7 +1552,7 @@ local diff = {
 				},
 			},
 		},
-		["d3121pnilunilcd1vd1vpnilvunil"] = {
+		["d3123pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "High-lift device selector switch - NORMAL",
 			["removed"] = {
 				[1] = {
@@ -1550,7 +1563,7 @@ local diff = {
 				},
 			},
 		},
-		["d3126pnilu3126cd1vd1vpnilvu0"] = {
+		["d3131pnilu3131cd1vd1vpnilvu0"] = {
 			["name"] = "U + V pushbutton - PUSH",
 			["removed"] = {
 				[1] = {
@@ -1562,7 +1575,7 @@ local diff = {
 				},
 			},
 		},
-		["d3128pnilu3128cd1vd1vpnilvu0"] = {
+		["d3134pnilu3134cd1vd1vpnilvu0"] = {
 			["name"] = "U pushbutton - PUSH",
 			["removed"] = {
 				[1] = {
@@ -1574,7 +1587,7 @@ local diff = {
 				},
 			},
 		},
-		["d3130pnilu3130cd1vd1vpnilvu0"] = {
+		["d3137pnilu3137cd1vd1vpnilvu0"] = {
 			["name"] = "RAP + CME pushbutton - PUSH",
 			["removed"] = {
 				[1] = {
@@ -1586,7 +1599,7 @@ local diff = {
 				},
 			},
 		},
-		["d3132pnilu3132cd1vd1vpnilvu0"] = {
+		["d3140pnilu3140cd1vd1vpnilvu0"] = {
 			["name"] = "MKR + TP pushbutton - PUSH",
 			["removed"] = {
 				[1] = {
@@ -1604,8 +1617,8 @@ local diff = {
 				[1] = {
 					["key"] = "L",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -1654,8 +1667,8 @@ local diff = {
 				[1] = {
 					["key"] = "M",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -1689,8 +1702,8 @@ local diff = {
 				[1] = {
 					["key"] = "G",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -1757,8 +1770,8 @@ local diff = {
 				[1] = {
 					["key"] = "K",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -1814,8 +1827,8 @@ local diff = {
 				[1] = {
 					["key"] = "N",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -1887,26 +1900,26 @@ local diff = {
 				},
 			},
 		},
-		["d3236pnilunilcd1vd-1vpnilvunil"] = {
+		["d3237pnilunilcd1vd-1vpnilvunil"] = {
 			["name"] = "Heading and vertical reference system control switch - Counterclockwise",
 			["removed"] = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LWin",
+						[1] = "LWin",
+						[2] = "LCtrl",
 					},
 				},
 			},
 		},
-		["d3236pnilunilcd1vd1vpnilvunil"] = {
+		["d3237pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Heading and vertical reference system control switch - Clockwise",
 			["removed"] = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LWin",
+						[1] = "LWin",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -1967,7 +1980,7 @@ local diff = {
 				},
 			},
 		},
-		["d3305pnilunilcd1vd0.5vpnilvunil"] = {
+		["d3310pnilunilcd1vd0.5vpnilvunil"] = {
 			["name"] = "Landing light control - LAND",
 			["removed"] = {
 				[1] = {
@@ -1975,7 +1988,7 @@ local diff = {
 				},
 			},
 		},
-		["d3305pnilunilcd1vd0vpnilvunil"] = {
+		["d3310pnilunilcd1vd0vpnilvunil"] = {
 			["name"] = "Landing light control - OFF",
 			["removed"] = {
 				[1] = {
@@ -1986,7 +1999,7 @@ local diff = {
 				},
 			},
 		},
-		["d3305pnilunilcd1vd1vpnilvunil"] = {
+		["d3310pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Landing light control - TAXY",
 			["removed"] = {
 				[1] = {
@@ -1997,7 +2010,7 @@ local diff = {
 				},
 			},
 		},
-		["d3306pnilunilcd1vd0.5vpnilvunil"] = {
+		["d3311pnilunilcd1vd0.5vpnilvunil"] = {
 			["name"] = "Formation light control - OFF",
 			["removed"] = {
 				[1] = {
@@ -2008,7 +2021,7 @@ local diff = {
 				},
 			},
 		},
-		["d3306pnilunilcd1vd0vpnilvunil"] = {
+		["d3311pnilunilcd1vd0vpnilvunil"] = {
 			["name"] = "Formation light control - DIM",
 			["removed"] = {
 				[1] = {
@@ -2019,7 +2032,7 @@ local diff = {
 				},
 			},
 		},
-		["d3306pnilunilcd1vd1vpnilvunil"] = {
+		["d3311pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Formation light control - BRIGHT",
 			["removed"] = {
 				[1] = {
@@ -2030,7 +2043,7 @@ local diff = {
 				},
 			},
 		},
-		["d3307pnilunilcd1vd0.5vpnilvunil"] = {
+		["d3312pnilunilcd1vd0.5vpnilvunil"] = {
 			["name"] = "Navigation light control - OFF",
 			["removed"] = {
 				[1] = {
@@ -2041,7 +2054,7 @@ local diff = {
 				},
 			},
 		},
-		["d3307pnilunilcd1vd0vpnilvunil"] = {
+		["d3312pnilunilcd1vd0vpnilvunil"] = {
 			["name"] = "Navigation light control - DIM",
 			["removed"] = {
 				[1] = {
@@ -2052,7 +2065,7 @@ local diff = {
 				},
 			},
 		},
-		["d3307pnilunilcd1vd1vpnilvunil"] = {
+		["d3312pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Navigation light control - BRIGHT",
 			["removed"] = {
 				[1] = {
@@ -2063,19 +2076,19 @@ local diff = {
 				},
 			},
 		},
-		["d3308pnilunilcd1vd0vpnilvunil"] = {
+		["d3313pnilunilcd1vd0vpnilvunil"] = {
 			["name"] = "Search light control - OFF",
 			["removed"] = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
 		},
-		["d3308pnilunilcd1vd1vpnilvunil"] = {
+		["d3313pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Search light control - ON",
 			["removed"] = {
 				[1] = {
@@ -2137,8 +2150,8 @@ local diff = {
 				[1] = {
 					["key"] = "5",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -2178,23 +2191,23 @@ local diff = {
 			},
 		},
 		["d3430pnilu3430cd1vd1vpnilvu0"] = {
-			["name"] = "Seat height adjustment control - UP",
-			["removed"] = {
-				[1] = {
-					["key"] = "Y",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["d3431pnilu3431cd1vd-1vpnilvu0"] = {
 			["name"] = "Seat height adjustment control - DOWN",
 			["removed"] = {
 				[1] = {
 					["key"] = "Y",
 					["reformers"] = {
 						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3431pnilu3431cd1vd-1vpnilvu0"] = {
+			["name"] = "Seat height adjustment control - UP",
+			["removed"] = {
+				[1] = {
+					["key"] = "Y",
+					["reformers"] = {
+						[1] = "RShift",
 					},
 				},
 			},
@@ -2227,8 +2240,8 @@ local diff = {
 				[1] = {
 					["key"] = "E",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RShift",
+						[1] = "RShift",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -2255,7 +2268,7 @@ local diff = {
 				},
 			},
 		},
-		["d3441pnilu3441cd1vd1vpnilvu-1"] = {
+		["d3442pnilu3442cd1vd1vpnilvu-1"] = {
 			["name"] = "Emergency jettisoning switch",
 			["removed"] = {
 				[1] = {
@@ -2266,7 +2279,7 @@ local diff = {
 				},
 			},
 		},
-		["d3443pnilu3443cd1vd1vpnilvu0"] = {
+		["d3444pnilu3444cd1vd1vpnilvu0"] = {
 			["name"] = "Chaff/flares release button",
 			["removed"] = {
 				[1] = {
@@ -2478,7 +2491,7 @@ local diff = {
 			},
 		},
 		["d363pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Clickable Mouse Cockpit Mode - ON/OFF",
+			["name"] = "Force cursor to show, toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",
@@ -2503,7 +2516,7 @@ local diff = {
 			["name"] = "Cannon 300-600m and missile lock/unlock button",
 			["removed"] = {
 				[1] = {
-					["key"] = "L",
+					["key"] = "C",
 					["reformers"] = {
 						[1] = "RCtrl",
 					},
@@ -2828,7 +2841,7 @@ local diff = {
 			},
 		},
 		["d72pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Flaps Up/Down",
+			["name"] = "Slat/Flap lever - one step up/down",
 			["removed"] = {
 				[1] = {
 					["key"] = "F",
@@ -2864,18 +2877,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "H",
-				},
-			},
-		},
-		["d816pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Active Pause",
-			["removed"] = {
-				[1] = {
-					["key"] = "Pause",
-					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LWin",
-					},
 				},
 			},
 		},
@@ -2999,6 +3000,256 @@ local diff = {
 				},
 			},
 		},
+		["dnilp1769u1777cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative up",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num8",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1770u1777cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative down",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num2",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1771u1777cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative left",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num4",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1772u1777cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative right",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num6",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1773u1777cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative up right",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num9",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1774u1777cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative down right",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num3",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1775u1777cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative down left",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num1",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1776u1777cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative up left",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num7",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1778u1779cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative forward",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num*",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1780u1781cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative backward",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num/",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp1783u1791cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative up slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num8",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1784u1791cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative down slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num2",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1785u1791cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative left slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num4",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1786u1791cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative right slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num6",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1787u1791cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative up right slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num9",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1788u1791cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative down right slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num3",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1789u1791cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative down left slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num1",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1790u1791cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative up left slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num7",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1792u1793cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative forward slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num*",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1794u1795cdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera alternative backward slow",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num/",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
 		["dnilp205u209cdnilvdnilvpnilvunil"] = {
 			["name"] = "View up right",
 			["removed"] = {
@@ -3108,19 +3359,19 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3127unilcd1vdnilvp-1vunil"] = {
+		["dnilp3133unilcd1vdnilvp-1vunil"] = {
 			["name"] = "U + V pushbutton - Decrease",
 			["removed"] = {
 				[1] = {
 					["key"] = "V",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
 		},
-		["dnilp3127unilcd1vdnilvp1vunil"] = {
+		["dnilp3133unilcd1vdnilvp1vunil"] = {
 			["name"] = "U + V pushbutton - Increase",
 			["removed"] = {
 				[1] = {
@@ -3132,19 +3383,19 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3129unilcd1vdnilvp-1vunil"] = {
+		["dnilp3136unilcd1vdnilvp-1vunil"] = {
 			["name"] = "U pushbutton - Decrease",
 			["removed"] = {
 				[1] = {
 					["key"] = "U",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
 		},
-		["dnilp3129unilcd1vdnilvp1vunil"] = {
+		["dnilp3136unilcd1vdnilvp1vunil"] = {
 			["name"] = "U pushbutton - Increase",
 			["removed"] = {
 				[1] = {
@@ -3156,19 +3407,19 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3131unilcd1vdnilvp-1vunil"] = {
+		["dnilp3139unilcd1vdnilvp-1vunil"] = {
 			["name"] = "RAP + CME pushbutton - Decrease",
 			["removed"] = {
 				[1] = {
 					["key"] = "D",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
 		},
-		["dnilp3131unilcd1vdnilvp1vunil"] = {
+		["dnilp3139unilcd1vdnilvp1vunil"] = {
 			["name"] = "RAP + CME pushbutton - Increase",
 			["removed"] = {
 				[1] = {
@@ -3180,19 +3431,19 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3133unilcd1vdnilvp-1vunil"] = {
+		["dnilp3142unilcd1vdnilvp-1vunil"] = {
 			["name"] = "MKR + TP pushbutton - Decrease",
 			["removed"] = {
 				[1] = {
 					["key"] = "K",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
 		},
-		["dnilp3133unilcd1vdnilvp1vunil"] = {
+		["dnilp3142unilcd1vdnilvp1vunil"] = {
 			["name"] = "MKR + TP pushbutton - Increase",
 			["removed"] = {
 				[1] = {
@@ -3215,7 +3466,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3206unilcd1vdnilvp-1vunil"] = {
+		["dnilp3208unilcd1vdnilvp-1vunil"] = {
 			["name"] = "Mach/Airspeed indicator reference airspeed knob - Decrease",
 			["removed"] = {
 				[1] = {
@@ -3227,7 +3478,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3206unilcd1vdnilvp1vunil"] = {
+		["dnilp3208unilcd1vdnilvp1vunil"] = {
 			["name"] = "Mach/Airspeed indicator reference airspeed knob - Increase",
 			["removed"] = {
 				[1] = {
@@ -3239,7 +3490,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3207unilcd1vdnilvp-1vunil"] = {
+		["dnilp3210unilcd1vdnilvp-1vunil"] = {
 			["name"] = "Slaved altimeter barometric pressure setting knob - Decrease",
 			["removed"] = {
 				[1] = {
@@ -3251,7 +3502,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3207unilcd1vdnilvp1vunil"] = {
+		["dnilp3210unilcd1vdnilvp1vunil"] = {
 			["name"] = "Slaved altimeter barometric pressure setting knob - Increase",
 			["removed"] = {
 				[1] = {
@@ -3263,19 +3514,19 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3208unilcd1vdnilvp-1vunil"] = {
+		["dnilp3212unilcd1vdnilvp-1vunil"] = {
 			["name"] = "Standby altimeter barometric pressure setting knob - Decrease",
 			["removed"] = {
 				[1] = {
 					["key"] = "Z",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
 		},
-		["dnilp3208unilcd1vdnilvp1vunil"] = {
+		["dnilp3212unilcd1vdnilvp1vunil"] = {
 			["name"] = "Standby altimeter barometric pressure setting knob - Increase",
 			["removed"] = {
 				[1] = {
@@ -3295,7 +3546,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3346unilcd1vdnilvp-1vunil"] = {
+		["dnilp3348unilcd1vdnilvp-1vunil"] = {
 			["name"] = "Heading selection knob - Clockwise",
 			["removed"] = {
 				[1] = {
@@ -3306,7 +3557,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3346unilcd1vdnilvp1vunil"] = {
+		["dnilp3348unilcd1vdnilvp1vunil"] = {
 			["name"] = "Heading selection knob - Counterclockwise",
 			["removed"] = {
 				[1] = {

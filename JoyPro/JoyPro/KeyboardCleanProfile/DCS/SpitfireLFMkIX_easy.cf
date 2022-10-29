@@ -1052,8 +1052,8 @@ local diff = {
 				[1] = {
 					["key"] = "T",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LShift",
+						[1] = "LShift",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1120,8 +1120,8 @@ local diff = {
 				[1] = {
 					["key"] = "P",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -1132,8 +1132,8 @@ local diff = {
 				[1] = {
 					["key"] = "P",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LShift",
+						[1] = "LShift",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -1166,8 +1166,8 @@ local diff = {
 				[1] = {
 					["key"] = "G",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LShift",
+						[1] = "LShift",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1459,8 +1459,8 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LShift",
+						[1] = "LShift",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1471,8 +1471,8 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -1483,8 +1483,8 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LShift",
+						[1] = "LShift",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -1793,7 +1793,7 @@ local diff = {
 			},
 		},
 		["d363pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Clickable Mouse Cockpit Mode - ON/OFF",
+			["name"] = "Force cursor to show, toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",
@@ -2133,18 +2133,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "F1",
-				},
-			},
-		},
-		["d816pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Pause Active",
-			["removed"] = {
-				[1] = {
-					["key"] = "Pause",
-					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LWin",
-					},
 				},
 			},
 		},
@@ -2756,8 +2744,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
+						[1] = "RShift",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -2768,8 +2756,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RShift",
+						[1] = "RShift",
+						[2] = "RAlt",
 					},
 				},
 			},

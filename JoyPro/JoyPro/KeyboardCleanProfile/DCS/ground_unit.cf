@@ -195,8 +195,8 @@ local diff = {
 				[1] = {
 					["key"] = "R",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LShift",
+						[1] = "LShift",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -394,6 +394,76 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "\\",
+				},
+			},
+		},
+		["d1803pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "IR Vision Level Up",
+			["removed"] = {
+				[1] = {
+					["key"] = "N",
+					["reformers"] = {
+						[1] = "RCtrl",
+						[2] = "RShift",
+					},
+				},
+			},
+		},
+		["d1804pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "IR Vision Level Down",
+			["removed"] = {
+				[1] = {
+					["key"] = "N",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RShift",
+					},
+				},
+			},
+		},
+		["d1805pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "IR Vision Gain Up",
+			["removed"] = {
+				[1] = {
+					["key"] = "N",
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "LShift",
+					},
+				},
+			},
+		},
+		["d1806pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "IR Vision Gain Down",
+			["removed"] = {
+				[1] = {
+					["key"] = "N",
+					["reformers"] = {
+						[1] = "LAlt",
+						[2] = "LShift",
+					},
+				},
+			},
+		},
+		["d1807pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "IR Vision WHOT/BHOT Toggle",
+			["removed"] = {
+				[1] = {
+					["key"] = "N",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d1836pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Sight Zoom Narrow/Wide",
+			["removed"] = {
+				[1] = {
+					["key"] = "O",
+					["reformers"] = {
+						[1] = "RShift",
+					},
 				},
 			},
 		},

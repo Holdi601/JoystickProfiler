@@ -147,14 +147,6 @@ local diff = {
 				},
 			},
 		},
-		["d151pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F8 Target view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F8",
-				},
-			},
-		},
 		["d152pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Info Bar - SHOW/HIDE",
 			["removed"] = {
@@ -1654,17 +1646,6 @@ local diff = {
 					["key"] = "Num4",
 					["reformers"] = {
 						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d426pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F8 Player targets/All targets filter",
-			["removed"] = {
-				[1] = {
-					["key"] = "F8",
-					["reformers"] = {
-						[1] = "RAlt",
 					},
 				},
 			},

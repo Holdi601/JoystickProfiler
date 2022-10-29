@@ -249,8 +249,8 @@ local diff = {
 				[1] = {
 					["key"] = "F",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -313,8 +313,8 @@ local diff = {
 				[1] = {
 					["key"] = "U",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RShift",
+						[1] = "RShift",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -1508,7 +1508,7 @@ local diff = {
 			},
 		},
 		["d363pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Clickable Mouse Cockpit Mode - ON/OFF",
+			["name"] = "Force cursor to show, toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",
@@ -2570,8 +2570,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
+						[1] = "RShift",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -2582,8 +2582,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RShift",
+						[1] = "RShift",
+						[2] = "RAlt",
 					},
 				},
 			},

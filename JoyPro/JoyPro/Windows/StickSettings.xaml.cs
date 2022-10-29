@@ -581,12 +581,13 @@ namespace JoyPro
                 Thread.Sleep(200);
                 ClickIntoControlsDCS(DCSRect);
                 Thread.Sleep(1000);
-                ClickCenterAnchored(DCSRect, 312, -279);
+                ClickTopCenterAnchored(DCSRect, 305, 111);
+                //ClickCenterAnchored(DCSRect, 312, -279);
                 Thread.Sleep(1000);
                 ClickCenterAnchored(DCSRect, -182, -76);
                 Thread.Sleep(1000);
                 ClickCenterAnchored(DCSRect, -58, 169);
-                Thread.Sleep(30000);
+                Thread.Sleep(60000);
                 DCSproc.Kill();
                 recreateCleanFile(path);
                 turnFullScreen(OriginalFullscreen);
@@ -643,18 +644,19 @@ namespace JoyPro
             BringProcessToFront(DCSproc);
             Thread.Sleep(200);
             ClickIntoControlsDCS(DCSRect);
-            Thread.Sleep(1000);
-            ClickCenterAnchored(DCSRect, -554, -280);
+            Thread.Sleep(6000);
+            ClickTopLeftAnchored(DCSRect, 70, 100);
             int planesNeeded = CountInstalledCrafts();
             for (int i = 0; i < planesNeeded * 2; ++i)
             {
                 ArrowUp();
                 Thread.Sleep(50);
             }
-            Thread.Sleep(5000);
+            Thread.Sleep(15000);
             for (int i = 0; i < planesNeeded; ++i)
             {
-                ClickCenterAnchored(DCSRect, 310, 313);
+                //ClickCenterAnchored(DCSRect, 310, 313);
+                ClickBottomCenterAnchored(DCSRect, 310, -70);
                 Thread.Sleep(1500);
                 CloseCurrentWindow();
                 Thread.Sleep(500);
@@ -666,7 +668,7 @@ namespace JoyPro
                 }
                 BringProcessToFront(DCSproc);
                 Thread.Sleep(500);
-                ClickCenterAnchored(DCSRect, -554, -280);
+                ClickTopLeftAnchored(DCSRect, 70, 100);
                 Thread.Sleep(500);
                 ArrowDown();
             }
@@ -839,6 +841,28 @@ namespace JoyPro
             }
             return number;
         }
+        void ClickTopCenterAnchored(Rect DCSRect, int xOffset, int yOffset)
+        {
+            if (DCSRect.Right - DCSRect.Left >= 2558)
+            {
+                xOffset = Convert.ToInt32(Convert.ToDouble(xOffset) * DCSGuiScale);
+                yOffset = Convert.ToInt32(Convert.ToDouble(yOffset) * DCSGuiScale);
+            }
+            int xSettingPos = DCSRect.Left + xOffset + ((DCSRect.Right - DCSRect.Left) / 2);
+            int ySettingPos = DCSRect.Top + yOffset;
+            MouseClickThere(xSettingPos, ySettingPos);
+        }
+        void ClickBottomCenterAnchored(Rect DCSRect, int xOffset, int yOffset)
+        {
+            if (DCSRect.Right - DCSRect.Left >= 2558)
+            {
+                xOffset = Convert.ToInt32(Convert.ToDouble(xOffset) * DCSGuiScale);
+                yOffset = Convert.ToInt32(Convert.ToDouble(yOffset) * DCSGuiScale);
+            }
+            int xSettingPos = DCSRect.Left + xOffset + ((DCSRect.Right - DCSRect.Left) / 2);
+            int ySettingPos = DCSRect.Bottom + yOffset;
+            MouseClickThere(xSettingPos, ySettingPos);
+        }
         void ClickCenterAnchored(Rect DCSRect, int xOffset, int yOffset)
         {
             if (DCSRect.Right - DCSRect.Left >= 2558)
@@ -870,7 +894,7 @@ namespace JoyPro
             Thread.Sleep(1000);
             //Controls Click
             Thread.Sleep(1000);
-            ClickCenterAnchored(DCSRect, -365, -318);
+            ClickTopCenterAnchored(DCSRect, -365, 70);
         }
         void MouseClickThere(int x, int y)
         {

@@ -628,6 +628,7 @@ namespace JoyPro
                         {
                             if (allFiles[j].Name.Contains(ending))
                             {
+                                if(allFiles[j].Name.ToLower().StartsWith("keyboard"))continue;
                                 string stickName = allFiles[j].Name.Replace(ending, "");
                                 DCSLuaInput luaInput = new DCSLuaInput();
                                 luaInput.plane = currentPlane;

@@ -17,7 +17,7 @@ local diff = {
 			},
 		},
 		["a2003cdnil"] = {
-			["name"] = "Flight Control Rudder",
+			["name"] = "Flight Control Yaw (pedals)",
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_RZ",
