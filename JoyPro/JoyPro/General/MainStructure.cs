@@ -134,7 +134,15 @@ namespace JoyPro
         {
             msg = "[" + DateTime.UtcNow.ToString() + "]: " + "\t" + msg;
             System.Diagnostics.Debug.WriteLine(msg);
-            File.AppendAllText(Environment.CurrentDirectory + LogFile, msg + "\r\n");
+            try
+            {
+                File.AppendAllText(Environment.CurrentDirectory + LogFile, msg + "\r\n");
+            }
+            catch
+            {
+                Console.WriteLine("Could not write log file");
+            }
+            
         }
         public static void MainWActivated(object sender, EventArgs e)
         {

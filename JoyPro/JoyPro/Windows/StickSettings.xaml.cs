@@ -894,7 +894,7 @@ namespace JoyPro
             Thread.Sleep(1000);
             //Controls Click
             Thread.Sleep(1000);
-            ClickTopCenterAnchored(DCSRect, -365, 70);
+            ClickTopCenterAnchored(DCSRect, -365, 90);
         }
         void MouseClickThere(int x, int y)
         {
