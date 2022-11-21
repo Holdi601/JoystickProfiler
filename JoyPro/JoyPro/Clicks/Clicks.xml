@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DCSDBClicks xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <GearSymbol>
+    <x>564</x>
+    <y>26</y>
+    <Anchor>TOP_LEFT</Anchor>
+    <TimeoutMS>2000</TimeoutMS>
+  </GearSymbol>
+  <OptionsControls>
+    <x>-365</x>
+    <y>70</y>
+    <Anchor>TOP_CENTER</Anchor>
+    <TimeoutMS>2000</TimeoutMS>
+  </OptionsControls>
+  <OptionsControlsPlaneDropDown>
+    <x>70</x>
+    <y>100</y>
+    <Anchor>TOP_LEFT</Anchor>
+    <TimeoutMS>500</TimeoutMS>
+  </OptionsControlsPlaneDropDown>
+  <OptionsControlsMakeHTML>
+    <x>310</x>
+    <y>-70</y>
+    <Anchor>BOTTOM_CENTER</Anchor>
+    <TimeoutMS>1500</TimeoutMS>
+  </OptionsControlsMakeHTML>
+  <OptionsControlsClearAll>
+    <x>305</x>
+    <y>111</y>
+    <Anchor>TOP_CENTER</Anchor>
+    <TimeoutMS>2000</TimeoutMS>
+  </OptionsControlsClearAll>
+  <OptionsControlsClearAllCheckAll>
+    <x>-182</x>
+    <y>-76</y>
+    <Anchor>CENTER_CENTER</Anchor>
+    <TimeoutMS>2000</TimeoutMS>
+  </OptionsControlsClearAllCheckAll>
+  <OptionsControlsClearAllYes>
+    <x>-58</x>
+    <y>169</y>
+    <Anchor>CENTER_CENTER</Anchor>
+    <TimeoutMS>60000</TimeoutMS>
+  </OptionsControlsClearAllYes>
+</DCSDBClicks>

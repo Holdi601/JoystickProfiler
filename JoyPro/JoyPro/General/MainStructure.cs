@@ -95,7 +95,7 @@ namespace JoyPro
     public static class MainStructure
     {
         public static string LogFile = "\\log";
-        public const int version = 84;
+        public const int version = 85;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;
@@ -134,16 +134,25 @@ namespace JoyPro
         {
             msg = "[" + DateTime.UtcNow.ToString() + "]: " + "\t" + msg;
             System.Diagnostics.Debug.WriteLine(msg);
-            try
+            int maxTries = 100;
+            int currentTries = 0;
+            while (true)
             {
-                File.AppendAllText(Environment.CurrentDirectory + LogFile, msg + "\r\n");
+                try
+                {
+                    File.AppendAllText(Environment.CurrentDirectory + LogFile, msg + "\r\n");
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine("Could not write log file");
+                    currentTries++;
+                    Thread.Sleep(100);
+                }
+                if (currentTries > maxTries) break;
             }
-            catch
-            {
-                Console.WriteLine("Could not write log file");
-            }
-            
         }
+
         public static void MainWActivated(object sender, EventArgs e)
         {
             MainWindowActive = true;

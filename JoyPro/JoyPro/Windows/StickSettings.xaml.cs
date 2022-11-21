@@ -16,6 +16,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace JoyPro
 {
@@ -28,6 +30,7 @@ namespace JoyPro
         public Point DCSScreenpos;
         public bool OriginalFullscreen;
         int modulesToScan;
+        public DCSDBClicks ClickLocations;
 
 
 
@@ -141,6 +144,26 @@ namespace JoyPro
             }
             JumpToRelationCB.Click += new RoutedEventHandler(JumpToRelationAltered);
             readDCSConfigData();
+            string xmllocation = MainStructure.PROGPATH + "\\Clicks\\Clicks.xml";
+            if(File.Exists(xmllocation))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(DCSDBClicks));
+                StreamReader sr = new StreamReader(xmllocation);
+                XmlReader reader = XmlReader.Create(sr);
+                ClickLocations=(DCSDBClicks)serializer.Deserialize(reader);
+                sr.Close();
+                sr.Dispose();
+            }
+            else
+            {
+                ClickLocations = DCSDBClicks.GenerateDefault();
+                System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(ClickLocations.GetType());
+                if (!Directory.Exists(MainStructure.PROGPATH + "\\Clicks")) Directory.CreateDirectory(MainStructure.PROGPATH + "\\Clicks");
+                StreamWriter swr = new StreamWriter(xmllocation);
+                x.Serialize(swr, ClickLocations);
+                swr.Close();
+                swr.Dispose();
+            }
         }
 
         void JumpToRelationAltered(object sender, EventArgs e)
@@ -581,12 +604,9 @@ namespace JoyPro
                 Thread.Sleep(200);
                 ClickIntoControlsDCS(DCSRect);
                 Thread.Sleep(1000);
-                ClickTopCenterAnchored(DCSRect, 305, 111);
-                //ClickCenterAnchored(DCSRect, 312, -279);
-                Thread.Sleep(1000);
-                ClickCenterAnchored(DCSRect, -182, -76);
-                Thread.Sleep(1000);
-                ClickCenterAnchored(DCSRect, -58, 169);
+                ClickClicker(DCSRect, ClickLocations.OptionsControlsClearAll);
+                ClickClicker(DCSRect, ClickLocations.OptionsControlsClearAllCheckAll);
+                ClickClicker(DCSRect, ClickLocations.OptionsControlsClearAllYes);
                 Thread.Sleep(60000);
                 DCSproc.Kill();
                 recreateCleanFile(path);
@@ -645,7 +665,7 @@ namespace JoyPro
             Thread.Sleep(200);
             ClickIntoControlsDCS(DCSRect);
             Thread.Sleep(6000);
-            ClickTopLeftAnchored(DCSRect, 70, 100);
+            ClickClicker(DCSRect, ClickLocations.OptionsControlsPlaneDropDown);
             int planesNeeded = CountInstalledCrafts();
             for (int i = 0; i < planesNeeded * 2; ++i)
             {
@@ -655,9 +675,8 @@ namespace JoyPro
             Thread.Sleep(15000);
             for (int i = 0; i < planesNeeded; ++i)
             {
-                //ClickCenterAnchored(DCSRect, 310, 313);
-                ClickBottomCenterAnchored(DCSRect, 310, -70);
-                Thread.Sleep(1500);
+                Thread.Sleep(500);
+                ClickClicker(DCSRect, ClickLocations.OptionsControlsMakeHTML);
                 CloseCurrentWindow();
                 Thread.Sleep(500);
                 DCSproc.Refresh();
@@ -668,8 +687,7 @@ namespace JoyPro
                 }
                 BringProcessToFront(DCSproc);
                 Thread.Sleep(500);
-                ClickTopLeftAnchored(DCSRect, 70, 100);
-                Thread.Sleep(500);
+                ClickClicker(DCSRect, ClickLocations.OptionsControlsPlaneDropDown);
                 ArrowDown();
             }
             DCSproc.Kill();
@@ -682,7 +700,6 @@ namespace JoyPro
                 {
                     process.Kill();
                 }catch (Exception ex){ MainStructure.NoteError(ex); }
-                
             }
             Process.Start("explorer.exe");
         }
@@ -841,6 +858,39 @@ namespace JoyPro
             }
             return number;
         }
+        void ClickBottomRightAnchored(Rect DCSRect, int xOffset, int yOffset)
+        {
+            if (DCSRect.Right - DCSRect.Left >= 2558)
+            {
+                xOffset = Convert.ToInt32(Convert.ToDouble(xOffset) * DCSGuiScale);
+                yOffset = Convert.ToInt32(Convert.ToDouble(yOffset) * DCSGuiScale);
+            }
+            int xSettingPos = DCSRect.Right + xOffset;
+            int ySettingPos = DCSRect.Bottom + yOffset;
+            MouseClickThere(xSettingPos, ySettingPos);
+        }
+        void ClickBottomLeftAnchored(Rect DCSRect, int xOffset, int yOffset)
+        {
+            if (DCSRect.Right - DCSRect.Left >= 2558)
+            {
+                xOffset = Convert.ToInt32(Convert.ToDouble(xOffset) * DCSGuiScale);
+                yOffset = Convert.ToInt32(Convert.ToDouble(yOffset) * DCSGuiScale);
+            }
+            int xSettingPos = DCSRect.Left + xOffset;
+            int ySettingPos = DCSRect.Bottom + yOffset;
+            MouseClickThere(xSettingPos, ySettingPos);
+        }
+        void ClickTopRightAnchored(Rect DCSRect, int xOffset, int yOffset)
+        {
+            if (DCSRect.Right - DCSRect.Left >= 2558)
+            {
+                xOffset = Convert.ToInt32(Convert.ToDouble(xOffset) * DCSGuiScale);
+                yOffset = Convert.ToInt32(Convert.ToDouble(yOffset) * DCSGuiScale);
+            }
+            int xSettingPos = DCSRect.Right + xOffset;
+            int ySettingPos = DCSRect.Top + yOffset;
+            MouseClickThere(xSettingPos, ySettingPos);
+        }
         void ClickTopCenterAnchored(Rect DCSRect, int xOffset, int yOffset)
         {
             if (DCSRect.Right - DCSRect.Left >= 2558)
@@ -861,6 +911,28 @@ namespace JoyPro
             }
             int xSettingPos = DCSRect.Left + xOffset + ((DCSRect.Right - DCSRect.Left) / 2);
             int ySettingPos = DCSRect.Bottom + yOffset;
+            MouseClickThere(xSettingPos, ySettingPos);
+        }
+        void ClickCenterLeftAnchored(Rect DCSRect, int xOffset, int yOffset)
+        {
+            if (DCSRect.Right - DCSRect.Left >= 2558)
+            {
+                xOffset = Convert.ToInt32(Convert.ToDouble(xOffset) * DCSGuiScale);
+                yOffset = Convert.ToInt32(Convert.ToDouble(yOffset) * DCSGuiScale);
+            }
+            int xSettingPos = DCSRect.Left + xOffset;
+            int ySettingPos = DCSRect.Top + yOffset + ((DCSRect.Bottom - DCSRect.Top) / 2);
+            MouseClickThere(xSettingPos, ySettingPos);
+        }
+        void ClickCenterRightAnchored(Rect DCSRect, int xOffset, int yOffset)
+        {
+            if (DCSRect.Right - DCSRect.Left >= 2558)
+            {
+                xOffset = Convert.ToInt32(Convert.ToDouble(xOffset) * DCSGuiScale);
+                yOffset = Convert.ToInt32(Convert.ToDouble(yOffset) * DCSGuiScale);
+            }
+            int xSettingPos = DCSRect.Right + xOffset;
+            int ySettingPos = DCSRect.Top + yOffset + ((DCSRect.Bottom - DCSRect.Top) / 2);
             MouseClickThere(xSettingPos, ySettingPos);
         }
         void ClickCenterAnchored(Rect DCSRect, int xOffset, int yOffset)
@@ -887,14 +959,50 @@ namespace JoyPro
             else ySettingPos = DCSRect.Top + yOffset;
             MouseClickThere(xSettingPos, ySettingPos);
         }
+        void ClickClicker(Rect DCSRect, Click cl)
+        {
+            if(cl.Anchor == Anchor.TOP_LEFT)
+            {
+                ClickTopLeftAnchored(DCSRect, cl.x, cl.y);
+            }else if (cl.Anchor == Anchor.TOP_CENTER)
+            {
+                ClickTopCenterAnchored(DCSRect, cl.x, cl.y);
+            }
+            else if (cl.Anchor == Anchor.TOP_RIGHT)
+            {
+                ClickTopRightAnchored(DCSRect, cl.x, cl.y);
+            }
+            else if (cl.Anchor == Anchor.CENTER_LEFT)
+            {
+                ClickCenterLeftAnchored(DCSRect, cl.x, cl.y);
+            }
+            else if (cl.Anchor == Anchor.CENTER_CENTER)
+            {
+                ClickCenterAnchored(DCSRect, cl.x, cl.y);
+            }
+            else if (cl.Anchor == Anchor.CENTER_RIGHT)
+            {
+                ClickCenterRightAnchored(DCSRect, cl.x, cl.y);
+            }
+            else if (cl.Anchor == Anchor.BOTTOM_LEFT)
+            {
+                ClickBottomLeftAnchored(DCSRect, cl.x, cl.y);
+            }
+            else if (cl.Anchor == Anchor.BOTTOM_CENTER)
+            {
+                ClickBottomCenterAnchored(DCSRect, cl.x, cl.y);
+            }
+            else if (cl.Anchor == Anchor.BOTTOM_RIGHT)
+            {
+                ClickBottomRightAnchored(DCSRect, cl.x, cl.y);
+            }
+            Thread.Sleep(cl.TimeoutMS);
+        }
         void ClickIntoControlsDCS(Rect DCSRect)
         {
             //Options Click
-            ClickTopLeftAnchored(DCSRect, 564, 26);
-            Thread.Sleep(1000);
-            //Controls Click
-            Thread.Sleep(1000);
-            ClickTopCenterAnchored(DCSRect, -365, 90);
+            ClickClicker(DCSRect, ClickLocations.GearSymbol);
+            ClickClicker(DCSRect, ClickLocations.OptionsControls);
         }
         void MouseClickThere(int x, int y)
         {

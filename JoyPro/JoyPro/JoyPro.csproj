@@ -119,6 +119,7 @@
     <Compile Include="General\JoystickProfileDownloader.cs" />
     <Compile Include="General\LUADataRead.cs" />
     <Compile Include="General\Updater.cs" />
+    <Compile Include="MISC\DCSDBClicks.cs" />
     <Compile Include="MISC\OverlayBackGroundWorker.cs" />
     <Compile Include="MISC\RelationJumper.cs" />
     <Compile Include="Windows\BindAxisSetting.xaml.cs">
@@ -336,6 +337,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="Clicks\Clicks.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DB\DCS\AH-64D_BLK_II_AI_Menu.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

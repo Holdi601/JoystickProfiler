@@ -649,7 +649,9 @@ namespace JoyPro
                         {
                             if (allFiles[j].Name.Contains(ending))
                             {
+
                                 string stickName = allFiles[j].Name.Replace(ending, "");
+                                MainStructure.Write(stickName);
                                 DCSLuaInput luaInput = new DCSLuaInput();
                                 luaInput.plane = currentPlane;
                                 luaInput.JoystickName = stickName;
