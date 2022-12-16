@@ -95,7 +95,7 @@ namespace JoyPro
     public static class MainStructure
     {
         public static string LogFile = "\\log";
-        public const int version = 85;
+        public const int version = 86;
         public static MainWindow mainW;
         public static string PROGPATH;
         public static MetaSave msave = null;
