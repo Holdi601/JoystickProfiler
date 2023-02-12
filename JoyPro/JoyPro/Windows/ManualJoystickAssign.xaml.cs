@@ -21,15 +21,55 @@ namespace JoyPro
     public partial class ManualJoystickAssign : Window
     {
         List<string> sticks;
-        Relation rel;
+        Relation rel=null;
+        public string SelectedStick;
+        public string SelectedButton;
+        public bool StickOnly = false;
         public static double DEFAULT_WIDTH;
         public static double DEFAULT_HEIGHT;
+        
 
         const string joystickRegexPattern = ".+\\{([a-z]|[A-Z]|[0-9]){8}\\-([a-z]|[A-Z]|[0-9]){4}\\-([a-z]|[A-Z]|[0-9]){4}\\-([a-z]|[A-Z]|[0-9]){4}\\-([a-z]|[A-Z]|[0-9]){12}\\}";
+        
+        public ManualJoystickAssign(bool SOnly)
+        {
+            InitializeComponent();
+            StickOnly = SOnly;
+            DEFAULT_HEIGHT = this.Height;
+            DEFAULT_WIDTH = this.Width;
+            sticks = new List<string>();
+
+            for (int i = 0; i < InternalDataManagement.LocalJoysticks.Length; ++i)
+            {
+                sticks.Add(InternalDataManagement.LocalJoysticks[i]);
+            }
+            if (MainStructure.msave != null && MainStructure.msave._JoystickManualAssignWindow != null)
+            {
+                if (MainStructure.msave._JoystickManualAssignWindow.Top > 0) this.Top = MainStructure.msave._JoystickManualAssignWindow.Top;
+                if (MainStructure.msave._JoystickManualAssignWindow.Left > 0) this.Left = MainStructure.msave._JoystickManualAssignWindow.Left;
+                if (MainStructure.msave._JoystickManualAssignWindow.Width > 0) this.Width = MainStructure.msave._JoystickManualAssignWindow.Width;
+                if (MainStructure.msave._JoystickManualAssignWindow.Height > 0) this.Height = MainStructure.msave._JoystickManualAssignWindow.Height;
+            }
+            else
+            {
+                MainStructure.msave = new MetaSave();
+            }
+            this.SizeChanged += new SizeChangedEventHandler(MainStructure.SaveWindowState);
+            this.LocationChanged += new EventHandler(MainStructure.SaveWindowState);
+            updateJoystickList();
+            ButtonsLB.Items.Clear();
+            ButtonsLB.ItemsSource = JoystickReader.GetAllPossibleStickInputs();
+            AddJoystickBtn.Click += new RoutedEventHandler(EnterNewJoystick);
+            AddJoystickTF.KeyUp += new KeyEventHandler(EnterNewJoystickEnter);
+            CloseBtn.Click += new RoutedEventHandler(CloseThis);
+            ApplyBtn.Click += new RoutedEventHandler(Apply);
+            ApplyBtn.Content = "Add";
+            this.Title = "Manual Input Assignment";
+        }
         public ManualJoystickAssign(Relation r)
         {
             InitializeComponent();
-
+            StickOnly=false;
             DEFAULT_HEIGHT = this.Height;
             DEFAULT_WIDTH = this.Width;
 
@@ -83,7 +123,7 @@ namespace JoyPro
         void Apply(object sender, EventArgs e)
         {
 
-            if (ButtonsLB.SelectedIndex < 0)
+            if (ButtonsLB.SelectedIndex < 0&&!StickOnly)
             {
                 MessageBox.Show("No Button selected");
                 return;
@@ -94,29 +134,35 @@ namespace JoyPro
                 return;
             }
             InternalDataManagement.LocalJoysticks = sticks.ToArray();
-            Bind cr = InternalDataManagement.GetBindForRelation(rel.NAME);
-            if (e == null)
+
+            if(rel!=null)
             {
-                if (cr != null)
+                Bind cr = InternalDataManagement.GetBindForRelation(rel.NAME);
+                if (e == null)
                 {
-                    InternalDataManagement.RemoveBind(cr);
+                    if (cr != null)
+                    {
+                        InternalDataManagement.RemoveBind(cr);
+                    }
+                    return;
                 }
-                return;
+                if (cr == null)
+                {
+                    cr = new Bind(rel);
+                    InternalDataManagement.AddBind(cr.Rl.NAME, cr);
+                }
+                cr.Joystick = (string)JoystickLB.SelectedItem;
+                if (rel.ISAXIS)
+                {
+                    cr.JAxis = (string)ButtonsLB.SelectedItem;
+                }
+                else
+                {
+                    cr.JButton = (string)ButtonsLB.SelectedItem;
+                }
             }
-            if (cr == null)
-            {
-                cr = new Bind(rel);
-                InternalDataManagement.AddBind(cr.Rl.NAME, cr);
-            }
-            cr.Joystick = (string)JoystickLB.SelectedItem;
-            if (rel.ISAXIS)
-            {
-                cr.JAxis = (string)ButtonsLB.SelectedItem;
-            }
-            else
-            {
-                cr.JButton = (string)ButtonsLB.SelectedItem;
-            }
+            SelectedStick = (string)JoystickLB.SelectedItem;
+            SelectedButton = (string)ButtonsLB.SelectedItem;
             Close();            
         }
 

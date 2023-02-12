@@ -556,7 +556,6 @@ namespace JoyPro
                 }
             }
         }
-
         public static Modifier ModifierByName(string name)
         {
             if (AllModifiers.ContainsKey(name)) return AllModifiers[name];

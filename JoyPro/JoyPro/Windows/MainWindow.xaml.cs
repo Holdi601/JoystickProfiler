@@ -68,6 +68,8 @@ namespace JoyPro
         double visualHorizontalLastScroll = 0.0;
         public bool STARTED = false;
 
+        
+
         public MainWindow()
         {
             MainStructure.Write("Program Started");
@@ -141,6 +143,32 @@ namespace JoyPro
             ColorRowOrange(i);
             
         }
+        public void ResetDropdown(object sender, EventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            cb.SelectedIndex = -1;
+        }
+
+        public void ResetComboBoxDropDown(object sender, EventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            bool found = false;
+            for(int i=0; i<cb.Items.Count; ++i)
+            {
+                CheckBox cbox = (CheckBox)cb.Items[i];
+                if(cbox.IsChecked == true)
+                {
+                    cb.SelectedIndex = i;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+            {
+                cb.SelectedIndex = -1;
+            }
+        }
+
         public void textBoxInFocus(object sender, EventArgs e)
         {
             if (scaleTBox.IsFocused)
@@ -1767,6 +1795,7 @@ namespace JoyPro
                 grid.Children.Add(groupDropdown);
                 groupDropdown.MouseEnter += new MouseEventHandler(OnHover);
                 groupDropdown.MouseLeave += new MouseEventHandler(OnLeave);
+                groupDropdown.SelectionChanged += new SelectionChangedEventHandler(ResetComboBoxDropDown);
 
                 Bind currentBind = InternalDataManagement.GetBindForRelation(CURRENTDISPLAYEDRELATION[i].NAME);
 
@@ -1821,6 +1850,7 @@ namespace JoyPro
                 grid.Children.Add(modCbx);
                 modCbx.MouseEnter += new MouseEventHandler(OnHover);
                 modCbx.MouseLeave += new MouseEventHandler(OnLeave);
+                modCbx.SelectionChanged += new SelectionChangedEventHandler(ResetComboBoxDropDown);
                 int firstActiveModIndex = -1;
                 for(int r=0; r<allMods.Count; r++)
                 {

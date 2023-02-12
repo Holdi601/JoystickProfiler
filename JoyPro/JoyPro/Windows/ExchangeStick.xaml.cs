@@ -23,6 +23,7 @@ namespace JoyPro
         List<string> Joysticks;
         public static double DEFAULT_WIDTH;
         public static double DEFAULT_HEIGHT;
+        public static string ManualStick = "Manual Stick Addition";
 
         public ExchangeStick(string toReplace)
         {
@@ -45,6 +46,7 @@ namespace JoyPro
                     DropDownSticks.Items.Add(sticks[i]);
                 }
             }
+            DropDownSticks.Items.Add(ManualStick);
             JsToReplace.Content = toReplace;
             stickToReplace = toReplace;
             CancelJoyExchange.Click += new RoutedEventHandler(CancelJoystick);
@@ -85,9 +87,42 @@ namespace JoyPro
         }
         void OKNewJoystick(object sender, EventArgs e)
         {
-            string selItem = Joysticks[DropDownSticks.SelectedIndex];
+            string selItem = "";
+            if(DropDownSticks.SelectedIndex<Joysticks.Count)
+            {
+                selItem = Joysticks[DropDownSticks.SelectedIndex];
+            }
+            else
+            {
+                selItem = (string)DropDownSticks.SelectedItem;
+            }
+            
             if (selItem == null || selItem.Length < 1)
                 MessageBox.Show("No Stick selected");
+            else if(selItem==ManualStick)
+            {
+                ManualJoystickAssign mja = new ManualJoystickAssign(true);
+                mja.Show();
+                mja.Closing += new System.ComponentModel.CancelEventHandler(Finalize);
+            }
+            else
+            {
+                Finalize(selItem, null);
+            }
+        }
+
+        void Finalize(object sender, EventArgs e)
+        {
+            string selItem="";
+            if(sender.GetType()==typeof(string))
+            {
+                selItem = (string)sender;
+            }
+            else
+            {
+                ManualJoystickAssign mja = (ManualJoystickAssign)sender;
+                selItem = mja.SelectedStick;
+            }
             InternalDataManagement.ExchangeSticksInBind(stickToReplace, selItem);
             InternalDataManagement.ExchangeStickInModifiers(stickToReplace, selItem);
             if (InternalDataManagement.OpenedExchangedSticks.Contains(stickToReplace))
