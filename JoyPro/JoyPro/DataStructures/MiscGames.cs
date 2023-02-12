@@ -14,6 +14,7 @@ using Microsoft.Win32;
 using System.Net.Http;
 using System.Web.Hosting;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace JoyPro
 {
@@ -183,6 +184,7 @@ namespace JoyPro
         }
         public static void RestoreInputsInInstance(string instance, string fallBack, string game)
         {
+            MainStructure.Write("Restoring input: " + instance + " " + fallBack + " " + game);
             string toCopy, dest, initFold, runBU, inputFo, subPath;
             if (game == "DCS")
             {
@@ -239,8 +241,67 @@ namespace JoyPro
             MessageBox.Show("Backup has been reinstated: " + fallBack);
 
         }
+        public static void CheckBackupDaysFolder(string inputFolder, string backupFolder)
+        {
+            if (Directory.Exists(inputFolder))
+            {
+                string now = DateTime.Now.ToString("yyyy-MM-dd");
+                if (!Directory.Exists(backupFolder))
+                    Directory.CreateDirectory(backupFolder);
+                DirectoryInfo pFolder = new DirectoryInfo(backupFolder);
+                DirectoryInfo[] allSubs = pFolder.GetDirectories();
+                if (MainStructure.msave == null)
+                {
+                    MainStructure.LoadMetaLast();
+                }
+                DeleteFoldersNotFollowingDateScheme(allSubs);
+                pFolder = new DirectoryInfo(backupFolder);
+                allSubs = pFolder.GetDirectories();
+                if (allSubs.Length > MainStructure.msave.backupDays)
+                {
+                    List<DirectoryInfo> subList = allSubs.ToList();
+                    subList = subList.OrderBy(o => o.Name).ToList();
+                    for (int a = 0; a < (allSubs.Length - MainStructure.msave.backupDays); ++a)
+                    {
+                        try
+                        {
+                            MainStructure.Write("Too many backup days existing. Deleting: " + subList[a].FullName);
+                            MainStructure.DeleteFolder(subList[a].FullName);
+                        }
+                        catch (Exception e)
+                        {
+                            MainStructure.NoteError(e);
+                        }
+                    }
+                }
+                if (!Directory.Exists(backupFolder + "\\" + now))
+                {
+                    Directory.CreateDirectory(backupFolder + "\\" + now);
+                    MainStructure.CopyFolderIntoFolder(inputFolder, backupFolder + "\\" + now);
+                }
+            }
+        }
+        public static void DeleteFoldersNotFollowingDateScheme(DirectoryInfo[] allsubs)
+        {
+            foreach (DirectoryInfo di in allsubs)
+            {
+                if (!Regex.IsMatch(di.Name, @"\d{4}-\d{2}-\d{2}"))
+                {
+                    try
+                    {
+                        MainStructure.Write("Mismatching Backup folder name. Deleting: " + di.FullName);
+                        MainStructure.DeleteFolder(di.FullName);
+                    }
+                    catch (Exception e)
+                    {
+                        MainStructure.NoteError(e);
+                    }
+                }
+            }
+        }
         public static void BackupConfigsOfDCSInstance(string instance)
         {
+            MainStructure.Write("DCS backup instance: "+instance);
             if (!Directory.Exists(instance + runningBackupFolder))
             {
                 Directory.CreateDirectory(instance + runningBackupFolder);
@@ -252,23 +313,7 @@ namespace JoyPro
             }
             if (Directory.Exists(instance + subInputPath + inputFolderName))
             {
-                string now = DateTime.Now.ToString("yyyy-MM-dd");
-                if (!Directory.Exists(instance + runningBackupFolder))
-                    Directory.CreateDirectory(instance + runningBackupFolder);
-                DirectoryInfo pFolder = new DirectoryInfo(instance + runningBackupFolder);
-                DirectoryInfo[] allSubs = pFolder.GetDirectories();
-                if (MainStructure.msave != null)
-                    if (allSubs.Length > MainStructure.msave.backupDays)
-                    {
-                        List<DirectoryInfo> subList = allSubs.ToList();
-                        subList = subList.OrderBy(o => o.Name).ToList();
-                        MainStructure.DeleteFolder(subList[0].FullName);
-                    }
-                if (!Directory.Exists(instance + runningBackupFolder + "\\" + now))
-                {
-                    Directory.CreateDirectory(instance + runningBackupFolder + "\\" + now);
-                    MainStructure.CopyFolderIntoFolder(instance + subInputPath + inputFolderName, instance + runningBackupFolder + "\\" + now);
-                }
+                CheckBackupDaysFolder(instance + subInputPath + inputFolderName, instance + runningBackupFolder);
             }
         }
         public static string DCSStickNaming(string stName)
@@ -297,6 +342,7 @@ namespace JoyPro
         }
         public static void DCSInstanceSelectionChanged(string newInstance)
         {
+            MainStructure.Write("DCS Instance Selection Changed");
             if (DCSselectedInstancePath == newInstance) return;
             DCSselectedInstancePath = newInstance;
             InternalDataManagement.LocalJoysticks = null;
@@ -321,6 +367,7 @@ namespace JoyPro
         }
         public static void BackupConfigsOfSC()
         {
+            MainStructure.Write("Backing up SC");
             if (!Directory.Exists(StarCitizen)) return;
             try
             {
@@ -334,37 +381,7 @@ namespace JoyPro
                 }
                 else
                 {
-                    if (!Directory.Exists(StarCitizen + runningBU))
-                    {
-                        Directory.CreateDirectory(StarCitizen + runningBU);
-                    }
-                    DirectoryInfo dirInfo = new DirectoryInfo(StarCitizen + runningBU);
-                    int days;
-                    if (MainStructure.msave == null)
-                        days = 90;
-                    else
-                        days = MainStructure.msave.backupDays;
-
-                    if (dirInfo.GetDirectories().Length > days)
-                    {
-                        string dirToDelete = "";
-                        DateTime lastWritten = DateTime.UtcNow;
-                        foreach (DirectoryInfo d in dirInfo.GetDirectories())
-                        {
-                            if (d.LastWriteTimeUtc < lastWritten)
-                            {
-                                lastWritten = d.LastWriteTimeUtc;
-                                dirToDelete = d.FullName;
-                            }
-                        }
-                        MainStructure.DeleteFolder(dirToDelete);
-                    }
-                    string now = DateTime.UtcNow.ToString("yyyy-MM-dd");
-                    if (!Directory.Exists(StarCitizen + runningBU + "\\" + now))
-                    {
-                        Directory.CreateDirectory(StarCitizen + runningBU + "\\" + now);
-                        MainStructure.CopyFolderIntoFolder(StarCitizen + inputFolder, StarCitizen + runningBU + "\\" + now);
-                    }
+                    CheckBackupDaysFolder(StarCitizen + inputFolder, StarCitizen + runningBU);
                 }
 
             }
@@ -375,6 +392,7 @@ namespace JoyPro
         }
         public static void BackupConfigsOfIL2()
         {
+            MainStructure.Write("Backing up IL2");
             if (!Directory.Exists(IL2Instance)) return;
             try
             {
@@ -388,39 +406,8 @@ namespace JoyPro
                 }
                 else
                 {
-                    if (!Directory.Exists(IL2Instance + runningBU))
-                    {
-                        Directory.CreateDirectory(IL2Instance + runningBU);
-                    }
-                    DirectoryInfo dirInfo = new DirectoryInfo(IL2Instance + runningBU);
-                    int days;
-                    if (MainStructure.msave == null)
-                        days = 90;
-                    else
-                        days = MainStructure.msave.backupDays;
-
-                    if (dirInfo.GetDirectories().Length > days)
-                    {
-                        string dirToDelete = "";
-                        DateTime lastWritten = DateTime.UtcNow;
-                        foreach (DirectoryInfo d in dirInfo.GetDirectories())
-                        {
-                            if (d.LastWriteTimeUtc < lastWritten)
-                            {
-                                lastWritten = d.LastWriteTimeUtc;
-                                dirToDelete = d.FullName;
-                            }
-                        }
-                        MainStructure.DeleteFolder(dirToDelete);
-                    }
-                    string now = DateTime.UtcNow.ToString("yyyy-MM-dd");
-                    if (!Directory.Exists(IL2Instance + runningBU + "\\" + now))
-                    {
-                        Directory.CreateDirectory(IL2Instance + runningBU + "\\" + now);
-                        MainStructure.CopyFolderIntoFolder(IL2Instance + inputFolder, IL2Instance + runningBU + "\\" + now);
-                    }
+                    CheckBackupDaysFolder(IL2Instance + inputFolder, IL2Instance + runningBU);
                 }
-
             }
             catch (Exception e)
             {

@@ -143,11 +143,6 @@ namespace JoyPro
             ColorRowOrange(i);
             
         }
-        public void ResetDropdown(object sender, EventArgs e)
-        {
-            ComboBox cb = (ComboBox)sender;
-            cb.SelectedIndex = -1;
-        }
 
         public void ResetComboBoxDropDown(object sender, EventArgs e)
         {
