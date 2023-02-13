@@ -109,7 +109,10 @@ namespace JoyPro
                         {
                             kvp.Value.axisDiffs.Values.ElementAt(i).removed.RemoveAt(toRemove[j]);
                         }
-                        toRemove = new List<int>();
+                    }
+                    for (int i = 0; i < kvp.Value.keyDiffs.Values.Count; i++)
+                    {
+                        List<int> toRemove = new List<int>();
                         for (int j = 0; j < kvp.Value.keyDiffs.Values.ElementAt(i).removed.Count; j++)
                         {
                             string toCompare = kvp.Value.keyDiffs.Values.ElementAt(i).removed.ElementAt(j).key.ToLower();
