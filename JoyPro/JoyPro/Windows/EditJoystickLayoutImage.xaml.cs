@@ -623,7 +623,7 @@ namespace JoyPro
                     }
                     string finalPath = path;
                     if (!path.EndsWith("\\")) finalPath = finalPath + "\\";
-                    if (plane != game && plane.Length > 0 && game.Length > 0)
+                    if (plane.Length > 0 && game.Length > 0)
                     {
                         finalPath = finalPath + "\\" + game + "\\" + plane + "\\";
                     }
@@ -657,6 +657,10 @@ namespace JoyPro
                     }
                     else if (!toKneeboard)
                     {
+                        if(game!="DCS"&&game.Length>0)
+                        {
+
+                        }
                         finalPath = finalPath + joystick + ".png";
                         bmp.Save(finalPath, format);
                     }

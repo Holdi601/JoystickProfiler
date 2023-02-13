@@ -200,7 +200,7 @@ namespace JoyPro
             if (!Modifier.Contains(result))
                 Modifier.Add(result);
         }
-        static void ReadActionsFromActions(List<string> MouseNOtherOutput, List<string> KeyboardOutput, Dictionary<string, List<string>> JoystickOutput, string name="current")
+        static void ReadActionsFromActions(List<string> MouseNOtherOutput, List<string> KeyboardOutput, Dictionary<string, List<string>> JoystickOutput, string name="global")
         {
             string path = GetInputPath();
             if (!File.Exists(path + InputPath + name + ".actions")) return;
@@ -671,7 +671,7 @@ namespace JoyPro
                 Directory.CreateDirectory(path);
             return path;
         }
-        public static void CreateActionsFile(string name = "current")
+        public static void CreateActionsFile(string name = "global")
         {
             string path = GetInputPath();
             StreamWriter swr = new StreamWriter(path + InputPath + name + ".actions");
