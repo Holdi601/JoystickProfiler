@@ -2102,7 +2102,7 @@ local diff = {
 			},
 		},
 		["d3012pnilunilcd22vd-1vpnilvunil"] = {
-			["name"] = "UHF Radio 10MHz Decrease",
+			["name"] = "UHF Radio 10MHz Increase",
 			["removed"] = {
 				[1] = {
 					["key"] = "W",
@@ -2114,7 +2114,7 @@ local diff = {
 			},
 		},
 		["d3012pnilunilcd22vd1vpnilvunil"] = {
-			["name"] = "UHF Radio 10MHz Increase",
+			["name"] = "UHF Radio 10MHz Decrease",
 			["removed"] = {
 				[1] = {
 					["key"] = "E",
@@ -2266,7 +2266,7 @@ local diff = {
 			},
 		},
 		["d3013pnilunilcd22vd-1vpnilvunil"] = {
-			["name"] = "UHF Radio 1MHz Decrease",
+			["name"] = "UHF Radio 1MHz Increase",
 			["removed"] = {
 				[1] = {
 					["key"] = "R",
@@ -2278,7 +2278,7 @@ local diff = {
 			},
 		},
 		["d3013pnilunilcd22vd1vpnilvunil"] = {
-			["name"] = "UHF Radio 1MHz Increase",
+			["name"] = "UHF Radio 1MHz Decrease",
 			["removed"] = {
 				[1] = {
 					["key"] = "T",
@@ -2324,7 +2324,7 @@ local diff = {
 			},
 		},
 		["d3014pnilunilcd22vd-1vpnilvunil"] = {
-			["name"] = "UHF Radio 50kHz Decrease",
+			["name"] = "UHF Radio 50kHz Increase",
 			["removed"] = {
 				[1] = {
 					["key"] = "J",
@@ -2336,7 +2336,7 @@ local diff = {
 			},
 		},
 		["d3014pnilunilcd22vd1vpnilvunil"] = {
-			["name"] = "UHF Radio 50kHz Increase",
+			["name"] = "UHF Radio 50kHz Decrease",
 			["removed"] = {
 				[1] = {
 					["key"] = "U",
@@ -4210,7 +4210,7 @@ local diff = {
 			},
 		},
 		["dnilp3009unilcd22vdnilvp-1vunil"] = {
-			["name"] = "UHF Radio Volume Decrease",
+			["name"] = "UHF Radio Volume Increase",
 			["removed"] = {
 				[1] = {
 					["key"] = ";",
@@ -4222,7 +4222,7 @@ local diff = {
 			},
 		},
 		["dnilp3009unilcd22vdnilvp1vunil"] = {
-			["name"] = "UHF Radio Volume Increase",
+			["name"] = "UHF Radio Volume Decrease",
 			["removed"] = {
 				[1] = {
 					["key"] = "'",

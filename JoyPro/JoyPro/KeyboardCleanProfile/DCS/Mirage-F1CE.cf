@@ -1046,7 +1046,7 @@ local diff = {
 			},
 		},
 		["d3025pnilunilcd1vd1vpnilvunil"] = {
-			["name"] = "Yaw/Anti-slip switch - ON",
+			["name"] = "Yaw/Anti-slip switch - ANTI-SLIP",
 			["removed"] = {
 				[1] = {
 					["key"] = "Y",
@@ -1152,7 +1152,7 @@ local diff = {
 				},
 			},
 		},
-		["d3052pnilu3052cd1vd1vpnilvu0"] = {
+		["d3052pnilu3053cd1vd1vpnilvu0"] = {
 			["name"] = "In-flight relight control",
 			["removed"] = {
 				[1] = {
@@ -1163,7 +1163,7 @@ local diff = {
 				},
 			},
 		},
-		["d3053pnilunilcd1vd-1vpnilvunil"] = {
+		["d3054pnilunilcd1vd-1vpnilvunil"] = {
 			["name"] = "Ignition/Ventilation selector switch - VENTIL",
 			["removed"] = {
 				[1] = {
@@ -1174,7 +1174,7 @@ local diff = {
 				},
 			},
 		},
-		["d3053pnilunilcd1vd0vpnilvunil"] = {
+		["d3054pnilunilcd1vd0vpnilvunil"] = {
 			["name"] = "Ignition/Ventilation selector switch - R/H",
 			["removed"] = {
 				[1] = {
@@ -1185,7 +1185,7 @@ local diff = {
 				},
 			},
 		},
-		["d3053pnilunilcd1vd1vpnilvunil"] = {
+		["d3054pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Ignition/Ventilation selector switch - L/H",
 			["removed"] = {
 				[1] = {
@@ -1196,7 +1196,7 @@ local diff = {
 				},
 			},
 		},
-		["d3054pnilunilcd1vd-0.1vpnilvunil"] = {
+		["d3055pnilunilcd1vd-0.1vpnilvunil"] = {
 			["name"] = "Start button cover - CLOSE",
 			["removed"] = {
 				[1] = {
@@ -1208,7 +1208,7 @@ local diff = {
 				},
 			},
 		},
-		["d3054pnilunilcd1vd1.1vpnilvunil"] = {
+		["d3055pnilunilcd1vd1.1vpnilvunil"] = {
 			["name"] = "Start button cover - OPEN",
 			["removed"] = {
 				[1] = {
@@ -1220,7 +1220,7 @@ local diff = {
 				},
 			},
 		},
-		["d3055pnilu3055cd1vd1vpnilvu0"] = {
+		["d3056pnilu3056cd1vd1vpnilvu0"] = {
 			["name"] = "Start button",
 			["removed"] = {
 				[1] = {
@@ -1231,7 +1231,7 @@ local diff = {
 				},
 			},
 		},
-		["d3056pnilunilcd1vd-0.1vpnilvunil"] = {
+		["d3057pnilunilcd1vd-0.1vpnilvunil"] = {
 			["name"] = "LP main cock switch guard - CLOSE",
 			["removed"] = {
 				[1] = {
@@ -1243,7 +1243,7 @@ local diff = {
 				},
 			},
 		},
-		["d3056pnilunilcd1vd1.1vpnilvunil"] = {
+		["d3057pnilunilcd1vd1.1vpnilvunil"] = {
 			["name"] = "LP main cock switch guard - OPEN",
 			["removed"] = {
 				[1] = {
@@ -1255,7 +1255,7 @@ local diff = {
 				},
 			},
 		},
-		["d3057pnilunilcd1vd0vpnilvunil"] = {
+		["d3058pnilunilcd1vd0vpnilvunil"] = {
 			["name"] = "LP main cock switch - OPEN",
 			["removed"] = {
 				[1] = {
@@ -1267,7 +1267,7 @@ local diff = {
 				},
 			},
 		},
-		["d3057pnilunilcd1vd1vpnilvunil"] = {
+		["d3058pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "LP main cock switch - OFF",
 			["removed"] = {
 				[1] = {
@@ -1547,7 +1547,7 @@ local diff = {
 				},
 			},
 		},
-		["d3131pnilu3131cd1vd1vpnilvu0"] = {
+		["d3131pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "U + V pushbutton - PUSH",
 			["removed"] = {
 				[1] = {
@@ -1559,7 +1559,7 @@ local diff = {
 				},
 			},
 		},
-		["d3134pnilu3134cd1vd1vpnilvu0"] = {
+		["d3134pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "U pushbutton - PUSH",
 			["removed"] = {
 				[1] = {
@@ -1571,7 +1571,7 @@ local diff = {
 				},
 			},
 		},
-		["d3137pnilu3137cd1vd1vpnilvu0"] = {
+		["d3137pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "RAP + CME pushbutton - PUSH",
 			["removed"] = {
 				[1] = {
@@ -1583,7 +1583,7 @@ local diff = {
 				},
 			},
 		},
-		["d3140pnilu3140cd1vd1vpnilvu0"] = {
+		["d3140pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "MKR + TP pushbutton - PUSH",
 			["removed"] = {
 				[1] = {
@@ -1851,7 +1851,7 @@ local diff = {
 				},
 			},
 		},
-		["d3196pnilu3196cd1vd1vpnilvu0"] = {
+		["d3196pnilu3197cd1vd1vpnilvu0"] = {
 			["name"] = "Nose wheel steering high sensitivity button",
 			["removed"] = {
 				[1] = {
@@ -1862,7 +1862,7 @@ local diff = {
 				},
 			},
 		},
-		["d3197pnilunilcd1vd0vpnilvunil"] = {
+		["d3198pnilunilcd1vd0vpnilvunil"] = {
 			["name"] = "Nose wheel steering switch guard - CLOSE",
 			["removed"] = {
 				[1] = {
@@ -1874,7 +1874,7 @@ local diff = {
 				},
 			},
 		},
-		["d3197pnilunilcd1vd1vpnilvunil"] = {
+		["d3198pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Nose wheel steering switch guard - OPEN",
 			["removed"] = {
 				[1] = {
@@ -1886,7 +1886,7 @@ local diff = {
 				},
 			},
 		},
-		["d3198pnilunilcd1vd0vpnilvunil"] = {
+		["d3199pnilunilcd1vd0vpnilvunil"] = {
 			["name"] = "Nose wheel steering switch - ON",
 			["removed"] = {
 				[1] = {
@@ -1897,7 +1897,7 @@ local diff = {
 				},
 			},
 		},
-		["d3198pnilunilcd1vd1vpnilvunil"] = {
+		["d3199pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Nose wheel steering switch - OFF",
 			["removed"] = {
 				[1] = {
@@ -1908,7 +1908,7 @@ local diff = {
 				},
 			},
 		},
-		["d3202pnilu3202cd1vd1vpnilvu0"] = {
+		["d3210pnilu3210cd1vd1vpnilvu0"] = {
 			["name"] = "Chronometer starting control",
 			["removed"] = {
 				[1] = {
@@ -1941,7 +1941,7 @@ local diff = {
 				},
 			},
 		},
-		["d3237pnilunilcd1vd-1vpnilvunil"] = {
+		["d3238pnilunilcd1vd-1vpnilvunil"] = {
 			["name"] = "Heading and vertical reference system control switch - Counterclockwise",
 			["removed"] = {
 				[1] = {
@@ -1953,7 +1953,7 @@ local diff = {
 				},
 			},
 		},
-		["d3237pnilunilcd1vd1vpnilvunil"] = {
+		["d3238pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Heading and vertical reference system control switch - Clockwise",
 			["removed"] = {
 				[1] = {
@@ -3928,7 +3928,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3208unilcd1vdnilvp-1vunil"] = {
+		["dnilp3219unilcd1vdnilvp-1vunil"] = {
 			["name"] = "Mach/Airspeed indicator reference airspeed knob - Decrease",
 			["removed"] = {
 				[1] = {
@@ -3940,7 +3940,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3208unilcd1vdnilvp1vunil"] = {
+		["dnilp3219unilcd1vdnilvp1vunil"] = {
 			["name"] = "Mach/Airspeed indicator reference airspeed knob - Increase",
 			["removed"] = {
 				[1] = {
@@ -3952,7 +3952,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3210unilcd1vdnilvp-1vunil"] = {
+		["dnilp3221unilcd1vdnilvp-1vunil"] = {
 			["name"] = "Slaved altimeter barometric pressure setting knob - Decrease",
 			["removed"] = {
 				[1] = {
@@ -3964,7 +3964,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3210unilcd1vdnilvp1vunil"] = {
+		["dnilp3221unilcd1vdnilvp1vunil"] = {
 			["name"] = "Slaved altimeter barometric pressure setting knob - Increase",
 			["removed"] = {
 				[1] = {
@@ -3976,7 +3976,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3212unilcd1vdnilvp-1vunil"] = {
+		["dnilp3223unilcd1vdnilvp-1vunil"] = {
 			["name"] = "Standby altimeter barometric pressure setting knob - Decrease",
 			["removed"] = {
 				[1] = {
@@ -3988,7 +3988,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3212unilcd1vdnilvp1vunil"] = {
+		["dnilp3223unilcd1vdnilvp1vunil"] = {
 			["name"] = "Standby altimeter barometric pressure setting knob - Increase",
 			["removed"] = {
 				[1] = {

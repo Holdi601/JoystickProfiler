@@ -17,7 +17,7 @@ local diff = {
 			},
 		},
 		["d109pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Helmet-mounted system On/Off",
+			["name"] = "Helmet-mounted system - ON/OFF",
 			["removed"] = {
 				[1] = {
 					["key"] = "H",
@@ -29,17 +29,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "F7",
-				},
-			},
-		},
-		["d112pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "HUD Modes Reticle/Night/Day",
-			["removed"] = {
-				[1] = {
-					["key"] = "8",
-					["reformers"] = {
-						[1] = "RShift",
-					},
 				},
 			},
 		},
@@ -344,45 +333,6 @@ local diff = {
 				},
 			},
 		},
-		["d1633pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "External Cargo Hook",
-			["removed"] = {
-				[1] = {
-					["key"] = "L",
-					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-						[3] = "LAlt",
-					},
-				},
-			},
-		},
-		["d1634pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "External Cargo Autounhook",
-			["removed"] = {
-				[1] = {
-					["key"] = "K",
-					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-						[3] = "LAlt",
-					},
-				},
-			},
-		},
-		["d1650pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "External Cargo Indicator",
-			["removed"] = {
-				[1] = {
-					["key"] = "P",
-					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-						[3] = "LAlt",
-					},
-				},
-			},
-		},
 		["d165pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Throttle Left Up (Idle-Medium-Auto-Full)",
 			["removed"] = {
@@ -390,19 +340,6 @@ local diff = {
 					["key"] = "PageUp",
 					["reformers"] = {
 						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d1669pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "External Cargo Emergency Unhook",
-			["removed"] = {
-				[1] = {
-					["key"] = "P",
-					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-						[3] = "RAlt",
 					},
 				},
 			},
@@ -767,17 +704,6 @@ local diff = {
 				},
 			},
 		},
-		["d247pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Raise/Lower Colour Filter On HUD",
-			["removed"] = {
-				[1] = {
-					["key"] = "H",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
 		["d24pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "View enemies mode",
 			["removed"] = {
@@ -898,7 +824,7 @@ local diff = {
 			},
 		},
 		["d283pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Master arm on/off",
+			["name"] = "Master Arm - ARM/DISARM",
 			["removed"] = {
 				[1] = {
 					["key"] = "W",
@@ -952,6 +878,17 @@ local diff = {
 				},
 			},
 		},
+		["d3002pnilunilcd64vd1vpnilvunil"] = {
+			["name"] = "ODS operation mode - cycle",
+			["removed"] = {
+				[1] = {
+					["key"] = "L",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
 		["d3003pnilunilcd100vd1vpnilvunil"] = {
 			["name"] = "Kneeboard current position mark point",
 			["removed"] = {
@@ -963,11 +900,301 @@ local diff = {
 				},
 			},
 		},
+		["d3003pnilunilcd28vd0vpnilvunil"] = {
+			["name"] = "Autopilot Desired heading - Desired track - DESIRED HDG",
+			["removed"] = {
+				[1] = {
+					["key"] = "X",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3003pnilunilcd28vd1vpnilvunil"] = {
+			["name"] = "Autopilot Desired heading - Desired track - DESIRED TRK",
+			["removed"] = {
+				[1] = {
+					["key"] = "X",
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3003pnilunilcd44vd-1vpnilvunil"] = {
+			["name"] = "Light landing-search On/Retraction/Off - down",
+			["removed"] = {
+				[1] = {
+					["key"] = "L",
+					["reformers"] = {
+						[1] = "RCtrl",
+						[2] = "RAlt",
+					},
+				},
+			},
+		},
+		["d3003pnilunilcd44vd1vpnilvunil"] = {
+			["name"] = "Light landing-search On/Retraction/Off - up",
+			["removed"] = {
+				[1] = {
+					["key"] = "L",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["d3004pnilunilcd7vd1vpnilvunil"] = {
+			["name"] = "Raise/Lower Colour Filter On HUD",
+			["removed"] = {
+				[1] = {
+					["key"] = "H",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["d3005pnilunilcd28vd-1vpnilvunil"] = {
+			["name"] = "Gyro/Mag/Manual heading - up",
+			["removed"] = {
+				[1] = {
+					["key"] = "G",
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3005pnilunilcd28vd1vpnilvunil"] = {
+			["name"] = "Gyro/Mag/Manual heading - down",
+			["removed"] = {
+				[1] = {
+					["key"] = "G",
+					["reformers"] = {
+						[1] = "LShift",
+						[2] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3005pnilunilcd50vd-1vpnilvunil"] = {
+			["name"] = "SPU-9 Radio communicator selector - prev",
+			["removed"] = {
+				[1] = {
+					["key"] = "/",
+					["reformers"] = {
+						[1] = "LShift",
+						[2] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3005pnilunilcd50vd1vpnilvunil"] = {
+			["name"] = "SPU-9 Radio communicator selector - next",
+			["removed"] = {
+				[1] = {
+					["key"] = "/",
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3005pnilunilcd7vd1vpnilvunil"] = {
+			["name"] = "HUD Modes Reticle/Night/Day - next",
+			["removed"] = {
+				[1] = {
+					["key"] = "8",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["d3006pnilunilcd33vd0vpnilvunil"] = {
+			["name"] = "Autopilot BARO/RALT altitude hold mode - BARO",
+			["removed"] = {
+				[1] = {
+					["key"] = "X",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3006pnilunilcd33vd1vpnilvunil"] = {
+			["name"] = "Autopilot BARO/RALT altitude hold mode - RALT",
+			["removed"] = {
+				[1] = {
+					["key"] = "X",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3008pnilunilcd46vd-1vpnilvunil"] = {
+			["name"] = "ADF Beacon select - down",
+			["removed"] = {
+				[1] = {
+					["key"] = "=",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3008pnilunilcd46vd1vpnilvunil"] = {
+			["name"] = "ADF Beacon select - up",
+			["removed"] = {
+				[1] = {
+					["key"] = "=",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
 		["d300pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Lighting cockpit interior lamp switch",
 			["removed"] = {
 				[1] = {
 					["key"] = "K",
+				},
+			},
+		},
+		["d3014pnilunilcd22vd-1vpnilvunil"] = {
+			["name"] = "UV-26 Change dispensing board - prev",
+			["removed"] = {
+				[1] = {
+					["key"] = "Delete",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["d3014pnilunilcd22vd1vpnilvunil"] = {
+			["name"] = "UV-26 Change dispensing board - next",
+			["removed"] = {
+				[1] = {
+					["key"] = "Delete",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3016pnilunilcd34vd0vpnilvunil"] = {
+			["name"] = "Service hatches open/close",
+			["removed"] = {
+				[1] = {
+					["key"] = "W",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3019pnilunilcd25vd-1vpnilvunil"] = {
+			["name"] = "Datalink mode - prev",
+			["removed"] = {
+				[1] = {
+					["key"] = "M",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3019pnilunilcd25vd1vpnilvunil"] = {
+			["name"] = "Datalink mode - next",
+			["removed"] = {
+				[1] = {
+					["key"] = "M",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3020pnilunilcd25vd1vpnilvunil"] = {
+			["name"] = "Self ID switch - next",
+			["removed"] = {
+				[1] = {
+					["key"] = "I",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3024pnilunilcd12vd-1vpnilvunil"] = {
+			["name"] = "Burst Length Switch - prev",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3024pnilunilcd12vd1vpnilvunil"] = {
+			["name"] = "Burst Length Switch - next",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+				},
+			},
+		},
+		["d3026pnilunilcd4vd-1vpnilvunil"] = {
+			["name"] = "Engine Startup/Crank/False Start selector - up",
+			["removed"] = {
+				[1] = {
+					["key"] = "Home",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3026pnilunilcd4vd1vpnilvunil"] = {
+			["name"] = "Engine Startup/Crank/False Start selector - down",
+			["removed"] = {
+				[1] = {
+					["key"] = "Home",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3027pnilunilcd4vd-1vpnilvunil"] = {
+			["name"] = "Engine de-ice / ice-protector - down",
+			["removed"] = {
+				[1] = {
+					["key"] = "I",
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3027pnilunilcd4vd1vpnilvunil"] = {
+			["name"] = "Engine de-ice / ice-protector - up",
+			["removed"] = {
+				[1] = {
+					["key"] = "I",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
 				},
 			},
 		},
@@ -1057,17 +1284,6 @@ local diff = {
 					["reformers"] = {
 						[1] = "RCtrl",
 						[2] = "RShift",
-					},
-				},
-			},
-		},
-		["d328pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Light landing search On/Retraction/Off",
-			["removed"] = {
-				[1] = {
-					["key"] = "L",
-					["reformers"] = {
-						[1] = "RShift",
 					},
 				},
 			},
@@ -1346,17 +1562,6 @@ local diff = {
 				},
 			},
 		},
-		["d376pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "UV-26 Change dispensing board Left-Both-Right",
-			["removed"] = {
-				[1] = {
-					["key"] = "]",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
 		["d377pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "UV-26 Amount flares counter / Programming",
 			["removed"] = {
@@ -1388,7 +1593,7 @@ local diff = {
 			},
 		},
 		["d392pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Laser standby On/Off switch",
+			["name"] = "Laser Standby Power Switch - ON/OFF",
 			["removed"] = {
 				[1] = {
 					["key"] = "O",
@@ -1723,7 +1928,7 @@ local diff = {
 			},
 		},
 		["d455pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "PVI Change Master Mode (to right)",
+			["name"] = "PVI Change Master Mode - turn CW",
 			["removed"] = {
 				[1] = {
 					["key"] = "B",
@@ -1734,7 +1939,7 @@ local diff = {
 			},
 		},
 		["d456pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "PVI Change Master Mode (to left)",
+			["name"] = "PVI Change Master Mode - turn CCW",
 			["removed"] = {
 				[1] = {
 					["key"] = "V",
@@ -2347,7 +2552,7 @@ local diff = {
 			},
 		},
 		["d524pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Automatic tracking/gunsight",
+			["name"] = "Auto-Tracking/Gun Sight Reticle Mode - AT/RET",
 			["removed"] = {
 				[1] = {
 					["key"] = "P",
@@ -2401,7 +2606,7 @@ local diff = {
 			},
 		},
 		["d530pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Weapon system mode selector (to right)",
+			["name"] = "Weapon system mode selector - turn CW",
 			["removed"] = {
 				[1] = {
 					["key"] = "F",
@@ -2412,7 +2617,7 @@ local diff = {
 			},
 		},
 		["d531pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Weapon system mode selector (to left)",
+			["name"] = "Weapon system mode selector - turn CCW",
 			["removed"] = {
 				[1] = {
 					["key"] = "F",
@@ -2423,23 +2628,15 @@ local diff = {
 			},
 		},
 		["d532pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Weapon system control switch Manual/Auto ",
+			["name"] = "Weapon Control Switch - MAN/AUTO",
 			["removed"] = {
 				[1] = {
 					["key"] = "A",
 				},
 			},
 		},
-		["d533pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Weapon mode switch",
-			["removed"] = {
-				[1] = {
-					["key"] = "S",
-				},
-			},
-		},
 		["d534pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Cannon round selector switch",
+			["name"] = "Cannon Ammo Type Switch - HE/AP",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",
@@ -2450,7 +2647,7 @@ local diff = {
 			},
 		},
 		["d535pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Cannon rate of fire setting",
+			["name"] = "Cannon Rate of Fire Switch - LOW/HIGH",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",
@@ -2476,17 +2673,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "A",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d580pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "ADF Beacon select",
-			["removed"] = {
-				[1] = {
-					["key"] = "=",
 					["reformers"] = {
 						[1] = "LAlt",
 					},
@@ -2563,18 +2749,6 @@ local diff = {
 				},
 			},
 		},
-		["d588pnilu792cdnilvdnilvpnilvunil"] = {
-			["name"] = "ADF Self test",
-			["removed"] = {
-				[1] = {
-					["key"] = "T",
-					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
-					},
-				},
-			},
-		},
 		["d590pnilu301cdnilvdnilvpnilvunil"] = {
 			["name"] = "Autopilot Bank hold",
 			["removed"] = {
@@ -2630,17 +2804,6 @@ local diff = {
 				},
 			},
 		},
-		["d595pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Autopilot BARO/RALT altitude hold mode",
-			["removed"] = {
-				[1] = {
-					["key"] = "X",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
 		["d596pnilu802cdnilvdnilvpnilvunil"] = {
 			["name"] = "Start-up engine",
 			["removed"] = {
@@ -2669,7 +2832,7 @@ local diff = {
 			},
 		},
 		["d599pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Engine selector",
+			["name"] = "Engine selector - cycle positions",
 			["removed"] = {
 				[1] = {
 					["key"] = "E",
@@ -2704,7 +2867,7 @@ local diff = {
 				[1] = {
 					["key"] = "R",
 					["reformers"] = {
-						[1] = "LShift",
+						[1] = "RShift",
 					},
 				},
 			},
@@ -2986,18 +3149,6 @@ local diff = {
 				},
 			},
 		},
-		["d630pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "SPU-9 Radio communicator selector",
-			["removed"] = {
-				[1] = {
-					["key"] = "/",
-					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
-					},
-				},
-			},
-		},
 		["d631p631u839cdnilvdnilvpnilvunil"] = {
 			["name"] = "Collective up",
 			["removed"] = {
@@ -3011,28 +3162,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "Num-",
-				},
-			},
-		},
-		["d640pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Self ID",
-			["removed"] = {
-				[1] = {
-					["key"] = "I",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d641pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Datalink mode",
-			["removed"] = {
-				[1] = {
-					["key"] = "M",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
 				},
 			},
 		},
@@ -3559,18 +3688,6 @@ local diff = {
 				},
 			},
 		},
-		["d745pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Gyro/Mag/Manual heading",
-			["removed"] = {
-				[1] = {
-					["key"] = "G",
-					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LAlt",
-					},
-				},
-			},
-		},
 		["d748pnilu749cdnilvdnilvpnilvunil"] = {
 			["name"] = "HUD Test",
 			["removed"] = {
@@ -3593,7 +3710,7 @@ local diff = {
 			},
 		},
 		["d750pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Emeregency gear",
+			["name"] = "Emergency gear",
 			["removed"] = {
 				[1] = {
 					["key"] = "G",
@@ -3604,7 +3721,7 @@ local diff = {
 			},
 		},
 		["d751pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Emeregency gear cover",
+			["name"] = "Emergency gear cover",
 			["removed"] = {
 				[1] = {
 					["key"] = "G",
@@ -3674,17 +3791,6 @@ local diff = {
 				},
 			},
 		},
-		["d761pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "LWS/CMD operation mode",
-			["removed"] = {
-				[1] = {
-					["key"] = "L",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
 		["d762pnilu800cdnilvdnilvpnilvunil"] = {
 			["name"] = "Lamps test",
 			["removed"] = {
@@ -3717,7 +3823,7 @@ local diff = {
 			},
 		},
 		["d770pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "HSI Desired track angle - Desired heading, Auto - Manual",
+			["name"] = "HSI DTA-DH mode switch - Manual / Auto",
 			["removed"] = {
 				[1] = {
 					["key"] = "H",
@@ -3792,17 +3898,6 @@ local diff = {
 					["reformers"] = {
 						[1] = "RCtrl",
 						[2] = "RAlt",
-					},
-				},
-			},
-		},
-		["d819pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Engines de-icing / dust-protection systems switch",
-			["removed"] = {
-				[1] = {
-					["key"] = "I",
-					["reformers"] = {
-						[1] = "LAlt",
 					},
 				},
 			},
@@ -3978,17 +4073,6 @@ local diff = {
 				},
 			},
 		},
-		["d838pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Engine Startup/Crank/False Start selector",
-			["removed"] = {
-				[1] = {
-					["key"] = "E",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
 		["d83pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Eject (3 times)",
 			["removed"] = {
@@ -4142,7 +4226,7 @@ local diff = {
 			},
 		},
 		["d886pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Laser range finder-designator mode switch cover",
+			["name"] = "Laser mode switch cover",
 			["removed"] = {
 				[1] = {
 					["key"] = "O",
@@ -4154,7 +4238,7 @@ local diff = {
 			},
 		},
 		["d887pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Laser range finder-designator mode switch",
+			["name"] = "Laser mode switch",
 			["removed"] = {
 				[1] = {
 					["key"] = "O",
@@ -4682,17 +4766,6 @@ local diff = {
 					["key"] = "A",
 					["reformers"] = {
 						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["d944pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Autopilot Desired heading - Desired track",
-			["removed"] = {
-				[1] = {
-					["key"] = "X",
-					["reformers"] = {
-						[1] = "LAlt",
 					},
 				},
 			},
@@ -5313,7 +5386,7 @@ local diff = {
 			},
 		},
 		["dnilp764unilcdnilvdnilvpnilvunil"] = {
-			["name"] = "HSI Commanded course rotary left",
+			["name"] = "HSI DTA - Desired Track Angle (COURSE) rotary - left",
 			["removed"] = {
 				[1] = {
 					["key"] = ",",
@@ -5325,7 +5398,7 @@ local diff = {
 			},
 		},
 		["dnilp765unilcdnilvdnilvpnilvunil"] = {
-			["name"] = "HSI Commanded course rotary right",
+			["name"] = "HSI DTA - Desired Track Angle (COURSE) rotary - right",
 			["removed"] = {
 				[1] = {
 					["key"] = ".",
@@ -5337,7 +5410,7 @@ local diff = {
 			},
 		},
 		["dnilp766unilcdnilvdnilvpnilvunil"] = {
-			["name"] = "HSI Commanded heading rotary left",
+			["name"] = "HSI DH - Desired Heading (HEADING) rotary - left",
 			["removed"] = {
 				[1] = {
 					["key"] = ",",
@@ -5349,7 +5422,7 @@ local diff = {
 			},
 		},
 		["dnilp767unilcdnilvdnilvpnilvunil"] = {
-			["name"] = "HSI Commanded heading rotary right",
+			["name"] = "HSI DH - Desired Heading (HEADING) rotary - right",
 			["removed"] = {
 				[1] = {
 					["key"] = ".",
@@ -5504,11 +5577,35 @@ local diff = {
 				},
 			},
 		},
+		["dnilp919unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "PVI Lighting up",
+			["removed"] = {
+				[1] = {
+					["key"] = "P",
+					["reformers"] = {
+						[1] = "RShift",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
 		["dnilp91u235cdnilvdnilvpnilvunil"] = {
 			["name"] = "KU-31 Shkval slew down",
 			["removed"] = {
 				[1] = {
 					["key"] = ".",
+				},
+			},
+		},
+		["dnilp920unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "PVI Lighting down",
+			["removed"] = {
+				[1] = {
+					["key"] = "P",
+					["reformers"] = {
+						[1] = "RShift",
+						[2] = "RAlt",
+					},
 				},
 			},
 		},

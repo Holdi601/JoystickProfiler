@@ -717,8 +717,8 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -729,8 +729,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -764,8 +764,8 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -777,8 +777,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -1798,6 +1798,22 @@ local diff = {
 				},
 			},
 		},
+		["d66pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Throttle Step - Increase",
+			["removed"] = {
+				[1] = {
+					["key"] = "PageUp",
+				},
+			},
+		},
+		["d67pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Throttle Step - Decrease",
+			["removed"] = {
+				[1] = {
+					["key"] = "PageDown",
+				},
+			},
+		},
 		["d78pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Smoke",
 			["removed"] = {
@@ -2631,8 +2647,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -2643,8 +2659,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},

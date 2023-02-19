@@ -943,17 +943,6 @@ local diff = {
 				},
 			},
 		},
-		["d3180pnilunilcdnilvd0.5vpnilvu0"] = {
-			["name"] = "Engine Start",
-			["removed"] = {
-				[1] = {
-					["key"] = "S",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
 		["d3209pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Eject (3 times)",
 			["removed"] = {
@@ -1028,17 +1017,6 @@ local diff = {
 					["reformers"] = {
 						[1] = "RCtrl",
 						[2] = "RShift",
-					},
-				},
-			},
-		},
-		["d3305pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Gunsight Operating Mode",
-			["removed"] = {
-				[1] = {
-					["key"] = "C",
-					["reformers"] = {
-						[1] = "LShift",
 					},
 				},
 			},
@@ -1164,6 +1142,28 @@ local diff = {
 				},
 			},
 		},
+		["d3467pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Gunsight Power Switch Down",
+			["removed"] = {
+				[1] = {
+					["key"] = "G",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3468pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Gunsight Power Switch Up",
+			["removed"] = {
+				[1] = {
+					["key"] = "G",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
 		["d3469pnilu3470cdnilvdnilvpnilvunil"] = {
 			["name"] = "Gunsight Test",
 			["removed"] = {
@@ -1183,6 +1183,28 @@ local diff = {
 					["reformers"] = {
 						[1] = "LAlt",
 						[2] = "LShift",
+					},
+				},
+			},
+		},
+		["d3472pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Place/Remove Parking Wheel Brakes",
+			["removed"] = {
+				[1] = {
+					["key"] = "P",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3475pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Emerg Landing Gear",
+			["removed"] = {
+				[1] = {
+					["key"] = "G",
+					["reformers"] = {
+						[1] = "LAlt",
 					},
 				},
 			},
@@ -1317,6 +1339,371 @@ local diff = {
 					["key"] = "F12",
 					["reformers"] = {
 						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3490pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Fuze SAFE -> NOSE/TAIL",
+			["removed"] = {
+				[1] = {
+					["key"] = "F",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3491pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Fuze SAFE -> TAIL ONLY",
+			["removed"] = {
+				[1] = {
+					["key"] = "F",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d3492pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Weapons Jettison",
+			["removed"] = {
+				[1] = {
+					["key"] = "J",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3493pnilu3494cdnilvdnilvpnilvunil"] = {
+			["name"] = "Selective Jettison Button",
+			["removed"] = {
+				[1] = {
+					["key"] = "W",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3495pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Lock/Unlock Flight Controls",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3496pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle SEQUENCE Single/Ripple",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3497pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Station 1",
+			["removed"] = {
+				[1] = {
+					["key"] = "1",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3498pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Station 2",
+			["removed"] = {
+				[1] = {
+					["key"] = "2",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3499pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Station 3",
+			["removed"] = {
+				[1] = {
+					["key"] = "3",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3500pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Station 4",
+			["removed"] = {
+				[1] = {
+					["key"] = "4",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3501pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Station 5",
+			["removed"] = {
+				[1] = {
+					["key"] = "5",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3502pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Station 6",
+			["removed"] = {
+				[1] = {
+					["key"] = "6",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3503pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Front Seat Fuel Dump",
+			["removed"] = {
+				[1] = {
+					["key"] = "R",
+				},
+			},
+		},
+		["d3504pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Rear Seat Fuel Dump",
+			["removed"] = {
+				[1] = {
+					["key"] = "R",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3505pnilu3506cdnilvdnilvpnilvunil"] = {
+			["name"] = "Engine Start",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["d3507pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Gunsight Operating Mode",
+			["removed"] = {
+				[1] = {
+					["key"] = "C",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d3508pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Front Seat Anti-Skid System",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3509pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Rear Seat Anti-Skid System",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["d3510pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Fuel Transfer Switch",
+			["removed"] = {
+				[1] = {
+					["key"] = "T",
+				},
+			},
+		},
+		["d3511pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Front Seat Fuel Shut Off Switch",
+			["removed"] = {
+				[1] = {
+					["key"] = "T",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3512pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Rear Seat Fuel Shut Off Switch",
+			["removed"] = {
+				[1] = {
+					["key"] = "T",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["d3513pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle AHR/GPS On/Off",
+			["removed"] = {
+				[1] = {
+					["key"] = "A",
+				},
+			},
+		},
+		["d3514pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Anti Ice Engine Switch",
+			["removed"] = {
+				[1] = {
+					["key"] = "E",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3515pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Front Seat Pitot Anti-Ice Switch",
+			["removed"] = {
+				[1] = {
+					["key"] = "P",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3516pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Rear Seat Pitot Anti-Ice Switch",
+			["removed"] = {
+				[1] = {
+					["key"] = "P",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d3517pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Windshield Demist Switch",
+			["removed"] = {
+				[1] = {
+					["key"] = "M",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3518pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Rain RMLV Switch",
+			["removed"] = {
+				[1] = {
+					["key"] = "M",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d3519pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Master Arm Inib Switch",
+			["removed"] = {
+				[1] = {
+					["key"] = "M",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d3520pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Beacon light switch",
+			["removed"] = {
+				[1] = {
+					["key"] = "L",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3521pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Flash/Steady Nav Light switch",
+			["removed"] = {
+				[1] = {
+					["key"] = "L",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d3522pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Nav Light Brt/Off switch",
+			["removed"] = {
+				[1] = {
+					["key"] = "N",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3523pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Nav Light Dimm/Off switch",
+			["removed"] = {
+				[1] = {
+					["key"] = "N",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d3524pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Taxi Light On/Off Switch",
+			["removed"] = {
+				[1] = {
+					["key"] = "Y",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3525pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Toggle Landing Light On/Off Switch",
+			["removed"] = {
+				[1] = {
+					["key"] = "Y",
+					["reformers"] = {
+						[1] = "RAlt",
 					},
 				},
 			},
@@ -1728,14 +2115,6 @@ local diff = {
 					["reformers"] = {
 						[1] = "LCtrl",
 					},
-				},
-			},
-		},
-		["d73pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Airbrake",
-			["removed"] = {
-				[1] = {
-					["key"] = "B",
 				},
 			},
 		},
@@ -2311,6 +2690,28 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "Num8",
+				},
+			},
+		},
+		["dnilp3533u3532cdnilvdnilvpnilvunil"] = {
+			["name"] = "Airbrake Extend",
+			["removed"] = {
+				[1] = {
+					["key"] = "B",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["dnilp3534u3532cdnilvdnilvpnilvunil"] = {
+			["name"] = "Airbrake Retract",
+			["removed"] = {
+				[1] = {
+					["key"] = "B",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
 				},
 			},
 		},

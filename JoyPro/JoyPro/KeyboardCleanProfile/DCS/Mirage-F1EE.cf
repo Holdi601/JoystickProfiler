@@ -1046,7 +1046,7 @@ local diff = {
 			},
 		},
 		["d3025pnilunilcd1vd1vpnilvunil"] = {
-			["name"] = "Yaw/Anti-slip switch - ON",
+			["name"] = "Yaw/Anti-slip switch - ANTI-SLIP",
 			["removed"] = {
 				[1] = {
 					["key"] = "Y",
@@ -1152,7 +1152,7 @@ local diff = {
 				},
 			},
 		},
-		["d3052pnilu3052cd1vd1vpnilvu0"] = {
+		["d3052pnilu3053cd1vd1vpnilvu0"] = {
 			["name"] = "In-flight relight control",
 			["removed"] = {
 				[1] = {
@@ -1163,7 +1163,7 @@ local diff = {
 				},
 			},
 		},
-		["d3053pnilunilcd1vd-1vpnilvunil"] = {
+		["d3054pnilunilcd1vd-1vpnilvunil"] = {
 			["name"] = "Ignition/Ventilation selector switch - VENTIL",
 			["removed"] = {
 				[1] = {
@@ -1174,7 +1174,7 @@ local diff = {
 				},
 			},
 		},
-		["d3053pnilunilcd1vd0vpnilvunil"] = {
+		["d3054pnilunilcd1vd0vpnilvunil"] = {
 			["name"] = "Ignition/Ventilation selector switch - R/H",
 			["removed"] = {
 				[1] = {
@@ -1185,7 +1185,7 @@ local diff = {
 				},
 			},
 		},
-		["d3053pnilunilcd1vd1vpnilvunil"] = {
+		["d3054pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Ignition/Ventilation selector switch - L/H",
 			["removed"] = {
 				[1] = {
@@ -1196,7 +1196,7 @@ local diff = {
 				},
 			},
 		},
-		["d3054pnilunilcd1vd-0.1vpnilvunil"] = {
+		["d3055pnilunilcd1vd-0.1vpnilvunil"] = {
 			["name"] = "Start button cover - CLOSE",
 			["removed"] = {
 				[1] = {
@@ -1208,7 +1208,7 @@ local diff = {
 				},
 			},
 		},
-		["d3054pnilunilcd1vd1.1vpnilvunil"] = {
+		["d3055pnilunilcd1vd1.1vpnilvunil"] = {
 			["name"] = "Start button cover - OPEN",
 			["removed"] = {
 				[1] = {
@@ -1220,7 +1220,7 @@ local diff = {
 				},
 			},
 		},
-		["d3055pnilu3055cd1vd1vpnilvu0"] = {
+		["d3056pnilu3056cd1vd1vpnilvu0"] = {
 			["name"] = "Start button",
 			["removed"] = {
 				[1] = {
@@ -1231,7 +1231,7 @@ local diff = {
 				},
 			},
 		},
-		["d3056pnilunilcd1vd-0.1vpnilvunil"] = {
+		["d3057pnilunilcd1vd-0.1vpnilvunil"] = {
 			["name"] = "LP main cock switch guard - CLOSE",
 			["removed"] = {
 				[1] = {
@@ -1243,7 +1243,7 @@ local diff = {
 				},
 			},
 		},
-		["d3056pnilunilcd1vd1.1vpnilvunil"] = {
+		["d3057pnilunilcd1vd1.1vpnilvunil"] = {
 			["name"] = "LP main cock switch guard - OPEN",
 			["removed"] = {
 				[1] = {
@@ -1255,7 +1255,7 @@ local diff = {
 				},
 			},
 		},
-		["d3057pnilunilcd1vd0vpnilvunil"] = {
+		["d3058pnilunilcd1vd0vpnilvunil"] = {
 			["name"] = "LP main cock switch - OPEN",
 			["removed"] = {
 				[1] = {
@@ -1267,7 +1267,7 @@ local diff = {
 				},
 			},
 		},
-		["d3057pnilunilcd1vd1vpnilvunil"] = {
+		["d3058pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "LP main cock switch - OFF",
 			["removed"] = {
 				[1] = {
@@ -1547,7 +1547,7 @@ local diff = {
 				},
 			},
 		},
-		["d3131pnilu3131cd1vd1vpnilvu0"] = {
+		["d3131pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "U + V pushbutton - PUSH",
 			["removed"] = {
 				[1] = {
@@ -1559,7 +1559,7 @@ local diff = {
 				},
 			},
 		},
-		["d3134pnilu3134cd1vd1vpnilvu0"] = {
+		["d3134pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "U pushbutton - PUSH",
 			["removed"] = {
 				[1] = {
@@ -1571,7 +1571,7 @@ local diff = {
 				},
 			},
 		},
-		["d3137pnilu3137cd1vd1vpnilvu0"] = {
+		["d3137pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "RAP + CME pushbutton - PUSH",
 			["removed"] = {
 				[1] = {
@@ -1583,7 +1583,7 @@ local diff = {
 				},
 			},
 		},
-		["d3140pnilu3140cd1vd1vpnilvu0"] = {
+		["d3140pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "MKR + TP pushbutton - PUSH",
 			["removed"] = {
 				[1] = {
@@ -1591,6 +1591,63 @@ local diff = {
 					["reformers"] = {
 						[1] = "LCtrl",
 						[2] = "LWin",
+					},
+				},
+			},
+		},
+		["d3143pnilunilcd1vd-0.1vpnilvunil"] = {
+			["name"] = "Armament master switch guard - CLOSE",
+			["removed"] = {
+				[1] = {
+					["key"] = "Space",
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3143pnilunilcd1vd1.1vpnilvunil"] = {
+			["name"] = "Armament master switch guard - OPEN",
+			["removed"] = {
+				[1] = {
+					["key"] = "Space",
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "LShift",
+					},
+				},
+			},
+		},
+		["d3144pnilunilcd1vd0.5vpnilvunil"] = {
+			["name"] = "Armament master switch - ON",
+			["removed"] = {
+				[1] = {
+					["key"] = "Space",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3144pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "Armament master switch - OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "Space",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3144pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "Armament master switch - TEST",
+			["removed"] = {
+				[1] = {
+					["key"] = "Space",
+					["reformers"] = {
+						[1] = "LShift",
 					},
 				},
 			},
@@ -1794,7 +1851,7 @@ local diff = {
 				},
 			},
 		},
-		["d3196pnilu3196cd1vd1vpnilvu0"] = {
+		["d3196pnilu3197cd1vd1vpnilvu0"] = {
 			["name"] = "Nose wheel steering high sensitivity button",
 			["removed"] = {
 				[1] = {
@@ -1805,7 +1862,7 @@ local diff = {
 				},
 			},
 		},
-		["d3197pnilunilcd1vd0vpnilvunil"] = {
+		["d3198pnilunilcd1vd0vpnilvunil"] = {
 			["name"] = "Nose wheel steering switch guard - CLOSE",
 			["removed"] = {
 				[1] = {
@@ -1817,7 +1874,7 @@ local diff = {
 				},
 			},
 		},
-		["d3197pnilunilcd1vd1vpnilvunil"] = {
+		["d3198pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Nose wheel steering switch guard - OPEN",
 			["removed"] = {
 				[1] = {
@@ -1829,7 +1886,7 @@ local diff = {
 				},
 			},
 		},
-		["d3198pnilunilcd1vd0vpnilvunil"] = {
+		["d3199pnilunilcd1vd0vpnilvunil"] = {
 			["name"] = "Nose wheel steering switch - ON",
 			["removed"] = {
 				[1] = {
@@ -1840,7 +1897,7 @@ local diff = {
 				},
 			},
 		},
-		["d3198pnilunilcd1vd1vpnilvunil"] = {
+		["d3199pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Nose wheel steering switch - OFF",
 			["removed"] = {
 				[1] = {
@@ -1851,7 +1908,7 @@ local diff = {
 				},
 			},
 		},
-		["d3202pnilu3202cd1vd1vpnilvu0"] = {
+		["d3210pnilu3210cd1vd1vpnilvu0"] = {
 			["name"] = "Chronometer starting control",
 			["removed"] = {
 				[1] = {
@@ -1884,7 +1941,7 @@ local diff = {
 				},
 			},
 		},
-		["d3237pnilunilcd1vd-1vpnilvunil"] = {
+		["d3238pnilunilcd1vd-1vpnilvunil"] = {
 			["name"] = "Heading and vertical reference system control switch - Counterclockwise",
 			["removed"] = {
 				[1] = {
@@ -1896,7 +1953,7 @@ local diff = {
 				},
 			},
 		},
-		["d3237pnilunilcd1vd1vpnilvunil"] = {
+		["d3238pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Heading and vertical reference system control switch - Clockwise",
 			["removed"] = {
 				[1] = {
@@ -2282,6 +2339,28 @@ local diff = {
 				},
 			},
 		},
+		["d3453pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "ANTENNA-GYRO switch - ANTENNA",
+			["removed"] = {
+				[1] = {
+					["key"] = "G",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d3453pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "ANTENNA-GYRO switch - GYRO",
+			["removed"] = {
+				[1] = {
+					["key"] = "G",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
 		["d345pnilu49cdnilvdnilvpnilvunil"] = {
 			["name"] = "Glance down-right",
 			["removed"] = {
@@ -2295,6 +2374,42 @@ local diff = {
 		},
 		["d346pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Camera pan mode toggle",
+			["removed"] = {
+				[1] = {
+					["key"] = "Z",
+					["reformers"] = {
+						[1] = "LAlt",
+						[2] = "LShift",
+					},
+				},
+			},
+		},
+		["d3475pnilu3475cd1vd1vpnilvu0"] = {
+			["name"] = "(C + M or SW) R deselection switch",
+			["removed"] = {
+				[1] = {
+					["key"] = "W",
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "LWin",
+					},
+				},
+			},
+		},
+		["d3476pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "Telemeter/zone scanning switch - CENTER",
+			["removed"] = {
+				[1] = {
+					["key"] = "Z",
+					["reformers"] = {
+						[1] = "LAlt",
+						[2] = "LWin",
+					},
+				},
+			},
+		},
+		["d3476pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "Telemeter/zone scanning switch - TEL",
 			["removed"] = {
 				[1] = {
 					["key"] = "Z",
@@ -2382,6 +2497,226 @@ local diff = {
 				},
 			},
 		},
+		["d3580pnilunilcd1vd0.5vpnilvunil"] = {
+			["name"] = "Sight selector - ON",
+			["removed"] = {
+				[1] = {
+					["key"] = "1",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3580pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "Sight selector - OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "1",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3580pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "Sight selector - APP",
+			["removed"] = {
+				[1] = {
+					["key"] = "1",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3581pnilunilcd1vd0.5vpnilvunil"] = {
+			["name"] = "Bomb/Rocket selector - 1+2",
+			["removed"] = {
+				[1] = {
+					["key"] = "2",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3581pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "Bomb/Rocket selector - INBD",
+			["removed"] = {
+				[1] = {
+					["key"] = "2",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3581pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "Bomb/Rocket selector - OUTBD",
+			["removed"] = {
+				[1] = {
+					["key"] = "2",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3582pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "MATRA 550 or Sidewinder missile switch - OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "3",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3582pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "MATRA 550 or Sidewinder missile switch - ON",
+			["removed"] = {
+				[1] = {
+					["key"] = "3",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3583pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "Fore/Aft selector switch - AFT",
+			["removed"] = {
+				[1] = {
+					["key"] = "4",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3583pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "Fore/Aft selector switch - FORE",
+			["removed"] = {
+				[1] = {
+					["key"] = "4",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3584pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "Auto/Manual firing selector switch - MAN",
+			["removed"] = {
+				[1] = {
+					["key"] = "5",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3584pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "Auto/Manual firing selector switch - AUTO",
+			["removed"] = {
+				[1] = {
+					["key"] = "5",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3585pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "Single/Salvo selector - SALVO",
+			["removed"] = {
+				[1] = {
+					["key"] = "6",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3585pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "Single/Salvo selector - SINGLE",
+			["removed"] = {
+				[1] = {
+					["key"] = "6",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3586pnilunilcd1vd0.5vpnilvunil"] = {
+			["name"] = "Instantaneous/Delay/Safe selector switch - DLY",
+			["removed"] = {
+				[1] = {
+					["key"] = "7",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3586pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "Instantaneous/Delay/Safe selector switch - SAFE",
+			["removed"] = {
+				[1] = {
+					["key"] = "7",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3586pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "Instantaneous/Delay/Safe selector switch - INST",
+			["removed"] = {
+				[1] = {
+					["key"] = "7",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3595pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "R 530 Missile Normal/Altitude difference selector switch - NORM",
+			["removed"] = {
+				[1] = {
+					["key"] = "0",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3595pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "R 530 Missile Normal/Altitude difference selector switch - SNAP",
+			["removed"] = {
+				[1] = {
+					["key"] = "0",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3597pnilu3597cd1vd1vpnilvu0"] = {
+			["name"] = "Armament panel lights test",
+			["removed"] = {
+				[1] = {
+					["key"] = "0",
+					["reformers"] = {
+						[1] = "LWin",
+					},
+				},
+			},
+		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "F4 Camera mounted on airframe",
 			["removed"] = {
@@ -2395,6 +2730,72 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "'",
+				},
+			},
+		},
+		["d3613pnilunilcd1vd0.5vpnilvunil"] = {
+			["name"] = "Radar selector - SBY",
+			["removed"] = {
+				[1] = {
+					["key"] = "8",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3613pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "Radar selector - OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "8",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d3613pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "Radar selector - TX",
+			["removed"] = {
+				[1] = {
+					["key"] = "8",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d3614pnilu3614cd1vd1vpnilvu0"] = {
+			["name"] = "Radar emergency transmission button",
+			["removed"] = {
+				[1] = {
+					["key"] = "9",
+					["reformers"] = {
+						[1] = "LWin",
+					},
+				},
+			},
+		},
+		["d3615pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "Radar 4 lines/1 line scan - 1L",
+			["removed"] = {
+				[1] = {
+					["key"] = "9",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d3615pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "Radar 4 lines/1 line scan switch - 4L",
+			["removed"] = {
+				[1] = {
+					["key"] = "9",
+					["reformers"] = {
+						[1] = "LShift",
+					},
 				},
 			},
 		},
@@ -2451,6 +2852,51 @@ local diff = {
 					["key"] = "Space",
 					["reformers"] = {
 						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d3635pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "Gun firing safety - IN",
+			["removed"] = {
+				[1] = {
+					["key"] = "Space",
+					["reformers"] = {
+						[1] = "LShift",
+						[2] = "LWin",
+					},
+				},
+			},
+		},
+		["d3635pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "Gun firing safety - OUT",
+			["removed"] = {
+				[1] = {
+					["key"] = "Space",
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "LWin",
+					},
+				},
+			},
+		},
+		["d3636pnilu3636cd1vd1vpnilvu0"] = {
+			["name"] = "Gun button",
+			["removed"] = {
+				[1] = {
+					["key"] = "Space",
+				},
+			},
+		},
+		["d3637pnilu3637cd1vd1vpnilvu0"] = {
+			["name"] = "Sight recorder button",
+			["removed"] = {
+				[1] = {
+					["key"] = "Space",
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "LWin",
+						[3] = "LAlt",
 					},
 				},
 			},
@@ -3450,7 +3896,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3208unilcd1vdnilvp-1vunil"] = {
+		["dnilp3219unilcd1vdnilvp-1vunil"] = {
 			["name"] = "Mach/Airspeed indicator reference airspeed knob - Decrease",
 			["removed"] = {
 				[1] = {
@@ -3462,7 +3908,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3208unilcd1vdnilvp1vunil"] = {
+		["dnilp3219unilcd1vdnilvp1vunil"] = {
 			["name"] = "Mach/Airspeed indicator reference airspeed knob - Increase",
 			["removed"] = {
 				[1] = {
@@ -3474,7 +3920,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3210unilcd1vdnilvp-1vunil"] = {
+		["dnilp3221unilcd1vdnilvp-1vunil"] = {
 			["name"] = "Slaved altimeter barometric pressure setting knob - Decrease",
 			["removed"] = {
 				[1] = {
@@ -3486,7 +3932,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3210unilcd1vdnilvp1vunil"] = {
+		["dnilp3221unilcd1vdnilvp1vunil"] = {
 			["name"] = "Slaved altimeter barometric pressure setting knob - Increase",
 			["removed"] = {
 				[1] = {
@@ -3498,7 +3944,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3212unilcd1vdnilvp-1vunil"] = {
+		["dnilp3223unilcd1vdnilvp-1vunil"] = {
 			["name"] = "Standby altimeter barometric pressure setting knob - Decrease",
 			["removed"] = {
 				[1] = {
@@ -3510,7 +3956,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3212unilcd1vdnilvp1vunil"] = {
+		["dnilp3223unilcd1vdnilvp1vunil"] = {
 			["name"] = "Standby altimeter barometric pressure setting knob - Increase",
 			["removed"] = {
 				[1] = {
@@ -3579,6 +4025,28 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "Num6",
+				},
+			},
+		},
+		["dnilp3482unilcd1vdnilvp-1vunil"] = {
+			["name"] = "Manual gravity drop selection thumbwheel - Increase",
+			["removed"] = {
+				[1] = {
+					["key"] = "M",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["dnilp3482unilcd1vdnilvp1vunil"] = {
+			["name"] = "Manual gravity drop selection thumbwheel - Decrease",
+			["removed"] = {
+				[1] = {
+					["key"] = "M",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
 				},
 			},
 		},

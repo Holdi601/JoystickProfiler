@@ -389,7 +389,7 @@ local diff = {
 			},
 		},
 		["dnilp210u1859cdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 camera pitch up, yaw right fast",
+			["name"] = "F11 camera pitch up, yaw right slow",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num9",
@@ -400,7 +400,7 @@ local diff = {
 			},
 		},
 		["dnilp211u1861cdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 camera pitch down, yaw right fast",
+			["name"] = "F11 camera pitch down, yaw right slow",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num3",
@@ -411,7 +411,7 @@ local diff = {
 			},
 		},
 		["dnilp212u1860cdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 camera pitch down, yaw left fast",
+			["name"] = "F11 camera pitch down, yaw left slow",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num1",
@@ -422,7 +422,7 @@ local diff = {
 			},
 		},
 		["dnilp213u1858cdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 camera pitch up, yaw left fast",
+			["name"] = "F11 camera pitch up, yaw left slow",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num7",

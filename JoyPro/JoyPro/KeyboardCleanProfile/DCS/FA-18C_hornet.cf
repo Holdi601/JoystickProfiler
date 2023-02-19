@@ -654,6 +654,18 @@ local diff = {
 				},
 			},
 		},
+		["d1864pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Pilot Ready To Taxi",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+					["reformers"] = {
+						[1] = "LShift",
+						[2] = "LAlt",
+					},
+				},
+			},
+		},
 		["d190pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "F2 Toggle local camera control",
 			["removed"] = {
