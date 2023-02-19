@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Security.Principal;
 using System.Threading;
+using System.Security.Cryptography;
 
 namespace JoyPro
 {
@@ -17,7 +18,8 @@ namespace JoyPro
     {
         public static event EventHandler DownloadCompletedEvent;
         static int downloadFails = 0;
-        static string newestAvailableVersion;
+        public static string newestAvailableVersion;
+        public static string newestAvailableVersionFingerprint="";
         const string externalWebUrl = "https://raw.githubusercontent.com/Holdi601/JoystickProfiler/master/JoyPro/JoyPro/ver.txt";
         const string buildPath = "https://github.com/Holdi601/JoystickProfiler/raw/master/Builds/JoyPro_WinX64_v";
         static object _Lock= new object();
@@ -70,6 +72,8 @@ namespace JoyPro
             }
         }
 
+
+
         public static void DownloadCompleted(object o, EventArgs e)
         {
 
@@ -111,6 +115,15 @@ namespace JoyPro
                 
                 ProcessStartInfo startInfo = new ProcessStartInfo(MainStructure.PROGPATH + "\\TOOLS\\temp\\UnzipMeHereWin.exe");
                 startInfo.Arguments = "\"" + MainStructure.PROGPATH + "\\NewerVersion.zip\" \"" + MainStructure.PROGPATH + "\" \"" + MainStructure.PROGPATH + "\\JoyPro.exe\"";
+                string fngrprntFilePath = MainStructure.PROGPATH + "\\NewerVersion.zip";
+                byte[] fileHash = MainStructure.GetFileHash(fngrprntFilePath);
+                string fileHashString = BitConverter.ToString(fileHash).Replace("-", string.Empty);
+                if (fileHashString != newestAvailableVersionFingerprint)
+                {
+                    MainStructure.Write("Fingerprint mismatches. Cancelling update");
+                    MessageBox.Show("The fingerprint of the downloaded File mismatches with the remote file");
+                    return;
+                }
                 try
                 {
                     Process.Start(startInfo);
@@ -140,7 +153,12 @@ namespace JoyPro
                 System.IO.Stream stream = web.OpenRead(externalWebUrl);
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(stream))
                 {
-                    newestAvailableVersion = reader.ReadToEnd().Replace("v", "");
+                    newestAvailableVersion = reader.ReadLine().Replace("v", "");
+                    string filePath = "D:\\Dropbox\\Programmierung\\c#\\JoyPro\\JoystickProfiler\\Builds\\JoyPro_WinX64_v0086.zip";
+                    byte[] fileHash = MainStructure.GetFileHash(filePath);
+                    string fileHashString = BitConverter.ToString(fileHash).Replace("-", string.Empty);
+                    MessageBox.Show(fileHashString);
+                    //newestAvailableVersionFingerprint = reader.ReadLine();
                     return Convert.ToInt32(newestAvailableVersion);
                 }
             }

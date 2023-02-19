@@ -16,6 +16,7 @@ using System.Web.Hosting;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Threading;
+using System.Security.Cryptography;
 
 namespace JoyPro
 {
@@ -382,6 +383,17 @@ namespace JoyPro
             DCSServerSocket.Start();
             HotkeyThread.Start();
             RelationJumper.Start();
+        }
+        
+        public static byte[] GetFileHash(string filePath)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                using (var fileStream = File.OpenRead(filePath))
+                {
+                    return sha256.ComputeHash(fileStream);
+                }
+            }
         }
         public static void InitProgram()
         {
