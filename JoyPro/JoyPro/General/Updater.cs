@@ -154,7 +154,7 @@ namespace JoyPro
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(stream))
                 {
                     newestAvailableVersion = reader.ReadLine().Replace("v", "");
-                    //string filePath = "D:\\Dropbox\\Programmierung\\c#\\JoyPro\\JoystickProfiler\\Builds\\JoyPro_WinX64_v0087.zip";
+                    //string filePath = "D:\\Dropbox\\Programmierung\\c#\\JoyPro\\JoystickProfiler\\Builds\\JoyPro_WinX64_v0088.zip";
                     //byte[] fileHash = MainStructure.GetFileHash(filePath);
                     //string fileHashString = BitConverter.ToString(fileHash).Replace("-", string.Empty);
                     //MainStructure.Write(fileHashString);

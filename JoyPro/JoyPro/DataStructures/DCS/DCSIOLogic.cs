@@ -61,10 +61,15 @@ namespace JoyPro
             {
                 if (allBinds[i].Joystick != "Keyboard") continue;
                 allBinds[i].AllReformers.Sort();
-                string keyString = allBinds[i].Rl.ISAXIS ? allBinds[i].JAxis.ToLower() : allBinds[i].JButton.ToLower();
+                string keyString = allBinds[i].Rl.ISAXIS ? allBinds[i].JAxis : allBinds[i].JButton;
+                if(KeyboardConversion_DX2DCS.ContainsKey(keyString))keyString=KeyboardConversion_DX2DCS[keyString];
+                keyString = keyString.ToLower();
                 for (int j = 0; j < allBinds[i].AllReformers.Count; ++j)
                 {
-                    keyString = keyString + "-" + allBinds[i].AllReformers[j].Split('§')[2].ToLower();
+                    string bbb = allBinds[i].AllReformers[j].Split('§')[2];
+                    if(KeyboardConversion_DX2DCS.ContainsKey(bbb))bbb=KeyboardConversion_DX2DCS[bbb];
+                    bbb = bbb.ToLower();
+                    keyString = keyString + "-" + bbb;
                 }
                 List<RelationItem> allri = allBinds[i].Rl.AllRelations();
                 for (int j = 0; j < allri.Count; ++j)
@@ -110,6 +115,14 @@ namespace JoyPro
                             kvp.Value.axisDiffs.Values.ElementAt(i).removed.RemoveAt(toRemove[j]);
                         }
                     }
+                    for (int i = 0; i < kvp.Value.axisDiffs.Values.Count; i++)
+                    {
+                        string hash = kvp.Value.axisDiffs.Keys.ElementAt(i);
+                        if (kvp.Value.axisDiffs.Values.ElementAt(i).removed.Count < 1 && kvp.Value.axisDiffs.Values.ElementAt(i).added.Count < 1)
+                        {
+                            kvp.Value.axisDiffs.Remove(hash);
+                        }
+                    }
                     for (int i = 0; i < kvp.Value.keyDiffs.Values.Count; i++)
                     {
                         List<int> toRemove = new List<int>();
@@ -129,6 +142,14 @@ namespace JoyPro
                         for (int j = toRemove.Count - 1; j >= 0; j--)
                         {
                             kvp.Value.keyDiffs.Values.ElementAt(i).removed.RemoveAt(toRemove[j]);
+                        }
+                    }
+                    for (int i = kvp.Value.keyDiffs.Values.Count-1; i >=0 ; i--)
+                    {
+                        string hash = kvp.Value.keyDiffs.Keys.ElementAt(i);
+                        if (kvp.Value.keyDiffs.Values.ElementAt(i).removed.Count < 1 && kvp.Value.keyDiffs.Values.ElementAt(i).added.Count < 1)
+                        {
+                            kvp.Value.keyDiffs.Remove(hash);
                         }
                     }
                 }
