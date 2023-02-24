@@ -11,11 +11,11 @@ namespace JoyPro
     public class Relation
     {
         public string NAME;
-        List<RelationItem> NODES;
+        public List<RelationItem> NODES;
         public bool ISAXIS;
         public Bind bind = null;
         public List<string> Groups;
-        private int? elCount = 0;
+        public int? elCount = 0;
         public int ElementCount 
         { 
             get 

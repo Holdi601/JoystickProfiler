@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace JoyPro
@@ -12,7 +13,7 @@ namespace JoyPro
         public string ID, Game, Title;
         public bool IsAxis;
         public string Plane;
-        string categ;
+        public string categ;
         public string Category {
             get
             {
@@ -25,6 +26,8 @@ namespace JoyPro
             }
         }
 
+        [JsonConstructor]
+        public OtherGameInput() { }
         public OtherGameInput(string id, string title, bool isAxis, string game, string pln, string cat)
         {
             this.ID = id;

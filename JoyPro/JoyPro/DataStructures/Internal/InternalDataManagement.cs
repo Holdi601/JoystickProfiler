@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace JoyPro
 {
@@ -364,7 +366,7 @@ namespace JoyPro
             if (b == null || lib == null) return;
             foreach (KeyValuePair<string, Bind> kvp in lib)
             {
-                if (b.additionalImportInfo != null && b.additionalImportInfo.Length > 0)
+                if (b.AdditionalImportInfo != null && b.AdditionalImportInfo.Length > 0)
                 {
                     if (b.Joystick == kvp.Value.Joystick &&
                         b.Inverted == kvp.Value.Inverted &&
@@ -409,13 +411,13 @@ namespace JoyPro
                         }
                         if (integrity)
                         {
-                            kvp.Value.Rl.NAME = b.additionalImportInfo.Split('§')[b.additionalImportInfo.Split('§').Length - 1];
+                            kvp.Value.Rl.NAME = b.AdditionalImportInfo.Split('§')[b.AdditionalImportInfo.Split('§').Length - 1];
                             for (int a = 0; a < b.Rl.Groups.Count; ++a)
                             {
                                 if (!kvp.Value.Rl.Groups.Contains(b.Rl.Groups[a]))
                                     kvp.Value.Rl.Groups.Add(b.Rl.Groups[a]);
                             }
-                            string[] modNames = b.additionalImportInfo.Split('§');
+                            string[] modNames = b.AdditionalImportInfo.Split('§');
                             for (int i = 0; i < modNames.Length - 1; ++i)
                             {
                                 if (kvp.Value.AllReformers.Count > i)
@@ -617,7 +619,7 @@ namespace JoyPro
             {
                 if (kvp.Value.Joystick.ToLower() == device.ToLower())
                 {
-                    kvp.Value.aliasJoystick = "";
+                    kvp.Value.AliasJoystick = "";
                 }
             }
         }
@@ -634,6 +636,251 @@ namespace JoyPro
                     }
                 }
             }
+        }
+        public static void LoadProfileText(string filePath, bool add = false, string stickReplace = null)
+        {
+            try
+            {
+                if (filePath == null || filePath.Length < 1) return;
+                string json = "";
+                StreamReader streamReader= new StreamReader(filePath);
+                json=streamReader.ReadToEnd();
+                streamReader.Close();
+                streamReader.Dispose();
+                Pr0file pr = null;
+                JsonSerializerOptions options = new JsonSerializerOptions
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve,
+                    IncludeFields = true
+
+                };
+                
+                pr = JsonSerializer.Deserialize<Pr0file>(json, options);
+                if (!add) NewFile();
+                if (pr.JoysticksPGuids == null) pr.JoysticksPGuids = new Dictionary<string, string>();
+                List<string> sticks = LocalJoysticks.ToList();
+                if (PlaneAliases == null) PlaneAliases = new Dictionary<string, Dictionary<string, string>>();
+                foreach (KeyValuePair<string, string> kvp in pr.JoysticksPGuids)
+                {
+                    if (LocalJoystickPGUID.ContainsKey(kvp.Key)) LocalJoystickPGUID[kvp.Key] = kvp.Value;
+                    else LocalJoystickPGUID.Add(kvp.Key, kvp.Value);
+                    if (!sticks.Contains(kvp.Key)) sticks.Add(kvp.Key);
+                }
+                LocalJoysticks = sticks.ToArray();
+                string replacedStick = null;
+                if (AllRelations == null) AllRelations = new Dictionary<string, Relation>();
+                if (AllBinds == null) AllBinds = new Dictionary<string, Bind>();
+                if (JoystickAliases == null) JoystickAliases = new Dictionary<string, string>();
+                if (JoystickFileImages == null) JoystickFileImages = new Dictionary<string, string>();
+                if (PlaneAliases == null) PlaneAliases = new Dictionary<string, Dictionary<string, string>>();
+                if (ModifierNameChanges == null) ModifierNameChanges = new List<KeyValuePair<string, string>>();
+                if (pr.Relations != null && pr.Relations.Count > 0 && pr.Binds != null)
+                {
+                    if (!add)
+                    {
+                        AllRelations = pr.Relations;
+                        AllBinds = pr.Binds;
+                    }
+                    else
+                    {
+                        for (int i = 0; i < pr.Relations.Count; i++)
+                        {
+                            string name = pr.Relations.ElementAt(i).Key;
+                            while (AllRelations.ContainsKey(name))
+                            {
+                                name += "9";
+                            }
+                            pr.Relations.ElementAt(i).Value.NAME = name;
+                            AllRelations.Add(name, pr.Relations.ElementAt(i).Value);
+                            if (pr.Relations.ElementAt(i).Value.bind != null)
+                            {
+                                if (stickReplace != null && stickReplace.Length > 0)
+                                {
+                                    replacedStick = pr.Binds[pr.Relations.ElementAt(i).Key].Joystick;
+                                    pr.Binds[pr.Relations.ElementAt(i).Key].Joystick = stickReplace;
+                                    for (int j = 0; j < pr.Binds[pr.Relations.ElementAt(i).Key].AllReformers.Count; ++j)
+                                    {
+                                        if (pr.Binds[pr.Relations.ElementAt(i).Key].AllReformers[j].Contains(replacedStick))
+                                        {
+                                            pr.Binds[pr.Relations.ElementAt(i).Key].AllReformers[j].Replace(replacedStick, stickReplace);
+                                        }
+                                    }
+                                }
+                                if (pr.Binds[pr.Relations.ElementAt(i).Key].AllReformers != null)
+                                {
+                                    for (int l = 0; l < pr.Binds[pr.Relations.ElementAt(i).Key].AllReformers.Count; l++)
+                                    {
+                                        Modifier m = Modifier.ReformerToMod(pr.Binds[pr.Relations.ElementAt(i).Key].AllReformers[l]);
+                                        if (m.device.Trim().ToLower() == replacedStick.Trim().ToLower())
+                                        {
+                                            m.device = stickReplace;
+                                            pr.Binds[pr.Relations.ElementAt(i).Key].AllReformers[l] = m.toReformerString();
+                                        }
+                                    }
+                                }
+                                AllBinds.Add(name, pr.Binds[pr.Relations.ElementAt(i).Key]);
+                            }
+                        }
+                    }
+                }
+
+                if (pr.JoystickAliases != null && pr.JoystickAliases.Count > 0)
+                {
+                    if (!add)
+                    {
+                        JoystickAliases = pr.JoystickAliases;
+                    }
+                    else
+                    {
+                        for (int i = 0; i < pr.JoystickAliases.Count; i++)
+                        {
+                            if (JoystickAliases.ContainsKey(pr.JoystickAliases.ElementAt(i).Key))
+                            {
+                                JoystickAliases[pr.JoystickAliases.ElementAt(i).Key] = pr.JoystickAliases.ElementAt(i).Value;
+                            }
+                            else
+                            {
+                                JoystickAliases.Add(pr.JoystickAliases.ElementAt(i).Key, pr.JoystickAliases.ElementAt(i).Value);
+                            }
+                        }
+                    }
+                }
+                if (pr.PlaneAliases != null && pr.PlaneAliases.Count > 0)
+                {
+                    if (!add)
+                    {
+                        PlaneAliases = pr.PlaneAliases;
+                    }
+                    else
+                    {
+                        for (int i = 0; i < pr.JoystickAliases.Count; i++)
+                        {
+                            if (PlaneAliases.ContainsKey(pr.PlaneAliases.ElementAt(i).Key))
+                            {
+                                if (pr.PlaneAliases.ElementAt(i).Value != null)
+                                {
+                                    for (int j = 0; j < pr.PlaneAliases.ElementAt(i).Value.Count; j++)
+                                    {
+                                        if (PlaneAliases[pr.PlaneAliases.ElementAt(i).Key].ContainsKey(pr.PlaneAliases.ElementAt(i).Value.ElementAt(j).Key))
+                                        {
+                                            PlaneAliases[pr.PlaneAliases.ElementAt(i).Key][pr.PlaneAliases.ElementAt(i).Value.ElementAt(j).Key] = pr.PlaneAliases.ElementAt(i).Value.ElementAt(j).Value;
+                                        }
+                                        else
+                                        {
+                                            PlaneAliases[pr.PlaneAliases.ElementAt(i).Key].Add(pr.PlaneAliases.ElementAt(i).Value.ElementAt(j).Key, pr.PlaneAliases.ElementAt(i).Value.ElementAt(j).Value);
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                JoystickAliases.Add(pr.JoystickAliases.ElementAt(i).Key, pr.JoystickAliases.ElementAt(i).Value);
+                            }
+                        }
+                    }
+                }
+                if (pr.modifierNameChanges != null && pr.modifierNameChanges.Count > 0)
+                {
+                    if (!add)
+                    {
+                        ModifierNameChanges = pr.modifierNameChanges;
+                    }
+                    else
+                    {
+                        for (int i = 0; i < pr.modifierNameChanges.Count; i++)
+                        {
+                            ModifierNameChanges.Add(pr.modifierNameChanges[i]);
+                        }
+                    }
+                }
+                if (pr.JoystickFileImages != null && pr.JoystickFileImages.Count > 0)
+                {
+                    if (!add)
+                    {
+                        JoystickFileImages = pr.JoystickFileImages;
+                    }
+                    else
+                    {
+                        for (int i = 0; i < pr.JoystickFileImages.Count; i++)
+                        {
+                            if (JoystickFileImages.ContainsKey(pr.JoystickFileImages.ElementAt(i).Key))
+                            {
+                                JoystickFileImages[pr.JoystickFileImages.ElementAt(i).Key] = pr.JoystickFileImages.ElementAt(i).Value;
+                            }
+                            else
+                            {
+                                JoystickFileImages.Add(pr.JoystickFileImages.ElementAt(i).Key, pr.JoystickFileImages.ElementAt(i).Value);
+                            }
+                        }
+                    }
+                }
+                if (pr.JoystickLayoutExport != null && pr.JoystickLayoutExport.Length > 0)
+                {
+                    JoystickLayoutExport = pr.JoystickLayoutExport;
+                }
+                if (pr.LastSelectedDCSInstance != null && Directory.Exists(pr.LastSelectedDCSInstance))
+                {
+                    MiscGames.DCSInstanceSelectionChanged(pr.LastSelectedDCSInstance);
+                }
+                ResyncBindsToMods();
+                if (stickReplace != null && stickReplace.Length > 0)
+                {
+                    Dictionary<string, string> connectedDevices = JoystickReader.GetConnectedJoysticks();
+                    List<Modifier> modsConnected = new List<Modifier>();
+                    foreach (KeyValuePair<string, Modifier> m in AllModifiers)
+                    {
+                        foreach (KeyValuePair<string, string> kvp in connectedDevices)
+                        {
+                            if (kvp.Key.ToLower() == m.Value.device.ToLower())
+                            {
+                                modsConnected.Add(m.Value);
+                            }
+                        }
+                    }
+                    Dictionary<string, Modifier> modsToReplace = new Dictionary<string, Modifier>();
+                    foreach (KeyValuePair<string, Bind> kvp in pr.Binds)
+                    {
+                        for (int i = 0; i < kvp.Value.AllReformers.Count; i++)
+                        {
+                            bool found = false;
+                            Modifier m = Modifier.ReformerToMod(kvp.Value.AllReformers[i]);
+                            foreach (KeyValuePair<string, string> cst in connectedDevices)
+                            {
+                                if (cst.Key.Trim().ToLower() == m.device.Trim().ToLower())
+                                {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found)
+                            {
+                                if (!modsToReplace.ContainsKey(m.name))
+                                    modsToReplace.Add(m.name, m);
+                            }
+                        }
+                    }
+                    for (int i = 0; i < modsToReplace.Count; i++)
+                    {
+                        CouldNotFindModifier cnfm = new CouldNotFindModifier(modsConnected, modsToReplace.ElementAt(i).Value.device, modsToReplace.ElementAt(i).Value.name);
+                        cnfm.Show();
+                    }
+                }
+                RecreateGroups();
+                foreach (KeyValuePair<string, Relation> kvp in AllRelations)
+                {
+                    kvp.Value.CheckNamesAgainstDB();
+                }
+                AddLoadedJoysticks();
+                CheckConnectedSticksToBinds();
+                CleanJoystickNodes();
+            }
+            catch (Exception ex)
+            {
+                MainStructure.NoteError(ex);
+                MessageBox.Show("Couldn't load profile. Either opened by some program or other error");
+            }
+            ResyncRelations();
+            RecalcFigures();
         }
         public static void LoadProfile(string filePath, bool add=false, string stickReplace=null)
         {
@@ -1079,7 +1326,32 @@ namespace JoyPro
             pr.JoystickFileImages = dictJoyFileImages;
             pr.JoystickLayoutExport = "";
             pr.JoysticksPGuids = dictPGUIDS;
+            
             MainStructure.WriteToBinaryFile<Pr0file>(filePath, pr);
+        }
+        public static void SaveProfileTextTo(string filePath)
+        {
+            Pr0file pr = new Pr0file(AllRelations, AllBinds, MiscGames.DCSselectedInstancePath, JoystickAliases, PlaneAliases, ModifierNameChanges);
+            pr.JoystickAliases = JoystickAliases;
+            pr.JoystickFileImages = JoystickFileImages;
+            pr.JoystickLayoutExport = JoystickLayoutExport;
+            pr.JoysticksPGuids = LocalJoystickPGUID;
+            foreach(KeyValuePair<string, Bind> kvp in pr.Binds)
+            {
+                kvp.Value.SetBackupJoystick();
+            }
+            JsonSerializerOptions options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+                IncludeFields = true
+            
+            };
+            string json = JsonSerializer.Serialize(pr, options);
+            MainStructure.Write(json);
+            StreamWriter writer = new StreamWriter(filePath);
+            writer.Write(json);
+            writer.Close();
+            writer.Dispose();
         }
         public static void SaveProfileTo(string filePath)
         {
@@ -1088,6 +1360,7 @@ namespace JoyPro
             pr.JoystickFileImages = JoystickFileImages;
             pr.JoystickLayoutExport = JoystickLayoutExport;
             pr.JoysticksPGuids = LocalJoystickPGUID;
+            
             MainStructure.WriteToBinaryFile<Pr0file>(filePath, pr);
         }
         public static List<Relation> SyncRelations()

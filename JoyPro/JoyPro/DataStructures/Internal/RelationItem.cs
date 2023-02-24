@@ -10,10 +10,10 @@ namespace JoyPro
     public class RelationItem
     {
         public string ID;
-        Dictionary<string, bool> AIRCRAFT;
-        DCSInput[] AllInputs;
+        public Dictionary<string, bool> AIRCRAFT;
+        public DCSInput[] AllInputs;
         public string Game;
-        OtherGameInput[] OtherInputs;
+        public OtherGameInput[] OtherInputs;
 
         public string RandomDescription()
         {

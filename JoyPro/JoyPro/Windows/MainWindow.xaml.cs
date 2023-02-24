@@ -586,7 +586,7 @@ namespace JoyPro
         {
             if (CURRENTDISPLAYEDRELATION.Count < 1) return;
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "Pr0file Files (*.pr0file)|*.pr0file|All filed (*.*)|*.*";
+            saveFileDialog1.Filter = "Pr0file Files (*.pr0file)|*.pr0file|Pr0file Text Files (*.tpr0file)|*.tpr0file|All filed (*.*)|*.*";
             saveFileDialog1.Title = "Save Pr0file";
             if (Directory.Exists(MainStructure.msave.lastOpenedLocation))
             {
@@ -610,7 +610,15 @@ namespace JoyPro
                         MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
                     }
                 }
-                InternalDataManagement.SaveProfileTo(filePath);
+                if(filePath.ToLower().EndsWith(".tpr0file"))
+                {
+                    InternalDataManagement.SaveProfileTextTo(filePath);
+                }
+                else
+                {
+                    InternalDataManagement.SaveProfileTo(filePath);
+                }
+                
             }
         }
         void OpenSaveProfileStick(object sender, EventArgs e)
@@ -782,7 +790,7 @@ namespace JoyPro
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = false;
-            ofd.Filter = "Pr0file Files (*.pr0file)|*.pr0file|All filed (*.*)|*.*";
+            ofd.Filter = "Pr0file Files (*.pr0file)|*.pr0file|Pr0file Text Files (*.tpr0file)|*.tpr0file|All filed (*.*)|*.*";
             ofd.Title = "Load Pr0file";
             if (MainStructure.msave.lastOpenedLocation.Length < 1 || !Directory.Exists(MainStructure.msave.lastOpenedLocation))
             {
@@ -807,7 +815,15 @@ namespace JoyPro
                         MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
                     }
                 }
-                InternalDataManagement.LoadProfile(fileToOpen);
+                if(fileToOpen.ToLower().EndsWith(".tpr0file"))
+                {
+                    InternalDataManagement.LoadProfileText(fileToOpen);
+                }
+                else
+                {
+                    InternalDataManagement.LoadProfile(fileToOpen);
+                }
+                
             }
         }
         void DeleteRelationButton(object sender, EventArgs e)
@@ -1398,7 +1414,7 @@ namespace JoyPro
                     b = new Bind(InternalDataManagement.AllRelations[relation]);
                 }
                 b.Joystick = stick;
-                if (InternalDataManagement.JoystickAliases.ContainsKey(stick)) b.aliasJoystick = InternalDataManagement.JoystickAliases[stick];
+                if (InternalDataManagement.JoystickAliases.ContainsKey(stick)) b.AliasJoystick = InternalDataManagement.JoystickAliases[stick];
                 if (b.Rl.ISAXIS) b.JAxis = realBtn;
                 else b.JButton = realBtn;
                 b.AllReformers = reformers;

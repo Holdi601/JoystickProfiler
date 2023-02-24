@@ -817,8 +817,8 @@ namespace JoyPro
             foreach (KeyValuePair<string, Bind> kvp in res)
             {
                 string name = "";
-                if (kvp.Value.additionalImportInfo.Length > 1)
-                    name = kvp.Value.additionalImportInfo.Split('§')[kvp.Value.additionalImportInfo.Split('§').Length - 1];
+                if (kvp.Value.AdditionalImportInfo.Length > 1)
+                    name = kvp.Value.AdditionalImportInfo.Split('§')[kvp.Value.AdditionalImportInfo.Split('§').Length - 1];
                 else
                     name = kvp.Value.Rl.NAME;
 
@@ -920,12 +920,12 @@ namespace JoyPro
                             else
                             {
                                 result[b.Rl.NAME].Rl.AddNode(kvpaxe.Key, "DCS", true, plane);
-                                if ((result[b.Rl.NAME].additionalImportInfo == null ||
-                                   result[b.Rl.NAME].additionalImportInfo.Length < 1) &&
-                                   (b.additionalImportInfo != null &&
-                                   b.additionalImportInfo.Length > 0))
+                                if ((result[b.Rl.NAME].AdditionalImportInfo == null ||
+                                   result[b.Rl.NAME].AdditionalImportInfo.Length < 1) &&
+                                   (b.AdditionalImportInfo != null &&
+                                   b.AdditionalImportInfo.Length > 0))
                                 {
-                                    result[b.Rl.NAME].additionalImportInfo = b.additionalImportInfo;
+                                    result[b.Rl.NAME].AdditionalImportInfo = b.AdditionalImportInfo;
                                 }
                                 for (int a = 0; a < b.Rl.Groups.Count; ++a)
                                 {
@@ -950,12 +950,12 @@ namespace JoyPro
                             else
                             {
                                 result[b.Rl.NAME].Rl.AddNode(kvpbe.Key, "DCS", false, plane);
-                                if ((result[b.Rl.NAME].additionalImportInfo == null ||
-                                   result[b.Rl.NAME].additionalImportInfo.Length < 1) &&
-                                   (b.additionalImportInfo != null &&
-                                   b.additionalImportInfo.Length > 0))
+                                if ((result[b.Rl.NAME].AdditionalImportInfo == null ||
+                                   result[b.Rl.NAME].AdditionalImportInfo.Length < 1) &&
+                                   (b.AdditionalImportInfo != null &&
+                                   b.AdditionalImportInfo.Length > 0))
                                 {
-                                    result[b.Rl.NAME].additionalImportInfo = b.additionalImportInfo;
+                                    result[b.Rl.NAME].AdditionalImportInfo = b.AdditionalImportInfo;
                                 }
                                 for (int a = 0; a < b.Rl.Groups.Count; ++a)
                                 {

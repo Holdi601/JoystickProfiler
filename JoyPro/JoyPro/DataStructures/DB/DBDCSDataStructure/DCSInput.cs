@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace JoyPro
@@ -13,6 +14,8 @@ namespace JoyPro
         public string ID, Plane, Title;
         public bool IsAxis;
 
+        [JsonConstructor]
+        public DCSInput() { }
         public DCSInput(string id, string title, bool isAxis, string plane)
         {
             this.ID = id;

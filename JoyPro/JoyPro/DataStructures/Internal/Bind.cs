@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace JoyPro
@@ -22,8 +23,8 @@ namespace JoyPro
         public double SaturationX;
         public double SaturationY;
         public List<string> AllReformers;
-        public string additionalImportInfo;
-        public string aliasJoystick;
+        public string AdditionalImportInfo;
+        public string AliasJoystick;
         public static bool Inverted_Default = false;
         public static bool Slider_Default = false;
         public static List<double> Curvature_Default = new List<double>() { 0.0 };
@@ -32,17 +33,19 @@ namespace JoyPro
         public static double Deadzone_Default = 0.0;
         public string PJoystick { 
             get {
-                if (InternalDataManagement.LocalJoystickPGUID.ContainsKey(Joystick) &&
-                    InternalDataManagement.LocalJoystickPGUID[Joystick].Length > 2)
-                    return InternalDataManagement.LocalJoystickPGUID[Joystick];
+                string refStick = Joystick == null ? JoyBackup : Joystick;
+                if (InternalDataManagement.LocalJoystickPGUID.ContainsKey(refStick) &&
+                    InternalDataManagement.LocalJoystickPGUID[refStick].Length > 2)
+                    return InternalDataManagement.LocalJoystickPGUID[refStick];
                 else
-                    return Joystick;
+                    return refStick;
             }
             set
             {
-                if (InternalDataManagement.LocalJoystickPGUID.ContainsKey(Joystick))
+                string refStick = Joystick == null ? JoyBackup : Joystick;
+                if (InternalDataManagement.LocalJoystickPGUID.ContainsKey(refStick))
                 {
-                    InternalDataManagement.LocalJoystickPGUID[Joystick] = value;
+                    InternalDataManagement.LocalJoystickPGUID[refStick] = value;
                 }
                 else
                 {
@@ -50,7 +53,7 @@ namespace JoyPro
                 }
             }
         }
-
+        
         public void CorrectJoystickName()
         {
             if (Joystick.Length > 0 && Joystick.Contains('{') && Joystick.Contains('}') && Joystick.Contains('-'))
@@ -107,10 +110,12 @@ namespace JoyPro
             ,"POV4_DR"
             ,"POV4_UR"
         };
+        public string JoyBackup = "";
         public Bind Copy(Relation rl)
         {
             Bind r = new Bind(rl);
             r.Joystick=Joystick;
+            r.JoyBackup = Joystick;
             r.JAxis=JAxis;
             r.JButton=JButton;
             r.Reformer_depr=Reformer_depr;
@@ -136,6 +141,11 @@ namespace JoyPro
             rl.bind = r;
             return r;
         }
+        [JsonConstructor]
+        public Bind() 
+        {
+
+        }
         public Bind(Relation r)
         {
             Joystick = "";
@@ -152,7 +162,7 @@ namespace JoyPro
             Deadzone = Deadzone_Default;
             Reformer_depr = "";
             AllReformers = new List<string>();
-            additionalImportInfo = "";
+            AdditionalImportInfo = "";
             r.bind = this;
         }
         public DCSAxisBind toDCSAxisBind()
@@ -204,6 +214,10 @@ namespace JoyPro
             result.relatedBind = this;
             return result;
         }
+        public void SetBackupJoystick()
+        {
+            JoyBackup = Joystick;
+        }
         public static Bind GetBindFromAxisElement(DCSAxisBind dab,string id, string joystick, string plane, bool inv=false, bool slid=false, bool curv=false, bool dz=false, bool sx=false, bool sy=false)
         {
             Relation r = new Relation();
@@ -213,6 +227,7 @@ namespace JoyPro
             r.ISAXIS = true;
             b.JAxis = dab.key;
             b.Joystick = joystick;
+            b.JoyBackup = joystick;
             if (dab.modifiers != null)
             {
                 foreach (Modifier m in dab.modifiers)
@@ -232,7 +247,7 @@ namespace JoyPro
                     string nameToShow;
                     nameToShow = device + m.key;
                     if (m.JPN != null && m.JPN.Length > 1)
-                        b.additionalImportInfo += m.JPN + "§";
+                        b.AdditionalImportInfo += m.JPN + "§";
                     //else
                     //    nameToShow = device + m.key;
 
@@ -290,7 +305,7 @@ namespace JoyPro
                 }
             }
             if (dab.JPRelName.Length > 2)
-                b.additionalImportInfo = dab.JPRelName;
+                b.AdditionalImportInfo = dab.JPRelName;
             if (dab.filter != null)
             {
                 b.Inverted = dab.filter.inverted;
@@ -397,7 +412,7 @@ namespace JoyPro
                     string nameToShow;
                     nameToShow = device + m.key;
                     if (m.JPN != null && m.JPN.Length > 1)
-                        b.additionalImportInfo += m.JPN + "§";
+                        b.AdditionalImportInfo += m.JPN + "§";
                     //else
                     //    nameToShow = device + m.key;
 
@@ -446,10 +461,11 @@ namespace JoyPro
             }
             r.NAME = relationName;
             if(dab.JPRelName.Length>2)
-                b.additionalImportInfo += dab.JPRelName;
+                b.AdditionalImportInfo += dab.JPRelName;
             b.JButton = dab.key;
             if(joystick=="Keyboard"&&DCSIOLogic.KeyboardConversion_DCS2DX.ContainsKey(b.JButton))b.JButton= DCSIOLogic.KeyboardConversion_DCS2DX[b.JButton];
             b.Joystick = joystick;
+            b.JoyBackup = joystick;
             r.AddNode(id,"DCS",false, plane);
             return b;
         }

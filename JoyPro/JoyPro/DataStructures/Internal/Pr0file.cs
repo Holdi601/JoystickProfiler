@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -22,6 +23,8 @@ namespace JoyPro
         public Dictionary<string, string> JoysticksPGuids = new Dictionary<string, string>();
         public List<KeyValuePair<string, string>> modifierNameChanges = new List<KeyValuePair<string, string>>();
 
+        [JsonConstructor]
+        public Pr0file() { }
         public Pr0file(Dictionary<string, Relation> Rel, Dictionary<string, Bind> Bnds, string DCSInstance, Dictionary<string, string> JAlias, Dictionary<string, Dictionary<string, string>> pAlias, List<KeyValuePair<string, string>> modifierChanges)
         {
             Relations = Rel;

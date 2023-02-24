@@ -1077,11 +1077,11 @@ namespace JoyPro
                                         }
                                         if (jAlias.Length > 1&&TempTable==null)
                                         {
-                                            b.aliasJoystick = jAlias;
+                                            b.AliasJoystick = jAlias;
                                             if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstick))
                                                 InternalDataManagement.JoystickAliases.Add(DCSstick, jAlias);
                                             else
-                                                b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstick];
+                                                b.AliasJoystick = InternalDataManagement.JoystickAliases[DCSstick];
                                         }
                                         if (TempTable == null)
                                         {
@@ -1171,11 +1171,11 @@ namespace JoyPro
                                     }
                                     if (jAlias.Length > 1&&TempTable==null)
                                     {
-                                        b.aliasJoystick = jAlias;
+                                        b.AliasJoystick = jAlias;
                                         if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstick))
                                             InternalDataManagement.JoystickAliases.Add(DCSstick, jAlias);
                                         else
-                                            b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstick];
+                                            b.AliasJoystick = InternalDataManagement.JoystickAliases[DCSstick];
                                     }
                                     if(TempTable==null)
                                     {
@@ -1270,11 +1270,11 @@ namespace JoyPro
                                         }
                                         if (alias_neg.Length > 1)
                                         {
-                                            b.aliasJoystick = alias_neg;
+                                            b.AliasJoystick = alias_neg;
                                             if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstickneg))
                                                 InternalDataManagement.JoystickAliases.Add(DCSstickneg, alias_neg);
                                             else
-                                                b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstickneg];
+                                                b.AliasJoystick = InternalDataManagement.JoystickAliases[DCSstickneg];
                                         }
 
                                         InternalDataManagement.AllBinds.Add(r.NAME, b);
@@ -1345,11 +1345,11 @@ namespace JoyPro
                                     }
                                     if (alias_neg != null && alias_neg.Length > 1&&TempTable==null)
                                     {
-                                        b.aliasJoystick = alias_neg;
+                                        b.AliasJoystick = alias_neg;
                                         if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstickneg))
                                             InternalDataManagement.JoystickAliases.Add(DCSstickneg, alias_neg);
                                         else
-                                            b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstickneg];
+                                            b.AliasJoystick = InternalDataManagement.JoystickAliases[DCSstickneg];
                                     }
                                     if (TempTable == null)
                                     {
@@ -1803,11 +1803,11 @@ namespace JoyPro
                                         }
                                         if (jAlias.Length > 1)
                                         {
-                                            b.aliasJoystick = jAlias;
+                                            b.AliasJoystick = jAlias;
                                             if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstick))
                                                 InternalDataManagement.JoystickAliases.Add(DCSstick, jAlias);
                                             else
-                                                b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstick];
+                                                b.AliasJoystick = InternalDataManagement.JoystickAliases[DCSstick];
                                         }
 
                                         InternalDataManagement.AllBinds.Add(r.NAME, b);
@@ -1892,11 +1892,11 @@ namespace JoyPro
                                     }
                                     if (jAlias.Length > 1)
                                     {
-                                        b.aliasJoystick = jAlias;
+                                        b.AliasJoystick = jAlias;
                                         if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstick))
                                             InternalDataManagement.JoystickAliases.Add(DCSstick, jAlias);
                                         else
-                                            b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstick];
+                                            b.AliasJoystick = InternalDataManagement.JoystickAliases[DCSstick];
                                     }
                                     if (sticksToFilter.Contains(b.Joystick)&&TempTable==null)
                                     {
@@ -1990,11 +1990,11 @@ namespace JoyPro
                                         }
                                         if (alias_neg.Length > 1)
                                         {
-                                            b.aliasJoystick = alias_neg;
+                                            b.AliasJoystick = alias_neg;
                                             if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstickneg))
                                                 InternalDataManagement.JoystickAliases.Add(DCSstickneg, alias_neg);
                                             else
-                                                b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstickneg];
+                                                b.AliasJoystick = InternalDataManagement.JoystickAliases[DCSstickneg];
                                         }
 
                                         InternalDataManagement.AllBinds.Add(r.NAME, b);
@@ -2065,11 +2065,11 @@ namespace JoyPro
                                     }
                                     if (alias_neg!=null&&alias_neg.Length > 1&&TempTable==null)
                                     {
-                                        b.aliasJoystick = alias_neg;
+                                        b.AliasJoystick = alias_neg;
                                         if (!InternalDataManagement.JoystickAliases.ContainsKey(DCSstickneg))
                                             InternalDataManagement.JoystickAliases.Add(DCSstickneg, alias_neg);
                                         else
-                                            b.aliasJoystick = InternalDataManagement.JoystickAliases[DCSstickneg];
+                                            b.AliasJoystick = InternalDataManagement.JoystickAliases[DCSstickneg];
                                     }
                                     if (sticksToFilter.Contains(b.Joystick)&&TempTable==null)
                                     {
