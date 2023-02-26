@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using JoyPro.StarCitizen;
 
 namespace JoyPro
 {
@@ -1877,6 +1878,39 @@ namespace JoyPro
                 }
                 IL2IOLogic.WriteOut(Il2Binds, OutputType.Clean);
             }
+            if(Planes.ContainsKey("StarCitizen"))
+            {
+                List<Bind> SCBinds = new List<Bind>();
+                if (manualBinds == null)
+                {
+                    foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+                    {
+                        if (kvp.Value.Rl.GamesInRelation().Contains("StarCitizen"))
+                        {
+                            if (SCIOLogic.HasIllegalModifier(kvp.Value))
+                            {
+                                MessageBox.Show(kvp.Key + " has a modifier which is not allowed by Star citizen");
+                            }
+                            SCBinds.Add(kvp.Value);
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < manualBinds.Count; i++)
+                    {
+                        if (manualBinds[i].Rl.GamesInRelation().Contains("StarCitizen"))
+                        {
+                            if (SCIOLogic.HasIllegalModifier(manualBinds[i]))
+                            {
+                                MessageBox.Show(manualBinds[i] + " has a modifier which is not allowed by Star citizen");
+                            }
+                            SCBinds.Add(manualBinds[i]);
+                        }
+                    }
+                }
+                SCIOLogic.WriteOut(SCBinds, OutputType.Clean);
+            }
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
         public static void WriteProfileCleanAndLoadedOverwrittenAndAdd(Dictionary<string,List<string>> Planes, List<Bind> manualBinds)
@@ -1915,6 +1949,39 @@ namespace JoyPro
                     }
                 }
                 IL2IOLogic.WriteOut(Il2Binds, OutputType.Add);
+            }
+            if (Planes.ContainsKey("StarCitizen"))
+            {
+                List<Bind> SCBinds = new List<Bind>();
+                if (manualBinds == null)
+                {
+                    foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+                    {
+                        if (kvp.Value.Rl.GamesInRelation().Contains("StarCitizen"))
+                        {
+                            if (SCIOLogic.HasIllegalModifier(kvp.Value))
+                            {
+                                MessageBox.Show(kvp.Key + " has a modifier which is not allowed by Star citizen");
+                            }
+                            SCBinds.Add(kvp.Value);
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < manualBinds.Count; i++)
+                    {
+                        if (manualBinds[i].Rl.GamesInRelation().Contains("StarCitizen"))
+                        {
+                            if (SCIOLogic.HasIllegalModifier(manualBinds[i]))
+                            {
+                                MessageBox.Show(manualBinds[i] + " has a modifier which is not allowed by Star citizen");
+                            }
+                            SCBinds.Add(manualBinds[i]);
+                        }
+                    }
+                }
+                SCIOLogic.WriteOut(SCBinds, OutputType.Add);
             }
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
@@ -1956,6 +2023,39 @@ namespace JoyPro
                 }
                 IL2IOLogic.WriteOut(Il2Binds, OutputType.Merge);
             }
+            if (Planes.ContainsKey("StarCitizen"))
+            {
+                List<Bind> SCBinds = new List<Bind>();
+                if (manualBinds == null)
+                {
+                    foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+                    {
+                        if (kvp.Value.Rl.GamesInRelation().Contains("StarCitizen"))
+                        {
+                            if (SCIOLogic.HasIllegalModifier(kvp.Value))
+                            {
+                                MessageBox.Show(kvp.Key + " has a modifier which is not allowed by Star citizen");
+                            }
+                            SCBinds.Add(kvp.Value);
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < manualBinds.Count; i++)
+                    {
+                        if (manualBinds[i].Rl.GamesInRelation().Contains("StarCitizen"))
+                        {
+                            if (SCIOLogic.HasIllegalModifier(manualBinds[i]))
+                            {
+                                MessageBox.Show(manualBinds[i] + " has a modifier which is not allowed by Star citizen");
+                            }
+                            SCBinds.Add(manualBinds[i]);
+                        }
+                    }
+                }
+                SCIOLogic.WriteOut(SCBinds, OutputType.Merge);
+            }
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
         public static void WriteProfileCleanAndLoadedOverwritten(Dictionary<string, List<string>> Planes, List<Bind> manualBinds)
@@ -1994,6 +2094,39 @@ namespace JoyPro
                     }
                 }
                 IL2IOLogic.WriteOut(Il2Binds, OutputType.MergeOverwrite);
+            }
+            if (Planes.ContainsKey("StarCitizen"))
+            {
+                List<Bind> SCBinds = new List<Bind>();
+                if (manualBinds == null)
+                {
+                    foreach (KeyValuePair<string, Bind> kvp in AllBinds)
+                    {
+                        if (kvp.Value.Rl.GamesInRelation().Contains("StarCitizen"))
+                        {
+                            if (SCIOLogic.HasIllegalModifier(kvp.Value))
+                            {
+                                MessageBox.Show(kvp.Key + " has a modifier which is not allowed by Star citizen");
+                            }
+                            SCBinds.Add(kvp.Value);
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < manualBinds.Count; i++)
+                    {
+                        if (manualBinds[i].Rl.GamesInRelation().Contains("StarCitizen"))
+                        {
+                            if (SCIOLogic.HasIllegalModifier(manualBinds[i]))
+                            {
+                                MessageBox.Show(manualBinds[i] + " has a modifier which is not allowed by Star citizen");
+                            }
+                            SCBinds.Add(manualBinds[i]);
+                        }
+                    }
+                }
+                SCIOLogic.WriteOut(SCBinds, OutputType.MergeOverwrite);
             }
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }

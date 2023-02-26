@@ -573,6 +573,9 @@ namespace JoyPro
                     }
                 }
                 pex = new PlanesToExport(ExportMode.WriteClean, nukeDevices, activeAircraft, toExport);
+                pex.Show();
+                DisableInputs();
+                pex.Closing += new CancelEventHandler(ActivateInputs);
             }
             else
             {

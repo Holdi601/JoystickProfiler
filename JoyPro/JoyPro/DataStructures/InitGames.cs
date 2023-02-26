@@ -186,6 +186,7 @@ namespace JoyPro
                 {
                     pth=pth+"\\"+parts[i];
                 }
+                MainStructure.Write("StarCitizen found in: " + pth);
                 MiscGames.StarCitizen = pth;
             }
         }

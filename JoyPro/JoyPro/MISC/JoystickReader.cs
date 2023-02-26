@@ -174,8 +174,6 @@ namespace JoyPro
             return result;
         }
 
-        
-
         public static Dictionary<string, string> GetConnectedJoysticks()
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
@@ -186,15 +184,15 @@ namespace JoyPro
             int i = 1;
             foreach (var device in dil)
             {
-                string deviceToAdd = ToDeviceString(new Joystick(di, device.InstanceGuid));
+                string deviceToAdd = ToDeviceStringInstGUID(new Joystick(di, device.InstanceGuid));
                 string PdeviceToAdd = ToPDeviceString(new Joystick(di, device.InstanceGuid));
-                //MainStructure.Write(i.ToString());
-                //MainStructure.Write("Instance Name: " + device);
-                //MainStructure.Write("Instance GUID: " + device.InstanceGuid);
-                //MainStructure.Write("Product Name: " + device.ProductName);
-                //MainStructure.Write("Product GUID: " + device.ProductGuid);
-                //MainStructure.Write();
-                //MainStructure.Write();
+                MainStructure.Write(i.ToString());
+                MainStructure.Write("Instance Name: " + device);
+                MainStructure.Write("Instance GUID: " + device.InstanceGuid);
+                MainStructure.Write("Product Name: " + device.ProductName);
+                MainStructure.Write("Product GUID: " + device.ProductGuid);
+                MainStructure.Write("");
+                MainStructure.Write("");
                 ++i;
                 if (!result.ContainsKey(deviceToAdd))
                     result.Add(deviceToAdd, PdeviceToAdd);
@@ -242,7 +240,7 @@ namespace JoyPro
                         continue;
                     if (SlimDX.Result.Last.IsFailure)
                         continue;
-                    curDevice = ToDeviceString(gamepad);
+                    curDevice = ToDeviceStringInstGUID(gamepad);
                     currentResults.TryAdd(curDevice, new List<string>());
                     currentState = gamepad.GetCurrentState();
                     curBtns = currentState.GetButtons();
@@ -340,7 +338,7 @@ namespace JoyPro
                         continue;
                     if (SlimDX.Result.Last.IsFailure)
                         continue;
-                    curDevice = ToDeviceString(gamepad);
+                    curDevice = ToDeviceStringInstGUID(gamepad);
                     currentResults.TryAdd(curDevice, new List<string>());
                     currentResultsConcurrent.TryAdd(curDevice, new List<string>());
                     currentState = gamepad.GetCurrentState();
@@ -578,7 +576,7 @@ namespace JoyPro
             if (s1rDiff < 0) s1rDiff *= -1;
             if (s2rDiff < 0) s2rDiff *= -1;
             JoystickResults args = new JoystickResults();
-            args.Device = ToDeviceString(pad);
+            args.Device = ToDeviceStringInstGUID(pad);
             args.PDevice = ToPDeviceString(pad);
             string pre = "JOY_";
             args.AxisButton = "JOY_";
@@ -679,7 +677,7 @@ namespace JoyPro
                     if (curBtns[i] != lastBtns[i])
                     {
                         args.PDevice = ToPDeviceString(pad);
-                        args.Device = ToDeviceString(pad);
+                        args.Device = ToDeviceStringInstGUID(pad);
                         args.AxisButton = "JOY_BTN" + (i + 1).ToString();
                         args.All.Add(args.AxisButton);
                         found = true;
@@ -722,7 +720,7 @@ namespace JoyPro
                             break;
                     }
                     args.PDevice = ToPDeviceString(pad);
-                    args.Device = ToDeviceString(pad);
+                    args.Device = ToDeviceStringInstGUID(pad);
                     args.AxisButton = dir;
                     args.All.Add(dir);
                     found = true;
@@ -744,9 +742,9 @@ namespace JoyPro
                 for (int i = 3; i < idParts.Length; ++i)
                     id += "-" + idParts[i].ToUpper();
             }
-            return pad.Information.ProductName.Replace("/", "_").Replace("\"", "_") + " {" + id + "}";
+            return pad.Information.ProductName.Replace("/", "_").Replace("\"", "_") + "  {" + id + "}";
         }
-        static string ToDeviceString(Joystick pad)
+        static string ToDeviceStringInstGUID(Joystick pad)
         {
             string id = pad.Information.InstanceGuid.ToString();
             string[] idParts = id.Split('-');
