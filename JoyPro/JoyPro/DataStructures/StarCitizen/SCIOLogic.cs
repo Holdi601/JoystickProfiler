@@ -146,7 +146,7 @@ namespace JoyPro.StarCitizen
         }
         public static void WriteOut(List<Bind> binds, OutputType outputType)
         {
-
+            Dictionary<string, string> connectedSticks = JoystickReader.GetConnectedJoysticks();
         }
         public static void RemoveKey(string key)
         {
