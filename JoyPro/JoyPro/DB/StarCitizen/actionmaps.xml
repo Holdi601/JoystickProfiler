@@ -51,7 +51,7 @@
    <action name="v_view_cycle_internal_fwd"><!--vehicle view cycle internal forward//false-->
     <rebind input="js3_ "/>
    </action>
-   <action name="v_view_dynamic_zoom_abs"><vehicle view dynamic zoom absolute//true-->
+   <action name="v_view_dynamic_zoom_abs"><!-- vehicle view dynamic zoom absolute//true-->
     <rebind input="js3_ "/>
    </action>
    <action name="v_view_dynamic_zoom_abs_toggle"><!--vehicle view dynamic zoom absolute toggle//false-->
@@ -137,7 +137,7 @@
    <action name="v_ifcs_toggle_gforce_safety"><!--vehicle IFCS toggle Gforce safety//false-->
     <rebind input="js3_ "/>
    </action>
-   <action name="v_ifcs_toggle_speed_limiter"><--!vehicle IFCS toggle speed limiter//false-->
+   <action name="v_ifcs_toggle_speed_limiter"><!-- vehicle IFCS toggle speed limiter//false-->
     <rebind input="js3_ "/>
    </action>
    <action name="v_ifcs_toggle_vector_decoupling"><!--vehicle IFCS toggle DECOUPLED//false-->
@@ -215,10 +215,10 @@
    <action name="v_strafe_vertical">
     <rebind input="js3_ "/>
    </action>
-   <action name="v_target_match_vel"><--!vehicle target match velocity//false-->
+   <action name="v_target_match_vel"><!--vehicle target match velocity//false-->
     <rebind input="js3_ "/>
    </action>
-   <action name="v_toggle_landing_system"><--!vehicle toggle landing system//false-->
+   <action name="v_toggle_landing_system"><!--vehicle toggle landing system//false-->
     <rebind input="kb1_ "/>
     <rebind input="js3_ "/>
    </action>
@@ -304,7 +304,7 @@
    <action name="v_attack1_group1"><!--vehicle gun trigger group 1//false-->
     <rebind input="js3_ "/>
    </action>
-   <action name="v_attack1_group2"><!vehicle gun trigger group 2//false-->
+   <action name="v_attack1_group2"><!--vehicle gun trigger group 2//false-->
     <rebind input="js3_ "/>
    </action>
   </actionmap>
@@ -759,7 +759,7 @@
    <action name="v_view_roll_absolute"><!--vehicle view roll absolute//false-->
     <rebind input="kb1_ "/>
    </action>
-   <action name="v_view_yaw"><
+   <action name="v_view_yaw">
     <rebind input="js3_ "/>
    </action>
    <action name="v_view_yaw_absolute">
