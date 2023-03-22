@@ -75,7 +75,7 @@ namespace JoyPro
         public static void PopulateSCDictionary()
         {
 
-            string fileActionPath = MainStructure.PROGPATH + "\\DB\\StarCitizen\\actionmaps.xml";
+            string fileActionPath = MainStructure.PROGPATH + "\\DB\\StarCitizen\\AllBinds.xml";
             string gameName = "StarCitizen";
             if (File.Exists(fileActionPath))
             {
@@ -92,6 +92,13 @@ namespace JoyPro
                 string idString = "<action name=\"";
                 string commentStart = "<!--";
                 string commentEnd = "-->";
+                string rebindstr = "<rebind input=\"";
+                string id = "";
+                string mouseStart = "mo";
+                string keyboardStart = "kb";
+                string joystickStart = "js";
+                string gamepadStart = "gp";
+                OtherGameInput current=null;
                 while (!sr.EndOfStream)
                 {
                     string rawLine = sr.ReadLine();
@@ -102,25 +109,49 @@ namespace JoyPro
                     }
                     if (rawLine.Contains(idString)&&rawLine.Contains(commentStart))
                     {
-                        string id = rawLine.Substring(rawLine.IndexOf(idString) + idString.Length);
+                        id = rawLine.Substring(rawLine.IndexOf(idString) + idString.Length);
                         id = id.Substring(0, id.IndexOf("\""));
 
                         string comment = rawLine.Substring(rawLine.IndexOf(commentStart) + commentStart.Length);
                         comment = comment.Substring(0, comment.IndexOf(commentEnd));
                         string[] parts = MainStructure.SplitBy(comment, "//");
-                        string description = parts[0];
-                        bool axis = parts[1].Trim()=="true" ? true: false;
-
-                        OtherGameInput current = new OtherGameInput(id, description, axis, gameName, gameName, lastCat);
+                        string description = id;
+                        bool axis = false;
+                        if(parts.Length>1)
+                        {
+                            description = parts[0];
+                            axis = parts[1].Trim().ToLower() == "true" ? true : false;
+                        }
+                        string dictkey = lastCat + "___" + id;
+                        current = new OtherGameInput(id, description, axis, gameName, gameName, lastCat);
                         if (axis)
                         {
-                            if (!OtherLib[gameName][gameName].Axis.ContainsKey(id))
-                                OtherLib[gameName][gameName].Axis.Add(id, current);
+                            if (!OtherLib[gameName][gameName].Axis.ContainsKey(dictkey))
+                                OtherLib[gameName][gameName].Axis.Add(dictkey, current);
                         }
                         else
                         {
-                            if (!OtherLib[gameName][gameName].Buttons.ContainsKey(id))
-                                OtherLib[gameName][gameName].Buttons.Add(id, current);
+                            if (!OtherLib[gameName][gameName].Buttons.ContainsKey(dictkey))
+                                OtherLib[gameName][gameName].Buttons.Add(dictkey, current);
+                        }
+                    }
+                    if (rawLine.Contains(rebindstr))
+                    {
+                        string input = rawLine.Substring(rawLine.IndexOf(rebindstr) + rebindstr.Length);
+                        input = input.Substring(0, input.IndexOf("\""));
+                        string[] splitted = input.Split('_');
+                        if (splitted.Length > 1 && splitted[1].Trim().Length > 0)
+                        {
+                            if(input.StartsWith(mouseStart) || input.StartsWith(keyboardStart))
+                            {
+                                current.default_keyboard = input;
+                            }else if(input.StartsWith(gamepadStart))
+                            {
+                                current.default_gamepad = input;
+                            }else if(input.StartsWith(joystickStart))
+                            {
+                                current.default_joystick = input;
+                            }
                         }
                     }
                 }

@@ -14,6 +14,9 @@ namespace JoyPro
         public bool IsAxis;
         public string Plane;
         public string categ;
+        public string default_keyboard="";
+        public string default_gamepad="";
+        public string default_joystick="";
         public string Category {
             get
             {
@@ -36,11 +39,27 @@ namespace JoyPro
             this.Game = game;
             Plane = pln;
             Category = cat;
+            default_gamepad = "";
+            default_joystick = "";
+            default_keyboard = "";
+        }
+
+        public OtherGameInput(string id, string title, bool isAxis, string game, string pln, string cat, string def_keyboard, string def_gamepad, string def_joystick)
+        {
+            this.ID = id;
+            this.Title = title;
+            this.IsAxis = isAxis;
+            this.Game = game;
+            Plane = pln;
+            Category = cat;
+            default_gamepad = def_gamepad;
+            default_joystick = def_joystick;
+            default_keyboard = def_keyboard;
         }
 
         public OtherGameInput Copy()
         {
-            OtherGameInput dip = new OtherGameInput(ID, Title, IsAxis, Game, Plane, Category);
+            OtherGameInput dip = new OtherGameInput(ID, Title, IsAxis, Game, Plane, Category, default_keyboard, default_gamepad, default_joystick);
             return dip;
         }
     }

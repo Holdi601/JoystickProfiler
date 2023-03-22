@@ -27,6 +27,13 @@ namespace JoyPro.StarCitizen
         public static string profileName = "default";
         public static string keyboardProduct = "";
         public static string gamepadProduct = "";
+        public const string Game = "StarCitizen";
+        public const string Plane = "StarCitizen";
+
+        public static void AppendLocalData()
+        {
+
+        }
         public static void ReadLocalActions()
         {
             string addativePathToActions = "LIVE\\USER\\Client\\0\\Profiles\\default\\actionmaps.xml";
