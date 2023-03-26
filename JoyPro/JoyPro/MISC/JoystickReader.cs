@@ -86,6 +86,7 @@ namespace JoyPro
 
             return result;
         }
+        
         public static List<string> GetAllPossibleStickInputs(Relation rel = null)
         {
             List<string> result = new List<string>();
@@ -674,7 +675,7 @@ namespace JoyPro
 
                 for (int i = 0; i < curBtns.Length; ++i)
                 {
-                    if (curBtns[i] != lastBtns[i])
+                    if (curBtns[i] != lastBtns[i] && curBtns[i])
                     {
                         args.PDevice = ToPDeviceString(pad);
                         args.Device = ToDeviceStringInstGUID(pad);
