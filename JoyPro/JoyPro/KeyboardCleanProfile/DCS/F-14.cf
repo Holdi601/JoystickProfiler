@@ -1806,7 +1806,7 @@ local diff = {
 			},
 		},
 		["d363pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Force cursor to show, toggle",
+			["name"] = "Clickable Mouse Cockpit Mode - ON/OFF",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",
@@ -2138,17 +2138,6 @@ local diff = {
 				},
 			},
 		},
-		["d50pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Multiplayer chat - mode Allies",
-			["removed"] = {
-				[1] = {
-					["key"] = "Tab",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
 		["d522pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Flight - Attack air defenses",
 			["removed"] = {
@@ -2168,14 +2157,6 @@ local diff = {
 					["reformers"] = {
 						[1] = "LWin",
 					},
-				},
-			},
-		},
-		["d57pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Multiplayer chat - mode All",
-			["removed"] = {
-				[1] = {
-					["key"] = "Tab",
 				},
 			},
 		},

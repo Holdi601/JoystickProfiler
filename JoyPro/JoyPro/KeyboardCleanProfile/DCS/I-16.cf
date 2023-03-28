@@ -374,8 +374,8 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -386,8 +386,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -421,8 +421,8 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -434,8 +434,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -1275,7 +1275,7 @@ local diff = {
 			},
 		},
 		["d3025pnilunilcd5vd0vpnilvunil"] = {
-			["name"] = "Nav light heating switch OFF",
+			["name"] = "Nav light switch OFF",
 			["removed"] = {
 				[1] = {
 					["key"] = "Y",
@@ -1612,6 +1612,17 @@ local diff = {
 				},
 			},
 		},
+		["d3067pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "Left Door Close",
+			["removed"] = {
+				[1] = {
+					["key"] = "C",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
 		["d3068pnilunilcd1vd0vpnilvunil"] = {
 			["name"] = "Right Door Open",
 			["removed"] = {
@@ -1619,6 +1630,17 @@ local diff = {
 					["key"] = "C",
 					["reformers"] = {
 						[1] = "RWin",
+					},
+				},
+			},
+		},
+		["d3068pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "Right Door Close",
+			["removed"] = {
+				[1] = {
+					["key"] = "C",
+					["reformers"] = {
+						[1] = "RShift",
 					},
 				},
 			},
@@ -1844,6 +1866,25 @@ local diff = {
 				},
 			},
 		},
+		["d3295pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "Stick - SHOW",
+			["removed"] = {
+				[1] = {
+					["key"] = "Back",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d3295pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "Stick - HIDE",
+			["removed"] = {
+				[1] = {
+					["key"] = "Back",
+				},
+			},
+		},
 		["d331pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Keyboard Rate Fast",
 			["removed"] = {
@@ -2049,7 +2090,7 @@ local diff = {
 			},
 		},
 		["d363pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Force cursor to show, toggle",
+			["name"] = "Clickable Mouse Cockpit Mode - ON/OFF",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",

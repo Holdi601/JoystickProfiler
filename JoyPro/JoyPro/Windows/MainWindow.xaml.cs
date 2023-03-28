@@ -68,8 +68,6 @@ namespace JoyPro
         double visualHorizontalLastScroll = 0.0;
         public bool STARTED = false;
 
-        
-
         public MainWindow()
         {
             MainStructure.Write("Program Started");
@@ -253,6 +251,7 @@ namespace JoyPro
             ALLBUTTONS.Add(VisualAssigningModeBtn);
             ALLBUTTONS.Add(MassOperationBtn);
             ALLBUTTONS.Add(JoystickReferenceBtn);
+            ALLBUTTONS.Add(JoystickForceFeedbackBtn);
         }
         void SetupEventHandlers()
         {
@@ -302,6 +301,14 @@ namespace JoyPro
             OverlayBtn.Click += new RoutedEventHandler(OpenOverlay);
             VisualAssigningModeBtn.Click += new RoutedEventHandler(SwitchVisualMode);
             JoystickReferenceBtn.Click += new RoutedEventHandler(OpenJoystickReference);
+            JoystickForceFeedbackBtn.Click += new RoutedEventHandler(OpenForceFeedbackWindow);
+        }
+        void OpenForceFeedbackWindow(object sender, EventArgs e)
+        {
+            DisableInputs();
+            ForceFeedbackSettings ri = new ForceFeedbackSettings();
+            ri.Closing += new CancelEventHandler(ActivateInputs);
+            ri.Show();
         }
         void OpenBackupWindow(object sender, EventArgs e)
         {

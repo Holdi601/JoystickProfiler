@@ -1840,6 +1840,17 @@ local diff = {
 				},
 			},
 		},
+		["d69pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "TV Hook",
+			["removed"] = {
+				[1] = {
+					["key"] = "G",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
 		["d71pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Cockpit door open/close",
 			["removed"] = {

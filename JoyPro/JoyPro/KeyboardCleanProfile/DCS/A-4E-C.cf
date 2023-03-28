@@ -1,61 +1,737 @@
 local diff = {
 	["keyDiffs"] = {
-		["d1032pnilu1034cdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle Smoothly (Both) - Increase",
+		["d10002pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Radio Microphone Push to Talk (PTT)",
 			["removed"] = {
 				[1] = {
-					["key"] = "Num+",
-				},
-			},
-		},
-		["d1033pnilu1034cdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle Smoothly (Both) - Decrease",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num-",
-				},
-			},
-		},
-		["d1035pnilu1037cdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle Smoothly (Left) - Increase",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num+",
+					["key"] = "\\",
 					["reformers"] = {
 						[1] = "RAlt",
 					},
 				},
 			},
 		},
-		["d1036pnilu1037cdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle Smoothly (Left) - Decrease",
+		["d10003pnilu10004cdnilvdnilvpnilvunil"] = {
+			["name"] = "Wheel Brake Left - ON else OFF",
 			["removed"] = {
 				[1] = {
-					["key"] = "Num-",
+					["key"] = "W",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d10005pnilu10006cdnilvdnilvpnilvunil"] = {
+			["name"] = "Wheel Brake Right - ON else OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "W",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d10007pnilu10008cdnilvdnilvpnilvunil"] = {
+			["name"] = "Wheel Brake - ON else OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "W",
+				},
+			},
+		},
+		["d10009pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Slats - LOCK/UNLOCK",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+					["reformers"] = {
+						[1] = "LAlt",
+						[2] = "LShift",
+					},
+				},
+			},
+		},
+		["d10010pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Flap Handle - STOP",
+			["removed"] = {
+				[1] = {
+					["key"] = "F",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d10013pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Spoiler Arm Switch - ARM/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+				},
+			},
+		},
+		["d10016pnilu10017cdnilvdnilvpnilvunil"] = {
+			["name"] = "Gun-Rocket Trigger",
+			["removed"] = {
+				[1] = {
+					["key"] = "Space",
+				},
+			},
+		},
+		["d10018pnilu10019cdnilvdnilvpnilvunil"] = {
+			["name"] = "Bomb Release Button",
+			["removed"] = {
+				[1] = {
+					["key"] = "Space",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d10020pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Master Armament Switch - ON/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "0",
+				},
+			},
+		},
+		["d10021pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Guns Charging Switch - READY/SAFE",
+			["removed"] = {
+				[1] = {
+					["key"] = "9",
+				},
+			},
+		},
+		["d10022pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Station 1 Selector - READY/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "1",
+				},
+			},
+		},
+		["d10023pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Station 2 Selector - READY/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "2",
+				},
+			},
+		},
+		["d10024pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Station 3 Selector - READY/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "3",
+				},
+			},
+		},
+		["d10025pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Station 4 Selector - READY/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "4",
+				},
+			},
+		},
+		["d10026pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Station 5 Selector - READY/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "5",
+				},
+			},
+		},
+		["d10027pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Weapon Function Selector Switch - CCW",
+			["removed"] = {
+				[1] = {
+					["key"] = "7",
+				},
+			},
+		},
+		["d10028pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Weapon Function Selector Switch - CW",
+			["removed"] = {
+				[1] = {
+					["key"] = "8",
+				},
+			},
+		},
+		["d10034pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Engine Starter Switch - START",
+			["removed"] = {
+				[1] = {
+					["key"] = "Home",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["d10035pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Engine Starter Switch - ABORT",
+			["removed"] = {
+				[1] = {
+					["key"] = "End",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["d10038pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Altimeter Pressure - Rotary Increment",
+			["removed"] = {
+				[1] = {
+					["key"] = "=",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["d10039pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Altimeter Pressure - Rotary Decrement",
+			["removed"] = {
+				[1] = {
+					["key"] = "-",
+					["reformers"] = {
+						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["d10042pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Arresting Hook Handle - UP/DOWN",
+			["removed"] = {
+				[1] = {
+					["key"] = "G",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d10048pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "TACAN and NDB Channel Reset",
+			["removed"] = {
+				[1] = {
+					["key"] = "0",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d10085pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "AN/ARN-52 TACAN Mode Switch - CW",
+			["removed"] = {
+				[1] = {
+					["key"] = "T",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d10086pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "AN/ARN-52 TACAN Mode Switch - CCW",
+			["removed"] = {
+				[1] = {
+					["key"] = "T",
 					["reformers"] = {
 						[1] = "RAlt",
 					},
 				},
 			},
 		},
-		["d1038pnilu1040cdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle Smoothly (Right) - Increase",
+		["d10101pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Master Exterior Lights Switch - ON/OFF",
 			["removed"] = {
 				[1] = {
-					["key"] = "Num+",
+					["key"] = "L",
+				},
+			},
+		},
+		["d10123pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Autopilot Override (AFCS Emergency Disconnect)",
+			["removed"] = {
+				[1] = {
+					["key"] = "A",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d10124pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "AFCS Standby Switch - STANDBY/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "A",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d10125pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "AFCS Engage Switch - ENGAGE/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "A",
+				},
+			},
+		},
+		["d10126pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "AFCS Altitude Switch - ALT/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "A",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d10127pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "AFCS Heading Select Switch - HDG SEL/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "A",
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "LShift",
+					},
+				},
+			},
+		},
+		["d10138pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Control Stick - HIDE/SHOW (assist)",
+			["removed"] = {
+				[1] = {
+					["key"] = "Back",
+				},
+			},
+		},
+		["d10139pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "JATO Firing Button (ALE-29A Burst)",
+			["removed"] = {
+				[1] = {
+					["key"] = "Q",
+				},
+			},
+		},
+		["d10147pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Chaff Power Switch - PWR/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "Q",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d10158pnilunilcdnilvd1vpnilvunil"] = {
+			["name"] = "CBU-2/A Release Quantity - 1/2/3",
+			["removed"] = {
+				[1] = {
+					["key"] = "2",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RShift",
+					},
+				},
+			},
+		},
+		["d10159pnilunilcdnilvd1vpnilvunil"] = {
+			["name"] = "CBU-2B/A Release Quantity - 1/2/3/4/6/SALVO",
+			["removed"] = {
+				[1] = {
+					["key"] = "3",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RShift",
+					},
+				},
+			},
+		},
+		["d10166pnilunilcdnilvd1vpnilvunil"] = {
+			["name"] = "Countermeasures Bursts",
+			["removed"] = {
+				[1] = {
+					["key"] = "4",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RShift",
+					},
+				},
+			},
+		},
+		["d10167pnilunilcdnilvd1vpnilvunil"] = {
+			["name"] = "Countermeasures Burst Interval",
+			["removed"] = {
+				[1] = {
+					["key"] = "5",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RShift",
+					},
+				},
+			},
+		},
+		["d10168pnilunilcdnilvd1vpnilvunil"] = {
+			["name"] = "Countermeasures Salvos",
+			["removed"] = {
+				[1] = {
+					["key"] = "6",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RShift",
+					},
+				},
+			},
+		},
+		["d10169pnilunilcdnilvd1vpnilvunil"] = {
+			["name"] = "Countermeasures Salvo Interval",
+			["removed"] = {
+				[1] = {
+					["key"] = "7",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RShift",
+					},
+				},
+			},
+		},
+		["d10175pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "AFCS Stability Augmentation Switch (Yaw Damper) - STAB AUG/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "S",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d10176pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Oxygen Switch - ON/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "O",
+				},
+			},
+		},
+		["d10177pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Radar Altitude Warning - ON/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "-",
+					["reformers"] = {
+						[1] = "RCtrl",
+						[2] = "RShift",
+					},
+				},
+			},
+		},
+		["d10178pnilu10180cdnilvdnilvpnilvunil"] = {
+			["name"] = "Radar Altitude Warning - Continuous Increase",
+			["removed"] = {
+				[1] = {
+					["key"] = "=",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d10179pnilu10180cdnilvdnilvpnilvunil"] = {
+			["name"] = "Radar Altitude Warning - Continuous Decrease",
+			["removed"] = {
+				[1] = {
+					["key"] = "-",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d10183pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Radio Frequency 10 MHz - Increase",
+			["removed"] = {
+				[1] = {
+					["key"] = "U",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d10184pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Radio Frequency 10 MHz - Decrease",
+			["removed"] = {
+				[1] = {
+					["key"] = "U",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d10185pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Radio Frequency 1 MHz - Increase",
+			["removed"] = {
+				[1] = {
+					["key"] = "I",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d10186pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Radio Frequency 1 MHz - Decrease",
+			["removed"] = {
+				[1] = {
+					["key"] = "I",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d10187pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Radio Frequency 50 kHz - Increase",
+			["removed"] = {
+				[1] = {
+					["key"] = "O",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d10188pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Radio Frequency 50 kHz - Decrease",
+			["removed"] = {
+				[1] = {
+					["key"] = "O",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d10211pnilu10213cdnilvdnilvpnilvunil"] = {
+			["name"] = "Gunsight Elevation Control - Continuous Increase",
+			["removed"] = {
+				[1] = {
+					["key"] = "[",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d10212pnilu10213cdnilvdnilvpnilvunil"] = {
+			["name"] = "Gunsight Elevation Control - Continuous Decrease",
+			["removed"] = {
+				[1] = {
+					["key"] = "]",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d10228pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Radio Frequency Mode Switch - CW",
+			["removed"] = {
+				[1] = {
+					["key"] = "P",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d10229pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Radio Frequency Mode Switch - CCW",
+			["removed"] = {
+				[1] = {
+					["key"] = "P",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d10230pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Radio Preset Channel Selector - Increase",
+			["removed"] = {
+				[1] = {
+					["key"] = "H",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d10231pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Radio Preset Channel Selector - Decrease",
+			["removed"] = {
+				[1] = {
+					["key"] = "H",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
+		["d10234pnilu10236cdnilvdnilvpnilvunil"] = {
+			["name"] = "Radar Antenna Tilt - Continuous CW",
+			["removed"] = {
+				[1] = {
+					["key"] = "-",
+				},
+			},
+		},
+		["d10235pnilu10236cdnilvdnilvpnilvunil"] = {
+			["name"] = "Radar Antenna Tilt - Continuous CCW",
+			["removed"] = {
+				[1] = {
+					["key"] = "=",
+				},
+			},
+		},
+		["d10243pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Fuel Transfer Switch - BYPASS/NORMAL",
+			["removed"] = {
+				[1] = {
+					["key"] = "D",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
+				},
+			},
+		},
+		["d10249pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Catapult Power Mode - DEFAULT/AUTO",
+			["removed"] = {
+				[1] = {
+					["key"] = "U",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d10282pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Drop Tank Pressurization Switch - Cycle",
+			["removed"] = {
+				[1] = {
+					["key"] = "D",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d10283pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Fuel Dump Switch - Cycle",
+			["removed"] = {
+				[1] = {
+					["key"] = "D",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d10291pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "NVG Night Vision Goggle - Toggle",
+			["removed"] = {
+				[1] = {
+					["key"] = "H",
 					["reformers"] = {
 						[1] = "RShift",
 					},
 				},
 			},
 		},
-		["d1039pnilu1040cdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle Smoothly (Right) - Decrease",
+		["d10292pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Canopy Lever - OPEN",
 			["removed"] = {
 				[1] = {
-					["key"] = "Num-",
+					["key"] = "C",
 					["reformers"] = {
-						[1] = "RShift",
+						[1] = "LCtrl",
+						[2] = "LShift",
+					},
+				},
+			},
+		},
+		["d10293pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Canopy Lever - CLOSE",
+			["removed"] = {
+				[1] = {
+					["key"] = "C",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d10297pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Throttle Position - Increment",
+			["removed"] = {
+				[1] = {
+					["key"] = "PageUp",
+				},
+			},
+		},
+		["d10298pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Throttle Position - Decrement",
+			["removed"] = {
+				[1] = {
+					["key"] = "PageDown",
+				},
+			},
+		},
+		["d10311pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Bomb Arm Switch - Cycle",
+			["removed"] = {
+				[1] = {
+					["key"] = "6",
+				},
+			},
+		},
+		["d10312pnilu10312cdnilvd-1vpnilvu0"] = {
+			["name"] = "Throttle Position Continuous - Decrease (Custom Throttle Rate)",
+			["removed"] = {
+				[1] = {
+					["key"] = "PageDown",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d10312pnilu10312cdnilvd1vpnilvu0"] = {
+			["name"] = "Throttle Position Continuous - Increase (Custom Throttle Rate)",
+			["removed"] = {
+				[1] = {
+					["key"] = "PageUp",
+					["reformers"] = {
+						[1] = "RCtrl",
 					},
 				},
 			},
@@ -164,6 +840,28 @@ local diff = {
 				},
 			},
 		},
+		["d125pnilu126cdnilvdnilvpnilvunil"] = {
+			["name"] = "Mirror Right - ON else OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "M",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d127pnilu128cdnilvdnilvpnilvunil"] = {
+			["name"] = "Mirror Left  - ON else OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "M",
+					["reformers"] = {
+						[1] = "RAlt",
+					},
+				},
+			},
+		},
 		["d129pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "F1 Natural head movement view",
 			["removed"] = {
@@ -213,6 +911,50 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "F9",
+				},
+			},
+		},
+		["d145pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Flap Handle - DOWN",
+			["removed"] = {
+				[1] = {
+					["key"] = "F",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d146pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Flap Handle - UP",
+			["removed"] = {
+				[1] = {
+					["key"] = "F",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d147pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Speedbrake Switch - OPEN",
+			["removed"] = {
+				[1] = {
+					["key"] = "B",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+		["d148pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Speedbrake Switch - CLOSE",
+			["removed"] = {
+				[1] = {
+					["key"] = "B",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
 				},
 			},
 		},
@@ -345,46 +1087,10 @@ local diff = {
 			},
 		},
 		["d1625pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Toggle Mirrors",
+			["name"] = "Mirrors - ON/OFF",
 			["removed"] = {
 				[1] = {
 					["key"] = "M",
-					["reformers"] = {
-						[1] = "RWin",
-					},
-				},
-			},
-		},
-		["d165pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle Step (Left) - Increase",
-			["removed"] = {
-				[1] = {
-					["key"] = "PageUp",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d166pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle Step (Left) - Decrease",
-			["removed"] = {
-				[1] = {
-					["key"] = "PageDown",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d167pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle Step (Right) - Increase",
-			["removed"] = {
-				[1] = {
-					["key"] = "PageUp",
-					["reformers"] = {
-						[1] = "RShift",
-					},
 				},
 			},
 		},
@@ -395,17 +1101,6 @@ local diff = {
 					["key"] = "B",
 					["reformers"] = {
 						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d168pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle Step (Right) - Decrease",
-			["removed"] = {
-				[1] = {
-					["key"] = "PageDown",
-					["reformers"] = {
-						[1] = "RShift",
 					},
 				},
 			},
@@ -654,18 +1349,6 @@ local diff = {
 				},
 			},
 		},
-		["d1864pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Pilot Ready To Taxi",
-			["removed"] = {
-				[1] = {
-					["key"] = "S",
-					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LShift",
-					},
-				},
-			},
-		},
 		["d190pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "F2 Toggle local camera control",
 			["removed"] = {
@@ -689,7 +1372,7 @@ local diff = {
 			},
 		},
 		["d193pnilu194cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Pitch Down",
+			["name"] = "Aircraft Pitch - DOWN",
 			["removed"] = {
 				[1] = {
 					["key"] = "Up",
@@ -697,7 +1380,7 @@ local diff = {
 			},
 		},
 		["d195pnilu196cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Pitch Up",
+			["name"] = "Aircraft Pitch - UP",
 			["removed"] = {
 				[1] = {
 					["key"] = "Down",
@@ -705,7 +1388,7 @@ local diff = {
 			},
 		},
 		["d197pnilu198cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Bank Left",
+			["name"] = "Aircraft Roll - LEFT",
 			["removed"] = {
 				[1] = {
 					["key"] = "Left",
@@ -713,7 +1396,7 @@ local diff = {
 			},
 		},
 		["d199pnilu200cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Bank Right",
+			["name"] = "Aircraft Roll - RIGHT",
 			["removed"] = {
 				[1] = {
 					["key"] = "Right",
@@ -729,7 +1412,7 @@ local diff = {
 			},
 		},
 		["d201pnilu202cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Rudder Left",
+			["name"] = "Aircraft Rudder - LEFT",
 			["removed"] = {
 				[1] = {
 					["key"] = "Z",
@@ -737,7 +1420,7 @@ local diff = {
 			},
 		},
 		["d203pnilu204cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Rudder Right",
+			["name"] = "Aircraft Rudder - RIGHT",
 			["removed"] = {
 				[1] = {
 					["key"] = "X",
@@ -792,18 +1475,6 @@ local diff = {
 					["key"] = "Num0",
 					["reformers"] = {
 						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d238pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Pilot Salute",
-			["removed"] = {
-				[1] = {
-					["key"] = "S",
-					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LShift",
 					},
 				},
 			},
@@ -983,15 +1654,7 @@ local diff = {
 				},
 			},
 		},
-		["d3001pnilu3001cd23vd1vpnilvu0"] = {
-			["name"] = "Master Mode Button - A/A",
-			["removed"] = {
-				[1] = {
-					["key"] = "1",
-				},
-			},
-		},
-		["d3001pnilunilcd68vd1vpnilvunil"] = {
+		["d3001pnilunilcd100vd1vpnilvunil"] = {
 			["name"] = "Kneeboard Next Page",
 			["removed"] = {
 				[1] = {
@@ -999,31 +1662,7 @@ local diff = {
 				},
 			},
 		},
-		["d3002pnilu3002cd13vd1vpnilvu0"] = {
-			["name"] = "Gun Trigger - SECOND DETENT (Press to shoot)",
-			["removed"] = {
-				[1] = {
-					["key"] = "Space",
-				},
-			},
-		},
-		["d3002pnilu3002cd23vd1vpnilvu0"] = {
-			["name"] = "Master Mode Button - A/G",
-			["removed"] = {
-				[1] = {
-					["key"] = "2",
-				},
-			},
-		},
-		["d3002pnilu3002cd2vd1vpnilvu0"] = {
-			["name"] = "T/O TRIM Button",
-			["removed"] = {
-				[1] = {
-					["key"] = "V",
-				},
-			},
-		},
-		["d3002pnilunilcd68vd1vpnilvunil"] = {
+		["d3002pnilunilcd100vd1vpnilvunil"] = {
 			["name"] = "Kneeboard Previous Page",
 			["removed"] = {
 				[1] = {
@@ -1031,18 +1670,7 @@ local diff = {
 				},
 			},
 		},
-		["d3003pnilu3003cd13vd1vpnilvu0"] = {
-			["name"] = "Weapon Release Button",
-			["removed"] = {
-				[1] = {
-					["key"] = "Space",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d3003pnilunilcd68vd1vpnilvunil"] = {
+		["d3003pnilunilcd100vd1vpnilvunil"] = {
 			["name"] = "Kneeboard current position mark point",
 			["removed"] = {
 				[1] = {
@@ -1053,512 +1681,68 @@ local diff = {
 				},
 			},
 		},
-		["d3004pnilu3004cd13vd1vpnilvu0"] = {
-			["name"] = "RECCE Event Mark Switch",
+		["d3027pnilu3027cd6vd1vpnilvu0"] = {
+			["name"] = "Emergency Stores Release Handle",
 			["removed"] = {
 				[1] = {
-					["key"] = "R",
-				},
-			},
-		},
-		["d3004pnilu3004cd2vd1vpnilvu0"] = {
-			["name"] = "FCS BIT Switch",
-			["removed"] = {
-				[1] = {
-					["key"] = "Y",
-				},
-			},
-		},
-		["d3005pnilu3005cd13vd1vpnilvu0"] = {
-			["name"] = "Sensor Control Switch - Fwd",
-			["removed"] = {
-				[1] = {
-					["key"] = ";",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d3005pnilunilcd5vd-1vpnilvunil"] = {
-			["name"] = "Emergency/Parking Brake Handle - PULL",
-			["removed"] = {
-				[1] = {
-					["key"] = "P",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d3005pnilunilcd5vd1vpnilvunil"] = {
-			["name"] = "Emergency/Parking Brake Handle - STOW",
-			["removed"] = {
-				[1] = {
-					["key"] = "P",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d3006pnilu3006cd13vd1vpnilvu0"] = {
-			["name"] = "Sensor Control Switch - Aft",
-			["removed"] = {
-				[1] = {
-					["key"] = ".",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d3006pnilu3006cd5vd1vpnilvu0"] = {
-			["name"] = "Emergency/Parking Brake Handle - CCW",
-			["removed"] = {
-				[1] = {
-					["key"] = "P",
+					["key"] = "J",
 					["reformers"] = {
 						[1] = "LCtrl",
 					},
 				},
 			},
 		},
-		["d3007pnilu3007cd13vd1vpnilvu0"] = {
-			["name"] = "Sensor Control Switch - Left",
-			["removed"] = {
-				[1] = {
-					["key"] = ",",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d3007pnilunilcd2vd-1vpnilvunil"] = {
-			["name"] = "FLAP Switch - FULL",
-			["removed"] = {
-				[1] = {
-					["key"] = "F",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d3007pnilunilcd2vd0vpnilvunil"] = {
-			["name"] = "FLAP Switch - HALF",
-			["removed"] = {
-				[1] = {
-					["key"] = "F",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d3007pnilunilcd2vd1vpnilvunil"] = {
-			["name"] = "FLAP Switch - AUTO",
-			["removed"] = {
-				[1] = {
-					["key"] = "F",
-				},
-			},
-		},
-		["d3007pnilunilcd5vd-1vpnilvunil"] = {
-			["name"] = "Emergency/Parking Brake Handle - CW",
-			["removed"] = {
-				[1] = {
-					["key"] = "P",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d3008pnilu3008cd13vd1vpnilvu0"] = {
-			["name"] = "Sensor Control Switch - Right",
-			["removed"] = {
-				[1] = {
-					["key"] = "/",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d3008pnilu3008cd9vd1vpnilvu0"] = {
-			["name"] = "MASTER CAUTION Reset Button",
+		["d3044pnilu3044cd23vd-1vpnilvu0"] = {
+			["name"] = "BDHI Switch - NAV PAC else TACAN",
 			["removed"] = {
 				[1] = {
 					["key"] = "N",
-				},
-			},
-		},
-		["d3009pnilu3009cd13vd1vpnilvu0"] = {
-			["name"] = "Select Sparrow",
-			["removed"] = {
-				[1] = {
-					["key"] = "W",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d3010pnilu3010cd13vd1vpnilvu0"] = {
-			["name"] = "Select Gun",
-			["removed"] = {
-				[1] = {
-					["key"] = "X",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d3011pnilu3011cd13vd1vpnilvu0"] = {
-			["name"] = "Select AMRAAM",
-			["removed"] = {
-				[1] = {
-					["key"] = "D",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d3012pnilu3012cd13vd1vpnilvu0"] = {
-			["name"] = "Select Sidewinder",
-			["removed"] = {
-				[1] = {
-					["key"] = "S",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d3013pnilu3013cd13vd1vpnilvu0"] = {
-			["name"] = "Undesignate/Nose Wheel Steer Switch",
-			["removed"] = {
-				[1] = {
-					["key"] = "S",
-				},
-			},
-		},
-		["d3013pnilunilcd5vd1vpnilvunil"] = {
-			["name"] = "Arresting Hook Handle - Cycle",
-			["removed"] = {
-				[1] = {
-					["key"] = "H",
-				},
-			},
-		},
-		["d3014pnilunilcd23vd1vpnilvunil"] = {
-			["name"] = "Master Arm Switch - ARM/SAFE",
-			["removed"] = {
-				[1] = {
-					["key"] = "M",
-				},
-			},
-		},
-		["d3017pnilunilcd2vd-1vpnilvunil"] = {
-			["name"] = "FLAP Switch - Down",
-			["removed"] = {
-				[1] = {
-					["key"] = "F",
-					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d3017pnilunilcd2vd1vpnilvunil"] = {
-			["name"] = "FLAP Switch - Up",
-			["removed"] = {
-				[1] = {
-					["key"] = "F",
-					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LShift",
-					},
-				},
-			},
-		},
-		["d3018pnilu3018cd13vd1vpnilvu0"] = {
-			["name"] = "Autopilot/Nosewheel Steering Disengage (Paddle) Switch",
-			["removed"] = {
-				[1] = {
-					["key"] = "A",
-				},
-			},
-		},
-		["d3018pnilunilcd7vd1vpnilvunil"] = {
-			["name"] = "Control Stick - HIDE/SHOW (assist)",
-			["removed"] = {
-				[1] = {
-					["key"] = "Back",
-				},
-			},
-		},
-		["d3019pnilu3019cd13vd1vpnilvu0"] = {
-			["name"] = "Throttle Designator Controller - Up",
-			["removed"] = {
-				[1] = {
-					["key"] = ";",
-				},
-			},
-		},
-		["d3020pnilu3020cd13vd1vpnilvu0"] = {
-			["name"] = "Throttle Designator Controller - Down",
-			["removed"] = {
-				[1] = {
-					["key"] = ".",
-				},
-			},
-		},
-		["d3020pnilunilcd2vd0vpnilvunil"] = {
-			["name"] = "Wing Fold Control Handle - PULL/STOW",
-			["removed"] = {
-				[1] = {
-					["key"] = "O",
-				},
-			},
-		},
-		["d3021pnilu3021cd13vd1vpnilvu0"] = {
-			["name"] = "Throttle Designator Controller - LEFT",
-			["removed"] = {
-				[1] = {
-					["key"] = ",",
-				},
-			},
-		},
-		["d3021pnilunilcd2vd-1vpnilvunil"] = {
-			["name"] = "Wing Fold Control Handle - CCW/Left",
-			["removed"] = {
-				[1] = {
-					["key"] = "O",
 					["reformers"] = {
 						[1] = "RShift",
 					},
 				},
 			},
 		},
-		["d3021pnilunilcd2vd1vpnilvunil"] = {
-			["name"] = "Wing Fold Control Handle - CW/Right",
+		["d3044pnilu3044cd23vd1vpnilvu0"] = {
+			["name"] = "BDHI Switch - NAV CMPTR else TACAN",
 			["removed"] = {
 				[1] = {
-					["key"] = "O",
+					["key"] = "N",
 					["reformers"] = {
 						[1] = "RCtrl",
 					},
 				},
 			},
 		},
-		["d3022pnilu3022cd13vd1vpnilvu0"] = {
-			["name"] = "Throttle Designator Controller - RIGHT",
+		["d3107pnilu3107cd32vd1vpnilvu0"] = {
+			["name"] = "Chaff AUTO Pushbutton (ALE-29A Salvo)",
 			["removed"] = {
 				[1] = {
-					["key"] = "/",
-				},
-			},
-		},
-		["d3023pnilu3023cd13vd1vpnilvu0"] = {
-			["name"] = "Throttle Designator Controller - DEPRESS",
-			["removed"] = {
-				[1] = {
-					["key"] = "Enter",
-				},
-			},
-		},
-		["d3024pnilu3024cd13vd1vpnilvu0"] = {
-			["name"] = "Radar Elevation Control - Up",
-			["removed"] = {
-				[1] = {
-					["key"] = "=",
-				},
-			},
-		},
-		["d3025pnilu3025cd13vd1vpnilvu0"] = {
-			["name"] = "Radar Elevation Control - Down",
-			["removed"] = {
-				[1] = {
-					["key"] = "-",
-				},
-			},
-		},
-		["d3027pnilu3027cd13vd0.2vpnilvu0"] = {
-			["name"] = "COMM Switch - COMM 1 (call radio menu)",
-			["removed"] = {
-				[1] = {
-					["key"] = "\\",
+					["key"] = "Q",
 					["reformers"] = {
-						[1] = "RAlt",
+						[1] = "LAlt",
 					},
 				},
 			},
 		},
-		["d3028pnilu3028cd13vd0.4vpnilvu0"] = {
-			["name"] = "COMM Switch - COMM 2 (call radio menu)",
+		["d3157pnilunilcd20vd-1vpnilvunil"] = {
+			["name"] = "Throttle Position Lock - Step Down (OFF/IGN/IDLE)",
 			["removed"] = {
 				[1] = {
-					["key"] = "\\",
+					["key"] = "End",
 					["reformers"] = {
 						[1] = "RCtrl",
 					},
 				},
 			},
 		},
-		["d3031pnilu3031cd13vd1vpnilvu0"] = {
-			["name"] = "Cage/Uncage Button",
-			["removed"] = {
-				[1] = {
-					["key"] = "C",
-				},
-			},
-		},
-		["d3032pnilu3032cd13vd1vpnilvu0"] = {
-			["name"] = "Dispense Switch - Forward(CHAFF)/Center(OFF)",
-			["removed"] = {
-				[1] = {
-					["key"] = "E",
-				},
-			},
-		},
-		["d3033pnilu3033cd13vd-1vpnilvu0"] = {
-			["name"] = "Dispense Switch - Aft(FLARE)/Center(OFF)",
-			["removed"] = {
-				[1] = {
-					["key"] = "D",
-				},
-			},
-		},
-		["d3034pnilu3034cd13vd1vpnilvu0"] = {
-			["name"] = "RAID/FLIR FOV Select Button",
-			["removed"] = {
-				[1] = {
-					["key"] = "I",
-				},
-			},
-		},
-		["d3035pnilu3035cd13vd-1vpnilvu0"] = {
-			["name"] = "Speed Brake Switch - EXTEND",
-			["removed"] = {
-				[1] = {
-					["key"] = "B",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d3035pnilunilcd13vd0vpnilvunil"] = {
-			["name"] = "Speed Brake Switch - OFF",
-			["removed"] = {
-				[1] = {
-					["key"] = "B",
-				},
-			},
-		},
-		["d3035pnilunilcd13vd1vpnilvunil"] = {
-			["name"] = "Speed Brake Switch - RETRACT",
-			["removed"] = {
-				[1] = {
-					["key"] = "B",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d3037pnilu3037cd13vd1vpnilvu0"] = {
-			["name"] = "ATC Engage/Disengage Switch",
-			["removed"] = {
-				[1] = {
-					["key"] = "T",
-				},
-			},
-		},
-		["d3040pnilu3040cd13vd1vpnilvu0"] = {
-			["name"] = "Throttle Finger Lift (Both) - UP/DOWN",
-			["removed"] = {
-				[1] = {
-					["key"] = "0",
-				},
-			},
-		},
-		["d3042pnilunilcd13vd1vpnilvunil"] = {
-			["name"] = "Exterior Lights Switch - ON/OFF",
-			["removed"] = {
-				[1] = {
-					["key"] = "L",
-				},
-			},
-		},
-		["d309pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Automatic Startup Procedure",
+		["d3157pnilunilcd20vd1vpnilvunil"] = {
+			["name"] = "Throttle Position Lock - Step Up (OFF/IGN/IDLE)",
 			["removed"] = {
 				[1] = {
 					["key"] = "Home",
 					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d310pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Automatic Shutdown Procedure",
-			["removed"] = {
-				[1] = {
-					["key"] = "End",
-					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d311pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle (Left) - IDLE",
-			["removed"] = {
-				[1] = {
-					["key"] = "Home",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d312pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle (Right) - IDLE",
-			["removed"] = {
-				[1] = {
-					["key"] = "Home",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["d313pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle (Left) - OFF",
-			["removed"] = {
-				[1] = {
-					["key"] = "End",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d314pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle (Right) - OFF",
-			["removed"] = {
-				[1] = {
-					["key"] = "End",
-					["reformers"] = {
-						[1] = "RShift",
+						[1] = "RCtrl",
 					},
 				},
 			},
@@ -2000,7 +2184,7 @@ local diff = {
 			},
 		},
 		["d430pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Landing Gear Control Handle - UP",
+			["name"] = "Landing Gear Handle - UP",
 			["removed"] = {
 				[1] = {
 					["key"] = "G",
@@ -2011,7 +2195,7 @@ local diff = {
 			},
 		},
 		["d431pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Landing Gear Control Handle - DOWN",
+			["name"] = "Landing Gear Handle - DOWN",
 			["removed"] = {
 				[1] = {
 					["key"] = "G",
@@ -2028,17 +2212,6 @@ local diff = {
 					["key"] = "F10",
 					["reformers"] = {
 						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d438pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Toggle goggles",
-			["removed"] = {
-				[1] = {
-					["key"] = "H",
-					["reformers"] = {
-						[1] = "RShift",
 					},
 				},
 			},
@@ -2165,24 +2338,8 @@ local diff = {
 				},
 			},
 		},
-		["d66pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle Step (Both) - Increase",
-			["removed"] = {
-				[1] = {
-					["key"] = "PageUp",
-				},
-			},
-		},
-		["d67pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle Step (Both) - Decrease",
-			["removed"] = {
-				[1] = {
-					["key"] = "PageDown",
-				},
-			},
-		},
 		["d68pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Landing Gear Control Handle - UP/DOWN",
+			["name"] = "Landing Gear Handle - UP/DOWN",
 			["removed"] = {
 				[1] = {
 					["key"] = "G",
@@ -2190,7 +2347,7 @@ local diff = {
 			},
 		},
 		["d71pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Canopy - OPEN/CLOSE",
+			["name"] = "Canopy Lever - OPEN/CLOSE",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",
@@ -2200,11 +2357,19 @@ local diff = {
 				},
 			},
 		},
-		["d74pnilu75cdnilvdnilvpnilvunil"] = {
-			["name"] = "Wheel Brake - ON/OFF",
+		["d72pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Flap Handle - UP/DOWN",
 			["removed"] = {
 				[1] = {
-					["key"] = "W",
+					["key"] = "F",
+				},
+			},
+		},
+		["d73pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Speedbrake Switch - OPEN/CLOSE",
+			["removed"] = {
+				[1] = {
+					["key"] = "B",
 				},
 			},
 		},
@@ -2216,24 +2381,37 @@ local diff = {
 				},
 			},
 		},
-		["d835pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Show pilot body",
-			["removed"] = {
-				[1] = {
-					["key"] = "P",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
 		["d83pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Eject (3 times)",
+			["name"] = "Alternate Ejection Handle (3 times)",
 			["removed"] = {
 				[1] = {
 					["key"] = "E",
 					["reformers"] = {
 						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d840pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "NVG Night Vision Goggle Gain - Increase",
+			["removed"] = {
+				[1] = {
+					["key"] = "H",
+					["reformers"] = {
+						[1] = "RCtrl",
+						[2] = "RShift",
+					},
+				},
+			},
+		},
+		["d841pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "NVG Night Vision Goggle Gain - Decrease",
+			["removed"] = {
+				[1] = {
+					["key"] = "H",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -2254,28 +2432,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "F2",
-				},
-			},
-		},
-		["d961pnilu962cdnilvdnilvpnilvunil"] = {
-			["name"] = "Wheel Brake Left - ON/OFF",
-			["removed"] = {
-				[1] = {
-					["key"] = "W",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d963pnilu964cdnilvdnilvpnilvunil"] = {
-			["name"] = "Wheel Brake Right - ON/OFF",
-			["removed"] = {
-				[1] = {
-					["key"] = "W",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
 				},
 			},
 		},
@@ -2317,6 +2473,99 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "F3",
+				},
+			},
+		},
+		["dnilp10113u10119cdnilvdnilvpnilvunil"] = {
+			["name"] = "Trim Switch - NOSE UP",
+			["removed"] = {
+				[1] = {
+					["key"] = ".",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp10114u10119cdnilvdnilvpnilvunil"] = {
+			["name"] = "Trim Switch - NOSE DOWN",
+			["removed"] = {
+				[1] = {
+					["key"] = ";",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp10115u10119cdnilvdnilvpnilvunil"] = {
+			["name"] = "Trim Switch - LEFT WING DOWN",
+			["removed"] = {
+				[1] = {
+					["key"] = ",",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp10116u10119cdnilvdnilvpnilvunil"] = {
+			["name"] = "Trim Switch - RIGHT WING DOWN",
+			["removed"] = {
+				[1] = {
+					["key"] = "/",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp10117u10119cdnilvdnilvpnilvunil"] = {
+			["name"] = "Rudder Trim Switch - Left",
+			["removed"] = {
+				[1] = {
+					["key"] = "Z",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp10118u10119cdnilvdnilvpnilvunil"] = {
+			["name"] = "Rudder Trim Switch - Right",
+			["removed"] = {
+				[1] = {
+					["key"] = "X",
+					["reformers"] = {
+						[1] = "RCtrl",
+					},
+				},
+			},
+		},
+		["dnilp10120u10119cdnilvdnilvpnilvunil"] = {
+			["name"] = "Trim Reset (Hold)",
+			["removed"] = {
+				[1] = {
+					["key"] = "T",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["dnilp1032u1034cdnilvdnilvpnilvunil"] = {
+			["name"] = "Throttle Position Continuous - Increase",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num+",
+				},
+			},
+		},
+		["dnilp1033u1034cdnilvdnilvpnilvunil"] = {
+			["name"] = "Throttle Position Continuous - Decrease",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num-",
 				},
 			},
 		},
@@ -2668,50 +2917,6 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3014u3014cd13vdnilvp1vu0"] = {
-			["name"] = "Trimmer Switch - PULL(CLIMB)",
-			["removed"] = {
-				[1] = {
-					["key"] = ".",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["dnilp3015u3015cd13vdnilvp1vu0"] = {
-			["name"] = "Trimmer Switch - PUSH(DESCEND)",
-			["removed"] = {
-				[1] = {
-					["key"] = ";",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["dnilp3016u3016cd13vdnilvp1vu0"] = {
-			["name"] = "Trimmer Switch - LEFT WING DOWN",
-			["removed"] = {
-				[1] = {
-					["key"] = ",",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["dnilp3017u3017cd13vdnilvp1vu0"] = {
-			["name"] = "Trimmer Switch - RIGHT WING DOWN",
-			["removed"] = {
-				[1] = {
-					["key"] = "/",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
 		["dnilp30u209cdnilvdnilvpnilvunil"] = {
 			["name"] = "View up",
 			["removed"] = {
@@ -2908,30 +3113,6 @@ local diff = {
 					["key"] = "Num-",
 					["reformers"] = {
 						[1] = "RCtrl",
-						[2] = "RShift",
-					},
-				},
-			},
-		},
-		["dnilp840unilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Gain goggles up",
-			["removed"] = {
-				[1] = {
-					["key"] = "H",
-					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-					},
-				},
-			},
-		},
-		["dnilp841unilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Gain goggles down",
-			["removed"] = {
-				[1] = {
-					["key"] = "H",
-					["reformers"] = {
-						[1] = "RAlt",
 						[2] = "RShift",
 					},
 				},

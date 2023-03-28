@@ -22,10 +22,11 @@ namespace JoyPro
         public Dictionary<string, Dictionary<string, string>> PlaneAliases;
         public Dictionary<string, string> JoysticksPGuids = new Dictionary<string, string>();
         public List<KeyValuePair<string, string>> modifierNameChanges = new List<KeyValuePair<string, string>>();
+        public Dictionary<string, ForceFeedbackS> JoystickFFB = new Dictionary<string, ForceFeedbackS>();
 
         [JsonConstructor]
         public Pr0file() { }
-        public Pr0file(Dictionary<string, Relation> Rel, Dictionary<string, Bind> Bnds, string DCSInstance, Dictionary<string, string> JAlias, Dictionary<string, Dictionary<string, string>> pAlias, List<KeyValuePair<string, string>> modifierChanges)
+        public Pr0file(Dictionary<string, Relation> Rel, Dictionary<string, Bind> Bnds, string DCSInstance, Dictionary<string, string> JAlias, Dictionary<string, Dictionary<string, string>> pAlias, List<KeyValuePair<string, string>> modifierChanges, Dictionary<string, ForceFeedbackS> joystickFFB)
         {
             Relations = Rel;
             Binds = Bnds;
@@ -33,6 +34,7 @@ namespace JoyPro
             JoystickAliases = JAlias;
             PlaneAliases = pAlias;
             modifierNameChanges = modifierChanges;
+            JoystickFFB = joystickFFB;
         }
     }
 }

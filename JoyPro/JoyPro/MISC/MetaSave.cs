@@ -538,6 +538,30 @@ namespace JoyPro
         public bool? AutoAddDBItems = null;
         public bool? SelectedPlaneItemAddOnly = null;
 
+        WindowPos joyFFn = null;
+        public WindowPos _JoystickFF
+        {
+            get
+            {
+                if (joyFFn == null) joyFFn = new WindowPos();
+                if (joyFFn.Width <= 0 ||
+                    joyFFn.Height <= 0 ||
+                    joyFFn.Top < 0 ||
+                    joyFFn.Left < 0)
+                {
+                    joyFFn.Width = 1920;
+                    joyFFn.Height = 1080;
+                    joyFFn.Top = 0;
+                    joyFFn.Left = 0;
+                }
+                return joyFFn;
+            }
+            set
+            {
+                joyFFn = value;
+            }
+        }
+
         public MetaSave()
         {
             lastGameSelected = "";

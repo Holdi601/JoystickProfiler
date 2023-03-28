@@ -217,6 +217,9 @@
       <DependentUpon>RelationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataStructures\Internal\SearchQueryResults.cs" />
+    <Compile Include="Windows\ForceFeedbackSettings.xaml.cs">
+      <DependentUpon>ForceFeedbackSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\StickMention.xaml.cs">
       <DependentUpon>StickMention.xaml</DependentUpon>
     </Compile>
@@ -329,6 +332,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\ForceFeedbackSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\StickMention.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -366,6 +373,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="DB\DCS\A-4E-C.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DB\StarCitizen\AllBinds.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1268,6 +1278,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="KeyboardCleanProfile\DCS\Ka-50 III.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\A-4E-C.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\A-4E-C.cf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="TOOLS\AHK\ALTF4.ahk" />

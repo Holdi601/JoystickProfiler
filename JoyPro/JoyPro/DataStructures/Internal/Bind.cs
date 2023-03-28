@@ -31,6 +31,7 @@ namespace JoyPro
         public static double SaturationX_Default = 1.0;
         public static double SaturationY_Default = 1.0;
         public static double Deadzone_Default = 0.0;
+        
         public string PJoystick { 
             get {
                 string refStick = Joystick == null ? JoyBackup : Joystick;
@@ -160,10 +161,11 @@ namespace JoyPro
             SaturationY = SaturationY_Default;
             Rl = r;
             Deadzone = Deadzone_Default;
-            Reformer_depr = "";
+            Reformer_depr = ""; 
             AllReformers = new List<string>();
             AdditionalImportInfo = "";
             r.bind = this;
+            //ffs = new ForceFeedbackS();
         }
         public DCSAxisBind toDCSAxisBind()
         {
@@ -576,6 +578,7 @@ namespace JoyPro
             }
             return false;
         }
+        
 
     }
 }

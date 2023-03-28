@@ -14,6 +14,13 @@ using JoyPro.StarCitizen;
 
 namespace JoyPro
 {
+    [Serializable]
+    public class ForceFeedbackS
+    {
+        public bool invertX = false;
+        public bool invertY = false;
+        public bool swapAxis=false;
+    }
     public static class InternalDataManagement
     {
         public static string[] RelationWordFilter;
@@ -38,7 +45,8 @@ namespace JoyPro
         public static Dictionary<string, Dictionary<string, int>> JoystickButtonsPressed = new Dictionary<string, Dictionary<string, int>>();
         public static List<string> DevicesNeedingProfile = new List<string>();
         public static List<string> OpenedExchangedSticks = new List<string>();
-
+        public static Dictionary<string, ForceFeedbackS> JoystickFFB = new Dictionary<string, ForceFeedbackS>();
+        
         public static void DeleteAllReferencesOfJoystick(string joystick, bool deleteFileReferences)
         {
             DeleteJoyStickFromBinds(joystick);
@@ -823,6 +831,10 @@ namespace JoyPro
                 {
                     MiscGames.DCSInstanceSelectionChanged(pr.LastSelectedDCSInstance);
                 }
+                if (pr.JoystickFFB != null && pr.JoystickFFB.Count > 0)
+                {
+                    JoystickFFB = pr.JoystickFFB;
+                }
                 ResyncBindsToMods();
                 if (stickReplace != null && stickReplace.Length > 0)
                 {
@@ -908,6 +920,7 @@ namespace JoyPro
                 if (JoystickFileImages == null) JoystickFileImages = new Dictionary<string, string>();
                 if (PlaneAliases == null) PlaneAliases = new Dictionary<string, Dictionary<string, string>>();
                 if (ModifierNameChanges == null) ModifierNameChanges = new List<KeyValuePair<string, string>>();
+                if(JoystickFFB==null)JoystickFFB=new Dictionary<string, ForceFeedbackS>();
                 if (pr.Relations != null && pr.Relations.Count > 0&&  pr.Binds !=null)
                 {
                     if (!add)
@@ -1047,6 +1060,10 @@ namespace JoyPro
                             }
                         }
                     }
+                }
+                if(pr.JoystickFFB!=null&&pr.JoystickFFB.Count>0)
+                {
+                    JoystickFFB=pr.JoystickFFB;
                 }
                 if (pr.JoystickLayoutExport != null&&pr.JoystickLayoutExport.Length>0)
                 {
@@ -1322,7 +1339,7 @@ namespace JoyPro
             {
                 dictJoyAl.Add(Joystick, JoystickAliases[Joystick]);
             }
-            Pr0file pr = new Pr0file(dictRel, dictBind, "", dictJoyAl, dictPlaneAl, listModChanges);
+            Pr0file pr = new Pr0file(dictRel, dictBind, "", dictJoyAl, dictPlaneAl, listModChanges, InternalDataManagement.JoystickFFB);
             pr.JoystickAliases = dictJoyAl;
             pr.JoystickFileImages = dictJoyFileImages;
             pr.JoystickLayoutExport = "";
@@ -1332,7 +1349,7 @@ namespace JoyPro
         }
         public static void SaveProfileTextTo(string filePath)
         {
-            Pr0file pr = new Pr0file(AllRelations, AllBinds, MiscGames.DCSselectedInstancePath, JoystickAliases, PlaneAliases, ModifierNameChanges);
+            Pr0file pr = new Pr0file(AllRelations, AllBinds, MiscGames.DCSselectedInstancePath, JoystickAliases, PlaneAliases, ModifierNameChanges, InternalDataManagement.JoystickFFB);
             pr.JoystickAliases = JoystickAliases;
             pr.JoystickFileImages = JoystickFileImages;
             pr.JoystickLayoutExport = JoystickLayoutExport;
@@ -1356,7 +1373,7 @@ namespace JoyPro
         }
         public static void SaveProfileTo(string filePath)
         {
-            Pr0file pr = new Pr0file(AllRelations, AllBinds, MiscGames.DCSselectedInstancePath, JoystickAliases,PlaneAliases, ModifierNameChanges);
+            Pr0file pr = new Pr0file(AllRelations, AllBinds, MiscGames.DCSselectedInstancePath, JoystickAliases,PlaneAliases, ModifierNameChanges, InternalDataManagement.JoystickFFB);
             pr.JoystickAliases= JoystickAliases;
             pr.JoystickFileImages = JoystickFileImages;
             pr.JoystickLayoutExport = JoystickLayoutExport;

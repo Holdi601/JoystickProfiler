@@ -103,6 +103,14 @@ namespace JoyPro
                 }
                 swr.Write("\t},\n");
             }
+            if(InternalDataManagement.JoystickFFB.ContainsKey(JoystickName))
+            {
+                swr.Write("\t[\"ffDiffs\"] = {\n");
+                swr.Write("\t\t[\"invertX\"] = " + (InternalDataManagement.JoystickFFB[JoystickName].invertX ? "true" : "false") + ",\n");
+                swr.Write("\t\t[\"invertY\"] = " + (InternalDataManagement.JoystickFFB[JoystickName].invertY ? "true" : "false") + ",\n");
+                swr.Write("\t\t[\"swapAxes\"] = " + (InternalDataManagement.JoystickFFB[JoystickName].swapAxis ? "true" : "false") + ",\n");
+                swr.Write("\t},\n");
+            }
             if (keyDiffs.Count > 0)
             {
                 swr.Write("\t[\"keyDiffs\"] = {\n");
@@ -490,6 +498,23 @@ namespace JoyPro
                             }
                         }
                     }
+                }
+            }
+            if(dct.ContainsKey("ffDiffs"))
+            {
+                Dictionary<object, object> ffDiff = (Dictionary<object, object>)dct["ffDiffs"];
+                if(!InternalDataManagement.JoystickFFB.ContainsKey(JoystickName))InternalDataManagement.JoystickFFB.Add(JoystickName, new ForceFeedbackS());
+                if(ffDiff.ContainsKey("invertX"))
+                {
+                    InternalDataManagement.JoystickFFB[JoystickName].invertX = (bool)ffDiff["invertX"];
+                }
+                if(ffDiff.ContainsKey("invertY"))
+                {
+                    InternalDataManagement.JoystickFFB[JoystickName].invertY = (bool)ffDiff["invertY"];
+                }
+                if(ffDiff.ContainsKey("swapAxes"))
+                {
+                    InternalDataManagement.JoystickFFB[JoystickName].swapAxis = (bool)ffDiff["swapAxes"];
                 }
             }
             if (dct.ContainsKey("keyDiffs"))
