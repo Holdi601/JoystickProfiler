@@ -776,7 +776,7 @@ namespace JoyPro
                                 Dictionary<string, DCSInput> lib = ax ? p.Axis : p.Buttons;
                                 if (!lib.ContainsKey(li[k].id))
                                 {
-                                    lib.Add(li[k].id, new DCSInput(li[k].id, li[k].title, ax, planeName));
+                                    lib.Add(li[k].id, new DCSInput(li[k].id, li[k].title, ax, planeName, li[k].category));
                                 }
                             }
                         }

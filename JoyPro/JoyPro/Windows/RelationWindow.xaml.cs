@@ -27,7 +27,6 @@ namespace JoyPro
         public static double DEFAULT_WIDTH;
         public static double DEFAULT_HEIGHT;
 
-
         void init()
         {
             this.Deactivated += new EventHandler(Window_Deactivated);
@@ -38,6 +37,7 @@ namespace JoyPro
             SearchQueryTF.TextChanged += new TextChangedEventHandler(SearchQueryChanged);
             RelationNameTF.TextChanged += new TextChangedEventHandler(NameChanged);
             AddItemBtn.Click += new RoutedEventHandler(AddItemBtnHit);
+            AddItemSNBtn.Click += new RoutedEventHandler(AddItemBtnHit);
             CancelRelationBtn.Click += new RoutedEventHandler(CloseThis);
             FinishRelationBtn.Click += new RoutedEventHandler(FinishRelation);
             this.Closing += new System.ComponentModel.CancelEventHandler(OnClosing);
@@ -233,6 +233,7 @@ namespace JoyPro
             setLastSizeAndPosition();
             MainStructure.OverlayWorker.SetButtonMapping();
         }
+
         void AddItemBtnHit(object sender, EventArgs e)
         {
             List<SearchQueryResults> selected = DGSource.SelectedItems.Cast<SearchQueryResults>().ToList();
@@ -253,7 +254,15 @@ namespace JoyPro
             }
             for (int i = 0; i < selected.Count; ++i)
             {
-                Current.AddNode(selected[i].ID, selected[i].GAME, selected[i].AXIS, selected[i].AIRCRAFT, true);                
+                if(((Button)sender).Name == "AddItemBtn")
+                {
+                    Current.AddNode(selected[i].ID, selected[i].GAME, selected[i].AXIS, selected[i].AIRCRAFT, true);
+                }
+                else
+                {
+                    Current.AddNode(selected[i].DESCRIPTION, selected[i].AXIS);
+                }
+                                
             }       
             RefreshDGSelected();
         }

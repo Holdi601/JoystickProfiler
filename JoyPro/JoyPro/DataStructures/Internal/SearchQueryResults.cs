@@ -13,6 +13,7 @@ namespace JoyPro
         public string DESCRIPTION { get; set; }
         public string GAME { get; set; }
         public bool AXIS { get; set; }
+        public string CATEGORY { get; set; }
 
 
     }

@@ -895,6 +895,22 @@ namespace JoyPro
             ResyncRelations();
             RecalcFigures();
         }
+        public static Dictionary<string, int> JoystickbindsPerGame(string game, List<Bind> binds)
+        {
+            Dictionary<string, int> result = new Dictionary<string, int>();
+            foreach(Bind b in binds)
+            {
+                if (b.Rl.GamesInRelation().Contains(game))
+                {
+                    if (!result.ContainsKey(b.Joystick))
+                    {
+                        result.Add(b.Joystick,0);
+                    }
+                    result[b.Joystick]++;
+                }
+            }
+            return result;
+        }
         public static void LoadProfile(string filePath, bool add=false, string stickReplace=null)
         {
             try
@@ -1926,7 +1942,7 @@ namespace JoyPro
                         }
                     }
                 }
-                SCIOLogic.WriteOut(SCBinds, OutputType.Clean);
+                SCIOLogic.BindsToExport(SCBinds, OutputType.Clean);
             }
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
@@ -1998,7 +2014,7 @@ namespace JoyPro
                         }
                     }
                 }
-                SCIOLogic.WriteOut(SCBinds, OutputType.Add);
+                SCIOLogic.BindsToExport(SCBinds, OutputType.Add);
             }
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
@@ -2071,7 +2087,7 @@ namespace JoyPro
                         }
                     }
                 }
-                SCIOLogic.WriteOut(SCBinds, OutputType.Merge);
+                SCIOLogic.BindsToExport(SCBinds, OutputType.Merge);
             }
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }
@@ -2143,7 +2159,7 @@ namespace JoyPro
                         }
                     }
                 }
-                SCIOLogic.WriteOut(SCBinds, OutputType.MergeOverwrite);
+                SCIOLogic.BindsToExport(SCBinds, OutputType.MergeOverwrite);
             }
             MainStructure.mainW.ShowMessageBox("Binds exported successfully ☻");
         }

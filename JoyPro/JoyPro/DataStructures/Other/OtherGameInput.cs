@@ -28,6 +28,7 @@ namespace JoyPro
                 categ = value;
             }
         }
+        public string default_input = "";
 
         [JsonConstructor]
         public OtherGameInput() { }
@@ -44,7 +45,7 @@ namespace JoyPro
             default_keyboard = "";
         }
 
-        public OtherGameInput(string id, string title, bool isAxis, string game, string pln, string cat, string def_keyboard, string def_gamepad, string def_joystick)
+        public OtherGameInput(string id, string title, bool isAxis, string game, string pln, string cat, string def_keyboard, string def_gamepad, string def_joystick, string default_input)
         {
             this.ID = id;
             this.Title = title;
@@ -55,11 +56,12 @@ namespace JoyPro
             default_gamepad = def_gamepad;
             default_joystick = def_joystick;
             default_keyboard = def_keyboard;
+            this.default_input = default_input;
         }
 
         public OtherGameInput Copy()
         {
-            OtherGameInput dip = new OtherGameInput(ID, Title, IsAxis, Game, Plane, Category, default_keyboard, default_gamepad, default_joystick);
+            OtherGameInput dip = new OtherGameInput(ID, Title, IsAxis, Game, Plane, Category, default_keyboard, default_gamepad, default_joystick, default_input);
             return dip;
         }
     }

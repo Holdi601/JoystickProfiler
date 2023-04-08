@@ -13,20 +13,22 @@ namespace JoyPro
 
         public string ID, Plane, Title;
         public bool IsAxis;
+        public string Cat;
 
         [JsonConstructor]
         public DCSInput() { }
-        public DCSInput(string id, string title, bool isAxis, string plane)
+        public DCSInput(string id, string title, bool isAxis, string plane, string cat)
         {
             this.ID = id;
             this.Title = title;
             this.IsAxis = isAxis;
             this.Plane = plane;
+            Cat = cat;
         }
 
         public DCSInput Copy()
         {
-            DCSInput dip = new DCSInput(ID, Title, IsAxis, Plane);
+            DCSInput dip = new DCSInput(ID, Title, IsAxis, Plane, Cat);
             return dip;
         }
     }

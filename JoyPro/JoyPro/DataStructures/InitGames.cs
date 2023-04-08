@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JoyPro.StarCitizen;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -175,6 +176,12 @@ namespace JoyPro
             return candidates.ToArray();
         }
 
+        public static void InitStarCitizen()
+        {
+            LoadStarCitizenPath();
+            SCIOLogic.LoadKeyboardConversion();
+        }
+
         public static void LoadStarCitizenPath()
         {
             string pth = MainStructure.SearchKey("CurrentUser", "System\\GameConfigStore\\Children", "MatchedExeFullPath", "StarCitizen.exe");
@@ -251,6 +258,7 @@ namespace JoyPro
             UnloadGameData();
             InitDCSData();
             InitIL2Data();
+            InitStarCitizen();
             ReloadDatabase();
             try
             {
@@ -327,6 +335,8 @@ namespace JoyPro
             DBLogic.PopulateIL2Dictionary();
             MainStructure.Write("Populate SC DB");
             DBLogic.PopulateSCDictionary();
+            MainStructure.Write("Update SC DB");
+            DBLogic.UpdateSCDictionary();
             MainStructure.Write("Populate Manual DB");
             DBLogic.PopulateManualDictionary();
         }

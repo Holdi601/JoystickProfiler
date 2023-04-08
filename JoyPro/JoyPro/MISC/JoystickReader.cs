@@ -49,6 +49,12 @@ namespace JoyPro
         }
 
     }
+    public class DI_Device
+    {
+        public string name = "";
+        public string product_guid = "";
+        public string instance_guid = "";
+    }
     public class JoystickReader
     {
         List<DeviceInstance> directInputList;
@@ -70,8 +76,21 @@ namespace JoyPro
         public JoystickResults result;
         int pollWaitTime;
         public bool KeepDaemonRunning = false;
-
-
+        public static readonly string[] gamePadNameSchemes = {
+                "Bluetooth LE XINPUT compatible input device",
+                "Bluetooth XINPUT compatible input device",
+                "Controller (Xbox 360 For Windows)",
+                "Controller (Xbox One For Windows)",
+                "Wireless Controller"
+            };
+        public static bool IsGamepad(string joystick)
+        {
+            foreach (string s in gamePadNameSchemes)
+            {
+                if (joystick.Contains(s)) return true;
+            }
+            return false;
+        }
         public static List<string> GetAllPossibleKeyboardInputs()
         {
             DirectInput dikb = new DirectInput();
@@ -86,7 +105,20 @@ namespace JoyPro
 
             return result;
         }
-        
+        public static List<DI_Device> GetAllKeyboards()
+        {
+            List<DI_Device> result = new List<DI_Device>();
+            var directInput = new DirectInput();
+            foreach (var deviceInstance in directInput.GetDevices(DeviceClass.Keyboard, DeviceEnumerationFlags.AllDevices))
+            {
+                DI_Device device = new DI_Device();
+                device.instance_guid = deviceInstance.InstanceGuid.ToString();
+                device.product_guid = deviceInstance.ProductGuid.ToString();
+                device.name = deviceInstance.ProductName;
+                result.Add(device);
+            }
+            return result;
+        }
         public static List<string> GetAllPossibleStickInputs(Relation rel = null)
         {
             List<string> result = new List<string>();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JoyPro.StarCitizen;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -72,9 +73,161 @@ namespace JoyPro
             return result;
 
         }
+        public static void UpdateSCDictionary()
+        {
+            string addativePathToActions = "LIVE\\USER\\Client\\0\\Profiles\\default\\actionmaps.xml";
+            string gameName = "StarCitizen";
+            StreamReader sr = new StreamReader(MiscGames.StarCitizen + "\\" + addativePathToActions);
+            string lastCat = "";
+            string catString = "<actionmap name=\"";
+            string idString = "<action name=\"";
+            string commentStart = "<!--";
+            string id = "";
+            OtherGameInput current = null;
+            bool SCDBUpdateNeeded = false;
+            while (!sr.EndOfStream)
+            {
+                string rawLine = sr.ReadLine();
+                if (rawLine.Contains(catString))
+                {
+                    string prev = lastCat;
+                    lastCat = rawLine.Substring(rawLine.IndexOf(catString) + catString.Length);
+                    lastCat = lastCat.Substring(0, lastCat.IndexOf("\""));
+                    if(prev!=lastCat)
+                    {
+                        if(!SCIOLogic.categoryOrder.ContainsKey(lastCat))
+                        {
+                            int order = 0;
+                            if (SCIOLogic.categoryOrder.ContainsKey(prev))
+                            {
+                                order= SCIOLogic.categoryOrder[prev];
+                            }
+                            order += 1;
+                            SCIOLogic.categoryOrder.Add(lastCat, order);
+                        }
+                    }
+                }
+                if (rawLine.Contains(idString) && rawLine.Contains(commentStart))
+                {
+                    string pv = id;
+                    id = rawLine.Substring(rawLine.IndexOf(idString) + idString.Length);
+                    id = id.Substring(0, id.IndexOf("\""));
+                    string description = id;
+                    bool axis = false;
+                    string dictkey = lastCat + "___" + id;
+                    id = dictkey;
+                    current = new OtherGameInput(id, description, axis, gameName, gameName, lastCat);
+                    if (!OtherLib[gameName][gameName].Buttons.ContainsKey(dictkey))
+                    {
+                        OtherLib[gameName][gameName].Buttons.Add(dictkey, current);
+                        SCDBUpdateNeeded = true;
+                    }
+                    if(pv!=id)
+                    {
+                        if(!SCIOLogic.idOrder.ContainsKey(id))
+                        {
+                            int mot = 0;
+                            if(SCIOLogic.idOrder.ContainsKey(pv))
+                            {
+                                mot = SCIOLogic.idOrder[pv];
+                            }
+                            mot = mot + 1;
+                            SCIOLogic.idOrder.Add(id, mot);
+                        }
+                    }
+                }
+            }
+            if(SCDBUpdateNeeded)
+            {
+                MainStructure.Write("SC DB Update needed");
+                UpdateSCDBFile();
+            }
+            sr.Close();
+        }
+        public static void UpdateSCDBFile()
+        {
+            string fileActionPath = MainStructure.PROGPATH + "\\DB\\StarCitizen\\AllBinds.xml";
+            string gameName = "StarCitizen";
+            string lastCat = "";
+            string xmlend = "\">";
+            string xmlcellend = "\"/>";
+            string le = "\r\n";
+            string catString = "<actionmap name=\"";
+            string catEnd = "</actionmap>";
+            string idString = "<action name=\"";
+            string idEnd = "</action>";
+            string commentStart = "<!--";
+            string commentEnd = "-->";
+            string defInput = " defaultInput=\"";
+            string rebinds = "<rebind";
+            string rebindstr = " input=\"";
+            string id = "";
+            string mouseStart = "mo";
+            string keyboardStart = "kb";
+            string joystickStart = "js";
+            string gamepadStart = "gp";
+            StreamWriter swr = new StreamWriter(fileActionPath);
+            var sortedList = SCIOLogic.idOrder.OrderBy(x => x.Value).Select(x => x.Key).ToList();
+            foreach(string cstr in sortedList)
+            {
+                string[] prts = MainStructure.SplitBy(cstr, "___");
+                string ncat = prts[0];
+                string nid = prts[1];
+                OtherGameInput ogi = null;
+                if (OtherLib[gameName][gameName].Axis.ContainsKey(cstr))
+                {
+                    ogi = OtherLib[gameName][gameName].Axis[cstr];
+                }
+                else
+                {
+                    ogi = OtherLib[gameName][gameName].Buttons[cstr];
+                }
+                if (ncat!=lastCat)
+                {
+                    if(lastCat.Length>0)
+                    {
+                        swr.WriteLine(catEnd);
+                    }
+                    string loine = catString + ogi.Category + xmlend;
+                    swr.WriteLine(loine);
+                }
+                string actline=idString+nid+xmlend+commentStart+ogi.Title+"//"+(ogi.IsAxis?"True":"False")+commentEnd;
+                swr.WriteLine(actline);
+                if (ogi.default_gamepad.Length < 1 && ogi.default_joystick.Length < 1 && ogi.default_keyboard.Length < 1)
+                {
+                    string rbstr = rebinds + (ogi.default_input.Length < 1 ? "" : (defInput + ogi.default_input + "\"")) + rebindstr + keyboardStart + "1_ " + xmlcellend;
+                    swr.WriteLine(rbstr);
+                }
+                else
+                {
+                    if (ogi.default_keyboard.Length > 0)
+                    {
+                        string mookb = (ogi.default_keyboard.Contains("maxis") || ogi.default_keyboard.Contains("mouse")) ? mouseStart : keyboardStart;
+                        string rbstr = rebinds + (ogi.default_input.Length < 1 ? "" : (defInput + ogi.default_input + "\"")) + rebindstr + mookb + "1_" + ogi.default_keyboard + xmlcellend;
+                        swr.WriteLine(rbstr);
+                    }
+                    if (ogi.default_gamepad.Length > 0)
+                    {
+                        string rbstr = rebinds + rebindstr + gamepadStart + "1_" + ogi.default_gamepad + xmlcellend;
+                        swr.WriteLine(rbstr);
+                    }
+                    if (ogi.default_joystick.Length > 0)
+                    {
+                        string rbstr = rebinds + rebindstr + joystickStart + "1_" + ogi.default_joystick + xmlcellend;
+                        swr.WriteLine(rbstr);
+                    }
+                }
+                swr.WriteLine(idEnd);
+            }
+            swr.WriteLine(catEnd);
+            swr.Flush();
+            swr.Close();
+            swr.Dispose();
+        }
         public static void PopulateSCDictionary()
         {
-
+            SCIOLogic.categoryOrder = new Dictionary<string, int>();
+            SCIOLogic.idOrder = new Dictionary<string, int>();
             string fileActionPath = MainStructure.PROGPATH + "\\DB\\StarCitizen\\AllBinds.xml";
             string gameName = "StarCitizen";
             if (File.Exists(fileActionPath))
@@ -92,7 +245,9 @@ namespace JoyPro
                 string idString = "<action name=\"";
                 string commentStart = "<!--";
                 string commentEnd = "-->";
-                string rebindstr = "<rebind input=\"";
+                string defInput = " defaultInput=\"";
+                string rebinds = "<rebind";
+                string rebindstr = " input=\"";
                 string id = "";
                 string mouseStart = "mo";
                 string keyboardStart = "kb";
@@ -104,8 +259,15 @@ namespace JoyPro
                     string rawLine = sr.ReadLine();
                     if (rawLine.Contains(catString))
                     {
+                        string prev = lastCat;
                         lastCat = rawLine.Substring(rawLine.IndexOf(catString) + catString.Length);
                         lastCat = lastCat.Substring(0, lastCat.IndexOf("\""));
+                        if(prev!=lastCat)
+                        {
+                            int order = (SCIOLogic.categoryOrder.Count + 1) * 100;
+                            if (!SCIOLogic.categoryOrder.ContainsKey(lastCat))
+                                SCIOLogic.categoryOrder.Add(lastCat, order);
+                        }
                     }
                     if (rawLine.Contains(idString)&&rawLine.Contains(commentStart))
                     {
@@ -123,6 +285,12 @@ namespace JoyPro
                             axis = parts[1].Trim().ToLower() == "true" ? true : false;
                         }
                         string dictkey = lastCat + "___" + id;
+                        id = dictkey;
+                        int idOrder = (SCIOLogic.idOrder.Count + 1) * 100;
+                        if(!SCIOLogic.idOrder.ContainsKey(dictkey))
+                        {
+                            SCIOLogic.idOrder.Add(dictkey, idOrder);
+                        }
                         current = new OtherGameInput(id, description, axis, gameName, gameName, lastCat);
                         if (axis)
                         {
@@ -137,6 +305,12 @@ namespace JoyPro
                     }
                     if (rawLine.Contains(rebindstr))
                     {
+                        string defin = "";
+                        if(rawLine.Contains(defInput))
+                        {
+                            defin = rawLine.Substring(rawLine.IndexOf(defInput)+defInput.Length);
+                            defin=defin.Substring(0, defin.IndexOf("\""));
+                        }
                         string input = rawLine.Substring(rawLine.IndexOf(rebindstr) + rebindstr.Length);
                         input = input.Substring(0, input.IndexOf("\""));
                         string[] splitted = input.Split('_');
@@ -153,6 +327,7 @@ namespace JoyPro
                                 current.default_joystick = input;
                             }
                         }
+                        if(defin.Length>0)current.default_input = defin;
                     }
                 }
                 sr.Close();
@@ -261,7 +436,7 @@ namespace JoyPro
                     for (int i = 0; i < DBLogic.Planes["DCS"].Count; ++i)
                     {
                         plane = DBLogic.Planes["DCS"][i];
-                        DCSInput di = new DCSInput(id, description, ax, plane);
+                        DCSInput di = new DCSInput(id, description, ax, plane, category);
                         if (DBLogic.ManualDatabase == null) DBLogic.ManualDatabase = new ManualDatabaseAdditions();
                         if (!DBLogic.ManualDatabase.DCSLib.ContainsKey(plane))
                             DBLogic.ManualDatabase.DCSLib.Add(plane, new DCSPlane(plane));
@@ -279,7 +454,7 @@ namespace JoyPro
                 }
                 else
                 {
-                    DCSInput di = new DCSInput(id, description, ax, plane);
+                    DCSInput di = new DCSInput(id, description, ax, plane, category);
                     if (DBLogic.ManualDatabase == null) DBLogic.ManualDatabase = new ManualDatabaseAdditions();
                     if (!DBLogic.ManualDatabase.DCSLib.ContainsKey(plane))
                         DBLogic.ManualDatabase.DCSLib.Add(plane, new DCSPlane(plane));
@@ -512,14 +687,14 @@ namespace JoyPro
                 if (elementsDCS[i].id.Substring(0, 1) == "a")
                 {
                     if (!DCSLib[planeName].Axis.ContainsKey(elementsDCS[i].id))
-                        DCSLib[planeName].Axis.Add(elementsDCS[i].id, new DCSInput(elementsDCS[i].id, elementsDCS[i].title, true, planeName));
+                        DCSLib[planeName].Axis.Add(elementsDCS[i].id, new DCSInput(elementsDCS[i].id, elementsDCS[i].title, true, planeName, elementsDCS[i].category));
                     else
                         DCSLib[planeName].Axis[elementsDCS[i].id].Title = elementsDCS[i].title;
                 }
                 else
                 {
                     if (!DCSLib[planeName].Buttons.ContainsKey(elementsDCS[i].id))
-                        DCSLib[planeName].Buttons.Add(elementsDCS[i].id, new DCSInput(elementsDCS[i].id, elementsDCS[i].title, false, planeName));
+                        DCSLib[planeName].Buttons.Add(elementsDCS[i].id, new DCSInput(elementsDCS[i].id, elementsDCS[i].title, false, planeName, elementsDCS[i].category));
                     else
                         DCSLib[planeName].Buttons[elementsDCS[i].id].Title = elementsDCS[i].title;
                 }
@@ -557,7 +732,7 @@ namespace JoyPro
                     }
                     else
                     {
-                        foreach (KeyValuePair<string, OtherGameInput> kvp in OtherLib[game][plane].Axis)
+                        foreach (KeyValuePair<string, OtherGameInput> kvp in OtherLib[game][plane].Buttons)
                         {
                             if (title.ToLower().Trim() == kvp.Value.Title.ToLower().Trim())
                             {
@@ -566,6 +741,65 @@ namespace JoyPro
                         }
                     }
                     
+                }
+            }
+            return result.ToArray();
+        }
+        public static OtherGameInput[] GetALLInputsWithExactTitle(string title, bool axis)
+        {
+            List<OtherGameInput> result = new List<OtherGameInput>();
+            foreach (KeyValuePair<string,Dictionary<string, OtherGame>> kvp in OtherLib)
+            {
+                foreach(KeyValuePair<string, OtherGame> kimi in kvp.Value)
+                {
+                    if (axis)
+                    {
+                        foreach (KeyValuePair<string, OtherGameInput> axkvp in kimi.Value.Axis)
+                        {
+                            if (axkvp.Value.Title.Trim().ToLower() == title.Trim().ToLower())
+                            {
+                                result.Add(axkvp.Value);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (KeyValuePair<string, OtherGameInput> bnkvp in kimi.Value.Buttons)
+                        {
+                            if (bnkvp.Value.Title.Trim().ToLower() == title.Trim().ToLower())
+                            {
+                                result.Add(bnkvp.Value);
+                            }
+                        }
+                    }
+                }
+            }
+            return result.ToArray();
+        }
+        public static DCSInput[] GetALLInputsWithExactTitleDCS(string title, bool axis)
+        {
+            List<DCSInput> result = new List<DCSInput>();
+            foreach(KeyValuePair<string, DCSPlane> kvp in DCSLib)
+            {
+                if(axis)
+                {
+                    foreach(KeyValuePair<string, DCSInput> axkvp in kvp.Value.Axis)
+                    {
+                        if(axkvp.Value.Title.Trim().ToLower() == title.Trim().ToLower())
+                        {
+                            result.Add(axkvp.Value);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (KeyValuePair<string, DCSInput> bnkvp in kvp.Value.Buttons)
+                    {
+                        if (bnkvp.Value.Title.Trim().ToLower() == title.Trim().ToLower())
+                        {
+                            result.Add(bnkvp.Value);
+                        }
+                    }
                 }
             }
             return result.ToArray();
@@ -637,7 +871,7 @@ namespace JoyPro
                             }
                         }
                         if (hit)
-                            results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Plane, DESCRIPTION = inp.Value.Title, AXIS = true, GAME = "DCS" });
+                            results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Plane, DESCRIPTION = inp.Value.Title, AXIS = true, GAME = "DCS", CATEGORY=inp.Value.Cat });
                     }
 
                     foreach (KeyValuePair<string, DCSInput> inp in kvp.Value.Buttons)
@@ -656,7 +890,7 @@ namespace JoyPro
                             }
                         }
                         if (hit)
-                            results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Plane, DESCRIPTION = inp.Value.Title, AXIS = false, GAME = "DCS" });
+                            results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Plane, DESCRIPTION = inp.Value.Title, AXIS = false, GAME = "DCS", CATEGORY = inp.Value.Cat });
                     }
                 }
             }
@@ -684,7 +918,7 @@ namespace JoyPro
                                 }
                             }
                             if (hit)
-                                results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Game, DESCRIPTION = inp.Value.Title, AXIS = true, GAME = kvp.Key });
+                                results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Game, DESCRIPTION = inp.Value.Title, AXIS = true, GAME = kvp.Key, CATEGORY=inp.Value.Category });
                         }
                         foreach (KeyValuePair<string, OtherGameInput> inp in kvp.Value.Buttons)
                         {
@@ -703,7 +937,7 @@ namespace JoyPro
                                 }
                             }
                             if (hit)
-                                results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Game, DESCRIPTION = inp.Value.Title, AXIS = false, GAME = kvp.Key });
+                                results.Add(new SearchQueryResults() { ID = inp.Value.ID, AIRCRAFT = inp.Value.Game, DESCRIPTION = inp.Value.Title, AXIS = false, GAME = kvp.Key, CATEGORY = inp.Value.Category });
                         }
                     }
                 }

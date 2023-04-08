@@ -184,6 +184,31 @@ namespace JoyPro
             //Possible error condition if already added condition is button or axis
 
         }
+        public bool AddNode(string title, bool axis)
+        {
+            if (title == null || title.Length < 1) return false;
+            if (ISAXIS != axis) return false;
+            DCSInput[] nodes = DBLogic.GetALLInputsWithExactTitleDCS(title, axis);
+            OtherGameInput[] ognodes = DBLogic.GetALLInputsWithExactTitle(title, axis);
+            if(nodes.Length == 0&&ognodes.Length==0) return false;
+            List<DCSInput> input = new List<DCSInput>();
+            List<OtherGameInput> oinput = new List<OtherGameInput>();
+            for(int i=0; i<nodes.Length; ++i)
+                if (!NodesContainId(nodes[i].ID)) input.Add(nodes[i]);
+            for(int i=0; i<ognodes.Length; ++i)
+                if (!NodesContainId(ognodes[i].ID)) oinput.Add(ognodes[i]);
+
+            foreach(DCSInput d in input)
+            {
+                AddNode(d.ID, "DCS", d.IsAxis, d.Plane);
+            }
+            foreach(OtherGameInput ogi in oinput)
+            {
+                AddNode(ogi.ID, ogi.Game, axis, ogi.Plane);
+            }         
+
+            return true;
+        }
         public bool AddNode(string id, string game, bool axis, string plane = "", bool RelWinAdd=false)
         {
             if (game == null || game.Length < 1) game = "DCS";

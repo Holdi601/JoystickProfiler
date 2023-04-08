@@ -55,6 +55,7 @@ namespace JoyPro
         static Dictionary<string, Bind> tempBinds = new Dictionary<string, Bind>();
         static Dictionary<string, int> deviceStats = new Dictionary<string, int>();
         static Dictionary<string, int> deviceIndex = new Dictionary<string, int>();
+        public const string game = "IL2Game";
         
         public static void LoadKeyboardConversion()
         {
@@ -96,11 +97,7 @@ namespace JoyPro
                     toExport.Add(kvp.Value);
                 }
             }
-            for(int i = 0; i < toExport.Count; i++)
-            {
-                if (!deviceStats.ContainsKey(toExport[i].Joystick)) deviceStats.Add(toExport[i].Joystick, 1);
-                else deviceStats[toExport[i].Joystick] += 1;
-            }
+            deviceStats = InternalDataManagement.JoystickbindsPerGame(game, toExport);
             var orderedList = deviceStats.OrderBy(x => x.Value).ToList();
             int index = 0;
             for(int i=orderedList.Count-1; i>=0; i--)

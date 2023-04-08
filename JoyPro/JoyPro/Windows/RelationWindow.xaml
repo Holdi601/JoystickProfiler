@@ -34,6 +34,7 @@
         <Button FontWeight="Bold" Name="CancelRelationBtn" Content="Close" Height="30" Width="100"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,11,10,9" Grid.Row="5" Grid.Column="4" />
 
         <Button FontWeight="Bold" Name="AddItemBtn" Content="Add Item" Height="32" Width="92"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,18,22" Grid.Row="2" Grid.Column="5" RenderTransformOrigin="0.38,-0.875" />
+        <Button FontWeight="Bold" Name="AddItemSNBtn" Content="Add Items with same Name" Height="32" Width="200"  Background="#FFC9C9C9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,18,22" Grid.Row="2" Grid.Column="3" RenderTransformOrigin="0.38,-0.875" Grid.ColumnSpan="2" />
         <ComboBox Name="GamesFilterDropDown" FontWeight="Bold" Background="#FF767676" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,18,0,16" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Width="200" Height="30" ></ComboBox>
 
         <DataGrid Name="DGSource" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" IsReadOnly="True" />

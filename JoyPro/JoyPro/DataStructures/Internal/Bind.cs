@@ -112,6 +112,7 @@ namespace JoyPro
             ,"POV4_UR"
         };
         public string JoyBackup = "";
+        public bool doubleTap = false;
         public Bind Copy(Relation rl)
         {
             Bind r = new Bind(rl);
@@ -140,6 +141,7 @@ namespace JoyPro
             }
             r.Rl = rl;
             rl.bind = r;
+            r.doubleTap = doubleTap;
             return r;
         }
         [JsonConstructor]
@@ -165,6 +167,7 @@ namespace JoyPro
             AllReformers = new List<string>();
             AdditionalImportInfo = "";
             r.bind = this;
+            doubleTap = false;
             //ffs = new ForceFeedbackS();
         }
         public DCSAxisBind toDCSAxisBind()
@@ -230,6 +233,7 @@ namespace JoyPro
             b.JAxis = dab.key;
             b.Joystick = joystick;
             b.JoyBackup = joystick;
+            b.doubleTap=false;
             if (dab.modifiers != null)
             {
                 foreach (Modifier m in dab.modifiers)
