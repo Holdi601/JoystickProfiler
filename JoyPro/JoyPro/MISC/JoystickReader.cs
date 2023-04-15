@@ -91,6 +91,15 @@ namespace JoyPro
             }
             return false;
         }
+        public static string GetGamepad()
+        {
+            Dictionary<string, string> allSticks = GetConnectedJoysticks();
+            foreach(var pair in allSticks)
+            {
+                if(IsGamepad(pair.Key)) return pair.Key;
+            }
+            return null;
+        }
         public static List<string> GetAllPossibleKeyboardInputs()
         {
             DirectInput dikb = new DirectInput();
@@ -202,6 +211,10 @@ namespace JoyPro
                 for (int i = 1; i < 129; ++i)
                 {
                     result.Add("JOY_BTN" + i.ToString());
+                }
+                for(int i=0; i<result.Count; ++i)
+                {
+                    result.Add(result[i] + "_OFF");
                 }
             }
             return result;
