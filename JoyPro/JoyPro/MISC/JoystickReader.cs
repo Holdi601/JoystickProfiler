@@ -212,7 +212,8 @@ namespace JoyPro
                 {
                     result.Add("JOY_BTN" + i.ToString());
                 }
-                for(int i=0; i<result.Count; ++i)
+                int cnt = result.Count;
+                for(int i=0; i<cnt; ++i)
                 {
                     result.Add(result[i] + "_OFF");
                 }

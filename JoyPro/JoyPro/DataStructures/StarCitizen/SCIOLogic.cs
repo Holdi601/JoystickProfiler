@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI;
@@ -332,28 +333,59 @@ namespace JoyPro.StarCitizen
         }
         public static void BindsToExport(List<Bind> allList, OutputType em)
         {
+            bool OrderByCount = false;
             ExportPrep = new Dictionary<string, Dictionary<string, SCInputItem>>();
             bool keep_keyboard_defaults = MainStructure.msave.KeepKeyboardDefaults == true ? true : false;
             Dictionary<string, int> joyOrder = InternalDataManagement.JoystickbindsPerGame(Game, allList);
             JoyIDExportInstance = new Dictionary<string, int>();
-            var orderedList = joyOrder.OrderBy(x => x.Value).ToList();
-            int index = 1;
-            int indexgp = 1;
-            for (int i = orderedList.Count - 1; i >= 0; i--)
+            if (OrderByCount)
             {
-                if (JoystickReader.IsGamepad(orderedList[i].Key))
+                var orderedList = joyOrder.OrderBy(x => x.Value).ToList();
+                int index = 1;
+                int indexgp = 1;
+                for (int i = orderedList.Count - 1; i >= 0; i--)
                 {
-                    JoyIDExportInstance.Add(orderedList[i].Key, index);
-                    JoyIDExportProduct.Add(GetSCJoystickID(orderedList[i].Key), index);
-                    index++;
-                }
-                else
-                {
-                    GPIDExportInstance.Add(orderedList[i].Key, indexgp);
-                    GPIDExportProduct.Add(GetSCJoystickID(orderedList[i].Key), indexgp);
-                    indexgp++;
+                    if (!JoystickReader.IsGamepad(orderedList[i].Key))
+                    {
+                        JoyIDExportInstance.Add(orderedList[i].Key, index);
+                        JoyIDExportProduct.Add(GetSCJoystickID(orderedList[i].Key), index);
+                        index++;
+                    }
+                    else
+                    {
+                        GPIDExportInstance.Add(orderedList[i].Key, indexgp);
+                        GPIDExportProduct.Add(GetSCJoystickID(orderedList[i].Key), indexgp);
+                        indexgp++;
+                    }
                 }
             }
+            else
+            {
+                Dictionary<string, string> dict = JoystickReader.GetConnectedJoysticks();
+                int js = 1;
+                int gp = 1;
+                foreach(var kvp in dict)
+                {
+                    if(!kvp.Key.StartsWith("Keyboard"))
+                    {
+                        if (JoystickReader.IsGamepad(kvp.Value))
+                        {
+                            GPIDExportInstance.Add(kvp.Key, gp);
+                            GPIDExportProduct.Add(GetSCJoystickID(kvp.Key), gp);
+                            gp += 1;
+                        }
+                        else
+                        {
+                            JoyIDExportInstance.Add(kvp.Key, js);
+                            string jid = GetSCJoystickID(kvp.Key);
+                            while (JoyIDExportProduct.ContainsKey(jid)) jid += " ";
+                            JoyIDExportProduct.Add(jid, js);
+                            js += 1;
+                        }
+                    }
+                }
+            }
+            
             if (em == OutputType.Add || em == OutputType.Merge || em == OutputType.MergeOverwrite)
             {
                 ReadLocalActions();
@@ -370,6 +402,10 @@ namespace JoyPro.StarCitizen
                 {
                     foreach (RelationItem ri in bind.Rl.NODES)
                     {
+                        if(ri.Game!=Game)
+                        {
+                            continue;
+                        }
                         foreach (OtherGameInput ogi in ri.OtherInputs)
                         {
                             if (ogi.Game == Game)
@@ -487,6 +523,7 @@ namespace JoyPro.StarCitizen
             swr.WriteLine(" <ActionProfiles version=\"1\" optionsVersion=\"2\" rebindVersion=\"2\" profileName=\"default\">");
             swr.WriteLine("  <options type=\"keyboard\" instance=\"1\" Product=\"Keyboard  {" + di.product_guid.ToUpper() + "}\"/>");
             swr.WriteLine("  <options type=\"gamepad\" instance=\"1\" Product=\"Controller (Gamepad)\"/>");
+            int maxI = 0;
             for (int i = 1; i <= (8 < JoyIDExportProduct.Count ? 8 : JoyIDExportProduct.Count); ++i)
             {
                 string name = "";
@@ -499,6 +536,25 @@ namespace JoyPro.StarCitizen
                     }
                 }
                 swr.WriteLine("  <options type=\"joystick\" instance=\"" + i.ToString() + "\" Product=\"" + name + "\"/>");
+                maxI = i;
+            }
+            maxI += 1;
+            if (maxI <= 8)
+            {
+                Dictionary<string, string> dict = JoystickReader.GetConnectedJoysticks();
+                foreach(var kvp in dict)
+                {
+                    if (maxI > 8) break;
+                    if(!JoystickReader.IsGamepad(kvp.Key))
+                    {
+                        string jsname = GetSCJoystickID(kvp.Key);
+                        if (!JoyIDExportProduct.ContainsKey(jsname)&&!jsname.StartsWith("Keyboard"))
+                        {
+                            swr.WriteLine("  <options type=\"joystick\" instance=\"" + maxI.ToString() + "\" Product=\"" + jsname + "\"/>");
+                            maxI += 1;
+                        }
+                    }
+                }
             }
             swr.WriteLine("  <modifiers />");
 
@@ -512,9 +568,9 @@ namespace JoyPro.StarCitizen
                 string currentId = split[1];
                 if (ExportPrep.ContainsKey(currentCat)
                     && ExportPrep[currentCat].ContainsKey(currentId)
-                    && (ExportPrep[currentCat][currentId].JoystickInput.Length > 0
-                        || ExportPrep[currentCat][currentId].GamepadInput.Length > 0
-                        || ExportPrep[currentCat][currentId].KeyboardInput.Length > 0))
+                    && ((ExportPrep[currentCat][currentId].JoystickInput !=null && ExportPrep[currentCat][currentId].JoystickInput.Length > 0)
+                        || (ExportPrep[currentCat][currentId].GamepadInput !=null&& ExportPrep[currentCat][currentId].GamepadInput.Length > 0)
+                        || (ExportPrep[currentCat][currentId].KeyboardInput !=null && ExportPrep[currentCat][currentId].KeyboardInput.Length > 0)))
                 {
                     if (writtenItems > 0 && lastCat != currentCat)
                     {
@@ -525,7 +581,7 @@ namespace JoyPro.StarCitizen
                         swr.WriteLine("  <actionmap name=\"" + currentCat + "\">");
                     }
                     swr.WriteLine("   <action name=\"" + currentId + "\">");
-                    if (ExportPrep[currentCat][currentId].KeyboardInput.Length > 3)
+                    if (ExportPrep[currentCat][currentId].KeyboardInput!=null&&ExportPrep[currentCat][currentId].KeyboardInput.Length > 3)
                     {
                         string toWriteLine = "";
                         if (DBLogic.OtherLib[Game][Game].Buttons.ContainsKey(sortedList[i]) &&
@@ -541,13 +597,13 @@ namespace JoyPro.StarCitizen
                         if (ExportPrep[currentCat][currentId].KeyboardRelationName.Length > 0&&addExtraInfo)toWriteLine+="<!--"+ ExportPrep[currentCat][currentId].KeyboardRelationName + "//" + (ExportPrep[currentCat][currentId].isAxis?"true":"false") + "-->";
                         swr.WriteLine(toWriteLine);
                     }
-                    if (ExportPrep[currentCat][currentId].JoystickInput.Length > 3)
+                    if (ExportPrep[currentCat][currentId].JoystickInput!=null&&ExportPrep[currentCat][currentId].JoystickInput.Length > 3)
                     {
                         string toWriteLine = "    <rebind input=\"" + ExportPrep[currentCat][currentId].JoystickInput + "\"/>";
                         if (ExportPrep[currentCat][currentId].JoystickRelationName.Length > 0 && addExtraInfo) toWriteLine += "<!--" + ExportPrep[currentCat][currentId].JoystickRelationName + "//" + (ExportPrep[currentCat][currentId].isAxis ? "true" : "false") + "-->";
                         swr.WriteLine(toWriteLine);
                     }
-                    if (ExportPrep[currentCat][currentId].GamepadInput.Length > 3)
+                    if (ExportPrep[currentCat][currentId].GamepadInput!=null&&ExportPrep[currentCat][currentId].GamepadInput.Length > 3)
                     {
                         string toWriteLine = "    <rebind input=\"" + ExportPrep[currentCat][currentId].GamepadInput + "\"/>";
                         if (ExportPrep[currentCat][currentId].GamepadRelationName.Length > 0 && addExtraInfo) toWriteLine += "<!--" + ExportPrep[currentCat][currentId].GamepadRelationName + "//" + (ExportPrep[currentCat][currentId].isAxis ? "true" : "false") + "-->";
@@ -558,8 +614,11 @@ namespace JoyPro.StarCitizen
                     lastCat = currentCat;
                 }
             }
+            swr.WriteLine("  </actionmap>");
             swr.WriteLine(" </ActionProfiles>");
             swr.WriteLine("</ActionMaps>");
+            swr.Flush();
+            swr.Close();
         }
 
         public static string SC2JPJoykey(string key)
@@ -759,7 +818,16 @@ namespace JoyPro.StarCitizen
         {
             if (InternalDataManagement.LocalJoystickPGUID.ContainsKey(joystick))
             {
-                return InternalDataManagement.LocalJoystickPGUID[joystick].Replace(" {", "  {");
+                string result = "";
+                if(InternalDataManagement.LocalJoystickPGUID[joystick].Contains("  {"))
+                {
+                    result = InternalDataManagement.LocalJoystickPGUID[joystick];
+                }
+                else
+                {
+                    result= InternalDataManagement.LocalJoystickPGUID[joystick].Replace(" {", "  {");
+                }
+                return result;
             }
             return null;
         }

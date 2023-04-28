@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JoyPro.StarCitizen;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -184,6 +185,8 @@ namespace JoyPro
                 DCSIOLogic.BindsFromLocal(selectedSticks, list["DCS"] ,importDefault, inv, slid, curv, dz, sx, sy);
             if (list.ContainsKey("IL2Game"))
                 IL2IOLogic.ImportInputs(curv, dz, inv, selectedSticks);
+            if (list.ContainsKey("StarCitizen"))
+                SCIOLogic.ImportInputs(selectedSticks);
             InternalDataManagement.RecalcFigures();
             Close();
         }

@@ -32,6 +32,9 @@
     <rebind input="kb1_b"/>
     <rebind input="gp1_shoulderl+x"/>
    </action>
+   <action name="v_toggle_salvage_mode"><!--Salvage Mode(Toggle)//False-->
+     <rebind input="kb1_m"/>
+   </action>
    <action name="v_toggle_scan_mode"><!--Scanning Mode (Toggle)//Flase-->
     <rebind input="kb1_v"/>
     <rebind input="gp1_dpad_right"/>
@@ -146,6 +149,9 @@
     <rebind input="kb1_n"/>
     <rebind input="js1_button12"/>
     <rebind input="gp1_dpad_down"/>
+   </action>
+   <action name="v_atc_request"><!--Request Landing//False-->
+     <rebind input="kb1_lalt+n"/>
    </action>
    <action name="v_deploy_landing_system"><!--Landing System (Toggle)//False-->
     <rebind input="kb1_ "/>
@@ -471,15 +477,30 @@
    </action>
   </actionmap>
   <actionmap name="spaceship_salvage">
-   <action name="v_salvage_beam_spacing_abs"><!--Absolute Beam Spacing//True-->
-    <rebind input="mo1_ "/>
-   </action>
-   <action name="v_salvage_decrease_beam_spacing"><!--Decrease Beam Spacing//False-->
-    <rebind input="kb1_ "/>
-   </action>
-   <action name="v_salvage_increase_beam_spacing"><!--Increase Beam Spacing//False-->
-    <rebind input="kb1_ "/>
-   </action>
+    <action name="v_salvage_beam_spacing_abs">
+      <rebind input="mo1_ "/><!--Salvage Beam Spacing Absolute//True-->
+    </action>
+    <action name="v_salvage_beam_spacing_rel">
+      <rebind input="mo1_ "/><!--Salvage Beam Spacing Relative//True-->
+    </action>
+    <action name="v_salvage_cycle_modifiers_left">
+      <rebind input="mo1_mouse2"/><!--Cycle Left Salvage Modifiers//False-->
+    </action>
+    <action name="v_salvage_cycle_modifiers_right">
+      <rebind input="mo1_mouse2"/><!--Cycle Right Salvage Modifiers//False-->
+    </action>
+    <action name="v_salvage_decrease_beam_spacing">
+      <rebind input="kb1_ "/><!--Decrease Beam Spacing//False-->
+    </action>
+    <action name="v_salvage_increase_beam_spacing">
+      <rebind input="kb1_ "/><!--Increase Beam Spacing//False-->
+    </action>
+    <action name="v_salvage_toggle_beam_spacing_axis">
+      <rebind input="kb1_ "/><!--Salvage Beam Axis (Toggle)//False-->
+    </action>
+    <action name="v_salvage_toggle_gimbal_mode">
+      <rebind input="kb1_g"/><!--Salvage Mode Gimbal//False-->
+    </action>
   </actionmap>
   <actionmap name="spaceship_radar">
    <action name="v_dec_ping_focus_angle"><!--Decrease Ping Angle//False-->

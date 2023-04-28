@@ -77,7 +77,9 @@ namespace JoyPro
         {
             string addativePathToActions = "LIVE\\USER\\Client\\0\\Profiles\\default\\actionmaps.xml";
             string gameName = "StarCitizen";
-            StreamReader sr = new StreamReader(MiscGames.StarCitizen + "\\" + addativePathToActions);
+            string fullPath = MiscGames.StarCitizen + "\\" + addativePathToActions;
+            if (!File.Exists(fullPath)) return;
+            StreamReader sr = new StreamReader(fullPath);
             string lastCat = "";
             string catString = "<actionmap name=\"";
             string idString = "<action name=\"";
