@@ -173,7 +173,7 @@ local diff = {
 			},
 		},
 		["d159pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 Camera moving forward",
+			["name"] = "F11 camera moving forward",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num*",
@@ -192,7 +192,7 @@ local diff = {
 			},
 		},
 		["d160pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 Camera moving backward",
+			["name"] = "F11 camera moving backward",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num/",
@@ -659,7 +659,7 @@ local diff = {
 			},
 		},
 		["d321pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Mouse Rate Fast",
+			["name"] = "Fast mouse turn speed",
 			["removed"] = {
 				[1] = {
 					["key"] = "[",
@@ -670,7 +670,7 @@ local diff = {
 			},
 		},
 		["d322pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Mouse Rate Slow",
+			["name"] = "Slow mouse turn speed",
 			["removed"] = {
 				[1] = {
 					["key"] = "[",
@@ -681,7 +681,7 @@ local diff = {
 			},
 		},
 		["d323pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Mouse Rate Normal",
+			["name"] = "Normal mouse turn speed",
 			["removed"] = {
 				[1] = {
 					["key"] = "[",
@@ -715,7 +715,7 @@ local diff = {
 			},
 		},
 		["d331pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Keyboard Rate Fast",
+			["name"] = "Fast keyboard turn speed",
 			["removed"] = {
 				[1] = {
 					["key"] = "]",
@@ -726,7 +726,7 @@ local diff = {
 			},
 		},
 		["d332pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Keyboard Rate Slow",
+			["name"] = "Slow keyboard turn speed",
 			["removed"] = {
 				[1] = {
 					["key"] = "]",
@@ -737,7 +737,7 @@ local diff = {
 			},
 		},
 		["d333pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Keyboard Rate Normal",
+			["name"] = "Normal keyboard turn speed",
 			["removed"] = {
 				[1] = {
 					["key"] = "]",

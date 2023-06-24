@@ -1,5 +1,4 @@
 local diff = {
-	["JAL"] = "KeyboardJoystick",
 	["axisDiffs"] = {
 		["a2001cdnil"] = {
 			["name"] = "Pitch",
@@ -33,11 +32,6 @@ local diff = {
 				},
 			},
 		},
-	},
-	["ffDiffs"] = {
-		["invertX"] = false,
-		["invertY"] = false,
-		["swapAxes"] = false,
 	},
 	["keyDiffs"] = {
 		["d10016pnilu10017cdnilvdnilvpnilvunil"] = {
@@ -117,19 +111,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_BTN_POV1_D",
-				},
-			},
-		},
-		["d3044pnilu3044cd23vd1vpnilvu0"] = {
-			["name"] = "BDHI Switch - NAV CMPTR else TACAN",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN12",
-					["JPK"] = "UFC__Clear",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
 				},
 			},
 		},

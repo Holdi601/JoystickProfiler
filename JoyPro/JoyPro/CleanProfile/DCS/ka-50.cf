@@ -1,5 +1,4 @@
 local diff = {
-	["JAL"] = "KeyboardJoystick",
 	["axisDiffs"] = {
 		["a2001cdnil"] = {
 			["name"] = "Flight Control Cyclic Pitch",
@@ -33,11 +32,6 @@ local diff = {
 				},
 			},
 		},
-	},
-	["ffDiffs"] = {
-		["invertX"] = false,
-		["invertY"] = false,
-		["swapAxes"] = false,
 	},
 	["keyDiffs"] = {
 		["d350pnilu351cdnilvdnilvpnilvunil"] = {
@@ -195,162 +189,6 @@ local diff = {
 					["key"] = "JOY_BTN_POV1_D",
 					["reformers"] = {
 						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d459pnilu858cdnilvdnilvpnilvunil"] = {
-			["name"] = "PVI Pushbutton 0",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN10",
-					["JPK"] = "UFC__0",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d460pnilu859cdnilvdnilvpnilvunil"] = {
-			["name"] = "PVI Pushbutton 1",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN1",
-					["JPK"] = "UFC__1",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d461pnilu860cdnilvdnilvpnilvunil"] = {
-			["name"] = "PVI Pushbutton 2",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN2",
-					["JPK"] = "UFC__2",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d462pnilu861cdnilvdnilvpnilvunil"] = {
-			["name"] = "PVI Pushbutton 3",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN3",
-					["JPK"] = "UFC__3",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d463pnilu862cdnilvdnilvpnilvunil"] = {
-			["name"] = "PVI Pushbutton 4",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN4",
-					["JPK"] = "UFC__4",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d464pnilu863cdnilvdnilvpnilvunil"] = {
-			["name"] = "PVI Pushbutton 5",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN5",
-					["JPK"] = "UFC__5",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d465pnilu864cdnilvdnilvpnilvunil"] = {
-			["name"] = "PVI Pushbutton 6",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN6",
-					["JPK"] = "UFC__6",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d466pnilu865cdnilvdnilvpnilvunil"] = {
-			["name"] = "PVI Pushbutton 7",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN7",
-					["JPK"] = "UFC__7",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d467pnilu866cdnilvdnilvpnilvunil"] = {
-			["name"] = "PVI Pushbutton 8",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN8",
-					["JPK"] = "UFC__8",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d468pnilu867cdnilvdnilvpnilvunil"] = {
-			["name"] = "PVI Pushbutton 9",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN9",
-					["JPK"] = "UFC__9",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d476pnilu875cdnilvdnilvpnilvunil"] = {
-			["name"] = "PVI Enter",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN11",
-					["JPK"] = "UFC__Enter",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d477pnilu876cdnilvdnilvpnilvunil"] = {
-			["name"] = "PVI Cancel",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN12",
-					["JPK"] = "UFC__Clear",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
 					},
 				},
 			},

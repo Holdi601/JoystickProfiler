@@ -1,5 +1,4 @@
 local diff = {
-	["JAL"] = "KeyboardJoystick",
 	["axisDiffs"] = {
 		["a2001cdnil"] = {
 			["name"] = "Pitch",
@@ -33,11 +32,6 @@ local diff = {
 				},
 			},
 		},
-	},
-	["ffDiffs"] = {
-		["invertX"] = false,
-		["invertY"] = false,
-		["swapAxes"] = false,
 	},
 	["keyDiffs"] = {
 		["dnilp210u214cdnilvdnilvpnilvunil"] = {
@@ -101,162 +95,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_BTN_POV1_D",
-				},
-			},
-		},
-		["d3018pnilu3018cd25vd1vpnilvu0"] = {
-			["name"] = "UFC Keyboard Pushbutton - 0",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN10",
-					["JPK"] = "UFC__0",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d3019pnilu3019cd25vd1vpnilvu0"] = {
-			["name"] = "UFC Keyboard Pushbutton - 1",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN1",
-					["JPK"] = "UFC__1",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d3020pnilu3020cd25vd1vpnilvu0"] = {
-			["name"] = "UFC Keyboard Pushbutton - 2",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN2",
-					["JPK"] = "UFC__2",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d3021pnilu3021cd25vd1vpnilvu0"] = {
-			["name"] = "UFC Keyboard Pushbutton - 3",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN3",
-					["JPK"] = "UFC__3",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d3022pnilu3022cd25vd1vpnilvu0"] = {
-			["name"] = "UFC Keyboard Pushbutton - 4",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN4",
-					["JPK"] = "UFC__4",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d3023pnilu3023cd25vd1vpnilvu0"] = {
-			["name"] = "UFC Keyboard Pushbutton - 5",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN5",
-					["JPK"] = "UFC__5",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d3024pnilu3024cd25vd1vpnilvu0"] = {
-			["name"] = "UFC Keyboard Pushbutton - 6",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN6",
-					["JPK"] = "UFC__6",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d3025pnilu3025cd25vd1vpnilvu0"] = {
-			["name"] = "UFC Keyboard Pushbutton - 7",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN7",
-					["JPK"] = "UFC__7",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d3026pnilu3026cd25vd1vpnilvu0"] = {
-			["name"] = "UFC Keyboard Pushbutton - 8",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN8",
-					["JPK"] = "UFC__8",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d3027pnilu3027cd25vd1vpnilvu0"] = {
-			["name"] = "UFC Keyboard Pushbutton - 9",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN9",
-					["JPK"] = "UFC__9",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d3029pnilu3029cd25vd1vpnilvu0"] = {
-			["name"] = "UFC Keyboard Pushbutton - ENT",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN11",
-					["JPK"] = "UFC__Enter",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
-				},
-			},
-		},
-		["d3028pnilu3028cd25vd1vpnilvu0"] = {
-			["name"] = "UFC Keyboard Pushbutton - CLR",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN12",
-					["JPK"] = "UFC__Clear",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "UFC",
-					},
 				},
 			},
 		},

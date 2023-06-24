@@ -1,9 +1,4 @@
 local diff = {
-	["ffDiffs"] = {
-		["invertX"] = false,
-		["invertY"] = false,
-		["swapAxes"] = false,
-	},
 	["keyDiffs"] = {
 		["d1654p1637unilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Rotate turret left",

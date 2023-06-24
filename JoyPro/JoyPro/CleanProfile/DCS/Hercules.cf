@@ -1,9 +1,4 @@
 local diff = {
-	["ffDiffs"] = {
-		["invertX"] = false,
-		["invertY"] = false,
-		["swapAxes"] = false,
-	},
 	["keyDiffs"] = {
 		["dnilp210u214cdnilvdnilvpnilvunil"] = {
 			["name"] = "View Up Right slow",

@@ -1,8 +1,0 @@
-local diff = {
-	["ffDiffs"] = {
-		["invertX"] = false,
-		["invertY"] = false,
-		["swapAxes"] = false,
-	},
-}
-return diff

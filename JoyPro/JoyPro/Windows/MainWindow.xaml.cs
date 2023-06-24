@@ -580,8 +580,14 @@ namespace JoyPro
                     }
                 }
                 pex = new PlanesToExport(ExportMode.WriteClean, nukeDevices, activeAircraft, toExport);
-                pex.Show();
-                DisableInputs();
+                if(!MainStructure.msave.ExportInView)
+                {
+                    pex.Show();
+                }
+                else
+                {
+                    ActivateInputs();
+                }
                 pex.Closing += new CancelEventHandler(ActivateInputs);
             }
             else
