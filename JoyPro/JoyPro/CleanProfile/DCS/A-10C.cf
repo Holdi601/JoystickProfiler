@@ -1,4 +1,5 @@
 local diff = {
+	["JAL"] = "KeyboardJoystick",
 	["axisDiffs"] = {
 		["a2001cdnil"] = {
 			["name"] = "Pitch",
@@ -32,6 +33,11 @@ local diff = {
 				},
 			},
 		},
+	},
+	["ffDiffs"] = {
+		["invertX"] = false,
+		["invertY"] = false,
+		["swapAxes"] = false,
 	},
 	["keyDiffs"] = {
 		["d350pnilu351cdnilvdnilvpnilvunil"] = {
@@ -135,6 +141,214 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_BTN5",
+				},
+			},
+		},
+		["d1304pnilu1304cdnilvdnilvpnilvunil"] = {
+			["name"] = "UFC 0 Key",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN10",
+					["JPK"] = "UFC__0",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d1295pnilu1295cdnilvdnilvpnilvunil"] = {
+			["name"] = "UFC 1 Key",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN1",
+					["JPK"] = "UFC__1",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d1296pnilu1296cdnilvdnilvpnilvunil"] = {
+			["name"] = "UFC 2 Key",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN2",
+					["JPK"] = "UFC__2",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d1297pnilu1297cdnilvdnilvpnilvunil"] = {
+			["name"] = "UFC 3 Key",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN3",
+					["JPK"] = "UFC__3",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d1298pnilu1298cdnilvdnilvpnilvunil"] = {
+			["name"] = "UFC 4 Key",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN4",
+					["JPK"] = "UFC__4",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d1299pnilu1299cdnilvdnilvpnilvunil"] = {
+			["name"] = "UFC 5 Key",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN5",
+					["JPK"] = "UFC__5",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d1300pnilu1300cdnilvdnilvpnilvunil"] = {
+			["name"] = "UFC 6 Key",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN6",
+					["JPK"] = "UFC__6",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d1301pnilu1301cdnilvdnilvpnilvunil"] = {
+			["name"] = "UFC 7 Key",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN7",
+					["JPK"] = "UFC__7",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d1302pnilu1302cdnilvdnilvpnilvunil"] = {
+			["name"] = "UFC 8 Key",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN8",
+					["JPK"] = "UFC__8",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d1303pnilu1303cdnilvdnilvpnilvunil"] = {
+			["name"] = "UFC 9 Key",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN9",
+					["JPK"] = "UFC__9",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d1310pnilu1310cdnilvdnilvpnilvunil"] = {
+			["name"] = "UFC ENT Key",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN11",
+					["JPK"] = "UFC__Enter",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d1309pnilu1309cdnilvdnilvpnilvunil"] = {
+			["name"] = "UFC CLR Key",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN12",
+					["JPK"] = "UFC__Clear",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d1317pnilu1317cdnilvdnilvpnilvunil"] = {
+			["name"] = "UFC DATA DOWN Rocker switch",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN_POV1_D",
+					["JPK"] = "UFC__ModeDown",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Modes",
+					},
+				},
+			},
+		},
+		["d1316pnilu1316cdnilvdnilvpnilvunil"] = {
+			["name"] = "UFC DATA UP Rocker switch",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN_POV1_U",
+					["JPK"] = "UFC__ModeUp",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d1319pnilu1319cdnilvdnilvpnilvunil"] = {
+			["name"] = "UFC SEL DOWN Rocker switch",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN_POV1_L",
+					["JPK"] = "UFC__ModeLeft",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Modes",
+					},
+				},
+			},
+		},
+		["d1318pnilu1318cdnilvdnilvpnilvunil"] = {
+			["name"] = "UFC SEL UP Rocker switch",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN_POV1_R",
+					["JPK"] = "UFC__ModeRight",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
 				},
 			},
 		},

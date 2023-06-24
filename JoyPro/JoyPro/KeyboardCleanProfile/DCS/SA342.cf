@@ -1,755 +1,10 @@
 local diff = {
 	["keyDiffs"] = {
-		["d101pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Cycle Station",
-			["removed"] = {
-				[1] = {
-					["key"] = "D",
-				},
-			},
-		},
-		["d10pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F7 Ground unit view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F7",
-				},
-			},
-		},
-		["d114pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Flight - Complete mission and RTB",
-			["removed"] = {
-				[1] = {
-					["key"] = "E",
-					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d116pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Toggle formation",
-			["removed"] = {
-				[1] = {
-					["key"] = "T",
-					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d117pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Join up formation",
-			["removed"] = {
-				[1] = {
-					["key"] = "Y",
-					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d119pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Cover me",
-			["removed"] = {
-				[1] = {
-					["key"] = "W",
-					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d11pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F12 Civil traffic view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F12",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d129pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F1 Natural head movement view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F1",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d12pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Chase view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F4",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d131pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F9 Landing signal officer view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F9",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d135pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F6 Weapon to target view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F6",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d13pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F9 Ship view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F9",
-				},
-			},
-		},
-		["d149pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F6 Released weapon view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F6",
-				},
-			},
-		},
-		["d14pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F5 nearest AC view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F5",
-				},
-			},
-		},
-		["d150pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F12 Static object view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F12",
-				},
-			},
-		},
-		["d152pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Info Bar - SHOW/HIDE",
-			["removed"] = {
-				[1] = {
-					["key"] = "Y",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d1536pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "View briefing on/off",
-			["removed"] = {
-				[1] = {
-					["key"] = "B",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d1537pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Debriefing window",
-			["removed"] = {
-				[1] = {
-					["key"] = "'",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["d1560pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Rearming and Refueling Window",
-			["removed"] = {
-				[1] = {
-					["key"] = "'",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d1587pnilu1587cdnilvd1vpnilvu-1"] = {
-			["name"] = "Kneeboard glance view",
-			["removed"] = {
-				[1] = {
-					["key"] = "K",
-				},
-			},
-		},
-		["d1587pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Kneeboard ON/OFF",
-			["removed"] = {
-				[1] = {
-					["key"] = "K",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["d158pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 Jump to free camera",
-			["removed"] = {
-				[1] = {
-					["key"] = "F11",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d1593pnilu1594cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera transpose mode on/off",
-			["removed"] = {
-				[1] = {
-					["key"] = "F1",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d159pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 camera moving forward",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num*",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d15pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F10 Theater map view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F10",
-				},
-			},
-		},
-		["d160pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 camera moving backward",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num/",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d16pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 Airport free camera",
-			["removed"] = {
-				[1] = {
-					["key"] = "F11",
-				},
-			},
-		},
-		["d177pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Zoom normal",
-			["removed"] = {
-				[1] = {
-					["key"] = "NumEnter",
-				},
-			},
-		},
-		["d179pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Radios Communication Menu Toggle",
-			["removed"] = {
-				[1] = {
-					["key"] = "\\",
-				},
-			},
-		},
-		["d17pnilu18cdnilvdnilvpnilvunil"] = {
-			["name"] = "Cockpit panel view in",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num0",
-				},
-			},
-		},
-		["d180pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Objects switching direction reverse ",
-			["removed"] = {
-				[1] = {
-					["key"] = "PageUp",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d181pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Objects switching direction forward ",
-			["removed"] = {
-				[1] = {
-					["key"] = "PageDown",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d182pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object exclude ",
-			["removed"] = {
-				[1] = {
-					["key"] = "Delete",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d183pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Objects all excluded - include",
-			["removed"] = {
-				[1] = {
-					["key"] = "Insert",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d184pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Lock terrain view",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num.",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d185pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F2 Toggle camera position",
-			["removed"] = {
-				[1] = {
-					["key"] = "F2",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d190pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F2 Toggle local camera control",
-			["removed"] = {
-				[1] = {
-					["key"] = "F2",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d191pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Time decelerate",
-			["removed"] = {
-				[1] = {
-					["key"] = "Z",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d192pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Jump into selected aircraft",
-			["removed"] = {
-				[1] = {
-					["key"] = "J",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d19pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Lock view (cycle padlock)",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num.",
-				},
-			},
-		},
-		["d20pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Unlock view (stop padlock)",
-			["removed"] = {
-				[1] = {
-					["key"] = "NumLock",
-				},
-			},
-		},
-		["d21pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F2 View own aircraft",
-			["removed"] = {
-				[1] = {
-					["key"] = "F2",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d22pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera ordnance tracking",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num+",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d236pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Save Cockpit Angles",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num0",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d237pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Cockpit panel view toggle",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num0",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d23pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "View friends mode",
-			["removed"] = {
-				[1] = {
-					["key"] = "F",
-					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
-						[3] = "RShift",
-					},
-				},
-			},
-		},
-		["d245pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Info Bar - TOGGLE COORDINATE INITS",
-			["removed"] = {
-				[1] = {
-					["key"] = "Y",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d246pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Time normal",
-			["removed"] = {
-				[1] = {
-					["key"] = "Z",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d24pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "View enemies mode",
-			["removed"] = {
-				[1] = {
-					["key"] = "D",
-					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
-						[3] = "RShift",
-					},
-				},
-			},
-		},
-		["d257pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Screenshot",
-			["removed"] = {
-				[1] = {
-					["key"] = "SysRQ",
-				},
-			},
-		},
-		["d258pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Threat missile padlock",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num.",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d259pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "All missiles padlock",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num.",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["d26pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "View all mode",
-			["removed"] = {
-				[1] = {
-					["key"] = "A",
-					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
-						[3] = "RShift",
-					},
-				},
-			},
-		},
-		["d283pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Master Arm Switch, ON/OFF",
-			["removed"] = {
-				[1] = {
-					["key"] = "W",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d298pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F3 Fly-By jump view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F3",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d299pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera jiggle toggle",
-			["removed"] = {
-				[1] = {
-					["key"] = "J",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d3001pnilu3001cd12vd1vpnilvunil"] = {
-			["name"] = "RESET GNumber",
-			["removed"] = {
-				[1] = {
-					["key"] = "D",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d3001pnilunilcd100vd1vpnilvunil"] = {
-			["name"] = "Kneeboard Next Page",
-			["removed"] = {
-				[1] = {
-					["key"] = "]",
-				},
-			},
-		},
-		["d3001pnilunilcd1vd0vpnilvunil"] = {
-			["name"] = "Set Pilot Seat",
-			["removed"] = {
-				[1] = {
-					["key"] = "1",
-				},
-			},
-		},
-		["d3002pnilu3003cd10vd1vpnilvu0"] = {
-			["name"] = "Fuel Flow lever Forward",
-			["removed"] = {
-				[1] = {
-					["key"] = "PageUp",
-				},
-			},
-		},
-		["d3002pnilu3003cd11vd1vpnilvu0"] = {
-			["name"] = "Rotor Brake Release (lever Forward)",
-			["removed"] = {
-				[1] = {
-					["key"] = "Home",
-				},
-			},
-		},
-		["d3002pnilunilcd100vd1vpnilvunil"] = {
-			["name"] = "Kneeboard Previous Page",
-			["removed"] = {
-				[1] = {
-					["key"] = "[",
-				},
-			},
-		},
-		["d3002pnilunilcd1vd0vpnilvunil"] = {
-			["name"] = "Set CoPilot Seat",
-			["removed"] = {
-				[1] = {
-					["key"] = "2",
-				},
-			},
-		},
-		["d3003pnilu3003cd26vd1vpnilvunil"] = {
-			["name"] = "Pilot Sight Deploy/Retract",
-			["removed"] = {
-				[1] = {
-					["key"] = "I",
-				},
-			},
-		},
-		["d3003pnilu3004cd8vd1vpnilvu0"] = {
-			["name"] = "Trim Hat - NOSE DOWN",
-			["removed"] = {
-				[1] = {
-					["key"] = ";",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d3003pnilunilcd100vd1vpnilvunil"] = {
-			["name"] = "Kneeboard current position mark point",
-			["removed"] = {
-				[1] = {
-					["key"] = "K",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d3004pnilu3005cd10vd1vpnilvu0"] = {
-			["name"] = "Fuel Flow lever Backward",
-			["removed"] = {
-				[1] = {
-					["key"] = "PageDown",
-				},
-			},
-		},
-		["d3004pnilu3005cd11vd1vpnilvu0"] = {
-			["name"] = "Rotor Brake On (lever Backward)",
-			["removed"] = {
-				[1] = {
-					["key"] = "End",
-				},
-			},
-		},
-		["d3004pnilu3005cd15vd-1vpnilvu0"] = {
-			["name"] = "Landing Light Extend",
-			["removed"] = {
-				[1] = {
-					["key"] = "P",
-				},
-			},
-		},
-		["d3004pnilunilcd27vd1vpnilvunil"] = {
-			["name"] = "Station 1 Select",
-			["removed"] = {
-				[1] = {
-					["key"] = "1",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d3005pnilu3006cd8vd1vpnilvu0"] = {
-			["name"] = "Trim Hat - NOSE UP",
-			["removed"] = {
-				[1] = {
-					["key"] = ".",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d3005pnilunilcd27vd1vpnilvunil"] = {
-			["name"] = "Station 2 Select",
-			["removed"] = {
-				[1] = {
-					["key"] = "2",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
 		["d3006pnilu3007cd15vd1vpnilvu0"] = {
 			["name"] = "Landing Light Retract",
 			["removed"] = {
 				[1] = {
 					["key"] = "O",
-				},
-			},
-		},
-		["d3006pnilunilcd27vd1vpnilvunil"] = {
-			["name"] = "Station 3 Select",
-			["removed"] = {
-				[1] = {
-					["key"] = "3",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d3007pnilu3008cd14vd1vpnilvu0"] = {
-			["name"] = "Roof Lamp Increase",
-			["removed"] = {
-				[1] = {
-					["key"] = "L",
-					["reformers"] = {
-						[1] = "RShift",
-					},
 				},
 			},
 		},
@@ -761,299 +16,11 @@ local diff = {
 				},
 			},
 		},
-		["d3007pnilunilcd1vd0vpnilvunil"] = {
-			["name"] = "Set Gunner Seat",
-			["removed"] = {
-				[1] = {
-					["key"] = "3",
-				},
-			},
-		},
-		["d3007pnilunilcd27vd1vpnilvunil"] = {
-			["name"] = "Station 4 Select",
-			["removed"] = {
-				[1] = {
-					["key"] = "4",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d3008pnilu3008cd7vd1vpnilvu0"] = {
-			["name"] = "Auto-Hover Toggle",
-			["removed"] = {
-				[1] = {
-					["key"] = "Q",
-				},
-			},
-		},
-		["d3008pnilu3009cd16vd1vpnilvu0"] = {
-			["name"] = "Slew up",
-			["removed"] = {
-				[1] = {
-					["key"] = ";",
-				},
-			},
-		},
-		["d3009pnilu3010cd14vd1vpnilvu0"] = {
-			["name"] = "Roof Lamp Decrease",
-			["removed"] = {
-				[1] = {
-					["key"] = "L",
-				},
-			},
-		},
-		["d3009pnilu3010cd8vd1vpnilvu0"] = {
-			["name"] = "Trim Hat - ROLL LEFT",
-			["removed"] = {
-				[1] = {
-					["key"] = ",",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d3010pnilu3011cd16vd1vpnilvu0"] = {
-			["name"] = "Slew down",
-			["removed"] = {
-				[1] = {
-					["key"] = ".",
-				},
-			},
-		},
-		["d3011pnilu3012cd8vd1vpnilvu0"] = {
-			["name"] = "Trim Hat - ROLL RIGHT",
-			["removed"] = {
-				[1] = {
-					["key"] = "/",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d3011pnilunilcd14vd1vpnilvunil"] = {
-			["name"] = "Roof Lamp Low/Normal",
-			["removed"] = {
-				[1] = {
-					["key"] = "L",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d3012pnilu3012cd7vd1vpnilvu0"] = {
-			["name"] = "Auto-Slaved Toggle",
-			["removed"] = {
-				[1] = {
-					["key"] = "E",
-				},
-			},
-		},
-		["d3012pnilu3013cd16vd1vpnilvu0"] = {
-			["name"] = "Slew left",
-			["removed"] = {
-				[1] = {
-					["key"] = ",",
-				},
-			},
-		},
-		["d3012pnilunilcd14vd1vpnilvunil"] = {
-			["name"] = "Roof Lamp Lens White/red",
-			["removed"] = {
-				[1] = {
-					["key"] = "L",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d3013pnilu3014cd14vd1vpnilvu0"] = {
-			["name"] = "UV Lighting Increase",
-			["removed"] = {
-				[1] = {
-					["key"] = "U",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["d3014pnilu3015cd16vd1vpnilvu0"] = {
-			["name"] = "Slew right",
-			["removed"] = {
-				[1] = {
-					["key"] = "/",
-				},
-			},
-		},
-		["d3015pnilu3016cd14vd1vpnilvu0"] = {
-			["name"] = "UV Lighting Decrease",
-			["removed"] = {
-				[1] = {
-					["key"] = "U",
-				},
-			},
-		},
-		["d3018pnilunilcd7vd1vpnilvunil"] = {
-			["name"] = "Auto-Collective Toggle",
-			["removed"] = {
-				[1] = {
-					["key"] = "C",
-				},
-			},
-		},
-		["d3019pnilu3020cd14vd1vpnilvu0"] = {
-			["name"] = "Panels internal lights Intensity Increase",
-			["removed"] = {
-				[1] = {
-					["key"] = "V",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d3020pnilunilcd15vd1vpnilvunil"] = {
-			["name"] = "Formation Lights On/Off",
-			["removed"] = {
-				[1] = {
-					["key"] = "F",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d3021pnilu3022cd14vd1vpnilvu0"] = {
-			["name"] = "Panels internal lights Intensity Decrease",
-			["removed"] = {
-				[1] = {
-					["key"] = "V",
-				},
-			},
-		},
-		["d3021pnilu3022cd15vd1vpnilvu0"] = {
-			["name"] = "Formation Lights Increase",
-			["removed"] = {
-				[1] = {
-					["key"] = "F",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["d3023pnilu3024cd15vd1vpnilvu0"] = {
-			["name"] = "Formation Lights Decrease",
-			["removed"] = {
-				[1] = {
-					["key"] = "F",
-				},
-			},
-		},
-		["d3024pnilu3025cd14vd1vpnilvu0"] = {
-			["name"] = "Console lights Intensity Increase",
-			["removed"] = {
-				[1] = {
-					["key"] = "B",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["d3026pnilu3027cd14vd1vpnilvu0"] = {
-			["name"] = "Console lights Intensity Decrease",
-			["removed"] = {
-				[1] = {
-					["key"] = "B",
-				},
-			},
-		},
-		["d3026pnilunilcd15vd1vpnilvunil"] = {
-			["name"] = "Nav Lights Up",
-			["removed"] = {
-				[1] = {
-					["key"] = "N",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d3027pnilunilcd15vd1vpnilvunil"] = {
-			["name"] = "Nav Lights Down",
-			["removed"] = {
-				[1] = {
-					["key"] = "N",
-				},
-			},
-		},
-		["d3032pnilunilcd15vd1vpnilvunil"] = {
-			["name"] = "Strobe Lights Up",
-			["removed"] = {
-				[1] = {
-					["key"] = "S",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
 		["d3033pnilunilcd15vd1vpnilvunil"] = {
 			["name"] = "Strobe Lights Down",
 			["removed"] = {
 				[1] = {
 					["key"] = "S",
-				},
-			},
-		},
-		["d3034pnilu3033cd26vd1vpnilvu0"] = {
-			["name"] = "Minigun fire",
-			["removed"] = {
-				[1] = {
-					["key"] = "Space",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d3038pnilu3039cd15vd1vpnilvu0"] = {
-			["name"] = "Strobe Intensity Increase",
-			["removed"] = {
-				[1] = {
-					["key"] = "S",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d3040pnilu3041cd15vd1vpnilvu0"] = {
-			["name"] = "Strobe Intensity Decrease",
-			["removed"] = {
-				[1] = {
-					["key"] = "S",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d3066pnilunilcd38vd1vpnilvunil"] = {
-			["name"] = "RWR Off/On/Croc Up",
-			["removed"] = {
-				[1] = {
-					["key"] = "R",
-					["reformers"] = {
-						[1] = "RShift",
-					},
 				},
 			},
 		},
@@ -1065,1260 +32,608 @@ local diff = {
 				},
 			},
 		},
-		["d3071pnilu3072cd38vd1vpnilvu0"] = {
-			["name"] = "RWR Audio Increase",
-			["removed"] = {
-				[1] = {
-					["key"] = "R",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d3073pnilu3074cd38vd1vpnilvu0"] = {
-			["name"] = "RWR Audio Decrease",
-			["removed"] = {
-				[1] = {
-					["key"] = "R",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d3076pnilu3077cd38vd1vpnilvu0"] = {
-			["name"] = "RWR Brightness Increase",
-			["removed"] = {
-				[1] = {
-					["key"] = "R",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d3078pnilu3079cd38vd1vpnilvu0"] = {
-			["name"] = "RWR Brightness Decrease",
-			["removed"] = {
-				[1] = {
-					["key"] = "R",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d309pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Auto execute full start procedure",
-			["removed"] = {
-				[1] = {
-					["key"] = "Home",
-					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d310pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Auto execute full stop procedure",
-			["removed"] = {
-				[1] = {
-					["key"] = "End",
-					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d321pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Fast cockpit mouse",
-			["removed"] = {
-				[1] = {
-					["key"] = "[",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d322pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Slow cockpit mouse",
-			["removed"] = {
-				[1] = {
-					["key"] = "[",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d323pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Normal cockpit mouse speed",
-			["removed"] = {
-				[1] = {
-					["key"] = "[",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d326pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F1 HUD only view switch",
-			["removed"] = {
-				[1] = {
-					["key"] = "F1",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d327pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Get New Plane - RESPAWN",
-			["removed"] = {
-				[1] = {
-					["key"] = "Tab",
-					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-					},
-				},
-			},
-		},
-		["d328pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Landing Light On/Off",
-			["removed"] = {
-				[1] = {
-					["key"] = "L",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d331pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Fast cockpit keyboard",
-			["removed"] = {
-				[1] = {
-					["key"] = "]",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d3321pnilu3321cd38vd1vpnilvu0"] = {
-			["name"] = "Missile Launch Button",
-			["removed"] = {
-				[1] = {
-					["key"] = "Space",
-				},
-			},
-		},
-		["d3324pnilu3324cd38vd1vpnilvu0"] = {
-			["name"] = "Camera Centering",
-			["removed"] = {
-				[1] = {
-					["key"] = "I",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d3326pnilu3326cd38vd1vpnilvu0"] = {
-			["name"] = "VCB Zoom +",
-			["removed"] = {
-				[1] = {
-					["key"] = "=",
-				},
-			},
-		},
-		["d3327pnilu3327cd38vd-1vpnilvu0"] = {
-			["name"] = "VCB Zoom -",
-			["removed"] = {
-				[1] = {
-					["key"] = "-",
-				},
-			},
-		},
-		["d332pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Slow cockpit keyboard",
-			["removed"] = {
-				[1] = {
-					["key"] = "]",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d3331pnilunilcd38vd0vpnilvunil"] = {
-			["name"] = "SA342  Copilot Sun glass On/Off",
-			["removed"] = {
-				[1] = {
-					["key"] = "G",
-				},
-			},
-		},
-		["d3332pnilunilcd38vd0vpnilvunil"] = {
-			["name"] = "Microphone Light On/Off",
-			["removed"] = {
-				[1] = {
-					["key"] = "M",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d3333pnilu3333cd38vd1vpnilvu0"] = {
-			["name"] = "Night Vision Goggles On/Off",
-			["removed"] = {
-				[1] = {
-					["key"] = "H",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["d3336pnilunilcd38vd0vpnilvunil"] = {
-			["name"] = "Sun glass On/Off",
-			["removed"] = {
-				[1] = {
-					["key"] = "G",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d3337pnilunilcd38vd0vpnilvunil"] = {
-			["name"] = "SA342 Microphone CoPilot Light On/Off",
-			["removed"] = {
-				[1] = {
-					["key"] = "M",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
 		["d3338pnilu3338cd38vd1vpnilvu0"] = {
 			["name"] = "SA342 Night Vision Goggles Copilot On/Off",
-			["removed"] = {
+			["added"] = {
 				[1] = {
-					["key"] = "H",
+					["key"] = "M",
+					["JPK"] = "NVG",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+						[3] = "Lights",
+					},
 					["reformers"] = {
 						[1] = "LShift",
+						[2] = "RCtrl",
 					},
 				},
 			},
 		},
-		["d333pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Normal cockpit keyboard speed",
-			["removed"] = {
-				[1] = {
-					["key"] = "]",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d338pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Zoom external normal",
-			["removed"] = {
-				[1] = {
-					["key"] = "NumEnter",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d341pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F5 Ground hostile view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F5",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d342pnilu49cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view up-left",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num7",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d343pnilu49cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view up-right",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num9",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d344pnilu49cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view down-left",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num1",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d345pnilu49cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view down-right",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num3",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d345pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view down-right slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num9",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d347pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Return camera",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num5",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d348pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F12 Trains/cars toggle",
-			["removed"] = {
-				[1] = {
-					["key"] = "F12",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d352pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Return camera base",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num5",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d353pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view up-left slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num7",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d354pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view up-right slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num3",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d355pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view down-left slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num1",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Look back view",
-			["removed"] = {
+		["d3305pnilu3305cd38vd1vpnilvu0"] = {
+			["name"] = "Symbology Toggle Button, Normal/Inversed",
+			["added"] = {
 				[1] = {
 					["key"] = "F4",
-				},
-			},
-		},
-		["d360pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Score window",
-			["removed"] = {
-				[1] = {
-					["key"] = "'",
-				},
-			},
-		},
-		["d363pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Clickable Mouse Cockpit Mode - ON/OFF",
-			["removed"] = {
-				[1] = {
-					["key"] = "C",
-					["reformers"] = {
-						[1] = "LAlt",
+					["JPK"] = "Comm4 - FwD - IFF",
+					["JGRP"] = {
+						[1] = "Comms",
+						[2] = "DCS",
 					},
-				},
-			},
-		},
-		["d364pnilu365cdnilvdnilvpnilvunil"] = {
-			["name"] = "Start dispensing",
-			["removed"] = {
-				[1] = {
-					["key"] = "Insert",
-				},
-			},
-		},
-		["d383pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Arcade Chase view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F4",
 					["reformers"] = {
 						[1] = "LShift",
+						[2] = "RShift",
 					},
 				},
-			},
-		},
-		["d395pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Keep terrain camera altitude",
-			["removed"] = {
-				[1] = {
-					["key"] = "K",
+				[2] = {
+					["key"] = "F3",
+					["JPK"] = "Comm3 - Aft - ICS",
+					["JGRP"] = {
+						[1] = "Comms",
+						[2] = "DCS",
+					},
 					["reformers"] = {
-						[1] = "LAlt",
+						[1] = "LShift",
+						[2] = "RShift",
 					},
 				},
-			},
-		},
-		["d396pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 0",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num0",
+				[3] = {
+					["key"] = "F2",
+					["JPK"] = "Comm2 - Down",
+					["JGRP"] = {
+						[1] = "Comms",
+						[2] = "DCS",
+					},
 					["reformers"] = {
-						[1] = "LWin",
+						[1] = "LShift",
+						[2] = "RShift",
 					},
 				},
-			},
-		},
-		["d397pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 1",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num1",
-					["reformers"] = {
-						[1] = "LWin",
+				[4] = {
+					["key"] = "F1",
+					["JPK"] = "Comm1 - UP",
+					["JGRP"] = {
+						[1] = "Comms",
+						[2] = "DCS",
 					},
-				},
-			},
-		},
-		["d398pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 2",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num2",
 					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d399pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 3",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num3",
-					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d400pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 4",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num4",
-					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d401pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 5",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num5",
-					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d402pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 6",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num6",
-					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d403pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 7",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num7",
-					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d404pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 8",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num8",
-					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d405pnilu406cdnilvdnilvpnilvunil"] = {
-			["name"] = "Snap View 9",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num9",
-					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d41pnilu49cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view left",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num4",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d42pnilu49cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view right",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num6",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d432pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F10 Jump to theater map view over current point",
-			["removed"] = {
-				[1] = {
-					["key"] = "F10",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d43pnilu49cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera View - UP",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num8",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d44pnilu49cdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view down",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num2",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d45pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view left slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num4",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d46pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view right slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num6",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d47pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view up slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num8",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d48pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Camera view down slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num2",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
-		["d491pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Cockpit Camera Move Center",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num5",
-					["reformers"] = {
-						[1] = "RCtrl",
+						[1] = "LShift",
 						[2] = "RShift",
 					},
 				},
 			},
 		},
-		["d492pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Head shift movement on / off",
-			["removed"] = {
+		["d3026pnilunilcd15vd1vpnilvunil"] = {
+			["name"] = "Nav Lights Up",
+			["added"] = {
 				[1] = {
-					["key"] = "F1",
-					["reformers"] = {
-						[1] = "LWin",
+					["key"] = "T",
+					["JPK"] = "Lights - EXT - Navigation On",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Lights",
 					},
-				},
-			},
-		},
-		["d49pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Center camera view",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num5",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["d50pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Multiplayer chat - mode Allies",
-			["removed"] = {
-				[1] = {
-					["key"] = "Tab",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d51pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "End mission",
-			["removed"] = {
-				[1] = {
-					["key"] = "Esc",
-				},
-			},
-		},
-		["d522pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Flight - Attack air defenses",
-			["removed"] = {
-				[1] = {
-					["key"] = "D",
-					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d523pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Flight - Attack ground targets",
-			["removed"] = {
-				[1] = {
-					["key"] = "G",
-					["reformers"] = {
-						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["d52pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Pause",
-			["removed"] = {
-				[1] = {
-					["key"] = "Pause",
-				},
-			},
-		},
-		["d53pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Time accelerate",
-			["removed"] = {
-				[1] = {
-					["key"] = "Z",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d57pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Multiplayer chat - mode All",
-			["removed"] = {
-				[1] = {
-					["key"] = "Tab",
-				},
-			},
-		},
-		["d69pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "TV Hook",
-			["removed"] = {
-				[1] = {
-					["key"] = "G",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
-		["d71pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Cockpit door open/close",
-			["removed"] = {
-				[1] = {
-					["key"] = "C",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d7pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F1 Cockpit view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F1",
-				},
-			},
-		},
-		["d816pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Active Pause",
-			["removed"] = {
-				[1] = {
-					["key"] = "Pause",
 					["reformers"] = {
 						[1] = "LShift",
-						[2] = "LWin",
+						[2] = "RCtrl",
 					},
 				},
 			},
 		},
-		["d835pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Show Pilot Body",
-			["removed"] = {
+		["d3001pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "Occupy the Pilot's Seat",
+			["added"] = {
+				[1] = {
+					["key"] = "Num6",
+					["JPK"] = "SetPilotSeat",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+					["reformers"] = {
+						[1] = "LAlt",
+						[2] = "RAlt",
+					},
+				},
+			},
+		},
+		["d3002pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "Set CoPilot Seat",
+			["added"] = {
+				[1] = {
+					["key"] = "Num7",
+					["JPK"] = "SetWSORIOSeat",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+					["reformers"] = {
+						[1] = "LAlt",
+						[2] = "RAlt",
+					},
+				},
+			},
+		},
+		["d3007pnilunilcd1vd0vpnilvunil"] = {
+			["name"] = "Set Gunner Seat",
+			["added"] = {
+				[1] = {
+					["key"] = "Num8",
+					["JPK"] = "Set3rdSeat",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+					["reformers"] = {
+						[1] = "LAlt",
+						[2] = "RAlt",
+					},
+				},
+			},
+		},
+		["d3176pnilu3176cd38vd1vpnilvu0"] = {
+			["name"] = "UHF VLD Button",
+			["added"] = {
+				[1] = {
+					["key"] = "J",
+					["JPK"] = "UFC__J",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3177pnilu3177cd38vd1vpnilvu0"] = {
+			["name"] = "UHF 1 Button",
+			["added"] = {
+				[1] = {
+					["key"] = "K",
+					["JPK"] = "UFC__K",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3178pnilu3178cd38vd1vpnilvu0"] = {
+			["name"] = "UHF 2 Button",
+			["added"] = {
+				[1] = {
+					["key"] = "L",
+					["JPK"] = "UFC__L",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3179pnilu3179cd38vd1vpnilvu0"] = {
+			["name"] = "UHF 3 Button",
+			["added"] = {
+				[1] = {
+					["key"] = "M",
+					["JPK"] = "UFC__M",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3180pnilu3180cd38vd1vpnilvu0"] = {
+			["name"] = "UHF 4 Button",
+			["added"] = {
+				[1] = {
+					["key"] = "N",
+					["JPK"] = "UFC__N",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3181pnilu3181cd38vd1vpnilvu0"] = {
+			["name"] = "UHF 5 Button",
+			["added"] = {
+				[1] = {
+					["key"] = "O",
+					["JPK"] = "UFC__O",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3182pnilu3182cd38vd1vpnilvu0"] = {
+			["name"] = "UHF 6 Button",
+			["added"] = {
 				[1] = {
 					["key"] = "P",
+					["JPK"] = "UFC__P",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
 					["reformers"] = {
-						[1] = "RShift",
+						[1] = "LCtrl",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3183pnilu3183cd38vd1vpnilvu0"] = {
+			["name"] = "UHF 7 Button",
+			["added"] = {
+				[1] = {
+					["key"] = "Q",
+					["JPK"] = "UFC__Q",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3184pnilu3184cd38vd1vpnilvu0"] = {
+			["name"] = "UHF 8 Button",
+			["added"] = {
+				[1] = {
+					["key"] = "R",
+					["JPK"] = "UFC__R",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3185pnilu3185cd38vd1vpnilvu0"] = {
+			["name"] = "UHF 9 Button",
+			["added"] = {
+				[1] = {
+					["key"] = "S",
+					["JPK"] = "UFC__S",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3186pnilu3186cd38vd1vpnilvu0"] = {
+			["name"] = "UHF 0 Button",
+			["added"] = {
+				[1] = {
+					["key"] = "T",
+					["JPK"] = "UFC__T",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3187pnilu3187cd38vd1vpnilvu0"] = {
+			["name"] = "UHF Mode Clockwise",
+			["added"] = {
+				[1] = {
+					["key"] = "U",
+					["JPK"] = "UFC__U",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3188pnilu3188cd38vd1vpnilvu0"] = {
+			["name"] = "UHF Mode Counter Clockwise",
+			["added"] = {
+				[1] = {
+					["key"] = "V",
+					["JPK"] = "UFC__V",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3027pnilunilcd15vd1vpnilvunil"] = {
+			["name"] = "Nav Lights Down",
+			["added"] = {
+				[1] = {
+					["key"] = "T",
+					["JPK"] = "Lights - EXT - Navigation Off",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Lights",
+					},
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "RShift",
+					},
+				},
+			},
+		},
+		["d3034pnilu3035cd15vd1vpnilvu0"] = {
+			["name"] = "Strobe Lights Normal",
+			["added"] = {
+				[1] = {
+					["key"] = "W",
+					["JPK"] = "Lights - EXT - Collision On",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Lights",
+					},
+					["reformers"] = {
+						[1] = "LShift",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3019pnilu3020cd14vd1vpnilvu0"] = {
+			["name"] = "Panels internal lights Intensity Increase",
+			["added"] = {
+				[1] = {
+					["key"] = "G",
+					["JPK"] = "Lights - IN - Instrument2+",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Lights",
+					},
+					["reformers"] = {
+						[1] = "LShift",
+						[2] = "RCtrl",
+					},
+				},
+				[2] = {
+					["key"] = "D",
+					["JPK"] = "Lights - IN - Instrument+",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Lights",
+					},
+					["reformers"] = {
+						[1] = "LShift",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3024pnilu3025cd14vd1vpnilvu0"] = {
+			["name"] = "Console lights Intensity Increase",
+			["added"] = {
+				[1] = {
+					["key"] = "F",
+					["JPK"] = "Lights - IN - Instrument1+",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Lights",
+					},
+					["reformers"] = {
+						[1] = "LShift",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3013pnilu3014cd14vd1vpnilvu0"] = {
+			["name"] = "UV Lighting Increase",
+			["added"] = {
+				[1] = {
+					["key"] = "H",
+					["JPK"] = "Lights - IN - Instrument3+",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Lights",
+					},
+					["reformers"] = {
+						[1] = "LShift",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3021pnilu3022cd14vd1vpnilvu0"] = {
+			["name"] = "Panels internal lights Intensity Decrease",
+			["added"] = {
+				[1] = {
+					["key"] = "G",
+					["JPK"] = "Lights - IN - Instrument2-",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Lights",
+					},
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "RShift",
+					},
+				},
+				[2] = {
+					["key"] = "D",
+					["JPK"] = "Lights - IN - Instrument-",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Lights",
+					},
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "RShift",
+					},
+				},
+			},
+		},
+		["d3026pnilu3027cd14vd1vpnilvu0"] = {
+			["name"] = "Console lights Intensity Decrease",
+			["added"] = {
+				[1] = {
+					["key"] = "F",
+					["JPK"] = "Lights - IN - Instrument1-",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Lights",
+					},
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "RShift",
+					},
+				},
+			},
+		},
+		["d3015pnilu3016cd14vd1vpnilvu0"] = {
+			["name"] = "UV Lighting Decrease",
+			["added"] = {
+				[1] = {
+					["key"] = "H",
+					["JPK"] = "Lights - IN - Instrument3-",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Lights",
+					},
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "RShift",
+					},
+				},
+			},
+		},
+		["d3021pnilu3022cd15vd1vpnilvu0"] = {
+			["name"] = "Formation Lights Increase",
+			["added"] = {
+				[1] = {
+					["key"] = "N",
+					["JPK"] = "Lights - EXT- Formation+",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Lights",
+					},
+					["reformers"] = {
+						[1] = "LShift",
+						[2] = "RCtrl",
+					},
+				},
+			},
+		},
+		["d3023pnilu3024cd15vd1vpnilvu0"] = {
+			["name"] = "Formation Lights Decrease",
+			["added"] = {
+				[1] = {
+					["key"] = "N",
+					["JPK"] = "Lights - EXT- Formation-",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Lights",
+					},
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
 		},
 		["d840pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Night Vision Goggles Gain - INC",
-			["removed"] = {
+			["added"] = {
 				[1] = {
-					["key"] = "H",
+					["key"] = "J",
+					["JPK"] = "NVG Bright+",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Lights",
+					},
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
+						[1] = "LShift",
+						[2] = "RCtrl",
 					},
 				},
 			},
 		},
 		["d841pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Night Vision Goggles Gain - DEC",
-			["removed"] = {
+			["added"] = {
 				[1] = {
-					["key"] = "H",
-					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RShift",
+					["key"] = "J",
+					["JPK"] = "NVG Bright-",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Lights",
 					},
-				},
-			},
-		},
-		["d851pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Show controls indicator",
-			["removed"] = {
-				[1] = {
-					["key"] = "Enter",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["d8pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F2 Aircraft view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F2",
-				},
-			},
-		},
-		["d979pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Switch dialog",
-			["removed"] = {
-				[1] = {
-					["key"] = "\\",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d97pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Trimmer reset",
-			["removed"] = {
-				[1] = {
-					["key"] = "T",
 					["reformers"] = {
 						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d9pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F3 Fly-By view",
-			["removed"] = {
-				[1] = {
-					["key"] = "F3",
-				},
-			},
-		},
-		["dnilp193u194cdnilvdnilvpnilvunil"] = {
-			["name"] = "Cyclic nose down",
-			["removed"] = {
-				[1] = {
-					["key"] = "Up",
-				},
-			},
-		},
-		["dnilp195u196cdnilvdnilvpnilvunil"] = {
-			["name"] = "Cyclic nose up",
-			["removed"] = {
-				[1] = {
-					["key"] = "Down",
-				},
-			},
-		},
-		["dnilp197u198cdnilvdnilvpnilvunil"] = {
-			["name"] = "Cyclic bank left",
-			["removed"] = {
-				[1] = {
-					["key"] = "Left",
-				},
-			},
-		},
-		["dnilp199u200cdnilvdnilvpnilvunil"] = {
-			["name"] = "Cyclic bank right",
-			["removed"] = {
-				[1] = {
-					["key"] = "Right",
-				},
-			},
-		},
-		["dnilp201u202cdnilvdnilvpnilvunil"] = {
-			["name"] = "Rudder left",
-			["removed"] = {
-				[1] = {
-					["key"] = "Z",
-				},
-			},
-		},
-		["dnilp203u204cdnilvdnilvpnilvunil"] = {
-			["name"] = "Rudder right",
-			["removed"] = {
-				[1] = {
-					["key"] = "X",
-				},
-			},
-		},
-		["dnilp205u209cdnilvdnilvpnilvunil"] = {
-			["name"] = "View up right",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num9",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["dnilp206u209cdnilvdnilvpnilvunil"] = {
-			["name"] = "View down right",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num3",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["dnilp207u209cdnilvdnilvpnilvunil"] = {
-			["name"] = "View down left",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num1",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["dnilp208u209cdnilvdnilvpnilvunil"] = {
-			["name"] = "View up left",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num7",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["dnilp210u214cdnilvdnilvpnilvunil"] = {
-			["name"] = "View Up Right slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num9",
-				},
-			},
-		},
-		["dnilp211u214cdnilvdnilvpnilvunil"] = {
-			["name"] = "View Down Right slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num3",
-				},
-			},
-		},
-		["dnilp212u214cdnilvdnilvpnilvunil"] = {
-			["name"] = "View Down Left slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num1",
-				},
-			},
-		},
-		["dnilp213u214cdnilvdnilvpnilvunil"] = {
-			["name"] = "View Up Left slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num7",
-				},
-			},
-		},
-		["dnilp28u209cdnilvdnilvpnilvunil"] = {
-			["name"] = "View left",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num4",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["dnilp29u209cdnilvdnilvpnilvunil"] = {
-			["name"] = "View right",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num6",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["dnilp30u209cdnilvdnilvpnilvunil"] = {
-			["name"] = "View up",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num8",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["dnilp31u209cdnilvdnilvpnilvunil"] = {
-			["name"] = "View down",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num2",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["dnilp32u214cdnilvdnilvpnilvunil"] = {
-			["name"] = "View Left slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num4",
-				},
-			},
-		},
-		["dnilp334u335cdnilvdnilvpnilvunil"] = {
-			["name"] = "Zoom external in",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num*",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["dnilp336u337cdnilvdnilvpnilvunil"] = {
-			["name"] = "Zoom external out",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num/",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["dnilp33u214cdnilvdnilvpnilvunil"] = {
-			["name"] = "View Right slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num6",
-				},
-			},
-		},
-		["dnilp34u214cdnilvdnilvpnilvunil"] = {
-			["name"] = "View Up slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num8",
-				},
-			},
-		},
-		["dnilp35u214cdnilvdnilvpnilvunil"] = {
-			["name"] = "View Down slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num2",
-				},
-			},
-		},
-		["dnilp36unilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Center View",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num5",
-				},
-			},
-		},
-		["dnilp37u291cdnilvdnilvpnilvunil"] = {
-			["name"] = "Zoom in",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num*",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["dnilp38u292cdnilvdnilvpnilvunil"] = {
-			["name"] = "Zoom out",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num/",
-					["reformers"] = {
-						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["dnilp39u289cdnilvdnilvpnilvunil"] = {
-			["name"] = "Zoom in slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num*",
-				},
-			},
-		},
-		["dnilp40u290cdnilvdnilvpnilvunil"] = {
-			["name"] = "Zoom out slow",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num/",
-				},
-			},
-		},
-		["dnilp484u490cdnilvdnilvpnilvunil"] = {
-			["name"] = "Cockpit Camera Move Up",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num8",
-					["reformers"] = {
-						[1] = "RCtrl",
 						[2] = "RShift",
 					},
 				},
 			},
 		},
-		["dnilp485u490cdnilvdnilvpnilvunil"] = {
-			["name"] = "Cockpit Camera Move Down",
-			["removed"] = {
+		["d3150pnilu3150cd38vd1vpnilvu0"] = {
+			["name"] = "VHF Radio Decimals Rotator +",
+			["added"] = {
 				[1] = {
-					["key"] = "Num2",
+					["key"] = "F2",
+					["JPK"] = "Jettison Fuel",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Jettison",
+					},
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
+						[1] = "LAlt",
+						[2] = "RAlt",
 					},
 				},
 			},
 		},
-		["dnilp486u490cdnilvdnilvpnilvunil"] = {
-			["name"] = "Cockpit Camera Move Left",
-			["removed"] = {
+		["d245pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Info Bar - TOGGLE COORDINATE INITS",
+			["added"] = {
 				[1] = {
-					["key"] = "Num4",
-					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
+					["key"] = "C",
+					["JPK"] = "Toggle Units",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
 					},
-				},
-			},
-		},
-		["dnilp487u490cdnilvdnilvpnilvunil"] = {
-			["name"] = "Cockpit Camera Move Right",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num6",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
+						[1] = "RAlt",
 					},
-				},
-			},
-		},
-		["dnilp488u490cdnilvdnilvpnilvunil"] = {
-			["name"] = "Cockpit Camera Move Forward",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num*",
-					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-					},
-				},
-			},
-		},
-		["dnilp489u490cdnilvdnilvpnilvunil"] = {
-			["name"] = "Cockpit Camera Move Back",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num/",
-					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-					},
-				},
-			},
-		},
-		["dnilp631u839cdnilvdnilvpnilvunil"] = {
-			["name"] = "Collective up",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num+",
-				},
-			},
-		},
-		["dnilp632u839cdnilvdnilvpnilvunil"] = {
-			["name"] = "Collective down",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num-",
 				},
 			},
 		},

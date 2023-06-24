@@ -1,4 +1,5 @@
 local diff = {
+	["JAL"] = "KeyboardJoystick",
 	["axisDiffs"] = {
 		["a2001cdnil"] = {
 			["name"] = "Pitch",
@@ -32,6 +33,11 @@ local diff = {
 				},
 			},
 		},
+	},
+	["ffDiffs"] = {
+		["invertX"] = false,
+		["invertY"] = false,
+		["swapAxes"] = false,
 	},
 	["keyDiffs"] = {
 		["dnilp210u214cdnilvdnilvpnilvunil"] = {
@@ -95,6 +101,162 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_BTN_POV1_D",
+				},
+			},
+		},
+		["d3315pnilu3315cd23vd1vpnilvu0"] = {
+			["name"] = "UFC 0 Button",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN10",
+					["JPK"] = "UFC__0",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3302pnilu3302cd23vd1vpnilvu0"] = {
+			["name"] = "UFC 1 Button",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN1",
+					["JPK"] = "UFC__1",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3303pnilu3303cd23vd1vpnilvu0"] = {
+			["name"] = "UFC 2/N Button",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN2",
+					["JPK"] = "UFC__2",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3304pnilu3304cd23vd1vpnilvu0"] = {
+			["name"] = "UFC 3 Button",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN3",
+					["JPK"] = "UFC__3",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3306pnilu3306cd23vd1vpnilvu0"] = {
+			["name"] = "UFC 4/W Button",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN4",
+					["JPK"] = "UFC__4",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3307pnilu3307cd23vd1vpnilvu0"] = {
+			["name"] = "UFC 5 Button",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN5",
+					["JPK"] = "UFC__5",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3308pnilu3308cd23vd1vpnilvu0"] = {
+			["name"] = "UFC 6/E Button",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN6",
+					["JPK"] = "UFC__6",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3310pnilu3310cd23vd1vpnilvu0"] = {
+			["name"] = "UFC 7 Button",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN7",
+					["JPK"] = "UFC__7",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3311pnilu3311cd23vd1vpnilvu0"] = {
+			["name"] = "UFC 8/S Button",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN8",
+					["JPK"] = "UFC__8",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3312pnilu3312cd23vd1vpnilvu0"] = {
+			["name"] = "UFC 9 Button",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN9",
+					["JPK"] = "UFC__9",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3314pnilu3314cd23vd1vpnilvu0"] = {
+			["name"] = "UFC Enter Button",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN11",
+					["JPK"] = "UFC__Enter",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3305pnilu3305cd23vd1vpnilvu0"] = {
+			["name"] = "UFC Clear Button",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN12",
+					["JPK"] = "UFC__Clear",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
 				},
 			},
 		},

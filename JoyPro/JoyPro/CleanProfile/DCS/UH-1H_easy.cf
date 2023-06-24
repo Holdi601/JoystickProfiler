@@ -1,4 +1,5 @@
 local diff = {
+	["JAL"] = "MainThrottle",
 	["axisDiffs"] = {
 		["a2001cdnil"] = {
 			["name"] = "Flight Control Cyclic Pitch",
@@ -26,9 +27,97 @@ local diff = {
 		},
 		["a2087cdnil"] = {
 			["name"] = "Flight Control Collective",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_RX",
+					["JPK"] = "ThrottleLeftNonAB",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Flight Controls",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+							[2] = 0.02,
+							[3] = 0.13,
+							[4] = 0.26,
+							[5] = 0.41,
+							[6] = 0.58,
+							[7] = 0.76,
+							[8] = 0.94,
+							[9] = 1,
+							[10] = 1,
+							[11] = 1,
+						},
+						["deadzone"] = 0,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = true,
+					},
+				},
+				[2] = {
+					["key"] = "JOY_RY",
+					["JPK"] = "ThrottleRightNonAB",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Flight Controls",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+							[2] = 0.02,
+							[3] = 0.13,
+							[4] = 0.26,
+							[5] = 0.41,
+							[6] = 0.58,
+							[7] = 0.76,
+							[8] = 0.94,
+							[9] = 1,
+							[10] = 1,
+							[11] = 1,
+						},
+						["deadzone"] = 0,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = true,
+					},
+				},
+			},
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_Z",
+				},
+				[2] = {
+					["key"] = "JOY_Z",
+				},
+				[3] = {
+					["key"] = "JOY_Z",
+				},
+			},
+		},
+		["a2012cdnil"] = {
+			["name"] = "Zoom View",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_Z",
+					["JPK"] = "Zoom",
+					["JGRP"] = {
+						[1] = "IL2",
+						[2] = "DCS",
+						[3] = "MISC",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+						},
+						["deadzone"] = 0,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = false,
+					},
 				},
 			},
 		},
@@ -111,6 +200,58 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_BTN3",
+				},
+			},
+		},
+		["d1587pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Kneeboard ON/OFF",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN48",
+					["JPK"] = "Kneeboard TOGGLE",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d3002pnilunilcd45vd1vpnilvunil"] = {
+			["name"] = "Kneeboard Previous Page",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN49",
+					["JPK"] = "Kneeboard previous pg",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["dnilp140u230cdnilvdnilvpnilvunil"] = {
+			["name"] = "Selector right",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN10",
+					["JPK"] = "Radar Azimuth Right",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Radar",
+					},
+				},
+			},
+		},
+		["d3028pnilunilcd9vd1vpnilvunil"] = {
+			["name"] = "Autopilot ATTITUDE HOLD",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN55",
+					["JPK"] = "Autopilot - Attitude hold",
+					["JGRP"] = {
+						[1] = "AutoPilot",
+						[2] = "DCS",
+					},
 				},
 			},
 		},

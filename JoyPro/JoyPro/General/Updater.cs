@@ -116,14 +116,14 @@ namespace JoyPro
                 ProcessStartInfo startInfo = new ProcessStartInfo(MainStructure.PROGPATH + "\\TOOLS\\temp\\UnzipMeHereWin.exe");
                 startInfo.Arguments = "\"" + MainStructure.PROGPATH + "\\NewerVersion.zip\" \"" + MainStructure.PROGPATH + "\" \"" + MainStructure.PROGPATH + "\\JoyPro.exe\"";
                 string fngrprntFilePath = MainStructure.PROGPATH + "\\NewerVersion.zip";
-                byte[] fileHash = MainStructure.GetFileHash(fngrprntFilePath);
-                string fileHashString = BitConverter.ToString(fileHash).Replace("-", string.Empty);
-                if (fileHashString != newestAvailableVersionFingerprint)
-                {
-                    MainStructure.Write("Fingerprint mismatches. Cancelling update");
-                    MessageBox.Show("The fingerprint of the downloaded File mismatches with the remote file");
-                    return;
-                }
+                //byte[] fileHash = MainStructure.GetFileHash(fngrprntFilePath);
+                //string fileHashString = BitConverter.ToString(fileHash).Replace("-", string.Empty);
+                //if (fileHashString != newestAvailableVersionFingerprint)
+                //{
+                //    MainStructure.Write("Fingerprint mismatches. Cancelling update");
+                //    MessageBox.Show("The fingerprint of the downloaded File mismatches with the remote file");
+                //    return;
+                //}
                 try
                 {
                     Process.Start(startInfo);

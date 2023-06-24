@@ -1,4 +1,5 @@
 local diff = {
+	["JAL"] = "MainThrottle",
 	["axisDiffs"] = {
 		["a2001cdnil"] = {
 			["name"] = "Pitch",
@@ -21,6 +22,116 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_RZ",
+				},
+			},
+		},
+		["a2012cdnil"] = {
+			["name"] = "Zoom View",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_Z",
+					["JPK"] = "Zoom",
+					["JGRP"] = {
+						[1] = "IL2",
+						[2] = "DCS",
+						[3] = "MISC",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+						},
+						["deadzone"] = 0,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = false,
+					},
+				},
+			},
+		},
+		["a3005cd3"] = {
+			["name"] = "Throttle (analog)",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_RX",
+					["JPK"] = "ThrottleLeftNonAB",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Flight Controls",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+							[2] = 0.02,
+							[3] = 0.13,
+							[4] = 0.26,
+							[5] = 0.41,
+							[6] = 0.58,
+							[7] = 0.76,
+							[8] = 0.94,
+							[9] = 1,
+							[10] = 1,
+							[11] = 1,
+						},
+						["deadzone"] = 0,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = true,
+					},
+				},
+				[2] = {
+					["key"] = "JOY_RY",
+					["JPK"] = "ThrottleRightNonAB",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Flight Controls",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+							[2] = 0.02,
+							[3] = 0.13,
+							[4] = 0.26,
+							[5] = 0.41,
+							[6] = 0.58,
+							[7] = 0.76,
+							[8] = 0.94,
+							[9] = 1,
+							[10] = 1,
+							[11] = 1,
+						},
+						["deadzone"] = 0,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = true,
+					},
+				},
+			},
+		},
+		["a3008cd3"] = {
+			["name"] = "Engine (selected) RPM / Propeller Pitch - axis",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_SLIDER1",
+					["JPK"] = "RPM Control",
+					["JGRP"] = {
+						[1] = "IL2",
+						[2] = "DCS",
+						[3] = "Flight Controls",
+						[4] = "WW2",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+						},
+						["deadzone"] = 0,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = false,
+					},
 				},
 			},
 		},
@@ -103,6 +214,172 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_BTN_POV1_D",
+				},
+			},
+		},
+		["d3006pnilunilcd14vd0vpnilvunil"] = {
+			["name"] = "Gun Safety (toggle)",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN35",
+					["JPK"] = "Master Arm ON",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d3007pnilunilcd14vd0vpnilvunil"] = {
+			["name"] = "Gun Safety OFF",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN34",
+					["JPK"] = "Master arm OFF",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d1587pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Kneeboard ON/OFF",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN48",
+					["JPK"] = "Kneeboard TOGGLE",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d3001pnilunilcd30vd1vpnilvunil"] = {
+			["name"] = "Kneeboard Next Page",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN50",
+					["JPK"] = "Kneeboard next pg",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d3002pnilunilcd30vd1vpnilvunil"] = {
+			["name"] = "Kneeboard Previous Page",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN49",
+					["JPK"] = "Kneeboard previous pg",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["dnilp3018unilcd6vdnilvp0.7vunil"] = {
+			["name"] = "Gunsight range to target Increase",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN51",
+					["JPK"] = "RADAR - Gunsight - RNG+",
+					["JGRP"] = {
+						[1] = "WW2",
+						[2] = "Targeting",
+						[3] = "Radar",
+						[4] = "IL2",
+						[5] = "DCS",
+					},
+				},
+			},
+		},
+		["dnilp3018unilcd6vdnilvp-0.7vunil"] = {
+			["name"] = "Gunsight range to target Decrease",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN52",
+					["JPK"] = "RADAR - Gunsight - RNG-",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "IL2",
+						[3] = "Radar",
+						[4] = "Targeting",
+						[5] = "WW2",
+					},
+				},
+			},
+		},
+		["d3006pnilunilcd23vd1vpnilvunil"] = {
+			["name"] = "Radio Lights Dimmer - DIM pos.",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN6",
+					["JPK"] = "AJS T1",
+					["JGRP"] = {
+						[1] = "HOTAS",
+						[2] = "DCS",
+					},
+				},
+			},
+		},
+		["dnilp3014unilcd6vdnilvp-0.5vunil"] = {
+			["name"] = "Gunsight target span Increase",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN19",
+					["JPK"] = "Wingspan incr/Target size increase",
+					["JGRP"] = {
+						[1] = "WW2",
+						[2] = "IL2",
+						[3] = "DCS",
+						[4] = "Targeting",
+					},
+				},
+			},
+		},
+		["dnilp3014unilcd6vdnilvp0.5vunil"] = {
+			["name"] = "Gunsight target span Decrease",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN21",
+					["JPK"] = "Wingspan decr/Target size decrease",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Targeting",
+						[3] = "WW2",
+					},
+				},
+			},
+		},
+		["d3019pnilunilcd2vd1vpnilvunil"] = {
+			["name"] = "Canopy OPEN",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN38",
+					["JPK"] = "Canopy open",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d3019pnilunilcd2vd-1vpnilvunil"] = {
+			["name"] = "Canopy CLOSE",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN39",
+					["JPK"] = "Canopy close",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+						[3] = "IL2",
+					},
 				},
 			},
 		},

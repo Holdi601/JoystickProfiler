@@ -1,0 +1,30 @@
+local diff = {
+	["JAL"] = "MainThrottle",
+	["axisDiffs"] = {
+		["a2012cdnil"] = {
+			["name"] = "Zoom View",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_Z",
+					["JPK"] = "Zoom",
+					["JGRP"] = {
+						[1] = "IL2",
+						[2] = "DCS",
+						[3] = "MISC",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+						},
+						["deadzone"] = 0,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = false,
+					},
+				},
+			},
+		},
+	},
+}
+return diff

@@ -254,6 +254,11 @@ namespace JoyPro
             }
             for (int i = 0; i < selected.Count; ++i)
             {
+                if (Current.GetPlaneRelationState(selected[i].AIRCRAFT, selected[i].GAME)>0)
+                {
+                    MessageBox.Show("ERROR: Plane already active in current relation");
+                    continue;
+                }
                 if(((Button)sender).Name == "AddItemBtn")
                 {
                     Current.AddNode(selected[i].ID, selected[i].GAME, selected[i].AXIS, selected[i].AIRCRAFT, true);

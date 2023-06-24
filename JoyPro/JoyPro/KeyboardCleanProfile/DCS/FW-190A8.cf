@@ -358,8 +358,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 						[3] = "RShift",
 					},
 				},
@@ -393,8 +393,8 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 						[3] = "RShift",
 					},
 				},
@@ -406,8 +406,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 						[3] = "RShift",
 					},
 				},
@@ -1046,8 +1046,8 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -1058,8 +1058,8 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LShift",
+						[1] = "LShift",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -1311,8 +1311,8 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LShift",
+						[1] = "LShift",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1329,7 +1329,7 @@ local diff = {
 				},
 			},
 		},
-		["d3008pnilu3010cd2vd0vpnilvu0.5"] = {
+		["d3008pnilu3010cd2vd1vpnilvu0.5"] = {
 			["name"] = "Starter Power",
 			["removed"] = {
 				[1] = {
@@ -1405,7 +1405,7 @@ local diff = {
 				},
 			},
 		},
-		["d3009pnilu3010cd2vd1vpnilvu0.5"] = {
+		["d3009pnilu3010cd2vd0vpnilvu0.5"] = {
 			["name"] = "Starter Clutch",
 			["removed"] = {
 				[1] = {
@@ -1913,8 +1913,8 @@ local diff = {
 				[1] = {
 					["key"] = "1",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LWin",
+						[1] = "LWin",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1925,8 +1925,8 @@ local diff = {
 				[1] = {
 					["key"] = "2",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LWin",
+						[1] = "LWin",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1937,8 +1937,8 @@ local diff = {
 				[1] = {
 					["key"] = "3",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LWin",
+						[1] = "LWin",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1949,8 +1949,8 @@ local diff = {
 				[1] = {
 					["key"] = "4",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LWin",
+						[1] = "LWin",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1961,8 +1961,8 @@ local diff = {
 				[1] = {
 					["key"] = "5",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LWin",
+						[1] = "LWin",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1973,8 +1973,8 @@ local diff = {
 				[1] = {
 					["key"] = "6",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LWin",
+						[1] = "LWin",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1985,8 +1985,8 @@ local diff = {
 				[1] = {
 					["key"] = "7",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LWin",
+						[1] = "LWin",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1997,8 +1997,8 @@ local diff = {
 				[1] = {
 					["key"] = "8",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LWin",
+						[1] = "LWin",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -2009,8 +2009,8 @@ local diff = {
 				[1] = {
 					["key"] = "9",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LWin",
+						[1] = "LWin",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -2021,8 +2021,8 @@ local diff = {
 				[1] = {
 					["key"] = "0",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LWin",
+						[1] = "LWin",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -2033,8 +2033,8 @@ local diff = {
 				[1] = {
 					["key"] = "1",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RWin",
+						[1] = "RWin",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -2045,8 +2045,8 @@ local diff = {
 				[1] = {
 					["key"] = "2",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RWin",
+						[1] = "RWin",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -2057,8 +2057,8 @@ local diff = {
 				[1] = {
 					["key"] = "3",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RWin",
+						[1] = "RWin",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -2069,8 +2069,8 @@ local diff = {
 				[1] = {
 					["key"] = "4",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RWin",
+						[1] = "RWin",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -2081,8 +2081,8 @@ local diff = {
 				[1] = {
 					["key"] = "5",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RWin",
+						[1] = "RWin",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -2093,8 +2093,8 @@ local diff = {
 				[1] = {
 					["key"] = "6",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RWin",
+						[1] = "RWin",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -2105,8 +2105,8 @@ local diff = {
 				[1] = {
 					["key"] = "7",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RWin",
+						[1] = "RWin",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -2117,8 +2117,8 @@ local diff = {
 				[1] = {
 					["key"] = "8",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RWin",
+						[1] = "RWin",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -2129,8 +2129,8 @@ local diff = {
 				[1] = {
 					["key"] = "9",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RWin",
+						[1] = "RWin",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -2141,8 +2141,8 @@ local diff = {
 				[1] = {
 					["key"] = "0",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RWin",
+						[1] = "RWin",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -2164,8 +2164,8 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RWin",
+						[1] = "RWin",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -2474,7 +2474,7 @@ local diff = {
 			},
 		},
 		["d363pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Clickable Mouse Cockpit Mode - ON/OFF",
+			["name"] = "Force cursor to show, toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",

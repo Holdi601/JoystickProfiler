@@ -390,8 +390,8 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -402,8 +402,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 						[3] = "RShift",
 					},
 				},
@@ -437,8 +437,8 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 						[3] = "RShift",
 					},
 				},
@@ -450,8 +450,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 						[3] = "RShift",
 					},
 				},
@@ -936,8 +936,8 @@ local diff = {
 				[1] = {
 					["key"] = "T",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -1155,8 +1155,8 @@ local diff = {
 				[1] = {
 					["key"] = "V",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 						[3] = "LShift",
 					},
 				},
@@ -1168,8 +1168,8 @@ local diff = {
 				[1] = {
 					["key"] = "V",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 						[3] = "RShift",
 					},
 				},
@@ -1302,8 +1302,8 @@ local diff = {
 				[1] = {
 					["key"] = "L",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -1933,7 +1933,7 @@ local diff = {
 			},
 		},
 		["d363pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Clickable Mouse Cockpit Mode - ON/OFF",
+			["name"] = "Force cursor to show, toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",
@@ -1960,8 +1960,8 @@ local diff = {
 				[1] = {
 					["key"] = "Space",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -1984,8 +1984,8 @@ local diff = {
 				[1] = {
 					["key"] = "Space",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -2947,8 +2947,8 @@ local diff = {
 				[1] = {
 					["key"] = "V",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -2993,8 +2993,8 @@ local diff = {
 				[1] = {
 					["key"] = "V",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -3006,6 +3006,28 @@ local diff = {
 					["key"] = "Num8",
 					["reformers"] = {
 						[1] = "RShift",
+					},
+				},
+			},
+		},
+		["dnilp3132u3132cd1vdnilvp-0.5vu0"] = {
+			["name"] = "Clock winding/setting knob - Counterclockwise",
+			["removed"] = {
+				[1] = {
+					["key"] = "Q",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["dnilp3132u3132cd1vdnilvp0.5vu0"] = {
+			["name"] = "Clock winding/setting knob - Clockwise",
+			["removed"] = {
+				[1] = {
+					["key"] = "Q",
+					["reformers"] = {
+						[1] = "LShift",
 					},
 				},
 			},
@@ -3028,28 +3050,6 @@ local diff = {
 					["key"] = "Q",
 					["reformers"] = {
 						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["dnilp3148unilcd1vdnilvp-0.008vunil"] = {
-			["name"] = "Clock Setting Knob - Counterclockwise",
-			["removed"] = {
-				[1] = {
-					["key"] = "Q",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["dnilp3148unilcd1vdnilvp0.008vunil"] = {
-			["name"] = "Clock Setting Knob - Clockwise",
-			["removed"] = {
-				[1] = {
-					["key"] = "Q",
-					["reformers"] = {
-						[1] = "LShift",
 					},
 				},
 			},
@@ -3221,8 +3221,8 @@ local diff = {
 				[1] = {
 					["key"] = "B",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},

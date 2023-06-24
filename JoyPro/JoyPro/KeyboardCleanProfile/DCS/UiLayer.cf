@@ -1,0 +1,16 @@
+local diff = {
+	["keyDiffs"] = {
+		["d216pnilunilcdnilvdnilvpnilvunil"] = {
+			["added"] = {
+				[1] = {
+					["key"] = "OEM102",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+			["name"] = "recenter VR Headset",
+		},
+	},
+}
+return diff

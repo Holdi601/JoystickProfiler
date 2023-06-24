@@ -1,4 +1,5 @@
 local diff = {
+	["JAL"] = "MainThrottle",
 	["axisDiffs"] = {
 		["a2001cdnil"] = {
 			["name"] = "Pitch",
@@ -26,9 +27,124 @@ local diff = {
 		},
 		["a3005cd5"] = {
 			["name"] = "Throttle",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_RY",
+					["JPK"] = "ThrottleRightNonAB",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Flight Controls",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+							[2] = 0.02,
+							[3] = 0.13,
+							[4] = 0.26,
+							[5] = 0.41,
+							[6] = 0.58,
+							[7] = 0.76,
+							[8] = 0.94,
+							[9] = 1,
+							[10] = 1,
+							[11] = 1,
+						},
+						["deadzone"] = 0,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = true,
+					},
+				},
+			},
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_Z",
+				},
+				[2] = {
+					["key"] = "JOY_Z",
+				},
+			},
+		},
+		["a2012cdnil"] = {
+			["name"] = "Zoom View",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_Z",
+					["JPK"] = "Zoom",
+					["JGRP"] = {
+						[1] = "IL2",
+						[2] = "DCS",
+						[3] = "MISC",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+						},
+						["deadzone"] = 0,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = false,
+					},
+				},
+			},
+		},
+		["a3018cd3"] = {
+			["name"] = "Ordinance Emergency Release",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_RX",
+					["JPK"] = "ThrottleLeftNonAB",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Flight Controls",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+							[2] = 0.02,
+							[3] = 0.13,
+							[4] = 0.26,
+							[5] = 0.41,
+							[6] = 0.58,
+							[7] = 0.76,
+							[8] = 0.94,
+							[9] = 1,
+							[10] = 1,
+							[11] = 1,
+						},
+						["deadzone"] = 0,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = true,
+					},
+				},
+			},
+		},
+		["a3060cd1"] = {
+			["name"] = "Engine RPM Setting",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_SLIDER1",
+					["JPK"] = "RPM Control",
+					["JGRP"] = {
+						[1] = "IL2",
+						[2] = "DCS",
+						[3] = "Flight Controls",
+						[4] = "WW2",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+						},
+						["deadzone"] = 0,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = false,
+					},
 				},
 			},
 		},
@@ -135,6 +251,119 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_BTN_POV1_D",
+				},
+			},
+		},
+		["d3074pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "Guns Safety Lever (toggle)",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN34",
+					["JPK"] = "Master arm OFF",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+				[2] = {
+					["key"] = "JOY_BTN35",
+					["JPK"] = "Master Arm ON",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d1587pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Kneeboard ON/OFF",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN48",
+					["JPK"] = "Kneeboard TOGGLE",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d3001pnilunilcd18vd1vpnilvunil"] = {
+			["name"] = "Kneeboard Next Page",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN50",
+					["JPK"] = "Kneeboard next pg",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d3002pnilunilcd18vd1vpnilvunil"] = {
+			["name"] = "Kneeboard Previous Page",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN49",
+					["JPK"] = "Kneeboard previous pg",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["dnilp140u230cdnilvdnilvpnilvunil"] = {
+			["name"] = "Selector right",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN10",
+					["JPK"] = "Radar Azimuth Right",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Radar",
+					},
+				},
+			},
+		},
+		["d3036pnilu3036cd1vd1vpnilvu0"] = {
+			["name"] = "MW 50 Boost System ON else OFF (2-way Switch)",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN54",
+					["JPK"] = "Autopilot - Altitude Hold",
+					["JGRP"] = {
+						[1] = "AutoPilot",
+						[2] = "DCS",
+					},
+				},
+			},
+		},
+		["d3033pnilunilcd4vd1vpnilvunil"] = {
+			["name"] = "Canopy OPEN",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN38",
+					["JPK"] = "Canopy open",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d3033pnilunilcd4vd0vpnilvunil"] = {
+			["name"] = "Canopy CLOSE",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN39",
+					["JPK"] = "Canopy close",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+						[3] = "IL2",
+					},
 				},
 			},
 		},

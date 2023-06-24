@@ -47,8 +47,8 @@ local diff = {
 				[1] = {
 					["key"] = "S",
 					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LShift",
+						[1] = "LShift",
+						[2] = "LAlt",
 					},
 				},
 			},
@@ -306,8 +306,8 @@ local diff = {
 				[1] = {
 					["key"] = "A",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LShift",
+						[1] = "LShift",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -345,8 +345,8 @@ local diff = {
 				[1] = {
 					["key"] = "2",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RShift",
+						[1] = "RShift",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -357,8 +357,8 @@ local diff = {
 				[1] = {
 					["key"] = "3",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RShift",
+						[1] = "RShift",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -369,8 +369,8 @@ local diff = {
 				[1] = {
 					["key"] = "4",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RShift",
+						[1] = "RShift",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -381,8 +381,8 @@ local diff = {
 				[1] = {
 					["key"] = "5",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RShift",
+						[1] = "RShift",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -393,8 +393,8 @@ local diff = {
 				[1] = {
 					["key"] = "6",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RShift",
+						[1] = "RShift",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -405,8 +405,8 @@ local diff = {
 				[1] = {
 					["key"] = "7",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RShift",
+						[1] = "RShift",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -575,7 +575,7 @@ local diff = {
 			},
 		},
 		["d10230pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Radio Preset Channel Selector - Increase",
+			["name"] = "Radio Preset Channel Knob - Increase",
 			["removed"] = {
 				[1] = {
 					["key"] = "H",
@@ -586,7 +586,7 @@ local diff = {
 			},
 		},
 		["d10231pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Radio Preset Channel Selector - Decrease",
+			["name"] = "Radio Preset Channel Knob - Decrease",
 			["removed"] = {
 				[1] = {
 					["key"] = "H",
@@ -673,8 +673,8 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LShift",
+						[1] = "LShift",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -2398,8 +2398,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
+						[1] = "RShift",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -2410,8 +2410,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RShift",
+						[1] = "RShift",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -2521,7 +2521,7 @@ local diff = {
 			},
 		},
 		["dnilp10117u10119cdnilvdnilvpnilvunil"] = {
-			["name"] = "Rudder Trim Switch - Left",
+			["name"] = "Rudder Trim Switch - Rudder Left",
 			["removed"] = {
 				[1] = {
 					["key"] = "Z",
@@ -2532,7 +2532,7 @@ local diff = {
 			},
 		},
 		["dnilp10118u10119cdnilvdnilvpnilvunil"] = {
-			["name"] = "Rudder Trim Switch - Right",
+			["name"] = "Rudder Trim Switch - Rudder Right",
 			["removed"] = {
 				[1] = {
 					["key"] = "X",

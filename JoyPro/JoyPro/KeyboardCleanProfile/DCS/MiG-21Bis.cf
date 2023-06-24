@@ -1575,29 +1575,6 @@ local diff = {
 				},
 			},
 		},
-		["d3096pnilunilcd40vd0vpnilvunil"] = {
-			["name"] = "Locked Beam Off",
-			["removed"] = {
-				[1] = {
-					["key"] = "6",
-					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LShift",
-					},
-				},
-			},
-		},
-		["d3096pnilunilcd40vd1vpnilvunil"] = {
-			["name"] = "Locked Beam On",
-			["removed"] = {
-				[1] = {
-					["key"] = "6",
-					["reformers"] = {
-						[1] = "LAlt",
-					},
-				},
-			},
-		},
 		["d3098pnilu3098cd40vd1vpnilvu0"] = {
 			["name"] = "Radar ECM protection panel - Continues",
 			["removed"] = {
@@ -2199,29 +2176,6 @@ local diff = {
 					["key"] = "C",
 					["reformers"] = {
 						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d3153pnilu3153cd43vd1vpnilvu0"] = {
-			["name"] = "Canopy Anti Icing",
-			["removed"] = {
-				[1] = {
-					["key"] = "C",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d3154pnilunilcd43vd1vpnilvunil"] = {
-			["name"] = "Canopy Emergency jettison",
-			["removed"] = {
-				[1] = {
-					["key"] = "C",
-					["reformers"] = {
-						[1] = "LAlt",
-						[2] = "LWin",
 					},
 				},
 			},
@@ -3763,28 +3717,6 @@ local diff = {
 					["key"] = "Num-",
 					["reformers"] = {
 						[1] = "LWin",
-					},
-				},
-			},
-		},
-		["dnilp3341u3341cd28vdnilvp-0.02vunil"] = {
-			["name"] = "KPP Set pitch -",
-			["removed"] = {
-				[1] = {
-					["key"] = "K",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["dnilp3341u3341cd28vdnilvp0.02vunil"] = {
-			["name"] = "KPP set pitch +",
-			["removed"] = {
-				[1] = {
-					["key"] = "K",
-					["reformers"] = {
-						[1] = "LShift",
 					},
 				},
 			},

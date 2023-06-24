@@ -1,4 +1,5 @@
 local diff = {
+	["JAL"] = "",
 	["axisDiffs"] = {
 		["a2004cdnil"] = {
 			["name"] = "Thrust",
@@ -10,17 +11,49 @@ local diff = {
 		},
 		["a8034cdnil"] = {
 			["name"] = "Pitch",
-			["removed"] = {
+			["added"] = {
 				[1] = {
 					["key"] = "JOY_Y",
+					["JPK"] = "Pitch",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "IL2",
+						[3] = "Flight Controls",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+						},
+						["deadzone"] = 0,
+						["invert"] = false,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = false,
+					},
 				},
 			},
 		},
 		["a8035cdnil"] = {
 			["name"] = "Roll",
-			["removed"] = {
+			["added"] = {
 				[1] = {
 					["key"] = "JOY_X",
+					["JPK"] = "Roll",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Flight Controls",
+						[3] = "IL2",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+						},
+						["deadzone"] = 0,
+						["invert"] = false,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = false,
+					},
 				},
 			},
 		},

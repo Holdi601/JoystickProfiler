@@ -884,6 +884,9 @@
    <action name="v_power_toggle_weapons"><!--Toggle Power - Weapons//False-->
     <rebind input="kb1_p"/>
    </action>
+   <action name="v_power_set_weapons_off"><!--Set Weapons Power Off//False-->
+     <rebind input="kb1_ "/>
+   </action>
    <action name="v_power_set_weapons_on"><!--Set Weapons Power On//False-->
     <rebind input="kb1_ "/>
    </action>

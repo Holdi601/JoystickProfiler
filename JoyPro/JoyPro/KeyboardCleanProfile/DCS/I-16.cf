@@ -374,8 +374,8 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -386,8 +386,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 						[3] = "RShift",
 					},
 				},
@@ -421,8 +421,8 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 						[3] = "RShift",
 					},
 				},
@@ -434,8 +434,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 						[3] = "RShift",
 					},
 				},
@@ -1612,17 +1612,6 @@ local diff = {
 				},
 			},
 		},
-		["d3067pnilunilcd1vd1vpnilvunil"] = {
-			["name"] = "Left Door Close",
-			["removed"] = {
-				[1] = {
-					["key"] = "C",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
 		["d3068pnilunilcd1vd0vpnilvunil"] = {
 			["name"] = "Right Door Open",
 			["removed"] = {
@@ -1630,17 +1619,6 @@ local diff = {
 					["key"] = "C",
 					["reformers"] = {
 						[1] = "RWin",
-					},
-				},
-			},
-		},
-		["d3068pnilunilcd1vd1vpnilvunil"] = {
-			["name"] = "Right Door Close",
-			["removed"] = {
-				[1] = {
-					["key"] = "C",
-					["reformers"] = {
-						[1] = "RShift",
 					},
 				},
 			},
@@ -2090,7 +2068,7 @@ local diff = {
 			},
 		},
 		["d363pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Clickable Mouse Cockpit Mode - ON/OFF",
+			["name"] = "Force cursor to show, toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",

@@ -643,8 +643,8 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 					},
 				},
 			},
@@ -655,8 +655,8 @@ local diff = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 						[3] = "RShift",
 					},
 				},
@@ -690,8 +690,8 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 						[3] = "RShift",
 					},
 				},
@@ -703,8 +703,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RAlt",
 						[3] = "RShift",
 					},
 				},
@@ -1349,7 +1349,7 @@ local diff = {
 				},
 			},
 		},
-		["d3001pnilunilcd100vd1vpnilvunil"] = {
+		["d3001pnilunilcd61vd1vpnilvunil"] = {
 			["name"] = "Kneeboard Next Page",
 			["removed"] = {
 				[1] = {
@@ -1357,7 +1357,7 @@ local diff = {
 				},
 			},
 		},
-		["d3002pnilunilcd100vd1vpnilvunil"] = {
+		["d3002pnilunilcd61vd1vpnilvunil"] = {
 			["name"] = "Kneeboard Previous Page",
 			["removed"] = {
 				[1] = {
@@ -1365,7 +1365,7 @@ local diff = {
 				},
 			},
 		},
-		["d3003pnilunilcd100vd1vpnilvunil"] = {
+		["d3003pnilunilcd61vd1vpnilvunil"] = {
 			["name"] = "Kneeboard current position mark point",
 			["removed"] = {
 				[1] = {
@@ -1771,7 +1771,7 @@ local diff = {
 			},
 		},
 		["d363pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Clickable Mouse Cockpit Mode - ON/OFF",
+			["name"] = "Force cursor to show, toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",
@@ -3257,8 +3257,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RShift",
+						[1] = "RShift",
+						[2] = "RAlt",
 					},
 				},
 			},

@@ -1,4 +1,5 @@
 local diff = {
+	["JAL"] = "MainThrottle",
 	["axisDiffs"] = {
 		["a2001cdnil"] = {
 			["name"] = "Pitch",
@@ -29,6 +30,142 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_Z",
+				},
+			},
+		},
+		["a2033cdnil"] = {
+			["name"] = "HOTAS Slew Horizontal",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_X",
+					["JPK"] = "TDC Horizontal",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Targeting",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0.5,
+						},
+						["deadzone"] = 0.01,
+						["invert"] = false,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = false,
+					},
+				},
+			},
+		},
+		["a2012cdnil"] = {
+			["name"] = "Zoom View",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_Z",
+					["JPK"] = "Zoom",
+					["JGRP"] = {
+						[1] = "IL2",
+						[2] = "DCS",
+						[3] = "MISC",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+						},
+						["deadzone"] = 0,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = false,
+					},
+				},
+			},
+		},
+		["a2006cdnil"] = {
+			["name"] = "Throttle Right",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_RY",
+					["JPK"] = "ThrottleRightNonAB",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Flight Controls",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+							[2] = 0.02,
+							[3] = 0.13,
+							[4] = 0.26,
+							[5] = 0.41,
+							[6] = 0.58,
+							[7] = 0.76,
+							[8] = 0.94,
+							[9] = 1,
+							[10] = 1,
+							[11] = 1,
+						},
+						["deadzone"] = 0,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = true,
+					},
+				},
+			},
+		},
+		["a2005cdnil"] = {
+			["name"] = "Throttle Left",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_RX",
+					["JPK"] = "ThrottleLeftNonAB",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Flight Controls",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+							[2] = 0.02,
+							[3] = 0.13,
+							[4] = 0.26,
+							[5] = 0.41,
+							[6] = 0.58,
+							[7] = 0.76,
+							[8] = 0.94,
+							[9] = 1,
+							[10] = 1,
+							[11] = 1,
+						},
+						["deadzone"] = 0,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = true,
+					},
+				},
+			},
+		},
+		["a2034cdnil"] = {
+			["name"] = "HOTAS Slew Vertical",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_Y",
+					["JPK"] = "TDC Vertical_inv",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Targeting",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0.5,
+						},
+						["deadzone"] = 0.01,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = false,
+					},
 				},
 			},
 		},
@@ -135,6 +272,297 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_BTN5",
+				},
+			},
+		},
+		["d578pnilu579cdnilvdnilvpnilvunil"] = {
+			["name"] = "HOTAS Speed Brake Switch Aft",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN25",
+					["JPK"] = "AirbakeExtend",
+					["JGRP"] = {
+						[1] = "Flight Controls",
+						[2] = "DCS",
+					},
+				},
+			},
+		},
+		["d577pnilu579cdnilvdnilvpnilvunil"] = {
+			["name"] = "HOTAS Speed Brake Switch Forward",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN27",
+					["JPK"] = "AirbrakeRetract",
+					["JGRP"] = {
+						[1] = "Flight Controls",
+						[2] = "DCS",
+						[3] = "IL2",
+					},
+				},
+			},
+		},
+		["d1587pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Kneeboard ON/OFF",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN48",
+					["JPK"] = "Kneeboard TOGGLE",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d3001pnilunilcd100vd1vpnilvunil"] = {
+			["name"] = "Kneeboard Next Page",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN50",
+					["JPK"] = "Kneeboard next pg",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d3002pnilunilcd100vd1vpnilvunil"] = {
+			["name"] = "Kneeboard Previous Page",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN49",
+					["JPK"] = "Kneeboard previous pg",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d311pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Left Engine Start",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN74",
+					["JPK"] = "LEFT engine START",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+						[3] = "IL2",
+					},
+				},
+			},
+		},
+		["d313pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Left Engine Stop",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN72",
+					["JPK"] = "LEFT engine STOP",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d312pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Right Engine Start",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN75",
+					["JPK"] = "RIGHT engine START",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+						[3] = "IL2",
+					},
+				},
+			},
+		},
+		["d314pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Right Engine Stop",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN73",
+					["JPK"] = "RIGHT engine STOP",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d539pnilu543cdnilvdnilvpnilvunil"] = {
+			["name"] = "HOTAS Coolie Switch Up",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN7",
+					["JPK"] = "A10 - DMS Up",
+					["JGRP"] = {
+						[1] = "HOTAS",
+						[2] = "DCS",
+					},
+				},
+			},
+		},
+		["d540pnilu543cdnilvdnilvpnilvunil"] = {
+			["name"] = "HOTAS Coolie Switch Down",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN9",
+					["JPK"] = "A10 - DMS Down",
+					["JGRP"] = {
+						[1] = "HOTAS",
+						[2] = "DCS",
+					},
+				},
+			},
+		},
+		["d551pnilu553cdnilvdnilvpnilvunil"] = {
+			["name"] = "HOTAS DMS Left",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN8",
+					["JPK"] = "A10 - DMS Left",
+					["JGRP"] = {
+						[1] = "HOTAS",
+						[2] = "DCS",
+					},
+				},
+			},
+		},
+		["d552pnilu553cdnilvdnilvpnilvunil"] = {
+			["name"] = "HOTAS DMS Right",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN10",
+					["JPK"] = "A10 - DMS Right",
+					["JGRP"] = {
+						[1] = "HOTAS",
+						[2] = "DCS",
+					},
+				},
+			},
+		},
+		["d564pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "HOTAS Boat Switch Aft",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN29",
+					["JPK"] = "FLIR WHOT - Boat Aft",
+					["JGRP"] = {
+						[1] = "Targeting",
+						[2] = "Flight Controls",
+						[3] = "HOTAS",
+						[4] = "DCS",
+					},
+				},
+			},
+		},
+		["d563pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "HOTAS Boat Switch Forward",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN28",
+					["JPK"] = "FLIR BHOT - BOAT FWD",
+					["JGRP"] = {
+						[1] = "Targeting",
+						[2] = "DCS",
+						[3] = "HOTAS",
+					},
+				},
+			},
+		},
+		["d565pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "HOTAS Boat Switch Center",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN84",
+					["JPK"] = "FLIR CCD - BOAT Center -EO on/off",
+					["JGRP"] = {
+						[1] = "Targeting",
+						[2] = "DCS",
+						[3] = "HOTAS",
+					},
+				},
+			},
+		},
+		["d561pnilu633cdnilvdnilvpnilvunil"] = {
+			["name"] = "HOTAS Master Mode Control Button",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN18",
+					["JPK"] = "F-16 DF - Center / JF Nav /M2k CMD CenterDepress",
+					["JGRP"] = {
+						[1] = "HOTAS",
+						[2] = "DCS",
+						[3] = "Modes",
+						[4] = "Targeting",
+					},
+				},
+			},
+		},
+		["d62pnilu62cdnilvdnilvpnilvunil"] = {
+			["name"] = "LAAP Engage/Disengage",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN53",
+					["JPK"] = "Autopilot - On",
+					["JGRP"] = {
+						[1] = "AutoPilot",
+						[2] = "DCS",
+					},
+				},
+			},
+		},
+		["d637pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "LAAP Path Hold",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN55",
+					["JPK"] = "Autopilot - Attitude hold",
+					["JGRP"] = {
+						[1] = "AutoPilot",
+						[2] = "DCS",
+					},
+				},
+			},
+		},
+		["d387pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "LAAP Altitude/Bank Hold",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN54",
+					["JPK"] = "Autopilot - Altitude Hold",
+					["JGRP"] = {
+						[1] = "AutoPilot",
+						[2] = "DCS",
+					},
+				},
+			},
+		},
+		["d71pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Canopy Open/Close",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN39",
+					["JPK"] = "Canopy close",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+						[3] = "IL2",
+					},
+				},
+				[2] = {
+					["key"] = "JOY_BTN38",
+					["JPK"] = "Canopy open",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
 				},
 			},
 		},

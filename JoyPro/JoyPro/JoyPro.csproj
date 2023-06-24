@@ -1286,6 +1286,33 @@
     <Content Include="KeyboardCleanProfile\DCS\A-4E-C.cf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="CleanProfile\DCS\F-15E.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\F-15E_WSO.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\UiLayer.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\CameraObject.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\F-15E.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\F-15E_WSO.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\UiLayer.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\SA342 Gunner.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\SA342 Gunner.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="TOOLS\AHK\ALTF4.ahk" />
     <None Include="TOOLS\AHK\ArrowKeyDown.ahk" />
     <None Include="TOOLS\AHK\ArrowKeyUp.ahk" />

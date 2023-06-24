@@ -1,10 +1,11 @@
 local diff = {
 	["keyDiffs"] = {
-		["d84pnilu84cdnilvd1vpnilvu0"] = {
-			["name"] = "Machinegun fire",
-			["removed"] = {
+		["dDummyEntryFor1Key"] = {
+			["name"] = "DummyKeybindToRemoveFromDefaults",
+			["added"] = {
 				[1] = {
-					["key"] = "Space",
+					["key"] = "\\",
+					["JPK"] = "DummyUnbindRelation",
 				},
 			},
 		},

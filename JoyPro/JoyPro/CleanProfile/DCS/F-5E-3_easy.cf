@@ -1,4 +1,5 @@
 local diff = {
+	["JAL"] = "MainThrottle",
 	["axisDiffs"] = {
 		["a2001cdnil"] = {
 			["name"] = "Pitch",
@@ -26,9 +27,67 @@ local diff = {
 		},
 		["a2004cdnil"] = {
 			["name"] = "Thrust",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_RY",
+					["JPK"] = "ThrottleRight",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Flight Controls",
+						[3] = "IL2",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+							[2] = 0.02,
+							[3] = 0.12,
+							[4] = 0.23,
+							[5] = 0.33,
+							[6] = 0.45,
+							[7] = 0.56,
+							[8] = 0.67,
+							[9] = 0.78,
+							[10] = 0.89,
+							[11] = 1,
+						},
+						["deadzone"] = 0,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = true,
+					},
+				},
+			},
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_Z",
+				},
+				[2] = {
+					["key"] = "JOY_Z",
+				},
+			},
+		},
+		["a2012cdnil"] = {
+			["name"] = "Zoom View",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_Z",
+					["JPK"] = "Zoom",
+					["JGRP"] = {
+						[1] = "IL2",
+						[2] = "DCS",
+						[3] = "MISC",
+					},
+					["filter"] = {
+						["curvature"] = {
+							[1] = 0,
+						},
+						["deadzone"] = 0,
+						["invert"] = true,
+						["saturationX"] = 1,
+						["saturationY"] = 1,
+						["slider"] = false,
+					},
 				},
 			},
 		},
@@ -95,6 +154,161 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_BTN_POV1_D",
+				},
+			},
+		},
+		["d147pnilu147cdnilvd1vpnilvu0"] = {
+			["name"] = "Airbrake Switch, OPEN",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN25",
+					["JPK"] = "AirbakeExtend",
+					["JGRP"] = {
+						[1] = "Flight Controls",
+						[2] = "DCS",
+					},
+				},
+			},
+		},
+		["d148pnilu148cdnilvd1vpnilvu0"] = {
+			["name"] = "Airbrake Switch, CLOSE",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN27",
+					["JPK"] = "AirbrakeRetract",
+					["JGRP"] = {
+						[1] = "Flight Controls",
+						[2] = "DCS",
+						[3] = "IL2",
+					},
+				},
+			},
+		},
+		["d76pnilu76cdnilvd1vpnilvu0"] = {
+			["name"] = "Drag Chute T-Handle - PULL/PUSH",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN41",
+					["JPK"] = "Dragchute",
+					["JGRP"] = {
+						[1] = "Flight Controls",
+						[2] = "DCS",
+					},
+				},
+			},
+		},
+		["d1587pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Kneeboard ON/OFF",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN48",
+					["JPK"] = "Kneeboard TOGGLE",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d3001pnilunilcd39vd1vpnilvunil"] = {
+			["name"] = "Kneeboard Next Page",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN50",
+					["JPK"] = "Kneeboard next pg",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d3002pnilunilcd39vd1vpnilvunil"] = {
+			["name"] = "Kneeboard Previous Page",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN49",
+					["JPK"] = "Kneeboard previous pg",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d311pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Throttle (Left) - IDLE",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN74",
+					["JPK"] = "LEFT engine START",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+						[3] = "IL2",
+					},
+				},
+			},
+		},
+		["d313pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Throttle (Left) - OFF",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN72",
+					["JPK"] = "LEFT engine STOP",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d312pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Throttle (Right) - IDLE",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN75",
+					["JPK"] = "RIGHT engine START",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+						[3] = "IL2",
+					},
+				},
+			},
+		},
+		["d314pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Throttle (Right) - OFF",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN73",
+					["JPK"] = "RIGHT engine STOP",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
+				},
+			},
+		},
+		["d71pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Canopy Open/Close",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN39",
+					["JPK"] = "Canopy close",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+						[3] = "IL2",
+					},
+				},
+				[2] = {
+					["key"] = "JOY_BTN38",
+					["JPK"] = "Canopy open",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "MISC",
+					},
 				},
 			},
 		},

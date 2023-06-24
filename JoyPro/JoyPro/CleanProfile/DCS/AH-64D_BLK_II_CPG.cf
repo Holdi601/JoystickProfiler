@@ -1,4 +1,5 @@
 local diff = {
+	["JAL"] = "KeyboardJoystick",
 	["axisDiffs"] = {
 		["a2001cdnil"] = {
 			["name"] = "Cyclic Pitch",
@@ -32,6 +33,11 @@ local diff = {
 				},
 			},
 		},
+	},
+	["ffDiffs"] = {
+		["invertX"] = false,
+		["invertY"] = false,
+		["swapAxes"] = false,
 	},
 	["keyDiffs"] = {
 		["dnilp210u214cdnilvdnilvpnilvunil"] = {
@@ -95,6 +101,188 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_BTN_POV1_D",
+				},
+			},
+		},
+		["d3043pnilu3043cd31vd1vpnilvu0"] = {
+			["name"] = "KU Key - 0",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN10",
+					["JPK"] = "UFC__0",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3033pnilu3033cd31vd1vpnilvu0"] = {
+			["name"] = "KU Key - 1",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN1",
+					["JPK"] = "UFC__1",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3034pnilu3034cd31vd1vpnilvu0"] = {
+			["name"] = "KU Key - 2",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN2",
+					["JPK"] = "UFC__2",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3035pnilu3035cd31vd1vpnilvu0"] = {
+			["name"] = "KU Key - 3",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN3",
+					["JPK"] = "UFC__3",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3036pnilu3036cd31vd1vpnilvu0"] = {
+			["name"] = "KU Key - 4",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN4",
+					["JPK"] = "UFC__4",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3037pnilu3037cd31vd1vpnilvu0"] = {
+			["name"] = "KU Key - 5",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN5",
+					["JPK"] = "UFC__5",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3038pnilu3038cd31vd1vpnilvu0"] = {
+			["name"] = "KU Key - 6",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN6",
+					["JPK"] = "UFC__6",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3039pnilu3039cd31vd1vpnilvu0"] = {
+			["name"] = "KU Key - 7",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN7",
+					["JPK"] = "UFC__7",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3040pnilu3040cd31vd1vpnilvu0"] = {
+			["name"] = "KU Key - 8",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN8",
+					["JPK"] = "UFC__8",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3041pnilu3041cd31vd1vpnilvu0"] = {
+			["name"] = "KU Key - 9",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN9",
+					["JPK"] = "UFC__9",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3006pnilu3006cd31vd1vpnilvu0"] = {
+			["name"] = "KU Key - ENTER",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN11",
+					["JPK"] = "UFC__Enter",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3001pnilu3001cd31vd1vpnilvu0"] = {
+			["name"] = "KU Key - CLR",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN12",
+					["JPK"] = "UFC__Clear",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3004pnilu3004cd31vd1vpnilvu0"] = {
+			["name"] = "KU Key - Left",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN_POV1_L",
+					["JPK"] = "UFC__ModeLeft",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Modes",
+					},
+				},
+			},
+		},
+		["d3005pnilu3005cd31vd1vpnilvu0"] = {
+			["name"] = "KU Key - Right",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN_POV1_R",
+					["JPK"] = "UFC__ModeRight",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
 				},
 			},
 		},

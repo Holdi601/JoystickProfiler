@@ -1,4 +1,5 @@
 local diff = {
+	["JAL"] = "KeyboardJoystick",
 	["axisDiffs"] = {
 		["a2001cdnil"] = {
 			["name"] = "Pitch",
@@ -32,6 +33,11 @@ local diff = {
 				},
 			},
 		},
+	},
+	["ffDiffs"] = {
+		["invertX"] = false,
+		["invertY"] = false,
+		["swapAxes"] = false,
 	},
 	["keyDiffs"] = {
 		["d350pnilu351cdnilvdnilvpnilvunil"] = {
@@ -103,6 +109,214 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_BTN_POV1_D",
+				},
+			},
+		},
+		["d3020pnilu3020cd12vd1vpnilvu0"] = {
+			["name"] = "Data panel Digit 0",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN10",
+					["JPK"] = "UFC__0",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3021pnilu3021cd12vd1vpnilvu0"] = {
+			["name"] = "Data panel Digit 1",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN1",
+					["JPK"] = "UFC__1",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3022pnilu3022cd12vd1vpnilvu0"] = {
+			["name"] = "Data panel Digit 2",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN2",
+					["JPK"] = "UFC__2",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3023pnilu3023cd12vd1vpnilvu0"] = {
+			["name"] = "Data panel Digit 3",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN3",
+					["JPK"] = "UFC__3",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3024pnilu3024cd12vd1vpnilvu0"] = {
+			["name"] = "Data panel Digit 4",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN4",
+					["JPK"] = "UFC__4",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3025pnilu3025cd12vd1vpnilvu0"] = {
+			["name"] = "Data panel Digit 5",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN5",
+					["JPK"] = "UFC__5",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3026pnilu3026cd12vd1vpnilvu0"] = {
+			["name"] = "Data panel Digit 6",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN6",
+					["JPK"] = "UFC__6",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3027pnilu3027cd12vd1vpnilvu0"] = {
+			["name"] = "Data panel Digit 7",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN7",
+					["JPK"] = "UFC__7",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3028pnilu3028cd12vd1vpnilvu0"] = {
+			["name"] = "Data panel Digit 8",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN8",
+					["JPK"] = "UFC__8",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3029pnilu3029cd12vd1vpnilvu0"] = {
+			["name"] = "Data panel Digit 9",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN9",
+					["JPK"] = "UFC__9",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3009pnilu3009cd12vd1vpnilvu0"] = {
+			["name"] = "Navigation panel Waypoint LS SKU",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN11",
+					["JPK"] = "UFC__Enter",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3001pnilu3001cd23vd1vpnilvu0"] = {
+			["name"] = "Data panel RENSA (Clear)",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN12",
+					["JPK"] = "UFC__Clear",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3008pnilunilcd23vd0vpnilvunil"] = {
+			["name"] = "Datapanel Switch Output",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN_POV1_D",
+					["JPK"] = "UFC__ModeDown",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Modes",
+					},
+				},
+			},
+		},
+		["d3008pnilunilcd23vd1vpnilvunil"] = {
+			["name"] = "Datapanel Switch Input",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN_POV1_U",
+					["JPK"] = "UFC__ModeUp",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
+				},
+			},
+		},
+		["d3011pnilunilcd23vd-1vpnilvunil"] = {
+			["name"] = "Datapanel Rotary Counterclockwise",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN_POV1_L",
+					["JPK"] = "UFC__ModeLeft",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "Modes",
+					},
+				},
+			},
+		},
+		["d3011pnilunilcd23vd1vpnilvunil"] = {
+			["name"] = "Datapanel Rotary Clockwise",
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN_POV1_R",
+					["JPK"] = "UFC__ModeRight",
+					["JGRP"] = {
+						[1] = "DCS",
+						[2] = "UFC",
+					},
 				},
 			},
 		},
