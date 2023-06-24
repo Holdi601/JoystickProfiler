@@ -376,6 +376,15 @@
     <Content Include="DB\DCS\A-4E-C.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DB\DCS\F-15E.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\DCS\F-15E_WSO.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\DCS\SA342 Gunner.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DB\StarCitizen\AllBinds.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

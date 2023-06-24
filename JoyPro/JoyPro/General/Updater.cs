@@ -72,7 +72,28 @@ namespace JoyPro
             }
         }
 
-
+        public static void WriteCurrentFingerprint()
+        {
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                string currentPath = AppDomain.CurrentDomain.BaseDirectory;
+                string parent = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(currentPath))))));
+                string verNummer = ((double)MainStructure.version / 1000.0).ToString().Replace(".", "").Replace(",", "");
+                for (int i = verNummer.Length; i < 4; ++i)
+                {
+                    verNummer+= "0";
+                }
+                string toFingerPrint = parent+"\\Builds\\JoyPro_WinX64_v"+verNummer+".zip";
+                if(File.Exists(toFingerPrint))
+                {
+                    byte[] tofileHash = MainStructure.GetFileHash(toFingerPrint);
+                    string tofileHashString = BitConverter.ToString(tofileHash).Replace("-", string.Empty);
+                    MainStructure.Write("HASH for current build");
+                    MainStructure.Write(tofileHashString);
+                }   
+                
+            }
+        }
 
         public static void DownloadCompleted(object o, EventArgs e)
         {
@@ -113,17 +134,20 @@ namespace JoyPro
                     return;
                 }
                 
+                
+
+
                 ProcessStartInfo startInfo = new ProcessStartInfo(MainStructure.PROGPATH + "\\TOOLS\\temp\\UnzipMeHereWin.exe");
                 startInfo.Arguments = "\"" + MainStructure.PROGPATH + "\\NewerVersion.zip\" \"" + MainStructure.PROGPATH + "\" \"" + MainStructure.PROGPATH + "\\JoyPro.exe\"";
                 string fngrprntFilePath = MainStructure.PROGPATH + "\\NewerVersion.zip";
-                //byte[] fileHash = MainStructure.GetFileHash(fngrprntFilePath);
-                //string fileHashString = BitConverter.ToString(fileHash).Replace("-", string.Empty);
-                //if (fileHashString != newestAvailableVersionFingerprint)
-                //{
-                //    MainStructure.Write("Fingerprint mismatches. Cancelling update");
-                //    MessageBox.Show("The fingerprint of the downloaded File mismatches with the remote file");
-                //    return;
-                //}
+                byte[] fileHash = MainStructure.GetFileHash(fngrprntFilePath);
+                string fileHashString = BitConverter.ToString(fileHash).Replace("-", string.Empty);
+                if (fileHashString != newestAvailableVersionFingerprint)
+                {
+                    MainStructure.Write("Fingerprint mismatches. Cancelling update");
+                    MessageBox.Show("The fingerprint of the downloaded File mismatches with the remote file");
+                    return;
+                }
                 try
                 {
                     Process.Start(startInfo);
@@ -147,8 +171,10 @@ namespace JoyPro
         }
         public static int GetNewestVersionNumber()
         {
+            WriteCurrentFingerprint();
             try
             {
+                
                 WebClient web = new WebClient();
                 System.IO.Stream stream = web.OpenRead(externalWebUrl);
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(stream))
