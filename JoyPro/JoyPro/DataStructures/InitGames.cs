@@ -218,6 +218,7 @@ namespace JoyPro
             if(MainStructure.loadKeyboard)DCSIOLogic.LoadCleanLuasDCSKeyboard();
             DCSIOLogic.LoadLocalDefaultsDCS();
             DCSIOLogic.LoadKeyboardConversion();
+            DCSIOLogic.LoadFFBCorrection();
             List<string> installs = new List<string>();
             string pth = MainStructure.GetRegistryValue("SOFTWARE\\Eagle Dynamics\\DCS World", "Path", "CurrentUser");
             if (pth != null) installs.Add(pth);

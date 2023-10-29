@@ -100,6 +100,7 @@ namespace JoyPro
                 {
                     List<string> Aircraft = AllRelIt[j].GetActiveAircraftList();
                     string game = AllRelIt[j].Game;
+                    if (game == "StarCitizen") continue;
                     for (int k=0; k<Aircraft.Count; ++k)
                     {
                         string toAdd = game+":"+Aircraft[k] + "§" + binds[i].Joystick;

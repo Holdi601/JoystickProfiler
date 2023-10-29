@@ -106,9 +106,18 @@ namespace JoyPro
             if(InternalDataManagement.JoystickFFB.ContainsKey(JoystickName))
             {
                 swr.Write("\t[\"ffDiffs\"] = {\n");
-                swr.Write("\t\t[\"invertX\"] = " + (InternalDataManagement.JoystickFFB[JoystickName].invertX ? "true" : "false") + ",\n");
-                swr.Write("\t\t[\"invertY\"] = " + (InternalDataManagement.JoystickFFB[JoystickName].invertY ? "true" : "false") + ",\n");
-                swr.Write("\t\t[\"swapAxes\"] = " + (InternalDataManagement.JoystickFFB[JoystickName].swapAxis ? "true" : "false") + ",\n");
+                bool invertX = InternalDataManagement.JoystickFFB[JoystickName].invertX;
+                bool invertY = InternalDataManagement.JoystickFFB[JoystickName].invertY;
+                bool swapAxis = InternalDataManagement.JoystickFFB[JoystickName].swapAxis;
+                if (DCSIOLogic.FFBPlaneCorrection.ContainsKey(plane))
+                {
+                    if (DCSIOLogic.FFBPlaneCorrection[plane].invertX) invertX = !invertX;
+                    if (DCSIOLogic.FFBPlaneCorrection[plane].invertY) invertY = !invertY;
+                    if (DCSIOLogic.FFBPlaneCorrection[plane].SwapAxis) swapAxis = !swapAxis;
+                }
+                swr.Write("\t\t[\"invertX\"] = " + (invertX ? "true" : "false") + ",\n");
+                swr.Write("\t\t[\"invertY\"] = " + (invertY ? "true" : "false") + ",\n");
+                swr.Write("\t\t[\"swapAxes\"] = " + (swapAxis ? "true" : "false") + ",\n");
                 swr.Write("\t},\n");
             }
             if (keyDiffs.Count > 0)

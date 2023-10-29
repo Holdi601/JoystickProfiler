@@ -252,6 +252,7 @@ namespace JoyPro
             ALLBUTTONS.Add(MassOperationBtn);
             ALLBUTTONS.Add(JoystickReferenceBtn);
             ALLBUTTONS.Add(JoystickForceFeedbackBtn);
+            ALLBUTTONS.Add(TransferButtonsBtn);
         }
         void SetupEventHandlers()
         {
@@ -302,7 +303,43 @@ namespace JoyPro
             VisualAssigningModeBtn.Click += new RoutedEventHandler(SwitchVisualMode);
             JoystickReferenceBtn.Click += new RoutedEventHandler(OpenJoystickReference);
             JoystickForceFeedbackBtn.Click += new RoutedEventHandler(OpenForceFeedbackWindow);
+            TransferButtonsBtn.Click += new RoutedEventHandler(OpenTransferButton);
         }
+
+        void OpenTransferButton(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Multiselect = false;
+            ofd.Filter = "Pr0file Files (*.pr0file)|*.pr0file|All filed (*.*)|*.*";
+            ofd.Title = "Transfer Pr0file";
+            if (MainStructure.msave.lastOpenedLocation.Length < 1 || !Directory.Exists(MainStructure.msave.lastOpenedLocation))
+            {
+                ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            }
+            else
+            {
+                ofd.InitialDirectory = MainStructure.msave.lastOpenedLocation;
+            }
+
+            string fileToOpen;
+            if (ofd.ShowDialog() == true)
+            {
+                MainStructure.Write(ofd.FileName);
+                fileToOpen = ofd.FileName;
+                string[] pathParts = fileToOpen.Split('\\');
+                if (pathParts.Length > 0)
+                {
+                    MainStructure.msave.lastOpenedLocation = pathParts[0];
+                    for (int i = 1; i < pathParts.Length - 1; ++i)
+                    {
+                        MainStructure.msave.lastOpenedLocation = MainStructure.msave.lastOpenedLocation + "\\" + pathParts[i];
+                    }
+                }
+                InternalDataManagement.TransferCurrentBinsOnPr0file(fileToOpen);
+                MessageBox.Show("Bindings transferred, please make sure there are no Binding errors in Validation");
+            }
+        }
+
         void OpenForceFeedbackWindow(object sender, EventArgs e)
         {
             DisableInputs();

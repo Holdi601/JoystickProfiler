@@ -7,8 +7,47 @@ using System.Threading.Tasks;
 
 namespace JoyPro
 {
+    public struct FFBSetting
+    {
+        public string Plane;
+        public bool invertY;
+        public bool invertX;
+        public bool SwapAxis;
+
+        public FFBSetting(string plane)
+        {
+            Plane=plane;
+            invertY=false;
+            invertX=false;
+            SwapAxis=false;
+        }
+
+        public static FFBSetting GetFromString(string str)
+        {
+            string[] splitted = str.Split('§');
+            FFBSetting setting = new FFBSetting(splitted[0]);
+            for(int i=1; i<splitted.Length; i++)
+            {
+                string[] innerSplit = splitted[i].Split('=');
+                switch (innerSplit[0].ToLower().Trim())
+                {
+                    case "y":
+                        setting.invertY = Convert.ToBoolean(innerSplit[1]);
+                        break;
+                    case "x":
+                        setting.invertX = Convert.ToBoolean(innerSplit[1]);
+                        break;
+                    case "swapaxis":
+                        setting.SwapAxis = Convert.ToBoolean(innerSplit[1]);
+                        break;
+                }
+            }
+            return setting;
+        }
+    }
     public static class DCSIOLogic
     {
+        public static Dictionary<string, FFBSetting> FFBPlaneCorrection=new Dictionary<string, FFBSetting>();
         public static Dictionary<string, DCSLuaInput> EmptyOutputsDCS = new Dictionary<string, DCSLuaInput>();
         public static Dictionary<string, DCSLuaInput> EmptyOutputsDCSKeyboard = new Dictionary<string, DCSLuaInput>();
         public static Dictionary<string, DCSLuaInput> EmptyOutputsDCSKeyboard_BU = new Dictionary<string, DCSLuaInput>();
@@ -18,6 +57,21 @@ namespace JoyPro
         public static Dictionary<string, string> KeyboardConversion_DCS2DX = new Dictionary<string, string>();
         public static Dictionary<string, string> KeyboardConversion_DX2DCS = new Dictionary<string, string>();
 
+        public static void LoadFFBCorrection()
+        {
+            FFBPlaneCorrection.Clear();
+            string file = MainStructure.PROGPATH + "\\TOOLS\\Conversions\\DCSFFBCorrection.ffb";
+            if(File.Exists(file))
+            {
+                StreamReader sr = new StreamReader(file);
+                while(!sr.EndOfStream)
+                {
+                    FFBSetting setting = FFBSetting.GetFromString(sr.ReadLine());
+                    if(!FFBPlaneCorrection.ContainsKey(setting.Plane))FFBPlaneCorrection.Add(setting.Plane, setting);
+                    else FFBPlaneCorrection[setting.Plane] = setting;
+                }
+            }
+        }
         public static void LoadKeyboardConversion()
         {
             string cfile = MainStructure.PROGPATH + "\\TOOLS\\Conversions\\DCS2DX.keyboardconversion";

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace JoyPro
 {
+
     public enum PlaneState { ACTIVE, DISABLED, NOT_EXISTENT, ERROR }
     [Serializable]
     public class Relation
@@ -27,7 +28,26 @@ namespace JoyPro
                 return (int)elCount;
             } 
         }
-
+        public List<OtherGameInput> GetAllActiveElements()
+        {
+            List<OtherGameInput> result = new List<OtherGameInput>();
+            foreach(RelationItem ri in NODES)
+            {
+                if(ri.AllInputs!=null)
+                    foreach(var dInput in ri.AllInputs)
+                    {
+                        OtherGameInput ogi = new OtherGameInput(dInput.ID,dInput.Title, dInput.IsAxis, "DCS", dInput.Plane, dInput.Cat);
+                        result.Add(ogi);
+                    }
+                if(ri.OtherInputs != null)
+                    foreach(var oInput in ri.OtherInputs)
+                    {
+                        OtherGameInput ogi = new OtherGameInput(oInput.ID, oInput.Title, oInput.IsAxis, oInput.Game, oInput.Plane, oInput.Category);
+                        result.Add(ogi);
+                    }
+            }
+            return result;
+        }
         public Relation()
         {
             NODES = new List<RelationItem>();

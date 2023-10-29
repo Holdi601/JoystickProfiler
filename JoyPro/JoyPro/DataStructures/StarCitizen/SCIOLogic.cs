@@ -517,8 +517,12 @@ namespace JoyPro.StarCitizen
             {
                 addativePathToActions = "LIVE\\USER\\Client\\0\\Profiles\\default\\actionmaps.xml";
             }
+            string finalPath = MiscGames.StarCitizen + "\\" + addativePathToActions;
+            string parent = Path.GetDirectoryName(finalPath);
+            if (!Directory.Exists(MiscGames.StarCitizen))return;
+            if(!Directory.Exists(parent)) Directory.CreateDirectory(parent);
             DI_Device di = JoystickReader.GetAllKeyboards()[0];
-            StreamWriter swr = new StreamWriter(MiscGames.StarCitizen + "\\" + addativePathToActions);
+            StreamWriter swr = new StreamWriter(finalPath);
             swr.WriteLine("<ActionMaps>");
             swr.WriteLine(" <ActionProfiles version=\"1\" optionsVersion=\"2\" rebindVersion=\"2\" profileName=\"default\">");
             swr.WriteLine("  <options type=\"keyboard\" instance=\"1\" Product=\"Keyboard  {" + di.product_guid.ToUpper() + "}\"/>");

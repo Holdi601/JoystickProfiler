@@ -66,7 +66,6 @@ namespace JoyPro
                 DeleteJoystickFromFiles(joystick);
             }
         }
-
         static void DeleteJoystickFromFiles(string stick)
         {
             foreach(string pth in MiscGames.DCSInstances)
@@ -96,7 +95,6 @@ namespace JoyPro
                 }
             }
         }
-
         static void DeleteJoystickFilesFromDirectory(string stick, string path, string ending = ".diff.lua")
         {
             DirectoryInfo dirInfo = new DirectoryInfo(path);
@@ -114,7 +112,6 @@ namespace JoyPro
                 }
             }
         }
-
         static void DeleteJoyStickFromModDict(string joystick)
         {
             foreach(Modifier mod in GetAllModifiers())
@@ -148,7 +145,6 @@ namespace JoyPro
                     AllBinds.Remove(toDelete[i].Rl.NAME);
             }
         }
-
         public static List<string> GetAllMentionSticks()
         {
             List<string> list = new List<string>();
@@ -209,9 +205,9 @@ namespace JoyPro
             
             return list;
         }
-
-        public static void CorrectModifiersInBinds()
+        public static void CorrectModifiersInBinds(Dictionary<string, Bind> BindDict=null)
         {
+            if (BindDict == null) BindDict = AllBinds;
             foreach (KeyValuePair<string, Bind> kvp in AllBinds)
             {
                 if (kvp.Value.AllReformers != null)
@@ -229,7 +225,7 @@ namespace JoyPro
                         }
                     }
             }
-            ResyncRelations();
+            if(BindDict==AllBinds) ResyncRelations();
         }
         public static List<string> GetAllModsAsString()
         {
@@ -339,7 +335,6 @@ namespace JoyPro
             Modifier m = Modifier.ReformerToMod(reformer);
             AllModifiers.Add(m.name, m);
         }
-
         public static ConcurrentDictionary<string, ConcurrentDictionary<string,string>> GetAirCraftLayout(string Game, string Plane)
         {
             ConcurrentDictionary<string, ConcurrentDictionary<string,string>> map = new ConcurrentDictionary<string, ConcurrentDictionary<string,string>>();
@@ -369,7 +364,6 @@ namespace JoyPro
             }
             return map;
         }
-
         public static void CorrectBindNames(Dictionary<string, Bind> lib, Bind b)
         {
             if (b == null || lib == null) return;
@@ -451,7 +445,6 @@ namespace JoyPro
                 }
             }
         }
-
         public static void ReplaceRelation(Relation old, Relation rNew)
         {
             Bind b = null;
@@ -473,7 +466,6 @@ namespace JoyPro
             AllRelations.Add(rNew.NAME, rNew);
             ResyncRelations();
         }
-
         public static void AddRelation(Relation r)
         {
             if (!AllRelations.ContainsKey(r.NAME))
@@ -518,8 +510,6 @@ namespace JoyPro
             JoystickAliases.Clear();
             GroupActivity.Clear();
             InitGames.ReloadGameData();
-
-
             if (!programStart)
                 ResyncRelations();
         }
@@ -543,7 +533,6 @@ namespace JoyPro
                 }
             }
         }
-
         public static void ChangeSwitchStateBind(string modName, bool swtch)
         {
             foreach(KeyValuePair<string, Bind> kvp in AllBinds)
@@ -1250,6 +1239,115 @@ namespace JoyPro
             }
             LocalJoysticks = sticks.ToArray();
         }
+        public static void TransferCurrentBinsOnPr0file(string filePath)
+        {
+            Dictionary<string, Bind> oldBinds = new Dictionary<string, Bind>();
+            Dictionary<string, Relation> oldRelation = new Dictionary<string, Relation>();
+            Dictionary<string, Modifier> oldModifier = new Dictionary<string, Modifier>();
+            List<string> oldGroups = AllGroups.ToArray().ToList();
+            Dictionary<string, string> oldAliases = new Dictionary<string, string>();
+            CloneDictionary(AllBinds, oldBinds);
+            CloneDictionary(AllRelations, oldRelation);
+            CloneDictionary(AllModifiers, oldModifier);
+            CloneDictionary(JoystickAliases, oldAliases);
+            NewFile();
+            JoystickAliases= oldAliases;
+            try
+            {
+                if (filePath == null || filePath.Length < 1) return;
+                Pr0file pr = null;
+                pr = MainStructure.ReadFromBinaryFile<Pr0file>(filePath);
+                foreach(var OldProfile  in oldBinds)
+                {
+                    if(OldProfile.Value.Joystick==null) continue;
+                    if(OldProfile.Value.Joystick.Length<1) continue;
+                    List<OtherGameInput> ogiList = OldProfile.Value.Rl.GetAllActiveElements();
+                    foreach(var ogi in ogiList)
+                    {
+                        List<Relation> resultingRelations = GetBindFromDictionaryWith(pr.Relations, ogi.Game, ogi.Plane, ogi.ID);
+                        foreach(var rl in resultingRelations)
+                        {
+                            if(AllRelations.ContainsValue(rl)) continue;
+                            string oldName = rl.NAME;
+                            while (AllRelations.ContainsKey(rl.NAME))
+                            {
+                                rl.NAME += "__1";
+                            }
+                            AllRelations.Add(rl.NAME, rl);
+                            Bind b = new Bind(rl);
+                            b.JAxis = OldProfile.Value.JAxis;
+                            b.JButton=OldProfile.Value.JButton;
+                            b.SaturationX=OldProfile.Value.SaturationX;
+                            b.SaturationY=OldProfile.Value.SaturationY;
+                            b.Curvature=OldProfile.Value.Curvature.ToArray().ToList();
+                            b.AliasJoystick=OldProfile.Value.AliasJoystick;
+                            b.AllReformers = OldProfile.Value.AllReformers.ToArray().ToList();
+                            b.Deadzone = OldProfile.Value.Deadzone;
+                            b.doubleTap=OldProfile.Value.doubleTap;
+                            b.Inverted=OldProfile.Value.Inverted;
+                            b.JoyBackup=OldProfile.Value.JoyBackup;
+                            b.Joystick=OldProfile.Value.Joystick;
+                            b.PJoystick=OldProfile.Value.PJoystick;
+                            b.PovHeads=OldProfile.Value.PovHeads;
+                            b.Slider= OldProfile.Value.Slider;
+                            AllBinds.Add(rl.NAME, b);
+                        }
+                    }
+                }
+                foreach(var forRel in pr.Relations)
+                {
+                    if (!AllRelations.ContainsKey(forRel.Key))
+                    {
+                        AllRelations.Add(forRel.Key, forRel.Value);
+                    }
+                }
+                ResyncBindsToMods();
+                RecreateGroups();
+                foreach (KeyValuePair<string, Relation> kvp in AllRelations)
+                {
+                    kvp.Value.CheckNamesAgainstDB();
+                }
+                AddLoadedJoysticks();
+                CheckConnectedSticksToBinds();
+                CleanJoystickNodes();
+            }
+            catch (Exception ex)
+            {
+                MainStructure.NoteError(ex);
+                MessageBox.Show("Couldn't load profile. Either opened by some program or other error");
+            }
+            ResyncRelations();
+            RecalcFigures();
+            
+        }
+        public static List<Relation> GetBindFromDictionaryWith(Dictionary<string, Relation> relDict, string game, string plane, string id)
+        {
+            List<Relation> result = new List<Relation>();
+            if (game.Length == 0) game = "DCS";
+            foreach (var rela in relDict.Values)
+            {
+                var OGICollection = rela.GetAllActiveElements();
+                bool found = false;
+                foreach(var OGI in OGICollection)
+                {
+                    if (OGI.Game.Length == 0) OGI.Game = "DCS";
+                    if(OGI.Plane.Trim().ToLower()==plane.ToLower().Trim()&&
+                        OGI.Game.Trim().ToLower() == game.ToLower().Trim()&&
+                        OGI.ID.Trim().ToLower()==id.Trim().ToLower())
+                    {
+                        found = true;
+                        result.Add(rela);
+                    }
+                }
+            }
+            return result;
+        }
+        public static void CloneDictionary<T, U>(Dictionary<T, U> Source, Dictionary<T, U> Clone)
+        {
+            foreach(var kvp in Source)
+                Clone.Add(kvp.Key, kvp.Value);
+
+        }
         static void CheckConnectedSticksToBinds()
         {
             //Check if joystick is connected and ask for more context
@@ -1333,7 +1431,6 @@ namespace JoyPro
                 MainStructure.WriteToBinaryFile<Dictionary<string, Relation>>(filePath, toExport);
             }
         }
-
         public static void SaveProfileOfStickTo(string filePath, string Joystick)
         {
             Dictionary<string, Relation> dictRel = new Dictionary<string, Relation>();
@@ -2539,7 +2636,6 @@ namespace JoyPro
             }
             return null;
         }
-
         public static List<string> GetAllRelationNamesForJoystickButton(string Joystick, string ModBtn)
         {
             List<string> results = new List<string>();
@@ -2598,7 +2694,6 @@ namespace JoyPro
             }
             return new KeyValuePair<int, int>(relationDeleted, aircraftRemoved);
         }
-
         public static void MergeRelations(List<Relation> r, string name)
         {
             for(int i=0; i<r.Count; ++i)
@@ -2638,7 +2733,6 @@ namespace JoyPro
             }
             AddRelation(nw);
         }
-
         public static void SplitRelations(List<Relation> r, string postfix, List<string> airCraftToSplit)
         {
             List<string> correctedAircraftList = new List<string>();
