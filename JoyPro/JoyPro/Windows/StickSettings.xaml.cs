@@ -44,6 +44,7 @@ namespace JoyPro
         public System.Drawing.Rectangle Yes;
         public System.Drawing.Rectangle MenuLogo;
         public bool ImageBasedClicks = false;
+        public OCRPositions OCRClickLocations;
 
 
 
@@ -79,6 +80,30 @@ namespace JoyPro
             public int Top { get; set; }
             public int Right { get; set; }
             public int Bottom { get; set; }
+        }
+
+        public struct OCRPositions
+        {
+            public System.Drawing.Rectangle SettingsCog;
+            public System.Drawing.Rectangle CheckAll;
+            public System.Drawing.Rectangle ClearAll;
+            public System.Drawing.Rectangle Controls;
+            public System.Drawing.Rectangle Dropmenu;
+            public System.Drawing.Rectangle MakeHtml;
+            public System.Drawing.Rectangle Yes;
+            public bool initialized;
+
+            public OCRPositions(bool init)
+            {
+                SettingsCog = System.Drawing.Rectangle.Empty;
+                CheckAll = System.Drawing.Rectangle.Empty;
+                ClearAll = System.Drawing.Rectangle.Empty;
+                Controls = System.Drawing.Rectangle.Empty;
+                Dropmenu = System.Drawing.Rectangle.Empty;
+                MakeHtml = System.Drawing.Rectangle.Empty;
+                Yes = System.Drawing.Rectangle.Empty;
+                initialized = init;
+            }
         }
 
         public static double DEFAULT_WIDTH;
@@ -863,6 +888,7 @@ namespace JoyPro
                 " Once the process is done, you will be notified. For the affects to take change, please restart JoyPro. This Operation will take 5-10 Minutes. Thanks. ", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
             if (mr == MessageBoxResult.Yes)
             {
+                OCRClickLocations = new OCRPositions(true);
                 ExtractHTMLfromDCS();
                 Thread.Sleep(5000);
                 PostWorkExportedIDs();
@@ -1151,42 +1177,57 @@ namespace JoyPro
         }
         void ClickMakeHTMLOCR()
         {
-            if(MakeHTML == System.Drawing.Rectangle.Empty)
+            if(OCRClickLocations.MakeHtml == System.Drawing.Rectangle.Empty)
             {
-                MakeHTML = ScreenReader.FindImageOnCurrentScreenBlackWhiteExtremeContrast(MainStructure.PROGPATH + "\\Clicks\\makehtml1.0.png");
+                OCRClickLocations.MakeHtml = ScreenReader.FindImageOnCurrentScreenBlackWhiteExtremeContrast(MainStructure.PROGPATH + "\\Clicks\\makehtml1.0.png");
             }
-            MouseClickThere(MakeHTML.X + MakeHTML.Width / 2 + ScreenReader.Bounds.X, MakeHTML.Y + MakeHTML.Height / 2 + ScreenReader.Bounds.Y);
+            MouseClickThere(OCRClickLocations.MakeHtml.X + OCRClickLocations.MakeHtml.Width / 2 + ScreenReader.Bounds.X, OCRClickLocations.MakeHtml.Y + OCRClickLocations.MakeHtml.Height / 2 + ScreenReader.Bounds.Y);
         }
         void ClickPlaneDropDownOCR()
         {
-            if(PlaneDropDown== System.Drawing.Rectangle.Empty)
+            if(OCRClickLocations.Dropmenu== System.Drawing.Rectangle.Empty)
             {
-                PlaneDropDown= ScreenReader.FindImageOnCurrentScreenBlackWhiteExtremeContrast(MainStructure.PROGPATH + "\\Clicks\\uilayer1.0.png");
+                OCRClickLocations.Dropmenu = ScreenReader.FindImageOnCurrentScreenBlackWhiteExtremeContrast(MainStructure.PROGPATH + "\\Clicks\\dropmenu.png");
             }
-            MouseClickThere(PlaneDropDown.X + PlaneDropDown.Width / 2 + ScreenReader.Bounds.X, PlaneDropDown.Y + PlaneDropDown.Height / 2 + ScreenReader.Bounds.Y);
+            MouseClickThere(OCRClickLocations.Dropmenu.X + OCRClickLocations.Dropmenu.Width / 2 + ScreenReader.Bounds.X, OCRClickLocations.Dropmenu.Y + OCRClickLocations.Dropmenu.Height / 2 + ScreenReader.Bounds.Y);
         }
         void YesClearAllOCR()
         {
-            Yes = ScreenReader.FindImageOnCurrentScreenBlackWhiteExtremeContrast(MainStructure.PROGPATH + "\\Clicks\\yes1.0.png");
-            MouseClickThere(Yes.X + Yes.Width / 2 + ScreenReader.Bounds.X, Yes.Y + Yes.Height / 2 + ScreenReader.Bounds.Y);
+            if(OCRClickLocations.Yes == System.Drawing.Rectangle.Empty)
+            {
+                OCRClickLocations.Yes = ScreenReader.FindImageOnCurrentScreenBlackWhiteExtremeContrast(MainStructure.PROGPATH + "\\Clicks\\yes1.0.png");
+            }
+            MouseClickThere(OCRClickLocations.Yes.X + OCRClickLocations.Yes.Width / 2 + ScreenReader.Bounds.X, OCRClickLocations.Yes.Y + OCRClickLocations.Yes.Height / 2 + ScreenReader.Bounds.Y);
         }
         void CheckClearAllOCR()
         {
-            CheckAll = ScreenReader.FindImageOnCurrentScreenBlackWhiteExtremeContrast(MainStructure.PROGPATH + "\\Clicks\\CheckAll1.0.png");
-            MouseClickThere(CheckAll.X + CheckAll.Width / 2 + ScreenReader.Bounds.X, CheckAll.Y + CheckAll.Height / 2 + ScreenReader.Bounds.Y);
+            if(OCRClickLocations.CheckAll == System.Drawing.Rectangle.Empty)
+            {
+                OCRClickLocations.CheckAll = ScreenReader.FindImageOnCurrentScreenBlackWhiteExtremeContrast(MainStructure.PROGPATH + "\\Clicks\\CheckAll1.0.png");
+            }
+            MouseClickThere(OCRClickLocations.CheckAll.X + OCRClickLocations.CheckAll.Width / 2 + ScreenReader.Bounds.X, OCRClickLocations.CheckAll.Y + OCRClickLocations.CheckAll.Height / 2 + ScreenReader.Bounds.Y);
         }
         void ClickClearAllOCR()
         {
-            ClearAll = ScreenReader.FindImageOnCurrentScreenBlackWhiteExtremeContrast(MainStructure.PROGPATH + "\\Clicks\\ClearAll1.0.png");
-            MouseClickThere(ClearAll.X + ClearAll.Width / 2 + ScreenReader.Bounds.X, ClearAll.Y + ClearAll.Height / 2 + ScreenReader.Bounds.Y);
+            if(OCRClickLocations.ClearAll == System.Drawing.Rectangle.Empty)
+            {
+                OCRClickLocations.ClearAll = ScreenReader.FindImageOnCurrentScreenBlackWhiteExtremeContrast(MainStructure.PROGPATH + "\\Clicks\\ClearAll1.0.png");
+            }
+            MouseClickThere(OCRClickLocations.ClearAll.X + OCRClickLocations.ClearAll.Width / 2 + ScreenReader.Bounds.X, OCRClickLocations.ClearAll.Y + OCRClickLocations.ClearAll.Height / 2 + ScreenReader.Bounds.Y);
         }
         void ClickIntoControlsDCSOCR()
         {
-            SettingsCog = ScreenReader.FindImageOnCurrentScreenBlackWhiteExtremeContrast(MainStructure.PROGPATH + "\\Clicks\\cog1.0.png");
-            MouseClickThere(SettingsCog.X + SettingsCog.Width / 2 + ScreenReader.Bounds.X, SettingsCog.Y + SettingsCog.Height / 2 + ScreenReader.Bounds.Y);
+            if(OCRClickLocations.SettingsCog == System.Drawing.Rectangle.Empty)
+            {
+                OCRClickLocations.SettingsCog = ScreenReader.FindImageOnCurrentScreenBlackWhiteExtremeContrast(MainStructure.PROGPATH + "\\Clicks\\cog1.0.png");
+            }
+            MouseClickThere(OCRClickLocations.SettingsCog.X + OCRClickLocations.SettingsCog.Width / 2 + ScreenReader.Bounds.X, OCRClickLocations.SettingsCog.Y + OCRClickLocations.SettingsCog.Height / 2 + ScreenReader.Bounds.Y);
             Thread.Sleep(2000);
-            ControlsTab = ScreenReader.FindImageOnCurrentScreenBlackWhiteExtremeContrast(MainStructure.PROGPATH + "\\Clicks\\controls1.0.png");
-            MouseClickThere(ControlsTab.X + ControlsTab.Width / 2 + ScreenReader.Bounds.X, ControlsTab.Y + ControlsTab.Height / 2 + ScreenReader.Bounds.Y);
+            if(OCRClickLocations.Controls == System.Drawing.Rectangle.Empty)
+            {
+                OCRClickLocations.Controls = ScreenReader.FindImageOnCurrentScreenBlackWhiteExtremeContrast(MainStructure.PROGPATH + "\\Clicks\\controls1.0.png");
+            }
+            MouseClickThere(OCRClickLocations.Controls.X + OCRClickLocations.Controls.Width / 2 + ScreenReader.Bounds.X, OCRClickLocations.Controls.Y + OCRClickLocations.Controls.Height / 2 + ScreenReader.Bounds.Y);
             Thread.Sleep(2000);
         }
         void ClickIntoControlsDCS(Rect DCSRect)

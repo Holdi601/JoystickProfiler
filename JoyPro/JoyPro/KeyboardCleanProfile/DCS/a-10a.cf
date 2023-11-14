@@ -8,14 +8,6 @@ local diff = {
 				},
 			},
 		},
-		["d101pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Weapon Change",
-			["removed"] = {
-				[1] = {
-					["key"] = "D",
-				},
-			},
-		},
 		["d102pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Next Waypoint, Airfield Or Target",
 			["removed"] = {
@@ -65,14 +57,6 @@ local diff = {
 				},
 			},
 		},
-		["d105pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "(1) Navigation Modes",
-			["removed"] = {
-				[1] = {
-					["key"] = "1",
-				},
-			},
-		},
 		["d10pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "F7 Ground unit view",
 			["removed"] = {
@@ -86,14 +70,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "6",
-				},
-			},
-		},
-		["d111pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "(7) Air-To-Ground Mode",
-			["removed"] = {
-				[1] = {
-					["key"] = "7",
 				},
 			},
 		},
@@ -278,14 +254,6 @@ local diff = {
 				},
 			},
 		},
-		["d136pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "ECM",
-			["removed"] = {
-				[1] = {
-					["key"] = "E",
-				},
-			},
-		},
 		["d13pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "F9 Ship view",
 			["removed"] = {
@@ -301,28 +269,6 @@ local diff = {
 					["key"] = "N",
 					["reformers"] = {
 						[1] = "RShift",
-					},
-				},
-			},
-		},
-		["d145pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Flaps Landing Position",
-			["removed"] = {
-				[1] = {
-					["key"] = "F",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d146pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Flaps Up",
-			["removed"] = {
-				[1] = {
-					["key"] = "F",
-					["reformers"] = {
-						[1] = "LCtrl",
 					},
 				},
 			},
@@ -636,20 +582,20 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
 		},
 		["d1702pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera bookmarks editor",
+			["name"] = "Object local camera bookmarks editor",
 			["removed"] = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -667,7 +613,7 @@ local diff = {
 			},
 		},
 		["d1708pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera",
+			["name"] = "Object local camera",
 			["removed"] = {
 				[1] = {
 					["key"] = "F2",
@@ -683,21 +629,21 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
 			},
 		},
 		["d1711pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera bookmarks menu",
+			["name"] = "Object local camera bookmarks menu",
 			["removed"] = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -727,14 +673,6 @@ local diff = {
 				},
 			},
 		},
-		["d176pnilu536cdnilvdnilvpnilvunil"] = {
-			["name"] = "Countermeasures Release",
-			["removed"] = {
-				[1] = {
-					["key"] = "Q",
-				},
-			},
-		},
 		["d177pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Zoom normal",
 			["removed"] = {
@@ -752,14 +690,6 @@ local diff = {
 						[1] = "RAlt",
 						[2] = "RCtrl",
 					},
-				},
-			},
-		},
-		["d179pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Communication menu",
-			["removed"] = {
-				[1] = {
-					["key"] = "\\",
 				},
 			},
 		},
@@ -838,7 +768,7 @@ local diff = {
 			},
 		},
 		["d1862pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 view local input layer toggle",
+			["name"] = "Camera local input layer toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "F11",
@@ -846,6 +776,29 @@ local diff = {
 						[1] = "RAlt",
 						[2] = "RCtrl",
 						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["d1865pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Jump to Supercarrier view",
+			["removed"] = {
+				[1] = {
+					["key"] = "F9",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d1890pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Object camera with position inheritance",
+			["removed"] = {
+				[1] = {
+					["key"] = "F2",
+					["reformers"] = {
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -872,59 +825,11 @@ local diff = {
 				},
 			},
 		},
-		["d193pnilu194cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Pitch Down",
-			["removed"] = {
-				[1] = {
-					["key"] = "Up",
-				},
-			},
-		},
-		["d195pnilu196cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Pitch Up",
-			["removed"] = {
-				[1] = {
-					["key"] = "Down",
-				},
-			},
-		},
-		["d197pnilu198cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Bank Left",
-			["removed"] = {
-				[1] = {
-					["key"] = "Left",
-				},
-			},
-		},
-		["d199pnilu200cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Bank Right",
-			["removed"] = {
-				[1] = {
-					["key"] = "Right",
-				},
-			},
-		},
 		["d19pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Lock View (cycle padlock)",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num.",
-				},
-			},
-		},
-		["d201pnilu202cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Rudder Left",
-			["removed"] = {
-				[1] = {
-					["key"] = "Z",
-				},
-			},
-		},
-		["d203pnilu204cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Rudder Right",
-			["removed"] = {
-				[1] = {
-					["key"] = "X",
 				},
 			},
 		},
@@ -1012,14 +917,6 @@ local diff = {
 						[1] = "RCtrl",
 						[2] = "RShift",
 					},
-				},
-			},
-		},
-		["d257pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Screenshot",
-			["removed"] = {
-				[1] = {
-					["key"] = "SysRQ",
 				},
 			},
 		},
@@ -1306,7 +1203,7 @@ local diff = {
 				},
 			},
 		},
-		["d3001pnilunilcd54vd1vpnilvunil"] = {
+		["d3001pnilunilcd100vd1vpnilvunil"] = {
 			["name"] = "Kneeboard Next Page",
 			["removed"] = {
 				[1] = {
@@ -1314,7 +1211,7 @@ local diff = {
 				},
 			},
 		},
-		["d3002pnilunilcd54vd1vpnilvunil"] = {
+		["d3002pnilunilcd100vd1vpnilvunil"] = {
 			["name"] = "Kneeboard Previous Page",
 			["removed"] = {
 				[1] = {
@@ -1322,7 +1219,7 @@ local diff = {
 				},
 			},
 		},
-		["d3003pnilunilcd54vd1vpnilvunil"] = {
+		["d3003pnilunilcd100vd1vpnilvunil"] = {
 			["name"] = "Kneeboard current position mark point",
 			["removed"] = {
 				[1] = {
@@ -1734,7 +1631,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Camera mounted on airframe",
+			["name"] = "F4 Camera mounted on object",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -1750,7 +1647,7 @@ local diff = {
 			},
 		},
 		["d363pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Force cursor to show, toggle",
+			["name"] = "Clickable Mouse Cockpit Mode - ON/OFF",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",
@@ -2148,14 +2045,6 @@ local diff = {
 				},
 			},
 		},
-		["d68pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Landing Gear Up/Down",
-			["removed"] = {
-				[1] = {
-					["key"] = "G",
-				},
-			},
-		},
 		["d71pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Canopy Open/Close",
 			["removed"] = {
@@ -2172,22 +2061,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "F",
-				},
-			},
-		},
-		["d73pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Airbrake",
-			["removed"] = {
-				[1] = {
-					["key"] = "B",
-				},
-			},
-		},
-		["d74pnilu75cdnilvdnilvpnilvunil"] = {
-			["name"] = "Wheel Brake On",
-			["removed"] = {
-				[1] = {
-					["key"] = "W",
 				},
 			},
 		},
@@ -2256,25 +2129,6 @@ local diff = {
 					["reformers"] = {
 						[1] = "RShift",
 					},
-				},
-			},
-		},
-		["d83pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Eject (3 times)",
-			["removed"] = {
-				[1] = {
-					["key"] = "E",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d84pnilu85cdnilvdnilvpnilvunil"] = {
-			["name"] = "Weapon Fire",
-			["removed"] = {
-				[1] = {
-					["key"] = "Space",
 				},
 			},
 		},
@@ -2365,22 +2219,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "F3",
-				},
-			},
-		},
-		["dnilp1032u1034cdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle Levers - UP",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num+",
-				},
-			},
-		},
-		["dnilp1033u1034cdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle Levers - DOWN",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num-",
 				},
 			},
 		},
@@ -3017,8 +2855,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -3052,50 +2890,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = ".",
-				},
-			},
-		},
-		["dnilp93u215cdnilvdnilvpnilvunil"] = {
-			["name"] = "Trim Hat - ROLL LEFT",
-			["removed"] = {
-				[1] = {
-					["key"] = ",",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["dnilp94u215cdnilvdnilvpnilvunil"] = {
-			["name"] = "Trim Hat - ROLL RIGHT",
-			["removed"] = {
-				[1] = {
-					["key"] = "/",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["dnilp95u215cdnilvdnilvpnilvunil"] = {
-			["name"] = "Trim Hat - NOSE UP",
-			["removed"] = {
-				[1] = {
-					["key"] = ".",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
-		["dnilp96u215cdnilvdnilvpnilvunil"] = {
-			["name"] = "Trim Hat - NOSE DOWN",
-			["removed"] = {
-				[1] = {
-					["key"] = ";",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
 				},
 			},
 		},

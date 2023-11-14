@@ -195,8 +195,8 @@ local diff = {
 				[1] = {
 					["key"] = "R",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -472,6 +472,17 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "T",
+				},
+			},
+		},
+		["d1873pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Trailer Attach/Detach",
+			["removed"] = {
+				[1] = {
+					["key"] = "T",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
 				},
 			},
 		},

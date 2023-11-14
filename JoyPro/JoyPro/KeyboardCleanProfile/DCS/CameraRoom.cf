@@ -4,7 +4,7 @@ local diff = {
 			["name"] = "Camera bookmarks editor",
 			["removed"] = {
 				[1] = {
-					["key"] = "Z",
+					["key"] = "B",
 				},
 			},
 		},
@@ -76,6 +76,22 @@ local diff = {
 					["reformers"] = {
 						[1] = "LAlt",
 					},
+				},
+			},
+		},
+		["d1868pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera keyboard speed default",
+			["removed"] = {
+				[1] = {
+					["key"] = "End",
+				},
+			},
+		},
+		["d1869pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Input control toggle",
+			["removed"] = {
+				[1] = {
+					["key"] = "I",
 				},
 			},
 		},
@@ -256,6 +272,22 @@ local diff = {
 					["reformers"] = {
 						[1] = "LCtrl",
 					},
+				},
+			},
+		},
+		["dnilp1866unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera keyboard speed increase",
+			["removed"] = {
+				[1] = {
+					["key"] = "PageUp",
+				},
+			},
+		},
+		["dnilp1867unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera keyboard speed decrease",
+			["removed"] = {
+				[1] = {
+					["key"] = "PageDown",
 				},
 			},
 		},

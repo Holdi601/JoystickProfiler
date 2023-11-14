@@ -523,6 +523,7 @@ namespace JoyPro.StarCitizen
             if(!Directory.Exists(parent)) Directory.CreateDirectory(parent);
             DI_Device di = JoystickReader.GetAllKeyboards()[0];
             StreamWriter swr = new StreamWriter(finalPath);
+            System.Threading.Thread.Sleep(100);
             swr.WriteLine("<ActionMaps>");
             swr.WriteLine(" <ActionProfiles version=\"1\" optionsVersion=\"2\" rebindVersion=\"2\" profileName=\"default\">");
             swr.WriteLine("  <options type=\"keyboard\" instance=\"1\" Product=\"Keyboard  {" + di.product_guid.ToUpper() + "}\"/>");
@@ -623,6 +624,7 @@ namespace JoyPro.StarCitizen
             swr.WriteLine("</ActionMaps>");
             swr.Flush();
             swr.Close();
+            swr.Dispose();
         }
 
         public static string SC2JPJoykey(string key)
@@ -802,10 +804,51 @@ namespace JoyPro.StarCitizen
             {
                 foreach (var input in category.Value)
                 {
-                    string joyIn = input.Value.JoystickInput;
-                    string j = joyIn.Substring(0, joyIn.IndexOf("_")).ToLower().Replace("js", "");
+                    string joyIn = null;
+                    bool isGamePad= false;
+                    if(input.Key.ToLower().StartsWith("gp"))
+                    {
+                        joyIn = input.Value.GamepadInput;
+                        isGamePad = true;
+                    }else 
+                    {
+                        joyIn = input.Value.JoystickInput;
+                    }
+                    if(joyIn==null)
+                    {
+                        if (input.Value.KeyboardInput != null)
+                        {
+                            joyIn = input.Value.KeyboardInput;
+                        }else if(input.Value.JoystickInput != null)
+                        {
+                            joyIn = input.Value.JoystickInput;
+                        }
+                        else
+                        {
+                            joyIn = input.Value.GamepadInput;
+                            isGamePad = true;
+                        }
+                    }
+                    string rplcr;
+                    if(isGamePad)
+                    {
+                        rplcr = "gp";
+                    }
+                    else
+                    {
+                        rplcr = "js";
+                    }
+                    string j = joyIn.Substring(0, joyIn.IndexOf("_")).ToLower().Replace(rplcr, "");
                     string btnpart = joyIn.Substring(joyIn.IndexOf("_") + 1);
-                    string key = JoyIDLocal.FirstOrDefault(x => x.Value == Convert.ToInt32(j)).Key;
+                    string key = null;
+                    if(isGamePad)
+                    {
+                        key = GPIDExportInstance.FirstOrDefault(x => x.Value == Convert.ToInt32(j)).Key;
+                    }
+                    else
+                    {
+                        key = JoyIDLocal.FirstOrDefault(x => x.Value == Convert.ToInt32(j)).Key;
+                    }
                     if (key == null) continue;
                     int num = JoyIDExportProduct.Count;
                     if (JoyIDExportProduct.ContainsKey(key))

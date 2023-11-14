@@ -1,5 +1,4 @@
 local diff = {
-	["JAL"] = "MainThrottle",
 	["axisDiffs"] = {
 		["a2001cdnil"] = {
 			["name"] = "Pitch",
@@ -22,78 +21,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_RZ",
-				},
-			},
-		},
-		["a2012cdnil"] = {
-			["name"] = "Zoom View",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_Z",
-					["JPK"] = "Zoom",
-					["JGRP"] = {
-						[1] = "IL2",
-						[2] = "DCS",
-						[3] = "MISC",
-					},
-					["filter"] = {
-						["curvature"] = {
-							[1] = 0,
-						},
-						["deadzone"] = 0,
-						["invert"] = true,
-						["saturationX"] = 1,
-						["saturationY"] = 1,
-						["slider"] = false,
-					},
-				},
-			},
-		},
-		["a3088cd3"] = {
-			["name"] = "Mixture - axis",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_RZ",
-					["JPK"] = "Nozzle Angle/Mixture Control",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "Flight Controls",
-					},
-					["filter"] = {
-						["curvature"] = {
-							[1] = 0,
-						},
-						["deadzone"] = 0,
-						["invert"] = true,
-						["saturationX"] = 1,
-						["saturationY"] = 1,
-						["slider"] = false,
-					},
-				},
-			},
-		},
-		["a3038cd3"] = {
-			["name"] = "Engine RPM / Propeller Pitch, port - axis",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_SLIDER1",
-					["JPK"] = "RPM Control",
-					["JGRP"] = {
-						[1] = "IL2",
-						[2] = "DCS",
-						[3] = "Flight Controls",
-						[4] = "WW2",
-					},
-					["filter"] = {
-						["curvature"] = {
-							[1] = 0,
-						},
-						["deadzone"] = 0,
-						["invert"] = true,
-						["saturationX"] = 1,
-						["saturationY"] = 1,
-						["slider"] = false,
-					},
 				},
 			},
 		},
@@ -160,97 +87,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "JOY_BTN_POV1_D",
-				},
-			},
-		},
-		["d3002pnilunilcd5vd1vpnilvunil"] = {
-			["name"] = "Gun firing master switch, cover - open/close",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN34",
-					["JPK"] = "Master arm OFF",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "MISC",
-					},
-				},
-			},
-		},
-		["d1587pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Kneeboard ON/OFF",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN48",
-					["JPK"] = "Kneeboard TOGGLE",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "MISC",
-					},
-				},
-			},
-		},
-		["d3001pnilunilcd38vd1vpnilvunil"] = {
-			["name"] = "Kneeboard Next Page",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN50",
-					["JPK"] = "Kneeboard next pg",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "MISC",
-					},
-				},
-			},
-		},
-		["d3002pnilunilcd38vd1vpnilvunil"] = {
-			["name"] = "Kneeboard Previous Page",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN49",
-					["JPK"] = "Kneeboard previous pg",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "MISC",
-					},
-				},
-			},
-		},
-		["d3001pnilu3001cd23vd1vpnilvu0"] = {
-			["name"] = "De-ice glycol pump - on/off",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN66",
-					["JPK"] = "Mode - A2A - BVR",
-					["JGRP"] = {
-						[1] = "Modes",
-					},
-				},
-			},
-		},
-		["d3022pnilunilcd2vd1vpnilvunil"] = {
-			["name"] = "Canopy, left window - open",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN38",
-					["JPK"] = "Canopy open",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "MISC",
-					},
-				},
-			},
-		},
-		["d3022pnilunilcd2vd0vpnilvunil"] = {
-			["name"] = "Canopy, left window - close",
-			["added"] = {
-				[1] = {
-					["key"] = "JOY_BTN39",
-					["JPK"] = "Canopy close",
-					["JGRP"] = {
-						[1] = "DCS",
-						[2] = "MISC",
-						[3] = "IL2",
-					},
 				},
 			},
 		},

@@ -22,6 +22,22 @@ local diff = {
 				},
 			},
 		},
+		["d1702pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera bookmarks editor",
+			["removed"] = {
+				[1] = {
+					["key"] = "B",
+				},
+			},
+		},
+		["d1705pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera main menu bar",
+			["removed"] = {
+				[1] = {
+					["key"] = "M",
+				},
+			},
+		},
 		["d1723pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Horizontal camera moving",
 			["removed"] = {
@@ -85,6 +101,22 @@ local diff = {
 					["reformers"] = {
 						[1] = "RShift",
 					},
+				},
+			},
+		},
+		["d1868pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera moving speed default",
+			["removed"] = {
+				[1] = {
+					["key"] = "End",
+				},
+			},
+		},
+		["d1872pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera rotation speed default",
+			["removed"] = {
+				[1] = {
+					["key"] = "=",
 				},
 			},
 		},
@@ -353,6 +385,38 @@ local diff = {
 					["reformers"] = {
 						[1] = "RShift",
 					},
+				},
+			},
+		},
+		["dnilp1866unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera moving speed increase",
+			["removed"] = {
+				[1] = {
+					["key"] = "PageUp",
+				},
+			},
+		},
+		["dnilp1867unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera moving speed decrease",
+			["removed"] = {
+				[1] = {
+					["key"] = "PageDown",
+				},
+			},
+		},
+		["dnilp1870unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera rotation speed increase",
+			["removed"] = {
+				[1] = {
+					["key"] = ".",
+				},
+			},
+		},
+		["dnilp1871unilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera rotation speed decrease",
+			["removed"] = {
+				[1] = {
+					["key"] = ",",
 				},
 			},
 		},

@@ -48,6 +48,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
     <Optimize>false</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -405,6 +406,21 @@
     <Content Include="Clicks\DCSMenu1.0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Clicks\DCSMenu1.25.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Clicks\DCSMenu1.5.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Clicks\DCSMenu1.75.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Clicks\DCSMenu2.0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Clicks\dropmenu.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Clicks\makehtml1.0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -417,13 +433,22 @@
     <Content Include="DB\DCS\A-4E-C.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DB\DCS\CommandMenu.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DB\DCS\F-15E.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DB\DCS\F-15E_WSO.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DB\DCS\QuadMenu.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DB\DCS\SA342 Gunner.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\DCS\VoiceChat.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DB\StarCitizen\AllBinds.xml">
@@ -1279,9 +1304,6 @@
     <Content Include="CleanProfile\DCS\Mirage-F1EE.cf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="CleanProfile\DCS\Mirage-F1M-EE.cf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="KeyboardCleanProfile\DCS\Mi-24P_Gunner.cf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1295,9 +1317,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="KeyboardCleanProfile\DCS\Mirage-F1EE.cf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="KeyboardCleanProfile\DCS\Mirage-F1M-EE.cf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="KeyboardCleanProfile\DCS\CameraFree.cf">
@@ -1368,6 +1387,30 @@
     </Content>
     <Content Include="TesseractData\deu.traineddata" />
     <Content Include="TesseractData\eng.traineddata" />
+    <Content Include="CleanProfile\DCS\CommandMenu.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\QuadMenu.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\VoiceChat.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\CommandMenu.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\QuadMenu.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\VoiceChat.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CleanProfile\DCS\Mirage-F1M-EE.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardCleanProfile\DCS\Mirage-F1M-EE.cf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="TOOLS\AHK\ALTF4.ahk" />
     <None Include="TOOLS\AHK\ArrowKeyDown.ahk" />
     <None Include="TOOLS\AHK\ArrowKeyUp.ahk" />

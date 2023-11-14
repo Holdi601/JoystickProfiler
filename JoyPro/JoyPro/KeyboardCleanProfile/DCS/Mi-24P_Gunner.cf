@@ -1,10 +1,13 @@
 local diff = {
 	["keyDiffs"] = {
-		["d84pnilu84cdnilvd1vpnilvu0"] = {
-			["name"] = "Machinegun fire",
+		["d3005pnilunilcd22vd0vpnilvunil"] = {
+			["name"] = "TrackIR Aiming On/Off",
 			["removed"] = {
 				[1] = {
-					["key"] = "Space",
+					["key"] = "T",
+					["reformers"] = {
+						[1] = "LAlt",
+					},
 				},
 			},
 		},

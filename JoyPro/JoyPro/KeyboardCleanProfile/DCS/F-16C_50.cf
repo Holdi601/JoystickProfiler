@@ -1,21 +1,5 @@
 local diff = {
 	["keyDiffs"] = {
-		["d1032pnilu1034cdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle Smoothly - Increase",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num+",
-				},
-			},
-		},
-		["d1033pnilu1034cdnilvdnilvpnilvunil"] = {
-			["name"] = "Throttle Smoothly - Decrease",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num-",
-				},
-			},
-		},
 		["d10pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "F7 Ground unit view",
 			["removed"] = {
@@ -352,20 +336,20 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
 		},
 		["d1702pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera bookmarks editor",
+			["name"] = "Object local camera bookmarks editor",
 			["removed"] = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -383,7 +367,7 @@ local diff = {
 			},
 		},
 		["d1708pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera",
+			["name"] = "Object local camera",
 			["removed"] = {
 				[1] = {
 					["key"] = "F2",
@@ -399,21 +383,21 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
 			},
 		},
 		["d1711pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera bookmarks menu",
+			["name"] = "Object local camera bookmarks menu",
 			["removed"] = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -449,14 +433,6 @@ local diff = {
 						[1] = "RAlt",
 						[2] = "RCtrl",
 					},
-				},
-			},
-		},
-		["d179pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Communication menu",
-			["removed"] = {
-				[1] = {
-					["key"] = "\\",
 				},
 			},
 		},
@@ -535,7 +511,7 @@ local diff = {
 			},
 		},
 		["d1862pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 view local input layer toggle",
+			["name"] = "Camera local input layer toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "F11",
@@ -543,6 +519,29 @@ local diff = {
 						[1] = "RAlt",
 						[2] = "RCtrl",
 						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["d1865pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Jump to Supercarrier view",
+			["removed"] = {
+				[1] = {
+					["key"] = "F9",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d1890pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Object camera with position inheritance",
+			["removed"] = {
+				[1] = {
+					["key"] = "F2",
+					["reformers"] = {
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -569,59 +568,11 @@ local diff = {
 				},
 			},
 		},
-		["d193pnilu194cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Pitch Down",
-			["removed"] = {
-				[1] = {
-					["key"] = "Up",
-				},
-			},
-		},
-		["d195pnilu196cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Pitch Up",
-			["removed"] = {
-				[1] = {
-					["key"] = "Down",
-				},
-			},
-		},
-		["d197pnilu198cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Bank Left",
-			["removed"] = {
-				[1] = {
-					["key"] = "Left",
-				},
-			},
-		},
-		["d199pnilu200cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Bank Right",
-			["removed"] = {
-				[1] = {
-					["key"] = "Right",
-				},
-			},
-		},
 		["d19pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Lock View (cycle padlock)",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num.",
-				},
-			},
-		},
-		["d201pnilu202cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Rudder Left",
-			["removed"] = {
-				[1] = {
-					["key"] = "Z",
-				},
-			},
-		},
-		["d203pnilu204cdnilvdnilvpnilvunil"] = {
-			["name"] = "Aircraft Rudder Right",
-			["removed"] = {
-				[1] = {
-					["key"] = "X",
 				},
 			},
 		},
@@ -709,14 +660,6 @@ local diff = {
 						[1] = "RCtrl",
 						[2] = "RShift",
 					},
-				},
-			},
-		},
-		["d257pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Screenshot",
-			["removed"] = {
-				[1] = {
-					["key"] = "SysRQ",
 				},
 			},
 		},
@@ -1025,8 +968,8 @@ local diff = {
 				[1] = {
 					["key"] = "9",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -1059,8 +1002,8 @@ local diff = {
 				[1] = {
 					["key"] = "0",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -1093,8 +1036,8 @@ local diff = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -1188,14 +1131,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "2",
-				},
-			},
-		},
-		["d3021pnilu3021cd16vd1vpnilvu0"] = {
-			["name"] = "CAMERA/GUN Trigger - SECOND DETENT",
-			["removed"] = {
-				[1] = {
-					["key"] = "Space",
 				},
 			},
 		},
@@ -1711,7 +1646,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Camera mounted on airframe",
+			["name"] = "F4 Camera mounted on object",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -1727,7 +1662,7 @@ local diff = {
 			},
 		},
 		["d363pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Force cursor to show, toggle",
+			["name"] = "Clickable Mouse Cockpit Mode - ON/OFF",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",
@@ -2073,14 +2008,6 @@ local diff = {
 				},
 			},
 		},
-		["d68pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "LG Handle - UP/DN",
-			["removed"] = {
-				[1] = {
-					["key"] = "G",
-				},
-			},
-		},
 		["d71pnilu71cdnilvd1vpnilvu0"] = {
 			["name"] = "Canopy - OPEN/CLOSE",
 			["removed"] = {
@@ -2089,14 +2016,6 @@ local diff = {
 					["reformers"] = {
 						[1] = "LCtrl",
 					},
-				},
-			},
-		},
-		["d74pnilu75cdnilvdnilvpnilvunil"] = {
-			["name"] = "Wheel Brake - ON/OFF",
-			["removed"] = {
-				[1] = {
-					["key"] = "W",
 				},
 			},
 		},
@@ -2783,8 +2702,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -2795,8 +2714,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},

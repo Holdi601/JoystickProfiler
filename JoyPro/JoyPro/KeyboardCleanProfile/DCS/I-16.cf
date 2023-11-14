@@ -374,20 +374,20 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
 		},
 		["d1702pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera bookmarks editor",
+			["name"] = "Object local camera bookmarks editor",
 			["removed"] = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -405,7 +405,7 @@ local diff = {
 			},
 		},
 		["d1708pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera",
+			["name"] = "Object local camera",
 			["removed"] = {
 				[1] = {
 					["key"] = "F2",
@@ -421,21 +421,21 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
 			},
 		},
 		["d1711pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera bookmarks menu",
+			["name"] = "Object local camera bookmarks menu",
 			["removed"] = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -471,14 +471,6 @@ local diff = {
 						[1] = "RAlt",
 						[2] = "RCtrl",
 					},
-				},
-			},
-		},
-		["d179pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Communication menu",
-			["removed"] = {
-				[1] = {
-					["key"] = "\\",
 				},
 			},
 		},
@@ -557,7 +549,7 @@ local diff = {
 			},
 		},
 		["d1862pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 view local input layer toggle",
+			["name"] = "Camera local input layer toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "F11",
@@ -565,6 +557,29 @@ local diff = {
 						[1] = "RAlt",
 						[2] = "RCtrl",
 						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["d1865pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Jump to Supercarrier view",
+			["removed"] = {
+				[1] = {
+					["key"] = "F9",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d1890pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Object camera with position inheritance",
+			["removed"] = {
+				[1] = {
+					["key"] = "F2",
+					["reformers"] = {
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -731,14 +746,6 @@ local diff = {
 						[1] = "RCtrl",
 						[2] = "RShift",
 					},
-				},
-			},
-		},
-		["d257pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Screenshot",
-			["removed"] = {
-				[1] = {
-					["key"] = "SysRQ",
 				},
 			},
 		},
@@ -2052,7 +2059,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Camera mounted on airframe",
+			["name"] = "F4 Camera mounted on object",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -2068,7 +2075,7 @@ local diff = {
 			},
 		},
 		["d363pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Force cursor to show, toggle",
+			["name"] = "Clickable Mouse Cockpit Mode - ON/OFF",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",

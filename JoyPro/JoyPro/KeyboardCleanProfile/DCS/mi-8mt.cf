@@ -292,6 +292,38 @@ local diff = {
 				},
 			},
 		},
+		["d1602pnilunilcdnilvd1vpnilvunil"] = {
+			["name"] = "Occupy the Pilot's Seat",
+			["removed"] = {
+				[1] = {
+					["key"] = "1",
+				},
+			},
+		},
+		["d1602pnilunilcdnilvd2vpnilvunil"] = {
+			["name"] = "Set Copilot Seat",
+			["removed"] = {
+				[1] = {
+					["key"] = "2",
+				},
+			},
+		},
+		["d1602pnilunilcdnilvd3vpnilvunil"] = {
+			["name"] = "Set Technician Seat",
+			["removed"] = {
+				[1] = {
+					["key"] = "3",
+				},
+			},
+		},
+		["d1602pnilunilcdnilvd4vpnilvunil"] = {
+			["name"] = "Set Left Gunner Seat",
+			["removed"] = {
+				[1] = {
+					["key"] = "4",
+				},
+			},
+		},
 		["d160pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "F11 Camera moving backward",
 			["removed"] = {
@@ -353,9 +385,9 @@ local diff = {
 				[1] = {
 					["key"] = "L",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-						[3] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
 					},
 				},
 			},
@@ -366,10 +398,18 @@ local diff = {
 				[1] = {
 					["key"] = "P",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-						[3] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
 					},
+				},
+			},
+		},
+		["d1672pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Request Aircraft Control",
+			["removed"] = {
+				[1] = {
+					["key"] = "C",
 				},
 			},
 		},
@@ -433,20 +473,20 @@ local diff = {
 				[1] = {
 					["key"] = "F9",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 					},
 				},
 			},
 		},
 		["d1702pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera bookmarks editor",
+			["name"] = "Object local camera bookmarks editor",
 			["removed"] = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -464,7 +504,7 @@ local diff = {
 			},
 		},
 		["d1708pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera",
+			["name"] = "Object local camera",
 			["removed"] = {
 				[1] = {
 					["key"] = "F2",
@@ -480,21 +520,21 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
 			},
 		},
 		["d1711pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera bookmarks menu",
+			["name"] = "Object local camera bookmarks menu",
 			["removed"] = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -552,14 +592,6 @@ local diff = {
 						[1] = "RAlt",
 						[2] = "RCtrl",
 					},
-				},
-			},
-		},
-		["d179pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Communication menu",
-			["removed"] = {
-				[1] = {
-					["key"] = "\\",
 				},
 			},
 		},
@@ -638,7 +670,7 @@ local diff = {
 			},
 		},
 		["d1862pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 view local input layer toggle",
+			["name"] = "Camera local input layer toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "F11",
@@ -646,6 +678,29 @@ local diff = {
 						[1] = "RAlt",
 						[2] = "RCtrl",
 						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["d1865pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Jump to Supercarrier view",
+			["removed"] = {
+				[1] = {
+					["key"] = "F9",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d1890pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Object camera with position inheritance",
+			["removed"] = {
+				[1] = {
+					["key"] = "F2",
+					["reformers"] = {
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -677,22 +732,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "Num.",
-				},
-			},
-		},
-		["d201pnilu202cdnilvdnilvpnilvunil"] = {
-			["name"] = "Rudder - LEFT",
-			["removed"] = {
-				[1] = {
-					["key"] = "Z",
-				},
-			},
-		},
-		["d203pnilu204cdnilvdnilvpnilvunil"] = {
-			["name"] = "Rudder - RIGHT",
-			["removed"] = {
-				[1] = {
-					["key"] = "X",
 				},
 			},
 		},
@@ -780,14 +819,6 @@ local diff = {
 						[1] = "RCtrl",
 						[2] = "RShift",
 					},
-				},
-			},
-		},
-		["d257pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Screenshot",
-			["removed"] = {
-				[1] = {
-					["key"] = "SysRQ",
 				},
 			},
 		},
@@ -929,8 +960,8 @@ local diff = {
 				[1] = {
 					["key"] = "8",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 						[3] = "LShift",
 					},
 				},
@@ -942,9 +973,9 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-						[3] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
 					},
 				},
 			},
@@ -955,18 +986,10 @@ local diff = {
 				[1] = {
 					["key"] = "Q",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-						[3] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
 					},
-				},
-			},
-		},
-		["d3001pnilunilcd23vd0vpnilvunil"] = {
-			["name"] = "Occupy the Pilot's Seat",
-			["removed"] = {
-				[1] = {
-					["key"] = "1",
 				},
 			},
 		},
@@ -1055,8 +1078,8 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -1128,14 +1151,6 @@ local diff = {
 						[1] = "RCtrl",
 						[2] = "RShift",
 					},
-				},
-			},
-		},
-		["d3002pnilunilcd23vd0vpnilvunil"] = {
-			["name"] = "Set Copilot Seat",
-			["removed"] = {
-				[1] = {
-					["key"] = "2",
 				},
 			},
 		},
@@ -1224,8 +1239,8 @@ local diff = {
 				[1] = {
 					["key"] = "6",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 						[3] = "LShift",
 					},
 				},
@@ -1306,9 +1321,9 @@ local diff = {
 				[1] = {
 					["key"] = "A",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-						[3] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
 					},
 				},
 			},
@@ -1322,14 +1337,6 @@ local diff = {
 						[1] = "LAlt",
 						[2] = "LCtrl",
 					},
-				},
-			},
-		},
-		["d3003pnilunilcd23vd0vpnilvunil"] = {
-			["name"] = "Set Technician Seat",
-			["removed"] = {
-				[1] = {
-					["key"] = "3",
 				},
 			},
 		},
@@ -1482,14 +1489,6 @@ local diff = {
 						[1] = "LAlt",
 						[2] = "LShift",
 					},
-				},
-			},
-		},
-		["d3004pnilunilcd23vd0vpnilvunil"] = {
-			["name"] = "Set Gunner Seat",
-			["removed"] = {
-				[1] = {
-					["key"] = "4",
 				},
 			},
 		},
@@ -1775,8 +1774,8 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1986,9 +1985,9 @@ local diff = {
 				[1] = {
 					["key"] = "T",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-						[3] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
 					},
 				},
 			},
@@ -2198,9 +2197,9 @@ local diff = {
 				[1] = {
 					["key"] = "R",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RShift",
-						[3] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
 					},
 				},
 			},
@@ -2618,8 +2617,8 @@ local diff = {
 				[1] = {
 					["key"] = "7",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 						[3] = "LShift",
 					},
 				},
@@ -2631,8 +2630,8 @@ local diff = {
 				[1] = {
 					["key"] = ",",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -2644,8 +2643,8 @@ local diff = {
 				[1] = {
 					["key"] = ".",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -2768,7 +2767,7 @@ local diff = {
 				},
 			},
 		},
-		["d3018pnilunilcd17vd1vpnilvunil"] = {
+		["d3018pnilunilcd17vd1vpnilvu0"] = {
 			["name"] = "Open/Close Left Blister",
 			["removed"] = {
 				[1] = {
@@ -2820,14 +2819,14 @@ local diff = {
 				[1] = {
 					["key"] = "4",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 						[3] = "LShift",
 					},
 				},
 			},
 		},
-		["d3019pnilunilcd17vd1vpnilvunil"] = {
+		["d3019pnilunilcd17vd1vpnilvu0"] = {
 			["name"] = "Open/Close Right Blister",
 			["removed"] = {
 				[1] = {
@@ -2891,8 +2890,8 @@ local diff = {
 				[1] = {
 					["key"] = "5",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 						[3] = "LShift",
 					},
 				},
@@ -2983,8 +2982,8 @@ local diff = {
 				[1] = {
 					["key"] = "1",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 						[3] = "LShift",
 					},
 				},
@@ -3075,8 +3074,8 @@ local diff = {
 				[1] = {
 					["key"] = "3",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 						[3] = "LShift",
 					},
 				},
@@ -3144,8 +3143,8 @@ local diff = {
 				[1] = {
 					["key"] = "2",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 						[3] = "LShift",
 					},
 				},
@@ -4038,18 +4037,6 @@ local diff = {
 				},
 			},
 		},
-		["d3096pnilunilcd12vd1vpnilvunil"] = {
-			["name"] = "Show Gunners Panel",
-			["removed"] = {
-				[1] = {
-					["key"] = "K",
-					["reformers"] = {
-						[1] = "RAlt",
-						[2] = "RShift",
-					},
-				},
-			},
-		},
 		["d3099pnilunilcd12vd1vpnilvunil"] = {
 			["name"] = "Gun Camera Switch - ON/OFF",
 			["removed"] = {
@@ -4072,7 +4059,7 @@ local diff = {
 				},
 			},
 		},
-		["d3107pnilunilcd1vd1vpnilvunil"] = {
+		["d3108pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Battery Heating Switch - ON/OFF",
 			["removed"] = {
 				[1] = {
@@ -4083,23 +4070,11 @@ local diff = {
 				},
 			},
 		},
-		["d3108pnilunilcd1vd1vpnilvunil"] = {
+		["d3109pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Rectifier 1 Switch - ON/OFF",
 			["removed"] = {
 				[1] = {
 					["key"] = "4",
-					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LShift",
-					},
-				},
-			},
-		},
-		["d3109pnilunilcd1vd1vpnilvunil"] = {
-			["name"] = "Rectifier 2 Switch - ON/OFF",
-			["removed"] = {
-				[1] = {
-					["key"] = "5",
 					["reformers"] = {
 						[1] = "LCtrl",
 						[2] = "LShift",
@@ -4119,6 +4094,18 @@ local diff = {
 			},
 		},
 		["d3110pnilunilcd1vd1vpnilvunil"] = {
+			["name"] = "Rectifier 2 Switch - ON/OFF",
+			["removed"] = {
+				[1] = {
+					["key"] = "5",
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "LShift",
+					},
+				},
+			},
+		},
+		["d3111pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Rectifier 3 Switch - ON/OFF",
 			["removed"] = {
 				[1] = {
@@ -4130,7 +4117,7 @@ local diff = {
 				},
 			},
 		},
-		["d3111pnilunilcd1vd1vpnilvunil"] = {
+		["d3112pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Battery 1 Switch - ON/OFF",
 			["removed"] = {
 				[1] = {
@@ -4142,7 +4129,7 @@ local diff = {
 				},
 			},
 		},
-		["d3112pnilunilcd1vd1vpnilvunil"] = {
+		["d3113pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Battery 2 Switch - ON/OFF",
 			["removed"] = {
 				[1] = {
@@ -4154,7 +4141,7 @@ local diff = {
 				},
 			},
 		},
-		["d3113pnilunilcd1vd1vpnilvunil"] = {
+		["d3114pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Standby Generator Switch - ON/OFF",
 			["removed"] = {
 				[1] = {
@@ -4166,7 +4153,7 @@ local diff = {
 				},
 			},
 		},
-		["d3114pnilunilcd1vd1vpnilvunil"] = {
+		["d3115pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "DC Ground Power Switch - ON/OFF",
 			["removed"] = {
 				[1] = {
@@ -4178,7 +4165,7 @@ local diff = {
 				},
 			},
 		},
-		["d3115pnilunilcd1vd1vpnilvunil"] = {
+		["d3116pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Equipment Test Switch - ON/OFF",
 			["removed"] = {
 				[1] = {
@@ -4190,7 +4177,7 @@ local diff = {
 				},
 			},
 		},
-		["d3116pnilunilcd1vd-1vpnilvunil"] = {
+		["d3117pnilunilcd1vd-1vpnilvunil"] = {
 			["name"] = "DC Voltmeter Selector Switch - CCW",
 			["removed"] = {
 				[1] = {
@@ -4202,7 +4189,7 @@ local diff = {
 				},
 			},
 		},
-		["d3116pnilunilcd1vd1vpnilvunil"] = {
+		["d3117pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "DC Voltmeter Selector Switch - CW",
 			["removed"] = {
 				[1] = {
@@ -4214,7 +4201,7 @@ local diff = {
 				},
 			},
 		},
-		["d3118pnilunilcd1vd1vpnilvunil"] = {
+		["d3119pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Generator 1 Switch - ON/OFF",
 			["removed"] = {
 				[1] = {
@@ -4226,7 +4213,7 @@ local diff = {
 				},
 			},
 		},
-		["d3119pnilunilcd1vd1vpnilvunil"] = {
+		["d3120pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Generator 2 Switch - ON/OFF",
 			["removed"] = {
 				[1] = {
@@ -4238,7 +4225,7 @@ local diff = {
 				},
 			},
 		},
-		["d3120pnilunilcd1vd1vpnilvunil"] = {
+		["d3121pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "AC Ground Power Switch - ON/OFF",
 			["removed"] = {
 				[1] = {
@@ -4250,7 +4237,7 @@ local diff = {
 				},
 			},
 		},
-		["d3121pnilunilcd1vd-1vpnilvunil"] = {
+		["d3122pnilunilcd1vd-1vpnilvunil"] = {
 			["name"] = "115V Inverter Switch - Down",
 			["removed"] = {
 				[1] = {
@@ -4262,7 +4249,7 @@ local diff = {
 				},
 			},
 		},
-		["d3121pnilunilcd1vd1vpnilvunil"] = {
+		["d3122pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "115V Inverter Switch - Up",
 			["removed"] = {
 				[1] = {
@@ -4274,7 +4261,7 @@ local diff = {
 				},
 			},
 		},
-		["d3122pnilunilcd1vd-1vpnilvunil"] = {
+		["d3123pnilunilcd1vd-1vpnilvunil"] = {
 			["name"] = "36V Inverter Switch - Down",
 			["removed"] = {
 				[1] = {
@@ -4286,7 +4273,7 @@ local diff = {
 				},
 			},
 		},
-		["d3122pnilunilcd1vd1vpnilvunil"] = {
+		["d3123pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "36V Inverter Switch - Up",
 			["removed"] = {
 				[1] = {
@@ -4298,7 +4285,7 @@ local diff = {
 				},
 			},
 		},
-		["d3123pnilunilcd1vd-1vpnilvunil"] = {
+		["d3124pnilunilcd1vd-1vpnilvunil"] = {
 			["name"] = "AC Voltmeter Selector Switch - CCW",
 			["removed"] = {
 				[1] = {
@@ -4310,7 +4297,7 @@ local diff = {
 				},
 			},
 		},
-		["d3123pnilunilcd1vd1vpnilvunil"] = {
+		["d3124pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "AC Voltmeter Selector Switch - CW",
 			["removed"] = {
 				[1] = {
@@ -4322,7 +4309,7 @@ local diff = {
 				},
 			},
 		},
-		["d3126pnilunilcd1vd1vpnilvunil"] = {
+		["d3127pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Net on Rectifier Switch Cover - OPEN/CLOSE",
 			["removed"] = {
 				[1] = {
@@ -4334,7 +4321,7 @@ local diff = {
 				},
 			},
 		},
-		["d3127pnilunilcd1vd1vpnilvunil"] = {
+		["d3128pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Net on Rectifier Switch - ON/OFF",
 			["removed"] = {
 				[1] = {
@@ -4346,7 +4333,7 @@ local diff = {
 				},
 			},
 		},
-		["d3128pnilunilcd1vd-1vpnilvunil"] = {
+		["d3129pnilunilcd1vd-1vpnilvunil"] = {
 			["name"] = "36V Transformer Selector Switch - Down",
 			["removed"] = {
 				[1] = {
@@ -4358,7 +4345,7 @@ local diff = {
 				},
 			},
 		},
-		["d3128pnilunilcd1vd1vpnilvunil"] = {
+		["d3129pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "36V Transformer Selector Switch - Up",
 			["removed"] = {
 				[1] = {
@@ -4626,7 +4613,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Camera mounted on airframe",
+			["name"] = "F4 Camera mounted on object",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -4642,7 +4629,7 @@ local diff = {
 			},
 		},
 		["d363pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Force cursor to show, toggle",
+			["name"] = "Clickable Mouse Cockpit Mode - ON/OFF",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",
@@ -5072,8 +5059,8 @@ local diff = {
 				[1] = {
 					["key"] = "A",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LShift",
+						[1] = "LShift",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -5162,22 +5149,6 @@ local diff = {
 				},
 			},
 		},
-		["d631p631u839cdnilvdnilvpnilvunil"] = {
-			["name"] = "Collective Stick - UP",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num+",
-				},
-			},
-		},
-		["d632p632u839cdnilvdnilvpnilvunil"] = {
-			["name"] = "Collective Stick - DOWN",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num-",
-				},
-			},
-		},
 		["d71pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Cockpit Door",
 			["removed"] = {
@@ -5186,14 +5157,6 @@ local diff = {
 					["reformers"] = {
 						[1] = "RCtrl",
 					},
-				},
-			},
-		},
-		["d74pnilu75cdnilvdnilvpnilvunil"] = {
-			["name"] = "Wheel Brake",
-			["removed"] = {
-				[1] = {
-					["key"] = "W",
 				},
 			},
 		},
@@ -5214,8 +5177,8 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -5294,25 +5257,6 @@ local diff = {
 					["reformers"] = {
 						[1] = "LShift",
 					},
-				},
-			},
-		},
-		["d83pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Leave Helicopter (3 times)",
-			["removed"] = {
-				[1] = {
-					["key"] = "E",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d84pnilu84cdnilvd1vpnilvu0"] = {
-			["name"] = "Release weapons",
-			["removed"] = {
-				[1] = {
-					["key"] = "Space",
 				},
 			},
 		},
@@ -5691,38 +5635,6 @@ local diff = {
 						[1] = "RAlt",
 						[2] = "RCtrl",
 					},
-				},
-			},
-		},
-		["dnilp193u194cdnilvdnilvpnilvunil"] = {
-			["name"] = "Cyclic - Nose DOWN",
-			["removed"] = {
-				[1] = {
-					["key"] = "Up",
-				},
-			},
-		},
-		["dnilp195u196cdnilvdnilvpnilvunil"] = {
-			["name"] = "Cyclic - Nose UP",
-			["removed"] = {
-				[1] = {
-					["key"] = "Down",
-				},
-			},
-		},
-		["dnilp197u198cdnilvdnilvpnilvunil"] = {
-			["name"] = "Cyclic - Bank LEFT",
-			["removed"] = {
-				[1] = {
-					["key"] = "Left",
-				},
-			},
-		},
-		["dnilp199u200cdnilvdnilvpnilvunil"] = {
-			["name"] = "Cyclic - Bank RIGHT",
-			["removed"] = {
-				[1] = {
-					["key"] = "Right",
 				},
 			},
 		},
@@ -6170,8 +6082,8 @@ local diff = {
 				[1] = {
 					["key"] = "S",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LShift",
+						[1] = "LShift",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -6182,8 +6094,8 @@ local diff = {
 				[1] = {
 					["key"] = "D",
 					["reformers"] = {
-						[1] = "LWin",
-						[2] = "LShift",
+						[1] = "LShift",
+						[2] = "LWin",
 					},
 				},
 			},
@@ -6194,8 +6106,8 @@ local diff = {
 				[1] = {
 					["key"] = "S",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "LWin",
+						[1] = "LWin",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -6206,8 +6118,8 @@ local diff = {
 				[1] = {
 					["key"] = "D",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "LWin",
+						[1] = "LWin",
+						[2] = "RCtrl",
 					},
 				},
 			},
@@ -6367,7 +6279,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3117unilcd1vdnilvp-0.2vunil"] = {
+		["dnilp3118unilcd1vdnilvp-0.2vunil"] = {
 			["name"] = "Standby Generator Voltage Adjustment Rheostat - CCW/Decrease",
 			["removed"] = {
 				[1] = {
@@ -6379,7 +6291,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3117unilcd1vdnilvp0.2vunil"] = {
+		["dnilp3118unilcd1vdnilvp0.2vunil"] = {
 			["name"] = "Standby Generator Voltage Adjustment Rheostat - CW/Increase",
 			["removed"] = {
 				[1] = {
@@ -6391,7 +6303,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3124unilcd1vdnilvp-0.2vunil"] = {
+		["dnilp3125unilcd1vdnilvp-0.2vunil"] = {
 			["name"] = "Generator 1 Voltage Adjustment Rheostat - CCW/Decrease",
 			["removed"] = {
 				[1] = {
@@ -6403,7 +6315,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3124unilcd1vdnilvp0.2vunil"] = {
+		["dnilp3125unilcd1vdnilvp0.2vunil"] = {
 			["name"] = "Generator 1 Voltage Adjustment Rheostat - CW/Increase",
 			["removed"] = {
 				[1] = {
@@ -6415,7 +6327,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3125unilcd1vdnilvp-0.2vunil"] = {
+		["dnilp3126unilcd1vdnilvp-0.2vunil"] = {
 			["name"] = "Generator 2 Voltage Adjustment Rheostat - CCW/Decrease",
 			["removed"] = {
 				[1] = {
@@ -6427,7 +6339,7 @@ local diff = {
 				},
 			},
 		},
-		["dnilp3125unilcd1vdnilvp0.2vunil"] = {
+		["dnilp3126unilcd1vdnilvp0.2vunil"] = {
 			["name"] = "Generator 2 Voltage Adjustment Rheostat - CW/Increase",
 			["removed"] = {
 				[1] = {
@@ -6679,8 +6591,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RCtrl",
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -6691,8 +6603,8 @@ local diff = {
 				[1] = {
 					["key"] = "H",
 					["reformers"] = {
-						[1] = "RShift",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RShift",
 					},
 				},
 			},

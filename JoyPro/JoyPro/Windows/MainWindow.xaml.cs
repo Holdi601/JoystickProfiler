@@ -538,10 +538,11 @@ namespace JoyPro
             else
             {
                 pex = new PlanesToExport(ExportMode.WriteCleanOverride);
+                DisableInputs();
+                pex.Closing += new CancelEventHandler(ActivateInputs);
+                pex.Show();
+                
             }
-            pex.Show();
-            DisableInputs();
-            pex.Closing += new CancelEventHandler(ActivateInputs);
         }
         void LoadExistingExportAndAdd(object sender, EventArgs e)
         {

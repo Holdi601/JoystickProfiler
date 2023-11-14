@@ -353,13 +353,13 @@ local diff = {
 			},
 		},
 		["d1702pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera bookmarks editor",
+			["name"] = "Object local camera bookmarks editor",
 			["removed"] = {
 				[1] = {
 					["key"] = "=",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -377,7 +377,7 @@ local diff = {
 			},
 		},
 		["d1708pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera",
+			["name"] = "Object local camera",
 			["removed"] = {
 				[1] = {
 					["key"] = "F2",
@@ -393,21 +393,21 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
 			},
 		},
 		["d1711pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera bookmarks menu",
+			["name"] = "Object local camera bookmarks menu",
 			["removed"] = {
 				[1] = {
 					["key"] = "-",
 					["reformers"] = {
-						[1] = "RCtrl",
-						[2] = "RAlt",
+						[1] = "RAlt",
+						[2] = "RCtrl",
 						[3] = "RShift",
 					},
 				},
@@ -418,14 +418,6 @@ local diff = {
 			["removed"] = {
 				[1] = {
 					["key"] = "NumEnter",
-				},
-			},
-		},
-		["d179pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "COMM Communication menu",
-			["removed"] = {
-				[1] = {
-					["key"] = "\\",
 				},
 			},
 		},
@@ -503,6 +495,31 @@ local diff = {
 				},
 			},
 		},
+		["d1862pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Camera local input layer toggle",
+			["removed"] = {
+				[1] = {
+					["key"] = "F11",
+					["reformers"] = {
+						[1] = "RAlt",
+						[2] = "RCtrl",
+						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["d1890pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Object camera with position inheritance",
+			["removed"] = {
+				[1] = {
+					["key"] = "F2",
+					["reformers"] = {
+						[1] = "RCtrl",
+						[2] = "RShift",
+					},
+				},
+			},
+		},
 		["d190pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "F2 Toggle local camera control",
 			["removed"] = {
@@ -525,59 +542,11 @@ local diff = {
 				},
 			},
 		},
-		["d193pnilu194cdnilvdnilvpnilvunil"] = {
-			["name"] = "Flight NOSE DOWN",
-			["removed"] = {
-				[1] = {
-					["key"] = "Up",
-				},
-			},
-		},
-		["d195pnilu196cdnilvdnilvpnilvunil"] = {
-			["name"] = "Flight NOSE UP",
-			["removed"] = {
-				[1] = {
-					["key"] = "Down",
-				},
-			},
-		},
-		["d197pnilu198cdnilvdnilvpnilvunil"] = {
-			["name"] = "Flight BANK LEFT",
-			["removed"] = {
-				[1] = {
-					["key"] = "Left",
-				},
-			},
-		},
-		["d199pnilu200cdnilvdnilvpnilvunil"] = {
-			["name"] = "Flight BANK RIGHT",
-			["removed"] = {
-				[1] = {
-					["key"] = "Right",
-				},
-			},
-		},
 		["d19pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Padlock cycle",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num.",
-				},
-			},
-		},
-		["d201pnilu202cdnilvdnilvpnilvunil"] = {
-			["name"] = "Flight RUDDER LEFT",
-			["removed"] = {
-				[1] = {
-					["key"] = "Z",
-				},
-			},
-		},
-		["d203pnilu204cdnilvdnilvpnilvunil"] = {
-			["name"] = "Flight RUDDER RIGHT",
-			["removed"] = {
-				[1] = {
-					["key"] = "X",
 				},
 			},
 		},
@@ -665,14 +634,6 @@ local diff = {
 						[1] = "RCtrl",
 						[2] = "RShift",
 					},
-				},
-			},
-		},
-		["d257pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Screenshot",
-			["removed"] = {
-				[1] = {
-					["key"] = "SysRQ",
 				},
 			},
 		},
@@ -792,8 +753,8 @@ local diff = {
 				[1] = {
 					["key"] = "E",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -891,14 +852,6 @@ local diff = {
 				},
 			},
 		},
-		["d3003pnilunilcd4vd1vpnilvunil"] = {
-			["name"] = "Undercarriage (toggle)",
-			["removed"] = {
-				[1] = {
-					["key"] = "G",
-				},
-			},
-		},
 		["d3004pnilu3004cd20vd1vpnilvu0"] = {
 			["name"] = "Select RED Signal Flare",
 			["removed"] = {
@@ -916,8 +869,8 @@ local diff = {
 				[1] = {
 					["key"] = "G",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -1045,33 +998,11 @@ local diff = {
 				},
 			},
 		},
-		["d3008pnilu3008cd4vd1vpnilvu0"] = {
-			["name"] = "Trim Stabilizer NOSE UP",
-			["removed"] = {
-				[1] = {
-					["key"] = ".",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
 		["d3008pnilunilcd3vd1vpnilvunil"] = {
 			["name"] = "Gun Sight Fold (toggle)",
 			["removed"] = {
 				[1] = {
 					["key"] = "O",
-				},
-			},
-		},
-		["d3009pnilu3009cd4vd1vpnilvu0"] = {
-			["name"] = "Trim Stabilizer NOSE DOWN",
-			["removed"] = {
-				[1] = {
-					["key"] = ";",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
 				},
 			},
 		},
@@ -1097,17 +1028,6 @@ local diff = {
 				},
 			},
 		},
-		["d3010pnilu3010cd4vd1vpnilvu0"] = {
-			["name"] = "Flaps EXTEND",
-			["removed"] = {
-				[1] = {
-					["key"] = "F",
-					["reformers"] = {
-						[1] = "LShift",
-					},
-				},
-			},
-		},
 		["d3010pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "CB C101 - Dashboard UV Lights (toggle)",
 			["removed"] = {
@@ -1122,8 +1042,8 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1134,19 +1054,8 @@ local diff = {
 				[1] = {
 					["key"] = "O",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LAlt",
-					},
-				},
-			},
-		},
-		["d3011pnilu3011cd4vd1vpnilvu0"] = {
-			["name"] = "Flaps RETRACT",
-			["removed"] = {
-				[1] = {
-					["key"] = "F",
-					["reformers"] = {
-						[1] = "LCtrl",
+						[1] = "LAlt",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -1387,8 +1296,8 @@ local diff = {
 				[1] = {
 					["key"] = "C",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -1459,8 +1368,8 @@ local diff = {
 				[1] = {
 					["key"] = "A",
 					["reformers"] = {
-						[1] = "LCtrl",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LCtrl",
 					},
 				},
 			},
@@ -1479,8 +1388,8 @@ local diff = {
 				[1] = {
 					["key"] = "A",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LAlt",
+						[1] = "LAlt",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -1491,8 +1400,8 @@ local diff = {
 				[1] = {
 					["key"] = "A",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -1514,8 +1423,8 @@ local diff = {
 				[1] = {
 					["key"] = "T",
 					["reformers"] = {
-						[1] = "LShift",
-						[2] = "LCtrl",
+						[1] = "LCtrl",
+						[2] = "LShift",
 					},
 				},
 			},
@@ -1640,17 +1549,6 @@ local diff = {
 				},
 			},
 		},
-		["d3067pnilu3067cd4vd1vpnilvu0"] = {
-			["name"] = "Flight RUDDER LEFT 1 NOTCH",
-			["removed"] = {
-				[1] = {
-					["key"] = ",",
-					["reformers"] = {
-						[1] = "RCtrl",
-					},
-				},
-			},
-		},
 		["d3067pnilunilcd1vd1vpnilvunil"] = {
 			["name"] = "Magnetos (next set)",
 			["removed"] = {
@@ -1658,17 +1556,6 @@ local diff = {
 					["key"] = "End",
 					["reformers"] = {
 						[1] = "LShift",
-					},
-				},
-			},
-		},
-		["d3068pnilu3068cd4vd1vpnilvu0"] = {
-			["name"] = "Flight RUDDER RIGHT 1 NOTCH",
-			["removed"] = {
-				[1] = {
-					["key"] = "/",
-					["reformers"] = {
-						[1] = "RCtrl",
 					},
 				},
 			},
@@ -1965,17 +1852,6 @@ local diff = {
 				},
 			},
 		},
-		["d350pnilu351cdnilvdnilvpnilvunil"] = {
-			["name"] = "Fire Cannon / Rockets (B1)",
-			["removed"] = {
-				[1] = {
-					["key"] = "Space",
-					["reformers"] = {
-						[1] = "RAlt",
-					},
-				},
-			},
-		},
 		["d352pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "Return camera base",
 			["removed"] = {
@@ -2021,7 +1897,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Camera mounted on airframe",
+			["name"] = "F4 Camera mounted on object",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",
@@ -2037,7 +1913,7 @@ local diff = {
 			},
 		},
 		["d363pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Force cursor to show, toggle",
+			["name"] = "Clickable Mouse Cockpit Mode - ON/OFF",
 			["removed"] = {
 				[1] = {
 					["key"] = "C",
@@ -2345,14 +2221,6 @@ local diff = {
 				},
 			},
 		},
-		["d74pnilu75cdnilvdnilvpnilvunil"] = {
-			["name"] = "Wheel Brakes Both",
-			["removed"] = {
-				[1] = {
-					["key"] = "W",
-				},
-			},
-		},
 		["d7pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "F1 Cockpit view",
 			["removed"] = {
@@ -2369,25 +2237,6 @@ local diff = {
 					["reformers"] = {
 						[1] = "RShift",
 					},
-				},
-			},
-		},
-		["d83pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Bailout",
-			["removed"] = {
-				[1] = {
-					["key"] = "E",
-					["reformers"] = {
-						[1] = "LCtrl",
-					},
-				},
-			},
-		},
-		["d84pnilu85cdnilvdnilvpnilvunil"] = {
-			["name"] = "Fire Machineguns (A)",
-			["removed"] = {
-				[1] = {
-					["key"] = "Space",
 				},
 			},
 		},
@@ -2557,22 +2406,6 @@ local diff = {
 					["reformers"] = {
 						[1] = "LShift",
 					},
-				},
-			},
-		},
-		["dnilp3004unilcd5vdnilvp-1vunil"] = {
-			["name"] = "Throttle DECREASE",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num-",
-				},
-			},
-		},
-		["dnilp3004unilcd5vdnilvp1vunil"] = {
-			["name"] = "Throttle INCREASE",
-			["removed"] = {
-				[1] = {
-					["key"] = "Num+",
 				},
 			},
 		},

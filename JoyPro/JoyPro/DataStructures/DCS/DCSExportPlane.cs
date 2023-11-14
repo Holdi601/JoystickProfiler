@@ -40,6 +40,7 @@ namespace JoyPro
         }
         public void AnalyzeRawModLua(string content)
         {
+            if(content.Trim().Length<1)return;
             Dictionary<object, object> dct = LUADataRead.CreateAttributeDictFromLua(content);
             foreach(KeyValuePair<object, object> kvp in dct)
             {
@@ -76,6 +77,7 @@ namespace JoyPro
             if (path == null || path.Length < 1 || !System.IO.Directory.Exists(path) || modifiers.Count < 1) return;
 
             System.IO.StreamWriter swr = new System.IO.StreamWriter(path+ "\\modifiers.lua");
+            System.Threading.Thread.Sleep(100);
             swr.Write(startFile);
             foreach(KeyValuePair<string, Modifier> kvp in modifiers)
             {
@@ -97,6 +99,7 @@ namespace JoyPro
             }
             swr.Write(endFile);
             swr.Close();
+            swr.Dispose();
         }
         public bool ContainsModifier(string device, string key)
         {

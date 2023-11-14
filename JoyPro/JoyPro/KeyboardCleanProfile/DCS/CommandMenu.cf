@@ -1,0 +1,112 @@
+local diff = {
+	["keyDiffs"] = {
+		["d966pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Command menu item 1",
+			["removed"] = {
+				[1] = {
+					["key"] = "F1",
+				},
+			},
+		},
+		["d967pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Command menu item 2",
+			["removed"] = {
+				[1] = {
+					["key"] = "F2",
+				},
+			},
+		},
+		["d968pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Command menu item 3",
+			["removed"] = {
+				[1] = {
+					["key"] = "F3",
+				},
+			},
+		},
+		["d969pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Command menu item 4",
+			["removed"] = {
+				[1] = {
+					["key"] = "F4",
+				},
+			},
+		},
+		["d970pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Command menu item 5",
+			["removed"] = {
+				[1] = {
+					["key"] = "F5",
+				},
+			},
+		},
+		["d971pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Command menu item 6",
+			["removed"] = {
+				[1] = {
+					["key"] = "F6",
+				},
+			},
+		},
+		["d972pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Command menu item 7",
+			["removed"] = {
+				[1] = {
+					["key"] = "F7",
+				},
+			},
+		},
+		["d973pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Command menu item 8",
+			["removed"] = {
+				[1] = {
+					["key"] = "F8",
+				},
+			},
+		},
+		["d974pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Command menu item 9",
+			["removed"] = {
+				[1] = {
+					["key"] = "F9",
+				},
+			},
+		},
+		["d975pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Command menu item 10",
+			["removed"] = {
+				[1] = {
+					["key"] = "F10",
+				},
+			},
+		},
+		["d976pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Command menu item 11",
+			["removed"] = {
+				[1] = {
+					["key"] = "F11",
+				},
+			},
+		},
+		["d977pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Command menu item 12",
+			["removed"] = {
+				[1] = {
+					["key"] = "F12",
+				},
+			},
+		},
+		["d979pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Command switch dialog",
+			["removed"] = {
+				[1] = {
+					["key"] = "Tab",
+					["reformers"] = {
+						[1] = "LShift",
+					},
+				},
+			},
+		},
+	},
+}
+return diff

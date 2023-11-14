@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DCSDBClicks xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <GearSymbol>
-    <x>564</x>
+    <x>690</x>
     <y>26</y>
     <Anchor>TOP_LEFT</Anchor>
     <TimeoutMS>2000</TimeoutMS>

@@ -1,0 +1,45 @@
+local diff = {
+	["keyDiffs"] = {
+		["d1881pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Quad Menu Left",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num4",
+				},
+			},
+		},
+		["d1882pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Quad Menu Right",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num6",
+				},
+			},
+		},
+		["d1883pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Quad Menu Up",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num8",
+				},
+			},
+		},
+		["d1884pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Quad Menu Down",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num2",
+				},
+			},
+		},
+		["d1885pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Quad Menu Center",
+			["removed"] = {
+				[1] = {
+					["key"] = "Num5",
+				},
+			},
+		},
+	},
+}
+return diff

@@ -1,3 +1,11 @@
+
+
+
+
+
+
+
+
 local diff = {
 	["JAL"] = "MainThrottle",
 	["axisDiffs"] = {

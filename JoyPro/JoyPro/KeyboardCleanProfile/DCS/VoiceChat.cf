@@ -1,0 +1,17 @@
+local diff = {
+	["keyDiffs"] = {
+		["d56pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Show VoiceChat window",
+			["removed"] = {
+				[1] = {
+					["key"] = "Tab",
+					["reformers"] = {
+						[1] = "LCtrl",
+						[2] = "LShift",
+					},
+				},
+			},
+		},
+	},
+}
+return diff

@@ -173,7 +173,7 @@ local diff = {
 			},
 		},
 		["d159pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 camera moving forward",
+			["name"] = "F11 Camera moving forward",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num*",
@@ -192,7 +192,7 @@ local diff = {
 			},
 		},
 		["d160pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 camera moving backward",
+			["name"] = "F11 Camera moving backward",
 			["removed"] = {
 				[1] = {
 					["key"] = "Num/",
@@ -289,7 +289,7 @@ local diff = {
 			},
 		},
 		["d1702pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera bookmarks editor",
+			["name"] = "Object local camera bookmarks editor",
 			["removed"] = {
 				[1] = {
 					["key"] = "=",
@@ -313,7 +313,7 @@ local diff = {
 			},
 		},
 		["d1708pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera",
+			["name"] = "Object local camera",
 			["removed"] = {
 				[1] = {
 					["key"] = "F2",
@@ -337,7 +337,7 @@ local diff = {
 			},
 		},
 		["d1711pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Object free camera bookmarks menu",
+			["name"] = "Object local camera bookmarks menu",
 			["removed"] = {
 				[1] = {
 					["key"] = "-",
@@ -379,14 +379,6 @@ local diff = {
 						[1] = "RAlt",
 						[2] = "RCtrl",
 					},
-				},
-			},
-		},
-		["d179pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Communication menu",
-			["removed"] = {
-				[1] = {
-					["key"] = "\\",
 				},
 			},
 		},
@@ -457,7 +449,7 @@ local diff = {
 			},
 		},
 		["d1862pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F11 view local input layer toggle",
+			["name"] = "Camera local input layer toggle",
 			["removed"] = {
 				[1] = {
 					["key"] = "F11",
@@ -465,6 +457,29 @@ local diff = {
 						[1] = "RAlt",
 						[2] = "RCtrl",
 						[3] = "RShift",
+					},
+				},
+			},
+		},
+		["d1865pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Jump to Supercarrier view",
+			["removed"] = {
+				[1] = {
+					["key"] = "F9",
+					["reformers"] = {
+						[1] = "LCtrl",
+					},
+				},
+			},
+		},
+		["d1890pnilunilcdnilvdnilvpnilvunil"] = {
+			["name"] = "Object camera with position inheritance",
+			["removed"] = {
+				[1] = {
+					["key"] = "F2",
+					["reformers"] = {
+						[1] = "RCtrl",
+						[2] = "RShift",
 					},
 				},
 			},
@@ -562,14 +577,6 @@ local diff = {
 				},
 			},
 		},
-		["d257pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Screenshot",
-			["removed"] = {
-				[1] = {
-					["key"] = "SysRQ",
-				},
-			},
-		},
 		["d261pnilunilcdnilvdnilvpnilvunil"] = {
 			["name"] = "All Labels",
 			["removed"] = {
@@ -659,7 +666,7 @@ local diff = {
 			},
 		},
 		["d321pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Fast mouse turn speed",
+			["name"] = "Mouse Rate Fast",
 			["removed"] = {
 				[1] = {
 					["key"] = "[",
@@ -670,7 +677,7 @@ local diff = {
 			},
 		},
 		["d322pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Slow mouse turn speed",
+			["name"] = "Mouse Rate Slow",
 			["removed"] = {
 				[1] = {
 					["key"] = "[",
@@ -681,7 +688,7 @@ local diff = {
 			},
 		},
 		["d323pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Normal mouse turn speed",
+			["name"] = "Mouse Rate Normal",
 			["removed"] = {
 				[1] = {
 					["key"] = "[",
@@ -715,7 +722,7 @@ local diff = {
 			},
 		},
 		["d331pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Fast keyboard turn speed",
+			["name"] = "Keyboard Rate Fast",
 			["removed"] = {
 				[1] = {
 					["key"] = "]",
@@ -726,7 +733,7 @@ local diff = {
 			},
 		},
 		["d332pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Slow keyboard turn speed",
+			["name"] = "Keyboard Rate Slow",
 			["removed"] = {
 				[1] = {
 					["key"] = "]",
@@ -737,7 +744,7 @@ local diff = {
 			},
 		},
 		["d333pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "Normal keyboard turn speed",
+			["name"] = "Keyboard Rate Normal",
 			["removed"] = {
 				[1] = {
 					["key"] = "]",
@@ -803,7 +810,7 @@ local diff = {
 			},
 		},
 		["d359pnilunilcdnilvdnilvpnilvunil"] = {
-			["name"] = "F4 Camera mounted on airframe",
+			["name"] = "F4 Camera mounted on object",
 			["removed"] = {
 				[1] = {
 					["key"] = "F4",

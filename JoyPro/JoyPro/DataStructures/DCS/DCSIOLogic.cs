@@ -242,6 +242,7 @@ namespace JoyPro
                                 string content = sr.ReadToEnd();
                                 EmptyOutputsDCS[planeName].AdditionalAnalyzationRawLuaInvert(content);
                                 sr.Close();
+                                sr.Dispose();
                             }
                         }
                     }
@@ -272,6 +273,7 @@ namespace JoyPro
                                     string content = sr.ReadToEnd();
                                     EmptyOutputsDCS[planeName].AdditionalAnalyzationRawLuaInvert(content);
                                     sr.Close();
+                                    sr.Dispose();
                                 }
                             }
                         }
@@ -806,6 +808,7 @@ namespace JoyPro
                         StreamReader srmod = new StreamReader(allSubs[i].FullName + "\\modifiers.lua");
                         string modContentRaw = srmod.ReadToEnd();
                         srmod.Close();
+                        srmod.Dispose();
                         current.AnalyzeRawModLua(modContentRaw);
                     }
                     if (Directory.Exists(allSubs[i].FullName + "\\joystick"))
@@ -825,6 +828,7 @@ namespace JoyPro
                                 StreamReader sr = new StreamReader(allFiles[j].FullName);
                                 string fileContent = sr.ReadToEnd();
                                 sr.Close();
+                                sr.Dispose();
                                 luaInput.AnalyzeRawLuaInput(fileContent, current);
                             }
                         }
@@ -847,6 +851,7 @@ namespace JoyPro
                                 StreamReader sr = new StreamReader(allFiles[j].FullName);
                                 string fileContent = sr.ReadToEnd();
                                 sr.Close();
+                                sr.Dispose();
                                 luaInput.AnalyzeRawLuaInput(fileContent, current);
                             }
                         }
